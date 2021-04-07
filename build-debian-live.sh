@@ -344,7 +344,8 @@ libjansson-dev libjansson4 libnss3-dev libnspr4-dev libgeoip1 libgeoip-dev
 rsync mc python-daemon libnss3-tools curl net-tools
 python-crypto libgmp10 libyaml-0-2 python-simplejson python-pygments
 python-yaml ssh sudo tcpdump nginx openssl jq patch  
-python-pip debian-installer-launcher live-build apt-transport-https 
+python-pip debian-installer-launcher live-build apt-transport-https
+gnupg2
  " \
 >> Stamus-Live-Build/config/package-lists/StamusNetworks-CoreSystem.list.chroot
 
