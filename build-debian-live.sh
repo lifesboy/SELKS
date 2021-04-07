@@ -119,6 +119,9 @@ fi
 #
 
 mkdir -p Stamus-Live-Build
+# Hook directory for the initramfs script to be copied to
+#mkdir -p config/hooks/
+mkdir -p config/hooks/live/
 
 if [[ -n "$KERNEL_VER" ]]; 
 then 
@@ -167,9 +170,6 @@ then
   mkdir -p config/packages.chroot/
   # Directory that needs to be present for the Kernel Version choice to work
   mkdir -p cache/contents.chroot/
-  # Hook directory for the initramfs script to be copied to
-  #mkdir -p config/hooks/
-  mkdir -p config/hooks/live/
   
   # Copy the kernel image and headers
   #mv kernel-misc/*.deb config/packages.chroot/
