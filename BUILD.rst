@@ -135,3 +135,13 @@ If you plan to build SELKS multiple time you will gain time and spare bandwidth 
 In a similar way, you could specify a mirror: ::
 
  LB_CONFIG_OPTIONS="--mirror-binary http://mirror/debian/ --mirror-binary-security http://mirror/debian-security/ --mirror-binary-backports http://mirror/debian-backports/" ./build-debian-live.sh
+
+
+Q&A:
+1. Fix error gnupg
+::
+chroot chroot/
+apt install gnupg2
+exit
+
+continue build: lb build 2>&1 | tee build.log
