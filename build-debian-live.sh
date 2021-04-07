@@ -121,7 +121,7 @@ fi
 mkdir -p Stamus-Live-Build
 # Hook directory for the initramfs script to be copied to
 #mkdir -p config/hooks/
-mkdir -p config/hooks/live/
+mkdir -p Stamus-Live-Build/config/hooks/live/
 
 if [[ -n "$KERNEL_VER" ]]; 
 then 
