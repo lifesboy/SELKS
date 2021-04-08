@@ -47,6 +47,8 @@ dos2unix build-debian-live.sh
 
  ./install-deps.sh
 
+ if error not found "chroot", run with sudo (debian 10): sudo ./install-deps.sh
+
 
 Build the system
 ----------------
