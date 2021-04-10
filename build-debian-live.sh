@@ -249,7 +249,7 @@ mkdir -p config/includes.chroot/usr/share/polkit-1/rules.d/
 cd ../
 
 #install rst2html on debian 10
-apt install docutils-common
+apt install docutils-common -y
 
 # cp README and LICENSE files to the user's desktop
 cp LICENSE Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
