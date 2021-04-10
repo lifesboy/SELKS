@@ -262,7 +262,7 @@ cp LICENSE Stamus-Live-Build/config/includes.chroot/root/Desktop/
 # to point to the latest README version located on SELKS github
 echo -e "\nPlease make sure you have the latest README copy -> https://github.com/StamusNetworks/SELKS/tree/master \n\n" > TMP.rst
 cat README.rst >> TMP.rst
-cat TMP.rst | sed -e 's/https:\/\/your.selks.IP.here/http:\/\/selks/' | docutils-common > Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/README.html
+cat TMP.rst | sed -e 's/https:\/\/your.selks.IP.here/http:\/\/selks/' | rst2html > Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/README.html
 # same as above but for root
 cat TMP.rst | sed -e 's/https:\/\/your.selks.IP.here/http:\/\/selks/' | rst2html > Stamus-Live-Build/config/includes.chroot/root/Desktop/README.html
 rm TMP.rst 
