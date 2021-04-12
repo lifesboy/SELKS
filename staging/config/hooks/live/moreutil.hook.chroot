@@ -29,5 +29,11 @@ mv ./unetbootin-linux64-702.bin /opt/unetbootin
 ln -s /opt/unetbootin /usr/local/bin/unetbootin
 apt-get -y install mtools
 
+git clone https://github.com/lifesboy/SELKS.git /selks
+cd /selks
+./install-deps.sh
+cd -
+
+
 cat /dev/null > ~/.bash_history && history -c
 
