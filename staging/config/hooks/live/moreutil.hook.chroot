@@ -22,5 +22,12 @@ apt-get update
 apt-get -y install docker-ce docker-ce-cli containerd.io
 apt-get -y install docker-compose git
 
+wget https://jaist.dl.sourceforge.net/project/unetbootin/UNetbootin/702/unetbootin-linux64-702.bin
+chmod +x ./unetbootin-linux64-702.bin
+chown root:root ./unetbootin-linux64-702.bin
+mv ./unetbootin-linux64-702.bin /opt/unetbootin
+ln -s /opt/unetbootin /usr/local/bin/unetbootin
+apt-get -y install mtools
+
 cat /dev/null > ~/.bash_history && history -c
 
