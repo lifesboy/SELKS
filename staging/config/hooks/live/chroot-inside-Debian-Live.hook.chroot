@@ -97,6 +97,10 @@ apt-get install -y evebox
 
 ### END Evebox ###
 
+### START Install php ###
+apt-get install php-fpm php -y
+### END Install php ###
+
 ### START Scirius, nginx, revrse proxy, supervisor and ssl ###
 
 mkdir -p /var/lib/scirius/static/
