@@ -205,3 +205,7 @@ You can get more information on SELKS wiki: https://github.com/StamusNetworks/SE
 You can get help about SELKS on Freenode IRC on the #SELKS channel or use our mailing list: http://groups.google.com/d/forum/selks
 
 If you encounter a problem, you can open a ticket on https://github.com/StamusNetworks/SELKS/issues
+
+Note:
+=======
+Debian 10

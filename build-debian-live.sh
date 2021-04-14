@@ -4,7 +4,7 @@
 # All rights reserved
 # Debian Live/Install ISO script - oss@stamus-networks.com
 #
-# Please RUN ON Debian Jessie only !!!
+# Please RUN ON Debian Buster only !!!
 
 set -e
 
@@ -14,9 +14,9 @@ cat << EOF
 
 usage: $0 options
 
-###################################
-#!!! RUN on Debian Jessie ONLY !!!#
-###################################
+########################################
+#!!! RUN on Debian Buster (10) ONLY !!!#
+########################################
 
 SELKS build your own ISO options
 
@@ -119,6 +119,9 @@ fi
 #
 
 mkdir -p Stamus-Live-Build
+# Hook directory for the initramfs script to be copied to
+#mkdir -p config/hooks/
+mkdir -p Stamus-Live-Build/config/hooks/live/
 
 if [[ -n "$KERNEL_VER" ]]; 
 then 
@@ -167,9 +170,6 @@ then
   mkdir -p config/packages.chroot/
   # Directory that needs to be present for the Kernel Version choice to work
   mkdir -p cache/contents.chroot/
-  # Hook directory for the initramfs script to be copied to
-  #mkdir -p config/hooks/
-  mkdir -p config/hooks/live/
   
   # Copy the kernel image and headers
   #mv kernel-misc/*.deb config/packages.chroot/
@@ -247,6 +247,9 @@ mkdir -p config/includes.chroot/usr/share/polkit-1/actions/
 mkdir -p config/includes.chroot/usr/share/polkit-1/rules.d/
 
 cd ../
+
+#install rst2html on debian 10
+apt install docutils-common -y
 
 # cp README and LICENSE files to the user's desktop
 cp LICENSE Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
@@ -344,7 +347,8 @@ libjansson-dev libjansson4 libnss3-dev libnspr4-dev libgeoip1 libgeoip-dev
 rsync mc python-daemon libnss3-tools curl net-tools
 python-crypto libgmp10 libyaml-0-2 python-simplejson python-pygments
 python-yaml ssh sudo tcpdump nginx openssl jq patch  
-python-pip debian-installer-launcher live-build apt-transport-https 
+python-pip debian-installer-launcher live-build apt-transport-https
+gnupg2
  " \
 >> Stamus-Live-Build/config/package-lists/StamusNetworks-CoreSystem.list.chroot
 
