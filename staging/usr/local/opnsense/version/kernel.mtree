@@ -1,0 +1,2148 @@
+#	   user: root
+#	machine: sensey64
+#	   tree: /usr/obj/usr/tools/config/20.7/OpenSSL:amd64/work
+#	   date: Sun Jul 26 05:54:27 2020
+
+# .
+/set type=file uid=0 gid=0 mode=0755
+.               type=dir
+
+# ./boot
+boot            type=dir
+
+# ./boot/kernel
+/set type=file uid=0 gid=0 mode=0555
+kernel          type=dir mode=0755
+    aac.ko      size=88904 \
+                sha256digest=39c97b69bb0e78ca73c424f4beadfd249340fd9a99afaff70952aad4f71f8393
+    aacraid.ko  size=83568 \
+                sha256digest=c69df4c5ff970459c642dcbb3cd4599ad17215f1ca27caa197186d1e4e8daff7
+    accf_data.ko \
+                size=3112 \
+                sha256digest=bdbfbc5843ae284c46d6688ff8d3785c1107675802dc0dea36c7da3b2eade762
+    accf_dns.ko size=3352 \
+                sha256digest=eff3669cacb877add9c53f01b3f4bc4410dc36f599f09933bb50f5021f215b98
+    accf_http.ko \
+                size=6536 \
+                sha256digest=e3e043ae7d29d60ac064dd0105542280993e1e2ed1eed3bd928a1a6cb6c20c96
+    acl_nfs4.ko size=11792 \
+                sha256digest=3e8af4a50ec0ddb877e3ff713df8283ffdb55b271661d04574cf86fe74f90b39
+    acl_posix1e.ko \
+                size=8664 \
+                sha256digest=5eb8294d0da12bc66ad4d579ac447c17aa6b6a36d45abdcbe2a356300f303be7
+    acpi_asus.ko \
+                size=34792 \
+                sha256digest=1abcf97b06edf1d3aa175e58355e82a1876554cf43ec60dcb46e9744e1eb27aa
+    acpi_asus_wmi.ko \
+                size=16448 \
+                sha256digest=a42cf3a00b85663648e385e7bed6e7eb78c4f4dd21f515febf6813c664ff0074
+    acpi_dock.ko \
+                size=16976 \
+                sha256digest=9e5692dfa93404307a77464530063f383ecb693e52c6916af54ee124d2c83c56
+    acpi_fujitsu.ko \
+                size=17272 \
+                sha256digest=2d5b87e9d667d6fc516cd8b0205972ee1d5db0602b7fa72115ed82cb6d8a24f1
+    acpi_hp.ko  size=25392 \
+                sha256digest=b9d196b5d14dcc5dfea1fa2568c0e350064d5cbd13b57177e01d8f5c213ec177
+    acpi_ibm.ko size=31616 \
+                sha256digest=c1fad7727f0e39e585c95ca61fa67c78e06783684d2529ba1e2b08809f724d64
+    acpi_panasonic.ko \
+                size=15984 \
+                sha256digest=ee7e2d77d2648a23d389f428d3c55fe6cbc077c225e70558807f7a46176d6f65
+    acpi_sony.ko \
+                size=8616 \
+                sha256digest=04ff1c1aa46e39a1dce3c151e9c272bf2f97223c01033d323d3055f02375efc7
+    acpi_toshiba.ko \
+                size=16504 \
+                sha256digest=e0b57622a23165a45638397183c6ff2a27bb11fd3413d10b7c90169b49e955f5
+    acpi_video.ko \
+                size=31424 \
+                sha256digest=b6e19f41681650b6946d83f176389b2b98011884c18310dec7c8de045c7a9654
+    acpi_wmi.ko size=23936 \
+                sha256digest=e0a46fe4e949bceee5f3aab7c0bdf62e5402b556d2be340e79310eff2cb89064
+    ads111x.ko  size=15000 \
+                sha256digest=407f54e87fba21d2bd0694c3c3e45f5647fdbc2fd3742c7a45a04ae7442b2c7b
+    aesni.ko    size=56080 \
+                sha256digest=f5df9b5952484aa12f26f905f92c771e0d930351fb9147fd98774d8d2fd35500
+    agp.ko      size=107328 \
+                sha256digest=fe1eb8645909c6d24e7716c8102c0e51f28aec07b6f5b3a3c0a4cb4b6785659c
+    aha.ko      size=33688 \
+                sha256digest=f53d1cdaa0221e87819b20bd23bb1eec3eb69fe6b4db6ddec945967abcac5953
+    ahc.ko      size=147008 \
+                sha256digest=7f8caf972c003db038d62b07f8dbc7384093cf7bb2c8bdf8146f97f6adbe07cf
+    ahc_isa.ko  size=9216 \
+                sha256digest=87ca440393407ac79c475b182681b83bdf24d0a40a40656b8318aa32729d7a6e
+    ahc_pci.ko  size=47664 \
+                sha256digest=43f31977cdd66563b6a5a4df99f5eab7905286e84fcef47929655862ce19590a
+    ahci.ko     size=95168 \
+                sha256digest=2102b610b9518e890dba8be5c9ff179851b0e3bd0ab1391f76a780e1908c4d8d
+    ahd.ko      size=225480 \
+                sha256digest=19f220d9dd186a8978c38d41c299fecb4c5d607734f2d512101a0858f20043ef
+    aibs.ko     size=14592 \
+                sha256digest=fbcc92b89e06194f0a818fdcd59a8f646c01a1c48ab827a0a1ae4b59608fb47b
+    alias_cuseeme.ko \
+                size=4840 \
+                sha256digest=2d9b388896e907c8787bab13bfa206f9fb8b886cafbe951612856cfb3ed0df81
+    alias_dummy.ko \
+                size=4248 \
+                sha256digest=a256240905e05c8853fb991ddedba8efce54d5cf7eab9c75d7191077f7a7b2ed
+    alias_ftp.ko \
+                size=10664 \
+                sha256digest=75271f5777c846caf5f02dd1df28faad36ddb97f41f7947804abce5cd87ed0ae
+    alias_irc.ko \
+                size=7352 \
+                sha256digest=0a70b218a8ca1eabc3a08bb8f3afc679ffb75da7490c64e22e12a03a6ae24135
+    alias_nbt.ko \
+                size=8312 \
+                sha256digest=0573445df5467a607353c6068d5aa4922727d734aeed6300e016a88fa18c5246
+    alias_pptp.ko \
+                size=7016 \
+                sha256digest=e328e625d88b3694c94e80b0b562ffe14a5671e4320e56e9e0783b62ca3d8260
+    alias_skinny.ko \
+                size=5032 \
+                sha256digest=84f2e746fe88d86a1dac0fe7338afa708f38bcfaec652b8a8e8a53a757f05afc
+    alias_smedia.ko \
+                size=9688 \
+                sha256digest=bd63f239f4f89b65462b9b2928a0ef9e49e13a2fa7caa2d19c7fda1c66297748
+    alpm.ko     size=19000 \
+                sha256digest=de82cc376dc6943ad60e56ee46222b8ff41bf53e9024c880abfef100289215cb
+    alq.ko      size=20088 \
+                sha256digest=b54cd1921ca5fa347551add6f449772127933d793e91253f913401dadf7ebd66
+    amd_ecc_inject.ko \
+                size=9768 \
+                sha256digest=63211fed2959e29030a25707b7121dccc4fb5f3f2a15ef586c02d4a5fc2ec604
+    amdgpio.ko  size=19784 \
+                sha256digest=a34f38a8f87a500d1451cba6b6366454cceb21f65e39330def75cfd4dfc83a13
+    amdpm.ko    size=18584 \
+                sha256digest=be33754e1e68ff901e8868127176407d250574175ce08802273ed52e37be8fc2
+    amdsbwd.ko  size=13072 \
+                sha256digest=022b63146b2efcb81f461d8b108b7e341b0ffbc2e5900088b945030c77fda64e
+    amdsmb.ko   size=15384 \
+                sha256digest=f249a8c441da67309eea06e187f0f5b2fa27ab5d45f3b4d493866ecea94d88e8
+    amdsmn.ko   size=9264 \
+                sha256digest=1331f6a2e21b0ff222fb643f22b6fb7a9325515194ffd42c5fd19b8afe71fece
+    amdtemp.ko  size=16160 \
+                sha256digest=24894787b77e32e79928745239408bb39c2c52ace9f334cc61cc13899b2250da
+    amr.ko      size=51232 \
+                sha256digest=0d102b72037af015eb75de6ad076f8531c95cc683a957cb4e9243b47a069d346
+    amr_cam.ko  size=10456 \
+                sha256digest=e1c28a9279129d113728614d7560e55a1005f1682fa3bf735028a6916d0d67f9
+    amr_linux.ko \
+                size=4648 \
+                sha256digest=0126bc43a13e1ead37e2880eaafd564509ad35ee96e1fac8912dab8ef3060108
+    apuled.ko   size=15584 \
+                sha256digest=27097b3fd818080a98e4a0c2b6532d379852a275dfb9c2a02a253d3e4a8bf94f
+    arcmsr.ko   size=71912 \
+                sha256digest=2cd505359e3333fa8e447eddf923690b43cc4b5ca859d94a8da11713dc5783f1
+    asmc.ko     size=138960 \
+                sha256digest=5b3acbd97fea0c28eb7cf06511436e0c80086eefb2bcd3e8968e0003454163f0
+    at45d.ko    size=13032 \
+                sha256digest=7bfbdf5fa003798da83afc995b412bf06170c7aa18c2a85efff236b399539efc
+    ata.ko      size=66048 \
+                sha256digest=9a0abdeedb296d1de197a3bfe861d6afe05a995ffb8ec5e0e4c4874f075f8d22
+    ataacard.ko size=11936 \
+                sha256digest=06a1b119ddc2b4915c2c38869ea809d812cc7cbd13eb39d7bee2e882b7d859f9
+    ataacerlabs.ko \
+                size=17368 \
+                sha256digest=9b4c6ea1888cb4a5b8cb28aa684abdd5f6fe6d9e8243d954994da1093ff715ea
+    ataamd.ko   size=11120 \
+                sha256digest=e1035cc6ecc70d7984a6ccf980191c290259a80b3eb8210cb3c0991c1df37ff0
+    ataati.ko   size=15512 \
+                sha256digest=b313fa37cb6c5febfc2f0e77f9b97a0226d7fa0f4abf901e843967d4d18f48be
+    atacard.ko  size=8760 \
+                sha256digest=8e11f795587c60d61a4b59f754ba86579098f0dedc4beed020217735437f4b95
+    atacenatek.ko \
+                size=8136 \
+                sha256digest=4127819731b4ce2232c0b5948b5edd451f8be07192c7ad76cd4b515b3c9fa03f
+    atacypress.ko \
+                size=9216 \
+                sha256digest=207b451de361259f7d561f5b9759e98995477c179604f83234308a01faf7298e
+    atacyrix.ko size=9344 \
+                sha256digest=cc8ac52e8f6092ca6b890042d2f8f389a551b069f0ad408f50a7a4d8d139b66a
+    atahighpoint.ko \
+                size=15520 \
+                sha256digest=84cdd7aacba3e480ebc346cf94b45778b68b3c17e8b6f5b8bdf8eab992ec13ed
+    ataintel.ko size=31200 \
+                sha256digest=f61d1fb1798dab0c4001940233aa13e8f4d956ecd4bd053012c9ba0f6e8a16ba
+    ataisa.ko   size=8048 \
+                sha256digest=50d33c2aa23e3c62667c718b3502cacffa39fee960f45266db1b3ea01c820dc7
+    ataite.ko   size=15360 \
+                sha256digest=d8dbad0a7284ff808f16d241b1c8d60097ee8565917be568ab443c1bde6666a8
+    atajmicron.ko \
+                size=11248 \
+                sha256digest=07cf4cd1c1fe5a793ab20dd76a03b1187e6e7d8d808147941aedc1d7bdf1469c
+    atamarvell.ko \
+                size=10416 \
+                sha256digest=f67d23edea035c6bb5008185e735a2598bcff4681c6f5f917c7fb1ca15eb5cdd
+    atamicron.ko \
+                size=8360 \
+                sha256digest=0fdbccceee3d158c1311941bed002684b9d2440207d76d79b5404c66ada1a159
+    atanational.ko \
+                size=10472 \
+                sha256digest=f75ddc5d67a0d49a8cdd3b5410f2ca3097ab4a2af4b86482a4faebd5bf7afc71
+    atanetcell.ko \
+                size=8712 \
+                sha256digest=2bfe2e1ad040a61ec3cf5941c21180be7e60fd65264e215868f5d28d8ef0d7e2
+    atanvidia.ko \
+                size=18544 \
+                sha256digest=e46462b00d66dfa5a2c25454f1435aad1a535e30594f76832b24321644d25e99
+    atapci.ko   size=42040 \
+                sha256digest=b5be88710c8eac3f991d0f29da1df9d88bc01b2a7ad90e5bd25a5e6ef7e23910
+    atapromise.ko \
+                size=36976 \
+                sha256digest=bc2e372806f04f23fc3e08994c8dfca6d851092ecb37bc33aa706b9981de690a
+    ataserverworks.ko \
+                size=17440 \
+                sha256digest=1ca23206ce5e885a9496b34c180af6bbe14e7bcb870559464d78f2624138fa71
+    atasiliconimage.ko \
+                size=19624 \
+                sha256digest=7bebd1664d862997b2a85379d95dfd8a7e39828b08b091cefa1382ae01a2a402
+    atasis.ko   size=18752 \
+                sha256digest=7aa1b201c2e5ff9ded36c88fe6f3e848e7c2451eabcae0386b72067c341cf9e4
+    atavia.ko   size=23528 \
+                sha256digest=68c9a7fbae55f03959a7dde0c9ba01805bb381cebb4ede21c9f97b3ab9bfae3a
+    ath_dfs.ko  size=6064 \
+                sha256digest=d57b23785a232e6ae7c55fa043bd6507ce9fd4dd6df3bdf8117ac26d1fbbca85
+    ath_hal.ko  size=89520 \
+                sha256digest=0a1b2359e56a86c5024cb960539ed031111cfa7ba9dcfd9d1640c776ed3bbc2b
+    ath_hal_ar5210.ko \
+                size=55104 \
+                sha256digest=c59693ccc6f66f82bd89c1ce01cca5ab4f90141dfc373e36865857fea88f39dd
+    ath_hal_ar5211.ko \
+                size=71832 \
+                sha256digest=817ec6afb75092e8d2d7b5b40f22b77d3345dae8429b813da1149ca3b0b04208
+    ath_hal_ar5212.ko \
+                size=180768 \
+                sha256digest=46501a21aee6abb7f62614a93dc1a31da586eda0146754bb21b7aa8d186b6a5b
+    ath_hal_ar5416.ko \
+                size=261992 \
+                sha256digest=4c3f42b0ff5dff2acf76028c14d59f93ea9727fc2aa9a287a59036450c4f6244
+    ath_hal_ar9300.ko \
+                size=451448 \
+                sha256digest=1ac478590d746312616a5bee455d78bbb9f0417249d71a2a198213686d7fb290
+    ath_main.ko size=269176 \
+                sha256digest=9e6412dd4e1f0026e9faa6cda3933c22205e34888514a72679646364e6c08b71
+    ath_rate.ko size=23456 \
+                sha256digest=895453672f114459ca8c2d082cb64cf57eff1de1f4656e2fe786e66f6cbf660e
+    atp.ko      size=34984 \
+                sha256digest=16a700ff1c5ba1b96c1ffaa20e6e75ef0806da1f6e66087d378938e196dcb2b8
+    autofs.ko   size=44624 \
+                sha256digest=927c36e25cd380a2e744ebf36dc59bdabf5dff62c59ed6520b721d7edef7b38a
+    bcma.ko     size=42656 \
+                sha256digest=5a613bb1f2f1bf983d17bfa0a3ec220e6fd1397fdf25604993797721408c324d
+    bcma_bhndb.ko \
+                size=8376 \
+                sha256digest=16a5415ea0b4e921d64dbfd29fd14c2aaebd5451ac5c3ffcfe340008488a3f5c
+    beastie_saver.ko \
+                size=15792 \
+                sha256digest=11b3b9143635fee06bee02fb27ff864ac982bc31160115481baec5f176839ebc
+    bhnd.ko     size=486416 \
+                sha256digest=4b9a0b39711bbc6b51846e3039cf1edac35ac36e53a768a0eff82dc8d918a014
+    bhnd_pci.ko size=21616 \
+                sha256digest=91880e1dcb79d488428ddcbf65c18dbbb0d2bef1db84660f86500acb35b66c3b
+    bhnd_pci_hostb.ko \
+                size=20040 \
+                sha256digest=127ebbb99035272201b982c0dede0305dd0cc77bf6b5d7128daa424febb01564
+    bhnd_pcib.ko \
+                size=9808 \
+                sha256digest=b716e426cec75b97060f504af0845fac24b3c0887e95b7ca81db0486c0d50a5a
+    bhndb.ko    size=94872 \
+                sha256digest=ce7517f2f5773e446d7785e396429c53c4f38aac4f175782df3c7f42e0cae6d6
+    bhndb_pci.ko \
+                size=39016 \
+                sha256digest=bcc1db9703f8ec6265d580d0d6bb2aaf05a181bcf4f9e222cd6b4138ec225b6b
+    bktr.ko     size=96344 \
+                sha256digest=aa56b1453496d7a2c3f93ed8cd83edf7b3d2ccb29debb94e1970a4203c175421
+    bktr_mem.ko size=5632 \
+                sha256digest=191c1747317c31c6b436728ffd5edcebc7a7a19cf80630d06967c7bac4cd5b31
+    blake2.ko   size=123144 \
+                sha256digest=b30dcfebe911b940e042023cb6cfe189b2425cc6e2359ccb02b2c3a6e278c0cd
+    blank_saver.ko \
+                size=4080 \
+                sha256digest=5a299b4cd59cb7414e997d880e3018d43870fadc7bc8ec2f08830d019fd98b3e
+    bridgestp.ko \
+                size=28416 \
+                sha256digest=70693aad2356388fd3e1b2c653b47ace6e04cddf4c1724efee2a25d9bf4fe4a4
+    bytgpio.ko  size=14032 \
+                sha256digest=889dd0d42531774a50e4caeff9482d5c80e771de905888131820c45318fbaa84
+    cam.ko      size=996688 \
+                sha256digest=8d0213754d1c1166b4b013624b70d774f85ddb3d7634687505bea480aafb7324
+    cardbus.ko  size=29952 \
+                sha256digest=aecfc8a576f3aa7f4733d233958033b962af65f98dfa259732d090f5a7fd8809
+    carp.ko     size=62112 \
+                sha256digest=c73b6e367f43a42aeb308af37c8cc703d5b3100f22fa49861a5314f896525264
+    cbb.ko      size=69544 \
+                sha256digest=49d8fa6ffc19d9bc629aab084981e3a79df72e514e82cf1b9874c404d16e8333
+    cc_cdg.ko   size=19400 \
+                sha256digest=63317c4d4b7e09c36cbbd14e77682f1e7032dcebe6bdb532bb096f4c79fa5364
+    cc_chd.ko   size=11880 \
+                sha256digest=06a85964bec6cd7eee66e3d32c47d3cfd42877ff3351eb5b4f3bb5d74e183a1e
+    cc_cubic.ko size=6640 \
+                sha256digest=499bab7a8e628339dd0c9709350cca26b84fcb604180e2712000ecac10d741c3
+    cc_dctcp.ko size=9832 \
+                sha256digest=15914a41262a34fa67ae80d3261207f89a86e46267d7a8bb257d4cc9e3893461
+    cc_hd.ko    size=8088 \
+                sha256digest=2b2d9c6d3c8cda1fa6bbf2fdd53eb9459a5ce7cb1111ea31f2ed630acad124a1
+    cc_htcp.ko  size=9024 \
+                sha256digest=b68bb690b39fe2e56e8ddc133d79ea694acd4f58d0c266f6901f83db3caf18f3
+    cc_vegas.ko size=8952 \
+                sha256digest=c725cd9af75e79a6727462f0c084b0f3935774300a62b87f796cfd7d741a488b
+    ccp.ko      size=71880 \
+                sha256digest=057a1fbd140da30206421b331894300d0f91a5fc745a3ee0042847986d82b51a
+    ccr.ko      size=43888 \
+                sha256digest=44b5ce1744b90bd9ca4c02753dd2c57c8a0b46e8f41b86ba6a2b4bdf0c1cc5a6
+    cd9660.ko   size=50192 \
+                sha256digest=eba70814969709237226228c84ddbb85169224b4fab94b31029c9ffd7b83a037
+    cd9660_iconv.ko \
+                size=4712 \
+                sha256digest=2ae98bbd5c8720e7fa33859b89e13ec77f4c001b3e93e69dae32bc119b71b95d
+    cfiscsi.ko  size=54976 \
+                sha256digest=b5cb23c71b8adc7d28abe83f60d7e91f801c31040f62c6ddfb458d8c5840d414
+    cfumass.ko  size=26240 \
+                sha256digest=29e1c6ffdd1016efd4d32c8cb0ebbe5b1431dafe474910772e71cce89f1f0b26
+    chromebook_platform.ko \
+                size=5840 \
+                sha256digest=aa8e4ff28f62ed4bb6330fa146b9d7dd4951fd6d45289099930f1c2775acc464
+    chvgpio.ko  size=23672 \
+                sha256digest=a9b9c9cbe84e141157c3d58f72c79c22e78c38e561307f11fd0204279672f21f
+    ciss.ko     size=72112 \
+                sha256digest=65a126924d8a8679fa9250e7fbed8f5c9f4e564f2e6f3624f976b55c04c7ba01
+    cloudabi.ko size=45112 \
+                sha256digest=2b0809d271ebcaf46b20e34a7d34e90da4f1fb5c6f5de45dda9c0b753966746d
+    cloudabi32.ko \
+                size=33392 \
+                sha256digest=ff454f0fbf0003f795db7217bd5481aa1389acb38d29909becef9e7c60bace5d
+    cloudabi64.ko \
+                size=33368 \
+                sha256digest=03c605099e0cb9bf0a0d522703c8569c6005c875114d8972e2a2783ea09584be
+    cmx.ko      size=18472 \
+                sha256digest=46cbad06df8e639d2ef344e86ed50e96fc6a95541c5c0d9a7802516f56101a78
+    coretemp.ko size=11032 \
+                sha256digest=de360d055ff331ddf048a4361fd371a7c292553ad7dc5f5453bda999b8dc732f
+    cpuctl.ko   size=14088 \
+                sha256digest=6a5ec6161fe682364ee16d53840ee75a12504624cc7e170822826e9bb365cccf
+    cpufreq.ko  size=61512 \
+                sha256digest=58790c17f8e08b8bcefaf6a1442510fae3bc54900f3a17b8a8f064a9e9c98bdf
+    crypto.ko   size=320816 \
+                sha256digest=22e08549f1613fd6defd8cd056461311728755db91c193b927748bbd9a3ea4ed
+    cryptodev.ko \
+                size=36200 \
+                sha256digest=1bd5df58da8934623f0ff43a42d0dbeb43da79d118a59db8ea6c4cebe3018ef4
+    ctl.ko      size=460872 \
+                sha256digest=a97230dc71ee27b8ee11e6e848a45bf9707f845c10368cb12c0d8f54c3ee7fcf
+    cuse.ko     size=47800 \
+                sha256digest=8af64f0d6b79eed9c001d996f74b43f522cac4e08a7d6555f7faabe161e37dba
+    cxgb_t3fw.ko \
+                size=53856 \
+                sha256digest=cc5b1d160d6eaabf05f36ef5c90ca5c5d72611d3e5c0cfda9982504b2ad43cd0
+    cxgbei.ko   size=37416 \
+                sha256digest=3af8c5ba977fc8ecb8689422190b4bc5bdae0f5e58a343d2b4847fd13548caa1
+    cyapa.ko    size=34352 \
+                sha256digest=d00b922bbb91fbb1285e89b96a0c9693e693b803e7925bb871c8a660ac239a80
+    daemon_saver.ko \
+                size=17320 \
+                sha256digest=5d8f1172d00596ffd2708c80d07044339c4079c6494578ea9cce49aaaeaec20a
+    dcons.ko    size=14392 \
+                sha256digest=ffcabc296b05d1ac32cf66a41e327cfd6d9e4281348d5b9f94e24338f1b1856f
+    dcons_crom.ko \
+                size=9832 \
+                sha256digest=3aaae5b024d87f83a762ba5bdd14014e5dd37c7002431494c592837de030cb0c
+    dpms.ko     size=6520 \
+                sha256digest=f0ef78187861188c1cc19a3e6adce5f993cb85eb8aaf1dd2743b4ecf58baf867
+    dragon_saver.ko \
+                size=8912 \
+                sha256digest=a651d2c42982c9bd73cbe36efb70238c2e43fb04253818eaad9125a585555b9e
+    drm.ko      size=141008 \
+                sha256digest=f3eac2f3c71d825b2a0f36af8bc67c51f10341faa1e0b418f14c9d213b23af2b
+    drm2.ko     size=463384 \
+                sha256digest=2654b695d328a310583daf86435a2449fd9453720c6ffface4132fbd7e3e20e5
+    ds1307.ko   size=9960 \
+                sha256digest=39bf284c0956e3d8743fd43e93af992db5342b26d10692dd1e8b9e04bed752dc
+    ds13rtc.ko  size=12480 \
+                sha256digest=b8e2240e9f9e4d929043f5cd52143ce3de9b2057879fcc0232421347b1d4220f
+    ds1672.ko   size=6376 \
+                sha256digest=46faa0d9ffafe7b0aca70e95864573b2f43588eb4bd2a1d850a3e9d179aed421
+    ds3231.ko   size=13832 \
+                sha256digest=58a13b8efb8d2ace988c7782d31e9bd013db43132d3f3218eda415c6bce17326
+    dtaudit.ko  size=9656 \
+                sha256digest=2823a50b7423c6a81213ef6a86d5c99d8d6be4ad54bea39fd10940b753229277
+    dtmalloc.ko size=8416 \
+                sha256digest=50977e505695b10bae48ceaddc42f30b7cafee5682d7ee9b8aa49c8fac71c499
+    dtnfscl.ko  size=21600 \
+                sha256digest=c2c51031355cccbf728e7b9e65b57c3347bfe0214289e4dc6aed9ca6416c9da7
+    dtrace.ko   size=383872 \
+                sha256digest=0f0c49c2c79130ea4c85f7fda1e4885950150e203b3e94f17321cfb69f258d76
+    dtrace_test.ko \
+                size=8560 \
+                sha256digest=2585d85852d62c1ccdaa98d6f2dcd5aff8c98e137d83fd4071a5946161081fe6
+    dtraceall.ko \
+                size=6600 \
+                sha256digest=fbadacc5b0c00587f77b10b992e23db713c184ee7e8b2ae511ca7f7d5db936e5
+    dummynet.ko size=145792 \
+                sha256digest=30f3a9fa78ed0cc83750ed4b06a0bf84a1a4d219e94ac60190d64db4baa7a4cf
+    efirt.ko    size=28944 \
+                sha256digest=9e57a145377c477ddbda8c7f3ebb7a5df887f23c89fbb0638b5aaa0f1f14825d
+    ehci.ko     size=80832 \
+                sha256digest=82f318a0e1fd4e1a0e61bc01f6df4bf3004eb15fadefd0dad41e6cfbbb0130c8
+    esp.ko      size=49672 \
+                sha256digest=b5cb0a91c48636429886228a79d1304250672d171362df85704fe4a9a6ca9b66
+    evdev.ko    size=42392 \
+                sha256digest=3f75626e599da9f78948d2c6b4fa9401241fa97a1a5a08c32b8f87752400d4af
+    exca.ko     size=13880 \
+                sha256digest=a9527f9882424524313dcb89f36525dcb04e8def1b855b2d59cb147b9ea045ba
+    ext2fs.ko   size=181304 \
+                sha256digest=3800411766a205697aef16929260d8be3f6f5669edc69c1aed7899a7e82a3f59
+    fade_saver.ko \
+                size=5048 \
+                sha256digest=4b04a6cdc5773ff7e5edd5b4048dfc205249a476ff3c44f50582f08c349b7e88
+    fasttrap.ko size=392144 \
+                sha256digest=b80631153852cc24bb0e4394042adcf5bf3c8e0f380daedf3fc4b6c7016cdb18
+    fbt.ko      size=20912 \
+                sha256digest=64873041d68c58e686cf0e6a64e596ff2acdda35955bec1fcd0100cc7f5fe021
+    fdc.ko      size=61872 \
+                sha256digest=b357fe9175455ebdb92ce5ce0bc393d3f4fa4c89a2b4667fada33ee48a944957
+    fdescfs.ko  size=18392 \
+                sha256digest=6451d04187a9fa52d3ed402eef50c087a013568a12e644f2f16993bfb9a7f6d9
+    filemon.ko  size=21400 \
+                sha256digest=55adbc3dbb335ef4f7052d5ee2efc8373870c0a2bdcd8c450e2ff6fd6406a43c
+    fire_saver.ko \
+                size=7256 \
+                sha256digest=d4a066500d81223a4983f3424c1fa650c2c6ecb01684c692a6cab2aa843aedd3
+    firewire.ko size=127528 \
+                sha256digest=5682597f54b61a3b6408b7505fad19400719f349e9aeea73a77bb61fab90917b
+    firmware.ko size=15096 \
+                sha256digest=49bce9f838e8b880d320c9b8b6c3955684c4660aa9cc474dad754311f36a747a
+    fuse.ko     type=link mode=0755
+    fusefs.ko   size=144592 \
+                sha256digest=907d887bcbc6c5fac9124766bcc07b00948e3158f01ce692310c932993bf8155
+    g_audio.ko  size=16720 \
+                sha256digest=1943c726f151f5b752bbee1a6db5cfdae5c5131937a87af9e88c2183b2d81274
+    g_keyboard.ko \
+                size=13344 \
+                sha256digest=9330e9880a1a5515e7af81a5e4bd174e985f26ca0fc65541fd336e13c86f934a
+    g_modem.ko  size=17056 \
+                sha256digest=dbc54fa2496115c6e81e5dea8f6ab2ae83fbd2f7898c8338c38d8a5afcb80745
+    g_mouse.ko  size=14664 \
+                sha256digest=eb564595c850a873f7bf664d602c30510578e07ce629de0c2cf587ccfb7e188d
+    geom_bde.ko size=70544 \
+                sha256digest=91fcadcab97498a38effa12b94bca86061da26c4b904ece0285610a973725c54
+    geom_cache.ko \
+                size=33928 \
+                sha256digest=db0b096f8b2b1c9514994849d83a5902c7ebf0b586c6869090f293844ebbd9ca
+    geom_ccd.ko size=13848 \
+                sha256digest=930a61c04770d0b59ba7c6d89a594d5da7d152e32526b4c68ee9e9261370f211
+    geom_concat.ko \
+                size=31624 \
+                sha256digest=91a70cafce5aba24e95629fe38f89ea5b00154f5290c1b0be4d7e40e386a688d
+    geom_eli.ko size=120008 \
+                sha256digest=c6bf746519ecb9ea58b1fa5492924bbd51b19a132b32de968379ff9a6957bf2b
+    geom_flashmap.ko \
+                size=8056 \
+                sha256digest=162c44efade8f32be3c36389a777743baf902dca9659e8805025455bbdce59f3
+    geom_gate.ko \
+                size=40304 \
+                sha256digest=1d471c422f09191c7707154a23b93c7a7be7c6f81408b457618f4442dbc5a296
+    geom_journal.ko \
+                size=118792 \
+                sha256digest=a1ef82465def77e410ff8685acb4459327ae525bbb5c62cc1d19ffddad83c224
+    geom_label.ko \
+                size=44920 \
+                sha256digest=352dfc48d54506a596f4c21fe78b737474bebbf685348422d610dfe2c41f1411
+    geom_linux_lvm.ko \
+                size=40472 \
+                sha256digest=88dc7a8f7b8d0c0ddbd865027a88d947e4e4f08964c3d41724bbbf33423829a9
+    geom_md.ko  size=44928 \
+                sha256digest=c2d2d60dfb52295782734d587bc8ceb3e2bc507fa4253c9a299f8fad6b2ffc38
+    geom_mirror.ko \
+                size=160040 \
+                sha256digest=cf133f4d99c05929426548f4dcd2e98eccf0a2c21ba503591ade6bedc4e00c0a
+    geom_mountver.ko \
+                size=25824 \
+                sha256digest=aeb1a8b75ee1a5dce86beefd9ce547b5a72b68517c0994237aecc3dbfe9b7e8c
+    geom_multipath.ko \
+                size=37536 \
+                sha256digest=456df44e7f7e7f111af7aa24e199e60fc88f291efcd8019011ae52e7a0de06ba
+    geom_nop.ko size=23008 \
+                sha256digest=3dd292c2d27beebab1f63ce203179337ea7f29a582d29e14c28e1059e28905a9
+    geom_part_apm.ko \
+                size=14288 \
+                sha256digest=3af52359c47ac1f3473309596b7992156bf45895c59738f45ff8592803370c37
+    geom_part_bsd.ko \
+                size=14528 \
+                sha256digest=e7f9e78da47089f1321553ef2b6937f3a3f4ab93ec906c718b84c764337a1dbe
+    geom_part_bsd64.ko \
+                size=19952 \
+                sha256digest=8590428f829e58d916d5cd7486cdf6ad91feffd678ce29dcbea4e999f9a75aba
+    geom_part_ebr.ko \
+                size=16624 \
+                sha256digest=10b4065dd9436f8b78d60565b8f73c3644e0d5145ce6e4cd9cbba0826992e900
+    geom_part_gpt.ko \
+                size=32088 \
+                sha256digest=d7fcfa50583750f00d89f038da2206598708912fe3630e683779c66028773e23
+    geom_part_ldm.ko \
+                size=32752 \
+                sha256digest=59162bb4c9b8c096ca5a2ac1d13ea0fcf90842e9a26d30d9015e1c3073cad35a
+    geom_part_mbr.ko \
+                size=18040 \
+                sha256digest=7b538e8af0c8b902e1f39d88ba148fb5ca5c5e3fe4e08d7bf0338a1f7f7203e0
+    geom_part_vtoc8.ko \
+                size=12584 \
+                sha256digest=98ba3627b670ecfdc0a10877f8a0ea9946cc784d8ec8882d5277326dbb86fe98
+    geom_raid.ko \
+                size=410968 \
+                sha256digest=dd2019016d10a8729cf9a95d579c8fa43d856dfd9d6b81dff239f3fe0751b8f6
+    geom_raid3.ko \
+                size=140240 \
+                sha256digest=06e8baf7c266f80a6f5bb82312e8ccbed3d86ba9dd69885aaf75bdeaadd845ac
+    geom_sched.ko \
+                size=42496 \
+                sha256digest=ad91d5dc559c0e22cedde4213d116b5327f740050a6826a9833876df48a0a673
+    geom_shsec.ko \
+                size=28152 \
+                sha256digest=ed98f7fc221642ed4b49428e8a7e0b164a66c3e252f4befe98e4118d20b41f59
+    geom_stripe.ko \
+                size=35384 \
+                sha256digest=a00459b24385ba1e07dea85a22f2fabb149afefd5065ad5aac85572c86268d00
+    geom_uzip.ko \
+                size=31840 \
+                sha256digest=2b5217112c585b84fc00b201d12e5b4c0baab2ee2162db684deb82d61e63d646
+    geom_vinum.ko \
+                size=180512 \
+                sha256digest=96b2be1ef78bab990d7ec04b9e31d67524da441ad475092037bff9ceae5c31fa
+    geom_virstor.ko \
+                size=61816 \
+                sha256digest=45d1d5f6d10b26333f4895fa40100992001620690bfdc6ba2dc0ab1c00e4dbcf
+    geom_zero.ko \
+                size=6736 \
+                sha256digest=4288afc52ee9ad200b67d9fd4a9136dacdfb366e70f6723b82cc68577b9f838a
+    gpiobus.ko  size=36000 \
+                sha256digest=d00590c7ff5c0f9d9993d7685f2bd096b0bc0e2ca7883dae281e800b2feda491
+    gpioiic.ko  size=10888 \
+                sha256digest=178b10573fe8e555ed87a1a8532b641333434ed44c27012ae79370f7cc3e732b
+    gpioled.ko  size=7296 \
+                sha256digest=f926aa9407210e167ccea2a86bddab46f7f7eb0aa6b26b2dc13a6e7ee968d896
+    gpiospi.ko  size=14816 \
+                sha256digest=51fc6b1ec8da75b37132afd2f0ea41b078c74e4e730c7e86d2a417ba67207eb4
+    green_saver.ko \
+                size=4080 \
+                sha256digest=40ec988c1128dec8434e1094d9f7c885a1257de28a1e23229fad970efb9fb422
+    gsched_delay.ko \
+                size=8800 \
+                sha256digest=ad0eb00bd48f4dd1dfbd498fc16e1b2f055bf1ebfffb5e621379360ed98d0d5e
+    gsched_rr.ko \
+                size=14104 \
+                sha256digest=8d049e8f95f5c9849db233ac8293de9b484e2f3bffe5d944ce4ff566fcb7947d
+    h_ertt.ko   size=6624 \
+                sha256digest=247eb0037eb26b5379937f5af9ae5ce1f58928dbd79cc2bb8878e2032187636e
+    hifn.ko     size=47224 \
+                sha256digest=b77f80e282b796c2398346811c2cb8f9c5439971ae5d8bc12f4a6640fdef7555
+    hpt27xx.ko  size=1159968 \
+                sha256digest=da9ec5f2c22f306ae65900704d0a9d620536a64033f45e3e5063bb8740ed197a
+    hptiop.ko   size=47336 \
+                sha256digest=9b0d5e3440bc19c5f133f94d61138a7bbd1668910e494f799d3ac97fd4c42e81
+    hptmv.ko    size=213736 \
+                sha256digest=de46c69a779efa04c07cefaf401f5d45c07f7d11110d1dbf1c3ea92a9b3eeda4
+    hptnr.ko    size=533216 \
+                sha256digest=d0d594dc32d307c827d8b11ad56730e3187f3a2ee41fdea70bcbaf274f0f3c3b
+    hptrr.ko    size=638272 \
+                sha256digest=fb3af28f9309f6b57a8761c2edf14e921134c12a94794c5d0af192c8ecbec037
+    hv_netvsc.ko \
+                size=139000 \
+                sha256digest=2e6c1e6d3ee084b6411924b8384f7fd860dea6416be0efd48bbab8f9487e1c33
+    hv_storvsc.ko \
+                size=35088 \
+                sha256digest=69e88a4aec631c84f094be355b6ada602326e8c78a122a14247de74a9e2352e4
+    hv_utils.ko size=57872 \
+                sha256digest=402f65256d9f480272bfae128ce9d11c50654bef006bc2dbe5883083f6ca3896
+    hv_vmbus.ko size=89424 \
+                sha256digest=37f67ec7b3b6ef9fb18c41c0a3c5cf356feca9407523fb082754b49498ee876c
+    hwpmc.ko    size=152592 \
+                sha256digest=5c9071bc893c8de156d7c2fabff4c7de32cb699b51fb300fb75436c23fedf999
+    i915kms.ko  size=922400 \
+                sha256digest=ea00d3c029fdb6ad676b0b023432c2b623031bd42ef44d7da79cd273d4c989b6
+    icee.ko     size=9688 \
+                sha256digest=4e48433a798689f2b8978313290682f448a8a4bb3306555589a6b71427ca6285
+    ichsmb.ko   size=24096 \
+                sha256digest=75a2180df05037f6899b1130a973de123ba7e70373b9757638954269ea696597
+    ichwd.ko    size=28736 \
+                sha256digest=7f18e3f40abaf2d3d85f12e549220ba2e2521e9e514438e276f6e7d7232d97e7
+    ida.ko      size=32232 \
+                sha256digest=3368dc071e8578e754ba93e92c5e45277eca19be19427e5ee9d1329b46ee552d
+    if_ae.ko    size=45656 \
+                sha256digest=62ae2ef4167fedf8fc155648536cf10a3d43a17f60e37b7d090746ebc3a185af
+    if_age.ko   size=60576 \
+                sha256digest=006baab88d780da0077d08085498623dc39d62b277c6eefbf8a95666a17a1130
+    if_alc.ko   size=77720 \
+                sha256digest=0113ca96fb2cc78de5327a0bfa5df1dac88af12997133c226adeedfb4a1fe24e
+    if_ale.ko   size=63440 \
+                sha256digest=02d21609908b9e410ae2f931853634cf69f0eadaf3a8b51cabaa245481eac7cf
+    if_an.ko    size=76488 \
+                sha256digest=d9bc0f589c448cd3898b241044c518b1214253abec7d4387eaf897767c461f41
+    if_ath.ko   size=7152 \
+                sha256digest=224aef24c77e5cf363ebd4b02cf2cd1824b7a9b0889185f6fe1be3264adceda9
+    if_ath_pci.ko \
+                size=18576 \
+                sha256digest=12fc80a16f9dc66b10f793967c3bd7e3caab16d999e439f9d4a2475dd41c06b4
+    if_aue.ko   size=26616 \
+                sha256digest=a1e0cabcbe7e532810d17fe3894b22857351cf0f23a69ab109e2ffb0af448ec2
+    if_axe.ko   size=33296 \
+                sha256digest=ff47ad5aa6af5bc001434d4cfe879941e029dd59f46033014d1ddde2ce04dd03
+    if_axge.ko  size=25184 \
+                sha256digest=6aef551d2a5a41e5aa31bbf5bcd421f3b4d36b6a7ba01ff50fce04071cf60425
+    if_bce.ko   size=362704 \
+                sha256digest=b2948b138f17508f666affa5720a320bd8211a0449a50b1415431f910f1f4713
+    if_bfe.ko   size=40280 \
+                sha256digest=fb5ce4208b78994e10e0ad5d9ab11fa9ea43d30ef5f756b65646d9cd8d4b3507
+    if_bge.ko   size=136080 \
+                sha256digest=a0a82603f8bc4341a5f8a2177b4290a7ccef1b32b1d116910b0bc28651f13ef0
+    if_bnxt.ko  size=205480 \
+                sha256digest=7a7b1c257c54ddcf24e237138deebd7d5038553c286902c5d01fd8de822b352e
+    if_bridge.ko \
+                size=59600 \
+                sha256digest=f82669d345f36851b979b935767fb66bc405f01439aab9fe5bd6f53bdfa8adbb
+    if_bwi.ko   size=165512 \
+                sha256digest=ffc665d1b5f5d9b0740745d726032a18944b8209cb2aece44edd66dd2af99e65
+    if_bwn.ko   size=313056 \
+                sha256digest=96d526c7bbeac7b08e6f4ca234097e83aeaf9417c8c45ae329a0370722399272
+    if_bxe.ko   size=2611280 \
+                sha256digest=f8f25d10c61c619cd23041aabb8624852e772b07ab33048d842e0889d4cacf27
+    if_cas.ko   size=50392 \
+                sha256digest=90a0999dc614ad133f55f0b9b0db2d68b7570572ef7f55c10458927e3423497c
+    if_cc.ko    size=3416 \
+                sha256digest=8b8ea64e9af6f574cbea0dfbc7e49c47f020a5fbb1704f682fb4085c0b6438e2
+    if_ccv.ko   size=3432 \
+                sha256digest=5a141191371061f4ce14ab4108a63b6c72dab9fce14c8c6e4de58428030f9159
+    if_cdce.ko  size=34344 \
+                sha256digest=c805ed1c0217470166a9284ae0bce5555baf25c1902aa35bcd3f615f78303533
+    if_cdceem.ko \
+                size=24432 \
+                sha256digest=4a0743f227b1b7d25d05eed4cf2556f072b84b40b2ea1f538c16c3c69a944006
+    if_cs.ko    size=29880 \
+                sha256digest=465becefa9ffca19cb5099f2bd43ed6a1325346139514cb8a7a8a9c71a2d84b3
+    if_cue.ko   size=16048 \
+                sha256digest=1355b4f51fec98b6e7383d41d3029357ef716b025907ea0d079637f81cfac30a
+    if_cxgb.ko  size=291016 \
+                sha256digest=159d4ad81f9f6a782f37c1a8442d49662e2f50e9c79f0f1fad7695eb391068c3
+    if_cxgbe.ko size=676216 \
+                sha256digest=fe74f0d53ea40cec6d9762466d902ff2c60563209397a35709b47bbc85e5f908
+    if_cxgbev.ko \
+                size=34536 \
+                sha256digest=a9bc07bf7cabeb6f03da6ec6037c9a0e74260ea2803f381c2e23175a7598d895
+    if_cxl.ko   size=3432 \
+                sha256digest=6318a1c7f0ebcad62d6e9930197ac546fdb91205a3e9c218e47cf348e835c566
+    if_cxlv.ko  size=3448 \
+                sha256digest=585f805b54d860028e1d1f6877156f211326d9277fa9b6b473d44f90f198f5f6
+    if_dc.ko    size=66312 \
+                sha256digest=45139f8ff45af1304f068174f98684f22307fa582553029619a44a83f92fe975
+    if_de.ko    size=71152 \
+                sha256digest=e80c77f1eb94054b227aaad0e23d9bb0347d597d0af15cb6f46deb896828269d
+    if_disc.ko  size=7736 \
+                sha256digest=1cec1980fcfdf14cf42748077076003cdda45ae86c205f9d86bdc43abcf800a3
+    if_ed.ko    size=79152 \
+                sha256digest=aa155f0787bdc61ed72bf9e3d7d970cc1c069e2566d694566fc77691e1de051e
+    if_edsc.ko  size=8520 \
+                sha256digest=c25c67bfe649153aa364f4983ed90805c1042f43244d363c9f440ee24271b5f3
+    if_em.ko    size=451784 \
+                sha256digest=b5da382faedd1f770bddd6ab47847236c77bdb6f053888d7620eb46a36ffab99
+    if_ena.ko   size=135440 \
+                sha256digest=b838cfb1e0d8fd3cc9e4a3cb4609c5a6eb6aac1e6f67ceca60948aeac717ba79
+    if_enc.ko   size=14936 \
+                sha256digest=d662bf523090518d9ab887d71e35db6bc77e4a3a1c83be58953dd7108b02979f
+    if_ep.ko    size=27792 \
+                sha256digest=d089d9af6ecfc723835fe27d8b187f510a317f2c2656c81f711ea22aed15ba17
+    if_epair.ko size=21632 \
+                sha256digest=904d859ab2112eb11f16ff488bf2ce7908a5ebd984ed142177a83d4c8b1612c1
+    if_et.ko    size=56560 \
+                sha256digest=5cc41ac11c9ab54f91bf669018ba7daff6aeb4552623d220b65c00f5f33db426
+    if_fe.ko    size=48928 \
+                sha256digest=8082e789da2deac59296af90d02dc3fe88b28112b134196a8f1d9fdb18bc1c17
+    if_fwe.ko   size=17352 \
+                sha256digest=8dcc2026d2f8cb02cbd89ae6525d6cb287a641c7f349cb4656a64f21048e320e
+    if_fwip.ko  size=29568 \
+                sha256digest=9d7176a182ce8a4828a6a4fa2df43f4db26cb90acf36b1bccbb5d84a5d565781
+    if_fxp.ko   size=64384 \
+                sha256digest=467d238bec9dfa93bab0dd9aaa1cbafbb2df3c5d5d0d8ddfd6d6b7caff4ad72f
+    if_gem.ko   size=41312 \
+                sha256digest=e04bca13b06a255de9ea959895088dedc716dd183b1a70d60e4cf5e4b9415073
+    if_gif.ko   size=34536 \
+                sha256digest=0db7f1a0b766bf178d7a9db973672923b478a96ac05973991f7dc5329fa77991
+    if_gre.ko   size=42536 \
+                sha256digest=cb645a2b251310f332991a1ac6fd59187e37acd8bc1550a59d7dbb5d49fcf7e1
+    if_hme.ko   size=34464 \
+                sha256digest=9358bf6324fe6945a7638e6db2738168efd3efacefdd4d469ae73f12e84b91aa
+    if_iavf.ko  size=180768 \
+                sha256digest=fa4050364043a0f64bd5031e425cf8e5fbab55e2d13df0568647aa170d06c8d7
+    if_ic.ko    size=13032 \
+                sha256digest=0eb19f2d004c7e8a1e7edf6a8d4daf10700d0eaa01244567d07ced4e53ea5842
+    if_igb.ko   type=link mode=0755
+    if_ipheth.ko \
+                size=16096 \
+                sha256digest=df27fcbc038d8c60d6a8f14c4b9924d4bed47dd31af0089fc00ed6c4d29f0512
+    if_ipw.ko   size=60736 \
+                sha256digest=e9d81a46f78241936a208a81bc59349ed417ef90e12d146ce7f56a6a6c115c13
+    if_iwi.ko   size=83416 \
+                sha256digest=4e29c527e8cca2cece9cc259166fcc94d60f0ef9b3e09dc67bb7e818c84f6efd
+    if_iwm.ko   size=172896 \
+                sha256digest=ade7bb594baca248fa43cbefb2edb896217e10e153d70e283e9416f97aeef9e5
+    if_iwn.ko   size=127304 \
+                sha256digest=0d80018b1bac7237e4508fc6c76b799e2b1faff3938376fb2bb7a9cbb4148621
+    if_ix.ko    size=312264 \
+                sha256digest=c71e411769be92089bfbd3aa6260058065663d16e6a59d2e14c4fc1c59cb58a2
+    if_ixl.ko   size=313200 \
+                sha256digest=056b477546580770b401a29e9d01cf9489c85056b116702805b2ab3c967e202d
+    if_ixlv.ko  type=link mode=0755
+    if_ixv.ko   size=241688 \
+                sha256digest=08af08340787015d445cc406a6e9150804995fe306be490264f0919aa56b29da
+    if_jme.ko   size=59736 \
+                sha256digest=a9085133c5721a63ae34e7b035f804b207e377cb5fba153eddc8e8530e280a5d
+    if_kue.ko   size=22544 \
+                sha256digest=bccc43912512362e70860d15a2fb4bfe2bfd0a2eac6b32a8dc909f5890d6526b
+    if_lagg.ko  size=86080 \
+                sha256digest=71f9d5ad58d9af8945b11d39f91e6da9a9ec790972b5b0d884eaaec4224a7c93
+    if_le.ko    size=32008 \
+                sha256digest=fdb5420c7f430bfd328bbbd983cbf5a6ca5301ab5ace76179bd79f6cc94eee42
+    if_lge.ko   size=27024 \
+                sha256digest=e0ef81497105640fe63f7847c28f15bf11ca989e176536ce560bbcd815ba72eb
+    if_lio.ko   size=1447784 \
+                sha256digest=9bcb69a131b1147bd940918cf024cac1e5ddab306fef3a9d8270e2415648e531
+    if_malo.ko  size=58336 \
+                sha256digest=df11e6b77fb34356cdad161ee3c6074c80b6fee78a8e7f1ce57859dbdaecf7db
+    if_me.ko    size=19248 \
+                sha256digest=c79ec5395f6cb1d4fa3fdd59f7e6ff0a9f7aaa18068bc49c73a604b0bdf2218e
+    if_mos.ko   size=31216 \
+                sha256digest=7e53911ba8679e68fb0d870b22c5e21db1f2cdb60c9b7d232606b46eba57a666
+    if_msk.ko   size=84040 \
+                sha256digest=9fa8b3c2de9a99919060319f57e524e0d4a40741e510093be088a9e680e2255a
+    if_muge.ko  size=47216 \
+                sha256digest=f6d908f17e9169429c6a210751e6152f46527e49b381c8501598c7494eb1794d
+    if_mwl.ko   size=126192 \
+                sha256digest=ad21daa9555d3ce2c095d91296ede0b382d76cf781d4c3efe12c5cba345e77a8
+    if_mxge.ko  size=89296 \
+                sha256digest=bc8f900ed206977e3565582ad6566d4c9ddcf1688b11f453407a9b7228d44861
+    if_my.ko    size=31200 \
+                sha256digest=ed9b9747193e015fa0fc87d2a7be1d965dd57f91d51cbbc8df48d0bdffb84ff0
+    if_ndis.ko  size=73496 \
+                sha256digest=bdfeb348267182207528d4ec8a1e3691a5f31ebc6b7ef7ff6ebe144cba48586e
+    if_nfe.ko   size=65800 \
+                sha256digest=243e3e80c4549e36ff4f8e6d055a34d9becf88a33f7fbc5d29d78a379005a114
+    if_nge.ko   size=42536 \
+                sha256digest=547817e29f50d88f59ae384806be1088af89c4fc8cfc6f42a2abc97dd77ae6c6
+    if_ntb.ko   size=17784 \
+                sha256digest=2fe8432b14d85d60df2b840f9fd16e3f25e8e423439b5d1f53c9fdb06cf17cfd
+    if_oce.ko   size=131216 \
+                sha256digest=8737f3d1c1a71904bdbe1445dfd79bc1ecfed3da38ae939ac0a0ac4b2aaf261c
+    if_otus.ko  size=79352 \
+                sha256digest=225c0c1603afc75bcd3e2bf6450d5c5382b5e6c84cd8c781c80dcddc51b65c89
+    if_pcn.ko   size=28472 \
+                sha256digest=1a7070110d4c4b7e58a84bf7a2e9fb0e88e0a16c06685454de6f115dae58e259
+    if_qlnxe.ko size=2063552 \
+                sha256digest=ef03bee98858fee71d120bd93e0cfd1a1f25d37cd2b77c65d0c3e8407be1944f
+    if_qlnxev.ko \
+                size=2111584 \
+                sha256digest=596360e1efe7c6b2962ba3452573ef567b5730449de1f12f466729f65124bd87
+    if_qlxgb.ko size=97760 \
+                sha256digest=4d8e1a65a23f45c7b780f56cf2baf06041e22f2340907e77d508e53504f32937
+    if_qlxgbe.ko \
+                size=2243760 \
+                sha256digest=44b8d6a54f6977c12ff59cec8795220fd39de60c9bccab145bde02ee311aa339
+    if_qlxge.ko size=157736 \
+                sha256digest=5d30fdb4d9de4b824a369e48052828aedd0491be3cbfb850b265a9529d6d411e
+    if_ral.ko   size=170192 \
+                sha256digest=2b46f2084eb10a4858e3b912f46413c1bfbd2ab38e9c7b988e6705f8d5efdc8e
+    if_re.ko    size=510480 \
+                sha256digest=aeef3e6476f878efcea55ed6c37e86178945ff87f6fc231cf0f31cf9d82bc787
+    if_rl.ko    size=36720 \
+                sha256digest=b0a37acfdf9268f3ea4e5186df5144edffd7a7806dbb952774d0fc98bcf40e2d
+    if_rsu.ko   size=84136 \
+                sha256digest=6dfda53151a76fce162944496387aff76fbda2f1108bfe82c6fd5fa5cd52381d
+    if_rtwn_pci.ko \
+                size=63376 \
+                sha256digest=647c1d5b92e80d26741ff88ebb317985c1160158994cec99bca794198c007d9e
+    if_rtwn_usb.ko \
+                size=107648 \
+                sha256digest=6a25d10be697e73074b5b20c40ccc5778c5bebf908f318ee9f28a59dc2dd522a
+    if_rue.ko   size=26880 \
+                sha256digest=e388a67946ea18a3cfdcbf92f12979754ac0f8f3cc245774cc1924c984599652
+    if_rum.ko   size=139384 \
+                sha256digest=ea768599635803899ba5ceb6f4b3bc0064ad92fcf63b2a52cdb77514315e2d79
+    if_run.ko   size=123456 \
+                sha256digest=5d02fd7ff42a9b04e7ab2e1aa1fa65a519eddaccca88a1d773955ca5eb148196
+    if_sf.ko    size=56496 \
+                sha256digest=4cdf671867eb63360adfa0cb3c0f3b8d41be53c5453a2863fe5eae6fa8712c4b
+    if_sge.ko   size=34024 \
+                sha256digest=83220b4fda62aa27f26792cacd3f8b9dbee1430cea5df4e45e4a8997a7afc7c2
+    if_sis.ko   size=37808 \
+                sha256digest=7bae45bcbde7bb3dd5c10b98c67a3a561b6a6bdaec60e2bf363363fc4627ae1c
+    if_sk.ko    size=60072 \
+                sha256digest=77af5d030c73965516b7e17bfca90149b2b1afa79c40f30c3578468acbd4b859
+    if_smsc.ko  size=36976 \
+                sha256digest=f02466c2400261ebc0842cc01a5c8508f7717e531cf48491d51580aa8ed364e6
+    if_sn.ko    size=30176 \
+                sha256digest=d9b7614f67104b75f671fa6e2cde994bcd98c1d52f44a600239bcfd65dfc7c0d
+    if_ste.ko   size=39992 \
+                sha256digest=aea7b29a378e3b630d1e37d80171a4264647bce9c9d73586967df1b60a8f13d9
+    if_stf.ko   size=23056 \
+                sha256digest=9ebdb985059e4d559c7f71bb9685a83d27d8f9962fe8db22d2e9dbbd99aa6ba8
+    if_stge.ko  size=38992 \
+                sha256digest=a7fec71dc9f8ce08af4edba6681d34ea0f39bef50fb7dafbef4b982db88989e3
+    if_tap.ko   size=33008 \
+                sha256digest=bd6a6e6a750391c99b2f0a57a64ddc9cff5ecd3bba85b096ca72d814d6c0d0cd
+    if_ti.ko    size=215088 \
+                sha256digest=256ea8b554a963ee7b00dc9e6f5d1e3ff7f104f460d97baf9eff8ff81d2a03ce
+    if_tl.ko    size=37208 \
+                sha256digest=98413f13743c7653ad1cdcf17952a7b0d7f0770183df5290b7d0b513f4ecf414
+    if_tun.ko   size=37144 \
+                sha256digest=b66c5d8bd1284b079fe743bcc0391b94e8527e445b9cac51c9fbdb5238c204fa
+    if_tx.ko    size=33208 \
+                sha256digest=fdc42b6dabf6db1a63420271ac98bde195d040297e199179522ded500eed51eb
+    if_txp.ko   size=102968 \
+                sha256digest=e9b9a4e5329f59bcafdacd5b2d816686b1ab47dcf40a5ae49dcc79942f31766f
+    if_uath.ko  size=50144 \
+                sha256digest=2de7a959664563c5dca33e13cedfc0add3d2d963cf4ec4fdc5f55b5d4283a7e3
+    if_udav.ko  size=22296 \
+                sha256digest=9faa1f903d6188392a966396905236b8bc8622df4e854d7531189f2dd0ead317
+    if_upgt.ko  size=35080 \
+                sha256digest=355ac355273ad08789d6cbff491a267ae4bc5d363ee696bfa777bfb0c47d5a53
+    if_ural.ko  size=81288 \
+                sha256digest=748c577a1a21c04e92d103877cd8af78e3432ea8afc00071eb65ddc7015d7d8e
+    if_ure.ko   size=35424 \
+                sha256digest=8c22db8875063f590369c5cdae66b03c67beb8dc79707fa1dc7a965b60b1de5f
+    if_urndis.ko \
+                size=27344 \
+                sha256digest=5d33b125057afffd2c714a693cc3671e055d02132b037404a5b8617b0c99e6d8
+    if_urtw.ko  size=118736 \
+                sha256digest=5ea8f162327f5bd43d213170eb0864f534576d69d6e23dcb7c3b79b0c84975bd
+    if_vge.ko   size=50640 \
+                sha256digest=9a18360cfbfd1b9c655bc2bea249c4c571e51ac06729733262a7e3a8cec3e2df
+    if_vlan.ko  size=32952 \
+                sha256digest=6327f3e404192c57d7751e7b18503639736f22a8fb2489aec7be54de6c070f87
+    if_vmx.ko   size=36432 \
+                sha256digest=2218aad36e739a1c115c44f6a5e02fb8afb54bcd5375bd7d2424a1702c4de8fe
+    if_vr.ko    size=43360 \
+                sha256digest=1db53d1fa172a2012f20d7882d606485666db2f7b46e91b917599938a1336e41
+    if_vte.ko   size=36824 \
+                sha256digest=eaf9c526d0af1d557172771fc2da58634ccd21e60fcfda1f1262afae2f50a82f
+    if_vtnet.ko size=77104 \
+                sha256digest=d7fbeb8e352228226afdf6c905643ae90983ec8daea7b8843d9a32d9abcac279
+    if_vx.ko    size=24808 \
+                sha256digest=290f1e31f0647a448b980cdcbb6f21d7caf69511b32b5118e8d3d0cf75848c85
+    if_vxlan.ko size=41640 \
+                sha256digest=7eac061b1d2c1e379391a6f23e074872f0fd200309ac664562d90f55ce4ae1cb
+    if_wb.ko    size=27168 \
+                sha256digest=db836446b699fffb53df76fdd7ecad7ded1eacdf5d05f13368ce9fee3ba5adc7
+    if_wi.ko    size=58920 \
+                sha256digest=404fde50cce19aa6ccdcd8578c133627f0f53437a769ff1d6d9fb7783cfdb7ae
+    if_wpi.ko   size=109712 \
+                sha256digest=ffa6ed71a6b65173eb50e9353ee53b4676c335d2e97d8625ccf02ccbbdc98892
+    if_xe.ko    size=47112 \
+                sha256digest=4937979436b3f17b4f4aaa625d20f1ce84e2101047de07e93ad95725a2cc7acf
+    if_xl.ko    size=56056 \
+                sha256digest=7162996a104991b4205d57099bae9d650581ea44cd8c458009b26cc2f4b7a9ef
+    if_zyd.ko   size=88120 \
+                sha256digest=91744b973ec5e9f7fb53d13098366c35f9e5823daca7d3f0ecb9dc446caf7685
+    iflib.ko    size=144848 \
+                sha256digest=15b6e58eb864bb2f4e177026e96a17eb784b55fbba3367564aad2b801f08ecf8
+    ig4.ko      size=33144 \
+                sha256digest=d7b055b6ef2c7f272facc8e6716946597f40de18f6aa666bbf89fef67c28498e
+    iic.ko      size=13768 \
+                sha256digest=530497d887a8bbc89fcda856c9695451f95ade0bbc9248396f6ea4f2f9f68317
+    iicbb.ko    size=18928 \
+                sha256digest=63a10a13347eedc9b9f1c50fd53de7c9b355ea39b610f8210ba1c68b5c0e9386
+    iicbus.ko   size=25696 \
+                sha256digest=78e9c5a5bf78e53e104e83121075485d42fd0792983ef7829f0958c02ca0c1c4
+    iicsmb.ko   size=13792 \
+                sha256digest=41997e02012ae68357edfa19549e810d8dcb5f32508a498cefdf406f66ab6fef
+    iir.ko      size=44320 \
+                sha256digest=98b6d1ab60224cfb528ba25b9e1fd7ed6976dbc50e51e8ef0d844ced4b9d8f5c
+    imcsmb.ko   size=14872 \
+                sha256digest=1387348a89243ad6bb35c73a78029d189b7eb7ab6441776a1043b1c0b415599b
+    imgact_binmisc.ko \
+                size=17680 \
+                sha256digest=5db2f4777f79965d4bc2268d036f6d66c9a326e52f7598f012e2f107da54021a
+    intelspi.ko size=10192 \
+                sha256digest=1cc56c268ab1f38ceda2acb9faa6326bbbf48e62b58c9da0055789a1393740b0
+    intpm.ko    size=23032 \
+                sha256digest=64325ab9d80a464c34f1e0c408a7f94a75a229f3344e6a62553e1e6a2e55147b
+    io.ko       size=5112 \
+                sha256digest=d8945cb4fdb39550fe57f72b32d45deec9f146c15f033ff58c90b0449216abb7
+    ioat.ko     size=69464 \
+                sha256digest=263b1dc33a6ae3482ef533ac72437396d61f5f31cc00d82dec3349ebee5339b5
+    ip6_mroute.ko \
+                size=35936 \
+                sha256digest=63c08970586e91f2bec7d89faa5f3fdddaeb3c1f8b3de4517deb6a982da994fd
+    ip_mroute.ko \
+                size=93232 \
+                sha256digest=75edaba954d6f6e38abc295d40eb95cdd0981ab5d8d8178d043a38c99303ab93
+    ipdivert.ko size=20688 \
+                sha256digest=0fbfaad0fb245463097301230b186e8a54afa69d06e8ba632853c20dd4b798a5
+    ipfw.ko     size=285960 \
+                sha256digest=af1ca31c6985dc8c9442bd7205682956408a1d1db4b88159cdf71eea837c7bda
+    ipfw_nat.ko size=24128 \
+                sha256digest=c970228211b8b0909ef92766ac35601ca6c2ea9715094ad1148fc9d22338f264
+    ipfw_nat64.ko \
+                size=104784 \
+                sha256digest=d4c9678cc5fc0cf0f8bc56e61f940a3a88a76777639c24843d032d7d173d3b6c
+    ipfw_nptv6.ko \
+                size=21280 \
+                sha256digest=73d84713426b29419a968ee8d3b4843e61c44ebff49f53dad58e1067bbc27fbd
+    ipfw_pmod.ko \
+                size=7400 \
+                sha256digest=b1f72d4766f4a011df6cf42aacff2f8e8c29ffe9c6c21b913b3f29c579e8935e
+    ipmi.ko     size=68568 \
+                sha256digest=acf6907de6f4d35cd877d1610443a5dad1c0aff6b4caf601243e34fc9654cb78
+    ipmi_linux.ko \
+                size=4752 \
+                sha256digest=1c2695dcc8819f61af76c98dce93640496c2b410a7b7bc7fab9273f515cb6ae5
+    ips.ko      size=42056 \
+                sha256digest=5399e2d4d67813eb826a1b78f1b30dd484b0729271a088b1ed3dd2d62a2820bf
+    ipsec.ko    size=135152 \
+                sha256digest=c4e4be8a85e210d22a308dfa0642d8aa97b5524b36dd803ee81d5d8b2f97409e
+    ipw_bss.ko  size=214040 \
+                sha256digest=30ec41d131d31409af0e8337fd1beb5bd80a85bf90eda2a3d51b5a698003069c
+    ipw_ibss.ko size=206016 \
+                sha256digest=cf938ec413c675f1cf1b7bde1e8994a9157393f555211b5610ae46393d582c19
+    ipw_monitor.ko \
+                size=201392 \
+                sha256digest=cc7d2e8cb34462dd95ffc2b1be61422d95069cb20bc7f1c72264a1816c500aeb
+    isci.ko     size=424232 \
+                sha256digest=50fc894c548a8a55d91c1b12770c3ec7103001a0e0ed479a26d8998aa46e2bb7
+    iscsi.ko    size=99392 \
+                sha256digest=e7fd84b1e862f60228e8ddf8230d74f9be133d0d51e7c33d4d1823900f4a23b7
+    iscsi_initiator.ko \
+                size=101928 \
+                sha256digest=07119824ac6670465a6b26ebb4c4fa3f6c6504639e1728542052d561b25aa71d
+    isl.ko      size=11944 \
+                sha256digest=547ff9fb8abc42b9eceb18270fcba1ebc4d9e2b1f787f9ff5d4b09fcd175ec24
+    isl12xx.ko  size=7416 \
+                sha256digest=dbf6f84437d95086f7a23d70601027cd27ab2111985dfc3bc1dbd254d2199cab
+    ismt.ko     size=15552 \
+                sha256digest=09e4db5a2374872a5962195e58adc728766ea48776f09e7fda853abcea47129e
+    isp.ko      size=257832 \
+                sha256digest=19ecfb995e3db4bf527482768d1900f16630b52d476ccf66c041a3c2af7afb5c
+    isp_1040.ko size=26664 \
+                sha256digest=6e2a8e78a11f89a79e2f2395c4ab5364ff3dbeb59700a6018eae0c93d8c1dc0f
+    isp_1080.ko size=35072 \
+                sha256digest=f9ad87dd741c2ea017af33c8e9458c922c93ac8f19283c30b4498e2106016b18
+    isp_12160.ko \
+                size=31800 \
+                sha256digest=e97d417d958c0f2515c877c66781f2a4b6da121041f832fd97b5542529c26976
+    isp_2100.ko size=80496 \
+                sha256digest=0796c746986cfd7d3e11bce7a9f58c2ed9b42530240e33a657f0b6a9bd10bd93
+    isp_2200.ko size=88288 \
+                sha256digest=66c1d91d14a333836df68f075d157f7b7f56a497f7b8a78c2d36b6e13d110334
+    isp_2300.ko size=128976 \
+                sha256digest=75866e075836befb7af938caf4d8cae0d15933adabaacacd7c7ce6380d8f9449
+    isp_2322.ko size=139760 \
+                sha256digest=f9263ee2f1519cfbb025b38e5e1a2353421c94e024f85742d2bdc7d0a0d204f0
+    isp_2400.ko size=269024 \
+                sha256digest=819f592d8ab1007e81daf4467d140477099a8116854a918bf1a2cd4d04175bf8
+    isp_2500.ko size=278848 \
+                sha256digest=cf873d113f19ecc3fb82da0344d86df58eb75b691e182a475251090933820d3f
+    ispfw.ko    size=1052752 \
+                sha256digest=664c19ae8259ec8ac8277cef81e7e7ed921e13719d3f497d72f2dfa9ecfd3a38
+    iwi_bss.ko  size=196008 \
+                sha256digest=908d285a2e6bb0da83b2293b34d5225deb3a35085f6d1933bc7e2460867424a4
+    iwi_ibss.ko size=190304 \
+                sha256digest=5deb4f63ad87b1193083aac2054c0261928212c7983cc41b80e6e2f83c815496
+    iwi_monitor.ko \
+                size=192768 \
+                sha256digest=800840e9533969c23268664d91ec1c9bfa074f6fc9efc1e612002d5ef68ceaf2
+    iwm3160fw.ko \
+                size=922480 \
+                sha256digest=f84ba4c15849d15cb221406fafe9c43fafe20e5f30222c43db1c0bb49bec8240
+    iwm3168fw.ko \
+                size=1032240 \
+                sha256digest=13f4353ea35947baf9073269fbb6d0e40d4cd7cf059b78d76d5e61b8b44379f1
+    iwm7260fw.ko \
+                size=1053552 \
+                sha256digest=98a80852af343759090001d052265aa29447d16574a8cf5a88b05ea38a41b8fe
+    iwm7265Dfw.ko \
+                size=1032552 \
+                sha256digest=0dab9732ba13fb65b0a2d4b7d9b07e0c4013e6b210972e3bb605d885d56f5dee
+    iwm7265fw.ko \
+                size=1184624 \
+                sha256digest=258fa1e8282886887e3cb8e95d65b943251025ef53e4b07aac24185ae927a6a1
+    iwm8000Cfw.ko \
+                size=2125096 \
+                sha256digest=7271a2e1943cdd5c92d0effd191e76b05e8d3a2b769807489459d594bbc6bf53
+    iwm8265fw.ko \
+                size=1816192 \
+                sha256digest=24f884493013ac612554be6ac51fb11aa79bd90a6f719afc02b07ca8201cce7b
+    iwn1000fw.ko \
+                size=341760 \
+                sha256digest=d6057457dc12a5c9b1d37b950dc233cb8a1176dc6a5d0644fca2c62034a2a470
+    iwn100fw.ko size=341800 \
+                sha256digest=e9fda075a9d74a69a4e17473ad26319537e947e532d3336db0e08f4186b56915
+    iwn105fw.ko size=693912 \
+                sha256digest=7c889e05410d68df1844df5ea1a4222afdf9ce1738c9f5cf98af3f7febb941a1
+    iwn135fw.ko size=705464 \
+                sha256digest=f8012923276e2015df8ab1fcaadb7eb8554494fbb23283bebe9c9398ce04262c
+    iwn2000fw.ko \
+                size=700128 \
+                sha256digest=8ca129df01e6ac395a56ed360fa31bf2a86ad9ad78d045c3862427ae63621e11
+    iwn2030fw.ko \
+                size=711632 \
+                sha256digest=60b0587fc5f4fe53eddead1b0cbacc9b7565a324af9b47b635a097b7887eaf92
+    iwn4965fw.ko \
+                size=192224 \
+                sha256digest=2bda3614b9adf916d2cf2f423d996b27b933bdb81150d321ae14f4fc3b78ad54
+    iwn5000fw.ko \
+                size=344936 \
+                sha256digest=301b199807c86fb393075d49a96c981ec6ddec534085b66bdecfb6b210def112
+    iwn5150fw.ko \
+                size=341640 \
+                sha256digest=a0aa2079a6d7c43358181d78cb41e6ead84236237481768d370429728de67ca6
+    iwn6000fw.ko \
+                size=458848 \
+                sha256digest=63be365049b8aa62dac040b0bc1dfaa3ec4a03ab9bf000bd80b51c4031e4c1cc
+    iwn6000g2afw.ko \
+                size=681600 \
+                sha256digest=e9c88f055a6e599886c3e67213415d484df0ce0c4674efa9100c5cbcaf3edfea
+    iwn6000g2bfw.ko \
+                size=683744 \
+                sha256digest=315c2034d32382f327bc38677ba9864e0fe8b0c08332ee32360dedffeea2f194
+    iwn6050fw.ko \
+                size=474032 \
+                sha256digest=597c143f54b098a673065c17981e306eb283eb7dc7680fefb5fc639c015c700f
+    jedec_dimm.ko \
+                size=19008 \
+                sha256digest=cda6555a210db7578a622dec0a1998085474db8e79502cec78f9ff2f20b57c95
+    joy.ko      size=9328 \
+                sha256digest=d8d7e9b9368ab1b24099fc08ae311754d156c1d71fc5429519164545d33ee6dd
+    kbdmux.ko   size=40320 \
+                sha256digest=ab2f48405378965188af66b2adf22ae8431d2cf09f13572148f1777774832bef
+    kernel      size=30547088 \
+                sha256digest=8df6f30744d00448e037e541d8c41cded276fa8cb98997e8a795e433530fd2f3
+    kgssapi.ko  size=88056 \
+                sha256digest=e9e614e936128058ecef35d2b6c8dd8f00759fbcb9d26fb702f9ad22eb93e2d6
+    kgssapi_krb5.ko \
+                size=51328 \
+                sha256digest=299f8dbb3925015b7a3c9deccb1400c399a327d2ffee8f421ec585c5646cc23a
+    krpc.ko     size=151640 \
+                sha256digest=3a5ba017fb36afa51710f722e85fa978e024293fadda731bd10e39a87da2602a
+    ksyms.ko    size=11456 \
+                sha256digest=46dff1f140bd1196aa561599c323d01b7ff2179c00cbbcb0c9d125ba6f87e179
+    libalias.ko size=77976 \
+                sha256digest=be4479125f5daef7248d9842030b292291c19bffd4c93b21552c66287a3f211b
+    libiconv.ko size=33016 \
+                sha256digest=6a9e8faed31968f5828148bce23d067b9dce767eedef9a5275c26ae752244537
+    libmchain.ko \
+                size=14408 \
+                sha256digest=520353b0b882263460367efd22d26e25c2544ae7c88f3fa7c04c2a7277a6ba1e
+    linker.hints \
+                mode=0644 size=426016 \
+                sha256digest=efafe73adb063b14507d59c89fb0fbae66c850a2d8f8e7a701422cdef32944bb
+    linprocfs.ko \
+                size=50688 \
+                sha256digest=b5fb251378a4643d5df91b9ec6a6fe699f973df00d0f642286378d96b55ddd09
+    linsysfs.ko size=24224 \
+                sha256digest=845f523aa05630d051bbf6adc28936cf3d64d4a443ea6a211bf3ef2ef666b43f
+    linux.ko    size=692120 \
+                sha256digest=5642a0a58ad88831bf78e78e006eb707847e2a694a98f848d78be2d39c239ee8
+    linux64.ko  size=578752 \
+                sha256digest=ce6116e7df1e69093e27448b835d17ffebf56d4129487e1a8135d45742f7f0f7
+    linux_common.ko \
+                size=35072 \
+                sha256digest=0351c6b72034973d3d6dec9b0295d284da8cb59d0714fa7e446dbfd650ccfc60
+    linuxkpi.ko size=151360 \
+                sha256digest=7b1d5372671c54fc6062979642649a58bf442aea0a90ed8023e46671a8be2c09
+    logo_saver.ko \
+                size=12560 \
+                sha256digest=589dc60f4ade3c4af10891da2c059fb2eef19e95d628048e138f0352fc403717
+    lpbb.ko     size=12088 \
+                sha256digest=b26e132b3c36d71e328c6749655c995da248c2aa17cc964ab835d7a89a244a4b
+    lpt.ko      size=19240 \
+                sha256digest=7a048cc975afa324fe9bd45c25add07471555aac37ece2df4c23bba7af54d917
+    mac_biba.ko size=82184 \
+                sha256digest=f8ec7fdfba3b9d6eea9290847a1bbc8645ba4c66682f86d7177262a77978727e
+    mac_bsdextended.ko \
+                size=20080 \
+                sha256digest=f595c3aa11599ab30f6715837891845648cf389bd3ea9724bb291a41cb14a770
+    mac_ifoff.ko \
+                size=9576 \
+                sha256digest=f06538877849bcde3f53f0c04b18168ad9236f7256b709d638e32239e87c1523
+    mac_lomac.ko \
+                size=72936 \
+                sha256digest=b338c2c0865f4c0133875c105df79c7fb0ecf1c344579e0f0cf78768dd92d87c
+    mac_mls.ko  size=61840 \
+                sha256digest=cc939a0e9bf7b09bdd14cbd3febc75bd0be1817a1466090fe0da434777e6c251
+    mac_none.ko size=3680 \
+                sha256digest=48f760bab8bae98c25df2082226502eb3446f482c0047337e4157591f3451d1d
+    mac_ntpd.ko size=7528 \
+                sha256digest=0d9d0c8b243bfe8c8827a005f9b36f65fbf62b824912a56d4950bd8eec7fce24
+    mac_partition.ko \
+                size=12008 \
+                sha256digest=d03d65f62b3faa0134bfd3ebbdfe276ee0abdba4741724eb750b1ef5d8c53b86
+    mac_portacl.ko \
+                size=15872 \
+                sha256digest=0f5dc11aa10b9cdd766ee6f3dbac9641dd77e7a2bf0d3d479599fbdc60411d2e
+    mac_seeotheruids.ko \
+                size=12008 \
+                sha256digest=cf3255313a5eafe9fc7e8dcf4adf94708306f5d44bbd334d53db4087120308e5
+    mac_stub.ko size=25504 \
+                sha256digest=d75f65c6087348e99c6dde8a0bebe0dae01fc72a92a8e5d086f95ec90c9e79e0
+    mac_test.ko size=175608 \
+                sha256digest=32925bcb95bf160b95b7023d3078f2cb3d2f995d44413b9d72512910bf117e2e
+    mach64.ko   size=68200 \
+                sha256digest=d1886576bc444e52b3a2ed5a8496f8c012ef4ebe91ebff874ed5ece0b6d20223
+    mdio.ko     size=6912 \
+                sha256digest=5a2b4d18a3370779a5eb112900cf3cf20eb3b767ce1d3677eb5036f8b2aa453a
+    mem.ko      size=31928 \
+                sha256digest=fa20ad977eda36d986df2dc7d9ab67fc2dd998f60ef3cd2303662a1c97762b50
+    mfi.ko      size=107976 \
+                sha256digest=e27ea4fe4a06a9d85d406bc1c8a739d7a653862257a6bffc936a4fdbf833cdbc
+    mfi_linux.ko \
+                size=5488 \
+                sha256digest=3ef84b26720a9661acdd2b18855a514b50ad4097ec35a035551e9f6ff81f64c8
+    mfip.ko     size=12088 \
+                sha256digest=ed2345dc41e766b297777fe9c67445bbea848b497ff435495de4c4828d26c8a8
+    mga.ko      size=79992 \
+                sha256digest=8473ff3cc256e125640c156e286a69d9f638921776f9d88d31a327e0ea1d2da4
+    miibus.ko   size=235872 \
+                sha256digest=d191b1c087b21070c25a14ddd6022a414cd5ec14800acb59df371f37a6b73bdc
+    mlx.ko      size=63704 \
+                sha256digest=afcc9e8bf712616340d33013490250d563b9f788e795903656d1093bafcfa24a
+    mlx4.ko     size=407592 \
+                sha256digest=5fa46594c89c64865b39a7c6a6488c32ba73c5e14e24c12cf3b85fc785905536
+    mlx4en.ko   size=141800 \
+                sha256digest=8facda3986272cbe12e441b6d9f34bdc021ffe2550bc9c1e55c8e826e9095a59
+    mlx5.ko     size=356840 \
+                sha256digest=8d0666413d09a97cae83243b1b743174866f8ca33564613c4bfcbf87c567b037
+    mlx5en.ko   size=224808 \
+                sha256digest=9fcbe4317fd4766d023f854172d1686ee98f74b915bf68d6ec4fefc90fcf54c1
+    mlxfw.ko    size=14576 \
+                sha256digest=58a6c5293c86f14c3334eb99236790c364f531247078c1aa263f68e1f3f5501e
+    mly.ko      size=51984 \
+                sha256digest=64c5b1c1e691b18f6ce4ff4311a0cf9bd6d5b2b33fb147d16ba8048a3d903c90
+    mmc.ko      size=69376 \
+                sha256digest=ecd5722db8ab44bf1d7a4fca02a442ea9f456ac6adebd136ce7e2bdb675092c0
+    mmcsd.ko    size=37672 \
+                sha256digest=ab7d5e1ce3b6dc98eb798daec5b966527c9de05b9f9ad25fe4595f4cf8e1e1be
+    mpr.ko      size=266768 \
+                sha256digest=20dbff36edb48f0a6b2aee63eae04f251fc8b0fae04fe7e11be9ea56379e620d
+    mps.ko      size=248056 \
+                sha256digest=41b4b982a72217225c63552b4fb7352074d4a0909a1dfba6eb53496fa48b53fa
+    mpt.ko      size=201776 \
+                sha256digest=d9049e6fc951d29f54a6c4d346623052ef63a817b787b8817c443ec7d2389b50
+    mqueuefs.ko size=49064 \
+                sha256digest=1624c492e3a499b9b1f44f70f799501e7711692cc25dd74406e155fa0d983536
+    mrsas.ko    size=129936 \
+                sha256digest=dd05682fb795b4ab0c0e88566ec1ef1c9b1b309950e0c9d82bfaa230ecf60d86
+    mrsas_linux.ko \
+                size=5528 \
+                sha256digest=9c6f62726960e61a52ba4136467f39d17a8c7d40e318596c2de2400a76594869
+    msdosfs.ko  size=75488 \
+                sha256digest=1345e80d004bf562eead3571bbe2accec504e6e90e870bb873936d4c57caa4d3
+    msdosfs_iconv.ko \
+                size=4736 \
+                sha256digest=ffe830c02f3a87fb09609412eaf5bbe1f2f4b8bc1b7d1886f7cfe1c893ed4b85
+    mvs.ko      size=58520 \
+                sha256digest=1bb11956f4bb25c3a0ea738a18f94f2b011f583e1557f4aef31cfcf3892e03a2
+    mw88W8363fw.ko \
+                size=101928 \
+                sha256digest=5232f6fbe5d96c639463c7f79e2cc8b661c548d9604c28198bea30e902c55f5b
+    mx25l.ko    size=15696 \
+                sha256digest=a95e89afe5faa2d60908f7f650e91c93fcf24cb5c0397f6a2086f9d3807d8129
+    mxge_eth_z8e.ko \
+                size=124728 \
+                sha256digest=ce3f16c24574dc50b5b70f1dd809366da473b1f6590163c2fe88c441bb32578a
+    mxge_ethp_z8e.ko \
+                size=125432 \
+                sha256digest=7fc7c417ab75e33f36507ced3b8fddb0956b5c59f7ff2deced59f651b991ac3f
+    mxge_rss_eth_z8e.ko \
+                size=156088 \
+                sha256digest=d4aee6f6099e2e2a362df9dd2b160d430c51bd19e2a6c57f916ba972e356143f
+    mxge_rss_ethp_z8e.ko \
+                size=157024 \
+                sha256digest=e9893bf028b62ef74723572d5b2769a57ede5772907e87b477fb9fd07296b18f
+    nctgpio.ko  size=16144 \
+                sha256digest=2c6a8ca6d0d1bbe1906651e2e72924ed4052420acdb578c82ffb4bd54f01b8b2
+    ndis.ko     size=187104 \
+                sha256digest=4b2ad34b0c7a7f620fc611df049a644e4fc7cbe0aaaedbd0c7d30635ac14af56
+    netgraph.ko size=89040 \
+                sha256digest=111341361f4ac2822f62c486d9fc72f1576c70cc291e405d860ae6d9278609a5
+    nfscl.ko    size=458784 \
+                sha256digest=7b4d088158750476dc0ec64ab869cb693de5d5c3791715fec57cfd7bc45925c7
+    nfscommon.ko \
+                size=155344 \
+                sha256digest=445f8b3c8c9cf86637c757ce4b8c8d92256f98f7c3d98d1d0742be78916409ea
+    nfsd.ko     size=429192 \
+                sha256digest=70f1fd7cb4b5449552f80d8dbaf9acb07fdb3e459f00fd613e606e49f87e571d
+    nfslock.ko  size=11776 \
+                sha256digest=11ba692d8bf219f148b940e70c5d220c1c67d396e3aa79be2110fc62b6563f20
+    nfslockd.ko size=99952 \
+                sha256digest=2396b8fd5667f521ac588a4dea2645f7de5277daa712658fb58a3e81ff4f3bbf
+    nfsmb.ko    size=19024 \
+                sha256digest=2c76c6989f16db543e442af4ed2473924d0d3337213c8411c992ab2e3c887538
+    nfssvc.ko   size=4696 \
+                sha256digest=f32810f2e8ac8724fbeb27818850c18dc9f98e9f339b86cf15ca36a14d2e5359
+    ng_UI.ko    size=5856 \
+                sha256digest=b32c705ebdfb6e1bc19632e0c12c22aa697fb43234d709ce2411069c4190d9d3
+    ng_async.ko size=13880 \
+                sha256digest=3299e1411988df158d5b86d9d6974a0c3fbf82c7811dc1937f711e55a0039714
+    ng_atmllc.ko \
+                size=6976 \
+                sha256digest=b11e624658153a44d2a6454b4c32b73d838f0baec268aa87188c36ca57548bb0
+    ng_bluetooth.ko \
+                size=11232 \
+                sha256digest=c6018f86d46929e2b6d7c054e0b56a4a1a8239faa8ddfd38c6567ca35e42e9b8
+    ng_bpf.ko   size=20064 \
+                sha256digest=210da380bf3394e2b2741f6594bc444a7c193e2f4b768f25647149dd691e18d2
+    ng_bridge.ko \
+                size=19424 \
+                sha256digest=7197176dd28c9fc336b45585a4e3b25579a3c594d23620eef76bab6e3cd19d62
+    ng_bt3c.ko  size=27488 \
+                sha256digest=1a9272ab71e1a3c0f1e96fb77ee0544e70fc0635ec59c2aa01f08c79246990e3
+    ng_btsocket.ko \
+                size=243032 \
+                sha256digest=103ed47df82b5deddc8d5567b634b420497202de06e5720e3355c7fb0a80ea70
+    ng_car.ko   size=13368 \
+                sha256digest=7a7e309fa1de97e4906e10cb136d440803fb165e396d9b2fba86aa4ad5e3b0e7
+    ng_ccatm.ko size=121160 \
+                sha256digest=5de4d71f14a7c2010739eaacbb840fab7ab15bb98f5e0c0ef7ae9ce6d157e361
+    ng_cisco.ko size=12904 \
+                sha256digest=4b1dacda8fbd2f1ba26af8d27d158970651679b1853f57b8cff7fa0d3fecd1a3
+    ng_deflate.ko \
+                size=13920 \
+                sha256digest=adfcbf653d70c21117fe12d0a4d2427f5948eb1606ddcefb69f1d71a35d1c221
+    ng_device.ko \
+                size=11264 \
+                sha256digest=15d9c2331fc6ad4cd8a251da163d3b26152944805b93e2c5bee9810bc3493dae
+    ng_echo.ko  size=4312 \
+                sha256digest=ea221ce029a122f996e18e8b6235f506212aba82913079fd0fcac12c9195a721
+    ng_eiface.ko \
+                size=15400 \
+                sha256digest=ab377212aab0d6aa1e6d8b4680ea6d4f1c9ce6ef48df7fda5734b2ca34cee5f3
+    ng_etf.ko   size=9592 \
+                sha256digest=7a48fc91de7e72c91476ceccf02fa23bbba329f842c9785518eefc54bb2599a5
+    ng_ether.ko size=18096 \
+                sha256digest=7f56fcdbec23d5c7064f5c9aad512b746169b0a0ff5963cac7239998fbfc31d3
+    ng_ether_echo.ko \
+                size=4584 \
+                sha256digest=de2feceef71978b39b52e933ea2f9fff539b5733167a937955567fd747ae49d3
+    ng_frame_relay.ko \
+                size=7496 \
+                sha256digest=7353830597de041de02c64cc1ad239d9c9f766adea72044657495750213aae27
+    ng_gif.ko   size=10768 \
+                sha256digest=74a509c8b5c7af73c5c4156a531bfc0fe7a6708cb86a00a141a080034d655fd9
+    ng_gif_demux.ko \
+                size=9320 \
+                sha256digest=acebbc2d6c6ffd5327f72d90bb8531286609d6b3f2ccf5d6aeb97fbb6c9f3510
+    ng_hci.ko   size=74152 \
+                sha256digest=cbb3453d9cd36d8cf836b4630d3be737449515ec8ebc13f0b7595194a7229542
+    ng_hole.ko  size=6360 \
+                sha256digest=0f7d384883621b4b5e00b794bcce66c5ae16e7d6aed209f432300a0b1623ef1e
+    ng_hub.ko   size=6456 \
+                sha256digest=221487b53b3cec0dcef24df67f21c797884aeec5348b32817d8a28857702ba1c
+    ng_iface.ko size=19248 \
+                sha256digest=41ab9f0e62acef9e9330ac2400fce869e996625d61a64c766fc4837664b18fc2
+    ng_ip_input.ko \
+                size=4256 \
+                sha256digest=b3bf164d088e7fc3e44a84a45a1c89a63265e5678bd01672dd95fde4a9145dba
+    ng_ipfw.ko  size=7672 \
+                sha256digest=b083b8dbddad03aa43784521c13e714ae5f27a077e08fc104c770651d7f6453c
+    ng_ksocket.ko \
+                size=23792 \
+                sha256digest=f08ddce3a3d517d45dbe5a75f54e611f3f22ccc1797f43b5bfba99df19621e53
+    ng_l2cap.ko size=93120 \
+                sha256digest=b9ea7fd5fc97db90bb30acf6ea9091b26198561e90ae9031b9ef38399ff35662
+    ng_l2tp.ko  size=32520 \
+                sha256digest=e7dc6eeda0d6b1e80843651a3e105a2ae947a0cc4b59bdd3685394da4dbdb94f
+    ng_lmi.ko   size=16024 \
+                sha256digest=6e379df11501ed1b81c1c55dacde9fa42aa71643adc7db8fb962da19a47d55b2
+    ng_mppc.ko  size=24584 \
+                sha256digest=c858ceb931c2751fca1675c98f376b9f691bba5b5b569097c4bac0179976c852
+    ng_nat.ko   size=18584 \
+                sha256digest=7e8ebe5c23a7f241edc3f969745fee79266e6edbaa7c2a672555a93370c02896
+    ng_netflow.ko \
+                size=44184 \
+                sha256digest=609379e2044922187e6f7017c23dc493addd429747e07ee68d387eb6de20367e
+    ng_one2many.ko \
+                size=11088 \
+                sha256digest=c3f1b1af52b5dac820b87312642b9faae16ce8527781eee631ddfbdf68ec1a72
+    ng_patch.ko size=13984 \
+                sha256digest=df98276d0534c8f944dccfd1d4fceb52f2757e7f9b6de1f048dbc013fed2b43b
+    ng_pipe.ko  size=20136 \
+                sha256digest=658d45f23615f46c1d7d921da963c2c4ed81bff969bd7ddaee523a23005bf58b
+    ng_ppp.ko   size=38736 \
+                sha256digest=2f323dad94fa4368933f080518f3ae2b7ab7d8c851e5f99943233c7aef168c30
+    ng_pppoe.ko size=35296 \
+                sha256digest=6956444d3e86d9d6c1350a03f78bbcaacb4b1f63c7eca3a7bc5be683cd18ba5c
+    ng_pptpgre.ko \
+                size=29104 \
+                sha256digest=c023ede67aab451eee4af3c4934b053e9db551a81c943c6947e37d8061d0699d
+    ng_pred1.ko size=14008 \
+                sha256digest=f28175810f39928cb91a6ee1c9ccf72cc75f667b9397d6ea32523b327a5d5dfd
+    ng_rfc1490.ko \
+                size=9568 \
+                sha256digest=7ad13ca0e796cccb6b97fa83e5c01b469fb07253db6c0582682a7bf9cde9d60f
+    ng_socket.ko \
+                size=25568 \
+                sha256digest=fac2bc2125545969c413df4208535f76017fcd55b4715236f5fa2be27e7ee269
+    ng_source.ko \
+                size=16240 \
+                sha256digest=4cf337e582cb065f8e4a10e7913b9bce243998061146a4f063714fefb3821b18
+    ng_split.ko size=5208 \
+                sha256digest=a48322483d15d31df727ed2dd8100d75a1414687e4d2cfc374531a40059c8192
+    ng_sppp.ko  size=10216 \
+                sha256digest=c6aeef16009d47ab4c60fea47de23335487e31a91f547bba493d418539112dee
+    ng_sscfu.ko size=20896 \
+                sha256digest=979d81e4ed7c6c5cf2d6a40c02d6c46d4800283cacf894ffe55a555159ba1f7c
+    ng_sscop.ko size=125312 \
+                sha256digest=fe8fa74daceb7a4bc4dc2614d3158ecfa615276a81c3bf62a66e43ddbe92c538
+    ng_tag.ko   size=12064 \
+                sha256digest=d8f1bf0927a5f4769580445890782c894b823df82681ea11827db7c0cbed60e6
+    ng_tcpmss.ko \
+                size=8480 \
+                sha256digest=6b045597dcf8c375d7f32a058cf596d42703534e230d7c68e50e0a763bb13cbb
+    ng_tee.ko   size=8744 \
+                sha256digest=5c3709c23e56aa53ca03a823f2db4369161b59d476b8cb5e78f6f056e5481c70
+    ng_tty.ko   size=12392 \
+                sha256digest=150a6574173a07c8bd84ae1d1b1a97ff646b08a3cbb80299faf29c78655b932a
+    ng_ubt.ko   size=39648 \
+                sha256digest=70fd060407bd55580db18808a212e7848f2a45835d2779c000075a8c719ad682
+    ng_uni.ko   size=185208 \
+                sha256digest=3bf0f02affb44ef96a378890b956c543d1a95e105de7a116e0165423c3408302
+    ng_vjc.ko   size=17368 \
+                sha256digest=48478bc662e4ffca98258067340a176e402af197c462101eb81b44b5c3e6601c
+    ng_vlan.ko  size=12032 \
+                sha256digest=2677745a99e9be5cc096f0f389f2b9a33740ddf4bae99ea3b80da9d5559b5449
+    ngatmbase.ko \
+                size=311592 \
+                sha256digest=74e14200d004c60ce405a8eb3cf2458e2bfed62adf8dc9d7f55ff9d8b1d97ff3
+    nmdm.ko     size=10384 \
+                sha256digest=7765781418c8e7fe98f7309a18e127a0b2f3160eaeeffcc31a3819e66cbd4430
+    ntb.ko      size=22224 \
+                sha256digest=0e0af262aa1fed1aee98473fac7a3669d3eddf01f02fd86f5f564ed5aec27621
+    ntb_hw_amd.ko \
+                size=35504 \
+                sha256digest=9b1d3152a3c043f042ad088f9779d2bce1e011e80b068718a01c3b9ce477ce4d
+    ntb_hw_intel.ko \
+                size=70680 \
+                sha256digest=ea7eb306cf6979992a45540817705688ed2a048db14e9e6c325b9eb49c9c9a1d
+    ntb_hw_plx.ko \
+                size=21984 \
+                sha256digest=6541dfc0a423ddd0ff23ad218e2f62db1eac387d4c7e0be9bd5d30a0ca629afd
+    ntb_transport.ko \
+                size=31936 \
+                sha256digest=0ee0c0bfc3ffc962adf5c4f9f0b699b9241c1fb7c32037cd3c0237e3518d7f85
+    nullfs.ko   size=28040 \
+                sha256digest=380e4fcfe597bf067911a6ba534c91fb58dd197a7dde5a60077bec631071e4d9
+    nvd.ko      size=17960 \
+                sha256digest=c5daac8092119bc2f1bfe03ef9f48f39c5c169a289e867c58810cefd86b687cd
+    nvdimm.ko   size=35952 \
+                sha256digest=cc2255072359f5153f9b9627c60aa71eef6b2bdf28572b2043f9b728417d0d37
+    nvme.ko     size=102128 \
+                sha256digest=3b4350cf4dd53f18efbc20f8f9035c96eccdd0060c2855e458658a19682dec29
+    nvram.ko    size=5688 \
+                sha256digest=b90e49a1b41d0f2dfb4bae798a29e95655fd7cff3630580cf64248aaf5ecec6f
+    nxprtc.ko   size=14504 \
+                sha256digest=bf2323452586986f1dd6e865a55ca4d66f2a5af4f41d1c6f7b172a49ccf27b09
+    ocs_fc.ko   size=967968 \
+                sha256digest=a19503b892534b1bc3687d6a4850e856c0ad9e3c41950fb80cbe5ea1a9e2bb4b
+    ohci.ko     size=57064 \
+                sha256digest=8b422845cd4febc1568c575223c2ac369c2f25006de0a3ab31a9aa5bbd2139eb
+    opensolaris.ko \
+                size=14160 \
+                sha256digest=eabb3b6e735682aa099b12315d1501e7b25b8d069fe5b274056b334789bfd36a
+    otusfw_init.ko \
+                size=88200 \
+                sha256digest=25ad45c6fef7b628769316ebf5b39318b9a4333be267b70da1491dd2f41e9396
+    otusfw_main.ko \
+                size=7752 \
+                sha256digest=2bc2f99665a698cba8b3df23956de3018ed876fba93a25ca58d89de777c7bee4
+    ow.ko       size=17952 \
+                sha256digest=557c4850a12550f2e36fa078eaef6d369a340df8a8ac2d24510f37c7e29b7169
+    ow_temp.ko  size=12256 \
+                sha256digest=cc2e9f67d1b025892a3d441311d9ec34c5c63a5c081927b37f079946c1b5f3f3
+    owc.ko      size=13176 \
+                sha256digest=4714dc32e63a99517d30ca24a04f919adf2e24d3e8d33d9f5ea4bcdff6d60872
+    padlock.ko  size=18056 \
+                sha256digest=05a1db5dbb0547ebfb72bee5d3309d7807fae1328951b4056034254a2e0d0ffd
+    padlock_rng.ko \
+                size=5136 \
+                sha256digest=e5d6ee7d767676dc39e0bb02eb8213a7fc739dfe2a9c2d94ad2e0a167ef48747
+    pccard.ko   size=74904 \
+                sha256digest=ac4e4064c6134ace53a29565678d9cd19c04ea524e5a33c9e069575b1a1ce638
+    pcf.ko      size=10560 \
+                sha256digest=50df4e357b164e183943010492a9c16e45d5857d760ce996659348aaf4e7ce9e
+    pf.ko       size=348176 \
+                sha256digest=40cea0b368dc482659db815892adad8311e249ce83292be0cf90c7a6e959519a
+    pflog.ko    size=10480 \
+                sha256digest=773ddb6f2bff4e8ddeeeab7e06877205cd682ad4278b832c7305b9f18215dc21
+    pfsync.ko   size=56832 \
+                sha256digest=451227bc8509057fdb72558ffa7d8d1d25d05dd0f5340476c1c3270736507091
+    plasma_saver.ko \
+                size=12408 \
+                sha256digest=cdb75d8f11f4408614a49a37c3a11402761fc953902a1aebead6b5e51e6534a9
+    plip.ko     size=24592 \
+                sha256digest=93ef120b9ec84b7f3d59d2cff0426989f0fe8121d22e8ad69a2ee8fdefcf7c2f
+    pmspcv.ko   size=3404592 \
+                sha256digest=21c90daecd91f5233dcc0f9e0fc155616ddf7f89535e33a99989e8fbf0124b7f
+    ppbus.ko    size=39744 \
+                sha256digest=369f740d2b25d5ab218ab7d8d409b93ab3a9b78cb7a1b3d9cee834dbad34cd4a
+    ppc.ko      size=33232 \
+                sha256digest=0be63543265ece76db1da736f2383a351c79d9d4ebec48fb4d050d2c272a9f82
+    ppi.ko      size=24792 \
+                sha256digest=8489c4c9196f5bea6b2d640721772599e2e5f789fefbe436766dbf0ef913cd2b
+    pps.ko      size=20256 \
+                sha256digest=ecfc1a38a7a3f3a0ae300ce8299a6bdb4c29eeff3ef05706e5ceb03b59900592
+    procfs.ko   size=27048 \
+                sha256digest=f4cc8407372f51d73dbec546b0107fb3bd7c40b76f5dfd5aebc4887812078343
+    profile.ko  size=14056 \
+                sha256digest=54b34ea2067305ffeca6a7dd0724674162936f7e329e672a82f4afd7c7637639
+    proto.ko    size=25024 \
+                sha256digest=73b5cbab97e6418844894760801ce9f74e7c8bd4e86216791b0575488ef33280
+    prototype.ko \
+                size=6528 \
+                sha256digest=f2f2142358cc4c67b6f694abaac13b965723b44878967c49626adeaa134f62f7
+    pseudofs.ko size=41840 \
+                sha256digest=0455461360fc126b57dee3c553742938fbba39432e0ef785536e636c1057fea0
+    pty.ko      size=5992 \
+                sha256digest=ca8ed68c28657395b9b88763cc20ffbd9a5d4dcab258393414a464219a9d8977
+    puc.ko      size=53528 \
+                sha256digest=8e0b84cdc410c10e43192d7538a2a49cf3019274aab9656b4872e313b4de9594
+    pwmbus.ko   size=12368 \
+                sha256digest=13d466658caad06eebff8fac0fd8ed9af0c49dd401a899a11173484a4eb6d47b
+    pwmc.ko     size=7768 \
+                sha256digest=9f0d48aa8aeb36633836d806982b9e1bfcd382493099e737dd9aa771ca36d641
+    r128.ko     size=58048 \
+                sha256digest=0a7b8f05c28c534303bf2e68181b23e913da839657260ba3e079180a9a22ddce
+    radeonkms.ko \
+                size=1393016 \
+                sha256digest=03c730b752e84fd92e76023f1acb1afe5001609684941aac6ba2d48d4f77199e
+    radeonkmsfw_ARUBA_me.ko \
+                size=13088 \
+                sha256digest=5e0ea758bf6e40b628a21f6daa11e06649958a4cfcd16f9baf0b861b88be16d0
+    radeonkmsfw_ARUBA_pfp.ko \
+                size=13112 \
+                sha256digest=2d6823c5d6173dd1cb32ce1023038a0e505fd6d23c1400a822e7a3ed2d72abbe
+    radeonkmsfw_ARUBA_rlc.ko \
+                size=10552 \
+                sha256digest=82268f159d358d2889a8df09b8b610fd6eae31c017c4cdf863569374710d5a71
+    radeonkmsfw_BARTS_mc.ko \
+                size=28480 \
+                sha256digest=c9dcbec81ca8fde3cd47ea6ebd51105d2878e3154e74f36e0ef60f59183db202
+    radeonkmsfw_BARTS_me.ko \
+                size=9888 \
+                sha256digest=94bd22ddd34edd21521275be5111cc0584987fe61896896fbabe7f2a8e0b6b02
+    radeonkmsfw_BARTS_pfp.ko \
+                size=8888 \
+                sha256digest=da38e5ba3053f943a2a670b19d9e65302563db3bb0fb746065425e87d96d95f1
+    radeonkmsfw_BTC_rlc.ko \
+                size=7440 \
+                sha256digest=9e3dd2b1e45083fc82074c4cbc900be39c6150adfa0a9250803478da95679373
+    radeonkmsfw_CAICOS_mc.ko \
+                size=28504 \
+                sha256digest=01d541ee3b82cef27f32e3d4ebad3872ec6b4ec82b0190dfe0c8dda0a27f603a
+    radeonkmsfw_CAICOS_me.ko \
+                size=9912 \
+                sha256digest=0eb5b87daf6f52e5414c9f8e57f6f97a3cc3daaf3c0dd93f06e9912a5f33a24f
+    radeonkmsfw_CAICOS_pfp.ko \
+                size=8912 \
+                sha256digest=1275f9e861a58d6d5a6c9702386db15ef74d9b3355b81c2d365ee19237885947
+    radeonkmsfw_CAYMAN_mc.ko \
+                size=28568 \
+                sha256digest=99bbf4e5cccb2029b9623373a656683847c91843084b8b80fc3a07f99fe8180a
+    radeonkmsfw_CAYMAN_me.ko \
+                size=13112 \
+                sha256digest=25167e16d9fc7b28a632f7a112b9c61d4ffa7a838d02e91b34b1c320d4b3f96c
+    radeonkmsfw_CAYMAN_pfp.ko \
+                size=13136 \
+                sha256digest=bd24ccd939b3ff063e44253f1abaa5b4d51dc994213523f6cc9bb0ccda7a1635
+    radeonkmsfw_CAYMAN_rlc.ko \
+                size=8528 \
+                sha256digest=c80442fc00509f78300fcb5098c71ced2e0b4b4f1f622554470b3c4485033a91
+    radeonkmsfw_CEDAR_me.ko \
+                size=9888 \
+                sha256digest=9d80ac08fd6ad62f4b97bc6dffe0e7d0e03e4b6bcf6e4aff9a95c34b9388a904
+    radeonkmsfw_CEDAR_pfp.ko \
+                size=8888 \
+                sha256digest=8499b9b3d0f7641055758217c11f498989fc82e8d1958607455d6fb453dd1395
+    radeonkmsfw_CEDAR_rlc.ko \
+                size=7480 \
+                sha256digest=ba48e48e5ca0141c6f236442cd29157a0bd50f86aa133ae0015976adf0bfb462
+    radeonkmsfw_CYPRESS_me.ko \
+                size=9936 \
+                sha256digest=964f3e3ee362c3246ed9bd822a8e6c99bb88e1072261cdaa1c219d496673dd71
+    radeonkmsfw_CYPRESS_pfp.ko \
+                size=8928 \
+                sha256digest=1fb501f7a5105d415185a8635bfdecebad253d24699f6357f83a709021979b6f
+    radeonkmsfw_CYPRESS_rlc.ko \
+                size=7520 \
+                sha256digest=a9f4764759f83b0e2c41642b2e2008157f9e8798dcc938cc5b573fc7e201d9ab
+    radeonkmsfw_JUNIPER_me.ko \
+                size=9936 \
+                sha256digest=77c223e264e99495a140d1e49f0e4a4d2a7da9eac708deda3fd6f177617f6d38
+    radeonkmsfw_JUNIPER_pfp.ko \
+                size=8928 \
+                sha256digest=29c356d1d3e3d8a12b142972c42103c556940f4b882fef50bece515a6744ea0d
+    radeonkmsfw_JUNIPER_rlc.ko \
+                size=7520 \
+                sha256digest=198281ee52a034ea1157788f78937d9983b885610db413e1a2d6c3e584a6b938
+    radeonkmsfw_PALM_me.ko \
+                size=9872 \
+                sha256digest=bcd9375829bf2d354439579c8ed70bb73aff3af4802e084d7b18f3cfc8427ca4
+    radeonkmsfw_PALM_pfp.ko \
+                size=8864 \
+                sha256digest=c7b70ef07dfddd6f3e88160de9eadc2f452e1d44138a70657b8943eb41799cbd
+    radeonkmsfw_PITCAIRN_ce.ko \
+                size=13024 \
+                sha256digest=23e14aed0300a7943543018e5b7512495c43dad48231cb8190ba7632ede13cd2
+    radeonkmsfw_PITCAIRN_mc.ko \
+                size=35536 \
+                sha256digest=dad359a344f99f0db2a564a801e390029f761b588b725bfb2b6997ed4d6d7531
+    radeonkmsfw_PITCAIRN_me.ko \
+                size=13024 \
+                sha256digest=026d7997e77e2be26b22aedc78da3e23977c2932578d9f83128635bed66dd8ef
+    radeonkmsfw_PITCAIRN_pfp.ko \
+                size=13040 \
+                sha256digest=f6a1dd16ff5a2818b2809f57fc9a280d7cba7d29cc70b31b6c13f12b3bb37b34
+    radeonkmsfw_PITCAIRN_rlc.ko \
+                size=12656 \
+                sha256digest=b4df400caf2925cdcb5fa369aeb9fb4e830828343a67435abbbe1cfc9a3b6de6
+    radeonkmsfw_R100_cp.ko \
+                size=6416 \
+                sha256digest=0bd2da128fa38bd605ea0310a628f6715909efd5925bf20e445b35a96b4a78a4
+    radeonkmsfw_R200_cp.ko \
+                size=6416 \
+                sha256digest=ea5782fc797a25a467b7661670049dc93d8341f8cab7ba62a5ff82099fc12118
+    radeonkmsfw_R300_cp.ko \
+                size=6416 \
+                sha256digest=7aef1e8a1da31a8d1c3087983e6d601e653e3a5d7adc4e74be5c3b75a27cfde7
+    radeonkmsfw_R420_cp.ko \
+                size=6416 \
+                sha256digest=2259fcccb87fc026c8c04341aeb97a9b2b147ad7cf49bd05074803ef4631192f
+    radeonkmsfw_R520_cp.ko \
+                size=6416 \
+                sha256digest=220bbeb18506a84fee8d3f629d7d21e73102211d6c546887ca0300c8b0be68ff
+    radeonkmsfw_R600_me.ko \
+                size=25872 \
+                sha256digest=b3a051a5fe2dbad492e5f91a3da7c3ff90f880fb2303ce5157cecacc3df44e9d
+    radeonkmsfw_R600_pfp.ko \
+                size=6688 \
+                sha256digest=cdc121dca98dd78c343c08e9a6d57e9b26ed28e28fb129e07a52e457af0e45d3
+    radeonkmsfw_R600_rlc.ko \
+                size=7456 \
+                sha256digest=10f7b53902b0288b2773ea368384f6fb65920b58af8aa6fb51842356dd0430a3
+    radeonkmsfw_R700_rlc.ko \
+                size=8480 \
+                sha256digest=e873c0914281a0f44833f1a6610dc7d13bfe22b4a80ecb6a0111ce7ee9b25261
+    radeonkmsfw_REDWOOD_me.ko \
+                size=9936 \
+                sha256digest=f4dbb5655a8af58d9dd06cdbf4872fcb5e4bca5263b75561ceb2d266b4a802a1
+    radeonkmsfw_REDWOOD_pfp.ko \
+                size=8928 \
+                sha256digest=97bcce856aa3bad48931d2bac992fb0eb5117513ae338cf347bc1e0570c342e1
+    radeonkmsfw_REDWOOD_rlc.ko \
+                size=7520 \
+                sha256digest=48ec1b60b7f918550536e03dd90061494a25719ed42755d5c6f0b5039c4be6b6
+    radeonkmsfw_RS600_cp.ko \
+                size=6432 \
+                sha256digest=abded7b87e7ddfdc5bb3a2542221b1f850d9cd5fd34499249d7f1b3e9e90bdeb
+    radeonkmsfw_RS690_cp.ko \
+                size=6432 \
+                sha256digest=e119954caf180ed2c1a5c8e17289ccb8dc90b6185235bea61d9452b3df2ecbb4
+    radeonkmsfw_RS780_me.ko \
+                size=25888 \
+                sha256digest=533fb427d4ad05f3a0852615842f711a601da8abd945d2dfcaa7f32f570e050a
+    radeonkmsfw_RS780_pfp.ko \
+                size=6712 \
+                sha256digest=dae799f2387c1439047a2d1e125da11b9ae4e86ffe80edabe867c2293d7768fe
+    radeonkmsfw_RV610_me.ko \
+                size=25888 \
+                sha256digest=f5040c83fb4c18b195aeae8ad17b7736cd0a76d056410c552cad5136d64cf91f
+    radeonkmsfw_RV610_pfp.ko \
+                size=6712 \
+                sha256digest=e36dcf5518c68b398bbfe3e44c9f9b3ab5e92d91653f88f88fca86c09ba2880b
+    radeonkmsfw_RV620_me.ko \
+                size=25888 \
+                sha256digest=13b9d0665831bb7805daa9834002040c4ff356c0c1748254ae2b2b6fb587374d
+    radeonkmsfw_RV620_pfp.ko \
+                size=6712 \
+                sha256digest=77b97d697ad4f462b9e737abe81eb176d042f9238ee800dfe65d4bde3af9e4fe
+    radeonkmsfw_RV630_me.ko \
+                size=25888 \
+                sha256digest=f5991bd0adf3a1912e085f45ec42cde206da4ae64a23f789543abf59109c05a0
+    radeonkmsfw_RV630_pfp.ko \
+                size=6712 \
+                sha256digest=16fb36c121582583f48ae26cebd404ed027ca5421a61f789b1d280c815377a5d
+    radeonkmsfw_RV635_me.ko \
+                size=25888 \
+                sha256digest=f6fb31f3d861beb76264422f43245d4b61a8227e7c2a1ad0708f4b65f40c7bc0
+    radeonkmsfw_RV635_pfp.ko \
+                size=6712 \
+                sha256digest=37f01fa0683b20ec0f60b60d2a36cc7ecc21318e0b31147439eb25056d1d6ebe
+    radeonkmsfw_RV670_me.ko \
+                size=25888 \
+                sha256digest=3589d974a8e0695690b9f6864ee1f79418f84190621f969ac05700430d18a184
+    radeonkmsfw_RV670_pfp.ko \
+                size=6712 \
+                sha256digest=cf577e0fc195c58f66669796a2fa76ec034414a2e7ea0bed0dac5ef953dfa5f1
+    radeonkmsfw_RV710_me.ko \
+                size=9824 \
+                sha256digest=81ae254608c12f4383c0f24c6a0313440d0440c6bbdd107196d1f6ad45205483
+    radeonkmsfw_RV710_pfp.ko \
+                size=7800 \
+                sha256digest=5bf9c60d9eacb667b709ef2b7f09c5b7d8439fd5b36638c6cf71d00dcf7a94da
+    radeonkmsfw_RV730_me.ko \
+                size=9824 \
+                sha256digest=9a5d161a42c85f22ae159ef1c643b08ee50fa6d1edaa124ef923b727a69b619b
+    radeonkmsfw_RV730_pfp.ko \
+                size=7800 \
+                sha256digest=ba498848da70884dba5ade014dceca4aa481ac5251439448d6ed0ddd5c90f504
+    radeonkmsfw_RV770_me.ko \
+                size=9824 \
+                sha256digest=2f92b77b3edc81f78d41a835be393e40e8fd7e4c85ca2f1d2c3991316717ec57
+    radeonkmsfw_RV770_pfp.ko \
+                size=7800 \
+                sha256digest=f074cd55dbe0dfce74f5c2feac32ea4fa7387aca137bcfa08c0e4a498d9ae48e
+    radeonkmsfw_SUMO2_me.ko \
+                size=9888 \
+                sha256digest=e41150143899ae46330178f10ba69c600687980bf5baeb1667219cad0f7c09af
+    radeonkmsfw_SUMO2_pfp.ko \
+                size=8888 \
+                sha256digest=bbdac00375e269ff0c82ac01809c5900d157ed7c73c8a8c9fc752158a94e0f99
+    radeonkmsfw_SUMO_me.ko \
+                size=9872 \
+                sha256digest=900e986354b95c6c6146f4a4b192b1621e8da84425fc607625d783cce4f11e49
+    radeonkmsfw_SUMO_pfp.ko \
+                size=8864 \
+                sha256digest=034d5db1dc70160ce1135f41e2c3505df4c433eb5065484a55013be8ae34527f
+    radeonkmsfw_SUMO_rlc.ko \
+                size=7456 \
+                sha256digest=153aeffe442cb5843cf89fcd51d4b957c10a4dd88c72aa56acd0f9cd29a97960
+    radeonkmsfw_TAHITI_ce.ko \
+                size=12984 \
+                sha256digest=6caf139dccea2da0efc008ee855d9b3dc32ce7aa4afe009585afe185070322c0
+    radeonkmsfw_TAHITI_mc.ko \
+                size=35496 \
+                sha256digest=26fd6d22f692a351a97cea377fbde5e31ab2503174d99be9c174a6e4a1c36d24
+    radeonkmsfw_TAHITI_me.ko \
+                size=12984 \
+                sha256digest=0be18d20560ad4e9e7ab2632194147721a09b588e4302338f83157eae4b325ba
+    radeonkmsfw_TAHITI_pfp.ko \
+                size=13008 \
+                sha256digest=0600adcd4bf56a7d1aefd54babc99a7f043685089d1dcfcc995dccdb63d3c90e
+    radeonkmsfw_TAHITI_rlc.ko \
+                size=12624 \
+                sha256digest=01a25d84d11a6d1e084f8c3a809b0aa7b2c01db4a8dba51dfa44351fb7232c1b
+    radeonkmsfw_TURKS_mc.ko \
+                size=28480 \
+                sha256digest=0bd641fed84a706cf09c8c06c52e13d5dfb9a75f80429f5d295653c00931ff85
+    radeonkmsfw_TURKS_me.ko \
+                size=9888 \
+                sha256digest=a5afcb859ba8e9fc77dff7684f1dd9b955083f09dc8adf69849413859bd27a1c
+    radeonkmsfw_TURKS_pfp.ko \
+                size=8888 \
+                sha256digest=32fadf270070f0ee150899ed8fa065504a2cee3925971f35c19233f996c0d52b
+    radeonkmsfw_VERDE_ce.ko \
+                size=12960 \
+                sha256digest=c0f1aafb8a988c9286f86c3535611b30defea335647a13d0c69dc29b4ddd5948
+    radeonkmsfw_VERDE_mc.ko \
+                size=35472 \
+                sha256digest=0cf0a3675774252f7a0305995493b687221b8b2579a3a82a158b24bb9f9f4574
+    radeonkmsfw_VERDE_me.ko \
+                size=12960 \
+                sha256digest=1c851a1b3cec8be573aac604ed2bdb808603f6746aab208be1cf151e865074c1
+    radeonkmsfw_VERDE_pfp.ko \
+                size=12984 \
+                sha256digest=6445183cfc1be797fc818a5e4dadbb574342b4d206adcf0090a0c66fe5861099
+    radeonkmsfw_VERDE_rlc.ko \
+                size=12600 \
+                sha256digest=71d52cc338c4e144e4e398aa7f8a13c31026d256b67a65b31d3f85df1a3cf7fc
+    rain_saver.ko \
+                size=7216 \
+                sha256digest=c1d04bfd725902fc74086a0fae8f34db493d5cafab8cc2daff8e39eae1b2f2d9
+    random_OTHER.ko \
+                size=16936 \
+                sha256digest=f742cbf54dc1eaa3ef2a9b6b8626c439c8ef2ffa815ff6ac81fbde277557d9f1
+    random_fortuna.ko \
+                size=23368 \
+                sha256digest=69cdc3e4f1ee099b0b523c92791438abfed0497363bfedf2cd53984f8882e738
+    rc4.ko      size=3448 \
+                sha256digest=ab020d0cc1d5a50582c2067026f7da42fc734017c45e9ecec066a63a78aed7f9
+    rdrand_rng.ko \
+                size=4384 \
+                sha256digest=80e51d913755ebf9146350500a7be7c833cfc48681de3ecc6731ce55e583db0b
+    rsu-rtl8712fw.ko \
+                size=126616 \
+                sha256digest=ba4e85a40121767890ba9d7c3393442762c6fcc062c89552e7f38e33d775ba55
+    rt2561fw.ko size=12368 \
+                sha256digest=17529421382cde7ff499b1bae5da4d09019fc65225e83b84f96735a53dac026c
+    rt2561sfw.ko \
+                size=12384 \
+                sha256digest=c47f17405b16d1fb7452f302cb09fc6f0da6ec5e32e377504138f959bd8ed164
+    rt2661fw.ko size=12368 \
+                sha256digest=2be5d3592943a24df6000416142930453350f3f7ec130dcfb2c54c28a668f730
+    rt2860fw.ko size=12368 \
+                sha256digest=7f69ff731e3dbd71a44a3c8c7011d83924aab5920d6434b9bf862b6ec01bd13d
+    rtc8583.ko  size=8560 \
+                sha256digest=e7f4dfdf17ab753fd4d91b018e5db2a620a7c5b4238416371ae1dda98daa4a73
+    rtwn-rtl8188eefw.ko \
+                size=15560 \
+                sha256digest=bbcb1c831efc5e82eb67687fdd86d58d66a6260db2cbd9a5a11968de250b694e
+    rtwn-rtl8188eufw.ko \
+                size=18248 \
+                sha256digest=5d71775d7760a55b6f5f55789cd19cb423a41480d7e6ffa3ba1503144f401fca
+    rtwn-rtl8192cfwE.ko \
+                size=19176 \
+                sha256digest=68fd4774dcab2f8264e9ea01b69de766e84f789e2f69dee37958156afbaa9a8d
+    rtwn-rtl8192cfwE_B.ko \
+                size=20720 \
+                sha256digest=36429d25c073c1c8b87b823153d62de5cc5a6281073dc1bd9bfb9451bb363f90
+    rtwn-rtl8192cfwT.ko \
+                size=20472 \
+                sha256digest=e539d5049d4ea5e409b81dc9bbf6565b8aa4334aa40dc3fbebeb146b0a4326ca
+    rtwn-rtl8192cfwU.ko \
+                size=20472 \
+                sha256digest=d01e0cc590c337a4a82a2db72c41ae194f8d7bf3a905402dc874d81aac88958b
+    rtwn-rtl8192eufw.ko \
+                size=36168 \
+                sha256digest=7ca4f26d83d7349e5509a9fbcf9ff1ab8afa97332cb16d29940ddac2a1fd0f4a
+    rtwn-rtl8812aufw.ko \
+                size=36408 \
+                sha256digest=2aaf64e7c4dfb34a7657877e4b5d83862930f1ed981484bebfb52e2f83ff4705
+    rtwn-rtl8821aufw.ko \
+                size=32152 \
+                sha256digest=2c8f263e98ae04701cbd9f564513d2bcb4bacaea110a3a84aa9a1add3f46c5ef
+    rtwn.ko     size=152720 \
+                sha256digest=851efa9c0857e9bc93b2c94e67658550b5456e41a056a71331254aca858fbfc6
+    runfw.ko    size=12304 \
+                sha256digest=088ffa7e838169d52ca8af87cef5ac5d350245f0bc114217c3d2edcfe5f5dab8
+    s3.ko       size=10976 \
+                sha256digest=405bfc18f64ddb438fb9204cde80522b429c68d1f764786f9c9a11a9e11c5cfe
+    s35390a.ko  size=9992 \
+                sha256digest=1b4b2a59d3478d170080a20063b7a51cfe2dc5c214181b27947a52a9930c968a
+    safe.ko     size=30616 \
+                sha256digest=f5a03491b98a973ce1ae01d8a23464f16d354dc48222a2357a8922ffbf62662f
+    savage.ko   size=49024 \
+                sha256digest=6f543b704f43df907128864bd3bdc464fca96989b4999120dd11eaa64ec67e92
+    sbp.ko      size=60952 \
+                sha256digest=4cac86effd5b1c645357ef154a112ea61468aaf46d5e06a1fa3ea407986ac11b
+    sbp_targ.ko size=43456 \
+                sha256digest=5d62c94e384775877a8253c23314505cab6e2a2d714966ca90dcb811ec187bff
+    scc.ko      size=19408 \
+                sha256digest=6e2f6a35f94f6cc1c19b45f946365b5ba99489a7fd49b15c4053bb59d5ca021d
+    scsi_low.ko size=50024 \
+                sha256digest=b797e5540e199d3a72419e32f2132fe9e951e08cc293b7b08b1d801ca722b6b7
+    sdhci.ko    size=56672 \
+                sha256digest=16d84af9bedb74461cabb864ffc9f94c7d30eabc8412b9c78fdb42dcad0d063e
+    sdhci_acpi.ko \
+                size=17168 \
+                sha256digest=0d413a34aa87f880abcc5e126d8d6d5780ce75a498e1d36ddc3692da69103c3c
+    sdhci_pci.ko \
+                size=23752 \
+                sha256digest=f3cfaf44bb452df91ea27d99110dbccd3f31787af82b35bcd5b84bbdf08905a4
+    sdt.ko      size=11408 \
+                sha256digest=ece890184168b6fbfb9c0ac1af8872fd52dc4c7b6d7ef00ac4b2f412fa1a4223
+    sem.ko      size=28136 \
+                sha256digest=08a2ca3f98082264fa900619c022da730ebfb8c8c05e5529db7e782c4536d111
+    send.ko     size=11136 \
+                sha256digest=23d4124a2f166028e2ab9e54b6fa2948388480ef7a490380f1e9512131019d11
+    sfxge.ko    size=1624072 \
+                sha256digest=17fb6ee4fec638b6cd9247c48ca7004e4be7a61a140426a7a1600e0cae3e44a6
+    sgx.ko      size=21408 \
+                sha256digest=c8e24884b85b7a42acf940248560553e1e4aba27c89b01c245417c633402b069
+    sgx_linux.ko \
+                size=5632 \
+                sha256digest=0f8a55cc06efd413b498f2552880a8b7201a8c7db483c5bf9384152a72938c83
+    siba.ko     size=49664 \
+                sha256digest=5b1106018f66bf3909af52d9deb6b37aaf34ba7044daff0eafe116aa16a1e04f
+    siba_bhndb.ko \
+                size=11152 \
+                sha256digest=aa68dea597875576a97ec73d00fc7728ef52dc4544d4c8f30b9a769bc8cb94f7
+    siftr.ko    size=26976 \
+                sha256digest=65ae8c3c07b8a16dbb75d95541928181be44842aa4c8378ab68d1ba49f14bef0
+    siis.ko     size=40296 \
+                sha256digest=504bb2d83e01738395a87545ae2e29d26a14d08767204f007a4628b01ec7d949
+    sis.ko      size=14656 \
+                sha256digest=277a519515abb93ac32b0eaa2cce64c73023d974a6cf49d7b223e76624b0fbad
+    smartpqi.ko size=139048 \
+                sha256digest=b519da4e856b0ee7e2a836c8dcfd0b40ebc9751e47abda74e2cfea360a5575fd
+    smb.ko      size=11384 \
+                sha256digest=aa8ece4cd5d69da533400a57e793a3ccc1804c04557a0e6244cbd114298c23b3
+    smbfs.ko    size=197312 \
+                sha256digest=5a879f55722c10d8e958cfdf857e3f447b789ff348a5170c7cb7f403a3c30ce0
+    smbios.ko   size=7640 \
+                sha256digest=4026ef31b55959dc0909346b8d605c5be47f1a7e901f39eb7dd1975a4c68f48c
+    smbus.ko    size=11208 \
+                sha256digest=a3089634ad94495c1be2a1247371557d7f67aa956bb12c9e84eb95b156c7bf00
+    snake_saver.ko \
+                size=8432 \
+                sha256digest=1fb43654f170d9ef73c709934d21906755a75baa0ea49dd62611d11ff6f0cfc8
+    snd_ad1816.ko \
+                size=35744 \
+                sha256digest=9c9b59d4f60fadde183d6459b1003c4b9287af64f9d32d8598833bcecbd04300
+    snd_als4000.ko \
+                size=24912 \
+                sha256digest=bc5360427b9ac9da829cf7c0017ce1eb4e51c944363e6d33d8fac54055c18897
+    snd_atiixp.ko \
+                size=29872 \
+                sha256digest=c9bf41f53436a2839579b0c985fb4c002c44a989a67b2a064f280610c054c17f
+    snd_cmi.ko  size=23008 \
+                sha256digest=2c7b7d67ab43e12ec1e6e989c5d2fd04a1397190982bf3c49c166f7d920de526
+    snd_cs4281.ko \
+                size=24088 \
+                sha256digest=8f75bf346fc52e1b6432c0beaa13135ddafd269b16843e4cb2145f9a40a2510f
+    snd_csa.ko  size=101904 \
+                sha256digest=27cd270422496676a75c91baf21f637bf42ed73303eb9b021d022bb44378fa51
+    snd_driver.ko \
+                size=13528 \
+                sha256digest=a6cc6859d079385beda10b9af16e97fdf2185dbdeded612b5d0cec15e146dbd9
+    snd_ds1.ko  size=51520 \
+                sha256digest=1a775fb4f9833d6d78698444e1f2744c99d5cfb246a4fd4661b65fceec3cd08e
+    snd_emu10k1.ko \
+                size=43008 \
+                sha256digest=8adb101382b40bd5041b58b754de3f1073b79c97d1867bd95582f747660a0948
+    snd_emu10kx.ko \
+                size=139256 \
+                sha256digest=3892e0aac96e3d0bb29ea28948df3419ed80a44b8012da602b28e71bd445c2eb
+    snd_envy24.ko \
+                size=43304 \
+                sha256digest=f944cf6b8a545d606eac22429bdc0b8bba48b78bb5fbd2533def39cebbdd6e11
+    snd_envy24ht.ko \
+                size=37344 \
+                sha256digest=0f95d82d0a9fca237dd2998a8f351c62b238f396ba94bc2968710beafb0e9bfe
+    snd_es137x.ko \
+                size=52464 \
+                sha256digest=25528926089e2bc05ac3cc07882cf535f59b170f92483cc17eb51d848cee7f24
+    snd_ess.ko  size=30720 \
+                sha256digest=9c12d1162762b34a3daeba6334a57cd3d6b8691faeff31604dbacdb4c2d83362
+    snd_fm801.ko \
+                size=17120 \
+                sha256digest=58daba39ae4c63865b87f98a4c8d16dedb92d03c8e1b5bd22bed3190ca7aeac2
+    snd_hda.ko  size=276568 \
+                sha256digest=4a681f1690f9ac828a7b1bb6a2e45ecaedef5458eab3324b55f2215ee2fc23cf
+    snd_hdspe.ko \
+                size=27392 \
+                sha256digest=8e6c91d6557f09945c6bd8b7043f7b0cbdf0b64ebacb61f5dc6349cc5616d050
+    snd_ich.ko  size=28528 \
+                sha256digest=2715d3283c56e762100220d09b76c7a500f041e8071552c2e371e1ee35c3b229
+    snd_maestro.ko \
+                size=47536 \
+                sha256digest=26a8b8ce4afe465ed0f1b41ea5a25ac6eed62a9c23b49becab5c202f1901c311
+    snd_maestro3.ko \
+                size=49120 \
+                sha256digest=68cfd3ec9d421bc55ccbae9cca6f1fb57db6396e530abb7cb5ad1b5eba00ed52
+    snd_mss.ko  size=81360 \
+                sha256digest=edbc544b18c7247245ea19108535f84913e18e57da68b2c6a3316f2ccc8d46fc
+    snd_neomagic.ko \
+                size=73584 \
+                sha256digest=ff908b5d4414fe1d4424be2de9342909f13eadcf79232b3e0039ee3bffa205a8
+    snd_sb16.ko size=20648 \
+                sha256digest=fec9d641997139f6199b7aa3cf81a18a8d5679ea0c0b9c73bc01b3c4e16954e8
+    snd_sb8.ko  size=20440 \
+                sha256digest=873dc4d1b21612f4173f7d06889ad75db6deb70bda6df7a010b00c241a5ad82c
+    snd_sbc.ko  size=22024 \
+                sha256digest=e3fcb5f2c9b6fbe36eef1384be107dd01d203a100b0ae78826c94acbc456f752
+    snd_solo.ko size=31056 \
+                sha256digest=6529a1d6c84a7a0f6b084557ceda8fdb49c865ebb55494dd52d294761780b11f
+    snd_spicds.ko \
+                size=9576 \
+                sha256digest=55553ae463af95ea932b60cdfff9024d7c72312a089ea71bae8730cde29b3121
+    snd_t4dwave.ko \
+                size=21976 \
+                sha256digest=1fa3ef183e34d5311db83f2f0203d70767a5d7c4721d45b96c678d1915becd81
+    snd_uaudio.ko \
+                size=104584 \
+                sha256digest=84572c6e465440b9cf612e590af74567755def4a0f3164c2edffdf06d5b83e25
+    snd_via8233.ko \
+                size=36368 \
+                sha256digest=b8831e9d0adaf5ea3fb98f4d73105cf77751faed154a0d5b63e6b0daa7677720
+    snd_via82c686.ko \
+                size=19048 \
+                sha256digest=23cb817f2f2f4931c0e07358c05b2148377aa494fcd009a5d4268ca1253c22e6
+    snd_vibes.ko \
+                size=27296 \
+                sha256digest=d2629186a3cb6a989481fcc5c61d85c2d4c6f7945ecf918b937129f401f5c7bc
+    snp.ko      size=10608 \
+                sha256digest=8732cc30f39ef83451a7803255660d3c5917f3db7962fa76be996ec3f35f4f88
+    sound.ko    size=498728 \
+                sha256digest=4e1183500c8aabb928a2affc17d0fcb612702f4cc6677f01af55b0101db475fc
+    speaker.ko  size=15360 \
+                sha256digest=a13ce20baae7adfa92e8138b46e15535d7e0857098d5888299d3f5306e092ceb
+    spibus.ko   size=9680 \
+                sha256digest=4550a35002e200b4f652fdfc7a11724a6b333f6438d32deb71833adf9e5b3b9c
+    spigen.ko   size=11480 \
+                sha256digest=3863fbe1fdb0011c7b4553b922e71306b27195846ddd47d4a0181411feccf233
+    splash_bmp.ko \
+                size=11040 \
+                sha256digest=fe8d11f6a6a1447e9c607afbb48b2212de49e6901a57d3e0de0569c8cc5e41f1
+    splash_pcx.ko \
+                size=8136 \
+                sha256digest=accfd81a8478c1e0bb4204afd3939b21db80e63fd2f146cadb395824e71a5c4e
+    splash_txt.ko \
+                size=5000 \
+                sha256digest=f334212888a6b001941ba834c4afd757ce51b9c46da762e33b5ab3eacb9b3da3
+    sppp.ko     size=105800 \
+                sha256digest=4bdb8131b4f1f8b4cf1fe963ddabbe13d9b4df3044afbd69ced7001288b569f4
+    star_saver.ko \
+                size=5624 \
+                sha256digest=fd8f2e1fcde256734487f6922e5b16c7869453dbf1fbfee6efe112a15f17cdcb
+    sym.ko      size=87320 \
+                sha256digest=fc386892180a2df60741352baa09fad5f2eaaeea52cc2403689627f01bedf506
+    systrace.ko size=94256 \
+                sha256digest=f67fccf9e426d70c63690b98f65f0483aa7ef60ff029f2dcdbf13dc0e656197e
+    systrace_freebsd32.ko \
+                size=93752 \
+                sha256digest=2fc41476225152f8b50871525cddad6a84aa530da08fa7a46c64d1ecf8b0fb57
+    systrace_linux.ko \
+                size=91856 \
+                sha256digest=a3f547035e09bd488a627dfd2034dc81a0eb54fb0d0e8479e925d9d893c54286
+    systrace_linux32.ko \
+                size=95008 \
+                sha256digest=fe56c95a12cc15a194b42dacc2746c65ec4ba20990190f2367bcd40d8d9f7639
+    sysvmsg.ko  size=41816 \
+                sha256digest=4e30281ecf87fce3dd95276e8615ab1e089d679a011084a1f230ba69fec1ede8
+    sysvsem.ko  size=50456 \
+                sha256digest=4ad657099440f5fc13ad037d1b6381bd2cc2d7f57f1e7965e7b4eb45010b4605
+    sysvshm.ko  size=44216 \
+                sha256digest=690d2276bf9559f18535584288a1c20de8f194153028076919684e71b6bfa4b8
+    t4_tom.ko   size=138408 \
+                sha256digest=5f66cab25d809095c0a82c7106ce96b2a9c6cff495450145f5b5f0f62bf51a6f
+    t4fw_cfg.ko size=596360 \
+                sha256digest=1542fec36f1dce294b31c6f4f441e0ac6cc0ac1782e46755fe1eff3119911b2a
+    t5fw_cfg.ko size=711800 \
+                sha256digest=1e5219036f02a6417c088bf65a138a4ef28b248e121f7cade46515fe9810bfe2
+    t6fw_cfg.ko size=761960 \
+                sha256digest=d2eaf55f18e4a89891442a27e99bab24e05c3969fc9423bfa1433efe20206057
+    tcpmd5.ko   size=8304 \
+                sha256digest=4cb11f85abc43de4984c2e3b5e266a7ce26781221d8ce5445b6b3b0d2529dae5
+    tdfx.ko     size=5848 \
+                sha256digest=4f8583f3786b35f0376627b8ce3af736e828a4ffd3f8f63d5a99363da878c25e
+    tmpfs.ko    size=68504 \
+                sha256digest=bbca96484e4a78bd5fa16efb8569adc7129bb6de8ccdc105ae07a69453b8470b
+    toecore.ko  size=12136 \
+                sha256digest=7325f3abfd167841e60088d2cd14db67b7d6c67c7572be4418852412a140f31d
+    tpm.ko      size=42704 \
+                sha256digest=18a0eb0939da63bfa7db888820f24cfffac44f4735b14cc7457ef72f7f88709d
+    trm.ko      size=35632 \
+                sha256digest=e50426cfa7b79d1076fef5526f640a7882ab3da71c73b2f9a85a8d646b17afac
+    twa.ko      size=95320 \
+                sha256digest=3c7bbd6f78269701c85cfa617f71f3a2e0eb5600f1cd2c95c891d3f5c6ce4dd6
+    twe.ko      size=58120 \
+                sha256digest=1b2610159597fedc29e1693688f8cedbf3f2e031ac954247f4bf98b431a293f9
+    tws.ko      size=61640 \
+                sha256digest=99047764d5be0d18aa1eba310b1cccbb0620498d7672e01a84951e2e06c03a23
+    u3g.ko      size=34448 \
+                sha256digest=92cc17aeefa4dea55fe961899726e84e2d57782e1c9329a525c74a780b577070
+    uark.ko     size=13632 \
+                sha256digest=f7bcdfa1451b0834cf39a537a9a9500eafee5312d1e002abfe56ee9f87570bf6
+    uart.ko     size=137288 \
+                sha256digest=e76af7d1a34abb48e07cf024a13d34f29ebdaf1e125fedd0bf5cfd890b731c38
+    ubsa.ko     size=18608 \
+                sha256digest=b4d779134c31bc98fe9ec580b1af67895d6025da487e88af079e086099d13260
+    ubsec.ko    size=48384 \
+                sha256digest=95e63ac9804a53a20fff41571fbee54a434f69deb43e906c2e297a60a7752a56
+    ubser.ko    size=13784 \
+                sha256digest=ca09ccdba4baed1c7f0669446b0bd7fa6aa543dd696492f52c6dec52da24d921
+    ubtbcmfw.ko size=10208 \
+                sha256digest=49ae153fe166f5dca69f2ad32f404c239f7a2ba23120c24448e198a30ed41026
+    uchcom.ko   size=22984 \
+                sha256digest=6faac3eaccfdcf79e783b5f0d18c30c52a0045d2ac9c54d24878f6be9edc0c5b
+    ucom.ko     size=39960 \
+                sha256digest=ccd3b5c200845d3948d63b73fd195a46b9b9e9a77971676c54e862c32de84078
+    ucycom.ko   size=13912 \
+                sha256digest=e12c7cc320f27964cb051e7b24a4e212321e528d8b8e219a7cb37282809c7157
+    udbp.ko     size=20032 \
+                sha256digest=c685777f2bb05bb83ece1c5505bc2237ee401a29357780209d0e15ea6791d41e
+    udf.ko      size=36912 \
+                sha256digest=9ebf7fef694fcf61083cf174068ba3392afe59269d92cff369e3ba31cda0832a
+    udf_iconv.ko \
+                size=4640 \
+                sha256digest=29473b239d46dea88be9c389e367a818d0ce0d1163837a02e51137b399500684
+    udl.ko      size=31152 \
+                sha256digest=53a1812ad1f2b9c55b01a06ab5010a992a036231ac04577bdd87836621a91f6a
+    uep.ko      size=13248 \
+                sha256digest=7f435a4ad7f50914efebaaa41c4653a0efbec74d996521f758dc8cc8f1033d92
+    uether.ko   size=16968 \
+                sha256digest=8bfcf7559c688ffa1b9f12fbdb572bc0e4cdea3dcdc83f92e6323e799d07f7c7
+    ufm.ko      size=8776 \
+                sha256digest=0130a3bf5d8c1f9a130dc1321285e86504c944a9ea5472f8be20a53c8087a80a
+    ufoma.ko    size=25064 \
+                sha256digest=ffa50e535b602a4d78ec5c308b6ea185ce51c3c57a3cfb7b88d7bc19548e5e75
+    ufs.ko      size=640368 \
+                sha256digest=81a30b0f6915fd4b2dc2ae7befcb92da95e19a2cd7f10ba016e3de24c4930e10
+    uftdi.ko    size=43192 \
+                sha256digest=8ff0108053806c19847f09040ed02b86d4fc7dcf11f2bbc427072e5476859ed6
+    ugensa.ko   size=13264 \
+                sha256digest=438ca07b0b6e7c2230cc15746dd1289804a96ac4e23b1884bc16a280f05bc9e1
+    ugold.ko    size=13664 \
+                sha256digest=5de38dc69e2818b6f5e7f8ff3bdd3b1cce948b471937ae312605ad2409ba53dd
+    uhci.ko     size=60272 \
+                sha256digest=f550411e569f852df20e139846cf3f83132bb175a61346f78cf97fced24f0d27
+    uhid.ko     size=19672 \
+                sha256digest=524c70ad7e0e3285935a295d3590c0248b66bd9810e6c5699280d270f98eb5a2
+    uhid_snes.ko \
+                size=14632 \
+                sha256digest=6b8190b7aeb49950151d1f55cb0a66a3fee861d18db06dcab4bdf4ecd55c5de5
+    uhso.ko     size=43888 \
+                sha256digest=ebd9acaa24e5889e587221d300dcf35dfa541f42855c95e0c52d07a29693fd31
+    uinput.ko   size=14152 \
+                sha256digest=9714b86e51ff273b46a6f38664e8486285c49e4db289dddc902152598a81f19c
+    uipaq.ko    size=26792 \
+                sha256digest=bfa65b4591e6e1dab9ec07666617d940d9cd0d8ce068311f116fca8b8e7b7e99
+    ukbd.ko     size=65800 \
+                sha256digest=791be040a6c0ea0137ed9af6d9c2510c97c7dbc0c1b9f08735c797ae54af2a94
+    uled.ko     size=8624 \
+                sha256digest=724531ffb6e18070d96c96cfa49f9ef6a31fa5b258b358029470957086336763
+    ulpt.ko     size=18208 \
+                sha256digest=79e7503d0a5546e44b365a6a9499a24d6c82bf95ee27f0a0556fc5f17819b248
+    umass.ko    size=65792 \
+                sha256digest=ac1fcd3f4eef81fa6d3752355ece10717cbf34420bdee3b896d2dcd4aa5debba
+    umcs.ko     size=29464 \
+                sha256digest=2bc30b17df5fca71edc93809fc9a2f90ca543ebfa0d3336230d3889bb2ec0181
+    umct.ko     size=14440 \
+                sha256digest=22def7d7cde231c3627a54796395aaa655a5be4445ef0f2ce24d81cf3495d2d8
+    umodem.ko   size=22176 \
+                sha256digest=70afe9f93d1c9bf4800dade39b481d87e78b0627e1d82504cbb06644614e4f9b
+    umoscom.ko  size=17088 \
+                sha256digest=d06fe05c7d64b746c8c03851150cee7b26f0cc278d6bbc83a1f96b7c0459abd9
+    ums.ko      size=26992 \
+                sha256digest=6ab5bb30c8bc95c2097ee47326cb75c076d9d7cae0845d4a8dd2496de21b5b56
+    unionfs.ko  size=67672 \
+                sha256digest=ea40f640920ca3ca9f7f0ffe72e07aa97d3f08943c10e2d7775fb6715a779985
+    uplcom.ko   size=22968 \
+                sha256digest=5bd3e8d48ad4ec15df0ab5108704754ef6f6afa52e1caa23140d468d77f6205d
+    urio.ko     size=13568 \
+                sha256digest=13f43352efea47d3a9a054a5ee47446e931b08e4e5573b7c9c245df1aad30b02
+    usb.ko      size=326568 \
+                sha256digest=415201e44c7292889969d69a04074f4157df0bc83d80be825f7739bc83caf7bb
+    usb_quirk.ko \
+                size=26168 \
+                sha256digest=dd56ca8927929bb08475276c1d2f7d368bdbab2a0696e606005f376d0c9a01f1
+    usb_template.ko \
+                size=79264 \
+                sha256digest=6321b2b4e791f64b43428123d04d90966f8e24202d1513ccd155b55b3adb9ca9
+    usfs.ko     size=25656 \
+                sha256digest=c5aef51392ba8f5778d4da02cf2e654239ad764008476cd92ce0593313d0518c
+    usie.ko     size=42960 \
+                sha256digest=2a51f681de9776f9c257295ad7ae22ba0be70b68fbb235c3081d2e63bc9fdad4
+    uslcom.ko   size=24168 \
+                sha256digest=c2653dd45b11bb1651f1915ce9438ac43887f497d424e9d7fc53c7d47cf403c1
+    uvisor.ko   size=16024 \
+                sha256digest=ce19c814f05370fce15dbdb8f89aded095d22c99c01a488bd5a9ca8b625927df
+    uvscom.ko   size=17928 \
+                sha256digest=7ebcaeb33489fb8a0bc02e29426879e145edce141575f8987083fbbcabd3accc
+    vesa.ko     size=33712 \
+                sha256digest=0057a1d51a34038b5d1c8169b14e9fd2bd531d1f1a2d09e948295a33724358ab
+    via.ko      size=60128 \
+                sha256digest=344cf86f5e6937ff24a448602cefb09313d960949dcb791ef61b84c2034038d3
+    viapm.ko    size=31480 \
+                sha256digest=c1e9ca2cfc7dc593f3e73ace59f8f65f061ff6015ad3ec7a0b7165ebb13b6194
+    viawd.ko    size=8296 \
+                sha256digest=d3da92b12ae58d144e691bc5ea29a4d909226bde75a20c54c0f3dd90054fda47
+    videomode.ko \
+                size=28400 \
+                sha256digest=b551cd290d9f5de0aaa8b0661468173760880e750f8b4a1c4d0c144a0267544f
+    virtio.ko   size=19208 \
+                sha256digest=65923a97cb9504aef383765f3e96931b7df61f2c1bddd4aeb6df4b1ea588cfb3
+    virtio_balloon.ko \
+                size=12320 \
+                sha256digest=47099c6adfbdc3025cb1dd680321f366b147ba6cd61042229288c009f5922897
+    virtio_blk.ko \
+                size=24496 \
+                sha256digest=b72973d1cf863fcdc6bee121f308339029c182948a6c1ad21151d29e66b602b4
+    virtio_console.ko \
+                size=25944 \
+                sha256digest=31e92947aa90ea290f284703029eff8faa15d0a86670ca20e49470c6715f82a3
+    virtio_pci.ko \
+                size=24792 \
+                sha256digest=2111bd340c83e678b8c0b7161b2823fafad18fc6fa26a487ea1fd89e52e0504d
+    virtio_random.ko \
+                size=7648 \
+                sha256digest=13faf99e7efa250b8921276b6152c3369e6b0dba8c0e77e16414074d1a50c651
+    virtio_scsi.ko \
+                size=41776 \
+                sha256digest=0e553a31134ff05d0c138b8beb332ed03fad9c0a9b7598401799c80b8a58d079
+    vkbd.ko     size=39032 \
+                sha256digest=231358f2dc37d9160983888b0aff06c9a2e1fe7de46368983f06edbb0eb295fd
+    vmci.ko     size=54696 \
+                sha256digest=dd3289126f7d7a44fe84259c900c7b7269664fce393288fc196ec65f51cf5098
+    vmm.ko      size=391168 \
+                sha256digest=940f1b0c650fab0af02c7f9d27c713818e146756700baca84bf05b70062bc231
+    vpd.ko      size=11824 \
+                sha256digest=539c59b5bddf9df9cb3e08271fa50426087ededa71e8d8d79a77a5f506bfa715
+    vpo.ko      size=30392 \
+                sha256digest=2a441bd98d5fdb13fba61148555c0696c7e4bbfce626bc3b268cabc5d83c5a81
+    warp_saver.ko \
+                size=7152 \
+                sha256digest=2e06c121dd527a6e24c3bcbaae543a5bfb462e96a2f09fa6cb17537ae27668f8
+    wbwd.ko     size=18720 \
+                sha256digest=3e92ba8c8764061b66e42332061db420c0b6e2815c06a03c85d1b201cc733bd5
+    wlan.ko     size=627200 \
+                sha256digest=e39a8989f822bbd033a8abea8e34bd71bf1c7752ed47945d03e1ccebf12ea5b4
+    wlan_acl.ko size=11688 \
+                sha256digest=51c4a3d060e86aa3e205ceeaf4638eee1f2e4a29bf466a618c2069d857c22206
+    wlan_amrr.ko \
+                size=11136 \
+                sha256digest=a355ec218bf0654ed875a684c9f1d532338ee8a8b1da22a5f8b4add78cef41b1
+    wlan_ccmp.ko \
+                size=31104 \
+                sha256digest=3ce5a4cea3b32899d9b58dc8a56e9293eeeb3f61e82474157a0b96ffb5edd63f
+    wlan_rssadapt.ko \
+                size=9432 \
+                sha256digest=d577bd43f281b99e5658363edd1ea46eac7d59162150ed5f84e8bb985a4f158f
+    wlan_tkip.ko \
+                size=16272 \
+                sha256digest=10fd196ed4d0e4390e612674f1a249df9002b8ffbcddaf68254a485a471b11de
+    wlan_wep.ko size=10816 \
+                sha256digest=f4c5764c77ec47cce162832b12291a64449558efdf309989e6a1cfe0a2310711
+    wlan_xauth.ko \
+                size=5128 \
+                sha256digest=1b817ac8af7a1abc2d6747b37bcf11e242d8b2a26603b1a432731b173a35703d
+    wmt.ko      size=19080 \
+                sha256digest=1a99da39e88587cedf444c544ff90180887a65ede6550846d7683eb348b448c7
+    wpifw.ko    size=154280 \
+                sha256digest=e48d427ebc56b913031b01646191fdda318880c66e1eca975f64fcf082f74806
+    wsp.ko      size=24952 \
+                sha256digest=91351739af9ec6ff39cec47df00f624f75e354d223c2959ae2e9e7ea1c0682a5
+    x86bios.ko  size=155752 \
+                sha256digest=1bf1ae6b57857ad5fb652e400cc27c34150069ec044ca428185dde8dbff90b77
+    xhci.ko     size=86096 \
+                sha256digest=b3de21103c1668ae8532c22082f829695ac5b57a9da0eb67c628df606b4bbcaa
+    xz.ko       size=17616 \
+                sha256digest=6d20463f9def29b7175159e99860bd9b89bd46ef67fca02d8fdd0caa52a6da74
+    zfs.ko      size=3132632 \
+                sha256digest=373517209cd299c156a95598d5869eb9b54da6586d408cc1c40284cb9b8edd2c
+    zlib.ko     size=51272 \
+                sha256digest=1094dfbcfbf194de163f32bd1a18a66c5f4cad82e94d67abd904f858d39bc334
+# ./boot/kernel
+..
+
+# ./boot
+..
+
+
+# ./usr
+/set type=file uid=0 gid=0 mode=0755
+usr             type=dir
+
+# ./usr/local
+local           type=dir
+
+# ./usr/local/opnsense
+opnsense        type=dir
+
+# ./usr/local/opnsense/version
+/set type=file uid=0 gid=0 mode=0644
+version         type=dir mode=0755
+    kernel      size=5 \
+                sha256digest=332f6a6df78a11219ba0a27c16508b8734a8a810def1ccfa55d1b107900a3444
+    kernel.arch size=6 \
+                sha256digest=d54d20eadbec9c9cc5ac6e0e371abc96d64a0d724d1cf45297fab6098026a69d
+    kernel.size size=10 \
+                sha256digest=de81eee0b15bef2072151155fee864d949f1d70118dafe3a30e7297e2b95fbf4
+# ./usr/local/opnsense/version
+..
+
+# ./usr/local/opnsense
+..
+
+# ./usr/local
+..
+
+# ./usr
+..
+
