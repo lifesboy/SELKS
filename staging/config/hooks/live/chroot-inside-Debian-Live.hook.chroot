@@ -98,7 +98,9 @@ apt-get install -y evebox
 ### END Evebox ###
 
 ### START Install php ###
-apt-get install php-fpm php lighttpd -y
+apt-get install php-fpm php php-cgi lighttpd -y
+lighttpd-enable-mod fastcgi fastcgi-php
+service lighttpd force-reload
 ### END Install php ###
 
 ### START Scirius, nginx, revrse proxy, supervisor and ssl ###
