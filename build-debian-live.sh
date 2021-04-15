@@ -335,6 +335,13 @@ cp staging/usr/share/polkit-1/actions/org.stamusnetworks.setupidsinterface.polic
 cp staging/usr/share/polkit-1/actions/org.stamusnetworks.update.policy Stamus-Live-Build/config/includes.chroot/usr/share/polkit-1/actions/
 cp staging/usr/share/polkit-1/rules.d/org.stamusnetworks.rules Stamus-Live-Build/config/includes.chroot/usr/share/polkit-1/rules.d/
 
+# copy opnsense source
+cp -R staging/usr/local/opnsense Stamus-Live-Build/chroot/usr/local
+cp -R staging/usr/local/wizard Stamus-Live-Build/chroot/usr/local
+cp -R staging/usr/local/www Stamus-Live-Build/chroot/usr/local
+
+cp -R staging/usr/share/google-api-php-client Stamus-Live-Build/chroot/usr/share
+
 # Add core system packages to be installed
 echo "
 
