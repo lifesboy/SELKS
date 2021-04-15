@@ -336,6 +336,8 @@ cp staging/usr/share/polkit-1/actions/org.stamusnetworks.update.policy Stamus-Li
 cp staging/usr/share/polkit-1/rules.d/org.stamusnetworks.rules Stamus-Live-Build/config/includes.chroot/usr/share/polkit-1/rules.d/
 
 # copy opnsense source
+mkdir -p Stamus-Live-Build/chroot/usr/local
+mkdir -p Stamus-Live-Build/chroot/usr/share
 cp -R staging/usr/local/opnsense Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/wizard Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/www Stamus-Live-Build/chroot/usr/local
