@@ -99,6 +99,12 @@ apt-get install -y evebox
 
 ### START Install php ###
 apt-get install php-fpm php php-cgi lighttpd -y
+
+apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev
+pecl channel-update pecl.php.net
+pecl install phalcon
+
+
 lighttpd-enable-mod fastcgi fastcgi-php
 service lighttpd force-reload
 ### END Install php ###
