@@ -100,7 +100,9 @@ apt-get install -y evebox
 ### START Install php ###
 apt-get install php-fpm php php-cgi lighttpd -y
 
-apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev php-sqlite3
+apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev \
+php-sqlite3 php-json php-xml php-sockets php-radius php-ldap php-gettext php-dom php-curl php-ctype
+
 pecl channel-update pecl.php.net
 pecl install phalcon
 
