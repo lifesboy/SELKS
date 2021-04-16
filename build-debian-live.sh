@@ -348,7 +348,7 @@ cp -R staging/usr/local/etc/inc Stamus-Live-Build/chroot/usr/local/etc/
 
 cp -R staging/usr/share/google-api-php-client Stamus-Live-Build/chroot/usr/share
 cp -f staging/etc/php/7.3/cli/php.ini /etc/php/7.3/cli/php.ini
-cp -R staging/etc/php/7.3/cli/config.d /etc/php/7.3/cli/
+cp -R staging/etc/php/7.3/cli/conf.d /etc/php/7.3/cli/
 
 cp -R staging/usr/lib/php /usr/lib/
 
