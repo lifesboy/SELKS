@@ -1,5 +1,4 @@
 <?php
-set_include_path('/usr/share/php:/usr/local/etc/inc:/usr/local/www:/usr/local/opnsense/mvc:/usr/local/opnsense/contrib:/usr/local/share/pear:/usr/local/share');
 /*
  * Copyright (C) 2014-2016 Deciso B.V.
  * Copyright (C) 2004-2012 Scott Ullrich <sullrich@gmail.com>
