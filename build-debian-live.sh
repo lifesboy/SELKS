@@ -339,6 +339,8 @@ cp staging/usr/share/polkit-1/rules.d/org.stamusnetworks.rules Stamus-Live-Build
 mkdir -p Stamus-Live-Build/chroot/usr/local
 mkdir -p Stamus-Live-Build/chroot/usr/local/etc
 mkdir -p Stamus-Live-Build/chroot/usr/share
+mkdir -p Stamus-Live-Build/chroot/usr/lib
+
 cp -R staging/usr/local/opnsense Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/wizard Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/www Stamus-Live-Build/chroot/usr/local
@@ -347,6 +349,8 @@ cp -R staging/usr/local/etc/inc Stamus-Live-Build/chroot/usr/local/etc/
 cp -R staging/usr/share/google-api-php-client Stamus-Live-Build/chroot/usr/share
 cp -f staging/etc/php/7.3/cli/php.ini /etc/php/7.3/cli/php.ini
 cp -R staging/etc/php/7.3/cli/config.d /etc/php/7.3/cli/
+
+cp -R staging/usr/lib/php /usr/lib/
 
 # Add core system packages to be installed
 echo "
