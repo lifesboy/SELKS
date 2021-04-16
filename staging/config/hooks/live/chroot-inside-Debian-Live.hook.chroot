@@ -107,7 +107,7 @@ pecl channel-update pecl.php.net
 pecl install phalcon
 
 
-lighttpd-enable-mod fastcgi fastcgi-php
+#lighttpd-enable-mod fastcgi fastcgi-php
 service lighttpd force-reload
 ### END Install php ###
 
