@@ -346,6 +346,7 @@ cp -R staging/usr/local/opnsense Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/wizard Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/www Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/etc/inc Stamus-Live-Build/chroot/usr/local/etc/
+cp -R staging/usr/local/etc/ssl Stamus-Live-Build/chroot/usr/local/etc/
 cp -R staging/usr/local/etc/config.xml Stamus-Live-Build/chroot/usr/local/etc/
 cp -R staging/conf Stamus-Live-Build/chroot/
 
