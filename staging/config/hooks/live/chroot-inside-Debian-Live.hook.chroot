@@ -106,9 +106,6 @@ php-sqlite3 php-json php-xml php-sockets php-radius php-ldap php-gettext php-dom
 pecl channel-update pecl.php.net
 pecl install phalcon
 
-
-#lighttpd-enable-mod fastcgi fastcgi-php
-#service lighttpd force-reload
 ### END Install php ###
 
 ### START lighttpd opnsense ###
@@ -184,6 +181,25 @@ cat >> /etc/php/7.3/fpm/php.ini <<EOF
 include_path = ".:/usr/share/php:/usr/local/etc/inc:/usr/local/www:/usr/local/opnsense/mvc:/usr/local/opnsense/contrib:/usr/local/share/pear:/usr/local/share"
 
 EOF
+
+cat > /etc/php/7.3/cli/conf.d/20-psr.ini <<EOF
+extension=psr.so
+EOF
+
+cat > /etc/php/7.3/cgi/conf.d/20-psr.ini <<EOF
+extension=psr.so
+EOF
+
+cat > /etc/php/7.3/cli/conf.d/20-phalcon.ini <<EOF
+extension=phalcon.so
+EOF
+
+cat > /etc/php/7.3/cgi/conf.d/20-phalcon.ini <<EOF
+extension=phalcon.so
+EOF
+
+#lighttpd-enable-mod fastcgi fastcgi-php
+#service lighttpd force-reload
 
 ### END lighttpd opnsense ###
 
