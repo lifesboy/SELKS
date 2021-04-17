@@ -29,9 +29,9 @@ mv ./unetbootin-linux64-702.bin /opt/unetbootin
 ln -s /opt/unetbootin /usr/local/bin/unetbootin
 apt-get -y install mtools
 
-git clone https://github.com/lifesboy/SELKS.git /selks
+git clone https://github.com/lifesboy/SELKS.git:gpu /selks
 cd /selks
-./install-deps.sh
+sudo ./install-deps.sh
 cd -
 
 
