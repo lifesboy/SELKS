@@ -108,7 +108,7 @@ pecl install phalcon
 
 
 #lighttpd-enable-mod fastcgi fastcgi-php
-service lighttpd force-reload
+#service lighttpd force-reload
 ### END Install php ###
 
 ### START Scirius, nginx, revrse proxy, supervisor and ssl ###
