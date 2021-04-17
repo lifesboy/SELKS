@@ -263,21 +263,18 @@ pcre.jit=0
 
 EOF
 
-cat > /etc/php/7.3/cli/conf.d/20-psr.ini <<EOF
+cat > /etc/php/7.3/mods-available/psr.ini <<EOF
 extension=psr.so
 EOF
 
-cat > /etc/php/7.3/cgi/conf.d/20-psr.ini <<EOF
-extension=psr.so
-EOF
-
-cat > /etc/php/7.3/cli/conf.d/30-phalcon.ini <<EOF
+cat > /etc/php/7.3/mods-available/phalcon.ini <<EOF
 extension=phalcon.so
 EOF
 
-cat > /etc/php/7.3/cgi/conf.d/30-phalcon.ini <<EOF
-extension=phalcon.so
-EOF
+ln -s /etc/php/7.3/mods-available/psr.ini /etc/php/7.3/cli/conf.d/20-psr.ini
+ln -s /etc/php/7.3/mods-available/psr.ini /etc/php/7.3/cgi/conf.d/20-psr.ini
+ln -s /etc/php/7.3/mods-available/phalcon.ini /etc/php/7.3/cli/conf.d/30-phalcon.ini
+ln -s /etc/php/7.3/mods-available/phalcon.ini /etc/php/7.3/cgi/conf.d/30-phalcon.ini
 
 #lighttpd-enable-mod fastcgi fastcgi-php
 #service lighttpd force-reload
