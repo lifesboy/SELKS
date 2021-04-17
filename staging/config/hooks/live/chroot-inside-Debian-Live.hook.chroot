@@ -190,11 +190,11 @@ cat > /etc/php/7.3/cgi/conf.d/20-psr.ini <<EOF
 extension=psr.so
 EOF
 
-cat > /etc/php/7.3/cli/conf.d/20-phalcon.ini <<EOF
+cat > /etc/php/7.3/cli/conf.d/30-phalcon.ini <<EOF
 extension=phalcon.so
 EOF
 
-cat > /etc/php/7.3/cgi/conf.d/20-phalcon.ini <<EOF
+cat > /etc/php/7.3/cgi/conf.d/30-phalcon.ini <<EOF
 extension=phalcon.so
 EOF
 

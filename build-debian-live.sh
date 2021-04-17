@@ -340,11 +340,14 @@ mkdir -p Stamus-Live-Build/chroot/usr/local
 mkdir -p Stamus-Live-Build/chroot/usr/local/etc
 mkdir -p Stamus-Live-Build/chroot/usr/share
 mkdir -p Stamus-Live-Build/chroot/usr/lib
+mkdir -p Stamus-Live-Build/conf
 
 cp -R staging/usr/local/opnsense Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/wizard Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/www Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/etc/inc Stamus-Live-Build/chroot/usr/local/etc/
+cp -R staging/usr/local/etc/config.xml Stamus-Live-Build/chroot/usr/local/etc/
+cp -R staging/conf Stamus-Live-Build/chroot/
 
 cp -R staging/usr/share/google-api-php-client Stamus-Live-Build/chroot/usr/share
 cp -f staging/etc/php/7.3/cli/php.ini /etc/php/7.3/cli/php.ini
