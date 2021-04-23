@@ -1,0 +1,13 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Name=NGFW
+#Icon=preferences-other
+Icon=applications-internet
+Comment=Launch-Kibana-Web-Access
+Exec=firefox-esr http://localhost:81/
+Type=Application
+Categories=Application;System;
+StartupNotify=true
+Terminal=false
+

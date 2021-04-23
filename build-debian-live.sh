@@ -359,6 +359,9 @@ cp staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/
 
 chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroot/usr/local/etc
 
+# cp OPNSense desktop shortcuts
+cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
+
 # Add core system packages to be installed
 echo "
 
