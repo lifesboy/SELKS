@@ -168,6 +168,36 @@ include_shell "/usr/share/lighttpd/include-conf-enabled.pl"
 
 EOF
 
+cat > /etc/php/7.3/cli/php.conf <<EOF
+
+PHP_VER=73
+PHP_VERSION=7.3.20
+PHP_SAPI=cli cgi fpm embed
+PHP_EXT_INC=pcre spl
+PHP_EXT_DIR=20180731
+
+EOF
+
+cat > /etc/php/7.3/cgi/php.conf <<EOF
+
+PHP_VER=73
+PHP_VERSION=7.3.20
+PHP_SAPI=cli cgi fpm embed
+PHP_EXT_INC=pcre spl
+PHP_EXT_DIR=20180731
+
+EOF
+
+cat > /etc/php/7.3/fpm/php.conf <<EOF
+
+PHP_VER=73
+PHP_VERSION=7.3.20
+PHP_SAPI=cli cgi fpm embed
+PHP_EXT_INC=pcre spl
+PHP_EXT_DIR=20180731
+
+EOF
+
 cat >> /etc/php/7.3/cli/php.ini <<EOF
 
 ; File generated via configd
