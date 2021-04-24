@@ -41,6 +41,15 @@ git checkout gpu
 #sudo ./install-deps.sh
 cd -
 
+mv /usr/local/etc /usr/local/etc.bak
+mv /usr/local/opnsense /usr/local/opnsense.bak
+mv /usr/local/wizard /usr/local/wizard.bak
+mv /usr/local/www /usr/local/www.bak
+ln -s /selks/staging/usr/local/etc /usr/local/etc
+ln -s /selks/staging/usr/local/opnsense /usr/local/opnsense
+ln -s /selks/staging/usr/local/wizard /usr/local/wizard
+ln -s /selks/staging/usr/local/www /usr/local/www
+
 
 cat /dev/null > ~/.bash_history && history -c
 
