@@ -357,6 +357,8 @@ cp -f staging/etc/php/7.3/cli/php.ini /etc/php/7.3/cli/php.ini
 #cp -R staging/usr/lib/php /usr/lib/
 cp staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/
 
+cp -R staging/etc/lighttpd Stamus-Live-Build/chroot/etc/
+
 chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroot/usr/local/etc
 
 # cp OPNSense desktop shortcuts
