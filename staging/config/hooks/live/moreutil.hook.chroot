@@ -49,6 +49,7 @@ ln -s /selks/staging/usr/local/etc /usr/local/etc
 ln -s /selks/staging/usr/local/opnsense /usr/local/opnsense
 ln -s /selks/staging/usr/local/wizard /usr/local/wizard
 ln -s /selks/staging/usr/local/www /usr/local/www
+ln -sf /usr/local/opnsense/www /usr/local/www/ui
 
 
 cat /dev/null > ~/.bash_history && history -c
