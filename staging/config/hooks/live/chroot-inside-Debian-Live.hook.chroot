@@ -108,7 +108,6 @@ cd php-psr
 phpize
 ./configure
 make
-make test
 make install
 cd -
 
