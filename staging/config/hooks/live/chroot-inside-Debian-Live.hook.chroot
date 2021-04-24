@@ -314,39 +314,6 @@ rm -rf /etc/nginx/sites-enabled/default
 
 cat >> /etc/nginx/sites-available/selks5.conf <<EOF
 
-upstream phpfpmngfw {
-    server unix:/var/run/php/php7.3-fpm.sock;
-}
-server {
-        listen 81;
-        root /opnsense/src/opnsense/www/;
-        location / {
-                #try_files $uri $uri/ =404;
-                try_files $uri $uri/ /index.php?$args;
-        }
-        location ~ [^/]\.php(/|$) {
-                #try_files $uri =404;
-                fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-                if (!-f $document_root$fastcgi_script_name) {
-                        return 404;
-                }
-
-                include fastcgi_params;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                fastcgi_param PATH_INFO $fastcgi_path_info;
-                fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
-
-                fastcgi_intercept_errors on;
-                fastcgi_pass phpfpmngfw;
-                fastcgi_index index.php;
-        }
-
-        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-                expires max;
-                log_not_found off;
-        }
-}
-
 server {
     listen 127.0.0.1:80;
     listen 127.0.1.1:80;
@@ -415,36 +382,6 @@ server {
         proxy_set_header X-Forwarded-Proto https;
         proxy_redirect off;
     }
-
-	location /ngfw/ {
-        root /opnsense/src/opnsense/www/;
-        location /ngfw/ {
-                #try_files $uri $uri/ =404;
-                try_files $uri $uri/ /index.php?$args;
-        }
-
-		location ~ [^/]\.php(/|$) {
-			#try_files $uri =404;
-			fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-			if (!-f $document_root$fastcgi_script_name) {
-					return 404;
-			}
-
-			include fastcgi_params;
-			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-			fastcgi_param PATH_INFO $fastcgi_path_info;
-			fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
-
-			fastcgi_intercept_errors on;
-			fastcgi_pass phpfpmngfw;
-			fastcgi_index index.php;
-		}
-
-		location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-			expires max;
-			log_not_found off;
-		}
-	}
 }
 EOF
 
