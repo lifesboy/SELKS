@@ -119,7 +119,7 @@ pecl channel-update pecl.php.net
 cat > /etc/lighttpd/lighttpd.conf <<EOF
 
 var.log_root    = "/var/log/lighttpd"
-var.server_root = "/usr/local/www/lighttpd"
+var.server_root = "/usr/local/www"
 var.state_dir   = "/var/run"
 var.home_dir    = "/var/run/lighttpd"
 var.conf_dir    = "/usr/local/etc/lighttpd"
@@ -129,11 +129,11 @@ var.socket_dir  = home_dir + "/sockets"
 
 include "modules.conf"
 
-server.port = 80
-server.use-ipv6 = "enable"
+server.port = 81
+#server.use-ipv6 = "enable"
 server.username  = "www-data"
 server.groupname = "www-data"
-server.document-root = "/usr/local/www" + "/data"
+server.document-root = "/usr/local/www"
 server.pid-file = state_dir + "/lighttpd.pid"
 server.errorlog = log_root + "/error.log"
 
@@ -150,7 +150,7 @@ index-file.names += (
 
 url.access-deny             = ( "~", ".inc" )
 
-$HTTP["url"] =~ "\.pdf$" {
+\$HTTP["url"] =~ "\.pdf$" {
   server.range-requests = "disable"
 }
 
@@ -160,10 +160,11 @@ include "conf.d/dirlisting.conf"
 server.follow-symlink = "enable"
 server.upload-dirs = ( "/var/tmp" )
 
+include "/etc/lighttpd/conf-enabled/*.conf"
 #======
 #include_shell "/usr/share/lighttpd/use-ipv6.pl " + server.port
 #include_shell "/usr/share/lighttpd/create-mime.assign.pl"
-include_shell "/usr/share/lighttpd/include-conf-enabled.pl"
+#include_shell "/usr/share/lighttpd/include-conf-enabled.pl"
 
 EOF
 

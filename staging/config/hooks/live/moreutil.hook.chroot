@@ -51,7 +51,12 @@ ln -s /selks/staging/usr/local/wizard /usr/local/wizard
 ln -s /selks/staging/usr/local/www /usr/local/www
 ln -sf /usr/local/opnsense/www /usr/local/www/ui
 
+mv /etc/lighttpd/conf-available /etc/lighttpd/conf-available.bak
+mv /etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled.bak
+ln -s /selks/staging/etc/lighttpd/conf-available /etc/lighttpd/conf-available
+ln -s /selks/staging/etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled
 ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
+ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
 cat /dev/null > ~/.bash_history && history -c
 
