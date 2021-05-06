@@ -51,6 +51,7 @@ ln -s /selks/staging/usr/local/wizard /usr/local/wizard
 ln -s /selks/staging/usr/local/www /usr/local/www
 ln -sf /usr/local/opnsense/www /usr/local/www/ui
 
+ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
 
 cat /dev/null > ~/.bash_history && history -c
 
