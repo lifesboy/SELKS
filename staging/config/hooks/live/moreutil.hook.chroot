@@ -51,6 +51,8 @@ ln -s /selks/staging/usr/local/wizard /usr/local/wizard
 ln -s /selks/staging/usr/local/www /usr/local/www
 ln -sf /usr/local/opnsense/www /usr/local/www/ui
 
+ln -s /selks/staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/phalcon.so
+
 mv /etc/lighttpd/conf-available /etc/lighttpd/conf-available.bak
 mv /etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled.bak
 ln -s /selks/staging/etc/lighttpd/conf-available /etc/lighttpd/conf-available
