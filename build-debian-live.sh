@@ -355,7 +355,8 @@ cp -f staging/etc/php/7.3/cli/php.ini /etc/php/7.3/cli/php.ini
 #cp -R staging/etc/php/7.3/cli/conf.d /etc/php/7.3/cli/
 
 #cp -R staging/usr/lib/php /usr/lib/
-cp staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/
+rm -f /usr/lib/php/20180731/phalcon.so
+cp -f staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/
 
 cp -R staging/etc/lighttpd Stamus-Live-Build/chroot/etc/
 
