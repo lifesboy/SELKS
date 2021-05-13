@@ -113,6 +113,9 @@ cd -
 
 pecl channel-update pecl.php.net
 #pecl install phalcon
+
+apt-get install -y nftables
+systemctl enable nftables.service
 ### END Install php ###
 
 ### START lighttpd opnsense ###
