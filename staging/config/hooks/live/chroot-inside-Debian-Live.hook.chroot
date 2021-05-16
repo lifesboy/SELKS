@@ -75,10 +75,19 @@ chown logstash:logstash /var/cache/logstash/sincedbs/
 ### START Suricata ###
 
 apt-get update && \
+apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-dev   \
+                libnet1-dev libyaml-0-2 libyaml-dev pkg-config zlib1g zlib1g-dev \
+                libcap-ng-dev libcap-ng0 make libmagic-dev         \
+                libnss3-dev libgeoip-dev liblua5.1-dev libhiredis-dev libevent-dev \
+                python-yaml rustc cargo
 apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
+apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
 #make sure Suricata can write in /data/nsm
 mkdir -p /data/nsm/
 chown logstash -R /data/nsm/
+
+apt-get install -y nftables
+systemctl enable nftables.service
 
 ### END Suricata ###
 
@@ -114,8 +123,6 @@ cd -
 pecl channel-update pecl.php.net
 #pecl install phalcon
 
-apt-get install -y nftables
-systemctl enable nftables.service
 ### END Install php ###
 
 ### START lighttpd opnsense ###
