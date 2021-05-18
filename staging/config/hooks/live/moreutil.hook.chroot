@@ -49,12 +49,15 @@ cd -
 mv /usr/bin/selks-first-time-setup_stamus  /usr/bin/selks-first-time-setup_stamus.bak
 ln -s /selks/staging/usr/bin/selks-first-time-setup_stamus /usr/bin/selks-first-time-setup_stamus
 
+mv /etc/network/interfaces.d/eno1  /etc/network/interfaces.d/eno1.bak
+ln -s /selks/staging/etc/network/interfaces.d/eno1 /etc/network/interfaces.d/eno1
+
 #nft 'add chain filter IPS { type filter hook forward priority 10;}'
 #nft 'add rule filter IPS queue num 3-4 fanout,bypass'
-nft 'add chain ip filter IPS-Input { type filter hook input priority 11;}'
-nft 'add chain ip filter IPS-Output { type filter hook output priority 11;}'
-nft 'add rule ip filter IPS-Input queue num 3'
-nft 'add rule ip filter IPS-Output queue num 4'
+#nft 'add chain ip filter IPS-Input { type filter hook input priority 11;}'
+#nft 'add chain ip filter IPS-Output { type filter hook output priority 11;}'
+#nft 'add rule ip filter IPS-Input queue num 3'
+#nft 'add rule ip filter IPS-Output queue num 4'
 
 mv /usr/local/etc /usr/local/etc.bak
 mv /usr/local/opnsense /usr/local/opnsense.bak

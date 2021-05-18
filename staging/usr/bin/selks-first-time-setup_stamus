@@ -103,11 +103,13 @@ if [ $? -ne 0 ]; then
     EXIT_STATUS="FAILED"
 fi
 
-nft 'add chain ip filter IPS-Input { type filter hook input priority 11;}'
-nft 'add chain ip filter IPS-Output { type filter hook output priority 11;}'
-nft 'add rule ip filter IPS-Input queue num 3'
-nft 'add rule ip filter IPS-Output queue num 4'
+#nft 'add chain ip filter IPS-Input { type filter hook input priority 11;}'
+#nft 'add chain ip filter IPS-Output { type filter hook output priority 11;}'
+#nft 'add rule ip filter IPS-Input queue num 3'
+#nft 'add rule ip filter IPS-Output queue num 4'
 
+mv /etc/nftables.conf /etc/nftables.conf.bak
+ln -s /selks/staging/etc/nftables.conf /etc/nftables.conf
 mv /etc/suricata/suricata.yaml /etc/suricata/suricata.yaml.bak
 ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
 mv /etc/init.d/suricata /etc/init.d/suricata.bak

@@ -1,0 +1,5 @@
+# Stamus Networks SELKS eno1 interface set up auto generated!
+auto eno1
+iface eno1 inet dhcp
+    up ip link set dev eno1 up
+    down ip link set dev eno1 down
