@@ -115,6 +115,8 @@ ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
 mv /etc/init.d/suricata /etc/init.d/suricata.bak
 ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
 
+nft -f /etc/nftables.conf
+
 service suricata restart
 service suricata status
 
