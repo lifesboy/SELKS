@@ -129,6 +129,8 @@ nft -f /etc/nftables.conf
 service suricata restart
 service suricata status
 
+apt-get remove iptables -y
+
 echo "FINISH of first time setup script - $(date) " 
 
 echo -e "\e[1m\nExited with ${EXIT_STATUS}"
