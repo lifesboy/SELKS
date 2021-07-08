@@ -28,14 +28,16 @@ function legacy_interfaces_details($intf = null)
 
     $current_interface = null;
     foreach ($ifconfig_data as $line) {
-        $line_parts = explode(' ', $line);
+        $line_parts = explode(' ', trim($line));
         echo $line;
         var_dump($line_parts);
         if (strpos(trim($line), 'flags=') !== false && $line[0] != "\t") {
             $current_interface = explode(':', $line)[0];
             $result[$current_interface] = array();
-            $result[$current_interface]["capabilities"] = array();
-            $result[$current_interface]["options"] = array();
+            //$result[$current_interface]["capabilities"] = array();
+            $result[$current_interface]["capabilities"] = ['RXCSUM' , 'TXCSUM' , 'VLAN_MTU'];
+//            $result[$current_interface]["options"] = array();
+            $result[$current_interface]["options"] = ['VLAN_MTU'];
             $result[$current_interface]["macaddr"] = "00:00:00:00:00:00";
             $result[$current_interface]["ipv4"] = array();
             $result[$current_interface]["ipv6"] = array();
@@ -45,30 +47,30 @@ function legacy_interfaces_details($intf = null)
         } elseif (empty($current_interface)) {
             // skip parsing, no interface found (yet)
             continue;
-        } elseif (strpos(trim($line), 'capabilities=') !== false) {
-            // parse capabilities
-            // $capabilities = substr($line, strpos($line, '<') + 1, -1);
-            $capabilities = 'RXCSUM,TXCSUM,VLAN_MTU';
-            foreach (explode(',', $capabilities) as $capability) {
-                $result[$current_interface]["capabilities"][] = strtolower(trim($capability));
-            }
-        } elseif (strpos(trim($line), 'options=') !== false) {
-            // parse options
-            // $options = substr($line, strpos($line, '<') + 1, -1);
-            $options = 'VLAN_MTU';
-            foreach (explode(',', $options) as $option) {
-                $result[$current_interface]["options"][] = strtolower(trim($option));
-            }
-        } elseif (strpos($line, "\tether ") !== false) {
+//        } elseif (strpos(trim($line), 'capabilities=') !== false) {
+//            // parse capabilities
+//            // $capabilities = substr($line, strpos($line, '<') + 1, -1);
+//            $capabilities = 'RXCSUM,TXCSUM,VLAN_MTU';
+//            foreach (explode(',', $capabilities) as $capability) {
+//                $result[$current_interface]["capabilities"][] = strtolower(trim($capability));
+//            }
+//        } elseif (strpos(trim($line), 'options=') !== false) {
+//            // parse options
+//            // $options = substr($line, strpos($line, '<') + 1, -1);
+//            $options = 'VLAN_MTU';
+//            foreach (explode(',', $options) as $option) {
+//                $result[$current_interface]["options"][] = strtolower(trim($option));
+//            }
+        } elseif (strpos($line, "ether ") !== false) {
             // mac address
             $result[$current_interface]["macaddr"] = $line_parts[1];
-        } elseif (strpos($line, "   inet ") !== false) {
+        } elseif (strpos($line, "inet ") !== false) {
             // IPv4 information
             unset($mask);
             unset($vhid);
             for ($i = 0; $i < count($line_parts) - 1; ++$i) {
                 if ($line_parts[$i] == 'netmask') {
-                    //$mask = substr_count(base_convert(hexdec($line_parts[$i + 1]), 10, 2), '1');
+                    // $mask = substr_count(base_convert(hexdec($line_parts[$i + 1]), 10, 2), '1');
                     $mask = mask2cidr($line_parts[$i + 1]);
                 } elseif ($line_parts[$i] == 'vhid') {
                     $vhid = $line_parts[$i + 1];
