@@ -242,7 +242,8 @@ function legacy_interfaces_details($intf = null)
             continue;
         } elseif (strpos(trim($line), 'capabilities=') !== false) {
             // parse capabilities
-            $capabilities = substr($line, strpos($line, '<') + 1, -1);
+            // $capabilities = substr($line, strpos($line, '<') + 1, -1);
+            $capabilities = 'RXCSUM,TXCSUM';
             foreach (explode(',', $capabilities) as $capability) {
                 $result[$current_interface]["capabilities"][] = strtolower(trim($capability));
             }
