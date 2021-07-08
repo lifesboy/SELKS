@@ -26,6 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+function mask2cidr($mask)
+{
+  $long = ip2long($mask);
+  $base = ip2long('255.255.255.255');
+  return 32-log(($long ^ $base)+1,2);
+}
+
 function legacy_interface_listget($flag = '')
 {
     $cmd_wlan = 'sysctl -n net.wlan.devices';
@@ -257,13 +264,14 @@ function legacy_interfaces_details($intf = null)
         } elseif (strpos($line, "\tether ") !== false) {
             // mac address
             $result[$current_interface]["macaddr"] = $line_parts[1];
-        } elseif (strpos($line, "\tinet ") !== false) {
+        } elseif (strpos($line, "   inet ") !== false) {
             // IPv4 information
             unset($mask);
             unset($vhid);
             for ($i = 0; $i < count($line_parts) - 1; ++$i) {
                 if ($line_parts[$i] == 'netmask') {
-                    $mask = substr_count(base_convert(hexdec($line_parts[$i + 1]), 10, 2), '1');
+                    // $mask = substr_count(base_convert(hexdec($line_parts[$i + 1]), 10, 2), '1');
+                    $mask = mask2cidr($line_parts[$i + 1]);
                 } elseif ($line_parts[$i] == 'vhid') {
                     $vhid = $line_parts[$i + 1];
                 }
