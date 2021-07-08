@@ -243,13 +243,14 @@ function legacy_interfaces_details($intf = null)
         } elseif (strpos(trim($line), 'capabilities=') !== false) {
             // parse capabilities
             // $capabilities = substr($line, strpos($line, '<') + 1, -1);
-            $capabilities = 'RXCSUM,TXCSUM';
+            $capabilities = 'RXCSUM,TXCSUM,VLAN_MTU';
             foreach (explode(',', $capabilities) as $capability) {
                 $result[$current_interface]["capabilities"][] = strtolower(trim($capability));
             }
         } elseif (strpos(trim($line), 'options=') !== false) {
             // parse options
-            $options = substr($line, strpos($line, '<') + 1, -1);
+            // $options = substr($line, strpos($line, '<') + 1, -1);
+            $options = 'VLAN_MTU';
             foreach (explode(',', $options) as $option) {
                 $result[$current_interface]["options"][] = strtolower(trim($option));
             }
