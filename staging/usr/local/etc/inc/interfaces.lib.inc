@@ -213,7 +213,7 @@ function legacy_interfaces_details($intf = null)
         $tmp_intf = '';
     }
 
-    $cmd = '/sbin/ifconfig -m ' . $tmp_intf;
+    $cmd = '/sbin/ifconfig -a ' . $tmp_intf;
     exec($cmd . ' 2>&1', $ifconfig_data, $ret);
     if ($ret) {
         /* only error if no explicit interface was choosen */
