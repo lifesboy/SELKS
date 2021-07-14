@@ -111,6 +111,8 @@ function legacy_interfaces_details($intf = null)
                     return $a['link-local'] - $b['link-local'];
                 });
             }
+            echo '=======inet6=======';
+            var_dump($result[$current_interface]["ipv6"]);
         } elseif (strpos($line, "\ttunnel ") !== false) {
             // extract tunnel proto, source and destination
             $result[$current_interface]["tunnel"] = array();
