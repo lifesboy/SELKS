@@ -89,7 +89,7 @@ function legacy_interfaces_details($intf = null)
             echo '=======mask=======';
             var_dump($mask);
             var_dump($vhid);
-        } elseif (strpos($line, "\tinet6 ") !== false) {
+        } elseif (strpos($line, "inet6 ") !== false) {
             // IPv6 information
             $addr = strtok($line_parts[1], '%');
             $tmp = array('ipaddr' => $addr, 'link-local' => strpos($addr, 'fe80:') === 0, 'tunnel' => false);
