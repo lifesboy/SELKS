@@ -331,42 +331,42 @@ function legacy_interfaces_details($intf = null)
 //            $result[$current_interface]['media_raw'] = substr(trim($line), 7);
 //        } elseif (preg_match("/status: (.*)$/", $line, $matches)) {
 //            $result[$current_interface]['status'] = $matches[1];
-        } elseif (preg_match("/channel (\S*)/", $line, $matches)) {
-            $result[$current_interface]['channel'] = $matches[1];
-        } elseif (preg_match("/ssid (\".*?\"|\S*)/", $line, $matches)) {
-            $result[$current_interface]['ssid'] = $matches[1];
-        } elseif (preg_match("/laggproto (.*)$/", $line, $matches)) {
-            $result[$current_interface]['laggproto'] = $matches[1];
-        } elseif (preg_match("/laggport: (.*)$/", $line, $matches)) {
-            if (empty($result[$current_interface]['laggport'])) {
-                $result[$current_interface]['laggport'] = array();
-            }
-            $result[$current_interface]['laggport'][] = explode(' ', trim($matches[1]))[0];
-        } elseif (strpos($line, "\tgroups: ") !== false) {
-            array_shift($line_parts);
-            $result[$current_interface]['groups'] = $line_parts;
-        } elseif (strpos($line, "\tcarp: ") !== false) {
-            if (empty($result[$current_interface]["carp"])) {
-                $result[$current_interface]["carp"] = array();
-            }
-            $result[$current_interface]["carp"][] = array(
-                "status" => $line_parts[1],
-                "vhid" => $line_parts[3],
-                "advbase" => $line_parts[5],
-                "advskew" => $line_parts[7]
-            );
-        } elseif (strpos($line, "\tvxlan") !== false) {
-            if (empty($result[$current_interface]["vxlan"])) {
-                $result[$current_interface]["vxlan"] = array();
-            }
-            $result[$current_interface]["vxlan"]["vni"] = $line_parts[2];
-            $result[$current_interface]["vxlan"]["local"] = $line_parts[4];
-            if ($line_parts[5] == "group") {
-                $result[$current_interface]["vxlan"]["group"] = $line_parts[6];
-            } else {
-                $result[$current_interface]["vxlan"]["remote"] = $line_parts[6];
-            }
-        }
+//        } elseif (preg_match("/channel (\S*)/", $line, $matches)) {
+//            $result[$current_interface]['channel'] = $matches[1];
+//        } elseif (preg_match("/ssid (\".*?\"|\S*)/", $line, $matches)) {
+//            $result[$current_interface]['ssid'] = $matches[1];
+//        } elseif (preg_match("/laggproto (.*)$/", $line, $matches)) {
+//            $result[$current_interface]['laggproto'] = $matches[1];
+//        } elseif (preg_match("/laggport: (.*)$/", $line, $matches)) {
+//            if (empty($result[$current_interface]['laggport'])) {
+//                $result[$current_interface]['laggport'] = array();
+//            }
+//            $result[$current_interface]['laggport'][] = explode(' ', trim($matches[1]))[0];
+//        } elseif (strpos($line, "\tgroups: ") !== false) {
+//            array_shift($line_parts);
+//            $result[$current_interface]['groups'] = $line_parts;
+//        } elseif (strpos($line, "\tcarp: ") !== false) {
+//            if (empty($result[$current_interface]["carp"])) {
+//                $result[$current_interface]["carp"] = array();
+//            }
+//            $result[$current_interface]["carp"][] = array(
+//                "status" => $line_parts[1],
+//                "vhid" => $line_parts[3],
+//                "advbase" => $line_parts[5],
+//                "advskew" => $line_parts[7]
+//            );
+//        } elseif (strpos($line, "\tvxlan") !== false) {
+//            if (empty($result[$current_interface]["vxlan"])) {
+//                $result[$current_interface]["vxlan"] = array();
+//            }
+//            $result[$current_interface]["vxlan"]["vni"] = $line_parts[2];
+//            $result[$current_interface]["vxlan"]["local"] = $line_parts[4];
+//            if ($line_parts[5] == "group") {
+//                $result[$current_interface]["vxlan"]["group"] = $line_parts[6];
+//            } else {
+//                $result[$current_interface]["vxlan"]["remote"] = $line_parts[6];
+//            }
+//        }
     }
 
     return $result;
