@@ -44,6 +44,12 @@ function legacy_interfaces_details($intf = null)
             if (preg_match("/ mtu ([0-9]*).*$/", $line, $matches)) {
                 $result[$current_interface]["mtu"] = $matches[1];
             }
+            if (preg_match("/<[A-Z,]+>/", $line, $matches)) {
+                $flags = explode(',', substr($matches[0], 1, strlen($matches[0]) - 2));
+                if (array_search('UP', $flags) >= 0) {
+                    $result[$current_interface]['status'] = 'active';
+                }
+            }
         } elseif (empty($current_interface)) {
             // skip parsing, no interface found (yet)
             continue;
@@ -111,21 +117,21 @@ function legacy_interfaces_details($intf = null)
                     return $a['link-local'] - $b['link-local'];
                 });
             }
-        } elseif (strpos($line, "\ttunnel ") !== false) {
-            // extract tunnel proto, source and destination
-            $result[$current_interface]["tunnel"] = array();
-            $result[$current_interface]["tunnel"]["proto"] = $line_parts[1];
-            $result[$current_interface]["tunnel"]["src_addr"] = $line_parts[2];
-            $result[$current_interface]["tunnel"]["dest_addr"] = $line_parts[4];
-        } elseif (preg_match("/media: (.*)/", $line, $matches)) {
-            // media, when link is between parenthesis grep only the link part
-            $result[$current_interface]['media'] = $matches[1];
-            if (preg_match("/media: .*? \((.*?)\)/", $line, $matches)) {
-                $result[$current_interface]['media'] = $matches[1];
-            }
-            $result[$current_interface]['media_raw'] = substr(trim($line), 7);
-        } elseif (preg_match("/status: (.*)$/", $line, $matches)) {
-            $result[$current_interface]['status'] = $matches[1];
+//        } elseif (strpos($line, "\ttunnel ") !== false) {
+//            // extract tunnel proto, source and destination
+//            $result[$current_interface]["tunnel"] = array();
+//            $result[$current_interface]["tunnel"]["proto"] = $line_parts[1];
+//            $result[$current_interface]["tunnel"]["src_addr"] = $line_parts[2];
+//            $result[$current_interface]["tunnel"]["dest_addr"] = $line_parts[4];
+//        } elseif (preg_match("/media: (.*)/", $line, $matches)) {
+//            // media, when link is between parenthesis grep only the link part
+//            $result[$current_interface]['media'] = $matches[1];
+//            if (preg_match("/media: .*? \((.*?)\)/", $line, $matches)) {
+//                $result[$current_interface]['media'] = $matches[1];
+//            }
+//            $result[$current_interface]['media_raw'] = substr(trim($line), 7);
+//        } elseif (preg_match("/status: (.*)$/", $line, $matches)) {
+//            $result[$current_interface]['status'] = $matches[1];
         } elseif (preg_match("/channel (\S*)/", $line, $matches)) {
             $result[$current_interface]['channel'] = $matches[1];
         } elseif (preg_match("/ssid (\".*?\"|\S*)/", $line, $matches)) {
