@@ -36,19 +36,19 @@ function mask2cidr($mask)
 function legacy_interface_listget($flag = '')
 {
     $cmd_wlan = 'sysctl -n net.wlan.devices';
-    $cmd = '/sbin/ifconfig -l';
+    $cmd = '/sbin/ifconfig -a | grep "flags"';
     $ifs_wlan = null;
     $ifs = null;
 
-    exec($cmd_wlan . ' 2>&1', $out_wlan, $ret_wlan);
-    if (!$ret_wlan && !empty($out_wlan[0])) {
-        $ifs_wlan = explode(' ', $out_wlan[0]);
-    }
+//    exec($cmd_wlan . ' 2>&1', $out_wlan, $ret_wlan);
+//    if (!$ret_wlan && !empty($out_wlan[0])) {
+//        $ifs_wlan = explode(' ', $out_wlan[0]);
+//    }
 
     if ($flag === 'up') {
-        $cmd .= 'u';
+        $cmd .= ' | grep "UP"';
     } elseif ($flag === 'down') {
-        $cmd .= 'd';
+        $cmd .= ' | grep "DOWN"';
     }
 
     exec($cmd . ' 2>&1', $out, $ret);
@@ -57,8 +57,10 @@ function legacy_interface_listget($flag = '')
         return ($ifs);
     }
 
-    if (isset($out[0])) {
-        $ifs = explode(' ', $out[0]);
+    if (isset($out) && count($out) > 0) {
+        $ifs = array_map(function ($line) {
+            return explode(':', $line)[0];
+        }, $out);
     }
 
     if ($ifs_wlan != null) {
