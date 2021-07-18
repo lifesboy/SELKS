@@ -366,7 +366,7 @@ function legacy_interfaces_details($intf = null)
 //            } else {
 //                $result[$current_interface]["vxlan"]["remote"] = $line_parts[6];
 //            }
-//        }
+        }
     }
 
     return $result;
