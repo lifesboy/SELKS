@@ -1,0 +1,165 @@
+#!/usr/local/bin/php
+<?php
+
+/*
+ * Copyright (C) 2017-2018 Franco Fichtner <franco@opnsense.org>
+ * Copyright (C) 2006 Scott Ullrich <sullrich@gmail.com>
+ * Copyright (C) 2003-2005 Manuel Kasper <mk@neon1.net>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ * OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+require_once("config.inc");
+require_once("auth.inc");
+require_once("filter.inc");
+require_once("rrd.inc");
+require_once("util.inc");
+require_once("system.inc");
+require_once("interfaces.inc");
+
+$argument = isset($argv[1]) ? trim($argv[1]) : '';
+
+if (file_exists('/var/run/booting')) {
+    log_error("IP renewal deferred during boot on '{$argument}'");
+    file_put_contents('/tmp/newwanip_' . $argument, $argument);
+    return;
+}
+
+log_error("IPv4 renewal is starting on '{$argument}'");
+
+if (empty($argument)) {
+    $interface = 'wan';
+    $interface_real = get_real_interface($interface);
+} else {
+    $interface = convert_real_interface_to_friendly_interface_name($argument);
+    $interface_real = $argument;
+}
+
+$ip = get_interface_ip($interface);
+
+if (!isset($config['interfaces'][$interface]['enable'])) {
+    log_error("Interface '{$interface}' is disabled or empty, nothing to do.");
+    return;
+}
+
+$interface_descr = convert_friendly_interface_to_friendly_descr($interface);
+
+log_error("On (IP address: {$ip}) (interface: {$interface_descr}[{$interface}]) (real interface: {$interface_real}).");
+
+/*
+ * Take care of OpenVPN and similar if you generate the event
+ * to reconfigure an interface.  OpenVPN might be in tap(4)
+ * mode and not have an IP address.
+ */
+if ((empty($ip) || !is_ipaddr($ip)) && substr($interface_real, 0, 4) != 'ovpn') {
+    log_error("Failed to detect IP for {$interface_descr}[{$interface}]");
+    return;
+}
+
+$configip = $config['interfaces'][$interface]['ipaddr'];
+
+$cacheip_file = "/var/db/{$interface}_cacheip";
+$ip_file = "/var/db/{$interface}_ip";
+
+if (is_ipaddr($ip)) {
+    @file_put_contents($ip_file, $ip);
+}
+
+interfaces_vips_configure(false, $interface);
+
+$gre = link_interface_to_gre($interface);
+if (!empty($gre)) {
+    array_walk($gre, 'interface_gre_configure');
+}
+$gif = link_interface_to_gif($interface);
+if (!empty($gif)) {
+    array_walk($gif, 'interface_gif_configure');
+}
+
+$bridgetmp = link_interface_to_bridge($interface);
+if (!empty($bridgetmp)) {
+    interface_bridge_add_member($bridgetmp, $interface_real);
+}
+
+system_resolvconf_generate();
+system_hosts_generate();
+
+if (isset($config['interfaces'][$interface]['ipaddrv6'])) {
+    switch ($config['interfaces'][$interface]['ipaddrv6']) {
+        case '6to4':
+            interface_6to4_configure($interface, $config['interfaces'][$interface]);
+            break;
+        case '6rd':
+            interface_6rd_configure($interface, $config['interfaces'][$interface]);
+            break;
+        case 'dhcp6':
+        case 'slaac':
+            if (!isset($config['interfaces'][$interface]['dhcp6usev4iface'])) {
+                break;
+            }
+            interface_dhcpv6_prepare($interface, $config['interfaces'][$interface]);
+            interface_dhcpv6_configure($interface, $config['interfaces'][$interface]);
+            break;
+       default:
+            if (!isset($config['interfaces'][$interface]['dhcp6usev4iface'])) {
+                break;
+            }
+            interface_static6_configure($interface, $config['interfaces'][$interface]);
+            break;
+    }
+}
+
+if (isset($config['gifs']['gif']) && is_array($config['gifs']['gif'])){
+    foreach ($config['gifs']['gif'] as $gif) {
+        if ($gif['if'] == $interface) {
+            foreach (legacy_config_get_interfaces(array("virtual" => false)) as $ifname => $ifparent) {
+                if (($ifparent['if'] == $gif['gifif']) && (isset($ifparent['enable']))) {
+                  $gif['gifif'] = interface_gif_configure($gif);
+                  $confif = convert_real_interface_to_friendly_interface_name($gif['gifif']);
+                  if (!empty($confif)) {
+                      interface_configure(false, $confif);
+                  }
+                  system_routing_configure(false, $ifname);
+                }
+            }
+        }
+    }
+}
+
+$cacheip = @file_get_contents($cacheip_file);
+
+if (!is_ipaddr($cacheip) || $ip != $cacheip || !is_ipaddr($configip)) {
+    @unlink($cacheip_file);
+
+    system_routing_configure(false, $interface);
+    plugins_configure('monitor');
+    filter_configure_sync(false, isset($config['system']['ip_change_kill_states']));
+
+    if (is_ipaddr($ip)) {
+        @file_put_contents($cacheip_file, $ip);
+    }
+
+    plugins_configure('vpn', false, array($interface));
+    plugins_configure('newwanip', false, array($interface));
+    rrd_configure();
+}
