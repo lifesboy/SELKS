@@ -1,4 +1,0 @@
-#!/bin/sh
-
-echo -n "Generating configuration: "
-configctl template reload \*
