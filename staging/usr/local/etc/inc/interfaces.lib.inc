@@ -198,8 +198,51 @@ function legacy_interface_stats($ifs = null)
         if (strpos($line, 'flags=') > 0) {
             $current_interface = explode(':', $line)[0];
             $stats[$current_interface] = array();
+            $flags = explode('<', explode('flags=', $line)[1])[0];
             $mtu = explode('mtu ', $line)[1];
             $stats[$current_interface]['mtu'] = trim($mtu);
+            $stats[$current_interface]['flags'] = trim($flags);
+            $stats[$current_interface]['input errors'] = 0;
+            $stats[$current_interface]['output errors'] = 0;
+            $stats[$current_interface]['collisions'] = 0;
+//            flags: 8010
+//            promiscuous listeners: 0
+//            send queue length: 0
+//            send queue max length: 50
+//            send queue drops: 0
+//            type: PPP
+//            physical: unknown physical 0
+//            address length: 0
+//            header length: 0
+//            link state: 0
+//            vhid: 0
+//            datalen: 152
+//            mtu: 1500
+//            metric: 0
+//            line rate: 0 bit/s
+//            packets received: 0
+//            input errors: 0
+//            packets transmitted: 0
+//            output errors: 0
+//            collisions: 0
+//            bytes received: 0
+//            bytes transmitted: 0
+//            multicasts received: 0
+//            multicasts transmitted: 0
+//            input queue drops: 0
+//            packets for unknown protocol: 0
+//            HW offload capabilities: 0x0
+//            uptime at attach or stat reset: 19
+        }
+        elseif (strpos($line, 'TX errors') > 0) {
+            $output_errors = explode(' ', explode('TX errors ', $line)[1])[0];
+            $collisions = explode('collisions ', $line)[1];
+            $stats[$current_interface]['collisions'] = trim($collisions);
+            $stats[$current_interface]['output errors'] = trim($output_errors);
+        }
+        elseif (strpos($line, 'RX errors') > 0) {
+            $input_errors = explode(' ', explode('RX errors ', $line)[1])[0];
+            $stats[$current_interface]['input errors'] = trim($input_errors);
         }
 //        elseif ($current_interface != '') {
 //            $stat = explode(':', $line);
