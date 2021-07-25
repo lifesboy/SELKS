@@ -136,7 +136,7 @@ function legacy_interface_setaddress($ifs, $addr)
 
 function legacy_interface_deladdress($ifs, $addr)
 {
-    $cmd = '/sbin/ifconfig ' . escapeshellarg($ifs) . ' -alias ' . escapeshellarg($addr);
+    $cmd = '/sbin/ifconfig ' . escapeshellarg($ifs) . ':' . escapeshellarg($addr);
 
     exec($cmd . ' 2>&1', $out, $ret);
     if ($ret) {
