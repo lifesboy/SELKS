@@ -545,6 +545,11 @@ subnet6 3ffe:501:ffff:102::/64 {
 }
 EOF
 
+cat > /etc/default/isc-dhcp-server <<EOF
+INTERFACESv4="enp4s0"
+INTERFACESv6="enp4s0"
+EOF
+
 ### END dhcp ###
 
 ### START Scirius, nginx, revrse proxy, supervisor and ssl ###
