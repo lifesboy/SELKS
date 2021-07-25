@@ -562,8 +562,8 @@ function dhcpd_dhcp_configure($verbose = false, $family = 'all', $blacklist = ar
         mwexecf('/bin/mkdir -p %s', "/var/dhcpd{$dir}");
     }
 
-    if (mwexecf('/sbin/mount -uw %s', '/var/dhcpd/dev', true)) {
-        mwexecf('/sbin/mount -t devfs devfs %s', '/var/dhcpd/dev');
+    if (mwexecf('/bin/mount -w %s', '/var/dhcpd/dev', true)) {
+        mwexecf('/bin/mount -t devfs devfs %s', '/var/dhcpd/dev');
     }
 
     mwexecf('/usr/bin/chown -R dhcpd:dhcpd %s', '/var/dhcpd');

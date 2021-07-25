@@ -427,8 +427,8 @@ function unbound_configure_do($verbose = false, $interface = '')
         mwexecf('/bin/mkdir -p %s', "/var/unbound{$dir}");
     }
 
-    if (mwexecf('/sbin/mount -uw %s', '/var/unbound/dev', true)) {
-        mwexecf('/sbin/mount -t devfs devfs %s', '/var/unbound/dev');
+    if (mwexecf('/bin/mount -w %s', '/var/unbound/dev', true)) {
+        mwexecf('/bin/mount -t devfs devfs %s', '/var/unbound/dev');
     }
 
     mwexecf('/usr/bin/chown -R unbound:unbound %s', '/var/unbound');
