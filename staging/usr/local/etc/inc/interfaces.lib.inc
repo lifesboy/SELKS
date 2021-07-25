@@ -178,10 +178,12 @@ function legacy_interface_stats($ifs = null)
 {
     if ($ifs != null) {
         // only request data for selected interface
-        $cmd = '/usr/local/sbin/ifinfo ' . escapeshellarg($ifs);
+        //$cmd = '/usr/local/sbin/ifinfo ' . escapeshellarg($ifs);
+        $cmd = '/usr/sbin/ifconfig -a ' . escapeshellarg($ifs);
     } else {
         // all interfaces
-        $cmd = '/usr/local/sbin/ifinfo';
+        //$cmd = '/usr/local/sbin/ifinfo';
+        $cmd = '/usr/sbin/ifconfig -a';
     }
     $stats = array();
 
@@ -193,13 +195,16 @@ function legacy_interface_stats($ifs = null)
 
     $current_interface = '';
     foreach ($out as $line) {
-        if (strpos($line, 'Interface') === 0) {
-            $current_interface = explode('(', explode(' ', $line)[1])[0];
+        if (strpos($line, 'flags=') > 0) {
+            $current_interface = explode(':', $line)[0];
             $stats[$current_interface] = array();
-        } elseif ($current_interface != '') {
-            $stat = explode(':', $line);
-            $stats[$current_interface][trim($stat[0])] = trim($stat[1]);
+            $mtu = explode('mtu ', $line)[1];
+            $stats[$current_interface]['mtu'] = trim($mtu);
         }
+//        elseif ($current_interface != '') {
+//            $stat = explode(':', $line);
+//            $stats[$current_interface][trim($stat[0])] = trim($stat[1]);
+//        }
     }
     if ($ifs != null) {
         return $stats[$current_interface];
