@@ -566,7 +566,7 @@ function dhcpd_dhcp_configure($verbose = false, $family = 'all', $blacklist = ar
         mwexecf('/sbin/mount -t devfs devfs %s', '/var/dhcpd/dev');
     }
 
-    mwexecf('/usr/sbin/chown -R dhcpd:dhcpd %s', '/var/dhcpd');
+    mwexecf('/usr/bin/chown -R dhcpd:dhcpd %s', '/var/dhcpd');
 
     if ($family == 'all' || $family == 'inet') {
         dhcpd_dhcp4_configure($verbose);

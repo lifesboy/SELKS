@@ -431,7 +431,7 @@ function unbound_configure_do($verbose = false, $interface = '')
         mwexecf('/sbin/mount -t devfs devfs %s', '/var/unbound/dev');
     }
 
-    mwexecf('/usr/sbin/chown -R unbound:unbound %s', '/var/unbound');
+    mwexecf('/usr/bin/chown -R unbound:unbound %s', '/var/unbound');
 
     if ($verbose) {
         echo 'Starting Unbound DNS...';
