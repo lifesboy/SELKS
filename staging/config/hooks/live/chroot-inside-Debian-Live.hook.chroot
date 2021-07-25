@@ -123,6 +123,8 @@ cd -
 pecl channel-update pecl.php.net
 #pecl install phalcon
 
+pip install jinja2 netaddr
+
 ### END Install php ###
 
 ### START lighttpd opnsense ###
