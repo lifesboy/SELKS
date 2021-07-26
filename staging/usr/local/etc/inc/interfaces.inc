@@ -1072,7 +1072,8 @@ function interface_bring_down($interface = "wan", $ifacecfg = false)
 
         $ip4 = find_interface_ip($realif);
         if (is_ipaddrv4($ip4)) {
-            mwexecf('/sbin/ifconfig %s delete %s', array($realif, $ip4));
+            // mwexecf('/sbin/ifconfig %s delete %s', array($realif, $ip4));
+            mwexecf('/sbin/ifconfig %s %s down', array($realif, $ip4));
         }
     }
 
