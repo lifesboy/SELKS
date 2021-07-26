@@ -24,8 +24,6 @@ fi
 # We'll add up all the options above and use them
 NAME=suricata
 DAEMON=/usr/bin/$NAME
-LISTENMODE=nfqueue
-NFQUEUE="-q 3 -q 4 -q 5"
 
 # Use this if you want the user to explicitly set 'RUN' in
 # /etc/default/
@@ -43,7 +41,7 @@ check_root()  {
 }
 
 check_nfqueue() {
-if [ -e /proc/net/netfilter/nf_queue ]; then
+if [ ! -e /proc/net/netfilter/nf_queue ]; then
     log_failure_msg "NFQUEUE support not found !"
     log_failure_msg "Please ensure the nfnetlink_queue module is loaded or built in kernel"
     exit 5
@@ -164,4 +162,3 @@ case "$1" in
 esac
 
 exit 0
-
