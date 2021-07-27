@@ -125,7 +125,7 @@ pecl channel-update pecl.php.net
 
 apt-get install python3-pip -y
 pip3 install jinja2 netaddr
-apt-get install unbound isc-dhcp-server -y
+apt-get install unbound isc-dhcp-server radvd -y
 
 ### END Install php ###
 
