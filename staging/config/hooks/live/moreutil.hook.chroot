@@ -87,5 +87,9 @@ ln -s /selks/staging/etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled
 ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
 ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
+
+ln -s /selks/staging/etc/rc.subr /etc/rc.subr
+ln -s /selks/staging/etc/init.d/configd.sh /etc/rc.subr
+
 cat /dev/null > ~/.bash_history && history -c
 

@@ -123,7 +123,8 @@ cd -
 pecl channel-update pecl.php.net
 #pecl install phalcon
 
-pip install jinja2 netaddr
+apt-get install python3-pip -y
+pip3 install jinja2 netaddr
 apt-get install unbound isc-dhcp-server -y
 
 ### END Install php ###
