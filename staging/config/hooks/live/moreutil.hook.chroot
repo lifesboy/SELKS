@@ -90,6 +90,7 @@ ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
 ln -s /selks/staging/etc/rc.subr /etc/rc.subr
 ln -s /selks/staging/etc/init.d/configd.sh /etc/init.d/configd.sh
+update-rc.d configd.sh defaults
 
 cat /dev/null > ~/.bash_history && history -c
 
