@@ -91,6 +91,8 @@ ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 ln -s /selks/staging/etc/rc.subr /etc/rc.subr
 ln -s /selks/staging/etc/init.d/configd.sh /etc/init.d/configd.sh
 ln -s /selks/staging/etc/init.d/captiveportal.sh /etc/init.d/captiveportal.sh
+chmod 755 /etc/init.d/configd.sh
+chmod 755 /etc/init.d/captiveportal.sh
 update-rc.d configd.sh defaults
 update-rc.d captiveportal.sh defaults
 ln -s /selks/staging/var/etc /var/etc
