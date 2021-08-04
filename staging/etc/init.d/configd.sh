@@ -95,7 +95,8 @@ configd_poststop()
 check_syntax()
 {
     #$DAEMON -tt $DAEMON_OPTS > /dev/null || exit $?
-    exit 0
+    echo $DAEMON
+    echo $DAEMON_OPTS
 }
 
 . /lib/lsb/init-functions
@@ -104,13 +105,14 @@ case "$1" in
     start)
         check_syntax
         log_daemon_msg "Starting $DESC" $NAME
+        configd_load_rc_config
         configd_prestart
         if ! start-stop-daemon --start --oknodo --quiet \
             --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
         then
-            configd_poststart
             log_end_msg 1
         else
+            configd_poststart
             log_end_msg 0
         fi
         ;;
@@ -119,6 +121,8 @@ case "$1" in
         if start-stop-daemon --stop --retry 30 --oknodo --quiet \
             --pidfile $PIDFILE --exec $DAEMON
         then
+            configd_stop
+            configd_poststop
             rm -f $PIDFILE
             log_end_msg 0
         else
