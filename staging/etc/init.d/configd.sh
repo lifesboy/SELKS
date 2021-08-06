@@ -22,9 +22,13 @@ DAEMON_OPTS=""
 
 #test -x $DAEMON || exit 0
 
-. /etc/rc.subr
+. /lib/lsb/init-functions
+
 name=$NAME
+pidfile=$PIDFILE
 desc=$DESC
+
+. /etc/rc.subr
 
 set -e
 
@@ -56,27 +60,28 @@ configd_poststart()
 # kill configd
 configd_stop()
 {
-	if [ -z "$rc_pid" ]; then
-		[ -n "$rc_fast" ] && return 0
-		_run_rc_notrunning
-		return 1
-	fi
+  log_daemon_msg "configd_stop..."
+  pid="`cat $PIDFILE`"
+#	if [ -z "$pid" ]; then
+#		_run_rc_notrunning
+#		return 1
+#	fi
 
-	echo -n "Stopping ${name}."
+	echo -n "Stopping ${name}. pid ${pid}"
 	# first ask gently to exit
-	kill -15 ${rc_pid}
+	kill -15 ${pid}
 
 	# wait max 2 seconds for gentle exit
 	for i in $(seq 1 20);
 	do
-		if [ -z "`/bin/ps -ex | /usr/bin/awk '{print $1;}' | /usr/bin/grep "^${rc_pid}"`" ]; then
+		if [ -z "`/bin/ps -ex | /usr/bin/awk '{print $1;}' | /usr/bin/grep "^${pid}"`" ]; then
 			break
 		fi
 		sleep 0.1
 	done
 
 	# kill any remaining configd processes (if still running)
-	for configd_pid in `/bin/ps -ex | grep 'configd.py' | /usr/bin/awk '{print $1;}' `
+	for configd_pid in `/bin/ps -ex | grep 'configd.py' | grep -v 'grep' | /usr/bin/awk '{print $1;}' `
 	do
 	   kill -9 $configd_pid >/dev/null 2>&1
 	done
@@ -98,8 +103,6 @@ check_syntax()
     echo $DAEMON
     echo $DAEMON_OPTS
 }
-
-. /lib/lsb/init-functions
 
 case "$1" in
     start)
