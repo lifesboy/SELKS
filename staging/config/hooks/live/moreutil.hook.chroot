@@ -94,17 +94,17 @@ ln /selks/staging/etc/init.d/rcfilesystems /etc/init.d/rcfilesystems
 ln /selks/staging/etc/init.d/rclogin /etc/init.d/rclogin
 ln /selks/staging/etc/init.d/rcservers /etc/init.d/rcservers
 ln /selks/staging/etc/init.d/rcdaemon /etc/init.d/rcdaemon
-ln /selks/staging/etc/init.d/configd.sh /etc/init.d/configd.sh
-ln /selks/staging/etc/init.d/captiveportal.sh /etc/init.d/captiveportal.sh
+ln /selks/staging/etc/init.d/configd /etc/init.d/configd
+ln /selks/staging/etc/init.d/captiveportal /etc/init.d/captiveportal
 chmod 755 /etc/init.d/rcnetworking
 chmod 755 /etc/init.d/rcfilesystems
 chmod 755 /etc/init.d/rclogin
 chmod 755 /etc/init.d/rcservers
 chmod 755 /etc/init.d/rcdaemon
-chmod 755 /etc/init.d/configd.sh
-chmod 755 /etc/init.d/captiveportal.sh
-update-rc.d configd.sh defaults
-update-rc.d captiveportal.sh defaults
+chmod 755 /etc/init.d/configd
+chmod 755 /etc/init.d/captiveportal
+update-rc.d configd defaults
+update-rc.d captiveportal defaults
 ln -s /selks/staging/var/etc /var/etc
 
 ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
