@@ -149,7 +149,7 @@ function webgui_configure_do($verbose = false, $interface = '')
     killbyname('php-cgi', 'HUP');
 
     /* start lighthttpd */
-    if (!count($listeners) || mwexec('/usr/local/sbin/lighttpd -f /var/etc/lighty-webConfigurator.conf')) {
+    if (!count($listeners) || mwexec('/usr/sbin/lighttpd -f /var/etc/lighty-webConfigurator.conf')) {
         if ($verbose) {
             echo "failed.\n";
         }
