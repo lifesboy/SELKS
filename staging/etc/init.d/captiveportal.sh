@@ -173,12 +173,12 @@ case "$1" in
         log_daemon_msg "Starting $DESC" $NAME
         captiveportal_load_rc_config
         captiveportal_prestart
-        if ! start-stop-daemon --start --oknodo --quiet \
-            --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
+        #if ! start-stop-daemon --start --oknodo --quiet \
+        #    --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
+        if ! captiveportal_start
         then
             log_end_msg 1
         else
-            captiveportal_start
             log_end_msg 0
         fi
         ;;
