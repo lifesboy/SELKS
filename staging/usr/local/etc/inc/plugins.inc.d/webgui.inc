@@ -124,7 +124,6 @@ function webgui_configure_do($verbose = false, $interface = '')
         $ca = ca_chain($cert);
     }
 
-    echo 'webgui_generate_config:'.$portarg;
     if (!webgui_generate_config($portarg, $crt, $key, $ca, $listeners)) {
         if ($verbose) {
             echo "deferred.\n";
