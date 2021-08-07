@@ -107,5 +107,9 @@ update-rc.d configd.sh defaults
 update-rc.d captiveportal.sh defaults
 ln -s /selks/staging/var/etc /var/etc
 
+ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
+chmod 755 /usr/sbin/pluginctl
+
+
 cat /dev/null > ~/.bash_history && history -c
 
