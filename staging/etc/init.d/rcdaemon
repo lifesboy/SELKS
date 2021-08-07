@@ -1,0 +1,22 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          rcdaemon
+# Required-Start:    $rcnetworking $rcservers
+# Required-Stop:
+# Should-Start:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: ensure that general purpose daemons
+# Description:       ensure that general purpose daemons
+### END INIT INFO
+
+#
+# $FreeBSD$
+#
+
+# PROVIDE: DAEMON
+# REQUIRE: NETWORKING SERVERS
+
+#	This is a dummy dependency, to ensure that general purpose daemons
+#	are run _after_ the above are.
