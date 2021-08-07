@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 # DNS BL script
 # Copyright (c) 2020 Petr Kejval <petr.kejval6@gmail.com>
