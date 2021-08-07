@@ -110,6 +110,23 @@ ln -s /selks/staging/var/etc /var/etc
 ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
 chmod 755 /usr/sbin/pluginctl
 
+chmod 755 /selks/staging/usr/local/etc/rc.configure_firmware
+chmod 755 /selks/staging/usr/local/etc/rc.configure_interface
+chmod 755 /selks/staging/usr/local/etc/rc.configure_plugins
+chmod 755 /selks/staging/usr/local/etc/rc.dyndns
+chmod 755 /selks/staging/usr/local/etc/rc.expireaccounts
+chmod 755 /selks/staging/usr/local/etc/rc.filter_configure
+chmod 755 /selks/staging/usr/local/etc/rc.filter_synchronize
+chmod 755 /selks/staging/usr/local/etc/rc.linkup
+chmod 755 /selks/staging/usr/local/etc/rc.newwanipv6
+chmod 755 /selks/staging/usr/local/etc/rc.reload_all
+chmod 755 /selks/staging/usr/local/etc/rc.resolv_conf_generate
+chmod 755 /selks/staging/usr/local/etc/rc.restart_webgui
+chmod 755 /selks/staging/usr/local/etc/rc.subr.d/livemode
+chmod 755 /selks/staging/usr/local/etc/rc.subr.d/recover
+chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/carp/20-openvpn
+chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/start/90-carp
+chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/stop/99-config
 
 cat /dev/null > ~/.bash_history && history -c
 
