@@ -1,4 +1,4 @@
 #!/bin/sh
 
 # Startup configd
-/usr/local/etc/rc.d/configd start
+/etc/init.d/configd start
