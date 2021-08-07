@@ -1257,7 +1257,7 @@ function get_sysctl($names)
         $name_list = array(escapeshellarg($names));
     }
 
-    exec("/sbin/sysctl -i " . implode(" ", $name_list), $output);
+    exec("/sbin/sysctl -e " . implode(" ", $name_list), $output);
     $values = array();
     foreach ($output as $line) {
         $line = explode(": ", $line, 2);
