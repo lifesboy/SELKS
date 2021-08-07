@@ -7,7 +7,7 @@
 # Should-Stop:       fam
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start the captive portal daemon service backend.
+# Short-Description: Start the captiveportal daemon service backend.
 # Description:       Opnsense captive portal daemon service backend
 ### END INIT INFO
 
@@ -21,6 +21,12 @@ SCRIPTNAME=/etc/init.d/$NAME
 DAEMON_OPTS=""
 
 #test -x $DAEMON || exit 0
+
+. /lib/lsb/init-functions
+
+name=$NAME
+pidfile=$PIDFILE
+desc=$DESC
 
 . /etc/rc.subr
 
@@ -73,6 +79,7 @@ captiveportal_start()
         echo "Starting API dispatcher"
         /usr/sbin/lighttpd -f /var/etc/lighttpd-api-dispatcher.conf
 
+        log_daemon_msg "Checkpoint 1"
         # generate ssl certificates
         /usr/local/opnsense/scripts/OPNsense/CaptivePortal/generate_certs.php
 
@@ -156,10 +163,9 @@ captiveportal_stop()
 check_syntax()
 {
     #$DAEMON -tt $DAEMON_OPTS > /dev/null || exit $?
-    exit 0
+    echo $DAEMON
+    echo $DAEMON_OPTS
 }
-
-. /lib/lsb/init-functions
 
 case "$1" in
     start)
@@ -167,21 +173,21 @@ case "$1" in
         log_daemon_msg "Starting $DESC" $NAME
         captiveportal_load_rc_config
         captiveportal_prestart
-        captiveportal_start
         if ! start-stop-daemon --start --oknodo --quiet \
-            --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
+            --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
         then
             log_end_msg 1
         else
+            captiveportal_start
             log_end_msg 0
         fi
         ;;
     stop)
         log_daemon_msg "Stopping $DESC" $NAME
-        captiveportal_stop
         if start-stop-daemon --stop --retry 30 --oknodo --quiet \
             --pidfile $PIDFILE --exec $DAEMON
         then
+            captiveportal_stop
             rm -f $PIDFILE
             log_end_msg 0
         else
