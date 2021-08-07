@@ -77,7 +77,7 @@ function webgui_configure_do($verbose = false, $interface = '')
     chdir('/usr/local/www');
 
     /* defaults */
-    $portarg = '80';
+    $portarg = '81';
     $crt = '';
     $key = '';
     $ca = '';
@@ -118,12 +118,13 @@ function webgui_configure_do($verbose = false, $interface = '')
         }
 
         if (!$config['system']['webgui']['port']) {
-            $portarg = '443';
+            $portarg = '444';
         }
 
         $ca = ca_chain($cert);
     }
 
+    echo 'webgui_generate_config:'.$portarg;
     if (!webgui_generate_config($portarg, $crt, $key, $ca, $listeners)) {
         if ($verbose) {
             echo "deferred.\n";
@@ -147,7 +148,6 @@ function webgui_configure_do($verbose = false, $interface = '')
      * avoid hiccups with moved include files.
      */
     killbyname('php-cgi', 'HUP');
-
     /* start lighthttpd */
     if (!count($listeners) || mwexec('/usr/sbin/lighttpd -f /var/etc/lighty-webConfigurator.conf')) {
         if ($verbose) {
@@ -211,7 +211,7 @@ fastcgi.server = ( ".php" =>
         "PHP_FCGI_CHILDREN" => "3",
         "PHP_FCGI_MAX_REQUESTS" => "100"
       ),
-      "bin-path" => "/usr/local/bin/php-cgi"
+      "bin-path" => "/usr/bin/php-cgi"
     )
   )
 )
@@ -229,7 +229,7 @@ EOD;
 #
 ############ Options you really have to take care of ####################
 
-server.event-handler  = "freebsd-kqueue"
+#server.event-handler  = "freebsd-kqueue"
 server.network-backend  = "writev"
 
 ## modules to load
@@ -455,14 +455,14 @@ EOD;
         $config['system']['webgui']['protocol'] == 'https' &&
         !isset($config['system']['webgui']['disablehttpredirect'])
     ) {
-        $redirectport = $lighty_port != "443" ? ":{$lighty_port}" : '';
+        $redirectport = $lighty_port != "444" ? ":{$lighty_port}" : '';
         foreach ($listeners as $listener) {
             if (is_ipaddrv6($listener)) {
                 $listener = "[{$listener}]";
             }
             $lighty_config .= <<<EOD
 
-\$SERVER["socket"] == "{$listener}:80" {
+\$SERVER["socket"] == "{$listener}:81" {
     \$HTTP["host"] =~ "(.*)" {
         url.redirect = ( "^/(.*)" => "https://%1{$redirectport}/$1" )
     }
