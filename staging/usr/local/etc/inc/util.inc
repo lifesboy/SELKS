@@ -1298,7 +1298,8 @@ function set_sysctl($values)
     }
 
     $sysctls = null;
-    exec('/sbin/sysctl -WaN', $list, $success);
+//    exec('/sbin/sysctl -WaN', $list, $success);
+    exec('/sbin/sysctl -aN', $list, $success);
     if ($success == 0) {
         $sysctls = $list;
     }
