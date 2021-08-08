@@ -26,7 +26,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 PKG_PROGRESS_FILE=/tmp/pkg_upgrade.progress
-PACKAGES=$(/usr/local/sbin/pluginctl -g system.firmware.plugins | /usr/bin/sed 's/,/ /g')
+PACKAGES=$(/usr/sbin/pluginctl -g system.firmware.plugins | /usr/bin/sed 's/,/ /g')
 
 # Truncate upgrade progress file
 : > ${PKG_PROGRESS_FILE}
