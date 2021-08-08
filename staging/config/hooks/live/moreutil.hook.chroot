@@ -88,6 +88,7 @@ ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
 ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
 
+ln -s /selks/staging/etc/rc /etc/rc
 ln -s /selks/staging/etc/rc.subr /etc/rc.subr
 ln /selks/staging/etc/init.d/rcnetworking /etc/init.d/rcnetworking
 ln /selks/staging/etc/init.d/rcfilesystems /etc/init.d/rcfilesystems
@@ -96,6 +97,8 @@ ln /selks/staging/etc/init.d/rcservers /etc/init.d/rcservers
 ln /selks/staging/etc/init.d/rcdaemon /etc/init.d/rcdaemon
 ln /selks/staging/etc/init.d/configd /etc/init.d/configd
 ln /selks/staging/etc/init.d/captiveportal /etc/init.d/captiveportal
+chmod 755 /etc/rc
+chmod 755 /etc/rc.subr
 chmod 755 /etc/init.d/rcnetworking
 chmod 755 /etc/init.d/rcfilesystems
 chmod 755 /etc/init.d/rclogin
