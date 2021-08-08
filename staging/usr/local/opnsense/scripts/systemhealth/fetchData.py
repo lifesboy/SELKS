@@ -45,5 +45,5 @@ if len(sys.argv) > 1:
     # scan rrd directory for requested file
     for rrdFilename in glob.glob('%s/*.rrd' % rrd_reports_dir):
         if os.path.basename(rrdFilename) == filename:
-            subprocess.run(['/usr/local/bin/rrdtool', 'dump', rrdFilename])
+            subprocess.run(['/usr/bin/rrdtool', 'dump', rrdFilename])
             break

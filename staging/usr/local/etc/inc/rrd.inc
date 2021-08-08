@@ -65,7 +65,7 @@ function rrd_configure($verbose = false)
     $ntpd = "ntpd.rrd";
     $cputemp = "-cputemp.rrd";
 
-    $rrdtool = "/usr/local/bin/rrdtool";
+    $rrdtool = "/usr/bin/rrdtool";
     $netstat = "/usr/bin/netstat";
     $awk = "/usr/bin/awk";
     $pfctl = "/sbin/pfctl";
@@ -596,7 +596,7 @@ EOD;
 function rrd_create_gateway_quality($rrd_file)
 {
     $unknown = file_exists('/var/run/booting');
-    $rrdtool = '/usr/local/bin/rrdtool';
+    $rrdtool = '/usr/bin/rrdtool';
 
     $rrdinterval = 60;
     $valid = $rrdinterval * 2;
@@ -636,7 +636,7 @@ function rrd_export()
     foreach ($rrd_files as $rrd_file) {
         $basename = basename($rrd_file);
         $xml_file = preg_replace('/\.rrd$/', ".xml", $rrd_file);
-        exec("/usr/local/bin/rrdtool dump '{$rrd_file}' '{$xml_file}'");
+        exec("/usr/bin/rrdtool dump '{$rrd_file}' '{$xml_file}'");
         $xml_data = @file_get_contents($xml_file);
         @unlink($xml_file);
         if ($xml_data !== false) {
@@ -664,7 +664,7 @@ function rrd_import()
             }
             $output = array();
             $status = null;
-            exec("/usr/local/bin/rrdtool restore -f '{$xml_file}' '{$rrd_file}'", $output, $status);
+            exec("/usr/bin/rrdtool restore -f '{$xml_file}' '{$rrd_file}'", $output, $status);
             if ($status) {
                 log_error("rrdtool restore -f '{$xml_file}' '{$rrd_file}' failed returning {$status}.");
                 continue;

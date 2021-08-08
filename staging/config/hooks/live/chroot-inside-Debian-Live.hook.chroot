@@ -125,7 +125,7 @@ pecl channel-update pecl.php.net
 
 apt-get install python3-pip -y
 pip3 install jinja2 netaddr ujson
-apt-get install syslog-ng unbound isc-dhcp-server radvd -y
+apt-get install syslog-ng unbound isc-dhcp-server radvd rrdtool -y
 
 ### END Install php ###
 
