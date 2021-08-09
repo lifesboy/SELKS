@@ -110,13 +110,13 @@ while [ ${attempts} -lt 3 ]; do
 	attempts=$((attempts+1))
 done
 
-if kldstat -qm zfs; then
-	mount -uw /
-	zfs mount -va
-	# maybe there is a mountpoint in fstab
-	# that requires ZFS to be fully set up
-	mount -a
-fi
+#if kldstat -qm zfs; then
+#	mount -uw /
+#	zfs mount -va
+#	# maybe there is a mountpoint in fstab
+#	# that requires ZFS to be fully set up
+#	mount -a
+#fi
 
 # clear growfs marker now that we are read/write
 rm -f ${GROWFS_MARKER}
