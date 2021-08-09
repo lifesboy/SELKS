@@ -66,3 +66,5 @@ unbound:x:125:
 docker:x:998:
 selks-user:x:1000:
 systemd-coredump:x:997:
+ssl-cert:x:126:
+ftp:x:127:
