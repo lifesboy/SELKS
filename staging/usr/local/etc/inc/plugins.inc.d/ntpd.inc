@@ -450,7 +450,7 @@ function ntpd_configure_do($verbose = false, $start_ntpd = true)
 
     /* start opentpd, set time now and use new config */
     mwexecf(
-        '/usr/local/sbin/ntpd -g -c %s -p %s',
+        '/usr/sbin/ntpd -g -c %s -p %s',
         array('/var/etc/ntpd.conf', '/var/run/ntpd.pid')
     );
 
