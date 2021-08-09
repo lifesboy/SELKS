@@ -68,3 +68,5 @@ selks-user:x:1000:
 systemd-coredump:x:997:
 ssl-cert:x:126:
 ftp:x:127:
+smmta:x:128:
+smmsp:x:129:
