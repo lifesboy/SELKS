@@ -1611,7 +1611,7 @@ backup_file()
 			cp -p $_cur $_back
 		fi
 		cp -p $_file $_cur
-		chown root:wheel $_cur
+		chown root:root $_cur
 		;;
 	remove)
 		mv -f $_cur $_back

@@ -664,13 +664,13 @@ $(document).ready(function() {
                 <td><a id="help_for_sshlogingroup" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Login Group') ?></td>
                 <td>
                   <select name="sshlogingroup" class="selectpicker">
-                      <option value=""><!-- do not translate: -->wheel</option>
+                      <option value=""><!-- do not translate: -->root</option>
 <?php foreach ($a_group as $group): ?>
-                      <option value="<?= html_safe($group['name']) ?>" <?= $pconfig['sshlogingroup'] == $group['name'] ? 'selected="selected"' : '' ?>><!-- do not translate: -->wheel, <?= html_safe($group['name']) ?></option>
+                      <option value="<?= html_safe($group['name']) ?>" <?= $pconfig['sshlogingroup'] == $group['name'] ? 'selected="selected"' : '' ?>><!-- do not translate: -->root, <?= html_safe($group['name']) ?></option>
 <?php endforeach ?>
                   </select>
                   <div class="hidden" data-for="help_for_sshlogingroup">
-                    <?= gettext('Select the allowed groups for remote login. The "wheel" group is always set for recovery purposes and an additional local group can be selected at will. Do not yield remote access to non-adminstrators as every user can access system files using SSH or SFTP.') ?>
+                    <?= gettext('Select the allowed groups for remote login. The "root" group is always set for recovery purposes and an additional local group can be selected at will. Do not yield remote access to non-adminstrators as every user can access system files using SSH or SFTP.') ?>
                   </div>
                 </td>
               </tr>
@@ -918,7 +918,7 @@ $(document).ready(function() {
                 <td></td>
                 <td>
                   <select name="sudo_allow_group" class="selectpicker">
-                      <option value=""><!-- do not translate: -->wheel</option>
+                      <option value=""><!-- do not translate: -->root</option>
 <?php foreach ($a_group as $group): ?>
                       <option value="<?= html_safe($group['name']) ?>" <?= $pconfig['sudo_allow_group'] == $group['name'] ? 'selected="selected"' : '' ?>><!-- do not translate: -->wheel, <?= html_safe($group['name']) ?></option>
 <?php endforeach ?>

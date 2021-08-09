@@ -26,7 +26,7 @@ motd_start()
 	#
 	check_startmsgs && echo -n 'Updating motd:'
 	if [ ! -f ${MOTD_FILE} ]; then
-		install -c -o root -g wheel -m ${PERMS} /dev/null ${MOTD_FILE}
+		install -c -o root -g root -m ${PERMS} /dev/null ${MOTD_FILE}
 	fi
 
 	if [ ! -w ${MOTD_FILE} ]; then
@@ -39,7 +39,7 @@ motd_start()
 	awk '{if (NR == 1) {if ($1 == "FreeBSD" || $1 == "HardenedBSD") {next} else {print "\n"$0}} else {print}}' < ${MOTD_FILE} >> ${T}
 
 	if ! cmp -s ${T} ${MOTD_FILE}; then
-		install -c -o root -g wheel -m ${PERMS} ${T} ${MOTD_FILE}
+		install -c -o root -g root -m ${PERMS} ${T} ${MOTD_FILE}
 	fi
 	rm -f ${T}
 

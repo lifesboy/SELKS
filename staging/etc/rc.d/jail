@@ -153,7 +153,7 @@ parse_options()
 			warn "$_conf is created and used for jail $_j."
 		fi
 	fi
-	/usr/bin/install -m 0644 -o root -g wheel /dev/null $_conf || return 1
+	/usr/bin/install -m 0644 -o root -g root /dev/null $_conf || return 1
 
 	eval : \${jail_${_jv}_flags:=${jail_flags}}
 	eval _exec=\"\$jail_${_jv}_exec\"

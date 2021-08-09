@@ -52,7 +52,7 @@ function webgui_configure_do($verbose = false, $interface = '')
     /* do not trust PHP with mkdir permission on existing directory */
     @chmod('/var/lib/php/sessions', 0750);
     @chown('/var/lib/php/sessions', 'root');
-    @chgrp('/var/lib/php/sessions', 'wheel');
+    @chgrp('/var/lib/php/sessions', 'root');
 
     if (!empty($interface) && !in_array($interface, $interfaces)) {
         return;

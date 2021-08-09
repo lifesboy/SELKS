@@ -23,7 +23,7 @@ rotate_log_cmd="accounting_rotate_log"
 
 create_accounting_file()
 {
-	install -o root -g wheel -m 0640 /dev/null "${accounting_file}"
+	install -o root -g root -m 0640 /dev/null "${accounting_file}"
 }
 
 accounting_start()

@@ -156,7 +156,7 @@ function openssh_configure_do($verbose = false, $interface = '')
     $sshconf .= "X11Forwarding no\n";
     $sshconf .= "PubkeyAuthentication yes\n";
     $sshconf .= "Subsystem sftp internal-sftp\n";
-    $sshconf .= "AllowGroups wheel";
+    $sshconf .= "AllowGroups root";
     if (!empty($sshcfg['group'][0])) {
         $sshconf .= " {$sshcfg['group'][0]}";
     }

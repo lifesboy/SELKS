@@ -496,7 +496,7 @@ function local_user_set(&$user, $force_password = false)
 
     if ($user_uid == 0) {
         $user_shell = isset($user['shell']) ? $user['shell'] : '/usr/local/sbin/opnsense-shell';
-        $user_group = 'wheel';
+        $user_group = 'root';
         $user_home = '/root';
     } else {
         $user_shell = isset($user['shell']) ? $user['shell'] : '/sbin/nologin';
@@ -506,7 +506,7 @@ function local_user_set(&$user, $force_password = false)
 
     /* admins access gives wheely rights */
     if (userIsAdmin($user['name'])) {
-        $user_group = 'wheel';
+        $user_group = 'root';
     }
 
     /* passwords only when integrated auth is disabled or forced */
