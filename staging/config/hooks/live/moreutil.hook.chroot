@@ -115,6 +115,7 @@ ln -s /selks/staging/var/etc /var/etc
 ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
 chmod 755 /usr/sbin/pluginctl
 
+chmod 755 /selks/staging/usr/local/etc/rc.subr.d/recover
 chmod 755 /selks/staging/usr/local/etc/rc.configure_firmware
 chmod 755 /selks/staging/usr/local/etc/rc.configure_interface
 chmod 755 /selks/staging/usr/local/etc/rc.configure_plugins
