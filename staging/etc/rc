@@ -137,7 +137,7 @@ fi
 /usr/local/etc/rc.subr.d/recover base > /dev/null
 
 # generate hostid and save it permanently
-/etc/rc.d/hostid start
+/etc/init.d/hostid start
 /etc/rc.d/hostid_save start
 
 # set keyboard map if needed
