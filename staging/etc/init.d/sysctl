@@ -36,7 +36,7 @@ sysctl_start()
 		command_args="-f"
 	;;
 	*)
-		command_args="-i -f"
+		command_args="-e -f"
 	;;
 	esac
 
