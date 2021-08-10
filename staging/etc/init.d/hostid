@@ -35,7 +35,7 @@ hostid_set()
 {
 	uuid=$1
 	# Generate hostid based on hostuuid - take first four bytes from md5(uuid).
-	id=`echo -n $uuid | /sbin/md5sum`
+	id=`echo -n $uuid | /bin/md5sum`
 	#0f15adfa5495f06a2ea4ca7f0db6c02d
 	#id="0x${id%????????????????????????}"
 	#99d5c87059d7365cbb204289e362d95c  -
