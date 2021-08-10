@@ -98,6 +98,7 @@ ln /selks/staging/etc/init.d/rcdaemon /etc/init.d/rcdaemon
 ln /selks/staging/etc/init.d/configd /etc/init.d/configd
 ln /selks/staging/etc/init.d/captiveportal /etc/init.d/captiveportal
 ln /selks/staging/etc/init.d/sysctl /etc/init.d/sysctl
+ln /selks/staging/etc/init.d/hostid /etc/init.d/hostid
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
 chmod 755 /etc/init.d/rcnetworking
@@ -108,6 +109,7 @@ chmod 755 /etc/init.d/rcdaemon
 chmod 755 /etc/init.d/configd
 chmod 755 /etc/init.d/captiveportal
 chmod 755 /etc/init.d/sysctl
+chmod 755 /etc/init.d/hostid
 update-rc.d configd defaults
 update-rc.d captiveportal defaults
 

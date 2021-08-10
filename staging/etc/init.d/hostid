@@ -1,0 +1,191 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          hostid
+# Required-Start:
+# Required-Stop:     $sysctl
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Generate a unique host ID
+# Description:       Generate a unique host ID
+### END INIT INFO
+
+# PROVIDE: hostid
+# REQUIRE: sysctl
+# KEYWORD: nojail
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/bin/hostid
+NAME=hostid
+DESC="Generate a unique host ID"
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+. /lib/lsb/init-functions
+
+. /etc/rc.subr
+
+name=$NAME
+desc=$DESC
+rcvar="hostid_enable"
+
+hostid_set()
+{
+	uuid=$1
+	# Generate hostid based on hostuuid - take first four bytes from md5(uuid).
+	id=`echo -n $uuid | /sbin/md5sum`
+	#0f15adfa5495f06a2ea4ca7f0db6c02d
+	#id="0x${id%????????????????????????}"
+	#99d5c87059d7365cbb204289e362d95c  -
+	id="0x${id%???????????????????????????}"
+
+	# Set both kern.hostuuid and kern.hostid.
+	#
+	check_startmsgs && echo "Setting hostuuid: ${uuid}."
+	${SYSCTL} kern.hostuuid="${uuid}" >/dev/null
+	check_startmsgs && echo "Setting hostid: ${id}."
+	${SYSCTL} kern.hostid=${id} >/dev/null
+}
+
+valid_hostid()
+{
+	uuid=$1
+
+	x="[0-9a-f]"
+	y=$x$x$x$x
+
+	# Check against a blacklist before
+	# accepting the UUID.
+	case "${uuid}" in
+	00000000-0000-0000-0000-000000000000)
+		;;
+	00020003-0004-0005-0006-000700080009)
+		;;
+	03000200-0400-0500-0006-000700080009)
+		;;
+	07090201-0103-0301-0807-060504030201)
+		;;
+	11111111-1111-1111-1111-111111111111)
+		;;
+	11111111-2222-3333-4444-555555555555)
+		;;
+	4c4c4544-0000-2010-8020-80c04f202020)
+		;;
+	58585858-5858-5858-5858-585858585858)
+		;;
+	890e2d14-cacd-45d1-ae66-bc80e8bfeb0f)
+		;;
+	8e275844-178f-44a8-aceb-a7d7e5178c63)
+		;;
+	dc698397-fa54-4cf2-82c8-b1b5307a6a7f)
+		;;
+	fefefefe-fefe-fefe-fefe-fefefefefefe)
+		;;
+	*-ffff-ffff-ffff-ffffffffffff)
+		;;
+	$y$y-$y-$y-$y-$y$y$y)
+		return 0
+		;;
+	esac
+
+	return 1
+}
+
+hostid_hardware()
+{
+	uuid=`dmidecode -s system-uuid`
+
+	if valid_hostid $uuid; then
+		echo "${uuid}"
+	fi
+}
+
+hostid_generate()
+{
+	# First look for UUID in hardware.
+	uuid=`hostid_hardware`
+	if [ -z "${uuid}" ]; then
+		warn "hostid: unable to figure out a UUID from DMI data, generating a new one"
+		sleep 2
+		# If not found, fall back to software-generated UUID.
+		uuid=`uuidgen`
+	fi
+	hostid_set $uuid
+}
+
+hostid_reset()
+{
+	hostid_generate
+	# Store newly generated UUID in ${hostid_file}.
+	echo $uuid > ${hostid_file}
+	if [ $? -ne 0 ]; then
+		warn "could not store hostuuid in ${hostid_file}."
+	fi
+}
+
+hostid_start()
+{
+	# If ${hostid_file} already exists, we take UUID from there.
+	if [ -r ${hostid_file} ]; then
+		read saved_hostid < ${hostid_file}
+		if valid_hostid ${saved_hostid}; then
+			hostid_set `cat ${hostid_file}`
+			exit 0
+		fi
+	fi
+
+	# No hostid file, generate UUID.
+	hostid_generate
+}
+
+check_syntax()
+{
+    #$DAEMON -tt $DAEMON_OPTS > /dev/null || exit $?
+    echo $DAEMON
+    echo $DAEMON_OPTS
+}
+
+load_rc_config $name
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" $NAME
+        if ! hostid_start
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" $NAME
+        log_end_msg 0
+        ;;
+    reload|force-reload)
+        check_syntax
+        log_daemon_msg "Reloading $DESC configuration" $NAME
+        hostid_start
+        ;;
+    reopen-logs)
+        log_daemon_msg "Reopening $DESC logs" $NAME
+        ;;
+    restart)
+        check_syntax
+        $0 stop
+        $0 start
+        ;;
+    configtest|testconfig)
+        check_syntax
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON" sysctl && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|reopen-logs|configtest|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
