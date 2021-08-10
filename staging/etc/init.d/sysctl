@@ -1,0 +1,98 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          sysctl
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Set sysctl variables from /etc/sysctl.conf and /etc/sysctl.conf.local
+# Description:       Set sysctl variables from /etc/sysctl.conf and /etc/sysctl.conf.local
+### END INIT INFO
+
+# PROVIDE: sysctl
+
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/sbin/sysctl
+NAME=sysctl
+DESC="Set sysctl variables from /etc/sysctl.conf and /etc/sysctl.conf.local"
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+. /lib/lsb/init-functions
+
+. /etc/rc.subr
+
+name=$NAME
+desc=$DESC
+
+sysctl_start()
+{
+	case $1 in
+	last)
+		command_args="-f"
+	;;
+	*)
+		command_args="-i -f"
+	;;
+	esac
+
+	for _f in /etc/sysctl.conf /etc/sysctl.conf.local; do
+		if [ -r ${_f} ]; then
+			${DAEMON} ${command_args} ${_f} > /dev/null
+		fi
+	done
+}
+
+check_syntax()
+{
+    #$DAEMON -tt $DAEMON_OPTS > /dev/null || exit $?
+    echo $DAEMON
+    echo $DAEMON_OPTS
+}
+
+load_rc_config $name
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" $NAME
+        if ! sysctl_start
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" $NAME
+        log_end_msg 0
+        ;;
+    reload|force-reload)
+        check_syntax
+        log_daemon_msg "Reloading $DESC configuration" $NAME
+        sysctl_start "last"
+        ;;
+    reopen-logs)
+        log_daemon_msg "Reopening $DESC logs" $NAME
+        ;;
+    restart)
+        check_syntax
+        $0 stop
+        $0 start
+        ;;
+    configtest|testconfig)
+        check_syntax
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON" sysctl && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|reopen-logs|configtest|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
