@@ -1,0 +1,77 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          swap
+# Required-Start:
+# Required-Stop:     $disks
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Setup swap space
+# Description:       Setup swap space
+### END INIT INFO
+
+# PROVIDE: swap
+# REQUIRE: disks
+# KEYWORD: nojail shutdown
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/sbin/swapon
+NAME=swap
+DESC="Setup swap space"
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+. /lib/lsb/init-functions
+
+. /etc/rc.subr
+
+name=$NAME
+desc=$DESC
+
+start_cmd()
+{
+	${DAEMON} -a >/dev/null
+}
+
+load_rc_config $name
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" $NAME
+        if ! start_cmd
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" $NAME
+        log_end_msg 0
+        ;;
+    reload|force-reload)
+        log_daemon_msg "Reloading $DESC configuration" $NAME
+        start_cmd
+        ;;
+    reopen-logs)
+        log_daemon_msg "Reopening $DESC logs" $NAME
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    configtest|testconfig)
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON" sysctl && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|reopen-logs|configtest|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
+
