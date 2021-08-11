@@ -101,6 +101,7 @@ ln /selks/staging/etc/init.d/sysctl /etc/init.d/sysctl
 ln /selks/staging/etc/init.d/hostid /etc/init.d/hostid
 ln /selks/staging/etc/init.d/swap /etc/init.d/swap
 ln /selks/staging/etc/init.d/fsck /etc/init.d/fsck
+ln /selks/staging/etc/init.d/root /etc/init.d/root
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
 chmod 755 /etc/init.d/rcnetworking
@@ -114,6 +115,7 @@ chmod 755 /etc/init.d/sysctl
 chmod 755 /etc/init.d/hostid
 chmod 755 /etc/init.d/swap
 chmod 755 /etc/init.d/fsck
+chmod 755 /etc/init.d/root
 update-rc.d configd defaults
 update-rc.d captiveportal defaults
 
