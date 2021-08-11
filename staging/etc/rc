@@ -141,7 +141,7 @@ fi
 #/etc/rc.d/hostid_save start
 
 # set keyboard map if needed
-/etc/rc.d/syscons onestart
+#/etc/rc.d/syscons onestart
 
 # run the config importer during early startup
 /usr/local/sbin/opnsense-importer -b
