@@ -54,7 +54,7 @@ for LOADERCHUNK in ${LOADERCHUNKS}; do
 	LOADERNAME=${LOADERCHUNK#??-}
 
 	if [ "${LOADERNAME}" = "zfs" ]; then
-		if ! kldstat -qm zfs; then
+		if ! lsmod | grep -q "^zfs "; then
 			continue
 		fi
 	fi

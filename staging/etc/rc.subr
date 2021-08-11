@@ -1875,7 +1875,7 @@ load_kld()
 		fi
 	fi
 	if ! $_loaded; then
-		if ! kldload "$1"; then
+		if ! modprobe "$1"; then
 			warn "Unable to load kernel module $1"
 			return 1
 		else

@@ -150,7 +150,7 @@ netflow_start()
     fi
 
     if ! kldstat -qm ng_ether; then
-        kldload ng_ether
+        modprobe ng_ether
     fi
 
     # configure interfaces

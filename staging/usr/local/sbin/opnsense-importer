@@ -119,9 +119,9 @@ timeout_prompt()
 zfs_load()
 {
 	# we need to load ZFS to list pools
-	if ! kldstat -qm zfs; then
+	if ! lsmod | grep -q "^zfs "; then
 		export UNLOAD_ZFS="yes"
-		kldload zfs
+		modprobe zfs
 	fi
 
 	export POOLS=$(zfs_probe)
@@ -135,7 +135,7 @@ zfs_load()
 zfs_unload()
 {
 	if [ -n "${UNLOAD_ZFS}" ]; then
-		kldunload zfs
+		modprobe -r zfs
 	fi
 }
 

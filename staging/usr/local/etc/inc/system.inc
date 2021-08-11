@@ -932,7 +932,7 @@ function system_kernel_configure($verbose = false)
     }
 
     foreach ($mods as $mod) {
-        mwexecf('/sbin/kldload %s', $mod, true);
+        mwexecf('/sbin/modprobe %s', $mod, true);
     }
 
     /* we now have /dev/pf, time to fix permissions for proxies */

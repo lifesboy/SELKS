@@ -66,7 +66,7 @@ devmatch_start()
 		*"#${m}#"*) continue ;;
 		esac
 		echo "Autoloading module: ${m}"
-		kldload -n ${m}
+		modprobe ${m}
 	done
 	devctl thaw
 }
