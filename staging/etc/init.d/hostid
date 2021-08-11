@@ -22,7 +22,7 @@ NAME=hostid
 DESC="Generate a unique host ID"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
-
+hostid_file=/etc/hostid
 . /lib/lsb/init-functions
 
 . /etc/rc.subr
