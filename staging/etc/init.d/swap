@@ -3,7 +3,7 @@
 ### BEGIN INIT INFO
 # Provides:          swap
 # Required-Start:
-# Required-Stop:     $disks
+# Required-Stop:     
 # Should-Start:
 # Should-Stop:
 # Default-Start:     2 3 4 5
