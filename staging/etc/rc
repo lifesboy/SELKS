@@ -111,7 +111,7 @@ while [ ${attempts} -lt 3 ]; do
 done
 
 if lsmod | grep -q "^zfs "; then
-	mount -uw /
+	mount -w /
 	zfs mount -va
 	# maybe there is a mountpoint in fstab
 	# that requires ZFS to be fully set up
