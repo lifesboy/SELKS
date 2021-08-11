@@ -126,7 +126,9 @@ pecl channel-update pecl.php.net
 apt-get install python3-pip -y
 pip3 install jinja2 netaddr ujson
 apt-get install syslog-ng unbound isc-dhcp-server radvd rrdtool vsftpd sendmail -y
-
+apt-get install zfsutils-linux zfs-dkms zfs-zed -y
+/sbin/modprobe zfs
+apt-get -f install
 ### END Install php ###
 
 ### START lighttpd opnsense ###
