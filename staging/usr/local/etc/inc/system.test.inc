@@ -15,8 +15,8 @@ function get_memory()
     exec("grep MemAvailable /proc/meminfo | awk '{print $2}'" . " 2>&1", $physmem);
     exec("grep MemTotal /proc/meminfo | awk '{print $2}'" . " 2>&1", $realmem);
 
-    /* convert from bytes to megabytes */
-    return array(($physmem / 1048576),($realmem / 1048576));
+    /* convert from kilobytes to megabytes */
+    return array((intval($physmem) / 1024),(intval($realmem) / 1024));
 }
 
 $res = get_memory();
