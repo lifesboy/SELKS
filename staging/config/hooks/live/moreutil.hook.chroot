@@ -70,6 +70,7 @@ mv /usr/local/opnsense /usr/local/opnsense.bak
 mv /usr/local/wizard /usr/local/wizard.bak
 mv /usr/local/www /usr/local/www.bak
 ln -s /selks/staging/usr/local/etc /usr/local/etc
+ln -s /selks/staging/conf /conf
 ln -s /selks/staging/usr/local/opnsense /usr/local/opnsense
 ln -s /selks/staging/usr/local/wizard /usr/local/wizard
 ln -s /selks/staging/usr/local/www /usr/local/www
