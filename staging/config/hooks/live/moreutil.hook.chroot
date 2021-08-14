@@ -140,10 +140,12 @@ ln -s /selks/staging/etc/mtree /etc/mtree
 ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
 ln -s /selks/staging/usr/local/sbin/opnsense-importer /usr/local/sbin/opnsense-importer
 ln -s /selks/staging/usr/local/sbin/opnsense-shell /usr/local/sbin/opnsense-shell
+ln -s /selks/staging/usr/local/sbin/opnsense-version /sbin/opnsense-version
 ln -s /selks/staging/etc/rc.conf.d /etc/rc.conf.d
 chmod 755 /usr/sbin/pluginctl
 chmod 755 /usr/local/sbin/opnsense-importer
 chmod 755 /usr/local/sbin/opnsense-shell
+chmod 755 /sbin/opnsense-version
 chmod 755 -R /usr/local/etc/rc.subr.d/
 chmod 755 /usr/local/etc/rc.bootup
 chmod 755 /usr/local/etc/rc.syshook
