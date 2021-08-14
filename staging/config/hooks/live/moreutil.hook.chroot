@@ -145,6 +145,7 @@ update-rc.d lighttpd disable
 ln -s /selks/staging/var/etc /var/etc
 ln -s /selks/staging/var/cron /var/cron
 ln -s /selks/staging/etc/mtree /etc/mtree
+ln -s /run /var/run
 
 ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
 ln -s /selks/staging/usr/local/sbin/opnsense-importer /usr/local/sbin/opnsense-importer
