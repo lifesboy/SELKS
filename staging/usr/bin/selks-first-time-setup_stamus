@@ -115,21 +115,21 @@ ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
 mv /etc/init.d/suricata /etc/init.d/suricata.bak
 ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
 
-cat > /etc/network/interfaces.d/eno1 <<EOF
-# Stamus Networks SELKS eno1 interface set up auto generated!
-auto eno1
-iface eno1 inet dhcp
-    up ip link set dev eno1 up
-    down ip link set dev eno1 down
-
-EOF
+#cat > /etc/network/interfaces.d/eno1 <<EOF
+## Stamus Networks SELKS eno1 interface set up auto generated!
+#auto eno1
+#iface eno1 inet dhcp
+#    up ip link set dev eno1 up
+#    down ip link set dev eno1 down
+#
+#EOF
 
 nft -f /etc/nftables.conf
 
 service suricata restart
 service suricata status
 
-apt-get remove iptables -y
+#apt-get remove iptables -y
 
 echo "FINISH of first time setup script - $(date) " 
 
