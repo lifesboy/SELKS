@@ -133,6 +133,8 @@ else
 	done
 fi
 
+ln -s /run /var/run
+
 # regenerate groups and users for base
 /usr/local/etc/rc.subr.d/recover base > /dev/null
 
