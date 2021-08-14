@@ -311,10 +311,10 @@ function recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $p
 	echo "===> Restoring /etc/group\n";
 	file_put_contents('/etc/group', $etc_group);
 
-//	echo "===> Restoring /etc/master.passwd\n";
-//	file_put_contents('/etc/master.passwd', $etc_master_passwd);
-	echo "===> Restoring /etc/shadow\n";
-	file_put_contents('/etc/shadow', $etc_master_passwd);
+	echo "===> Restoring /etc/master.passwd\n";
+	file_put_contents('/etc/master.passwd', $etc_master_passwd);
+//	echo "===> Restoring /etc/shadow\n";
+//	file_put_contents('/etc/shadow', $etc_master_passwd);
 
 	echo "===> Restoring /etc/shells\n";
 	file_put_contents('/etc/shells', $etc_shells);
