@@ -660,7 +660,7 @@ EOD;
         foreach ($syslog_files as $syslog_fn) {
             $filename = "/var/log/" . basename($syslog_fn) . ".log";
             if (!file_exists($filename)) {
-                mwexecf('/usr/local/sbin/clog -i -s %s %s', array($default_logfile_size, $filename));
+                mwexecf('/usr/bin/clog -i -s %s %s', array($default_logfile_size, $filename));
             }
             mwexecf('chmod 0600 %s', array($filename));
         }
@@ -742,7 +742,7 @@ function system_clear_clog($logfile, $restart_syslogd = true)
     $syslogcfg = config_read_array('syslog');
 
     $log_size = isset($syslogcfg['logfilesize']) ? $syslogcfg['logfilesize'] : '511488';
-    mwexecf('/usr/local/sbin/clog -i -s %s %s', array($log_size, $logfile));
+    mwexecf('/usr/bin/clog -i -s %s %s', array($log_size, $logfile));
 
     if ($restart_syslogd) {
         system_syslogd_start();
