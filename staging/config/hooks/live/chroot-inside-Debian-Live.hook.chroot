@@ -130,11 +130,17 @@ apt-get install syslog-ng unbound isc-dhcp-server radvd rrdtool vsftpd sendmail 
 ### END Install php ###
 
 ### START Install zfs ###
-apt-get install zfsutils-linux zfs-dkms zfs-zed -y
+apt-get update
+apt-get install git build-essential fakeroot libncurses5-dev libssl-dev ccache -y
+apt-get install build-essential autoconf libtool gawk alien fakeroot linux-headers-$(uname -r) -y
+apt-get install zlib1g-dev uuid-dev libattr1-dev libblkid-dev libselinux-dev libudev-dev libdevmapper-dev -y
+apt-get install parted lsscsi ksh -y
+apt-get install spl -y
+apt-get install zfs-dkms -y
+apt-get install zfsutils-linux -y
 /sbin/modprobe zfs
 apt-get -f install
-cat > /etc/modules-load.d/zfs.conf <<EOF
-zfs
+apt-get install zfs-zed -y
 EOF
 ### END Install zfs ###
 
