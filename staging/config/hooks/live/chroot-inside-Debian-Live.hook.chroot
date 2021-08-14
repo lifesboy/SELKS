@@ -141,7 +141,6 @@ apt-get install zfsutils-linux -y
 /sbin/modprobe zfs
 apt-get -f install
 apt-get install zfs-zed -y
-EOF
 ### END Install zfs ###
 
 ### START lighttpd opnsense ###
