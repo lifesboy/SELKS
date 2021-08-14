@@ -89,6 +89,7 @@ ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
 
 ln -s /selks/staging/etc/rc /etc/rc
+rm -f /usr/lib/systemd/system/rc.service
 ln -s /selks/staging/usr/lib/systemd/system/rc.service /usr/lib/systemd/system/rc.service
 ln -s /selks/staging/etc/rc.subr /etc/rc.subr
 ln /selks/staging/etc/init.d/rcnetworking /etc/init.d/rcnetworking
@@ -146,7 +147,6 @@ chmod 755 /usr/local/etc/rc.bootup
 chmod 755 /usr/local/etc/rc.syshook
 chmod 755 -R /etc/rc.conf.d/
 
-chmod 755 /selks/staging/usr/local/etc/rc.subr.d/recover
 chmod 755 /selks/staging/usr/local/etc/rc.configure_firmware
 chmod 755 /selks/staging/usr/local/etc/rc.configure_interface
 chmod 755 /selks/staging/usr/local/etc/rc.configure_plugins
