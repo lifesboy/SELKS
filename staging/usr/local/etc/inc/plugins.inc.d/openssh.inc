@@ -66,7 +66,7 @@ function openssh_services()
 function openssh_stop()
 {
     /* if run from a shell session, `-af' and the full path is needed */
-    mwexecf('/bin/pkill -af %s', '/usr/local/sbin/sshd', true);
+    mwexecf('/bin/pkill -af %s', '/sbin/sshd', true);
 }
 
 function openssh_configure_do($verbose = false, $interface = '')
@@ -139,7 +139,7 @@ function openssh_configure_do($verbose = false, $interface = '')
             $file = "/conf/sshd/{$name}";
             @unlink("{$file}.pub");
             @unlink($file);
-            mwexecf('/usr/local/bin/ssh-keygen -t %s -N "" -f %s', array($type, $file));
+            mwexecf('/bin/ssh-keygen -t %s -N "" -f %s', array($type, $file));
         }
         clear_subsystem_dirty('sshdkeys');
         log_error('Completed creating your SSH keys. SSH will now be started.');
@@ -215,7 +215,8 @@ function openssh_configure_do($verbose = false, $interface = '')
         flush();
     }
 
-    if ((count($interfaces) && !count($listeners)) || mwexecf('/usr/bin/protect -i /usr/local/sbin/sshd')) {
+//    if ((count($interfaces) && !count($listeners)) || mwexecf('/usr/bin/protect -i /usr/local/sbin/sshd')) {
+    if ((count($interfaces) && !count($listeners)) || mwexecf('/sbin/sshd')) {
         if ($verbose) {
             echo "failed.\n";
         }
