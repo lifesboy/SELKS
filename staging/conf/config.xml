@@ -259,7 +259,7 @@
     <pf_share_forward>1</pf_share_forward>
     <lb_use_sticky>1</lb_use_sticky>
     <ssh>
-      <group>root</group>
+      <group>admins</group>
       <noauto>1</noauto>
       <interfaces/>
       <kex/>
@@ -286,19 +286,15 @@
   </system>
   <interfaces>
     <wan>
-      <enable>1</enable>
       <if>eno1</if>
-      <mtu/>
-      <ipaddr>192.168.1.18</ipaddr>
-      <ipaddrv6>dhcp6</ipaddrv6>
-      <subnet/>
-      <gateway/>
+      <descr>WAN</descr>
+      <enable>1</enable>
+      <spoofmac/>
       <blockpriv>1</blockpriv>
       <blockbogons>1</blockbogons>
-      <dhcphostname/>
-      <media/>
-      <mediaopt/>
-      <dhcp6-ia-pd-len>0</dhcp6-ia-pd-len>
+      <ipaddr>192.168.1.18</ipaddr>
+      <subnet>24</subnet>
+      <gateway>WAN_GWv4</gateway>
     </wan>
     <lan>
       <if>enp4s0</if>
@@ -308,7 +304,7 @@
       <ipaddr>10.0.2.15</ipaddr>
       <subnet>24</subnet>
       <ipaddrv6>track6</ipaddrv6>
-      <track6-interface>wan</track6-interface>
+      <track6-interface/>
       <track6-prefix-id>0</track6-prefix-id>
     </lan>
     <lo0>
@@ -343,6 +339,7 @@
   </dhcpd>
   <unbound>
     <enable>1</enable>
+    <domainoverrides/>
   </unbound>
   <snmpd>
     <syslocation/>
@@ -463,9 +460,9 @@
     <column_count>2</column_count>
   </widgets>
   <revision>
-    <username>(system)</username>
-    <time>1618683204.3916</time>
-    <description>/usr/local/opnsense/mvc/script/run_migrations.php made changes</description>
+    <username>root@10.0.2.20</username>
+    <time>1628959437.7473</time>
+    <description>/interfaces.php made changes</description>
   </revision>
   <OPNsense>
     <Firewall>
@@ -510,8 +507,8 @@
       </general>
     </IDS>
     <Interfaces>
-      <vxlans version="1.0.1"/>
-      <loopbacks version="1.0.0"/>
+      <loopbacks/>
+      <vxlans/>
     </Interfaces>
     <monit version="1.0.8">
       <general>
@@ -858,6 +855,17 @@
       <defaultgw>1</defaultgw>
       <fargw>1</fargw>
     </gateway_item>
+    <gateway_item>
+      <interface>wan</interface>
+      <gateway>192.168.1.1</gateway>
+      <name>WAN_GWv4</name>
+      <priority/>
+      <weight/>
+      <ipprotocol>inet</ipprotocol>
+      <interval/>
+      <descr/>
+      <defaultgw>1</defaultgw>
+    </gateway_item>
   </gateways>
   <cert>
     <refid>5fa7f6d3712fa</refid>
@@ -966,6 +974,10 @@
       <dh_length>2048</dh_length>
       <cert_depth>1</cert_depth>
     </openvpn-server>
+    <openvpn-client/>
   </openvpn>
-  <staticroutes version="1.0.0"/>
+  <dhcpdv6/>
+  <staticroutes>
+    <route/>
+  </staticroutes>
 </opnsense>
