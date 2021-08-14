@@ -760,8 +760,8 @@ function get_memory()
 {
 //    $physmem = get_single_sysctl("hw.physmem");
 //    $realmem = get_single_sysctl("hw.realmem");
-    exec("grep MemAvailable /proc/meminfo | awk '{print $2}'" . " 2>&1", $res, $physmem);
-    exec("grep MemTotal /proc/meminfo | awk '{print $2}'" . " 2>&1", $res, $realmem);
+    exec("grep MemAvailable /proc/meminfo | awk '{print $2}'" . " 2>&1", $physmem);
+    exec("grep MemTotal /proc/meminfo | awk '{print $2}'" . " 2>&1", $realmem);
 
     /* convert from bytes to megabytes */
     return array(($physmem / 1048576),($realmem / 1048576));
