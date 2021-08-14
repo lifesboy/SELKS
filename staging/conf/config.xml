@@ -259,7 +259,7 @@
     <pf_share_forward>1</pf_share_forward>
     <lb_use_sticky>1</lb_use_sticky>
     <ssh>
-      <group>admins</group>
+      <group>root</group>
       <noauto>1</noauto>
       <interfaces/>
       <kex/>
@@ -287,7 +287,7 @@
   <interfaces>
     <wan>
       <enable>1</enable>
-      <if>em1</if>
+      <if>eno1</if>
       <mtu/>
       <ipaddr>dhcp</ipaddr>
       <ipaddrv6>dhcp6</ipaddrv6>
@@ -301,7 +301,7 @@
       <dhcp6-ia-pd-len>0</dhcp6-ia-pd-len>
     </wan>
     <lan>
-      <if>em0</if>
+      <if>enp4s0</if>
       <descr/>
       <enable>1</enable>
       <spoofmac/>
