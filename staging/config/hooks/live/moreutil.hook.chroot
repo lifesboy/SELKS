@@ -89,6 +89,7 @@ ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
 
 ln -s /selks/staging/etc/rc /etc/rc
+ln -s /selks/staging/usr/lib/systemd/system/rc.service /usr/lib/systemd/system/rc.service
 ln -s /selks/staging/etc/rc.subr /etc/rc.subr
 ln /selks/staging/etc/init.d/rcnetworking /etc/init.d/rcnetworking
 ln /selks/staging/etc/init.d/rcfilesystems /etc/init.d/rcfilesystems
@@ -116,8 +117,19 @@ chmod 755 /etc/init.d/hostid
 chmod 755 /etc/init.d/swap
 chmod 755 /etc/init.d/fsck
 chmod 755 /etc/init.d/root
+systemctl enable rc.service
+update-rc.d rcnetworking defaults
+update-rc.d rcfilesystems defaults
+update-rc.d rclogin defaults
+update-rc.d rcservers defaults
+update-rc.d rcdaemon defaults
 update-rc.d configd defaults
 update-rc.d captiveportal defaults
+update-rc.d sysctl defaults
+update-rc.d hostid defaults
+update-rc.d swap defaults
+update-rc.d fsck defaults
+update-rc.d root defaults
 
 update-rc.d lighttpd disable
 ln -s /selks/staging/var/etc /var/etc

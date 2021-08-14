@@ -1,0 +1,12 @@
+[Unit]
+Description=/etc/rc Compatibility
+Documentation=man:systemd-rc-generator(8)
+ConditionFileIsExecutable=/etc/rc
+
+[Service]
+Type=simple
+ExecStart=/etc/rc
+TimeoutSec=0
+
+[Install]
+WantedBy=sysinit.target
