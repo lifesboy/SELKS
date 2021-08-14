@@ -3,7 +3,7 @@
 # Please see the file src/etc/mtree/README before making changes to this file.
 #
 
-/set type=dir uname=root gname=wheel mode=0755
+/set type=dir uname=root gname=root mode=0755
 .
     account             mode=0750
     ..
@@ -20,12 +20,12 @@
     audit
         dist            uname=auditdistd gname=audit mode=0770
         ..
-        remote          uname=auditdistd gname=wheel mode=0700
+        remote          uname=auditdistd gname=root mode=0700
         ..
     ..
     authpf              uname=root gname=authpf mode=0770
     ..
-/set gname=wheel
+/set gname=root
     backups
     ..
     cache               mode=0755
@@ -99,7 +99,7 @@
             lpd
             ..
         ..
-/set gname=wheel
+/set gname=root
     ..
     tmp             mode=01777
         vi.recover      mode=01777
