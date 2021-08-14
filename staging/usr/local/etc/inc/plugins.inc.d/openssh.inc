@@ -208,7 +208,7 @@ function openssh_configure_do($verbose = false, $interface = '')
         $sshconf .= "ListenAddress {$listener}\n";
     }
 
-    file_put_contents("/usr/local/etc/ssh/sshd_config", $sshconf);
+    file_put_contents("/etc/ssh/sshd_config", $sshconf);
 
     if ($verbose) {
         echo 'Configuring OpenSSH...';

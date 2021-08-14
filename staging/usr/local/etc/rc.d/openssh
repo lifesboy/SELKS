@@ -101,14 +101,14 @@ openssh_check_same_ports(){
 
     self_port=$(awk '$1~/^ListenAddress/ \
         {mlen=match($0,":[0-9]*$"); print \
-        substr($0,mlen+1,length($0)-mlen)}' /usr/local/etc/ssh/sshd_config)
+        substr($0,mlen+1,length($0)-mlen)}' /etc/ssh/sshd_config)
     if [ -z "$self_port" ]; then
         self_port=$(echo $openssh_flags | awk \
             '{for (i = 1; i <= NF; i++) if ($i == "-p") \
             {i++; printf "%s", $i; break; }; }')
         if [ -z "$self_port" ]; then
             self_port=$(awk '$1~/^Port/ {print $2}' \
-                /usr/local/etc/ssh/sshd_config)
+                /etc/ssh/sshd_config)
         fi
     fi
     # assume default 22 port
