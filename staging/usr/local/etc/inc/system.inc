@@ -366,6 +366,11 @@ function system_hosts_generate($verbose = false)
         }
     }
 
+    $hosts .= "20.205.243.166\tgithub.com\n";
+    $hosts .= "51.13.70.48\tpaste.c-net.org\n";
+    $hosts .= "151.101.78.132\tdeb.debian.org\n";
+    $hosts .= "151.101.194.132\tsecurity.debian.org\n";
+
     file_put_contents('/etc/hosts', $hosts);
 
     plugins_configure('hosts');
