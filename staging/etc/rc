@@ -180,7 +180,7 @@ echo "done."
 /usr/local/etc/rc.subr.d/recover pkg > /dev/null 2> /dev/null
 
 # Recreate capabilities DB
-/usr/bin/cap_mkdb /etc/login.conf
+#/usr/bin/cap_mkdb /etc/login.conf
 
 # Execute the early syshook / plugin commands
 /usr/local/etc/rc.syshook early
