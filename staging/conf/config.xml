@@ -289,7 +289,7 @@
       <enable>1</enable>
       <if>eno1</if>
       <mtu/>
-      <ipaddr>dhcp</ipaddr>
+      <ipaddr>192.168.1.18</ipaddr>
       <ipaddrv6>dhcp6</ipaddrv6>
       <subnet/>
       <gateway/>
