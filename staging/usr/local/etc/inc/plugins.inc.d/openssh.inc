@@ -105,6 +105,8 @@ function openssh_configure_do($verbose = false, $interface = '')
     /* make ssh home directory */
     @mkdir('/var/empty', 0555, true);
 
+    @mkdir('/var/run/sshd', 0755, true);
+
     $keys = array(
         /* .pub files are implied */
         'rsa' => 'ssh_host_rsa_key',
