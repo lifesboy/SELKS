@@ -66,7 +66,7 @@ function openssh_services()
 function openssh_stop()
 {
     /* if run from a shell session, `-af' and the full path is needed */
-    mwexecf('/bin/pkill -af %s', '/sbin/sshd', true);
+    mwexecf('/bin/pkill -af %s', '/usr/sbin/sshd', true);
 }
 
 function openssh_configure_do($verbose = false, $interface = '')
@@ -216,7 +216,7 @@ function openssh_configure_do($verbose = false, $interface = '')
     }
 
 //    if ((count($interfaces) && !count($listeners)) || mwexecf('/usr/bin/protect -i /usr/local/sbin/sshd')) {
-    if ((count($interfaces) && !count($listeners)) || mwexecf('/sbin/sshd')) {
+    if ((count($interfaces) && !count($listeners)) || mwexecf('/usr/sbin/sshd')) {
         if ($verbose) {
             echo "failed.\n";
         }
