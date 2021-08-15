@@ -412,6 +412,8 @@ function system_get_routes()
 
 function system_host_route($host, $gateway, $delete = true, $add = true)
 {
+    list ($h_net, $h_mask) = explode ('/', $host);
+    list ($g_net, $g_mask) = explode ('/', $gateway);
     if (is_ipaddrv4($gateway)) {
         $family = 'inet';
     } elseif (is_ipaddrv6($gateway)) {
@@ -421,11 +423,13 @@ function system_host_route($host, $gateway, $delete = true, $add = true)
     }
 
     if ($delete) {
-        mwexecf('/sbin/route delete -host -%s %s', array($family, $host), true);
+        //mwexecf('/sbin/route delete -host -%s %s', array($family, $host), true);
+        mwexecf('/sbin/route del -A %s -host %s netmask %s', array($family, $h_net, $h_mask), true);
     }
 
     if ($add) {
-        mwexecf('/sbin/route add -host -%s %s %s', array($family, $host, $gateway));
+        //mwexecf('/sbin/route add -host -%s %s %s', array($family, $host, $gateway));
+        mwexecf('/sbin/route add -A %s -host %s -net %s netmask %s', array($family, $host, $g_net, $g_mask));
     }
 }
 
@@ -495,7 +499,8 @@ function system_default_route($gateway, $family, $interface, $far = false)
         mwexecf('/sbin/route delete -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif), true);
         mwexecf('/sbin/route add -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif));
     }
-    mwexecf('/sbin/route add default -A %s -net %s netmask %s', array($family, $g_net, $g_mask));
+    //mwexecf('/sbin/route add -%s default %s', array($family, $gateway));
+    mwexecf('/sbin/route add default gw %s -A %s netmask %s', array($g_net, $family, $g_mask));
 }
 
 function system_routing_configure($verbose = false, $interface = '')
