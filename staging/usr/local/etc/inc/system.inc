@@ -431,8 +431,10 @@ function system_host_route($host, $gateway, $delete = true, $add = true)
 
 function system_default_route($gateway, $family, $interface, $far = false)
 {
+    list ($g_net, $g_mask) = explode ('/', $gateway);
+    $g_mask = long2ip($g_mask);
     $realif = get_real_interface($interface, $family == 'inet' ? 'all' : 'inet6');
-    log_error(sprintf("ROUTING: realif = %s", safe_var_export($realif)));
+    log_error(sprintf("ROUTING: [g_net, g_mask, realif] = %s", safe_var_export([$g_net, $g_mask, $realif])));
     switch ($family) {
         case 'inet':
             break;
@@ -449,11 +451,13 @@ function system_default_route($gateway, $family, $interface, $far = false)
 //    $tmpcmd = "/sbin/route -n get -{$family} default 2>/dev/null | /usr/bin/awk '/gateway:/ {print $2}'";
 //    $current = trim(exec($tmpcmd), " \n");
     $routes = system_get_routes();
-    $default_routes = array_filter($routes, function ($i) { return $i['Destination'] === '0.0.0.0'; });
-    $current = $default_routes[0] ? $default_routes[0]['Gateway'] : null;
-    log_error(sprintf("ROUTING: routes = %s", safe_var_export($routes)));
-    log_error(sprintf("ROUTING: current = %s", safe_var_export($current)));
-    if ($current == $gateway) {
+    $default_routes = array_filter($routes, function ($i) {
+        return $i['Destination'] === '0.0.0.0' || $i['Destination'] === 'default';
+    });
+    $current = $default_routes[0];
+    //log_error(sprintf("ROUTING: routes = %s", safe_var_export($routes)));
+    //log_error(sprintf("ROUTING: current = %s", safe_var_export($current)));
+    if ($current && $current['Gateway'] == $g_net && $current['Genmask'] == $g_mask) {
         log_error("ROUTING: keeping current default gateway '{$gateway}'");
         return;
     }
@@ -483,12 +487,15 @@ function system_default_route($gateway, $family, $interface, $far = false)
         $realif = null;
     }
 
-    mwexecf('/sbin/route delete -%s default', array($family), true);
+    //mwexecf('/sbin/route delete -%s default', array($family), true);
+    mwexecf('/sbin/route del default', [], true);
     if (!empty($realif)) {
-        mwexecf('/sbin/route delete -%s %s -interface %s', array($family, $gateway, $realif), true);
-        mwexecf('/sbin/route add -%s %s -interface %s', array($family, $gateway, $realif));
+        //mwexecf('/sbin/route delete -%s %s -interface %s', array($family, $gateway, $realif), true);
+        //mwexecf('/sbin/route add -%s %s -interface %s', array($family, $gateway, $realif));
+        mwexecf('/sbin/route delete -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif), true);
+        mwexecf('/sbin/route add -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif));
     }
-    mwexecf('/sbin/route add -%s default %s', array($family, $gateway));
+    mwexecf('/sbin/route add default -A %s -net %s netmask %s', array($family, $g_net, $g_mask));
 }
 
 function system_routing_configure($verbose = false, $interface = '')
