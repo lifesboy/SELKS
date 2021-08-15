@@ -496,7 +496,7 @@ function system_default_route($gateway, $family, $interface, $far = false)
     if (!empty($realif)) {
         //mwexecf('/sbin/route delete -%s %s -interface %s', array($family, $gateway, $realif), true);
         //mwexecf('/sbin/route add -%s %s -interface %s', array($family, $gateway, $realif));
-        mwexecf('/sbin/route delete -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif), true);
+        mwexecf('/sbin/route del -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif), true);
         mwexecf('/sbin/route add -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif));
     }
     //mwexecf('/sbin/route add -%s default %s', array($family, $gateway));
@@ -585,25 +585,30 @@ function system_staticroutes_configure($interface = '')
             }
 
             $ip = $rtent['network'];
+            list ($ip_net, $ip_mask) = explode ('/', $ip);
+            log_error(sprintf('ROUTING: [ip_net, ip_mask]=%s', safe_var_export([$ip_net, $ip_mask])));
             if (!empty($rtent['disabled'])) {
                 $inet = (is_subnetv6($ip) ? "-inet6" : "-inet");
-                mwexec("/sbin/route delete {$inet} " . escapeshellarg($ip), true);
+                mwexec("/sbin/route del -A {$inet} -net " . escapeshellarg($ip_net) . " netmask " . escapeshellarg($ip_mask), true);
             } else {
                 $inet = (is_subnetv6($ip) ? "-inet6" : "-inet");
-                $cmd = " {$inet} {$blackhole} " . escapeshellarg($ip) . " ";
+                $cmd = " -A {$inet} -net " . escapeshellarg($ip_net) . " netmask " . escapeshellarg($ip_mask). " ";
                 if (is_ipaddr($gatewayip)) {
-                    mwexec("/sbin/route delete" . $cmd . escapeshellarg($gatewayip), true);
+                    list ($g_net, $g_mask) = explode ('/', $gatewayip);
+                    log_error(sprintf('ROUTING: [g_net, g_mask]=%s', safe_var_export([$g_net, $g_mask])));
+                    mwexec("/sbin/route del" . $cmd . " gw " . escapeshellarg($g_net), true);
                     if ($fargw) {
-                        mwexecf('/sbin/route delete %s %s -interface %s ', array($inet, $gatewayip, $interfacegw), true);
-                        mwexecf('/sbin/route add %s %s -interface %s', array($inet, $gatewayip, $interfacegw), true);
+                        mwexecf('/sbin/route del -A %s gw %s netmask dev %s ', array($inet, $g_net, $g_mask, $interfacegw), true);
+                        mwexecf('/sbin/route add -A %s gw %s netmask %s dev %s', array($inet, $g_net, $g_mask, $interfacegw), true);
                     } elseif (is_linklocal($gatewayip) && strpos($gatewayip, '%') === false) {
                         $gatewayip .= "%{$interfacegw}";
                     }
-                    mwexec("/sbin/route add" . $cmd . escapeshellarg($gatewayip), true);
+                    mwexec("/sbin/route add" . $cmd . " gw " . escapeshellarg($g_net), true);
                 } elseif (!empty($interfacegw)) {
-                    mwexec("/sbin/route delete" . $cmd . "-interface " . escapeshellarg($interfacegw), true);
-                    mwexec("/sbin/route add" . $cmd . "-interface " . escapeshellarg($interfacegw), true);
+                    mwexec("/sbin/route del" . $cmd . "dev " . escapeshellarg($interfacegw), true);
+                    mwexec("/sbin/route add" . $cmd . "dev " . escapeshellarg($interfacegw), true);
                 }
+                log_error(sprintf('ROUTING: cmd=%s', safe_var_export($cmd)));
             }
         }
     }
