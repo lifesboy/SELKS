@@ -398,6 +398,18 @@ function system_hostname_configure($verbose = false)
     }
 }
 
+function system_get_routes()
+{
+    exec("/sbin/route -n", $routes);
+    preg_match_all('/[^\s]+/', $routes[1], $keys);
+    return array_map(function ($i) use ($keys) {
+        preg_match_all('/[^\s]+/', $i, $values);
+        //log_error(sprintf("ROUTING: k = %s", safe_var_export($keys[0])));
+        //log_error(sprintf("ROUTING: v = %s", safe_var_export($values[0])));
+        return array_combine(array_values($keys[0]), array_values($values[0]));
+    }, array_slice($routes, 2));
+}
+
 function system_host_route($host, $gateway, $delete = true, $add = true)
 {
     if (is_ipaddrv4($gateway)) {
@@ -420,7 +432,7 @@ function system_host_route($host, $gateway, $delete = true, $add = true)
 function system_default_route($gateway, $family, $interface, $far = false)
 {
     $realif = get_real_interface($interface, $family == 'inet' ? 'all' : 'inet6');
-
+    log_error(sprintf("ROUTING: realif = %s", safe_var_export($realif)));
     switch ($family) {
         case 'inet':
             break;
@@ -434,8 +446,13 @@ function system_default_route($gateway, $family, $interface, $far = false)
             return;
     }
 
-    $tmpcmd = "/sbin/route -n get -{$family} default 2>/dev/null | /usr/bin/awk '/gateway:/ {print $2}'";
-    $current = trim(exec($tmpcmd), " \n");
+//    $tmpcmd = "/sbin/route -n get -{$family} default 2>/dev/null | /usr/bin/awk '/gateway:/ {print $2}'";
+//    $current = trim(exec($tmpcmd), " \n");
+    $routes = system_get_routes();
+    $default_routes = array_filter($routes, function ($i) { return $i['Destination'] === '0.0.0.0'; });
+    $current = $default_routes[0] ? $default_routes[0]['Gateway'] : null;
+    log_error(sprintf("ROUTING: routes = %s", safe_var_export($routes)));
+    log_error(sprintf("ROUTING: current = %s", safe_var_export($current)));
     if ($current == $gateway) {
         log_error("ROUTING: keeping current default gateway '{$gateway}'");
         return;
@@ -487,12 +504,17 @@ function system_routing_configure($verbose = false, $interface = '')
         log_error("ROUTING: entering configure using defaults");
     }
 
-    $gateways = new \OPNsense\Routing\Gateways(legacy_interfaces_details());
+    $legacy = legacy_interfaces_details();
+    //log_error(sprintf("ROUTING: legacy_interfaces_details = %s", str_replace("\n", "", var_export($legacy, true))));
 
+    $gateways = new \OPNsense\Routing\Gateways(legacy_interfaces_details());
+    //log_error(sprintf("ROUTING: gateways = %s", str_replace("\n", "", var_export($gateways, true))));
     foreach (['inet', 'inet6'] as $ipproto) {
         /* determine default gateway without considering monitor status */
         $gateway = $gateways->getDefaultGW(array(), $ipproto);
         $logproto = $ipproto == 'inet' ? 'IPv4' : 'IPv6';
+        //log_error(sprintf("ROUTING: [ipproto, gateway, logproto] = %s",
+        //    str_replace("\n", "", var_export([$ipproto, $gateway, $logproto], true))));
         if ($gateway != null) {
             log_error("ROUTING: {$logproto} default gateway set to {$gateway['interface']}");
             if ((empty($interface) || $interface == $gateway['interface']) && !empty($gateway['gateway'])) {
