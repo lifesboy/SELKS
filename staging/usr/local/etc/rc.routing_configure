@@ -36,8 +36,10 @@ require_once 'filter.inc';
 // drop deleted routes
 foreach (glob("/tmp/delete_route_*.todo") as $filename) {
     $network = trim(file_get_contents($filename));
+    list ($n_net, $n_mask) = explode ('/', $network);
+    log_error(sprintf('ROUTING: system_gateways_edit [n_net, n_mask]=%s', safe_var_export([$n_net, $n_mask])));
     $inet = (is_subnetv6($network) ? "-inet6" : "-inet");
-    mwexec("/sbin/route delete {$inet} " . escapeshellarg($network), true);
+    mwexec("/sbin/route del -A {$inet} -net " . escapeshellarg($n_net) . " netmask " . escapeshellarg($n_mask), true);
     unlink($filename);
 }
 
