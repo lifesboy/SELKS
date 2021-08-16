@@ -92,10 +92,12 @@ function delete_gateway_item($id, $a_gateways)
         $a_gateways[$id]['monitor'] != "dynamic" &&
         is_ipaddr($a_gateways[$id]['monitor']) &&
         $a_gateways[$id]['gateway'] != $a_gateways[$id]['monitor']) {
+        list ($g_net, $g_mask) = explode ('/', $a_gateways[$id]['monitor']);
+        log_error(sprintf('ROUTING: delete_gateway_item [g_net, g_mask]=%s', safe_var_export([$g_net, $g_mask])));
         if (is_ipaddrv4($a_gateways[$id]['monitor'])) {
-            mwexec("/sbin/route delete " . escapeshellarg($a_gateways[$id]['monitor']));
+            mwexec("/sbin/route del gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
         } else {
-            mwexec("/sbin/route delete -inet6 " . escapeshellarg($a_gateways[$id]['monitor']));
+            mwexec("/sbin/route del -A inet6 gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
         }
     }
     if (!empty($config['interfaces'][$a_gateways[$id]['interface']])) {
