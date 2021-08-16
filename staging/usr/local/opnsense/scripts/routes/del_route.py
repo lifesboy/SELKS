@@ -47,7 +47,7 @@ if __name__ == '__main__':
             if len(parts) > 2 and parts[0] == inputargs.destination and parts[1] == inputargs.gateway:
                 # route entry found, try to delete
                 print ("found")
-                subprocess.run(['/sbin/route', 'delete', parts[0], parts[1]], capture_output=True)
+                subprocess.run(['/sbin/route', 'del -net ', parts[0], ' gw ', parts[1]], capture_output=True)
                 sys.exit(0)
 
     # not found
