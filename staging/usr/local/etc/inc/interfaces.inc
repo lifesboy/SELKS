@@ -3746,6 +3746,18 @@ function get_real_interface($interface = 'wan', $family = 'all')
     return $realif;
 }
 
+function get_all_routes()
+{
+    exec("/sbin/route -n", $routes);
+    preg_match_all('/[^\s]+/', $routes[1], $keys);
+    return array_map(function ($i) use ($keys) {
+        preg_match_all('/[^\s]+/', $i, $values);
+        //log_error(sprintf("ROUTING: k = %s", safe_var_export($keys[0])));
+        //log_error(sprintf("ROUTING: v = %s", safe_var_export($values[0])));
+        return array_combine(array_values($keys[0]), array_values($values[0]));
+    }, array_slice($routes, 2));
+}
+
 function guess_interface_from_ip($ipaddress)
 {
     if (!is_ipaddr($ipaddress)) {
@@ -3776,7 +3788,11 @@ function guess_interface_from_ip($ipaddress)
             }
         }
     }
-    $ret = exec_command("/sbin/route -n get {$ipaddress} | /usr/bin/awk '/interface/ { print \$2; };'");
+    //$ret = exec_command("/sbin/route -n get {$ipaddress} | /usr/bin/awk '/interface/ { print \$2; };'");
+    $routes = array_filter(get_all_routes(), function ($i) use ($ipaddress) {
+        return $i['Destination'] === $ipaddress || $i['Gateway'] === $ipaddress;
+    });
+    $ret = $routes[0] ? $routes[0]['Iface'] : null;
     if (empty($ret)) {
         return false;
     }
