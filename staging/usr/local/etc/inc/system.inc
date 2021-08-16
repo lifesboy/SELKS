@@ -516,7 +516,7 @@ function system_routing_configure($verbose = false, $interface = '')
         log_error("ROUTING: entering configure using defaults");
     }
 
-    $legacy = legacy_interfaces_details();
+    //$legacy = legacy_interfaces_details();
     //log_error(sprintf("ROUTING: legacy_interfaces_details = %s", str_replace("\n", "", var_export($legacy, true))));
 
     $gateways = new \OPNsense\Routing\Gateways(legacy_interfaces_details());
@@ -525,8 +525,7 @@ function system_routing_configure($verbose = false, $interface = '')
         /* determine default gateway without considering monitor status */
         $gateway = $gateways->getDefaultGW(array(), $ipproto);
         $logproto = $ipproto == 'inet' ? 'IPv4' : 'IPv6';
-        //log_error(sprintf("ROUTING: [ipproto, gateway, logproto] = %s",
-        //    str_replace("\n", "", var_export([$ipproto, $gateway, $logproto], true))));
+        log_error(sprintf("ROUTING: [ipproto, gateway, logproto] = %s", safe_var_export([$ipproto, $gateway, $logproto])));
         if ($gateway != null) {
             log_error("ROUTING: {$logproto} default gateway set to {$gateway['interface']}");
             if ((empty($interface) || $interface == $gateway['interface']) && !empty($gateway['gateway'])) {
