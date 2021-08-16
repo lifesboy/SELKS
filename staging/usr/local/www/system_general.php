@@ -195,11 +195,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($olddnsgwname != "none" && ($olddnsgwname != $thisdnsgwname || $olddnsservers[$dnscounter-1] != $pconfig[$dnsname])) {
                 // A previous DNS GW name was specified. It has now gone or changed, or the DNS server address has changed.
                 // Remove the route. Later calls will add the correct new route if needed.
+                list ($g_net, $g_mask) = explode ('/', $olddnsservers[$dnscounter-1]);
+                log_error(sprintf('ROUTING: olddnsservers [g_net, g_mask]=%s', safe_var_export([$g_net, $g_mask])));
                 if (is_ipaddrv4($olddnsservers[$dnscounter-1])) {
-                    mwexec("/sbin/route delete " . escapeshellarg($olddnsservers[$dnscounter-1]));
+                    mwexec("/sbin/route del gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
                 } else {
                     if (is_ipaddrv6($olddnsservers[$dnscounter-1])) {
-                        mwexec("/sbin/route delete -inet6 " . escapeshellarg($olddnsservers[$dnscounter-1]));
+                        mwexec("/sbin/route delete -A inet6 gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
                     }
                 }
             }
