@@ -540,9 +540,12 @@ function system_routing_configure($verbose = false, $interface = '')
 
     system_staticroutes_configure($interface);
 
+    if ($interface === '') {
+        $interface = 'default';
+    }
     set_sysctl(array(
-        'net.inet.ip.forwarding' => '1',
-        'net.inet6.ip6.forwarding' => '1',
+        "net.ipv4.conf.$interface.forwarding" => '1',
+        "net.ipv6.conf.$interface.forwarding" => '1',
     ));
 
     if ($verbose) {
