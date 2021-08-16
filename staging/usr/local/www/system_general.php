@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     mwexec("/sbin/route del gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
                 } else {
                     if (is_ipaddrv6($olddnsservers[$dnscounter-1])) {
-                        mwexec("/sbin/route delete -A inet6 gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
+                        mwexec("/sbin/route del -A inet6 gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
                     }
                 }
             }
