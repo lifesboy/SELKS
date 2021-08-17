@@ -520,7 +520,7 @@ function system_routing_configure($verbose = false, $interface = '')
     //log_error(sprintf("ROUTING: legacy_interfaces_details = %s", str_replace("\n", "", var_export($legacy, true))));
 
     $gateways = new \OPNsense\Routing\Gateways(legacy_interfaces_details());
-    //log_error(sprintf("ROUTING: gateways = %s", str_replace("\n", "", var_export($gateways, true))));
+    log_error(sprintf("ROUTING: gateways = %s", safe_var_export($gateways)));
     foreach (['inet', 'inet6'] as $ipproto) {
         /* determine default gateway without considering monitor status */
         $gateway = $gateways->getDefaultGW(array(), $ipproto);

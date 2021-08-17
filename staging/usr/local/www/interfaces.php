@@ -563,6 +563,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 system_routing_configure();
                 plugins_configure('monitor');
                 filter_configure();
+                log_error(sprintf("ROUTING: plugins_configure toapplylist = %s", safe_var_export($toapplylist)));
                 foreach ($toapplylist as $ifapply => $ifcfgo) {
                     plugins_configure('newwanip', false, array($ifapply));
                 }
@@ -1338,12 +1339,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $toapplylist = array();
             }
 
-            if (empty($toapplylist[$if])) {
+            //if (empty($toapplylist[$if])) {
                 // only flush if the running config is not in our list yet
-                $toapplylist[$if]['ifcfg'] = $old_config;
-                $toapplylist[$if]['ppps'] = $old_ppps;
+                $toapplylist[$if]['ifcfg'] = $new_config;
+                $toapplylist[$if]['ppps'] = $a_ppps;
+                log_error(sprintf("ROUTING: old_config = %s", safe_var_export($old_config)));
+                log_error(sprintf("ROUTING: old_ppps = %s", safe_var_export($old_ppps)));
+                log_error(sprintf("ROUTING: toapplylist = %s", safe_var_export($toapplylist)));
                 file_put_contents('/tmp/.interfaces.apply', serialize($toapplylist));
-            }
+            //}
 
             mark_subsystem_dirty('interfaces');
 
