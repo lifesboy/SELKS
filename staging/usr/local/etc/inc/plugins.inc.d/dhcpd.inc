@@ -1189,7 +1189,7 @@ EOD;
 
     /* fire up dhcpd in a chroot */
     if (count($dhcpdifs) > 0) {
-        mwexec('/usr/local/sbin/dhcpd -user dhcpd -group dhcpd -chroot /var/dhcpd -cf /etc/dhcpd.conf -pf /var/run/dhcpd.pid ' . join(' ', $dhcpdifs));
+        mwexec('/usr/sbin/dhcpd -user root -group root -chroot /var/dhcpd -cf /etc/dhcpd.conf -pf /var/run/dhcpd.pid ' . join(' ', $dhcpdifs));
     }
 
     if ($verbose) {
@@ -1601,7 +1601,7 @@ EOD;
 
     /* fire up dhcpd in a chroot */
     if (count($dhcpdv6ifs) > 0) {
-        mwexec('/usr/local/sbin/dhcpd -6 -user dhcpd -group dhcpd -chroot /var/dhcpd -cf /etc/dhcpdv6.conf -pf /var/run/dhcpdv6.pid ' . join(' ', $dhcpdv6ifs));
+        mwexec('/usr/sbin/dhcpd -6 -user root -group root -chroot /var/dhcpd -cf /etc/dhcpdv6.conf -pf /var/run/dhcpdv6.pid ' . join(' ', $dhcpdv6ifs));
         mwexecf('/usr/local/sbin/dhcpleases6 -c %s -l %s', array(
             '/usr/local/sbin/configctl dhcpd update prefixes',
             '/var/dhcpd/var/db/dhcpd6.leases',

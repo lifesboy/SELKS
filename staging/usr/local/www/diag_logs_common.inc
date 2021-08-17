@@ -110,7 +110,7 @@ function dump_clog($logfile, $tail, $grepfor = '', int $lineCharLimit = 0)
     } elseif (!file_exists($logfile)) {
         $logarr = sprintf(gettext('File %s doesn\'t exist.'), $logfile);
     } else {
-        exec("/usr/local/sbin/clog " . escapeshellarg($logfile) . " {$grepline}| grep -v \"CLOG\" | grep -v \"\033\" | /usr/bin/tail {$sor} -n " . escapeshellarg($tail), $logarr);
+        exec("/usr/bin/clog " . escapeshellarg($logfile) . " {$grepline}| grep -v \"CLOG\" | grep -v \"\033\" | /usr/bin/tail {$sor} -n " . escapeshellarg($tail), $logarr);
     }
 
     if (is_array($logarr) && !count($logarr)) {

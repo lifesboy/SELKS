@@ -318,10 +318,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         /* NOTE: If monitor ip is changed need to cleanup the old static route */
         if (isset($realid) && $pconfig['monitor'] != "dynamic" && !empty($a_gateway_item[$realid]) && is_ipaddr($a_gateway_item[$realid]['monitor']) &&
             $pconfig['monitor'] != $a_gateway_item[$realid]['monitor'] && $gateway['gateway'] != $a_gateway_item[$realid]['monitor']) {
+            list ($g_net, $g_mask) = explode ('/', $a_gateway_item[$realid]['monitor']);
+            log_error(sprintf('ROUTING: system_gateways_edit [g_net, g_mask]=%s', safe_var_export([$g_net, $g_mask])));
             if (is_ipaddrv4($a_gateway_item[$realid]['monitor'])) {
-                mwexec("/sbin/route delete " . escapeshellarg($a_gateway_item[$realid]['monitor']));
+                mwexec("/sbin/route del gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
             } else {
-                mwexec("/sbin/route delete -inet6 " . escapeshellarg($a_gateway_item[$realid]['monitor']));
+                mwexec("/sbin/route del -A inet6 gw " . escapeshellarg($g_net) . " netmask " . escapeshellarg($g_mask));
             }
         }
 

@@ -95,6 +95,8 @@ kibana:x:123:
 evebox:x:124:
 unbound:x:125:
 docker:x:998:
+audit:x:77:
+admins:x:1999:root,selks-user
 selks-user:x:1000:
 systemd-coredump:x:997:
 ssl-cert:x:126:

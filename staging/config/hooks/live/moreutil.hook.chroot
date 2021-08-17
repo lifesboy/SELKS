@@ -70,6 +70,13 @@ mv /usr/local/opnsense /usr/local/opnsense.bak
 mv /usr/local/wizard /usr/local/wizard.bak
 mv /usr/local/www /usr/local/www.bak
 ln -s /selks/staging/usr/local/etc /usr/local/etc
+ln -s /selks/staging/conf /conf
+chmod -R 600 /conf/sshd/ssh_host_ecdsa_key
+chmod -R 644 /conf/sshd/ssh_host_ecdsa_key.pub
+chmod -R 600 /conf/sshd/ssh_host_ed25519_key
+chmod -R 644 /conf/sshd/ssh_host_ed25519_key.pub
+chmod -R 600 /conf/sshd/ssh_host_rsa_key
+chmod -R 644 /conf/sshd/ssh_host_rsa_key.pub
 ln -s /selks/staging/usr/local/opnsense /usr/local/opnsense
 ln -s /selks/staging/usr/local/wizard /usr/local/wizard
 ln -s /selks/staging/usr/local/www /usr/local/www
@@ -89,6 +96,7 @@ ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
 
 ln -s /selks/staging/etc/rc /etc/rc
+rm -f /usr/lib/systemd/system/rc.service
 ln -s /selks/staging/usr/lib/systemd/system/rc.service /usr/lib/systemd/system/rc.service
 ln -s /selks/staging/etc/rc.subr /etc/rc.subr
 ln /selks/staging/etc/init.d/rcnetworking /etc/init.d/rcnetworking
@@ -131,22 +139,28 @@ update-rc.d swap defaults
 update-rc.d fsck defaults
 update-rc.d root defaults
 
+systemctl disable network-manager.service
+systemctl disable avahi-daemon.service
 update-rc.d lighttpd disable
 ln -s /selks/staging/var/etc /var/etc
+ln -s /selks/staging/var/cron /var/cron
+ln -s /selks/staging/etc/mtree /etc/mtree
+ln -s /run /var/run
 
 ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
 ln -s /selks/staging/usr/local/sbin/opnsense-importer /usr/local/sbin/opnsense-importer
 ln -s /selks/staging/usr/local/sbin/opnsense-shell /usr/local/sbin/opnsense-shell
+ln -s /selks/staging/usr/local/sbin/opnsense-version /sbin/opnsense-version
 ln -s /selks/staging/etc/rc.conf.d /etc/rc.conf.d
 chmod 755 /usr/sbin/pluginctl
 chmod 755 /usr/local/sbin/opnsense-importer
 chmod 755 /usr/local/sbin/opnsense-shell
+chmod 755 /sbin/opnsense-version
 chmod 755 -R /usr/local/etc/rc.subr.d/
 chmod 755 /usr/local/etc/rc.bootup
 chmod 755 /usr/local/etc/rc.syshook
 chmod 755 -R /etc/rc.conf.d/
 
-chmod 755 /selks/staging/usr/local/etc/rc.subr.d/recover
 chmod 755 /selks/staging/usr/local/etc/rc.configure_firmware
 chmod 755 /selks/staging/usr/local/etc/rc.configure_interface
 chmod 755 /selks/staging/usr/local/etc/rc.configure_plugins

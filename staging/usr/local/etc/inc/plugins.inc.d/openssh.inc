@@ -66,7 +66,7 @@ function openssh_services()
 function openssh_stop()
 {
     /* if run from a shell session, `-af' and the full path is needed */
-    mwexecf('/bin/pkill -af %s', '/usr/local/sbin/sshd', true);
+    mwexecf('/bin/pkill -af %s', '/usr/sbin/sshd', true);
 }
 
 function openssh_configure_do($verbose = false, $interface = '')
@@ -105,6 +105,8 @@ function openssh_configure_do($verbose = false, $interface = '')
     /* make ssh home directory */
     @mkdir('/var/empty', 0555, true);
 
+    @mkdir('/var/run/sshd', 0755, true);
+
     $keys = array(
         /* .pub files are implied */
         'rsa' => 'ssh_host_rsa_key',
@@ -139,7 +141,7 @@ function openssh_configure_do($verbose = false, $interface = '')
             $file = "/conf/sshd/{$name}";
             @unlink("{$file}.pub");
             @unlink($file);
-            mwexecf('/usr/local/bin/ssh-keygen -t %s -N "" -f %s', array($type, $file));
+            mwexecf('/bin/ssh-keygen -t %s -N "" -f %s', array($type, $file));
         }
         clear_subsystem_dirty('sshdkeys');
         log_error('Completed creating your SSH keys. SSH will now be started.');
@@ -208,14 +210,15 @@ function openssh_configure_do($verbose = false, $interface = '')
         $sshconf .= "ListenAddress {$listener}\n";
     }
 
-    file_put_contents("/usr/local/etc/ssh/sshd_config", $sshconf);
+    file_put_contents("/etc/ssh/sshd_config", $sshconf);
 
     if ($verbose) {
         echo 'Configuring OpenSSH...';
         flush();
     }
 
-    if ((count($interfaces) && !count($listeners)) || mwexecf('/usr/bin/protect -i /usr/local/sbin/sshd')) {
+//    if ((count($interfaces) && !count($listeners)) || mwexecf('/usr/bin/protect -i /usr/local/sbin/sshd')) {
+    if ((count($interfaces) && !count($listeners)) || mwexecf('/usr/sbin/sshd')) {
         if ($verbose) {
             echo "failed.\n";
         }

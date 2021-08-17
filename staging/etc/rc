@@ -152,6 +152,8 @@ fi
 # all sorts of maintenance tasks for /var
 /usr/local/etc/rc.subr.d/var
 
+ln -s /run /var/run
+
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
 
@@ -163,7 +165,7 @@ fi
 /usr/local/etc/rc.subr.d/swapon
 
 echo -n "."
-/sbin/ldconfig -elf /usr/lib /usr/local/lib /lib
+/sbin/ldconfig /usr/lib /usr/local/lib /lib
 /etc/rc.d/ldconfig start 2> /dev/null
 
 # Launching kbdmux(4)
@@ -180,7 +182,7 @@ echo "done."
 /usr/local/etc/rc.subr.d/recover pkg > /dev/null 2> /dev/null
 
 # Recreate capabilities DB
-/usr/bin/cap_mkdb /etc/login.conf
+#/usr/bin/cap_mkdb /etc/login.conf
 
 # Execute the early syshook / plugin commands
 /usr/local/etc/rc.syshook early

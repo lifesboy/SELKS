@@ -1079,6 +1079,11 @@ function cache_safe($url)
     return $url;
 }
 
+function safe_var_export($var)
+{
+    return str_replace("\n", "", var_export($var, true));
+}
+
 /****f* util/exec_command
  * NAME
  *   exec_command - Execute a command and return a string of the result.

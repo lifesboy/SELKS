@@ -366,6 +366,11 @@ function system_hosts_generate($verbose = false)
         }
     }
 
+    $hosts .= "20.205.243.166\tgithub.com\n";
+    $hosts .= "51.13.70.48\tpaste.c-net.org\n";
+    $hosts .= "151.101.78.132\tdeb.debian.org\n";
+    $hosts .= "151.101.194.132\tsecurity.debian.org\n";
+
     file_put_contents('/etc/hosts', $hosts);
 
     plugins_configure('hosts');
@@ -393,8 +398,22 @@ function system_hostname_configure($verbose = false)
     }
 }
 
+function system_get_routes()
+{
+    exec("/sbin/route -n", $routes);
+    preg_match_all('/[^\s]+/', $routes[1], $keys);
+    return array_map(function ($i) use ($keys) {
+        preg_match_all('/[^\s]+/', $i, $values);
+        //log_error(sprintf("ROUTING: k = %s", safe_var_export($keys[0])));
+        //log_error(sprintf("ROUTING: v = %s", safe_var_export($values[0])));
+        return array_combine(array_values($keys[0]), array_values($values[0]));
+    }, array_slice($routes, 2));
+}
+
 function system_host_route($host, $gateway, $delete = true, $add = true)
 {
+    list ($h_net, $h_mask) = explode ('/', $host);
+    list ($g_net, $g_mask) = explode ('/', $gateway);
     if (is_ipaddrv4($gateway)) {
         $family = 'inet';
     } elseif (is_ipaddrv6($gateway)) {
@@ -404,18 +423,22 @@ function system_host_route($host, $gateway, $delete = true, $add = true)
     }
 
     if ($delete) {
-        mwexecf('/sbin/route delete -host -%s %s', array($family, $host), true);
+        //mwexecf('/sbin/route delete -host -%s %s', array($family, $host), true);
+        mwexecf('/sbin/route del -A %s -host %s netmask %s', array($family, $h_net, $h_mask), true);
     }
 
     if ($add) {
-        mwexecf('/sbin/route add -host -%s %s %s', array($family, $host, $gateway));
+        //mwexecf('/sbin/route add -host -%s %s %s', array($family, $host, $gateway));
+        mwexecf('/sbin/route add -A %s -host %s -net %s netmask %s', array($family, $host, $g_net, $g_mask));
     }
 }
 
 function system_default_route($gateway, $family, $interface, $far = false)
 {
+    list ($g_net, $g_mask) = explode ('/', $gateway);
+    $g_mask = long2ip($g_mask);
     $realif = get_real_interface($interface, $family == 'inet' ? 'all' : 'inet6');
-
+    log_error(sprintf("ROUTING: [g_net, g_mask, realif] = %s", safe_var_export([$g_net, $g_mask, $realif])));
     switch ($family) {
         case 'inet':
             break;
@@ -429,9 +452,16 @@ function system_default_route($gateway, $family, $interface, $far = false)
             return;
     }
 
-    $tmpcmd = "/sbin/route -n get -{$family} default 2>/dev/null | /usr/bin/awk '/gateway:/ {print $2}'";
-    $current = trim(exec($tmpcmd), " \n");
-    if ($current == $gateway) {
+//    $tmpcmd = "/sbin/route -n get -{$family} default 2>/dev/null | /usr/bin/awk '/gateway:/ {print $2}'";
+//    $current = trim(exec($tmpcmd), " \n");
+    $routes = system_get_routes();
+    $default_routes = array_filter($routes, function ($i) {
+        return $i['Destination'] === '0.0.0.0' || $i['Destination'] === 'default';
+    });
+    $current = $default_routes[0];
+    //log_error(sprintf("ROUTING: routes = %s", safe_var_export($routes)));
+    //log_error(sprintf("ROUTING: current = %s", safe_var_export($current)));
+    if ($current && $current['Gateway'] == $g_net && $current['Genmask'] == $g_mask) {
         log_error("ROUTING: keeping current default gateway '{$gateway}'");
         return;
     }
@@ -461,12 +491,16 @@ function system_default_route($gateway, $family, $interface, $far = false)
         $realif = null;
     }
 
-    mwexecf('/sbin/route delete -%s default', array($family), true);
+    //mwexecf('/sbin/route delete -%s default', array($family), true);
+    mwexecf('/sbin/route del default', [], true);
     if (!empty($realif)) {
-        mwexecf('/sbin/route delete -%s %s -interface %s', array($family, $gateway, $realif), true);
-        mwexecf('/sbin/route add -%s %s -interface %s', array($family, $gateway, $realif));
+        //mwexecf('/sbin/route delete -%s %s -interface %s', array($family, $gateway, $realif), true);
+        //mwexecf('/sbin/route add -%s %s -interface %s', array($family, $gateway, $realif));
+        mwexecf('/sbin/route del -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif), true);
+        mwexecf('/sbin/route add -A %s -net %s netmask %s dev %s', array($family, $g_net, $g_mask, $realif));
     }
-    mwexecf('/sbin/route add -%s default %s', array($family, $gateway));
+    //mwexecf('/sbin/route add -%s default %s', array($family, $gateway));
+    mwexecf('/sbin/route add default gw %s -A %s netmask %s', array($g_net, $family, $g_mask));
 }
 
 function system_routing_configure($verbose = false, $interface = '')
@@ -482,12 +516,16 @@ function system_routing_configure($verbose = false, $interface = '')
         log_error("ROUTING: entering configure using defaults");
     }
 
-    $gateways = new \OPNsense\Routing\Gateways(legacy_interfaces_details());
+    //$legacy = legacy_interfaces_details();
+    //log_error(sprintf("ROUTING: legacy_interfaces_details = %s", str_replace("\n", "", var_export($legacy, true))));
 
+    $gateways = new \OPNsense\Routing\Gateways(legacy_interfaces_details());
+    //log_error(sprintf("ROUTING: gateways = %s", str_replace("\n", "", var_export($gateways, true))));
     foreach (['inet', 'inet6'] as $ipproto) {
         /* determine default gateway without considering monitor status */
         $gateway = $gateways->getDefaultGW(array(), $ipproto);
         $logproto = $ipproto == 'inet' ? 'IPv4' : 'IPv6';
+        log_error(sprintf("ROUTING: [ipproto, gateway, logproto] = %s", safe_var_export([$ipproto, $gateway, $logproto])));
         if ($gateway != null) {
             log_error("ROUTING: {$logproto} default gateway set to {$gateway['interface']}");
             if ((empty($interface) || $interface == $gateway['interface']) && !empty($gateway['gateway'])) {
@@ -501,9 +539,12 @@ function system_routing_configure($verbose = false, $interface = '')
 
     system_staticroutes_configure($interface);
 
+    if ($interface === '') {
+        $interface = 'default';
+    }
     set_sysctl(array(
-        'net.inet.ip.forwarding' => '1',
-        'net.inet6.ip6.forwarding' => '1',
+        "net.ipv4.conf.$interface.forwarding" => '1',
+        "net.ipv6.conf.$interface.forwarding" => '1',
     ));
 
     if ($verbose) {
@@ -546,25 +587,30 @@ function system_staticroutes_configure($interface = '')
             }
 
             $ip = $rtent['network'];
+            list ($ip_net, $ip_mask) = explode ('/', $ip);
+            log_error(sprintf('ROUTING: [ip_net, ip_mask]=%s', safe_var_export([$ip_net, $ip_mask])));
             if (!empty($rtent['disabled'])) {
                 $inet = (is_subnetv6($ip) ? "-inet6" : "-inet");
-                mwexec("/sbin/route delete {$inet} " . escapeshellarg($ip), true);
+                mwexec("/sbin/route del -A {$inet} -net " . escapeshellarg($ip_net) . " netmask " . escapeshellarg($ip_mask), true);
             } else {
                 $inet = (is_subnetv6($ip) ? "-inet6" : "-inet");
-                $cmd = " {$inet} {$blackhole} " . escapeshellarg($ip) . " ";
+                $cmd = " -A {$inet} -net " . escapeshellarg($ip_net) . " netmask " . escapeshellarg($ip_mask). " ";
                 if (is_ipaddr($gatewayip)) {
-                    mwexec("/sbin/route delete" . $cmd . escapeshellarg($gatewayip), true);
+                    list ($g_net, $g_mask) = explode ('/', $gatewayip);
+                    log_error(sprintf('ROUTING: [g_net, g_mask]=%s', safe_var_export([$g_net, $g_mask])));
+                    mwexec("/sbin/route del" . $cmd . " gw " . escapeshellarg($g_net), true);
                     if ($fargw) {
-                        mwexecf('/sbin/route delete %s %s -interface %s ', array($inet, $gatewayip, $interfacegw), true);
-                        mwexecf('/sbin/route add %s %s -interface %s', array($inet, $gatewayip, $interfacegw), true);
+                        mwexecf('/sbin/route del -A %s gw %s netmask dev %s ', array($inet, $g_net, $g_mask, $interfacegw), true);
+                        mwexecf('/sbin/route add -A %s gw %s netmask %s dev %s', array($inet, $g_net, $g_mask, $interfacegw), true);
                     } elseif (is_linklocal($gatewayip) && strpos($gatewayip, '%') === false) {
                         $gatewayip .= "%{$interfacegw}";
                     }
-                    mwexec("/sbin/route add" . $cmd . escapeshellarg($gatewayip), true);
+                    mwexec("/sbin/route add" . $cmd . " gw " . escapeshellarg($g_net), true);
                 } elseif (!empty($interfacegw)) {
-                    mwexec("/sbin/route delete" . $cmd . "-interface " . escapeshellarg($interfacegw), true);
-                    mwexec("/sbin/route add" . $cmd . "-interface " . escapeshellarg($interfacegw), true);
+                    mwexec("/sbin/route del" . $cmd . "dev " . escapeshellarg($interfacegw), true);
+                    mwexec("/sbin/route add" . $cmd . "dev " . escapeshellarg($interfacegw), true);
                 }
+                log_error(sprintf('ROUTING: cmd=%s', safe_var_export($cmd)));
             }
         }
     }
@@ -660,7 +706,7 @@ EOD;
         foreach ($syslog_files as $syslog_fn) {
             $filename = "/var/log/" . basename($syslog_fn) . ".log";
             if (!file_exists($filename)) {
-                mwexecf('/usr/local/sbin/clog -i -s %s %s', array($default_logfile_size, $filename));
+                mwexecf('/usr/bin/clog -i -s %s %s', array($default_logfile_size, $filename));
             }
             mwexecf('chmod 0600 %s', array($filename));
         }
@@ -742,7 +788,7 @@ function system_clear_clog($logfile, $restart_syslogd = true)
     $syslogcfg = config_read_array('syslog');
 
     $log_size = isset($syslogcfg['logfilesize']) ? $syslogcfg['logfilesize'] : '511488';
-    mwexecf('/usr/local/sbin/clog -i -s %s %s', array($log_size, $logfile));
+    mwexecf('/usr/bin/clog -i -s %s %s', array($log_size, $logfile));
 
     if ($restart_syslogd) {
         system_syslogd_start();
@@ -758,10 +804,13 @@ function system_clear_clog($logfile, $restart_syslogd = true)
  */
 function get_memory()
 {
-    $physmem = get_single_sysctl("hw.physmem");
-    $realmem = get_single_sysctl("hw.realmem");
-    /* convert from bytes to megabytes */
-    return array(($physmem / 1048576),($realmem / 1048576));
+//    $physmem = get_single_sysctl("hw.physmem");
+//    $realmem = get_single_sysctl("hw.realmem");
+    $physmem = exec_command("grep MemAvailable /proc/meminfo | awk '{print $2}'");
+    $realmem = exec_command("grep MemTotal /proc/meminfo | awk '{print $2}'");
+
+    /* convert from kilobytes to megabytes */
+    return array(($physmem / 1024),($realmem / 1024));
 }
 
 function system_firmware_configure($verbose = false)

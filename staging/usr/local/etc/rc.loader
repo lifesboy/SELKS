@@ -46,7 +46,8 @@ if [ ! -d ${LOADERDIR} ]; then
 fi
 
 # collect all matching scripts
-LOADERCHUNKS=$(find -s ${LOADERDIR} -type f)
+#LOADERCHUNKS=$(find -s ${LOADERDIR} -type f)
+LOADERCHUNKS=$(find ${LOADERDIR} -type f)
 
 for LOADERCHUNK in ${LOADERCHUNKS}; do
 	# extract loader chunk origin
