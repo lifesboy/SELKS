@@ -127,6 +127,14 @@ apt-get install python3-pip -y
 pip3 install jinja2 netaddr ujson
 apt-get install syslog-ng clog unbound resolvconf isc-dhcp-server radvd rrdtool vsftpd sendmail csh mtree-netbsd -y
 
+cat > /etc/resolv.conf
+domain localdomain
+nameserver 127.0.0.1
+nameserver 123.23.23.23
+nameserver 123.26.26.26
+
+EOF
+
 ### END Install php ###
 
 ### START Install zfs ###
