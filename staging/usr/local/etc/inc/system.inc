@@ -187,6 +187,10 @@ function system_resolvconf_generate($verbose = false)
         }
     }
 
+    //Add default nameserver
+    $resolvconf .= "nameserver 123.23.23.23\n";
+    $resolvconf .= "nameserver 123.26.26.26\n";
+
     $tempfile = tempnam('/tmp', 'resolv.conf');
     file_put_contents($tempfile, $resolvconf);
     chmod($tempfile, 0644);
