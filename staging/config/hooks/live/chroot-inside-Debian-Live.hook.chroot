@@ -109,7 +109,7 @@ apt-get install -y evebox
 ### START Install php ###
 apt-get install apt php-dev php-fpm php php-cgi lighttpd -y
 
-apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev \
+apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev php-phpseclib \
 php-sqlite3 php-json php-xml php-sockets php-radius php-ldap php-gettext php-dom php-curl php-ctype
 
 git clone https://github.com/jbboehr/php-psr.git
@@ -125,7 +125,15 @@ pecl channel-update pecl.php.net
 
 apt-get install python3-pip -y
 pip3 install jinja2 netaddr ujson
-apt-get install syslog-ng clog unbound isc-dhcp-server radvd rrdtool vsftpd sendmail csh mtree-netbsd -y
+apt-get install syslog-ng clog unbound resolvconf isc-dhcp-server radvd rrdtool vsftpd sendmail csh mtree-netbsd -y
+
+cat > /etc/resolv.conf
+domain localdomain
+nameserver 127.0.0.1
+nameserver 123.23.23.23
+nameserver 123.26.26.26
+
+EOF
 
 ### END Install php ###
 

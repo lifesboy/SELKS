@@ -49,14 +49,14 @@ cd -
 mv /usr/bin/selks-first-time-setup_stamus  /usr/bin/selks-first-time-setup_stamus.bak
 ln -s /selks/staging/usr/bin/selks-first-time-setup_stamus /usr/bin/selks-first-time-setup_stamus
 
-cat > /etc/network/interfaces.d/eno1 <<EOF
-# Stamus Networks SELKS eno1 interface set up auto generated!
-auto eno1
-iface eno1 inet dhcp
-    up ip link set dev eno1 up
-    down ip link set dev eno1 down
-
-EOF
+#cat > /etc/network/interfaces.d/eno1 <<EOF
+## Stamus Networks SELKS eno1 interface set up auto generated!
+#auto eno1
+#iface eno1 inet dhcp
+#    up ip link set dev eno1 up
+#    down ip link set dev eno1 down
+#
+#EOF
 
 #nft 'add chain filter IPS { type filter hook forward priority 10;}'
 #nft 'add rule filter IPS queue num 3-4 fanout,bypass'
