@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     do_input_validation($pconfig, $reqdfields, $reqdfieldsn, $input_errors);
 
     if (count($input_errors) == 0) {
-        $command = '/sbin/ping';
+        $command = '/bin/ping';
         switch ($pconfig['ipproto']) {
             case 'ipv6':
                 $command .= '6';
