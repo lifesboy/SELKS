@@ -357,7 +357,7 @@ function system_hosts_generate($verbose = false)
 
     $syscfg = config_read_array('system');
 
-    $hosts = "127.0.0.1\tlocalhost localhost.{$syscfg['domain']}\n";
+    $hosts = "127.0.0.1\tlocalhost localhost.{$syscfg['domain']} SELKS\n";
 
     /* we pull the second host entry from a "priority" list: lan, optX or wan */
     $iflist = array_keys(get_configured_interface_with_descr());
