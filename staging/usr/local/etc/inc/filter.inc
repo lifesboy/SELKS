@@ -400,9 +400,11 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 
     /* enable pf if we need to, otherwise disable */
     if (!isset($config['system']['disablefilter'])) {
-        mwexec("/sbin/pfctl -e", true);
+        //mwexec("/sbin/pfctl -e", true);
+        mwexec("service nftables start", true);
     } else {
-        mwexec("/sbin/pfctl -d", true);
+        //mwexec("/sbin/pfctl -d", true);
+        mwexec("service nftables stop", true);
         if ($verbose) {
             echo "done.\n";
         }
