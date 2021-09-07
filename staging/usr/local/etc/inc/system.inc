@@ -989,8 +989,9 @@ function system_kernel_configure($verbose = false)
     }
 
     /* we now have /dev/pf, time to fix permissions for proxies */
-    chgrp('/dev/pf', 'proxy');
-    chmod('/dev/pf', 0660);
+    //chgrp('/dev/pf', 'proxy');
+    //chmod('/dev/pf', 0660);
+    chmod('/sbin/nft', 0755);
 
     if ($verbose) {
         echo "done.\n";
