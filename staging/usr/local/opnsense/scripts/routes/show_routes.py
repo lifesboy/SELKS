@@ -39,17 +39,17 @@ if __name__ == '__main__':
         resolv = 'n'
     else:
         resolv = ''
-    sp = subprocess.run(['/usr/bin/netstat', '-rW' + resolv], capture_output=True, text=True)
+    sp = subprocess.run(['/usr/bin/netstat', '-rW46' + resolv], capture_output=True, text=True)
     current_proto = ""
     for line in sp.stdout.split("\n"):
         fields = line.split()
         if len(fields) == 0:
             continue
-        elif len(fields) == 1 and fields[0] == 'Internet:':
+        elif len(fields) == 1 and fields[0] == 'Kernel IP routing table':
             current_proto = 'ipv4'
-        elif len(fields) == 1 and  fields[0] == 'Internet6:':
+        elif len(fields) == 1 and  fields[0] == 'Kernel IPv6 routing table':
             current_proto = 'ipv6'
-        elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] == 'Gateway':
+        elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] in ['Gateway', 'Next Hop']:
             fieldnames = list(map(lambda x : x.lower(), fields))
         elif len(fields) > 2:
             record = {'proto': current_proto}
