@@ -40,7 +40,7 @@ function pf_services()
                 'restart' => array('filter reload'),
             ),
             'nocheck' => true,
-            'name' => 'pf',
+            'name' => 'nft',
         );
     }
 
