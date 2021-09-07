@@ -33,6 +33,28 @@
 
 require_once('filter.lib.inc');
 
+
+/* lock configuration file */
+function lock($lock, $op = LOCK_SH)
+{
+    if (!$lock) {
+        die(gettext("WARNING: You must give a name as parameter to lock() function."));
+    }
+
+    if (!file_exists("{/tmp/{$lock}.lock")) {
+        @touch("/tmp/{$lock}.lock");
+        @chmod("/tmp/{$lock}.lock", 0666);
+    }
+
+    if ($fp = fopen("/tmp/{$lock}.lock", "w")) {
+        if (flock($fp, $op)) {
+            return $fp;
+        } else {
+            fclose($fp);
+        }
+    }
+}
+
 function is_bogonsv6_used()
 {
     global $config;
