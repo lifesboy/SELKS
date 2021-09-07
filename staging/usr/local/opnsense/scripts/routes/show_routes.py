@@ -52,7 +52,7 @@ if __name__ == '__main__':
         elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] == 'Gateway':
             fieldnames = list(map(lambda x : x.lower(), ['Destination', 'Gateway', 'Genmask', 'Flags', 'MSS', 'Window', 'irtt', 'netif']))
         elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] == 'Next':
-            fieldnames = list(map(lambda x : x.lower(), ['Destination', 'Next Hop', 'Flag', 'Met', 'Ref', 'Use', 'netif']))
+            fieldnames = list(map(lambda x : x.lower(), ['Destination', 'Gateway', 'Flags', 'Met', 'Ref', 'Use', 'netif']))
         elif len(fields) > 2:
             record = {'proto': current_proto}
             for fieldid in range(len(fields)):
