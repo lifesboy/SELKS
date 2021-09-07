@@ -45,9 +45,9 @@ if __name__ == '__main__':
         fields = line.split()
         if len(fields) == 0:
             continue
-        elif len(fields) == 1 and fields[0] == 'Kernel IP routing table':
+        elif line == 'Kernel IP routing table':
             current_proto = 'ipv4'
-        elif len(fields) == 1 and  fields[0] == 'Kernel IPv6 routing table':
+        elif line == 'Kernel IPv6 routing table':
             current_proto = 'ipv6'
         elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] == 'Gateway':
             fieldnames = list(map(lambda x : x.lower(), ['Destination', 'Gateway', 'Genmask', 'Flags', 'MSS', 'Window', 'irtt', 'Iface']))
