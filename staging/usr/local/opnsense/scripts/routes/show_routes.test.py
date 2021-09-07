@@ -51,8 +51,10 @@ if __name__ == '__main__':
             current_proto = 'ipv4'
         elif len(fields) == 1 and  fields[0] == 'Kernel IPv6 routing table':
             current_proto = 'ipv6'
-        elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] in ['Gateway', 'Next Hop']:
-            fieldnames = list(map(lambda x : x.lower(), fields))
+        elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] == 'Gateway':
+            fieldnames = list(map(lambda x : x.lower(), ['Destination', 'Gateway', 'Genmask', 'Flags', 'MSS', 'Window', 'irtt', 'Iface']))
+        elif len(fields) > 2 and fields[0] == 'Destination' and fields[1] == 'Next':
+            fieldnames = list(map(lambda x : x.lower(), ['Destination', 'Next Hop', 'Flag', 'Met', 'Ref', 'Use', 'If']))
         elif len(fields) > 2:
             record = {'proto': current_proto}
             for fieldid in range(len(fields)):
