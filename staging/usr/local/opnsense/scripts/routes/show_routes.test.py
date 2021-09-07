@@ -71,9 +71,10 @@ if __name__ == '__main__':
         print(ujson.dumps(result))
     else:
         # output plain
-        print ('\t\t'.join(fieldnames))
-        frmt = "%(proto)s\t"
-        for fieldname in fieldnames:
-            frmt = frmt + "%("+fieldname+")s\t"
+        # print ('\t\t'.join(fieldnames))
+        # frmt = "%(proto)s\t"
+        # for fieldname in fieldnames:
+        #     frmt = frmt + "%("+fieldname+")s\t"
         for record in result:
-            print (frmt%record)
+            #print (frmt%record)
+            print (record)
