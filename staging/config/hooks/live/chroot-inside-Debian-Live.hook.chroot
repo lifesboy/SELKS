@@ -151,6 +151,10 @@ apt-get -f install
 apt-get install zfs-zed -y
 ### END Install zfs ###
 
+### START Install vpn ###
+apt-get install openvpn -y
+### END Install vpn ###
+
 ### START lighttpd opnsense ###
 cat > /etc/lighttpd/lighttpd.conf <<EOF
 

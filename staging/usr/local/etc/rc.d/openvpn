@@ -118,7 +118,7 @@ stats_cmd="openvpn_stats"
 pidfile="/var/run/${name}.pid"
 
 # command and arguments
-command="/usr/local/sbin/openvpn"
+command="/usr/sbin/openvpn"
 
 # run this last
 stop_postcmd="stop_postcmd"
