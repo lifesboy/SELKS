@@ -43,7 +43,7 @@ check_root()  {
 }
 
 check_nfqueue() {
-if [ ! -e /proc/net/netfilter/nf_queue ]; then
+if [ -e /proc/net/netfilter/nf_queue ]; then
     log_failure_msg "NFQUEUE support not found !"
     log_failure_msg "Please ensure the nfnetlink_queue module is loaded or built in kernel"
     exit 5
