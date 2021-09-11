@@ -24,6 +24,8 @@ fi
 # We'll add up all the options above and use them
 NAME=suricata
 DAEMON=/usr/bin/$NAME
+LISTENMODE=nfqueue
+NFQUEUE="-q 3 -q 4 -q 5"
 
 # Use this if you want the user to explicitly set 'RUN' in
 # /etc/default/
