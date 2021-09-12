@@ -152,7 +152,8 @@ fi
 # all sorts of maintenance tasks for /var
 /usr/local/etc/rc.subr.d/var
 
-ln -s /run /var/run
+#ln -s /run /var/run
+chmod 0755 /var/run
 
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
@@ -204,7 +205,7 @@ echo -n "Root file system: "
 mount | grep ' on / ' | awk '{ print $1 }'
 date
 
-/usr/local/sbin/opnsense-shell banner
-/usr/local/etc/rc.subr.d/livemode
+#/usr/local/sbin/opnsense-shell banner
+#/usr/local/etc/rc.subr.d/livemode
 
 exit 0
