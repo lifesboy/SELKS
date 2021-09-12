@@ -116,6 +116,8 @@ function get_default_sysctl_value($id)
         'security.bsd.see_other_uids' => '0',
         'vfs.read_max' => '32',
         'vm.pmap.pti' => '1',
+        'net.ipv4.ip_forward' => '1',
+        'net.ipv6.ip_forward' => '1',
     );
 
     if (isset($sysctls[$id])) {
