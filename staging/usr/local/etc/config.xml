@@ -4,6 +4,16 @@
   <theme>opnsense</theme>
   <sysctl>
     <item>
+      <descr>Enable forward IPv4 traffic between WAN vs LAN.</descr>
+      <tunable>net.ipv4.ip_forward</tunable>
+      <value>1</value>
+    </item>
+    <item>
+      <descr>Enable forward IPv6 traffic between WAN vs LAN.</descr>
+      <tunable>net.ipv6.ip_forward</tunable>
+      <value>1</value>
+    </item>
+    <item>
       <descr><![CDATA[Increase UFS read-ahead speeds to match the state of hard drives and NCQ.]]></descr>
       <tunable>vfs.read_max</tunable>
       <value>default</value>
