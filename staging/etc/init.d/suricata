@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 #
 ### BEGIN INIT INFO
 # Provides:          suricata
@@ -12,8 +12,6 @@
 #                    match against a set of known attacks.
 ### END INIT INFO
 
-. /lib/lsb/init-functions
-
 # Source function library.
 if test -f /etc/default/suricata; then
     . /etc/default/suricata
@@ -22,10 +20,23 @@ else
 fi
 
 # We'll add up all the options above and use them
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
 NAME=suricata
+DESC="Suricata Next Generation IDS/IPS"
 DAEMON=/usr/bin/$NAME
+SCRIPTNAME=/etc/init.d/$NAME
 LISTENMODE=nfqueue
 NFQUEUE="-q 3 -q 4 -q 5"
+
+. /lib/lsb/init-functions
+
+name=$NAME
+pidfile=$PIDFILE
+desc=$DESC
+
+. /etc/rc.subr
+
+set -e
 
 # Use this if you want the user to explicitly set 'RUN' in
 # /etc/default/
@@ -164,3 +175,10 @@ case "$1" in
 esac
 
 exit 0
+
+#root@OPNsense:~ # /usr/local/etc/rc.d/suricata status
+#Cannot 'status' suricata. Set suricata_enable to YES in /etc/rc.conf or use 'onestatus' instead of 'status'.
+#root@OPNsense:~ # /usr/local/etc/rc.d/suricata onestatus
+#suricata is not running.
+#root@OPNsense:~ # /usr/local/etc/rc.d/suricata status
+#suricata is running as pid 69000.
