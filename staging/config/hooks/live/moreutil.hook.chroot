@@ -80,7 +80,7 @@ chmod -R 644 /conf/sshd/ssh_host_rsa_key.pub
 ln -s /selks/staging/usr/local/opnsense /usr/local/opnsense
 ln -s /selks/staging/usr/local/wizard /usr/local/wizard
 ln -s /selks/staging/usr/local/www /usr/local/www
-ln -s /usr/local/opnsense/www /usr/local/www/ui
+#ln -s /usr/local/opnsense/www /usr/local/www/ui
 
 ln -s /selks/staging/usr/local/www/javascript/wizard /usr/share/javascript/wizard
 ln -s /selks/staging/usr/local/www/javascript/opnsense_legacy.js /usr/share/javascript/opnsense_legacy.js
