@@ -179,6 +179,8 @@ chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/carp/20-openvpn
 chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/start/90-carp
 chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/stop/99-config
 
+mv /etc/default/suricata /etc/default/suricata.bak
+ln -s /selks/staging/etc/default/suricata /etc/default/suricata
 mv /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 ln -s /selks/staging/etc/ssh/sshd_config /etc/ssh/sshd_config
 mv /etc/systemd/system/logstash.service /etc/systemd/system/logstash.service.bak
