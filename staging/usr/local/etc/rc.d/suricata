@@ -35,7 +35,7 @@ command="/usr/local/bin/suricata"
 load_rc_config $name
 
 [ -z "$suricata_enable" ]	&& suricata_enable="NO"
-[ -z "$suricata_conf" ]		&& suricata_conf="/usr/local/etc/suricata/suricata.yaml"
+[ -z "$suricata_conf" ]		&& suricata_conf="/etc/suricata/suricata.yaml"
 [ -z "$suricata_flags" ]	&& suricata_flags="-D"
 [ -z "$suricata_divertport" ]	&& suricata_divertport="8000"
 [ -z "$suricata_netmap" ]	&& suricata_netmap="NO"

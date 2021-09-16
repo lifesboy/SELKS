@@ -52,7 +52,7 @@ if __name__ == '__main__':
     enabled_rulefiles = dict()
     rule_properties = dict()
     metadata_sources = dict()
-    updater_conf = '/usr/local/etc/suricata/rule-updater.config'
+    updater_conf = '/etc/suricata/rule-updater.config'
     if os.path.exists(updater_conf):
         cnf = ConfigParser()
         cnf.read(updater_conf)
