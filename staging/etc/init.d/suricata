@@ -74,7 +74,7 @@ case "$LISTENMODE" in
   nfqueue)
     IDMODE="IPS (nfqueue)"
     LISTEN_OPTIONS=" $NFQUEUE"
-    check_nfqueue
+    #check_nfqueue
     ;;
   pcap)
     IDMODE="IDS (pcap)"
