@@ -69,7 +69,7 @@ stats:
 outputs:
   # a line based alerts log similar to Snort's fast.log
   - fast:
-      enabled: no
+      enabled: yes
       filename: fast.log
       append: yes
       #filetype: regular # 'regular', 'unix_stream' or 'unix_dgram'
