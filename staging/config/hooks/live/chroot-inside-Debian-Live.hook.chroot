@@ -82,6 +82,7 @@ apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-de
                 python-yaml rustc cargo
 apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
 apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
+apt-get install -y flow-tools
 #make sure Suricata can write in /data/nsm
 mkdir -p /data/nsm/
 chown logstash -R /data/nsm/
