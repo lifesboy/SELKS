@@ -682,6 +682,31 @@ af-packet:
     #use-mmap: no
     #tpacket-v3: yes
 
+  {% if helpers.exists('OPNsense.IDS.general.interfaces') %}
+  {% for intfName in OPNsense.IDS.general.interfaces.split(',') %}
+
+  - interface: {{physical_interface(intfName)}}
+    threads: auto
+    cluster-id: {{100 - loop.index}}
+    cluster-type: cluster_flow
+    defrag: yes
+    use-mmap: yes
+    #mmap-locked: yes
+    tpacket-v3: yes
+    ring-size: 2048
+    block-size: 32768
+    #block-timeout: 10
+    #use-emergency-flush: yes
+    #checksum-checks: kernel
+    #bpf-filter: port 80 or udp
+    #copy-mode: ips
+    #copy-iface: {{physical_interface(intfName)}}^
+
+  #- interface: {{physical_interface(intfName)}}^
+  #  copy-iface: {{physical_interface(intfName)}}
+  {% endfor %}
+  {% endif %}
+
 # Cross platform libpcap capture support
 pcap:
   - interface: eth0
@@ -1706,17 +1731,6 @@ netmap:
     checksum-checks: auto
     # BPF filter to apply to this interface. The pcap filter syntax apply here.
     #bpf-filter: port 80 or udp
-
-  {% if helpers.exists('OPNsense.IDS.general.interfaces') %}
-    {% for intfName in OPNsense.IDS.general.interfaces.split(',') %}
-
-  - interface: {{physical_interface(intfName)}}
-    copy-iface: {{physical_interface(intfName)}}^
-
-  - interface: {{physical_interface(intfName)}}^
-    copy-iface: {{physical_interface(intfName)}}
-    {% endfor %}
-  {% endif %}
 
 
 # PF_RING configuration: for use with native PF_RING support
