@@ -687,7 +687,7 @@ af-packet:
 
   - interface: {{physical_interface(intfName)}}
     threads: auto
-    cluster-id: {{100 - loop.index}}
+    cluster-id: {{99 + loop.index}}
     cluster-type: cluster_flow
     defrag: yes
     use-mmap: yes
