@@ -218,5 +218,7 @@ ln -s /selks/staging/etc/systemd/system/logstash.service /etc/systemd/system/log
 mv /usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service.bak
 systemctl daemon-reload
 
+/bin/selks-first-time-setup_stamus
+
 cat /dev/null > ~/.bash_history && history -c
 
