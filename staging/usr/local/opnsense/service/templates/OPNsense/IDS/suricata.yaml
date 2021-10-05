@@ -1940,10 +1940,9 @@ rule-files:
 ## Auxiliary configuration files.
 ##
 
-classification-file: /etc/suricata/classification.config
-reference-config-file: /etc/suricata/reference.config
-# threshold-file: /etc/suricata/threshold.config
-
+classification-file: /etc/suricata/rules/classification.config
+reference-config-file: /etc/suricata/rules/reference.config
+threshold-file: /etc/suricata/rules/threshold.config
 ##
 ## Include other configs
 ##
