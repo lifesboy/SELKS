@@ -3,3 +3,4 @@ Stamus-Live-Build
 .idea/
 staging/usr/local/opnsense/mvc/app/cache/
 **/*.pyc
+venv/
