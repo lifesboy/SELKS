@@ -46,8 +46,36 @@ cd -
 #mv /etc/init.d/suricata /etc/init.d/suricata.bak
 #ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
 
+mv /usr/bin/selks-db-logs-cleanup_stamus  /usr/bin/selks-db-logs-cleanup_stamus.bak
+mv /usr/bin/selks-disable-interface-offloading_stamus  /usr/bin/selks-disable-interface-offloading_stamus.bak
+mv /usr/bin/selks-disable-suri-capture_stamus  /usr/bin/selks-disable-suri-capture_stamus.bak
+mv /usr/bin/selks-enable-suri-capture_stamus  /usr/bin/selks-enable-suri-capture_stamus.bak
 mv /usr/bin/selks-first-time-setup_stamus  /usr/bin/selks-first-time-setup_stamus.bak
+mv /usr/bin/selks-health-check_stamus  /usr/bin/selks-health-check_stamus.bak
+mv /usr/bin/selks-idps-interface-tuneup_stamus  /usr/bin/selks-idps-interface-tuneup_stamus.bak
+mv /usr/bin/selks-kernel-tuneup_stamus  /usr/bin/selks-kernel-tuneup_stamus.bak
+mv /usr/bin/selks-molochdb-init-setup_stamus  /usr/bin/selks-molochdb-init-setup_stamus.bak
+mv /usr/bin/selks-reconfigure-listening-interface_stamus  /usr/bin/selks-reconfigure-listening-interface_stamus.bak
+mv /usr/bin/selks-secondstage-upgrade_stamus  /usr/bin/selks-secondstage-upgrade_stamus.bak
+mv /usr/bin/selks-setup-ids-interface  /usr/bin/selks-setup-ids-interface.bak
+mv /usr/bin/selks-tools  /usr/bin/selks-tools.bak
+mv /usr/bin/selks-upgrade_stamus  /usr/bin/selks-upgrade_stamus.bak
+ln -s /selks/staging/usr/bin/selks-db-logs-cleanup_stamus /usr/bin/selks-db-logs-cleanup_stamus
+ln -s /selks/staging/usr/bin/selks-disable-interface-offloading_stamus /usr/bin/selks-disable-interface-offloading_stamus
+ln -s /selks/staging/usr/bin/selks-disable-suri-capture_stamus /usr/bin/selks-disable-suri-capture_stamus
+ln -s /selks/staging/usr/bin/selks-enable-suri-capture_stamus /usr/bin/selks-enable-suri-capture_stamus
 ln -s /selks/staging/usr/bin/selks-first-time-setup_stamus /usr/bin/selks-first-time-setup_stamus
+ln -s /selks/staging/usr/bin/selks-health-check_stamus /usr/bin/selks-health-check_stamus
+ln -s /selks/staging/usr/bin/selks-idps-interface-tuneup_stamus /usr/bin/selks-idps-interface-tuneup_stamus
+ln -s /selks/staging/usr/bin/selks-kernel-tuneup_stamus /usr/bin/selks-kernel-tuneup_stamus
+ln -s /selks/staging/usr/bin/selks-molochdb-init-setup_stamus /usr/bin/selks-molochdb-init-setup_stamus
+ln -s /selks/staging/usr/bin/selks-reconfigure-listening-interface_stamus /usr/bin/selks-reconfigure-listening-interface_stamus
+ln -s /selks/staging/usr/bin/selks-secondstage-upgrade_stamus /usr/bin/selks-secondstage-upgrade_stamus
+ln -s /selks/staging/usr/bin/selks-setup-ids-interface /usr/bin/selks-setup-ids-interface
+ln -s /selks/staging/usr/bin/selks-tools /usr/bin/selks-tools
+ln -s /selks/staging/usr/bin/selks-upgrade_stamus /usr/bin/selks-upgrade_stamus
+
+chmod 755 /selks/staging/usr/bin/selks*
 
 #cat > /etc/network/interfaces.d/eno1 <<EOF
 ## Stamus Networks SELKS eno1 interface set up auto generated!
