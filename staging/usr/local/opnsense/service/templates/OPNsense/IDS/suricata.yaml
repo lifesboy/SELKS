@@ -74,6 +74,26 @@ outputs:
       append: yes
       #filetype: regular # 'regular', 'unix_stream' or 'unix_dgram'
 
+
+#  {% if not helpers.empty('OPNsense.IDS.general.syslog_eve') %}
+## Extensible Event Format (nicknamed EVE) to syslog
+#  - eve-log:
+#      enabled: yes
+#      type: syslog
+#      identity: "suricata"
+#      facility: local5
+#      level: Info
+#      types:
+#        - alert:
+#      {%     if not helpers.empty('OPNsense.IDS.general.LogPayload') %}
+#      payload: no
+#      payload-buffer-size: 4kb
+#      payload-printable: yes
+#      {%     endif %}
+#      http: yes
+#      tls: yes
+#  {% endif %}
+
   # Extensible Event Format (nicknamed EVE) event log in JSON format
   - eve-log:
       enabled: yes
@@ -289,25 +309,6 @@ outputs:
         # flowints.
         #- metadata
 
-{% if not helpers.empty('OPNsense.IDS.general.syslog_eve') %}
-  # Extensible Event Format (nicknamed EVE) to syslog
-  - eve-log:
-      enabled: yes
-      type: syslog
-      identity: "suricata"
-      facility: local5
-      level: Info
-      types:
-        - alert:
-{%     if not helpers.empty('OPNsense.IDS.general.LogPayload') %}
-             payload: no
-             payload-buffer-size: 4kb
-             payload-printable: yes
-{%     endif %}
-             http: yes
-             tls: yes
-{% endif %}
-
   # deprecated - unified2 alert format for use with Barnyard2
   - unified2-alert:
       enabled: no
@@ -373,12 +374,12 @@ outputs:
   # - encrypted streams after the key exchange
   #
   - pcap-log:
-      enabled: no
-      filename: log.pcap
+      enabled: yes
+      filename: log.%n.%t.pcap
 
       # File size limit.  Can be specified in kb, mb, gb.  Just a number
       # is parsed as bytes.
-      limit: 1000mb
+      limit: 10mb
 
       # If set to a value, ring buffer mode is enabled. Will keep maximum of
       # "max-files" of size "limit"
@@ -395,11 +396,11 @@ outputs:
       #lz4-checksum: no
       #lz4-level: 0
 
-      mode: normal # normal, multi or sguil.
+      mode: multi # normal, multi or sguil.
 
       # Directory to place pcap files. If not provided the default log
       # directory will be used. Required for "sguil" mode.
-      #dir: /nsm_data/
+      dir: /data/nsm/
 
       #ts-format: usec # sec or usec second format (default) is filename.sec usec is filename.sec.usec
       use-stream-depth: no #If set to "yes" packets seen after reaching stream inspection depth are ignored. "no" logs all packets
