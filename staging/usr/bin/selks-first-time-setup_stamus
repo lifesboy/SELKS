@@ -35,16 +35,70 @@ mkdir -p /opt/selks/log/
 echo "START of first time setup script - $(date) " 
 
 #/usr/bin/selks-setup-ids-interface
+
+#if [ $? -ne 0 ]; then
+#    echo "Previous job failed...Exiting..."
+#    echo -e "\n### Exited with ERROR  ###\n"
+#    echo -e "\nFull log located at - /opt/selks/log/selks-first-time-setup_stamus.log"
+#    echo -e "\nPress Enter to continue\n"
+#    read
+#    exit 1
+#fi
 echo -e "\nFull log located at - /opt/selks/log/selks-first-time-setup_stamus.log"
 
 #echo "FPC - Full Packet Capture. Suricata will rotate and delete the pcap captured files."
-echo -e "FPC_Retain - Full Packet Capture with having Moloch's pcap retention/rotation. Keeps the pcaps as long as there is space available."
+echo "FPC_Retain - Full Packet Capture with having Moloch's pcap retention/rotation. Keeps the pcaps as long as there is space available."
 #echo -e "None - disable packet capture\n"
+
+#PS3="Please choose an option. Type in a number and hit \"Enter\" "
+#select option in  FPC FPC_Retain NONE
+#do
+#    case $option in
+#        FPC)
+#            echo "Enable Full Pcacket Capture"
+#            EXIT_STATUS="SUCCESS"
+#            /usr/bin/selks-enable-suri-capture_stamus && \
+#            /bin/systemctl restart suricata && \
+#            /usr/bin/selks-molochdb-init-setup_stamus FPC
+#            if [ $? -ne 0 ]; then
+#              echo -e "\e[31mMoloch set up job failed...Exiting..."
+#              echo -e "\e[31m### Exited with ERROR  ###\n"
+#              echo -e "\e[0m"
+#              EXIT_STATUS="FAILED"
+#            fi
+#            break;;
+#        FPC_Retain)
+#            echo "Enable Full Pcacket Capture with pcap retaining "
+#            EXIT_STATUS="SUCCESS"
+#            /usr/bin/selks-enable-suri-capture_stamus && \
+#            /bin/systemctl restart suricata && \
+#            /usr/bin/selks-molochdb-init-setup_stamus
+#            if [ $? -ne 0 ]; then
+#              echo -e "\e[31mMoloch set up job failed...Exiting..."
+#              echo -e "\e[31m### Exited with ERROR  ###\n"
+#              echo -e "\e[0m"
+#              EXIT_STATUS="FAILED"
+#            fi
+#            break;;
+#        NONE)
+#            echo "Disable Full Packet Capture "
+#            EXIT_STATUS="SUCCESS"
+#            /usr/bin/selks-disable-suri-capture_stamus && \
+#            /bin/systemctl restart suricata
+#            if [ $? -ne 0 ]; then
+#              echo -e "\e[31mMoloch set up job failed...Exiting..."
+#              echo -e "\e[31m### Exited with ERROR  ###\n"
+#              echo -e "\e[0m"
+#              EXIT_STATUS="FAILED"
+#            fi
+#            break;;
+#     esac
+#done
 
 echo "Enable Full Pcacket Capture with pcap retaining "
 EXIT_STATUS="SUCCESS"
-/usr/bin/selks-enable-suri-capture_stamus && \
-/bin/systemctl restart suricata && \
+#/usr/bin/selks-enable-suri-capture_stamus && \
+#/bin/systemctl restart suricata && \
 /usr/bin/selks-molochdb-init-setup_stamus
 if [ $? -ne 0 ]; then
   echo -e "\e[31mMoloch set up job failed...Exiting..."
@@ -52,44 +106,15 @@ if [ $? -ne 0 ]; then
   echo -e "\e[0m"
   EXIT_STATUS="FAILED"
 fi
-break;;
 
 cd /usr/share/python/scirius/ && . bin/activate && python bin/manage.py kibana_reset && deactivate && cd /opt/
 
 if [ $? -ne 0 ]; then
-    echo -e "\e[31mDashboards loading set up job failed...Exiting..." 
-    echo -e "\e[31m### Exited with ERROR  ###\n" 
+    echo -e "\e[31mDashboards loading set up job failed...Exiting..."
+    echo -e "\e[31m### Exited with ERROR  ###\n"
     echo -e "\e[0m"
     EXIT_STATUS="FAILED"
 fi
-
-#nft 'add chain ip filter IPS-Input { type filter hook input priority 11;}'
-#nft 'add chain ip filter IPS-Output { type filter hook output priority 11;}'
-#nft 'add rule ip filter IPS-Input queue num 3'
-#nft 'add rule ip filter IPS-Output queue num 4'
-
-mv /etc/nftables.conf /etc/nftables.conf.bak
-ln -s /selks/staging/etc/nftables.conf /etc/nftables.conf
-#mv /etc/suricata/suricata.yaml /etc/suricata/suricata.yaml.bak
-#ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
-mv /etc/init.d/suricata /etc/init.d/suricata.bak
-ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
-
-#cat > /etc/network/interfaces.d/eno1 <<EOF
-## Stamus Networks SELKS eno1 interface set up auto generated!
-#auto eno1
-#iface eno1 inet dhcp
-#    up ip link set dev eno1 up
-#    down ip link set dev eno1 down
-#
-#EOF
-
-nft -f /etc/nftables.conf
-
-service suricata restart
-service suricata status
-
-#apt-get remove iptables -y
 
 echo "FINISH of first time setup script - $(date) " 
 
