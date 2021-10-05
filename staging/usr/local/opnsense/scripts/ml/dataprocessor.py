@@ -30,4 +30,4 @@ ds: Dataset = ray.data.read_csv([
 #ds = ds.map_batches(BatchInferModel, compute="actors", batch_size=256, num_gpus=1)
 
 # Save the output.
-ds.write_json("/tmp/results")
+ds.write_json(common.TMP_DIR)
