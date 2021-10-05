@@ -496,8 +496,8 @@
       <files/>
       <fileTags/>
       <general>
-        <enabled>0</enabled>
-        <ips>0</ips>
+        <enabled>1</enabled>
+        <ips>1</ips>
         <promisc>0</promisc>
         <interfaces>wan</interfaces>
         <homenet>192.168.0.0/16,10.0.0.0/8,172.16.0.0/12</homenet>
@@ -507,7 +507,7 @@
         <AlertSaveLogs>4</AlertSaveLogs>
         <MPMAlgo>ac</MPMAlgo>
         <detect>
-          <Profile>medium</Profile>
+          <Profile>high</Profile>
           <toclient_groups/>
           <toserver_groups/>
         </detect>
