@@ -141,6 +141,7 @@ update-rc.d root defaults
 
 systemctl disable network-manager.service
 systemctl disable avahi-daemon.service
+systemctl disable suricata.service
 update-rc.d lighttpd disable
 ln -s /selks/staging/var/etc /var/etc
 ln -s /selks/staging/var/cron /var/cron
