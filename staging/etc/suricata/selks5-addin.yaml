@@ -500,7 +500,7 @@ outputs:
   # - encrypted streams after the key exchange
   #
   - pcap-log:
-      enabled: no
+      enabled: yes
       filename: log.%n.%t.pcap
       #filename: log.pcap
 
