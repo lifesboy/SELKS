@@ -116,6 +116,33 @@ if [ $? -ne 0 ]; then
     EXIT_STATUS="FAILED"
 fi
 
+#nft 'add chain ip filter IPS-Input { type filter hook input priority 11;}'
+#nft 'add chain ip filter IPS-Output { type filter hook output priority 11;}'
+#nft 'add rule ip filter IPS-Input queue num 3'
+#nft 'add rule ip filter IPS-Output queue num 4'
+
+mv /etc/nftables.conf /etc/nftables.conf.bak
+ln -s /selks/staging/etc/nftables.conf /etc/nftables.conf
+#mv /etc/suricata/suricata.yaml /etc/suricata/suricata.yaml.bak
+#ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
+mv /etc/init.d/suricata /etc/init.d/suricata.bak
+ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
+
+#cat > /etc/network/interfaces.d/eno1 <<EOF
+## Stamus Networks SELKS eno1 interface set up auto generated!
+#auto eno1
+#iface eno1 inet dhcp
+#    up ip link set dev eno1 up
+#    down ip link set dev eno1 down
+#
+#EOF
+
+nft -f /etc/nftables.conf
+
+/bin/systemctl daemon-reload
+
+#apt-get remove iptables -y
+
 echo "FINISH of first time setup script - $(date) " 
 
 echo -e "\e[1m\nExited with ${EXIT_STATUS}"
