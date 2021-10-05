@@ -133,6 +133,14 @@ else
 	done
 fi
 
+#mount cic data for AI/ML
+CIC_DEV=$(lsblk | awk 'match($0, /sda3.+1\.2T.+$/) { print "/dev/sda3" }')
+if [ -n "${CIC_DEV}" ]; then
+  mkdir -p /cic
+  mount -t auto ${CIC_DEV} /cic
+fi
+#end mount cic data for AI/ML
+
 # regenerate groups and users for base
 /usr/local/etc/rc.subr.d/recover base > /dev/null
 
