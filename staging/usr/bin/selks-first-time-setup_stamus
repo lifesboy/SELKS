@@ -122,7 +122,7 @@ echo -e "\e[1m\nExited with ${EXIT_STATUS}"
 echo -e "\e[1mFull log located at - /opt/selks/log/selks-first-time-setup_stamus.log"
 echo -e "\e[1mPress enter to continue\n"
 echo -e "\e[0m"
-read
+#read
 ) 2>&1 | tee -a /opt/selks/log/selks-first-time-setup_stamus.log
 
 
