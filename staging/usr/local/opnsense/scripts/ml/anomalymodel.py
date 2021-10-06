@@ -19,7 +19,7 @@ parser.add_argument(
     type=str,
     default="PPO",
     help="The RLlib-registered algorithm to use.")
-parser.add_argument("--env", type=str, default="RepeatAfterMeEnv")
+parser.add_argument("--env", type=str, default="AnomalyEnv")
 parser.add_argument("--num-cpus", type=int, default=0)
 parser.add_argument(
     "--as-test",
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     # >>
     # >> trainer = PPOTrainer(config)
     # >> lstm_cell_size = config["model"]["custom_model_config"]["cell_size"]
-    # >> env = RepeatAfterMeEnv({})
+    # >> env = AnomalyEnv({})
     # >> obs = env.reset()
     # >>
     # >> # range(2) b/c h- and c-states of the LSTM.
