@@ -7,7 +7,7 @@ import yaml
 import ray
 from ray import tune
 from ray.tune.registry import register_env
-from .anomalyenv import AnomalyEnv
+from anomalyenv import AnomalyEnv
 from ray.rllib.examples.env.repeat_initial_obs_env import RepeatInitialObsEnv
 from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
