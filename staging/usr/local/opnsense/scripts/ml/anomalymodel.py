@@ -9,7 +9,7 @@ from ray import tune
 from ray.tune.registry import register_env
 from ray.rllib.examples.env.repeat_after_me_env import RepeatAfterMeEnv
 from ray.rllib.examples.env.repeat_initial_obs_env import RepeatInitialObsEnv
-from ray.rllib.examples.models.rnn_model import RNNModel, TorchRNNModel
+from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
 from ray.rllib.utils.test_utils import check_learning_achieved
 
@@ -21,11 +21,6 @@ parser.add_argument(
     help="The RLlib-registered algorithm to use.")
 parser.add_argument("--env", type=str, default="RepeatAfterMeEnv")
 parser.add_argument("--num-cpus", type=int, default=0)
-parser.add_argument(
-    "--framework",
-    choices=["tf", "tf2", "tfe", "torch"],
-    default="tf",
-    help="The DL framework specifier.")
 parser.add_argument(
     "--as-test",
     action="store_true",
@@ -53,7 +48,7 @@ if __name__ == "__main__":
     ray.init(num_cpus=args.num_cpus or None)
 
     ModelCatalog.register_custom_model(
-        "rnn", TorchRNNModel if args.framework == "torch" else RNNModel)
+        "rnn", RNNModel)
     register_env("RepeatAfterMeEnv", lambda c: RepeatAfterMeEnv(c))
     register_env("RepeatInitialObsEnv", lambda _: RepeatInitialObsEnv())
 
@@ -78,7 +73,7 @@ if __name__ == "__main__":
                 "cell_size": 32,
             },
         },
-        "framework": args.framework,
+        "framework": 'tf',
     }
 
     stop = {
