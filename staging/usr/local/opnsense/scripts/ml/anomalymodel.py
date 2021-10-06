@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import yaml
 
 import ray
 from ray import tune
@@ -56,6 +57,7 @@ if __name__ == "__main__":
     register_env("RepeatAfterMeEnv", lambda c: RepeatAfterMeEnv(c))
     register_env("RepeatInitialObsEnv", lambda _: RepeatInitialObsEnv())
 
+    # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
         "env": args.env,
         "env_config": {
