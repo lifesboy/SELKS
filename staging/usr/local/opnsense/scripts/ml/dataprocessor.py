@@ -2,15 +2,15 @@
 
 import ray
 import pyarrow
-from ray.data import Dataset
+from ray.data.dataset_pipeline import DatasetPipeline
 import common
 
 
-def preprocess(image: bytes) -> bytes:
-    return image
+def preprocess(row):
+    return row
 
 
-ds: Dataset = ray.data.read_csv([
+pipe: DatasetPipeline = ray.data.read_csv([
     common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
@@ -21,13 +21,13 @@ ds: Dataset = ray.data.read_csv([
     common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
-])
+]).pipeline(parallelism=2)
 
 # Preprocess the data.
-#ds = ds.map(preprocess)
+pipe = pipe.map(preprocess)
 
 # Apply GPU batch inference to the data.
-#ds = ds.map_batches(BatchInferModel, compute="actors", batch_size=256, num_gpus=1)
+pipe = pipe.map_batches(BatchInferModel, compute="actors", batch_size=256, num_gpus=1)
 
 # Save the output.
-ds.write_json(common.TMP_DIR)
+pipe.write_json(common.TMP_DIR)
