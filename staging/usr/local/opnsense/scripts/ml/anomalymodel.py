@@ -7,7 +7,7 @@ import yaml
 import ray
 from ray import tune
 from ray.tune.registry import register_env
-from ray.rllib.examples.env.repeat_after_me_env import RepeatAfterMeEnv
+from .anomalyenv import AnomalyEnv
 from ray.rllib.examples.env.repeat_initial_obs_env import RepeatInitialObsEnv
 from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     ModelCatalog.register_custom_model(
         "rnn", RNNModel)
-    register_env("RepeatAfterMeEnv", lambda c: RepeatAfterMeEnv(c))
+    register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
     register_env("RepeatInitialObsEnv", lambda _: RepeatInitialObsEnv())
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
