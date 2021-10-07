@@ -139,6 +139,11 @@ if [ -n "${CIC_DEV}" ]; then
   mkdir -p /cic
   mount -t auto ${CIC_DEV} /cic
 fi
+DRL_DEV=$(lsblk | awk 'match($0, /sdb1.+1\.4T.+$/) { print "/dev/sdb1" }')
+if [ -n "${CIC_DEV}" ]; then
+  mkdir -p /drl
+  mount -t auto ${DRL_DEV} /drl
+fi
 #end mount cic data for AI/ML
 
 # regenerate groups and users for base
