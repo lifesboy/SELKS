@@ -3,10 +3,12 @@
 import ray
 import pyarrow
 from ray.data.dataset_pipeline import DatasetPipeline
+from ray.data.impl.arrow_block import ArrowRow
+
 import common
 
 
-def preprocess(row):
+def preprocess(row: ArrowRow) -> ArrowRow:
     return row
 
 
@@ -27,7 +29,7 @@ pipe: DatasetPipeline = ray.data.read_csv([
 pipe = pipe.map(preprocess)
 
 # Apply GPU batch inference to the data.
-pipe = pipe.map_batches(BatchInferModel, compute="actors", batch_size=256, num_gpus=1)
+# pipe = pipe.map_batches(BatchInferModel, compute="actors", batch_size=256, num_gpus=1)
 
 # Save the output.
 pipe.write_json(common.TMP_DIR)
