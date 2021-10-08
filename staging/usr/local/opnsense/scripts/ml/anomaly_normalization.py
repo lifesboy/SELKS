@@ -2,7 +2,6 @@ import socket
 import struct
 import sys
 
-
 # Dst Port,Protocol,Timestamp,Flow Duration,Tot Fwd Pkts,Tot Bwd Pkts,TotLen Fwd Pkts,TotLen Bwd Pkts,Fwd Pkt Len Max,Fwd Pkt Len Min,Fwd Pkt Len Mean,Fwd Pkt Len Std,Bwd Pkt Len Max,Bwd Pkt Len Min,Bwd Pkt Len Mean,Bwd Pkt Len Std,Flow Byts/s,Flow Pkts/s,Flow IAT Mean,Flow IAT Std,Flow IAT Max,Flow IAT Min,Fwd IAT Tot,Fwd IAT Mean,Fwd IAT Std,Fwd IAT Max,Fwd IAT Min,Bwd IAT Tot,Bwd IAT Mean,Bwd IAT Std,Bwd IAT Max,Bwd IAT Min,Fwd PSH Flags,Bwd PSH Flags,Fwd URG Flags,Bwd URG Flags,Fwd Header Len,Bwd Header Len,Fwd Pkts/s,Bwd Pkts/s,Pkt Len Min,Pkt Len Max,Pkt Len Mean,Pkt Len Std,Pkt Len Var,FIN Flag Cnt,SYN Flag Cnt,RST Flag Cnt,PSH Flag Cnt,ACK Flag Cnt,URG Flag Cnt,CWE Flag Count,ECE Flag Cnt,Down/Up Ratio,Pkt Size Avg,Fwd Seg Size Avg,Bwd Seg Size Avg,Fwd Byts/b Avg,Fwd Pkts/b Avg,Fwd Blk Rate Avg,Bwd Byts/b Avg,Bwd Pkts/b Avg,Bwd Blk Rate Avg,Subflow Fwd Pkts,Subflow Fwd Byts,Subflow Bwd Pkts,Subflow Bwd Byts,Init Fwd Win Byts,Init Bwd Win Byts,Fwd Act Data Pkts,Fwd Seg Size Min,Active Mean,Active Std,Active Max,Active Min,Idle Mean,Idle Std,Idle Max,Idle Min,Label
 # 443,6,02/03/2018 08:47:38,141385,9,7,553,3773,202,0,61.44444444,87.53443767,1460,0,539,655.4329358,30597.30523,113.1661775,9425.666667,19069.11685,73403,1,141385,17673.125,23965.32327,73403,22,51417,8569.5,13036.89082,31525,1,0,0,0,0,192,152,63.65597482,49.51020264,0,1460,254.4705882,474.7129551,225352.3897,0,0,1,1,0,0,0,1,0,270.375,61.44444444,539,0,0,0,0,0,0,9,553,7,3773,8192,119,4,20,0,0,0,0,0,0,0,0,Benign
 # 49684,6,02/03/2018 08:47:38,281,2,1,38,0,38,0,19,26.87005769,0,0,0,0,135231.3167,10676.15658,140.5,174.655375,264,17,281,281,0,281,281,0,0,0,0,0,1,0,0,0,40,20,7117.437722,3558.718861,0,38,19,21.93931023,481.3333333,0,1,0,0,1,0,0,0,0,25.33333333,19,0,0,0,0,0,0,0,2,38,1,0,123,0,0,20,0,0,0,0,0,0,0,0,Benign
@@ -27,14 +26,38 @@ import sys
 # "Subflow Bwd Byts", "Init Fwd Win Byts", "Init Bwd Win Byts", "Fwd Act Data Pkts", "Fwd Seg Size Min",
 # "Active Mean", "Active Std", "Active Max", "Active Min", "Idle Mean", "Idle Std", "Idle Max", "Idle Min", "Label"
 
+DST_PORT = 'Dst Port'
+PROTOCOL = 'Protocol'
+TIMESTAMP = 'Timestamp'
+FLOW_DURATION = 'Flow Duration'
+TOT_FWD_PKTS = 'Tot Fwd Pkts'
+TOT_BWD_PKTS = 'Tot Bwd Pkts'
+
+SIZE_1KB = 1024
+SIZE_1MB = 1024 * SIZE_1KB
+SIZE_1GB = 1024 * SIZE_1MB
+
+TIME_1S = 1000
+TIME_1M = 60 * TIME_1S
+TIME_1H = 60 * TIME_1M
+TIME_1D = 24 * TIME_1H
+
+F1 = 'F1'
+F2 = 'F2'
+F3 = 'F3'
+F4 = 'F4'
+F5 = 'F5'
+F6 = 'F6'
+
+
 # "Dst Port"
 def norm_port(port: int) -> int:
-    return port
+    return port / 65535
 
 
 # "Protocol"
-def norm_protocol(p: str) -> int:
-    return 0
+def norm_protocol(p: int) -> int:
+    return p / 100
 
 
 # "Flow Duration"
@@ -42,6 +65,17 @@ def norm_max_int(v: int) -> int:
     return v / sys.maxsize
 
 
-#
+def norm_n_int(v: int, n: int = sys.maxsize) -> int:
+    return v / n if v < n else n
+
+
+def norm_size_1mb(v: int) -> int:
+    return max(v, SIZE_1MB) / SIZE_1MB
+
+
+def norm_time_1h(v: int) -> int:
+    return max(v, TIME_1H) / TIME_1H
+
+
 def norm_ip(ip: str) -> int:
     return struct.unpack('!I', socket.inet_aton(ip))[0]
