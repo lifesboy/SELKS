@@ -274,10 +274,15 @@ cp staging/usr/share/applications/Scirius.desktop Stamus-Live-Build/config/inclu
 
 # Logstash and Elasticsearch 6 template
 cp staging/etc/logstash/conf.d/logstash.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/ 
-cp staging/etc/logstash/elasticsearch6-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/ 
+cp staging/etc/logstash/conf.d/cic.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
+cp staging/etc/logstash/conf.d/ray-result.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
+cp staging/etc/logstash/elasticsearch6-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-cic-2017-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-cic-2018-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-ray-ppo-experiment-state-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-result-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-params-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-progress-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 
 # Moloch for SELKS set up
 #cp staging/etc/systemd/system/molochpcapread-selks.service Stamus-Live-Build/config/includes.chroot/etc/systemd/system/ 
