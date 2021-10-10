@@ -761,6 +761,7 @@ python3 -m pip install requests
 python3 -m pip install PyYAML==3.13
 python3 -m pip install gym
 python3 -m pip install numba
+python3 -m pip install gputil
 ### END Install RLlib/AI/ML scripts ###
 
 ### START Install SELKS/StamusN scripts ###
