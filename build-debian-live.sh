@@ -277,6 +277,7 @@ cp staging/etc/logstash/conf.d/logstash.conf Stamus-Live-Build/config/includes.c
 cp staging/etc/logstash/elasticsearch6-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/ 
 cp staging/etc/logstash/elasticsearch6-cic-2017-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-cic-2018-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-experiment-state-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 
 # Moloch for SELKS set up
 #cp staging/etc/systemd/system/molochpcapread-selks.service Stamus-Live-Build/config/includes.chroot/etc/systemd/system/ 
