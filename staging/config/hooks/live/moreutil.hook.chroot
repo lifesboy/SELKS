@@ -35,6 +35,11 @@ mv ./unetbootin-linux64-702.bin /opt/unetbootin
 ln -s /opt/unetbootin /usr/local/bin/unetbootin
 apt-get -y install mtools
 
+git clone https://github.com/lifesboy/cicflowmeter-1.git /cicflowmeter
+cd /cicflowmeter
+python3 setup.py install
+cd -
+
 git clone https://github.com/lifesboy/SELKS.git /selks
 cd /selks
 git checkout gpu
