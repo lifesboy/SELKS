@@ -143,6 +143,10 @@ DRL_DEV=$(lsblk | awk 'match($0, /sdb1.+1\.4T.+$/) { print "/dev/sdb1" }')
 if [ -n "${CIC_DEV}" ]; then
   mkdir -p /drl
   mount -t auto ${DRL_DEV} /drl
+  mkdir -p /drl/ray_results
+  if [ ! -d /root/ray_results ]; then
+    ln -s /drl/ray_results /root/ray_results
+  fi
 fi
 #end mount cic data for AI/ML
 
