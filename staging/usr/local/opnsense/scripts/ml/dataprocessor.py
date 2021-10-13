@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from typing import List
 
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
@@ -11,20 +12,26 @@ from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, 
 import anomaly_normalization as norm
 
 
-def preprocess(row: ArrowRow) -> ArrowRow:
-    return ArrowRow(
-        Table().from_pydict({
-            F1: norm.norm_port(row[0][DST_PORT]),
-            F2: norm.norm_protocol(row[0][PROTOCOL]),
-            # F3: row[0][TIMESTAMP],
-            F4: norm.norm_time_1h(row[0][FLOW_DURATION]),
-            F5: norm.norm_size_1mb(row[0][TOT_FWD_PKTS]),
-            F6: norm.norm_size_1mb(row[0][TOT_BWD_PKTS]),
-        })
-    )
+def preprocess(row: List[ArrowRow]) -> List[ArrowRow]:
+    # print (row)
+    # return row
+    data = ray.data.from_items([{
+        F1: i[DST_PORT],
+        F2: '1',  # [str(norm.norm_protocol(i[PROTOCOL]))],
+        # F3: [row[0][TIMESTAMP]],
+        F4: '1',  # [str(norm.norm_time_1h(i[FLOW_DURATION]))],
+        F5: '1',  # [str(norm.norm_size_1mb(i[TOT_FWD_PKTS]))],
+        F6: '1',  # [str(norm.norm_size_1mb(i[TOT_BWD_PKTS]))],
+    } for i in row])
+    print(data)
+    return data.take()
 
+
+# ray.init(local_mode=True)
+# ray.init(num_cpus=8)
 
 pipe: DatasetPipeline = ray.data.read_csv([
+    # common.TRAIN_DATA_DIR + 'demo.csv',
     common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
@@ -35,13 +42,23 @@ pipe: DatasetPipeline = ray.data.read_csv([
     common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
-]).pipeline(parallelism=4)
+]).pipeline(parallelism=5)
 
 # Preprocess the data.
 pipe = pipe.map(preprocess)
 
 # Apply GPU batch inference to the data.
-# pipe = pipe.map_batches(BatchInferModel, compute="actors", batch_size=256, num_gpus=1)
+# pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=0, num_cpus=1)
+
+# tf.keras.layers.BatchNormalization
+
+num_rows = 0
+for row in pipe.iter_rows():
+    num_rows += 1
+
+print("Total num rows", num_rows)
 
 # Save the output.
 pipe.write_json(common.TMP_DIR)
+
+# ray.shutdown()

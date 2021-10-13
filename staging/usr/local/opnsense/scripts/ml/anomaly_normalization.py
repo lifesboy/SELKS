@@ -25,6 +25,7 @@ import sys
 # "Bwd Byts/b Avg", "Bwd Pkts/b Avg", "Bwd Blk Rate Avg", "Subflow Fwd Pkts", "Subflow Fwd Byts", "Subflow Bwd Pkts",
 # "Subflow Bwd Byts", "Init Fwd Win Byts", "Init Bwd Win Byts", "Fwd Act Data Pkts", "Fwd Seg Size Min",
 # "Active Mean", "Active Std", "Active Max", "Active Min", "Idle Mean", "Idle Std", "Idle Max", "Idle Min", "Label"
+from ray.util.client import ray
 
 DST_PORT = 'Dst Port'
 PROTOCOL = 'Protocol'
@@ -51,30 +52,31 @@ F6 = 'F6'
 
 
 # "Dst Port"
-def norm_port(port: int) -> int:
+@ray.remote
+def norm_port(port: int) -> float:
     return port / 65535
 
 
 # "Protocol"
-def norm_protocol(p: int) -> int:
+def norm_protocol(p: int) -> float:
     return p / 100
 
 
 # "Flow Duration"
-def norm_max_int(v: int) -> int:
+def norm_max_int(v: int) -> float:
     return v / sys.maxsize
 
 
-def norm_n_int(v: int, n: int = sys.maxsize) -> int:
+def norm_n_int(v: int, n: int = sys.maxsize) -> float:
     return v / n if v < n else n
 
 
-def norm_size_1mb(v: int) -> int:
-    return max(v, SIZE_1MB) / SIZE_1MB
+def norm_size_1mb(v: int) -> float:
+    return min(v, SIZE_1MB) / SIZE_1MB
 
 
-def norm_time_1h(v: int) -> int:
-    return max(v, TIME_1H) / TIME_1H
+def norm_time_1h(v: int) -> float:
+    return min(v, TIME_1H) / TIME_1H
 
 
 def norm_ip(ip: str) -> int:
