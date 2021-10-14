@@ -14,6 +14,7 @@ User=root
 # mlflow server --host 0.0.0.0 --backend-store-uri elasticsearch://localhost:9200 --port 5000 --default-artifact-root /drl/artifacts
 
 ExecStart=/usr/local/bin/mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db --default-artifact-root /drl/artifacts
+WorkingDirectory=/drl
 
 [Install]
 WantedBy=multi-user.target
