@@ -223,6 +223,8 @@ mv /etc/default/suricata /etc/default/suricata.bak
 ln -s /selks/staging/etc/default/suricata /etc/default/suricata
 mv /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 ln -s /selks/staging/etc/ssh/sshd_config /etc/ssh/sshd_config
+mv /etc/logstash /etc/logstash.bak
+ln -s /selks/staging/etc/logstash /etc/logstash
 mv /etc/systemd/system/logstash.service /etc/systemd/system/logstash.service.bak
 ln -s /selks/staging/etc/systemd/system/logstash.service /etc/systemd/system/logstash.service
 # Force to use /etc/init.d/elasticsearch

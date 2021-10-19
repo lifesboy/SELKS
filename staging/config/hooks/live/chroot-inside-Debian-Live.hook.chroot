@@ -751,6 +751,7 @@ python3 -m pip install -U ray==1.6.0
 python3 -m pip install ray[tune]
 python3 -m pip install ray[rllib]
 python3 -m pip install ray[default]
+python3 -m pip install ray[serve]
 python3 -m pip install pyarrow
 python3 -m pip install fsspec
 python3 -m pip install tensorflow==2.6.0
@@ -770,6 +771,7 @@ python3 -m pip install uvicorn
 python3 -m pip install pydantic
 python3 -m pip install mlflow==1.20.2
 python3 -m pip install mlflow-elasticsearchstore
+python3 -m pip install mlflow-ray-serve
 ### END Install RLlib/AI/ML scripts ###
 
 ### START Install SELKS/StamusN scripts ###

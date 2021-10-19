@@ -8,3 +8,5 @@
   path.config: "/etc/logstash/conf.d/cic.conf"
 - pipeline.id: ray-result
   path.config: "/etc/logstash/conf.d/ray-result.conf"
+- pipeline.id: ray-session
+  path.config: "/etc/logstash/conf.d/ray-session.conf"
