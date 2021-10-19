@@ -127,6 +127,9 @@ ln -s /selks/staging/etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled
 ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
 ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
+mv /etc/default/elasticsearch /etc/default/elasticsearch.bak
+ln -s /selks/staging/etc/default/elasticsearch /etc/default/elasticsearch
+
 
 ln -s /selks/staging/etc/rc /etc/rc
 rm -f /usr/lib/systemd/system/rc.service
