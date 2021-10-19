@@ -165,6 +165,10 @@ apt-get install zfs-zed -y
 apt-get install openvpn -y
 ### END Install vpn ###
 
+### START Install Caching proxy ###
+apt-get install squid -y
+### END Install Caching proxy ###
+
 ### START lighttpd opnsense ###
 cat > /etc/lighttpd/lighttpd.conf <<EOF
 
