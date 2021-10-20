@@ -774,6 +774,11 @@ cat /proc/driver/nvidia/version
 #cd /drl
 #make
 
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
+dpkg -i libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
+dpkg -i libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
+
 apt-get install -y g++ python3-dev
 python3 -m pip install six==1.15.0
 python3 -m pip install protobuf==3.17.3
