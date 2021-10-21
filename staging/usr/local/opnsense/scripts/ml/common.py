@@ -8,10 +8,10 @@ import ray
 RAY_HEAD_NODE_ADDRESS = '127.0.0.1:6379'
 MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
 
-DATA_DIR = '/Volumes/Extra/workstore/cic/2018/'
+DATA_DIR = '/cic/2018/'
 TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'
 
-TMP_DIR = '/Volumes/Extra/workstore/drl/tmp/'
+TMP_DIR = '/drl/tmp/'
 Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 
 
