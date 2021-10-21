@@ -22,6 +22,7 @@ mlflow.create_experiment("data-processor")
 @mlflow_mixin
 def preprocess(row: List[ArrowRow]) -> List[ArrowRow]:
     # print (row)
+    mlflow.autolog()
     return row
     # data = ray.data.from_items([{
     #     F1: i[DST_PORT],
@@ -62,6 +63,7 @@ pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=1
 
 num_rows = 0
 for row in pipe.iter_rows():
+    mlflow.log_metric(key="row", value=num_rows)
     num_rows += 1
 
 print("Total num rows", num_rows)
