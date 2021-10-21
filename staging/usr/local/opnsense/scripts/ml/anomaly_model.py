@@ -6,6 +6,7 @@ import yaml
 
 import ray
 from ray import tune
+from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 
 import common
@@ -27,7 +28,7 @@ parser.add_argument(
     "--as-test",
     action="store_true",
     help="Whether this script should be run as a test: --stop-reward must "
-    "be achieved within --stop-timesteps AND --stop-iters.")
+         "be achieved within --stop-timesteps AND --stop-iters.")
 parser.add_argument(
     "--stop-iters",
     type=int,
@@ -62,7 +63,7 @@ if __name__ == "__main__":
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
-        "num_gpus": int(os.environ.get("RLLIB_NUM_GPUS", "0")),
+        "num_gpus": 1,  # int(os.environ.get("RLLIB_NUM_GPUS", "0")),
         "num_workers": 0,
         "num_envs_per_worker": 20,
         "entropy_coeff": 0.001,
@@ -110,7 +111,10 @@ if __name__ == "__main__":
     # >>     else:
     # >>         state = state_out
 
-    results = tune.run(args.run, config=config, stop=stop, verbose=1)
+    results = tune.run(args.run, config=config, stop=stop, verbose=1,
+                       callbacks=[MLflowLoggerCallback(
+                           experiment_name="anomaly-model",
+                           save_artifact=True)])
 
     if args.as_test:
         check_learning_achieved(results, args.stop_reward)
