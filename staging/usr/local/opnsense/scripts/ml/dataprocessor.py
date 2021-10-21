@@ -18,7 +18,8 @@ import mlflow
 common.init_node()
 
 today = date.today()
-mlflow.create_experiment("data-processor-" + today.strftime("%Y%m%d"))
+mlflow.create_experiment("data-processor-" + today.strftime("%Y%m%dT%H%m%s"))
+
 
 @mlflow_mixin
 def preprocess(row: List[ArrowRow]) -> List[ArrowRow]:
