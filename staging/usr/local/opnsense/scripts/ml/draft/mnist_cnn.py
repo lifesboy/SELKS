@@ -6,6 +6,9 @@ from keras.optimizers import SGD
 import mlflow
 import mlflow.keras
 from mlflow.models.signature import infer_signature
+import sys
+
+sys.path.insert(0, '/usr/local/opnsense/scripts/ml')
 
 import common
 

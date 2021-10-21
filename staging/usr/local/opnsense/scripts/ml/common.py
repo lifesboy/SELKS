@@ -20,6 +20,5 @@ Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 
 
 def init_node():
-    sys.path.insert(0, PATH_ML)
     ray.init(address=RAY_HEAD_NODE_ADDRESS)
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)

@@ -4,6 +4,9 @@ from sklearn.ensemble import RandomForestClassifier
 import mlflow
 import mlflow.sklearn
 from mlflow.models.signature import infer_signature
+import sys
+
+sys.path.insert(0, '/usr/local/opnsense/scripts/ml')
 
 import common
 
