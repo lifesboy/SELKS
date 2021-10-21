@@ -19,7 +19,7 @@ DESC="ray cluster"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
-DAEMON_OPTS="--head"
+DAEMON_OPTS="--head --dashboard-host '0.0.0.0'"
 
 test -x $DAEMON || exit 0
 
