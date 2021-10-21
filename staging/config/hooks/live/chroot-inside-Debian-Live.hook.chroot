@@ -800,6 +800,7 @@ python3 -m pip install numba
 python3 -m pip install dm-tree
 python3 -m pip install scikit-image
 python3 -m pip install sklearn
+python3 -m pip install keras
 python3 -m pip install numpy==1.19.5
 python3 -m pip install typing-extensions==3.7.4.3
 python3 -m pip install scipy==1.6.0
