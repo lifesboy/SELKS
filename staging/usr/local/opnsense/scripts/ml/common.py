@@ -5,8 +5,10 @@ from pathlib import Path
 import mlflow
 import ray
 
-RAY_HEAD_NODE_ADDRESS = '127.0.0.1:6379'
-MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
+# RAY_HEAD_NODE_ADDRESS = '127.0.0.1:6379'
+# MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
+RAY_HEAD_NODE_ADDRESS = '123.16.153.97:6379'
+MLFLOW_TRACKING_URI = 'http://selks.ddns.net:5000'
 
 DATA_DIR = '/cic/2018/'
 TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'

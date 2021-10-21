@@ -19,7 +19,8 @@ DESC="ray cluster"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
-DAEMON_OPTS="--head --address 127.0.0.1 --port 6379 --dashboard-host '0.0.0.0' --dashboard-port 8265"
+#DAEMON_OPTS="--head --node-ip-address 127.0.0.1 --address selks.ddns.net --port 6379 --dashboard-host '0.0.0.0' --dashboard-port 8265"
+DAEMON_OPTS="--head --node-ip-address 123.16.153.97 --address selks.ddns.net --port 6379 --dashboard-host '0.0.0.0' --dashboard-port 8265"
 
 test -x $DAEMON || exit 0
 
