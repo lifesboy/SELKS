@@ -5,26 +5,34 @@ import ray
 from ray.data.dataset_pipeline import DatasetPipeline
 from ray.data.impl.arrow_block import ArrowRow
 from pyarrow import Table
+from ray.tune.integration.mlflow import mlflow_mixin
 
 import common
 from anomaly_normalization import F1, F2, F3, F4, F5, F6
 from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS
 import anomaly_normalization as norm
 
+import mlflow
 
+ray.init(address='127.0.0.1:6379')
+
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.create_experiment("data-processor")
+
+@mlflow_mixin
 def preprocess(row: List[ArrowRow]) -> List[ArrowRow]:
     # print (row)
-    # return row
-    data = ray.data.from_items([{
-        F1: i[DST_PORT],
-        F2: '1',  # [str(norm.norm_protocol(i[PROTOCOL]))],
-        # F3: [row[0][TIMESTAMP]],
-        F4: '1',  # [str(norm.norm_time_1h(i[FLOW_DURATION]))],
-        F5: '1',  # [str(norm.norm_size_1mb(i[TOT_FWD_PKTS]))],
-        F6: '1',  # [str(norm.norm_size_1mb(i[TOT_BWD_PKTS]))],
-    } for i in row])
-    print(data)
-    return data.take()
+    return row
+    # data = ray.data.from_items([{
+    #     F1: i[DST_PORT],
+    #     F2: '1',  # [str(norm.norm_protocol(i[PROTOCOL]))],
+    #     # F3: [row[0][TIMESTAMP]],
+    #     F4: '1',  # [str(norm.norm_time_1h(i[FLOW_DURATION]))],
+    #     F5: '1',  # [str(norm.norm_size_1mb(i[TOT_FWD_PKTS]))],
+    #     F6: '1',  # [str(norm.norm_size_1mb(i[TOT_BWD_PKTS]))],
+    # } for i in row])
+    # print(data)
+    # return data.take()
 
 
 # ray.init(local_mode=True)
@@ -45,10 +53,10 @@ pipe: DatasetPipeline = ray.data.read_csv([
 ]).pipeline(parallelism=5)
 
 # Preprocess the data.
-pipe = pipe.map(preprocess)
+# pipe = pipe.map(preprocess)
 
 # Apply GPU batch inference to the data.
-# pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=0, num_cpus=1)
+pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=1, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
