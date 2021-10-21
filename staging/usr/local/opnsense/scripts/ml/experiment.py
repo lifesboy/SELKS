@@ -3,9 +3,9 @@ from ray.tune.integration.mlflow import mlflow_mixin
 
 import mlflow
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
-tracking_uri = mlflow.get_tracking_uri()
-print("Current tracking uri: {}".format(tracking_uri))
+import common
+
+common.init_node()
 
 # Create the MlFlow expriment.
 mlflow.create_experiment("my_experiment")

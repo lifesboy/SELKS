@@ -3,9 +3,9 @@ from ray import tune
 import mlflow
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 
-ray.init(address='127.0.0.1:6379')
+import common
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+common.init_node()
 
 tune.run(
     "PPO",

@@ -7,6 +7,8 @@ import yaml
 import ray
 from ray import tune
 from ray.tune.registry import register_env
+
+import common
 from anomaly_env import AnomalyEnv
 from anomaly_initial_obs_env import AnomalyInitialObsEnv
 from ray.rllib.examples.models.rnn_model import RNNModel
@@ -45,7 +47,7 @@ parser.add_argument(
 if __name__ == "__main__":
     args = parser.parse_args()
 
-    ray.init(num_cpus=args.num_cpus or None)
+    common.init_node()
 
     ModelCatalog.register_custom_model(
         "rnn", RNNModel)

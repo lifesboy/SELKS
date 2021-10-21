@@ -15,9 +15,8 @@ import anomaly_normalization as norm
 from datetime import date
 import mlflow
 
-ray.init(address='127.0.0.1:6379')
+common.init_node()
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
 today = date.today()
 mlflow.create_experiment("data-processor-" + today.strftime("%Y%m%d"))
 
