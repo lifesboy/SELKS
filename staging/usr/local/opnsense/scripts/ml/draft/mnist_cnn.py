@@ -7,6 +7,10 @@ import mlflow
 import mlflow.keras
 from mlflow.models.signature import infer_signature
 
+import common
+
+common.init_node()
+
 (train_X, train_Y), (test_X, test_Y) = mnist.load_data()
 trainX = train_X.reshape((train_X.shape[0], 28, 28, 1))
 testX = test_X.reshape((test_X.shape[0], 28, 28, 1))
