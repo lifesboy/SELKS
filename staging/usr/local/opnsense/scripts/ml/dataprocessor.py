@@ -12,12 +12,14 @@ from anomaly_normalization import F1, F2, F3, F4, F5, F6
 from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS
 import anomaly_normalization as norm
 
+from datetime import date
 import mlflow
 
 ray.init(address='127.0.0.1:6379')
 
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
-mlflow.create_experiment("data-processor")
+today = date.today()
+mlflow.create_experiment("data-processor-" + today.strftime("%Y%m%d"))
 
 @mlflow_mixin
 def preprocess(row: List[ArrowRow]) -> List[ArrowRow]:
