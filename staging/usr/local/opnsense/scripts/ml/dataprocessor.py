@@ -19,20 +19,25 @@ common.init_experiment('data-processor')
 
 
 @mlflow_mixin
-def preprocess(row: List[ArrowRow]) -> List[ArrowRow]:
-    # print (row)
-    mlflow.autolog()
-    return row
-    # data = ray.data.from_items([{
-    #     F1: i[DST_PORT],
-    #     F2: '1',  # [str(norm.norm_protocol(i[PROTOCOL]))],
-    #     # F3: [row[0][TIMESTAMP]],
-    #     F4: '1',  # [str(norm.norm_time_1h(i[FLOW_DURATION]))],
-    #     F5: '1',  # [str(norm.norm_size_1mb(i[TOT_FWD_PKTS]))],
-    #     F6: '1',  # [str(norm.norm_size_1mb(i[TOT_BWD_PKTS]))],
-    # } for i in row])
-    # print(data)
-    # return data.take()
+def preprocess(r: ArrowRow) -> ArrowRow:
+    print(r)
+    mlflow.log_metric(key=DST_PORT, value=r[DST_PORT][0].as_py())
+    mlflow.log_metric(key=PROTOCOL, value=r[PROTOCOL][0].as_py())
+    # mlflow.log_metric(key=TIMESTAMP, value=r[TIMESTAMP][0].as_py())
+    mlflow.log_metric(key=FLOW_DURATION, value=r[FLOW_DURATION][0].as_py())
+    mlflow.log_metric(key=TOT_FWD_PKTS, value=r[TOT_FWD_PKTS][0].as_py())
+    mlflow.log_metric(key=TOT_BWD_PKTS, value=r[TOT_BWD_PKTS][0].as_py())
+
+    data = ray.data.from_items([{
+        F1: r[DST_PORT][0].as_py(),
+        F2: r[PROTOCOL][0].as_py(),  # [str(norm.norm_protocol(i[PROTOCOL]))],
+        # F3: [row[0][TIMESTAMP]],
+        F4: r[FLOW_DURATION][0].as_py(),  # [str(norm.norm_time_1h(i[FLOW_DURATION]))],
+        F5: r[TOT_FWD_PKTS][0].as_py(),  # [str(norm.norm_size_1mb(i[TOT_FWD_PKTS]))],
+        F6: r[TOT_BWD_PKTS][0].as_py(),  # [str(norm.norm_size_1mb(i[TOT_BWD_PKTS]))],
+    }])
+    print(data.take())
+    return data.take()
 
 
 # ray.init(local_mode=True)
