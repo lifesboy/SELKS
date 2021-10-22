@@ -7,6 +7,7 @@ from ray.data.impl.arrow_block import ArrowRow
 from pyarrow import Table
 from ray.tune.integration.mlflow import mlflow_mixin
 
+from pandas import DataFrame
 import common
 from anomaly_normalization import F1, F2, F3, F4, F5, F6
 from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS
@@ -19,35 +20,23 @@ common.init_experiment('data-processor')
 
 
 @mlflow_mixin
-def preprocess(r: ArrowRow) -> ArrowRow:
-    print(r)
-    mlflow.log_metric(key=DST_PORT, value=r[DST_PORT][0].as_py())
-    mlflow.log_metric(key=PROTOCOL, value=r[PROTOCOL][0].as_py())
-    # mlflow.log_metric(key=TIMESTAMP, value=r[TIMESTAMP][0].as_py())
-    mlflow.log_metric(key=FLOW_DURATION, value=r[FLOW_DURATION][0].as_py())
-    mlflow.log_metric(key=TOT_FWD_PKTS, value=r[TOT_FWD_PKTS][0].as_py())
-    mlflow.log_metric(key=TOT_BWD_PKTS, value=r[TOT_BWD_PKTS][0].as_py())
-
-    data = ray.data.from_items([{
-        F1: r[DST_PORT][0].as_py(),
-        F2: r[PROTOCOL][0].as_py(),  # [str(norm.norm_protocol(i[PROTOCOL]))],
-        # F3: [row[0][TIMESTAMP]],
-        F4: r[FLOW_DURATION][0].as_py(),  # [str(norm.norm_time_1h(i[FLOW_DURATION]))],
-        F5: r[TOT_FWD_PKTS][0].as_py(),  # [str(norm.norm_size_1mb(i[TOT_FWD_PKTS]))],
-        F6: r[TOT_BWD_PKTS][0].as_py(),  # [str(norm.norm_size_1mb(i[TOT_BWD_PKTS]))],
-    }])
-    print(data.take())
-    return data.take()
+def preprocess(r: Table) -> Table:
+    df: DataFrame = r.to_pandas()
+    df = df[[DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS]]
+    df[DST_PORT] = df[DST_PORT].apply(norm.norm_port)
+    df[PROTOCOL] = df[PROTOCOL].apply(norm.norm_protocol)
+    df[FLOW_DURATION] = df[FLOW_DURATION].apply(norm.norm_time_1h)
+    df[TOT_FWD_PKTS] = df[TOT_FWD_PKTS].apply(norm.norm_size_1mb)
+    df[TOT_BWD_PKTS] = df[TOT_BWD_PKTS].apply(norm.norm_size_1mb)
+    data = Table.from_pandas(df)
+    # print(data)
+    return data
 
 
 # ray.init(local_mode=True)
 # ray.init(num_cpus=8)
 
 pipe: DatasetPipeline = ray.data.read_csv([
-    # common.TRAIN_DATA_DIR + 'demo.csv',
-    common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
@@ -61,7 +50,7 @@ pipe: DatasetPipeline = ray.data.read_csv([
 # pipe = pipe.map(preprocess)
 
 # Apply GPU batch inference to the data.
-pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=1, num_cpus=0)
+pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=0, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 

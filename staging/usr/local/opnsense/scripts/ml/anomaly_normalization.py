@@ -52,7 +52,6 @@ F6 = 'F6'
 
 
 # "Dst Port"
-@ray.remote
 def norm_port(port: int) -> float:
     return port / 65535
 
