@@ -1,3 +1,4 @@
+from tensorflow import keras
 from keras.datasets import mnist
 from keras.utils import to_categorical
 from keras.models import Sequential
@@ -13,6 +14,7 @@ sys.path.insert(0, '/usr/local/opnsense/scripts/ml')
 import common
 
 common.init_node()
+mlflow.create_experiment('mnist_cnn')
 
 (train_X, train_Y), (test_X, test_Y) = mnist.load_data()
 trainX = train_X.reshape((train_X.shape[0], 28, 28, 1))

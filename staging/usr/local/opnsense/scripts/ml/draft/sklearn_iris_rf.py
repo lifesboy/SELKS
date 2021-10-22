@@ -11,6 +11,7 @@ sys.path.insert(0, '/usr/local/opnsense/scripts/ml')
 import common
 
 common.init_node()
+mlflow.create_experiment('iris_rf')
 
 iris = datasets.load_iris()
 iris_train = pd.DataFrame(iris.data, columns=iris.feature_names)
