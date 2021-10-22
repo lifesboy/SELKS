@@ -15,10 +15,7 @@ import anomaly_normalization as norm
 from datetime import date
 import mlflow
 
-common.init_node()
-
-today = date.today()
-mlflow.create_experiment("data-processor-" + today.strftime("%Y%m%dT%H%m%s"))
+common.init_experiment('data-processor')
 
 
 @mlflow_mixin

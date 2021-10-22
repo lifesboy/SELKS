@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import sys
+from datetime import date
 from pathlib import Path
 
 import mlflow
@@ -22,3 +23,9 @@ Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 def init_node():
     ray.init(address=RAY_HEAD_NODE_ADDRESS)
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+
+
+def init_experiment(name: str) -> (int, str):
+    init_node()
+    exp = name + date.today().strftime("-%Y%m%dT%H%M%S")
+    return mlflow.create_experiment(exp), exp

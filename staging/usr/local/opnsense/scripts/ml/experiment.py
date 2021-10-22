@@ -7,9 +7,6 @@ import common
 
 common.init_node()
 
-# Create the MlFlow expriment.
-mlflow.create_experiment("my_experiment")
-
 
 @mlflow_mixin
 def train_fn(config):

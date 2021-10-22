@@ -12,8 +12,7 @@ sys.path.insert(0, '/usr/local/opnsense/scripts/ml')
 
 import common
 
-common.init_node()
-mlflow.create_experiment('mnist_cnn')
+common.init_experiment('mnist_cnn')
 
 (train_X, train_Y), (test_X, test_Y) = mnist.load_data()
 trainX = train_X.reshape((train_X.shape[0], 28, 28, 1))
