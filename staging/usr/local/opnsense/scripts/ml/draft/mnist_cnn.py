@@ -1,9 +1,8 @@
-from tensorflow import keras
-from keras.datasets import mnist
-from keras.utils import to_categorical
-from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten
-from keras.optimizers import SGD
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten
+from tensorflow.keras.optimizers import SGD
 import mlflow
 import mlflow.keras
 from mlflow.models.signature import infer_signature
