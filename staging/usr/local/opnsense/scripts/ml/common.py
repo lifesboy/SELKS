@@ -27,5 +27,5 @@ def init_node():
 
 def init_experiment(name: str) -> (int, str):
     init_node()
-    exp = name + datetime.now().strftime("-%Y%m%dT%H%M%S")
-    return mlflow.create_experiment(exp), exp
+    exp = name  # + datetime.now().strftime("-%Y%m%dT%H%M%S")
+    return mlflow.set_experiment(exp), exp
