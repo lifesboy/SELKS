@@ -37,6 +37,10 @@ def preprocess(r: Table) -> Table:
 # ray.init(num_cpus=8)
 
 pipe: DatasetPipeline = ray.data.read_csv([
+    # common.TRAIN_DATA_DIR + 'demo.csv',
+    common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
@@ -50,7 +54,7 @@ pipe: DatasetPipeline = ray.data.read_csv([
 # pipe = pipe.map(preprocess)
 
 # Apply GPU batch inference to the data.
-pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=0, num_cpus=0)
+pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=1, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
