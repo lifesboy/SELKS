@@ -17,10 +17,12 @@ from datetime import date
 import mlflow
 
 common.init_experiment('data-processor')
+num_rows = 0
 
 
 @mlflow_mixin
 def preprocess(df: DataFrame) -> DataFrame:
+    global num_rows
     # print(df)
     data = DataFrame(data={
         DST_PORT: df[DST_PORT].apply(norm.norm_port).values,
@@ -31,6 +33,8 @@ def preprocess(df: DataFrame) -> DataFrame:
         LABEL: df[LABEL].apply(norm.norm_label).values,
     }, index=df[TIMESTAMP])
     # print(data)
+    num_rows += len(df.index)
+    mlflow.log_metric(key="row", value=num_rows)
     return data
 
 
@@ -40,35 +44,26 @@ def preprocess(df: DataFrame) -> DataFrame:
 pipe: DatasetPipeline = ray.data.read_csv([
     # common.TRAIN_DATA_DIR + 'demo.csv',
     common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
 ]).pipeline(parallelism=5)
-
-mlflow.set_tags({
-    common.TAG_DATASET_SIZE: pipe.count(),
-    common.TAG_RUN_TYPE: 'preprocess'
-})
 
 pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
                         batch_size=1024, num_gpus=0, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
-num_rows = 0
-for row in pipe.iter_batches(batch_size=1024):
-    num_rows += len(row)
-    mlflow.log_metric(key="row", value=num_rows)
-
-print("Total done rows: ", num_rows)
-
 # Save the output.
 pipe.write_csv(common.TMP_DIR)
 
-# ray.shutdown()
+mlflow.set_tags({
+    common.TAG_DATASET_SIZE: num_rows,
+    common.TAG_RUN_TYPE: 'preprocess'
+})
