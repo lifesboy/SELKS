@@ -8,6 +8,7 @@ import mlflow
 import ray
 from mlflow.entities import Experiment, Run
 from mlflow.tracking import MlflowClient
+from mlflow.tracking.fluent import ActiveRun
 
 PATH_ML = '/usr/local/opnsense/scripts/ml'
 
@@ -32,14 +33,13 @@ def init_node():
     ray.init(address=RAY_HEAD_NODE_ADDRESS)
 
 
-def init_tracking(name: str) -> (Run, MlflowClient):
+def init_tracking(name: str) -> (ActiveRun, MlflowClient):
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(name)
-    client = MlflowClient()
-    return client.create_run(experiment_id=mlflow.get_experiment_by_name(name).experiment_id), client
+    return mlflow.start_run(), MlflowClient()
 
 
-def init_experiment(name: str) -> (Run, MlflowClient):
+def init_experiment(name: str) -> (ActiveRun, MlflowClient):
     init_node()
     exp = name  # + datetime.now().strftime("-%Y%m%dT%H%M%S")
     return init_tracking(exp)
