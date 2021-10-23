@@ -27,6 +27,7 @@ TAG_DATASET_SIZE = 'dataset.size'
 TAG_DATASET_MIN = 'dataset.min'
 TAG_DATASET_MAX = 'dataset.max'
 TAG_RUN_TYPE = 'run.type'
+TAG_RUN_STATUS = 'run.status'
 
 
 def init_node():
