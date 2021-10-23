@@ -34,6 +34,7 @@ def preprocess(df: DataFrame) -> DataFrame:
     }, index=df[TIMESTAMP])
     # print(data)
     num_rows += len(df.index)
+    common.init_tracking('data-processor')
     mlflow.log_metric(key="row", value=num_rows)
     return data
 

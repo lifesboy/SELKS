@@ -24,12 +24,17 @@ TAG_DATASET_MIN = 'dataset.min'
 TAG_DATASET_MAX = 'dataset.max'
 TAG_RUN_TYPE = 'run.type'
 
+
 def init_node():
     ray.init(address=RAY_HEAD_NODE_ADDRESS)
+
+
+def init_tracking(name: str):
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    return mlflow.set_experiment(name)
 
 
 def init_experiment(name: str) -> (int, str):
     init_node()
     exp = name  # + datetime.now().strftime("-%Y%m%dT%H%M%S")
-    return mlflow.set_experiment(exp), exp
+    return init_tracking(exp), exp
