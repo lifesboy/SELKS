@@ -59,10 +59,8 @@ pipe: DatasetPipeline = ray.data.read_csv([
     # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
 ]).pipeline(parallelism=5)
 
-client.set_tags(run_id=run.info.run_id, tags={
-    common.TAG_DATASET_SIZE: pipe.count(),
-    common.TAG_RUN_TYPE: 'preprocess'
-})
+client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preprocess')
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.count())
 
 pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
                         batch_size=1024, num_gpus=0, num_cpus=0)
