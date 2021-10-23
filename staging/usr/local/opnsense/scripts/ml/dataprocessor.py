@@ -69,6 +69,6 @@ for row in pipe.iter_rows():
 print("Total done rows: ", num_rows)
 
 # Save the output.
-pipe.write_json(common.TMP_DIR)
+pipe.write_csv(common.TMP_DIR)
 
 # ray.shutdown()
