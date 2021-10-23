@@ -33,6 +33,8 @@ TIMESTAMP = 'Timestamp'
 FLOW_DURATION = 'Flow Duration'
 TOT_FWD_PKTS = 'Tot Fwd Pkts'
 TOT_BWD_PKTS = 'Tot Bwd Pkts'
+LABEL = 'Label'
+LABEL_VALUE_BENIGN = 'Benign'
 
 SIZE_1KB = 1024
 SIZE_1MB = 1024 * SIZE_1KB
@@ -80,3 +82,7 @@ def norm_time_1h(v: int) -> float:
 
 def norm_ip(ip: str) -> int:
     return struct.unpack('!I', socket.inet_aton(ip))[0]
+
+
+def norm_label(v: str) -> int:
+    return 0 if v == LABEL_VALUE_BENIGN else 1

@@ -10,7 +10,7 @@ from ray.tune.integration.mlflow import mlflow_mixin
 from pandas import DataFrame
 import common
 from anomaly_normalization import F1, F2, F3, F4, F5, F6
-from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS
+from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
 import anomaly_normalization as norm
 
 from datetime import date
@@ -20,16 +20,16 @@ common.init_experiment('data-processor')
 
 
 @mlflow_mixin
-def preprocess(r: Table) -> Table:
-    df: DataFrame = r.to_pandas()
-    df = df[[DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS]]
-    df[DST_PORT] = df[DST_PORT].apply(norm.norm_port)
-    df[PROTOCOL] = df[PROTOCOL].apply(norm.norm_protocol)
-    df[FLOW_DURATION] = df[FLOW_DURATION].apply(norm.norm_time_1h)
-    df[TOT_FWD_PKTS] = df[TOT_FWD_PKTS].apply(norm.norm_size_1mb)
-    df[TOT_BWD_PKTS] = df[TOT_BWD_PKTS].apply(norm.norm_size_1mb)
-    data = Table.from_pandas(df)
-    # print(data)
+def preprocess(df: DataFrame) -> DataFrame:
+    # print(df)
+    data = DataFrame(data={
+        DST_PORT: df[DST_PORT].apply(norm.norm_port),
+        PROTOCOL: df[PROTOCOL].apply(norm.norm_protocol),
+        FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h),
+        TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb),
+        TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb),
+        LABEL: df[LABEL].apply(norm.norm_label),
+    })
     return data
 
 
@@ -54,7 +54,8 @@ pipe: DatasetPipeline = ray.data.read_csv([
 # pipe = pipe.map(preprocess)
 
 # Apply GPU batch inference to the data.
-pipe = pipe.map_batches(preprocess, compute="actors", batch_size=256, num_gpus=1, num_cpus=0)
+pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
+                        batch_size=256, num_gpus=1, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
