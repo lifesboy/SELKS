@@ -63,7 +63,7 @@ client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preproces
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.count())
 
 pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
-                        batch_size=1024, num_gpus=0, num_cpus=0)
+                        batch_size=10240, num_gpus=0, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
