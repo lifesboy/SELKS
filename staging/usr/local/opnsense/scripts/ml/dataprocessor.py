@@ -23,14 +23,14 @@ common.init_experiment('data-processor')
 def preprocess(df: DataFrame) -> DataFrame:
     # print(df)
     data = DataFrame(data={
-        DST_PORT: df[DST_PORT].apply(norm.norm_port),
-        PROTOCOL: df[PROTOCOL].apply(norm.norm_protocol),
-        FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h),
-        TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb),
-        TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb),
-        LABEL: df[LABEL].apply(norm.norm_label),
+        DST_PORT: df[DST_PORT].apply(norm.norm_port).values,
+        PROTOCOL: df[PROTOCOL].apply(norm.norm_protocol).values,
+        FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h).values,
+        TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb).values,
+        TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb).values,
+        LABEL: df[LABEL].apply(norm.norm_label).values,
     }, index=df[TIMESTAMP])
-    # print(len(data.index))
+    # print(data)
     return data
 
 
@@ -57,12 +57,12 @@ mlflow.set_tags({
 })
 
 pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
-                        batch_size=256, num_gpus=0, num_cpus=0)
+                        batch_size=1024, num_gpus=0, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
 num_rows = 0
-for row in pipe.iter_batches(batch_size=256):
+for row in pipe.iter_batches(batch_size=1024):
     num_rows += len(row)
     mlflow.log_metric(key="row", value=num_rows)
 
