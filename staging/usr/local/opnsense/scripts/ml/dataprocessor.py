@@ -52,7 +52,7 @@ pipe: DatasetPipeline = ray.data.read_csv([
 ]).pipeline(parallelism=5)
 
 mlflow.set_tags({
-    common.TAG_DATASET_SIZE: pipe.count(),
+    common.TAG_DATASET_SIZE: pipe.count() - 1,
     common.TAG_RUN_TYPE: 'preprocess'
 })
 
