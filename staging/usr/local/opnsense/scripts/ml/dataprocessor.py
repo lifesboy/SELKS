@@ -48,24 +48,28 @@ def preprocess(df: DataFrame) -> DataFrame:
 pipe: DatasetPipeline = ray.data.read_csv([
     # common.TRAIN_DATA_DIR + 'demo.csv',
     common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
-    # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
+    common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
 ]).pipeline(parallelism=5)
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preprocess')
+client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='counting')
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.count())
 
+client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
 pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
                         batch_size=10240, num_gpus=0, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
-# Save the output.
+client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
 pipe.write_csv(common.TMP_DIR)
+
+client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
