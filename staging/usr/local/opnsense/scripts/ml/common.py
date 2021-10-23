@@ -19,6 +19,10 @@ TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'
 TMP_DIR = '/drl/tmp/'
 Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 
+TAG_DATASET_SIZE = 'dataset.size'
+TAG_DATASET_MIN = 'dataset.min'
+TAG_DATASET_MAX = 'dataset.max'
+TAG_RUN_TYPE = 'run.type'
 
 def init_node():
     ray.init(address=RAY_HEAD_NODE_ADDRESS)

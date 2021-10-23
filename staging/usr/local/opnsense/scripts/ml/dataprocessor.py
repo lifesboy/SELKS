@@ -29,7 +29,8 @@ def preprocess(df: DataFrame) -> DataFrame:
         TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb),
         TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb),
         LABEL: df[LABEL].apply(norm.norm_label),
-    })
+    }, index=df[TIMESTAMP])
+    # print(len(data.index))
     return data
 
 
@@ -50,12 +51,13 @@ pipe: DatasetPipeline = ray.data.read_csv([
     common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
 ]).pipeline(parallelism=5)
 
-# Preprocess the data.
-# pipe = pipe.map(preprocess)
+mlflow.set_tags({
+    common.TAG_DATASET_SIZE: pipe.count(),
+    common.TAG_RUN_TYPE: 'preprocess'
+})
 
-# Apply GPU batch inference to the data.
 pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
-                        batch_size=256, num_gpus=1, num_cpus=0)
+                        batch_size=256, num_gpus=0, num_cpus=0)
 
 # tf.keras.layers.BatchNormalization
 
@@ -64,7 +66,7 @@ for row in pipe.iter_rows():
     mlflow.log_metric(key="row", value=num_rows)
     num_rows += 1
 
-print("Total num rows", num_rows)
+print("Total done rows: ", num_rows)
 
 # Save the output.
 pipe.write_json(common.TMP_DIR)
