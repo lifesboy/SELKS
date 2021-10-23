@@ -63,7 +63,7 @@ pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
 
 num_rows = 0
 for row in pipe.iter_batches(batch_size=256):
-    num_rows += 256
+    num_rows += len(row)
     mlflow.log_metric(key="row", value=num_rows)
 
 print("Total done rows: ", num_rows)
