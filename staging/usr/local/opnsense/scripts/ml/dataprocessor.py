@@ -16,13 +16,17 @@ import anomaly_normalization as norm
 from datetime import date
 import mlflow
 
-common.init_experiment('data-processor')
+
+run, client = common.init_experiment('data-processor')
+
 num_rows = 0
 
 
 @mlflow_mixin
 def preprocess(df: DataFrame) -> DataFrame:
     global num_rows
+    global run
+    global client
     # print(df)
     data = DataFrame(data={
         DST_PORT: df[DST_PORT].apply(norm.norm_port).values,
@@ -34,8 +38,7 @@ def preprocess(df: DataFrame) -> DataFrame:
     }, index=df[TIMESTAMP])
     # print(data)
     num_rows += len(df.index)
-    common.init_tracking('data-processor')
-    mlflow.log_metric(key="row", value=num_rows)
+    client.log_metric(run_id=run.info.run_id, key="row", value=num_rows)
     return data
 
 
@@ -56,7 +59,7 @@ pipe: DatasetPipeline = ray.data.read_csv([
     # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
 ]).pipeline(parallelism=5)
 
-mlflow.set_tags({
+client.set_tags(run_id=run.info.run_id, tags={
     common.TAG_DATASET_SIZE: pipe.count(),
     common.TAG_RUN_TYPE: 'preprocess'
 })
