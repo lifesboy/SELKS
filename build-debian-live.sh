@@ -136,7 +136,7 @@ if [ ! -f /binaries/unetbootin-linux64-702.bin ]; then
 fi
 
 if [ ! -d /binaries/cicflowmeter ]; then
-  git clone -b gpu https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
+  git clone https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
 fi
 
 if [ ! -d /binaries/selks ]; then
