@@ -118,6 +118,32 @@ fi
 # Pre staging
 #
 
+if [ ! -f /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
+  mkdir -p /binaries
+  wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb -o /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
+fi
+
+if [ ! -f /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb ]; then
+  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb -o /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
+fi
+
+if [ ! -f /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb ]; then
+  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb -o /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
+fi
+
+if [ ! -f /binaries/unetbootin-linux64-702.bin ]; then
+  wget https://jaist.dl.sourceforge.net/project/unetbootin/UNetbootin/702/unetbootin-linux64-702.bin -o /binaries/unetbootin-linux64-702.bin
+fi
+
+if [ ! -d /binaries/cicflowmeter ]; then
+  git clone -b gpu https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
+fi
+
+if [ ! -d /binaries/selks ]; then
+  git clone -b gpu https://github.com/lifesboy/cicflowmeter-1.git /binaries/selks
+fi
+
+
 mkdir -p Stamus-Live-Build
 # Hook directory for the initramfs script to be copied to
 #mkdir -p config/hooks/
@@ -221,32 +247,6 @@ else
 wget -O config/archives/packages-stamus-networks-gpg.key.chroot http://packages.stamus-networks.com/packages.selks5.stamus-networks.com.gpg.key
 
 fi
-
-if [ ! -f /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
-  mkdir -p /binaries
-  wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb -o /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
-fi
-
-if [ ! -f /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb ]; then
-  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb -o /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
-fi
-
-if [ ! -f /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb ]; then
-  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb -o /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
-fi
-
-if [ ! -f /binaries/unetbootin-linux64-702.bin ]; then
-  wget https://jaist.dl.sourceforge.net/project/unetbootin/UNetbootin/702/unetbootin-linux64-702.bin -o /binaries/unetbootin-linux64-702.bin
-fi
-
-if [ ! -d /binaries/cicflowmeter ]; then
-  git clone -b gpu https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
-fi
-
-if [ ! -d /binaries/selks ]; then
-  git clone -b gpu https://github.com/lifesboy/cicflowmeter-1.git /binaries/selks
-fi
-
 
 # Create dirs if not existing for the custom config files
 mkdir -p config/includes.chroot/etc/logstash/conf.d/
