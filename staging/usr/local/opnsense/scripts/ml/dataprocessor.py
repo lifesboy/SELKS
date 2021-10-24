@@ -45,10 +45,10 @@ def preprocess(df: DataFrame) -> DataFrame:
 # ray.init(local_mode=True)
 # ray.init(num_cpus=8)
 
-pipe: DatasetPipeline = ray.data.read_csv([
+data_source = [
     # common.TRAIN_DATA_DIR + 'demo.csv',
     common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
     common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
@@ -57,7 +57,17 @@ pipe: DatasetPipeline = ray.data.read_csv([
     common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv',
-]).pipeline(parallelism=5)
+]
+batch_size = 10240
+num_gpus = 0
+num_cpus = 0
+
+client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
+client.log_param(run_id=run.info.run_id, key='batch_size', value=batch_size)
+client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
+client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
+
+pipe: DatasetPipeline = ray.data.read_csv(data_source).pipeline(parallelism=5)
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preprocess')
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='counting')
@@ -65,7 +75,7 @@ client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.c
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
 pipe = pipe.map_batches(preprocess, batch_format="pandas", compute="actors",
-                        batch_size=10240, num_gpus=0, num_cpus=0)
+                        batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
 
 # tf.keras.layers.BatchNormalization
 
