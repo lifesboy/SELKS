@@ -147,7 +147,7 @@ ln /selks/staging/etc/init.d/hostid /etc/init.d/hostid
 ln /selks/staging/etc/init.d/swap /etc/init.d/swap
 ln /selks/staging/etc/init.d/fsck /etc/init.d/fsck
 ln /selks/staging/etc/init.d/root /etc/init.d/root
-ln /selks/staging/etc/init.d/ray /etc/init.d/ray
+#ln /selks/staging/etc/init.d/ray /etc/init.d/ray
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
 chmod 755 /etc/init.d/rcnetworking
@@ -162,7 +162,7 @@ chmod 755 /etc/init.d/hostid
 chmod 755 /etc/init.d/swap
 chmod 755 /etc/init.d/fsck
 chmod 755 /etc/init.d/root
-chmod 755 /etc/init.d/ray
+#chmod 755 /etc/init.d/ray
 systemctl enable rc.service
 update-rc.d rcnetworking defaults
 update-rc.d rcfilesystems defaults
@@ -234,6 +234,9 @@ mv /usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elastic
 mkdir -p /var/log/mlflow
 ln -s /selks/staging/etc/systemd/system/mlflow-tracking.service /etc/systemd/system/mlflow-tracking.service
 systemctl enable mlflow-tracking
+mkdir -p /var/log/ray
+ln -s /selks/staging/etc/systemd/system/ray.service /etc/systemd/system/ray.service
+systemctl enable ray
 
 systemctl daemon-reload
 
