@@ -754,7 +754,7 @@ uname -m && cat /etc/*release
 gcc --version
 uname -r
 
-dpkg -i /cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
+dpkg -i /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
 apt-key add /var/cuda-repo-debian10-11-4-local/7fa2af80.pub
 #apt-key add /var/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1/7fa2af80.pub
 add-apt-repository contrib
@@ -773,8 +773,8 @@ cat /proc/driver/nvidia/version
 #cd /drl
 #make
 
-dpkg -i /libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
-dpkg -i /libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
+dpkg -i /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
+dpkg -i /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
 
 apt-get install -y g++ python3-dev
 python3 -m pip install six==1.15.0
