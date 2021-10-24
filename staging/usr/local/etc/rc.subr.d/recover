@@ -105,6 +105,24 @@ smmta:x:128:
 smmsp:x:129:
 EOF;
 
+$selinux_cfg = <<<EOF
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - No SELinux policy is loaded.
+# SELINUX=permissive
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+# default - equivalent to the old strict and targeted policies
+# mls     - Multi-Level Security (for military and educational use)
+# src     - Custom policy built from source
+SELINUXTYPE=default
+
+# SETLOCALDEFS= Check local definition changes
+SETLOCALDEFS=0
+EOF;
+
 $etc_master_passwd = <<<EOF
 root:$6$7c.ap0vVPnxxCrKd$hGcqptkOv7kflSBSsBUVKrn9eA6AEJv/X2xRP7uhDL6R5Ny4kpaSA5En0alb.4YPaUJt3SPaYB8yT9at3VBUF/:18847:0:99999:7:::
 daemon:*:18846:0:99999:7:::
@@ -308,9 +326,10 @@ function recover_rebuild()
 	passthru('/bin/sync');
 }
 
-function recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini)
+function recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini, $selinux_cfg)
 {
 	echo "===> Restoring /etc/group\n";
+	file_put_contents('/etc/selinux/config', $selinux_cfg);
 	file_put_contents('/etc/group', $etc_group);
 
 	echo "===> Restoring /etc/master.passwd\n";
@@ -341,13 +360,13 @@ $stage = isset($argv[1]) ? $argv[1] : 'both';
 
 switch ($stage) {
 	case 'base':
-		recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini);
+		recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini, $selinux_cfg);
 		break;
 	case 'pkg':
 		recover_pkg();
 		break;
 	default:
-		recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini);
+		recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini, $selinux_cfg);
 		recover_pkg();
 		break;
 }
