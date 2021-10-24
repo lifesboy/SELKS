@@ -178,6 +178,7 @@ update-rc.d fsck defaults
 update-rc.d root defaults
 update-rc.d ray defaults
 
+systemctl disable wpa_supplicant.service
 systemctl disable network-manager.service
 systemctl disable avahi-daemon.service
 systemctl disable suricata.service
