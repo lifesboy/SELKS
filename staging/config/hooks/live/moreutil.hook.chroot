@@ -28,23 +28,23 @@ sudo chmod 755 $DESTINATION
 ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 apt-get -y install git tmux
 
-wget https://jaist.dl.sourceforge.net/project/unetbootin/UNetbootin/702/unetbootin-linux64-702.bin
-chmod +x ./unetbootin-linux64-702.bin
-chown root:root ./unetbootin-linux64-702.bin
-mv ./unetbootin-linux64-702.bin /opt/unetbootin
+
+cp /binaries/unetbootin-linux64-702.bin /opt/unetbootin
+chmod +x /opt/unetbootin
+chown root:root /opt/unetbootin
 ln -s /opt/unetbootin /usr/local/bin/unetbootin
 apt-get -y install mtools
 
-git clone https://github.com/lifesboy/cicflowmeter-1.git /cicflowmeter
+cp -R /binaries/cicflowmeter /
 cd /cicflowmeter
 python3 setup.py install
 cd -
 
-git clone https://github.com/lifesboy/SELKS.git /selks
-cd /selks
-git checkout gpu
+cp -R /binaries/selks /
+#cd /selks
+#git checkout gpu
 #sudo ./install-deps.sh
-cd -
+#cd -
 
 #mv /etc/suricata/suricata.yaml /etc/suricata/suricata.yaml.bak
 #ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
@@ -178,6 +178,8 @@ update-rc.d fsck defaults
 update-rc.d root defaults
 update-rc.d ray defaults
 
+systemctl set-default -f multi-user.target
+systemctl get-default
 systemctl disable wpa_supplicant.service
 systemctl disable network-manager.service
 systemctl disable avahi-daemon.service
