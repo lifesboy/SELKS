@@ -75,7 +75,7 @@ client.log_param(run_id=run.info.run_id, key='parallelism', value=parallelism)
 
 pipe: DatasetPipeline = ray.data.read_csv(data_source).pipeline(parallelism=parallelism)
 
-client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preprocess')
+# client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preprocess')
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='counting')
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.count())
 
