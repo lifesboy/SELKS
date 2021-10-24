@@ -26,6 +26,8 @@ Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 TAG_DATASET_SIZE = 'dataset.size'
 TAG_DATASET_MIN = 'dataset.min'
 TAG_DATASET_MAX = 'dataset.max'
+TAG_RUN_UUID = 'run.uuid'
+TAG_PARENT_RUN_UUID = 'run.parent.uuid'
 TAG_RUN_TYPE = 'run.type'
 TAG_RUN_STATUS = 'run.status'
 
@@ -37,7 +39,10 @@ def init_node():
 def init_tracking(name: str) -> (ActiveRun, MlflowClient):
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(name)
-    return mlflow.start_run(), MlflowClient()
+    run = mlflow.start_run()
+    client = MlflowClient()
+    client.set_tag(run_id=run.info.run_id, key=TAG_RUN_UUID, value=run.info.run_id)
+    return run, client
 
 
 def init_experiment(name: str) -> (ActiveRun, MlflowClient):
