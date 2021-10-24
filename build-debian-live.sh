@@ -222,6 +222,19 @@ wget -O config/archives/packages-stamus-networks-gpg.key.chroot http://packages.
 
 fi
 
+if [ ! -f ./cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
+    wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
+fi
+
+if [ ! -f ./libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb ]; then
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
+fi
+
+if [ ! -f ./libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb ]; then
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
+fi
+
+
 # Create dirs if not existing for the custom config files
 mkdir -p config/includes.chroot/etc/logstash/conf.d/
 mkdir -p config/includes.chroot/etc/skel/Desktop/
@@ -374,6 +387,11 @@ chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroo
 
 # cp OPNSense desktop shortcuts
 cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
+
+# copy nvidia binaries
+cp ./cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/
+cp ./libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/
+cp ./libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/
 
 # Add core system packages to be installed
 echo "
