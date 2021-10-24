@@ -140,7 +140,7 @@ if [ ! -d /binaries/cicflowmeter ]; then
 fi
 
 if [ ! -d /binaries/selks ]; then
-  git clone -b gpu --single-branch https://github.com/lifesboy/cicflowmeter-1.git /binaries/selks
+  git clone -b gpu --single-branch https://github.com/lifesboy/SELKS.git /binaries/selks
 fi
 
 
