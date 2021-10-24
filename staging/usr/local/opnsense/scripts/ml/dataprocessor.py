@@ -62,10 +62,10 @@ data_source = [
     common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
     # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
 ]
-batch_size = 4096
-num_gpus = 1
-num_cpus = 3
-parallelism = 4
+batch_size = 10240
+num_gpus = 0.2
+num_cpus = 0.5
+parallelism = 5
 
 client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
 client.log_param(run_id=run.info.run_id, key='batch_size', value=batch_size)
