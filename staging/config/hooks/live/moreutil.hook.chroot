@@ -176,7 +176,7 @@ update-rc.d hostid defaults
 update-rc.d swap defaults
 update-rc.d fsck defaults
 update-rc.d root defaults
-update-rc.d ray defaults
+#update-rc.d ray defaults
 
 systemctl set-default -f multi-user.target
 systemctl get-default
