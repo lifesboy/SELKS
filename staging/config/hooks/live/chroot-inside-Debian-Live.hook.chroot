@@ -804,10 +804,10 @@ python3 -m pip install gputil
 python3 -m pip install starlette
 python3 -m pip install uvicorn
 python3 -m pip install pydantic
-python3 -m pip install mlflow==1.20.2
+#python3 -m pip install PyYAML==6.0 --ignore-installed PyYAML
+python3 -m pip install mlflow==1.20.2 --ignore-installed PyYAML
 python3 -m pip install mlflow-elasticsearchstore
 python3 -m pip install mlflow-ray-serve
-python3 -m pip install PyYAML==6.0
 ### END Install RLlib/AI/ML scripts ###
 
 ### START Install SELKS/StamusN scripts ###
