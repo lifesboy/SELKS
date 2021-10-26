@@ -23,7 +23,7 @@ ES_JAVA_OPTS='-Xms10g -Xmx10g'
 ################################
 # Elasticsearch service
 ################################
-elasticsearch.service
+#elasticsearch.service
 # SysV init.d
 #
 # The number of seconds to wait before checking if Elasticsearch started successfully as a daemon process
