@@ -307,7 +307,7 @@
       <gateway>WAN_GWv4</gateway>
     </wan>
     <lan>
-      <if>enp4s0</if>
+      <if>enp2s0</if>
       <descr/>
       <enable>1</enable>
       <spoofmac/>
