@@ -38,7 +38,7 @@ if __name__ == '__main__':
     result = dict()
     #sp = subprocess.run(['/sbin/pfctl', '-vvsI'], capture_output=True, text=True)
     #todo parsing counters
-    sp = subprocess.run(['nft list ruleset | grep counter'], capture_output=True, text=True)
+    sp = subprocess.run(['nft', 'list ruleset | grep counter'], capture_output=True, text=True)
     intf = None
     for line in sp.stdout.strip().split('\n'):
         if line.find('[') == -1  and len(line) > 0 and line[0] not in (' ', '\t'):
