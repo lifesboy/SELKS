@@ -85,6 +85,7 @@ set -e
 ulimit -n 65535
 
 rcvar=squid_enable
+mkdir -p /etc/squid/errors/local
 
 # Make sure that we invoke squid with "-f ${squid_conf}"; define this
 # variable early so reload_cmd and stop_precmd pick it up:
@@ -110,7 +111,7 @@ squid_load_rc_config()
 	: ${squid_enable:=NO}
 	: ${squid_program:=/usr/sbin/squid}
 	: ${squid_pidfile:=/var/run/squid/squid.pid}
-	: ${squid_user:=squid}
+	: ${squid_user:=root}
 
 	required_args="-f ${squid_conf}"
 	required_dirs=$chdir
