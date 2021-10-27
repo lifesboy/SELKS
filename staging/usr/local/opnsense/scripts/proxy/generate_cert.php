@@ -36,10 +36,10 @@ require_once("legacy_bindings.inc");
 
 use OPNsense\Core\Config;
 
-// Our template systems stores the ca certid into /usr/local/etc/squid/ca.pem.id
+// Our template systems stores the ca certid into /etc/squid/ca.pem.id
 // Which makes it easier for the setup script to detect cert changes (which should flush the stored cache)
-if (is_file('/usr/local/etc/squid/ca.pem.id')) {
-    $cert_refid = trim(file_get_contents('/usr/local/etc/squid/ca.pem.id'));
+if (is_file('/etc/squid/ca.pem.id')) {
+    $cert_refid = trim(file_get_contents('/etc/squid/ca.pem.id'));
     if (!empty($config['ca'])) {
         foreach ($config['ca'] as $ca) {
             if (isset($ca['refid']) && $ca['refid'] == $cert_refid) {

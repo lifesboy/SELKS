@@ -45,8 +45,8 @@ from urllib.error import HTTPError
 import requests
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-acl_config_fn = '/usr/local/etc/squid/externalACLs.conf'
-acl_target_dir = '/usr/local/etc/squid/acl'
+acl_config_fn = '/etc/squid/externalACLs.conf'
+acl_target_dir = '/etc/squid/acl'
 acl_max_timeout = 30
 
 

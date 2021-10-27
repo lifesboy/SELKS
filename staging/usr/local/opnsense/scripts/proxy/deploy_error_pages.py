@@ -30,7 +30,7 @@ import ujson
 import os
 import re
 from lib import ProxyTemplates
-target_directory = "/usr/local/etc/squid/errors/local"
+target_directory = "/etc/squid/errors/local"
 
 if __name__ == '__main__':
     proxy_templates = ProxyTemplates()

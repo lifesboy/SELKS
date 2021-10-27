@@ -34,7 +34,7 @@ import glob
 from io import BytesIO
 
 class ProxyTemplates:
-    error_config = "/usr/local/etc/squid/error_directory.in"
+    error_config = "/etc/squid/error_directory.in"
 
     def __init__(self):
         self._all_src_files = dict()
