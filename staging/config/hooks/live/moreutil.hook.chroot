@@ -148,6 +148,7 @@ ln /selks/staging/etc/init.d/swap /etc/init.d/swap
 ln /selks/staging/etc/init.d/fsck /etc/init.d/fsck
 ln /selks/staging/etc/init.d/root /etc/init.d/root
 #ln /selks/staging/etc/init.d/ray /etc/init.d/ray
+ln /selks/staging/etc/init.d/squid /etc/init.d/squid
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
 chmod 755 /etc/init.d/rcnetworking
@@ -163,6 +164,7 @@ chmod 755 /etc/init.d/swap
 chmod 755 /etc/init.d/fsck
 chmod 755 /etc/init.d/root
 #chmod 755 /etc/init.d/ray
+chmod 755 /etc/init.d/squid
 systemctl enable rc.service
 update-rc.d rcnetworking defaults
 update-rc.d rcfilesystems defaults
@@ -177,6 +179,7 @@ update-rc.d swap defaults
 update-rc.d fsck defaults
 update-rc.d root defaults
 #update-rc.d ray defaults
+update-rc.d squid defaults
 
 systemctl set-default -f multi-user.target
 systemctl get-default
