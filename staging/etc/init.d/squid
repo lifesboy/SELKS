@@ -86,6 +86,7 @@ ulimit -n 65535
 
 rcvar=squid_enable
 mkdir -p /etc/squid/errors/local
+chown -R proxy:proxy /etc/squid/errors/local
 
 # Make sure that we invoke squid with "-f ${squid_conf}"; define this
 # variable early so reload_cmd and stop_precmd pick it up:
