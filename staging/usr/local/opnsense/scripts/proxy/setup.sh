@@ -4,7 +4,7 @@ SQUID_DIRS="/var/log/squid /var/run/squid /var/squid /var/squid/cache /var/squid
 
 for SQUID_DIR in ${SQUID_DIRS}; do
     mkdir -p ${SQUID_DIR}
-    chown -R squid:squid ${SQUID_DIR}
+    chown -R root:root ${SQUID_DIR}
     chmod -R 750 ${SQUID_DIR}
 done
 /usr/sbin/pw groupmod proxy -m squid
@@ -28,7 +28,7 @@ fi
 # create ssl certificate store, in case sslbump is enabled we need this
 if [ ! -d /var/squid/ssl_crtd ]; then
     /usr/local/libexec/squid/security_file_certgen -c -s /var/squid/ssl_crtd -M 10 > /dev/null 2>&1
-    chown -R squid:squid /var/squid/ssl_crtd
+    chown -R root:root /var/squid/ssl_crtd
     chmod -R 750 /var/squid/ssl_crtd
     if [ -f /etc/squid/ca.pem.id ]; then
         cat /etc/squid/ca.pem.id > /var/squid/ssl_crtd.id
