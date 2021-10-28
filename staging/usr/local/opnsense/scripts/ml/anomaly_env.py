@@ -4,7 +4,7 @@ from gym.spaces import Discrete
 import random
 
 
-@ray.remote
+# @ray.remote
 class AnomalyEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 

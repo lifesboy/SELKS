@@ -48,7 +48,7 @@ parser.add_argument(
 if __name__ == "__main__":
     args = parser.parse_args()
 
-    common.init_node()
+    run, client = common.init_experiment("anomaly-model")
 
     ModelCatalog.register_custom_model(
         "rnn", RNNModel)
@@ -118,4 +118,3 @@ if __name__ == "__main__":
 
     if args.as_test:
         check_learning_achieved(results, args.stop_reward)
-    ray.shutdown()
