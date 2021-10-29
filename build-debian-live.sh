@@ -4,7 +4,7 @@
 # All rights reserved
 # Debian Live/Install ISO script - oss@stamus-networks.com
 #
-# Please RUN ON Debian Jessie only !!!
+# Please RUN ON Debian Buster only !!!
 
 set -e
 
@@ -14,9 +14,9 @@ cat << EOF
 
 usage: $0 options
 
-###################################
-#!!! RUN on Debian Jessie ONLY !!!#
-###################################
+########################################
+#!!! RUN on Debian Buster (10) ONLY !!!#
+########################################
 
 SELKS build your own ISO options
 
@@ -118,7 +118,36 @@ fi
 # Pre staging
 #
 
+if [ ! -f /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
+  mkdir -p /binaries
+  wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb -o /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
+fi
+
+if [ ! -f /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb ]; then
+  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb -o /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
+fi
+
+if [ ! -f /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb ]; then
+  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb -o /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
+fi
+
+if [ ! -f /binaries/unetbootin-linux64-702.bin ]; then
+  wget https://jaist.dl.sourceforge.net/project/unetbootin/UNetbootin/702/unetbootin-linux64-702.bin -o /binaries/unetbootin-linux64-702.bin
+fi
+
+if [ ! -d /binaries/cicflowmeter ]; then
+  git clone https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
+fi
+
+if [ ! -d /binaries/selks ]; then
+  git clone -b gpu --single-branch https://github.com/lifesboy/SELKS.git /binaries/selks
+fi
+
+
 mkdir -p Stamus-Live-Build
+# Hook directory for the initramfs script to be copied to
+#mkdir -p config/hooks/
+mkdir -p Stamus-Live-Build/config/hooks/live/
 
 if [[ -n "$KERNEL_VER" ]]; 
 then 
@@ -167,9 +196,6 @@ then
   mkdir -p config/packages.chroot/
   # Directory that needs to be present for the Kernel Version choice to work
   mkdir -p cache/contents.chroot/
-  # Hook directory for the initramfs script to be copied to
-  #mkdir -p config/hooks/
-  mkdir -p config/hooks/live/
   
   # Copy the kernel image and headers
   #mv kernel-misc/*.deb config/packages.chroot/
@@ -248,6 +274,9 @@ mkdir -p config/includes.chroot/usr/share/polkit-1/rules.d/
 
 cd ../
 
+#install rst2html on debian 10
+apt install docutils-common -y
+
 # cp README and LICENSE files to the user's desktop
 cp LICENSE Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
 cp LICENSE Stamus-Live-Build/config/includes.chroot/etc/skel/
@@ -271,7 +300,19 @@ cp staging/usr/share/applications/Scirius.desktop Stamus-Live-Build/config/inclu
 
 # Logstash and Elasticsearch 7 template
 cp staging/etc/logstash/conf.d/logstash.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/ 
+cp staging/etc/logstash/conf.d/cic.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
+cp staging/etc/logstash/conf.d/ray-result.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
+cp staging/etc/logstash/conf.d/ray-session.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
+cp staging/etc/logstash/elasticsearch6-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-cic-2017-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-cic-2018-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-experiment-state-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-result-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-params-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/elasticsearch6-ray-ppo-progress-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+cp staging/etc/logstash/pipelines.yml Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch7-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
+
 
 # Moloch for SELKS set up
 #cp staging/etc/systemd/system/molochpcapread-selks.service Stamus-Live-Build/config/includes.chroot/etc/systemd/system/ 
@@ -332,6 +373,46 @@ cp staging/usr/share/polkit-1/actions/org.stamusnetworks.setupidsinterface.polic
 cp staging/usr/share/polkit-1/actions/org.stamusnetworks.update.policy Stamus-Live-Build/config/includes.chroot/usr/share/polkit-1/actions/
 cp staging/usr/share/polkit-1/rules.d/org.stamusnetworks.rules Stamus-Live-Build/config/includes.chroot/usr/share/polkit-1/rules.d/
 
+# copy opnsense source
+mkdir -p Stamus-Live-Build/chroot/usr/local
+mkdir -p Stamus-Live-Build/chroot/usr/local/etc
+mkdir -p Stamus-Live-Build/chroot/usr/share
+mkdir -p Stamus-Live-Build/chroot/usr/lib/php/20180731/build
+mkdir -p Stamus-Live-Build/conf
+
+cp -R staging/usr/local/opnsense Stamus-Live-Build/chroot/usr/local
+cp -R staging/usr/local/wizard Stamus-Live-Build/chroot/usr/local
+cp -R staging/usr/local/www Stamus-Live-Build/chroot/usr/local
+cp -R staging/usr/local/etc/inc Stamus-Live-Build/chroot/usr/local/etc/
+cp -R staging/usr/local/etc/ssl Stamus-Live-Build/chroot/usr/local/etc/
+cp -R staging/usr/local/etc/config.xml Stamus-Live-Build/chroot/usr/local/etc/
+cp -R staging/conf Stamus-Live-Build/chroot/
+
+cp -R staging/usr/share/google-api-php-client Stamus-Live-Build/chroot/usr/share
+cp -f staging/etc/php/7.3/cli/php.ini /etc/php/7.3/cli/php.ini
+#cp -R staging/etc/php/7.3/cli/conf.d /etc/php/7.3/cli/
+
+#cp -R staging/usr/lib/php /usr/lib/
+rm -f /usr/lib/php/20180731/phalcon.so
+cp -f staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/
+
+cp -R staging/etc/lighttpd Stamus-Live-Build/chroot/etc/
+
+chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroot/usr/local/etc
+
+# cp OPNSense desktop shortcuts
+cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
+
+# copy nvidia binaries
+mkdir -p Stamus-Live-Build/chroot/binaries/
+cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
+
+
 # Add core system packages to be installed
 echo "
 
@@ -344,7 +425,8 @@ libjansson-dev libjansson4 libnss3-dev libnspr4-dev libgeoip1 libgeoip-dev
 rsync mc python-daemon libnss3-tools curl net-tools
 python-crypto libgmp10 libyaml-0-2 python-simplejson python-pygments
 python-yaml ssh sudo tcpdump nginx openssl jq patch  
-python-pip debian-installer-launcher live-build apt-transport-https 
+python-pip debian-installer-launcher live-build apt-transport-https
+gnupg2
  " \
 >> Stamus-Live-Build/config/package-lists/StamusNetworks-CoreSystem.list.chroot
 
@@ -389,6 +471,7 @@ fi
 # Add specific tasks(script file) to be executed 
 # inside the chroot environment
 cp staging/config/hooks/live/chroot-inside-Debian-Live.hook.chroot Stamus-Live-Build/config/hooks/live/
+cp staging/config/hooks/live/moreutil.hook.chroot Stamus-Live-Build/config/hooks/live/
 
 # Edit menu names for Live and Install
 if [[ -n "$KERNEL_VER" ]]; 

@@ -1,0 +1,12 @@
+# This file is where you define your pipelines. You can define multiple.
+# For more information on multiple pipelines, see the documentation:
+#   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
+
+- pipeline.id: main
+  path.config: "/etc/logstash/conf.d/logstash.conf"
+- pipeline.id: cic
+  path.config: "/etc/logstash/conf.d/cic.conf"
+- pipeline.id: ray-result
+  path.config: "/etc/logstash/conf.d/ray-result.conf"
+- pipeline.id: ray-session
+  path.config: "/etc/logstash/conf.d/ray-session.conf"

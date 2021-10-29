@@ -1,0 +1,372 @@
+#!/usr/bin/php
+<?php
+
+/*
+ * Copyright (c) 2015-2018 Franco Fichtner <franco@opnsense.org>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+$etc_group = <<<EOF
+root:x:0:
+daemon:x:1:
+bin:x:2:
+sys:x:3:
+adm:x:4:
+tty:x:5:
+disk:x:6:
+lp:x:7:
+mail:x:8:
+news:x:9:
+uucp:x:10:
+man:x:12:
+proxy:x:13:
+kmem:x:15:
+dialout:x:20:
+fax:x:21:
+voice:x:22:
+cdrom:x:24:selks-user
+floppy:x:25:selks-user
+tape:x:26:
+sudo:x:27:selks-user
+audio:x:29:pulse,selks-user
+dip:x:30:selks-user
+www-data:x:33:
+backup:x:34:
+operator:x:37:root
+list:x:38:
+irc:x:39:
+src:x:40:
+gnats:x:41:
+shadow:x:42:
+utmp:x:43:
+video:x:44:selks-user
+sasl:x:45:
+plugdev:x:46:selks-user
+staff:x:50:
+games:x:60:
+users:x:100:
+nogroup:x:65534:
+systemd-journal:x:101:
+systemd-timesync:x:102:
+systemd-network:x:103:
+systemd-resolve:x:104:
+input:x:105:
+kvm:x:106:
+render:x:107:
+crontab:x:108:
+netdev:x:109:selks-user
+ntp:x:110:
+messagebus:x:111:
+uuidd:x:112:
+rtkit:x:113:
+ssh:x:114:
+scanner:x:115:saned,selks-user
+pulse:x:116:
+pulse-access:x:117:
+lpadmin:x:118:
+avahi:x:119:
+saned:x:120:
+lightdm:x:121:
+elasticsearch:x:122:
+logstash:x:999:www-data
+kibana:x:123:
+evebox:x:124:
+unbound:x:125:
+docker:x:998:
+audit:x:77:
+admins:x:1999:root,selks-user
+selks-user:x:1000:
+systemd-coredump:x:997:
+ssl-cert:x:126:
+ftp:x:127:
+smmta:x:128:
+smmsp:x:129:
+EOF;
+
+$selinux_cfg = <<<EOF
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - No SELinux policy is loaded.
+# SELINUX=permissive
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+# default - equivalent to the old strict and targeted policies
+# mls     - Multi-Level Security (for military and educational use)
+# src     - Custom policy built from source
+SELINUXTYPE=default
+
+# SETLOCALDEFS= Check local definition changes
+SETLOCALDEFS=0
+EOF;
+
+$etc_master_passwd = <<<EOF
+root:$6$7c.ap0vVPnxxCrKd$hGcqptkOv7kflSBSsBUVKrn9eA6AEJv/X2xRP7uhDL6R5Ny4kpaSA5En0alb.4YPaUJt3SPaYB8yT9at3VBUF/:18847:0:99999:7:::
+daemon:*:18846:0:99999:7:::
+bin:*:18846:0:99999:7:::
+sys:*:18846:0:99999:7:::
+sync:*:18846:0:99999:7:::
+games:*:18846:0:99999:7:::
+man:*:18846:0:99999:7:::
+lp:*:18846:0:99999:7:::
+mail:*:18846:0:99999:7:::
+news:*:18846:0:99999:7:::
+uucp:*:18846:0:99999:7:::
+proxy:*:18846:0:99999:7:::
+www-data:*:18846:0:99999:7:::
+backup:*:18846:0:99999:7:::
+list:*:18846:0:99999:7:::
+irc:*:18846:0:99999:7:::
+gnats:*:18846:0:99999:7:::
+nobody:*:18846:0:99999:7:::
+_apt:*:18846:0:99999:7:::
+systemd-timesync:*:18846:0:99999:7:::
+systemd-network:*:18846:0:99999:7:::
+systemd-resolve:*:18846:0:99999:7:::
+ntp:*:18846:0:99999:7:::
+messagebus:*:18846:0:99999:7:::
+uuidd:*:18846:0:99999:7:::
+dnsmasq:*:18846:0:99999:7:::
+usbmux:*:18846:0:99999:7:::
+rtkit:*:18846:0:99999:7:::
+sshd:*:18846:0:99999:7:::
+pulse:*:18846:0:99999:7:::
+speech-dispatcher:!:18846:0:99999:7:::
+avahi:*:18846:0:99999:7:::
+saned:*:18846:0:99999:7:::
+lightdm:*:18846:0:99999:7:::
+elasticsearch:*:18846:0:99999:7:::
+logstash:!:18846::::::
+kibana:*:18846:0:99999:7:::
+evebox:!:18846:0:99999:7:::
+radvd:*:18846:0:99999:7:::
+unbound:*:18846:0:99999:7:::
+selks-user:$6$esFe2zbn4pYE6eTl$dOcb3v00ST.hHPOMIX.yVMkf6zzJA/aY1LFhnF8UwQOQ9qDFqnOQkJfUfajzZiK8ZJ03SRJOEJD3PYsMChj83.:18847:0:99999:7:::
+systemd-coredump:!!:18847::::::
+ftp:*:18848:0:99999:7:::
+smmta:*:18848:0:99999:7:::
+smmsp:*:18848:0:99999:7:::
+EOF;
+
+$etc_shells = <<<EOF
+# \$FreeBSD$
+#
+# List of acceptable shells for chpass(1).
+# Ftpd will not allow users to connect who are not using
+# one of these shells.
+
+
+EOF;
+
+$known_shells = array(
+    '/bin/csh',
+    '/bin/sh',
+    '/bin/tcsh',
+    '/usr/local/bin/bash',
+    '/usr/local/bin/scponly',
+    '/usr/local/bin/zsh',
+    '/usr/local/sbin/opnsense-installer',
+    '/usr/local/sbin/opnsense-shell',
+);
+
+foreach ($known_shells as $shell) {
+    if (file_exists($shell)) {
+        $etc_shells .= "{$shell}\n";
+    }
+}
+
+$etc_ttys = <<<EOF
+#
+# \$FreeBSD$
+#	@(#)ttys	5.1 (Berkeley) 4/17/89
+#
+# This file specifies various information about terminals on the system.
+# It is used by several different programs.  Common entries for the
+# various columns include:
+#
+# name  The name of the terminal device.
+#
+# getty The program to start running on the terminal.  Typically a
+#       getty program, as the name implies.  Other common entries
+#       include none, when no getty is needed, and xdm, to start the
+#       X Window System.
+#
+# type The initial terminal type for this port.  For hardwired
+#      terminal lines, this will contain the type of terminal used.
+#      For virtual consoles, the correct type is typically xterm.
+#      Other common values include dialup for incoming modem ports, and
+#      unknown when the terminal type cannot be predetermined.
+#
+# status Must be on or off.  If on, init will run the getty program on
+#        the specified port.  If the word "secure" appears, this tty
+#        allows root login.
+#
+# name	getty				type	status		comments
+#
+# If console is marked "insecure", then init will ask for the root password
+# when going to single-user mode.
+console	none				unknown	off secure
+#
+ttyv0	"/usr/libexec/getty Pc"		xterm	onifexists secure
+# Virtual terminals
+ttyv1	"/usr/libexec/getty Pc"		xterm	onifexists secure
+ttyv2	"/usr/libexec/getty Pc"		xterm	onifexists secure
+ttyv3	"/usr/libexec/getty Pc"		xterm	onifexists secure
+ttyv4	"/usr/libexec/getty Pc"		xterm	onifexists secure
+ttyv5	"/usr/libexec/getty Pc"		xterm	onifexists secure
+ttyv6	"/usr/libexec/getty Pc"		xterm	onifexists secure
+ttyv7	"/usr/libexec/getty Pc"		xterm	onifexists secure
+ttyv8	"/usr/local/bin/xdm -nodaemon"	xterm	off secure
+# Serial terminals
+# The 'dialup' keyword identifies dialin lines to login, fingerd etc.
+ttyu0	"/usr/libexec/getty 3wire"	vt100	onifconsole secure
+ttyu1	"/usr/libexec/getty 3wire"	vt100	onifconsole secure
+ttyu2	"/usr/libexec/getty 3wire"	vt100	onifconsole secure
+ttyu3	"/usr/libexec/getty 3wire"	vt100	onifconsole secure
+# Dumb console
+dcons	"/usr/libexec/getty std.9600"	vt100	off secure
+
+EOF;
+
+$php_ini = <<<EOF
+; File generated via recovery
+output_buffering = "0"
+expose_php = Off
+implicit_flush = true
+magic_quotes_gpc = Off
+max_execution_time = 900
+max_input_time = 1800
+max_input_vars = 5000
+memory_limit = 512M
+register_argc_argv = On
+register_long_arrays = Off
+variables_order = "GPCS"
+file_uploads = On
+upload_tmp_dir = /tmp
+upload_max_filesize = 200M
+post_max_size = 200M
+html_errors = Off
+zlib.output_compression = Off
+zlib.output_compression_level = 1
+include_path = "/usr/local/etc/inc:/usr/local/www:/usr/local/opnsense/mvc:/usr/local/opnsense/contrib:/usr/local/share/pear:/usr/local/share"
+ignore_repeated_errors = on
+error_reporting = E_ALL ^ (E_NOTICE | E_DEPRECATED | E_STRICT)
+display_errors=on
+log_errors=on
+error_log=/tmp/PHP_errors.log
+date.timezone="Etc/UTC"
+session.save_path=/var/lib/php/sessions
+pcre.jit=0
+
+EOF;
+
+function recover_ports()
+{
+	$actions = array(
+		'pre-install',
+		'post-install'
+	);
+
+	exec('/usr/local/sbin/pkg-static query -e \'%#U > 0 || %#G > 0\' %n', $pkgs);
+
+	if ($pkgs[0] == '') {
+		return;
+	}
+
+	$tempname = tempnam('/tmp', 'recover.');
+	$tempfile = fopen($tempname, 'w');
+
+	foreach ($pkgs as $pkg) {
+		$raw = exec('/usr/local/sbin/pkg-static info --raw --raw-format json-compact ' . $pkg);
+		$info = json_decode($raw, true);
+		foreach($actions as $action) {
+			if (!isset($info['scripts'][$action])) {
+				continue;
+			}
+
+			ftruncate($tempfile, 0);
+			rewind($tempfile);
+			fwrite($tempfile, $info['scripts'][$action] . PHP_EOL);
+			passthru('/bin/sh ' . $tempname);
+		}
+	}
+
+	fclose($tempfile);
+	unlink($tempname);
+}
+
+function recover_rebuild()
+{
+//	passthru('/usr/sbin/pwd_mkdb -p /etc/master.passwd');
+//	passthru('/usr/sbin/pwd_mkdb /etc/master.passwd');
+	passthru('/usr/sbin/pwunconv');
+	passthru('/bin/sync');
+}
+
+function recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini, $selinux_cfg)
+{
+	echo "===> Restoring /etc/group\n";
+	file_put_contents('/etc/selinux/config', $selinux_cfg);
+	file_put_contents('/etc/group', $etc_group);
+
+	echo "===> Restoring /etc/master.passwd\n";
+	file_put_contents('/etc/master.passwd', $etc_master_passwd);
+//	echo "===> Restoring /etc/shadow\n";
+//	file_put_contents('/etc/shadow', $etc_master_passwd);
+
+	echo "===> Restoring /etc/shells\n";
+	file_put_contents('/etc/shells', $etc_shells);
+
+	echo "===> Restoring /etc/ttys\n";
+	file_put_contents('/etc/ttys', $etc_ttys);
+
+	echo "===> Restoring php.ini files\n";
+	file_put_contents('/usr/local/etc/php.ini', $php_ini);
+	file_put_contents('/usr/local/lib/php.ini', $php_ini);
+
+	recover_rebuild();
+}
+
+function recover_pkg()
+{
+	recover_ports();
+	recover_rebuild();
+}
+
+$stage = isset($argv[1]) ? $argv[1] : 'both';
+
+switch ($stage) {
+	case 'base':
+		recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini, $selinux_cfg);
+		break;
+	case 'pkg':
+		recover_pkg();
+		break;
+	default:
+		recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $php_ini, $selinux_cfg);
+		recover_pkg();
+		break;
+}

@@ -1,0 +1,4 @@
+dummynet_enable="YES"
+firewall_enable="NO"
+firewall_script="/usr/local/etc/rc.ipfw"
+ipfw_defer="YES"

@@ -39,9 +39,10 @@ cat >> /etc/apt/sources.list.d/selks6.list <<EOF
 # Manual changes here can be overwritten during 
 # SELKS updates and upgrades !!
 
-deb http://packages.stamus-networks.com/selks6/debian/ buster main
-deb http://packages.stamus-networks.com/selks6/debian-kernel/ buster main
-deb http://packages.stamus-networks.com/selks6/debian-test/ buster main
+deb http://packages.stamus-networks.com/selks5/debian/ buster main
+deb http://packages.stamus-networks.com/selks5/debian-kernel/ buster main
+deb http://packages.stamus-networks.com/selks5/debian-test/ buster main
+
 EOF
 
 ###  END Set up repos ###
@@ -58,8 +59,8 @@ openjdk-11-jdk openjdk-11-jre openjdk-11-jre-headless
 
 ### START ELK ###
 
-apt-get update && \
-apt-get install -y elasticsearch logstash kibana elasticsearch-curator
+apt-get update
+yes | apt-get install -y elasticsearch logstash kibana elasticsearch-curator
 
 mkdir -p /var/cache/logstash/sincedbs/
 chown logstash:logstash /var/cache/logstash/sincedbs/
@@ -75,10 +76,22 @@ chown logstash:logstash /var/cache/logstash/sincedbs/
 ### START Suricata ###
 
 apt-get update && \
+
+apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-dev   \
+                libnet1-dev libyaml-0-2 libyaml-dev pkg-config zlib1g zlib1g-dev \
+                libcap-ng-dev libcap-ng0 make libmagic-dev         \
+                libnss3-dev libgeoip-dev liblua5.1-dev libhiredis-dev libevent-dev \
+                python-yaml rustc cargo
 apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
+apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
+apt-get install -y flow-tools
+
 #make sure Suricata can write in /data/nsm
 mkdir -p /data/nsm/
 chown logstash -R /data/nsm/
+
+apt-get install -y nftables
+systemctl enable nftables.service
 
 ### END Suricata ###
 
@@ -96,6 +109,492 @@ apt-get install -y evebox
 /bin/systemctl enable evebox
 
 ### END Evebox ###
+
+### START Install php ###
+apt-get install apt php-dev php-fpm php php-cgi lighttpd -y
+
+apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev php-phpseclib \
+php-sqlite3 php-json php-xml php-sockets php-radius php-ldap php-gettext php-dom php-curl php-ctype
+
+git clone https://github.com/jbboehr/php-psr.git
+cd php-psr
+phpize
+./configure
+make
+make install
+cd -
+
+pecl channel-update pecl.php.net
+#pecl install phalcon
+
+apt-get install python3-pip -y
+#wget https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
+#tar xzf Python-3.8.2.tgz
+#cd Python-3.8.2
+#./configure --enable-optimizations
+#make altinstall
+#python3.8 --version
+#update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.8 1
+
+python3 -m pip install --upgrade pip
+pip3 install jinja2 netaddr ujson
+apt-get install syslog-ng clog unbound resolvconf isc-dhcp-server radvd rrdtool vsftpd sendmail csh mtree-netbsd -y
+
+cat > /etc/resolv.conf <<EOF
+domain localdomain
+nameserver 127.0.0.1
+nameserver 123.23.23.23
+nameserver 123.26.26.26
+
+EOF
+
+### END Install php ###
+
+### START Install zfs ###
+apt-get update
+apt-get install git build-essential fakeroot libncurses5-dev libssl-dev ccache -y
+apt-get install build-essential autoconf libtool gawk alien fakeroot linux-headers-$(uname -r) -y
+apt-get install zlib1g-dev uuid-dev libattr1-dev libblkid-dev libselinux-dev libudev-dev libdevmapper-dev -y
+apt-get install parted lsscsi ksh -y
+apt-get install spl -y
+apt-get install zfs-dkms -y
+apt-get install zfsutils-linux -y
+/sbin/modprobe zfs
+apt-get -f install
+apt-get install zfs-zed -y
+### END Install zfs ###
+
+### START Install vpn ###
+apt-get install openvpn -y
+### END Install vpn ###
+
+### START Install Caching proxy ###
+apt-get install squid -y
+### END Install Caching proxy ###
+
+### START lighttpd opnsense ###
+cat > /etc/lighttpd/lighttpd.conf <<EOF
+
+var.log_root    = "/var/log/lighttpd"
+var.server_root = "/usr/local/www"
+var.state_dir   = "/var/run"
+var.home_dir    = "/var/run/lighttpd"
+var.conf_dir    = "/usr/local/etc/lighttpd"
+var.vhosts_dir  = server_root + "/vhosts"
+var.cache_dir   = "/var/cache/lighttpd"
+var.socket_dir  = home_dir + "/sockets"
+
+include "modules.conf"
+
+server.port = 81
+#server.use-ipv6 = "enable"
+server.username  = "www-data"
+server.groupname = "www-data"
+server.document-root = "/usr/local/www"
+server.pid-file = state_dir + "/lighttpd.pid"
+server.errorlog = log_root + "/error.log"
+
+include "conf.d/access_log.conf"
+include "conf.d/debug.conf"
+#server.event-handler = "freebsd-kqueue"
+server.network-backend = "writev"
+server.max-fds = 2048
+server.stat-cache-engine = "simple"
+server.max-connections = 1024
+index-file.names += (
+  "index.xhtml", "index.html", "index.htm", "default.htm", "index.php"
+)
+
+url.access-deny             = ( "~", ".inc" )
+
+\$HTTP["url"] =~ "\.pdf$" {
+  server.range-requests = "disable"
+}
+
+static-file.exclude-extensions = ( ".php", ".pl", ".fcgi", ".scgi" )
+include "conf.d/mime.conf"
+include "conf.d/dirlisting.conf"
+server.follow-symlink = "enable"
+server.upload-dirs = ( "/var/tmp" )
+
+include "/etc/lighttpd/conf-enabled/*.conf"
+#======
+#include_shell "/usr/share/lighttpd/use-ipv6.pl " + server.port
+#include_shell "/usr/share/lighttpd/create-mime.assign.pl"
+#include_shell "/usr/share/lighttpd/include-conf-enabled.pl"
+
+EOF
+
+cat > /etc/php/7.3/cli/php.conf <<EOF
+
+PHP_VER=73
+PHP_VERSION=7.3.20
+PHP_SAPI=cli cgi fpm embed
+PHP_EXT_INC=pcre spl
+PHP_EXT_DIR=20180731
+
+EOF
+
+cat > /etc/php/7.3/cgi/php.conf <<EOF
+
+PHP_VER=73
+PHP_VERSION=7.3.20
+PHP_SAPI=cli cgi fpm embed
+PHP_EXT_INC=pcre spl
+PHP_EXT_DIR=20180731
+
+EOF
+
+cat > /etc/php/7.3/fpm/php.conf <<EOF
+
+PHP_VER=73
+PHP_VERSION=7.3.20
+PHP_SAPI=cli cgi fpm embed
+PHP_EXT_INC=pcre spl
+PHP_EXT_DIR=20180731
+
+EOF
+
+cat >> /etc/php/7.3/cli/php.ini <<EOF
+
+; File generated via configd
+output_buffering = "0"
+expose_php = Off
+implicit_flush = true
+magic_quotes_gpc = Off
+max_execution_time = 900
+max_input_time = 1800
+max_input_vars = 5000
+memory_limit = 512M
+register_argc_argv = On
+register_long_arrays = Off
+variables_order = "GPCS"
+file_uploads = On
+upload_tmp_dir = /tmp
+upload_max_filesize = 200M
+post_max_size = 200M
+html_errors = Off
+zlib.output_compression = Off
+zlib.output_compression_level = 1
+include_path = ".:/usr/share/php:/usr/local/etc/inc:/usr/local/www:/usr/local/opnsense/mvc:/usr/local/opnsense/contrib:/usr/local/share/pear:/usr/local/share"
+ignore_repeated_errors = on
+error_reporting = E_ALL ^ (E_NOTICE | E_DEPRECATED | E_STRICT)
+display_errors=on
+log_errors=on
+error_log=/tmp/PHP_errors.log
+date.timezone="Etc/UTC"
+session.save_path=/var/lib/php/sessions
+pcre.jit=0
+
+EOF
+
+cat >> /etc/php/7.3/cgi/php.ini <<EOF
+
+; File generated via configd
+output_buffering = "0"
+expose_php = Off
+implicit_flush = true
+magic_quotes_gpc = Off
+max_execution_time = 900
+max_input_time = 1800
+max_input_vars = 5000
+memory_limit = 512M
+register_argc_argv = On
+register_long_arrays = Off
+variables_order = "GPCS"
+file_uploads = On
+upload_tmp_dir = /tmp
+upload_max_filesize = 200M
+post_max_size = 200M
+html_errors = Off
+zlib.output_compression = Off
+zlib.output_compression_level = 1
+include_path = ".:/usr/share/php:/usr/local/etc/inc:/usr/local/www:/usr/local/opnsense/mvc:/usr/local/opnsense/contrib:/usr/local/share/pear:/usr/local/share"
+ignore_repeated_errors = on
+error_reporting = E_ALL ^ (E_NOTICE | E_DEPRECATED | E_STRICT)
+display_errors=on
+log_errors=on
+error_log=/tmp/PHP_errors.log
+date.timezone="Etc/UTC"
+session.save_path=/var/lib/php/sessions
+pcre.jit=0
+
+EOF
+
+cat >> /etc/php/7.3/fpm/php.ini <<EOF
+
+; File generated via configd
+output_buffering = "0"
+expose_php = Off
+implicit_flush = true
+magic_quotes_gpc = Off
+max_execution_time = 900
+max_input_time = 1800
+max_input_vars = 5000
+memory_limit = 512M
+register_argc_argv = On
+register_long_arrays = Off
+variables_order = "GPCS"
+file_uploads = On
+upload_tmp_dir = /tmp
+upload_max_filesize = 200M
+post_max_size = 200M
+html_errors = Off
+zlib.output_compression = Off
+zlib.output_compression_level = 1
+include_path = ".:/usr/share/php:/usr/local/etc/inc:/usr/local/www:/usr/local/opnsense/mvc:/usr/local/opnsense/contrib:/usr/local/share/pear:/usr/local/share"
+ignore_repeated_errors = on
+error_reporting = E_ALL ^ (E_NOTICE | E_DEPRECATED | E_STRICT)
+display_errors=on
+log_errors=on
+error_log=/tmp/PHP_errors.log
+date.timezone="Etc/UTC"
+session.save_path=/var/lib/php/sessions
+pcre.jit=0
+
+EOF
+
+cat > /etc/php/7.3/mods-available/psr.ini <<EOF
+extension=psr.so
+EOF
+
+cat > /etc/php/7.3/mods-available/phalcon.ini <<EOF
+extension=phalcon.so
+EOF
+
+ln -s /etc/php/7.3/mods-available/psr.ini /etc/php/7.3/cli/conf.d/20-psr.ini
+ln -s /etc/php/7.3/mods-available/psr.ini /etc/php/7.3/cgi/conf.d/20-psr.ini
+ln -s /etc/php/7.3/mods-available/phalcon.ini /etc/php/7.3/cli/conf.d/30-phalcon.ini
+ln -s /etc/php/7.3/mods-available/phalcon.ini /etc/php/7.3/cgi/conf.d/30-phalcon.ini
+
+#lighttpd-enable-mod fastcgi fastcgi-php
+#service lighttpd force-reload
+
+### END lighttpd opnsense ###
+
+### START dhcp ###
+
+cat > /etc/dhcp/dhcpd.conf <<EOF
+# dhcpd.conf
+#
+# Sample configuration file for ISC dhcpd
+#
+
+# option definitions common to all supported networks...
+option domain-name "example.org";
+option domain-name-servers ns1.example.org, ns2.example.org;
+
+default-lease-time 600;
+max-lease-time 7200;
+
+# Use this to enble / disable dynamic dns updates globally.
+#ddns-update-style none;
+
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+#authoritative;
+
+# Use this to send dhcp log messages to a different log file (you also
+# have to hack syslog.conf to complete the redirection).
+log-facility local7;
+
+# No service will be given on this subnet, but declaring it helps the
+# DHCP server to understand the network topology.
+
+subnet 10.152.187.0 netmask 255.255.255.0 {
+}
+
+# This is a very basic subnet declaration.
+
+subnet 10.254.239.0 netmask 255.255.255.224 {
+  range 10.254.239.10 10.254.239.20;
+  option routers rtr-239-0-1.example.org, rtr-239-0-2.example.org;
+}
+
+# This declaration allows BOOTP clients to get dynamic addresses,
+# which we don't really recommend.
+
+subnet 10.254.239.32 netmask 255.255.255.224 {
+  range dynamic-bootp 10.254.239.40 10.254.239.60;
+  option broadcast-address 10.254.239.31;
+  option routers rtr-239-32-1.example.org;
+}
+
+# A slightly different configuration for an internal subnet.
+subnet 10.5.5.0 netmask 255.255.255.224 {
+  range 10.5.5.26 10.5.5.30;
+  option domain-name-servers ns1.internal.example.org;
+  option domain-name "internal.example.org";
+  option routers 10.5.5.1;
+  option broadcast-address 10.5.5.31;
+  default-lease-time 600;
+  max-lease-time 7200;
+}
+
+# Hosts which require special configuration options can be listed in
+# host statements.   If no address is specified, the address will be
+# allocated dynamically (if possible), but the host-specific information
+# will still come from the host declaration.
+
+host passacaglia {
+  hardware ethernet 0:0:c0:5d:bd:95;
+  filename "vmunix.passacaglia";
+  server-name "toccata.example.com";
+}
+
+# Fixed IP addresses can also be specified for hosts.   These addresses
+# should not also be listed as being available for dynamic assignment.
+# Hosts for which fixed IP addresses have been specified can boot using
+# BOOTP or DHCP.   Hosts for which no fixed address is specified can only
+# be booted with DHCP, unless there is an address range on the subnet
+# to which a BOOTP client is connected which has the dynamic-bootp flag
+# set.
+host fantasia {
+  hardware ethernet 08:00:07:26:c0:a5;
+  fixed-address fantasia.example.com;
+}
+
+# You can declare a class of clients and then do address allocation
+# based on that.   The example below shows a case where all clients
+# in a certain class get addresses on the 10.17.224/24 subnet, and all
+# other clients get addresses on the 10.0.29/24 subnet.
+
+class "foo" {
+  match if substring (option vendor-class-identifier, 0, 4) = "SUNW";
+}
+
+shared-network 224-29 {
+  subnet 10.17.224.0 netmask 255.255.255.0 {
+    option routers rtr-224.example.org;
+  }
+  subnet 10.0.29.0 netmask 255.255.255.0 {
+    option routers rtr-29.example.org;
+  }
+  pool {
+    allow members of "foo";
+    range 10.17.224.10 10.17.224.250;
+  }
+  pool {
+    deny members of "foo";
+    range 10.0.29.10 10.0.29.230;
+  }
+}
+EOF
+
+cat > /etc/dhcp/dhcpd6.conf <<EOF
+# Server configuration file example for DHCPv6
+# From the file used for TAHI tests - addresses chosen
+# to match TAHI rather than example block.
+
+# IPv6 address valid lifetime
+#  (at the end the address is no longer usable by the client)
+#  (set to 30 days, the usual IPv6 default)
+default-lease-time 2592000;
+
+# IPv6 address preferred lifetime
+#  (at the end the address is deprecated, i.e., the client should use
+#   other addresses for new connections)
+#  (set to 7 days, the	usual IPv6 default)
+preferred-lifetime 604800;
+
+# T1, the delay before Renew
+#  (default is 1/2 preferred lifetime)
+#  (set to 1 hour)
+option dhcp-renewal-time 3600;
+
+# T2, the delay before Rebind (if Renews failed)
+#  (default is 3/4 preferred lifetime)
+#  (set to 2 hours)
+option dhcp-rebinding-time 7200;
+
+# Enable RFC 5007 support (same than for DHCPv4)
+allow leasequery;
+
+# Global definitions for name server address(es) and domain search list
+option dhcp6.name-servers 3ffe:501:ffff:100:200:ff:fe00:3f3e;
+option dhcp6.domain-search "test.example.com","example.com";
+
+# Set preference to 255 (maximum) in order to avoid waiting for
+# additional servers when there is only one
+##option dhcp6.preference 255;
+
+# Server side command to enable rapid-commit (2 packet exchange)
+##option dhcp6.rapid-commit;
+
+# The delay before information-request refresh
+#  (minimum is 10 minutes, maximum one day, default is to not refresh)
+#  (set to 6 hours)
+option dhcp6.info-refresh-time 21600;
+
+# The path of the lease file
+dhcpv6-lease-file-name "/var/db/dhcpd6.leases";
+
+# Static definition (must be global)
+host myclient {
+	# The entry is looked up by this
+	host-identifier option
+		dhcp6.client-id 00:01:00:01:00:04:93:e0:00:00:00:00:a2:a2;
+
+	# A fixed address
+	fixed-address6 3ffe:501:ffff:100::1234;
+
+	# A fixed prefix
+	fixed-prefix6 3ffe:501:ffff:101::/64;
+
+	# Override of the global definitions,
+	# works only when a resource (address or prefix) is assigned
+	option dhcp6.name-servers 3ffe:501:ffff:100:200:ff:fe00:4f4e;
+
+	# For debug (to see when the entry statements are executed)
+	#  (log "sol" when a matching Solicitation is received)
+	##if packet(0,1) = 1 { log(debug,"sol"); }
+}
+
+host otherclient {
+        # This host entry is hopefully matched if the client supplies a DUID-LL
+        # or DUID-LLT containing this MAC address.
+        hardware ethernet 01:00:80:a2:55:67;
+
+        fixed-address6 3ffe:501:ffff:100::4321;
+}
+
+# The subnet where the server is attached
+#  (i.e., the server has an address in this subnet)
+subnet6 3ffe:501:ffff:100::/64 {
+	# Two addresses available to clients
+	#  (the third client should get NoAddrsAvail)
+	range6 3ffe:501:ffff:100::10 3ffe:501:ffff:100::11;
+
+	# Use the whole /64 prefix for temporary addresses
+	#  (i.e., direct application of RFC 4941)
+	range6 3ffe:501:ffff:100:: temporary;
+
+	# Some /64 prefixes available for Prefix Delegation (RFC 3633)
+	prefix6 3ffe:501:ffff:100:: 3ffe:501:ffff:111:: /64;
+}
+
+# A second subnet behind a relay agent
+subnet6 3ffe:501:ffff:101::/64 {
+	range6 3ffe:501:ffff:101::10 3ffe:501:ffff:101::11;
+
+	# Override of the global definitions,
+	# works only when a resource (address or prefix) is assigned
+	option dhcp6.name-servers 3ffe:501:ffff:101:200:ff:fe00:3f3e;
+
+}
+
+# A third subnet behind a relay agent chain
+subnet6 3ffe:501:ffff:102::/64 {
+	range6 3ffe:501:ffff:102::10 3ffe:501:ffff:102::11;
+}
+EOF
+
+cat > /etc/default/isc-dhcp-server <<EOF
+INTERFACESv4="enp2s0"
+INTERFACESv6="enp2s0"
+EOF
+
+### END dhcp ###
 
 ### START Scirius, nginx, revrse proxy, supervisor and ssl ###
 
@@ -124,7 +623,8 @@ openssl req -new -nodes -x509 -subj "/C=FR/ST=IDF/L=Paris/O=Stamus/CN=SELKS" -da
 
 rm -rf /etc/nginx/sites-enabled/default
 
-cat >> /etc/nginx/sites-available/selks6.conf <<EOF
+cat >> /etc/nginx/sites-available/selks5.conf <<EOF
+
 server {
     listen 127.0.0.1:80;
     listen 127.0.1.1:80;
@@ -218,7 +718,6 @@ server {
         proxy_set_header X-Forwarded-Proto https;
         proxy_redirect off;
     }
-
 }
 EOF
 
@@ -262,8 +761,11 @@ chmod g+w /var/run/suricata/ -R
 mkdir -p /opt/molochtmp
 cd /opt/molochtmp/ && \
 apt-get update && apt-get install -y libjson-perl libyaml-dev libcrypto++6 libwww-perl
-wget https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/moloch_2.7.1-1_amd64.deb
-dpkg -i moloch_2.7.1-1_amd64.deb
+
+#wget https://files.molo.ch/builds/ubuntu-18.04/moloch_1.8.0-1_amd64.deb
+#dpkg -i moloch_1.8.0-1_amd64.deb
+wget https://files.molo.ch/builds/ubuntu-18.04/moloch_2.1.2-1_amd64.deb
+dpkg -i moloch_2.1.2-1_amd64.deb
 
 
 cd /opt/
@@ -273,6 +775,72 @@ rm /opt/molochtmp -r
 #apt-mark hold moloch
 
 ### END Moloch set up
+
+### START Install RLlib/AI/ML scripts ###
+apt-get install -y software-properties-common
+lspci | grep -i nvidia
+uname -m && cat /etc/*release
+gcc --version
+uname -r
+
+dpkg -i /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
+apt-key add /var/cuda-repo-debian10-11-4-local/7fa2af80.pub
+#apt-key add /var/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1/7fa2af80.pub
+add-apt-repository contrib
+apt-get update
+apt-get --allow-releaseinfo-change update
+apt-get -y install cuda
+
+
+echo "export PATH=/usr/local/cuda-11.4/bin\${PATH:+:\${PATH}}" >> /root/.bashrc
+echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.4/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /root/.bashrc
+export PATH=/usr/local/cuda-11.4/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-11.4/lib64\
+                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+#systemctl status nvidia-persistenced
+#systemctl enable nvidia-persistenced
+/usr/bin/nvidia-persistenced --verbose
+#cuda-install-samples-11.4.sh /drl
+cat /proc/driver/nvidia/version
+#cd /drl
+#make
+
+dpkg -i /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
+dpkg -i /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
+
+apt-get install -y g++ python3-dev
+python3 -m pip install six==1.15.0
+python3 -m pip install protobuf==3.17.3
+python3 -m pip install -U ray==1.6.0
+python3 -m pip install ray[tune]
+python3 -m pip install ray[rllib]
+python3 -m pip install ray[default]
+python3 -m pip install ray[serve]
+python3 -m pip install pyarrow
+python3 -m pip install fsspec
+python3 -m pip install tensorflow==2.6.0
+python3 -m pip install aioredis==1.3.1
+python3 -m pip install pandas
+python3 -m pip install tqdm
+python3 -m pip install requests
+python3 -m pip install gym
+python3 -m pip install numba
+python3 -m pip install dm-tree
+python3 -m pip install scikit-image
+python3 -m pip install sklearn
+python3 -m pip install keras
+python3 -m pip install numpy==1.19.5
+python3 -m pip install typing-extensions==3.7.4.3
+python3 -m pip install scipy==1.6.0
+python3 -m pip install gputil
+python3 -m pip install starlette
+python3 -m pip install uvicorn
+python3 -m pip install pydantic
+#python3 -m pip install PyYAML==6.0 --ignore-installed PyYAML
+python3 -m pip install mlflow==1.20.2 --ignore-installed PyYAML
+python3 -m pip install mlflow-elasticsearchstore
+python3 -m pip install mlflow-ray-serve
+### END Install RLlib/AI/ML scripts ###
 
 ### START Install SELKS/StamusN scripts ###
 

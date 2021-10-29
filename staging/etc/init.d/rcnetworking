@@ -1,0 +1,25 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          rcnetworking
+# Required-Start:    $netif $netwait $netoptions $routing $ppp $ipfw $stf $defaultroute $route6d $resolv $bridge $static_arp $static_ndp
+# Required-Stop:
+# Should-Start:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: for services which require networking to be operational before starting.
+# Description:       for services which require networking to be operational before starting.
+### END INIT INFO
+
+
+#
+# $FreeBSD$
+#
+
+# PROVIDE: NETWORKING NETWORK
+# REQUIRE: netif netwait netoptions routing ppp ipfw stf
+# REQUIRE: defaultroute route6d resolv bridge
+# REQUIRE: static_arp static_ndp
+
+#	This is a dummy dependency, for services which require networking
+#	to be operational before starting.

@@ -1,0 +1,32 @@
+total 88
+lrwxrwxrwx   1 root     root         7 Sep  1 15:39 bin -> usr/bin
+drwxr-xr-x   3 root     root      4096 Sep  1 15:45 boot
+drwxr-xr-x   4 www-data www-data  4096 Sep 12 11:28 conf
+drwxr-xr-x   4 root     root      4096 Sep  1 15:39 data
+drwxr-xr-x  19 root     root      3200 Sep 12 12:42 dev
+drwxr-xr-x 148 root     root     12288 Sep 12 12:44 etc
+drwxr-xr-x   3 root     root      4096 Sep  1 15:44 home
+lrwxrwxrwx   1 root     root        31 Sep  1 15:39 initrd.img -> boot/initrd.img-4.19.0-17-amd64
+lrwxrwxrwx   1 root     root        31 Sep  1 15:39 initrd.img.old -> boot/initrd.img-4.19.0-17-amd64
+lrwxrwxrwx   1 root     root         7 Sep  1 15:39 lib -> usr/lib
+lrwxrwxrwx   1 root     root         9 Sep  1 15:39 lib32 -> usr/lib32
+lrwxrwxrwx   1 root     root         9 Sep  1 15:39 lib64 -> usr/lib64
+drwxr-xr-x   9 root     root      4096 Sep 11 04:17 libnetfilter_queue
+lrwxrwxrwx   1 root     root        10 Sep  1 15:39 libx32 -> usr/libx32
+drwx------   2 root     root     16384 Sep  1 15:39 lost+found
+drwxr-xr-x   4 root     root      4096 Sep  5 05:16 media
+drwxr-xr-x   2 root     root      4096 Sep  1 14:24 mnt
+drwxr-xr-x   5 root     root      4096 Sep  1 15:45 opt
+drwxr-xr-x  12 root     root      4096 Sep  1 15:39 php-psr
+dr-xr-xr-x 190 root     root         0 Sep 12 12:42 proc
+drwxr-xr-x   8 root     root      4096 Sep 12 12:42 root
+drwxr-xr-x  30 root     root       760 Sep 12 12:44 run
+lrwxrwxrwx   1 root     root         8 Sep  1 15:39 sbin -> usr/sbin
+drwxr-xr-x   6 root     root      4096 Sep 12 12:50 selks
+drwxr-xr-x   3 root     root      4096 Sep  1 15:39 srv
+dr-xr-xr-x  13 root     root         0 Sep 12 12:50 sys
+drwxrwxrwt  11 root     root      4096 Sep 12 12:44 tmp
+drwxr-xr-x  14 root     root      4096 Sep  1 15:42 usr
+drwxr-xr-x  20 root     root      4096 Sep 12 11:29 var
+lrwxrwxrwx   1 root     root        28 Sep  1 15:42 vmlinuz -> boot/vmlinuz-4.19.0-17-amd64
+lrwxrwxrwx   1 root     root        28 Sep  1 15:42 vmlinuz.old -> boot/vmlinuz-4.19.0-17-amd64

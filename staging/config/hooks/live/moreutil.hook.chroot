@@ -1,0 +1,252 @@
+#!/bin/bash
+
+# Copyright Stamus Networks, 2018
+# All rights reserved
+# Debian Live/Install ISO script - oss@stamus-networks.com
+#
+# Please run on Debian Stretch
+
+set -ex
+
+apt-get update && apt-get upgrade -y
+
+# Docker
+apt-get -y install apt-transport-https ca-certificates curl gnupg2 pass lsb-release
+
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+apt-get update
+apt-get -y install docker-ce docker-ce-cli containerd.io
+
+VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)
+DESTINATION=/usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
+sudo chmod 755 $DESTINATION
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+apt-get -y install git tmux
+
+
+cp /binaries/unetbootin-linux64-702.bin /opt/unetbootin
+chmod +x /opt/unetbootin
+chown root:root /opt/unetbootin
+ln -s /opt/unetbootin /usr/local/bin/unetbootin
+apt-get -y install mtools
+
+cp -R /binaries/cicflowmeter /
+cd /cicflowmeter
+python3 setup.py install
+cd -
+
+cp -R /binaries/selks /
+#cd /selks
+#git checkout gpu
+#sudo ./install-deps.sh
+#cd -
+
+#mv /etc/suricata/suricata.yaml /etc/suricata/suricata.yaml.bak
+#ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
+#mv /etc/init.d/suricata /etc/init.d/suricata.bak
+#ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
+
+mv /usr/bin/selks-db-logs-cleanup_stamus  /usr/bin/selks-db-logs-cleanup_stamus.bak
+mv /usr/bin/selks-disable-interface-offloading_stamus  /usr/bin/selks-disable-interface-offloading_stamus.bak
+mv /usr/bin/selks-disable-suri-capture_stamus  /usr/bin/selks-disable-suri-capture_stamus.bak
+mv /usr/bin/selks-enable-suri-capture_stamus  /usr/bin/selks-enable-suri-capture_stamus.bak
+mv /usr/bin/selks-first-time-setup_stamus  /usr/bin/selks-first-time-setup_stamus.bak
+mv /usr/bin/selks-health-check_stamus  /usr/bin/selks-health-check_stamus.bak
+mv /usr/bin/selks-idps-interface-tuneup_stamus  /usr/bin/selks-idps-interface-tuneup_stamus.bak
+mv /usr/bin/selks-kernel-tuneup_stamus  /usr/bin/selks-kernel-tuneup_stamus.bak
+mv /usr/bin/selks-molochdb-init-setup_stamus  /usr/bin/selks-molochdb-init-setup_stamus.bak
+mv /usr/bin/selks-reconfigure-listening-interface_stamus  /usr/bin/selks-reconfigure-listening-interface_stamus.bak
+mv /usr/bin/selks-secondstage-upgrade_stamus  /usr/bin/selks-secondstage-upgrade_stamus.bak
+mv /usr/bin/selks-setup-ids-interface  /usr/bin/selks-setup-ids-interface.bak
+mv /usr/bin/selks-tools  /usr/bin/selks-tools.bak
+mv /usr/bin/selks-upgrade_stamus  /usr/bin/selks-upgrade_stamus.bak
+ln -s /selks/staging/usr/bin/selks-db-logs-cleanup_stamus /usr/bin/selks-db-logs-cleanup_stamus
+ln -s /selks/staging/usr/bin/selks-disable-interface-offloading_stamus /usr/bin/selks-disable-interface-offloading_stamus
+ln -s /selks/staging/usr/bin/selks-disable-suri-capture_stamus /usr/bin/selks-disable-suri-capture_stamus
+ln -s /selks/staging/usr/bin/selks-enable-suri-capture_stamus /usr/bin/selks-enable-suri-capture_stamus
+ln -s /selks/staging/usr/bin/selks-first-time-setup_stamus /usr/bin/selks-first-time-setup_stamus
+ln -s /selks/staging/usr/bin/selks-health-check_stamus /usr/bin/selks-health-check_stamus
+ln -s /selks/staging/usr/bin/selks-idps-interface-tuneup_stamus /usr/bin/selks-idps-interface-tuneup_stamus
+ln -s /selks/staging/usr/bin/selks-kernel-tuneup_stamus /usr/bin/selks-kernel-tuneup_stamus
+ln -s /selks/staging/usr/bin/selks-molochdb-init-setup_stamus /usr/bin/selks-molochdb-init-setup_stamus
+ln -s /selks/staging/usr/bin/selks-reconfigure-listening-interface_stamus /usr/bin/selks-reconfigure-listening-interface_stamus
+ln -s /selks/staging/usr/bin/selks-secondstage-upgrade_stamus /usr/bin/selks-secondstage-upgrade_stamus
+ln -s /selks/staging/usr/bin/selks-setup-ids-interface /usr/bin/selks-setup-ids-interface
+ln -s /selks/staging/usr/bin/selks-tools /usr/bin/selks-tools
+ln -s /selks/staging/usr/bin/selks-upgrade_stamus /usr/bin/selks-upgrade_stamus
+
+chmod 755 /selks/staging/usr/bin/selks*
+
+#cat > /etc/network/interfaces.d/eno1 <<EOF
+## Stamus Networks SELKS eno1 interface set up auto generated!
+#auto eno1
+#iface eno1 inet dhcp
+#    up ip link set dev eno1 up
+#    down ip link set dev eno1 down
+#
+#EOF
+
+#nft 'add chain filter IPS { type filter hook forward priority 10;}'
+#nft 'add rule filter IPS queue num 3-4 fanout,bypass'
+#nft 'add chain ip filter IPS-Input { type filter hook input priority 11;}'
+#nft 'add chain ip filter IPS-Output { type filter hook output priority 11;}'
+#nft 'add rule ip filter IPS-Input queue num 3'
+#nft 'add rule ip filter IPS-Output queue num 4'
+
+mv /usr/local/etc /usr/local/etc.bak
+mv /usr/local/opnsense /usr/local/opnsense.bak
+mv /usr/local/wizard /usr/local/wizard.bak
+mv /usr/local/www /usr/local/www.bak
+ln -s /selks/staging/usr/local/etc /usr/local/etc
+ln -s /selks/staging/conf /conf
+chmod -R 600 /conf/sshd/ssh_host_ecdsa_key
+chmod -R 644 /conf/sshd/ssh_host_ecdsa_key.pub
+chmod -R 600 /conf/sshd/ssh_host_ed25519_key
+chmod -R 644 /conf/sshd/ssh_host_ed25519_key.pub
+chmod -R 600 /conf/sshd/ssh_host_rsa_key
+chmod -R 644 /conf/sshd/ssh_host_rsa_key.pub
+ln -s /selks/staging/usr/local/opnsense /usr/local/opnsense
+ln -s /selks/staging/usr/local/wizard /usr/local/wizard
+ln -s /selks/staging/usr/local/www /usr/local/www
+#ln -s /usr/local/opnsense/www /usr/local/www/ui
+
+ln -s /selks/staging/usr/local/www/javascript/wizard /usr/share/javascript/wizard
+ln -s /selks/staging/usr/local/www/javascript/opnsense_legacy.js /usr/share/javascript/opnsense_legacy.js
+
+ln -s /selks/staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/phalcon.so
+
+mv /etc/lighttpd/conf-available /etc/lighttpd/conf-available.bak
+mv /etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled.bak
+ln -s /selks/staging/etc/lighttpd/conf-available /etc/lighttpd/conf-available
+ln -s /selks/staging/etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled
+ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
+ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
+
+mv /etc/default/elasticsearch /etc/default/elasticsearch.bak
+ln -s /selks/staging/etc/default/elasticsearch /etc/default/elasticsearch
+
+
+ln -s /selks/staging/etc/rc /etc/rc
+rm -f /usr/lib/systemd/system/rc.service
+ln -s /selks/staging/usr/lib/systemd/system/rc.service /usr/lib/systemd/system/rc.service
+ln -s /selks/staging/etc/rc.subr /etc/rc.subr
+ln /selks/staging/etc/init.d/rcnetworking /etc/init.d/rcnetworking
+ln /selks/staging/etc/init.d/rcfilesystems /etc/init.d/rcfilesystems
+ln /selks/staging/etc/init.d/rclogin /etc/init.d/rclogin
+ln /selks/staging/etc/init.d/rcservers /etc/init.d/rcservers
+ln /selks/staging/etc/init.d/rcdaemon /etc/init.d/rcdaemon
+ln /selks/staging/etc/init.d/configd /etc/init.d/configd
+ln /selks/staging/etc/init.d/captiveportal /etc/init.d/captiveportal
+ln /selks/staging/etc/init.d/sysctl /etc/init.d/sysctl
+ln /selks/staging/etc/init.d/hostid /etc/init.d/hostid
+ln /selks/staging/etc/init.d/swap /etc/init.d/swap
+ln /selks/staging/etc/init.d/fsck /etc/init.d/fsck
+ln /selks/staging/etc/init.d/root /etc/init.d/root
+#ln /selks/staging/etc/init.d/ray /etc/init.d/ray
+mv /etc/init.d/squid /etc/init.d/squid.bak
+ln /selks/staging/etc/init.d/squid /etc/init.d/squid
+chmod 755 /etc/rc
+chmod 755 /etc/rc.subr
+chmod 755 /etc/init.d/rcnetworking
+chmod 755 /etc/init.d/rcfilesystems
+chmod 755 /etc/init.d/rclogin
+chmod 755 /etc/init.d/rcservers
+chmod 755 /etc/init.d/rcdaemon
+chmod 755 /etc/init.d/configd
+chmod 755 /etc/init.d/captiveportal
+chmod 755 /etc/init.d/sysctl
+chmod 755 /etc/init.d/hostid
+chmod 755 /etc/init.d/swap
+chmod 755 /etc/init.d/fsck
+chmod 755 /etc/init.d/root
+#chmod 755 /etc/init.d/ray
+chmod 755 /etc/init.d/squid
+systemctl enable rc.service
+update-rc.d rcnetworking defaults
+update-rc.d rcfilesystems defaults
+update-rc.d rclogin defaults
+update-rc.d rcservers defaults
+update-rc.d rcdaemon defaults
+update-rc.d configd defaults
+update-rc.d captiveportal defaults
+update-rc.d sysctl defaults
+update-rc.d hostid defaults
+update-rc.d swap defaults
+update-rc.d fsck defaults
+update-rc.d root defaults
+#update-rc.d ray defaults
+update-rc.d squid defaults
+
+systemctl set-default -f multi-user.target
+systemctl get-default
+systemctl disable wpa_supplicant.service
+systemctl disable network-manager.service
+systemctl disable avahi-daemon.service
+systemctl disable suricata.service
+systemctl disable squid.service
+update-rc.d lighttpd disable
+ln -s /selks/staging/var/etc /var/etc
+ln -s /selks/staging/var/cron /var/cron
+ln -s /selks/staging/etc/mtree /etc/mtree
+ln -s /run /var/run
+
+ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
+ln -s /selks/staging/usr/local/sbin/opnsense-importer /usr/local/sbin/opnsense-importer
+ln -s /selks/staging/usr/local/sbin/opnsense-shell /usr/local/sbin/opnsense-shell
+ln -s /selks/staging/usr/local/sbin/opnsense-version /sbin/opnsense-version
+ln -s /selks/staging/etc/rc.conf.d /etc/rc.conf.d
+chmod 755 /usr/sbin/pluginctl
+chmod 755 /usr/local/sbin/opnsense-importer
+chmod 755 /usr/local/sbin/opnsense-shell
+chmod 755 /sbin/opnsense-version
+chmod 755 -R /usr/local/etc/rc.subr.d/
+chmod 755 /usr/local/etc/rc.bootup
+chmod 755 /usr/local/etc/rc.syshook
+chmod 755 -R /etc/rc.conf.d/
+
+chmod 755 /selks/staging/usr/local/etc/rc.configure_firmware
+chmod 755 /selks/staging/usr/local/etc/rc.configure_interface
+chmod 755 /selks/staging/usr/local/etc/rc.configure_plugins
+chmod 755 /selks/staging/usr/local/etc/rc.dyndns
+chmod 755 /selks/staging/usr/local/etc/rc.expireaccounts
+chmod 755 /selks/staging/usr/local/etc/rc.filter_configure
+chmod 755 /selks/staging/usr/local/etc/rc.filter_synchronize
+chmod 755 /selks/staging/usr/local/etc/rc.linkup
+chmod 755 /selks/staging/usr/local/etc/rc.newwanipv6
+chmod 755 /selks/staging/usr/local/etc/rc.reload_all
+chmod 755 /selks/staging/usr/local/etc/rc.resolv_conf_generate
+chmod 755 /selks/staging/usr/local/etc/rc.restart_webgui
+chmod 755 /selks/staging/usr/local/etc/rc.subr.d/livemode
+chmod 755 /selks/staging/usr/local/etc/rc.subr.d/recover
+chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/carp/20-openvpn
+chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/start/90-carp
+chmod 755 /selks/staging/usr/local/etc/rc.syshook.d/stop/99-config
+
+mv /etc/default/suricata /etc/default/suricata.bak
+ln -s /selks/staging/etc/default/suricata /etc/default/suricata
+mv /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+ln -s /selks/staging/etc/ssh/sshd_config /etc/ssh/sshd_config
+mv /etc/logstash /etc/logstash.bak
+ln -s /selks/staging/etc/logstash /etc/logstash
+mv /etc/systemd/system/logstash.service /etc/systemd/system/logstash.service.bak
+ln -s /selks/staging/etc/systemd/system/logstash.service /etc/systemd/system/logstash.service
+# Force to use /etc/init.d/elasticsearch
+mv /usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service.bak
+mkdir -p /var/log/mlflow
+ln -s /selks/staging/etc/systemd/system/mlflow-tracking.service /etc/systemd/system/mlflow-tracking.service
+systemctl enable mlflow-tracking
+mkdir -p /var/log/ray
+ln -s /selks/staging/etc/systemd/system/ray.service /etc/systemd/system/ray.service
+systemctl enable ray
+
+systemctl daemon-reload
+
+/bin/selks-first-time-setup_stamus
+
+cat /dev/null > ~/.bash_history && history -c
+

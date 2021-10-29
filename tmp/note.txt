@@ -1,0 +1,5 @@
+python3 -m pip install PyYAML==5.1
+
+import yaml
+print(yaml.load(open('/etc/suricata/suricata.yaml', 'r'), Loader=yaml.FullLoader))
+valuesYaml = yaml.load(open("suricata.yaml", 'r'), Loader=yaml.FullLoader)

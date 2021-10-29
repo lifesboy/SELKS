@@ -1,0 +1,15 @@
+auth.conf:/etc/squid/auth/dummy.conf
+ca.pem.id:/etc/squid/ca.pem.id
+cache.active:/var/squid/cache/active
+externalACLs.conf:/etc/squid/externalACLs.conf
+newsyslog.conf:/etc/newsyslog.conf.d/squid
+nobumpsites.acl:/etc/squid/nobumpsites.acl
+parentproxy.conf:/etc/squid/pre-auth/parentproxy.conf
+post-auth.conf:/etc/squid/post-auth/dummy.conf
+pre-auth.conf:/etc/squid/pre-auth/dummy.conf
+rc.conf.d:/etc/rc.conf.d/squid/squid
+snmp.conf:/etc/squid/pre-auth/40-snmp.conf
+squid.conf:/etc/squid/squid.conf
+squid.pam:/etc/pam.d/squid
+wpad.dat:/usr/local/www/wpad.dat
+error_directory.in:/etc/squid/error_directory.in

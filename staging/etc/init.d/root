@@ -1,0 +1,97 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          root
+# Required-Start:
+# Required-Stop:     $fsck
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Generate a unique host ID
+# Description:       Generate a unique host ID
+### END INIT INFO
+
+# PROVIDE: root
+# REQUIRE: fsck
+# KEYWORD: nojail
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=root
+NAME=root
+DESC="Mount root filesystem read/write"
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+. /lib/lsb/init-functions
+
+. /etc/rc.subr
+
+name=$NAME
+desc=$DESC
+
+root_start()
+{
+	# root normally must be read/write, but if this is a BOOTP NFS
+	# diskless boot it does not have to be.
+	#
+	case ${root_rw_mount} in
+	[Nn][Oo] | '')
+		;;
+	*)
+		if ! mount -uw /; then
+			echo 'Mounting root filesystem rw failed, startup aborted'
+			stop_boot true
+		fi
+		;;
+	esac
+
+	umount -a >/dev/null 2>&1
+
+	# If we booted a special kernel remove the record
+	# so we will boot the default kernel next time.
+	if [ -x /sbin/nextboot ]; then
+		/sbin/nextboot -D > /dev/null 2>&1
+	fi
+}
+
+load_rc_config $name
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" $NAME
+        if ! root_start
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" $NAME
+        log_end_msg 0
+        ;;
+    reload|force-reload)
+        log_daemon_msg "Reloading $DESC configuration" $NAME
+        root_start
+        ;;
+    reopen-logs)
+        log_daemon_msg "Reopening $DESC logs" $NAME
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    configtest|testconfig)
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON" sysctl && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|reopen-logs|configtest|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
+

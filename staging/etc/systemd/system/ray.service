@@ -1,0 +1,17 @@
+[Unit]
+Description=RLLib ray cluster for serving ai model
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+RestartSec=30
+StandardOutput=file:/var/log/ray/ray.log
+StandardError=file:/var/log/ray/error.log
+User=root
+
+ExecStart=/usr/local/bin/ray start --head --node-ip-address 127.0.0.1 --address selks.ddns.net --port 6379 --dashboard-host '0.0.0.0' --dashboard-port 8265
+ExecStop=/usr/local/bin/ray stop --force
+
+[Install]
+WantedBy=multi-user.target

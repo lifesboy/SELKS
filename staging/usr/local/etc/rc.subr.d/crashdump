@@ -1,0 +1,22 @@
+#!/bin/sh
+
+sed -e 's/kdb.enter.panic=/kdb.enter.default=/' \
+    /etc/ddb.conf > /tmp/ddb.conf
+
+echo -n "Configuring crash dump device: "
+
+while read DEV MP TYPE MORE; do
+	[ "${TYPE}" = "swap" ] || continue
+	[ -c "${DEV}" ] || continue
+	if dumpon ${DEV}; then
+		echo ${DEV}
+		ddb /tmp/ddb.conf
+		if savecore -C ${DEV} > /dev/null; then
+			savecore /var/crash ${DEV}
+		fi
+		exit 0
+	fi
+done < /etc/fstab
+
+echo "/dev/null"
+ddb /tmp/ddb.conf

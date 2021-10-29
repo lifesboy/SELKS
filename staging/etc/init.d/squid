@@ -1,0 +1,372 @@
+#! /bin/sh
+#
+# squid		Startup script for the SQUID HTTP proxy-cache.
+#
+# Version:	@(#)squid.rc  1.0  07-Jul-2006  luigi@debian.org
+#
+# pidfile: /var/run/squid/squid.pid
+#
+### BEGIN INIT INFO
+# Provides:          squid
+# Required-Start:    $network $remote_fs $syslog
+# Required-Stop:     $network $remote_fs $syslog
+# Should-Start:      $named
+# Should-Stop:       $named
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Squid HTTP Proxy version 4.x
+### END INIT INFO
+
+
+# Note:
+# Set "squid_enable=yes" in either /etc/rc.conf, /etc/rc.conf.local or
+# /etc/rc.conf.d/squid to activate Squid.
+#
+# Additional variables you can define in one of these files:
+#
+# squid_chdir:	the directory into which the rc system moves into before
+# 		starting Squid. Default: /var/squid
+#
+# squid_conf:	The configuration file that Squid should use.
+#		Default: /etc/squid/squid.conf
+#
+# squid_fib:	The alternative routing table id that Squid should use.
+#		Default: none
+#		See setfib(1) for further details. Note that the setfib(2)
+#		system call is not available in FreeBSD versions prior to 7.1.
+#
+# squid_user:	The user id that should be used to run the Squid master
+#		process. Default: squid.
+#		Note that you probably need to define "squid_user=root" if
+#		you want to run Squid in reverse proxy setups or if you want
+#		Squid to listen on a "privileged" port < 1024.
+#
+# squid_pidfile:
+#		The name (including the full path) of the Squid
+#		master process' PID file.
+#		Default: /var/run/squid/squid.pid.
+#		You only need to change this if you changed the
+#		corresponding entry in your Squid configuration.
+#
+# squid_flags:	Additional commandline arguments for Squid you might want to
+#		use. See squid(8) for further details.
+#
+# squid_krb5_ktname:
+#		Alternative Kerberos 5 Key Table.
+#		Default: none
+# squid_krb5_config:
+#		Alternative Kerberos 5 config file
+#		Default: none
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+DAEMON=/usr/sbin/squid
+NAME=squid
+DESC="Squid HTTP Proxy"
+PIDFILE=/var/run/squid/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+CONFIG=/etc/squid/squid.conf
+SQUID_ARGS="-YC -f $CONFIG"
+
+[ ! -f /etc/default/squid ] || . /etc/default/squid
+
+. /lib/lsb/init-functions
+
+name=$NAME
+pidfile=$PIDFILE
+desc=$DESC
+
+. /etc/rc.subr
+
+set -e
+
+
+[ -x $DAEMON ] || exit 0
+
+ulimit -n 65535
+
+rcvar=squid_enable
+mkdir -p /etc/squid/errors/local
+chown -R proxy:proxy /etc/squid/errors/local
+
+# Make sure that we invoke squid with "-f ${squid_conf}"; define this
+# variable early so reload_cmd and stop_precmd pick it up:
+
+extra_commands="reload configtest"
+reload_cmd=squid_reload
+start_precmd=squid_prestart
+start_postcmd=squid_getpid
+stop_precmd=squid_prestop
+configtest_cmd=squid_configtest
+reload_precmd=squid_configtest
+restart_precmd=squid_configtest
+
+
+# squid(8) will not start if ${squid_conf} is not present so try
+# to catch that beforehand via ${required_files} rather than make
+# squid(8) crash.
+
+squid_load_rc_config()
+{
+	: ${squid_chdir:=/var/squid}
+	: ${squid_conf:=/etc/squid/squid.conf}
+	: ${squid_enable:=NO}
+	: ${squid_program:=/usr/sbin/squid}
+	: ${squid_pidfile:=/var/run/squid/squid.pid}
+	: ${squid_user:=proxy}
+
+	required_args="-f ${squid_conf}"
+	required_dirs=$chdir
+	required_files=$squid_conf
+	command_args="${required_args} ${squid_flags}"
+#	We used to need it in squid3 to match pid and proc name
+#	procname="?squid-*"
+	pidfile=$squid_pidfile
+}
+
+squid_prestart()
+{
+	# setup KRB5_KTNAME:
+	squid_krb5_ktname=${squid_krb5_ktname:-"NONE"}
+	if [ "${squid_krb5_ktname}" != "NONE" ]; then
+		export KRB5_KTNAME=${squid_krb5_ktname}
+	fi
+
+	# setup KRB5_CONFIG:
+	squid_krb5_config=${squid_krb5_config:-"NONE"}
+	if [ "${squid_krb5_config}" != "NONE" ]; then
+		export KRB5_CONFIG=${squid_krb5_config}
+	fi
+
+	# setup FIB tables:
+	if command -v check_namevarlist > /dev/null 2>&1; then
+		check_namevarlist fib && return 0
+	fi
+
+	${SYSCTL} net.fibs >/dev/null 2>&1 || return 0
+
+	squid_fib=${squid_fib:-"NONE"}
+	if [ "${squid_fib}" != "NONE" ]; then
+		command="setfib -F $squid_fib $command"
+	else
+		return 0
+	fi
+
+	squid_configtest
+}
+
+squid_reload()
+{
+	$command $required_args $squid_flags -k reconfigure
+}
+
+squid_configtest()
+{
+	echo "Performing sanity check on ${name} configuration."
+	if $command $required_args $squid_flags -k check; then
+		echo "Configuration for ${name} passes."
+		return 0
+	else
+		return $?
+	fi
+}
+
+squid_getpid()
+{
+	# retrieve the PID of the Squid master process explicitly here
+	# in case rc.subr was unable to determine it:
+	if [ -z "$rc_pid" ]; then
+		while ! [ -f ${pidfile} ]; do
+			sleep 1
+		done
+		read _pid _junk <${pidfile}
+		[ -z "${_pid}" ] || pid=${_pid}
+	else
+		pid=${rc_pid}
+	fi
+}
+
+squid_prestop()
+{
+	command_args="$command_args -k shutdown"
+	squid_configtest
+}
+
+check_syntax()
+{
+    #$DAEMON -tt $DAEMON_OPTS > /dev/null || exit $?
+    echo $DAEMON
+    echo $DAEMON_OPTS
+}
+
+find_cache_dir () {
+	w=" 	" # space tab
+        res=`$DAEMON -k parse -f $CONFIG 2>&1 |
+		grep "Processing:" |
+		sed s/.*Processing:\ // |
+		sed -ne '
+			s/^['"$w"']*'$1'['"$w"']\+[^'"$w"']\+['"$w"']\+\([^'"$w"']\+\).*$/\1/p;
+			t end;
+			d;
+			:end q'`
+        [ -n "$res" ] || res=$2
+        echo "$res"
+}
+
+grepconf () {
+	w=" 	" # space tab
+        res=`$DAEMON -k parse -f $CONFIG 2>&1 |
+		grep "Processing:" |
+		sed s/.*Processing:\ // |
+		sed -ne '
+			s/^['"$w"']*'$1'['"$w"']\+\([^'"$w"']\+\).*$/\1/p;
+			t end;
+			d;
+			:end q'`
+	[ -n "$res" ] || res=$2
+	echo "$res"
+}
+
+create_run_dir () {
+	run_dir=/var/run/squid
+	usr=`grepconf cache_effective_user proxy`
+	grp=`grepconf cache_effective_group proxy`
+
+	if [ "$(dpkg-statoverride --list $run_dir)" = "" ] &&
+	   [ ! -e $run_dir ] ; then
+		mkdir -p $run_dir
+	  	chown $usr:$grp $run_dir
+		[ -x /sbin/restorecon ] && restorecon $run_dir
+	fi
+}
+
+start () {
+  squid_load_rc_config
+  squid_prestart
+
+	cache_dir=`find_cache_dir cache_dir`
+	cache_type=`grepconf cache_dir`
+	run_dir=/var/run/squid
+
+	#
+	# Create run dir (needed for several workers on SMP)
+	#
+	create_run_dir
+
+	#
+	# Create spool dirs if they don't exist.
+	#
+	if test -d "$cache_dir" -a ! -d "$cache_dir/00"
+	then
+		log_warning_msg "Creating $DESC cache structure"
+		$DAEMON -z -f $CONFIG
+		[ -x /sbin/restorecon ] && restorecon -R $cache_dir
+	fi
+
+	umask 027
+	ulimit -n 65535
+	cd $run_dir
+	start-stop-daemon --quiet --start \
+		--pidfile $PIDFILE \
+		--exec $DAEMON -- $SQUID_ARGS < /dev/null
+	return $?
+}
+
+stop () {
+	PID=`cat $PIDFILE 2>/dev/null`
+	start-stop-daemon --stop --quiet --pidfile $PIDFILE --exec $DAEMON
+	#
+	#	Now we have to wait until squid has _really_ stopped.
+	#
+	sleep 2
+	if test -n "$PID" && kill -0 $PID 2>/dev/null
+	then
+		log_action_begin_msg " Waiting"
+		cnt=0
+		while kill -0 $PID 2>/dev/null
+		do
+			cnt=`expr $cnt + 1`
+			if [ $cnt -gt 24 ]
+			then
+				log_action_end_msg 1
+				return 1
+			fi
+			sleep 5
+			log_action_cont_msg ""
+		done
+		log_action_end_msg 0
+		return 0
+	else
+		return 0
+	fi
+}
+
+cfg_pidfile=`grepconf pid_filename`
+if test "${cfg_pidfile:-none}" != "none" -a "$cfg_pidfile" != "$PIDFILE"
+then
+	log_warning_msg "squid.conf pid_filename overrides init script"
+	PIDFILE="$cfg_pidfile"
+fi
+
+case "$1" in
+    start)
+	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
+	if test -n "$res";
+	then
+		log_failure_msg "$res"
+		exit 3
+	else
+		log_daemon_msg "Starting $DESC" "$NAME"
+		if start ; then
+			log_end_msg $?
+		else
+			log_end_msg $?
+		fi
+	fi
+	;;
+    stop)
+	log_daemon_msg "Stopping $DESC" "$NAME"
+	if stop ; then
+		log_end_msg $?
+	else
+		log_end_msg $?
+	fi
+	;;
+    reload|force-reload)
+	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
+	if test -n "$res";
+	then
+		log_failure_msg "$res"
+		exit 3
+	else
+		log_action_msg "Reloading $DESC configuration files"
+	  	start-stop-daemon --stop --signal 1 \
+			--pidfile $PIDFILE --quiet --exec $DAEMON
+		log_action_end_msg 0
+	fi
+	;;
+    restart)
+	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
+	if test -n "$res";
+	then
+		log_failure_msg "$res"
+		exit 3
+	else
+		log_daemon_msg "Restarting $DESC" "$NAME"
+		stop
+		if start ; then
+			log_end_msg $?
+		else
+			log_end_msg $?
+		fi
+	fi
+	;;
+    status)
+	status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit 3
+	;;
+    *)
+	echo "Usage: /etc/init.d/$NAME {start|stop|reload|force-reload|restart|status}"
+	exit 3
+	;;
+esac
+
+exit 0

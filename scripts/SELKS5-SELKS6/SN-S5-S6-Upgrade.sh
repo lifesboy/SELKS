@@ -19,7 +19,13 @@ if (( $EUID != 0 )); then
 fi
 
 # make place holder for all pre upgrade configs that have been overwritten 
+
+mkdir -p /opt/selks/preupgrade
+mkdir -p /opt/selks/preupgrade/elasticsearch/etc/elasticsearch
+mkdir -p /opt/selks/preupgrade/elasticsearch/etc/default/
+
 mkdir -p /opt/selks/preupgrade/elasticsearch/etc/{default,elasticsearch}
+
 
 mv /etc/alternatives/desktop-background  /opt/selks/preupgrade
 
@@ -31,17 +37,17 @@ mv /etc/alternatives/desktop-background  /opt/selks/preupgrade
 
 # ELK 6 upgrade prep
 
-if [ -f /etc/apt/sources.list.d/elastic-6.x.list ];
-then
-    
-    # if the filename exists - make sure we don't overwrite.
-    mv /etc/apt/sources.list.d/elastic-6.x.list /opt/selks/preupgrade/elastic-6.x.list.orig
-    
-fi
-
-cat >> /etc/apt/sources.list.d/elastic-7.x.list <<EOF
-deb https://artifacts.elastic.co/packages/7.x/apt stable main
-EOF
+# if [ -f /etc/apt/sources.list.d/elastic-6.x.list ];
+# then
+#     
+#     # if the filename exists - make sure we don't overwrite.
+#     mv /etc/apt/sources.list.d/elastic-6.x.list /opt/selks/preupgrade/elastic-6.x.list.orig
+#     
+# fi
+# 
+# cat >> /etc/apt/sources.list.d/elastic-7.x.list <<EOF
+# deb https://artifacts.elastic.co/packages/7.x/apt stable main
+# EOF
 
 if [ -f /etc/apt/sources.list.d/curator5.list ];
 then
@@ -65,16 +71,16 @@ fi
 
 rm -rf /etc/nginx/sites-enabled/default
 
-if [ -f /etc/nginx/sites-available/selks5.conf ];
+if [ -f /etc/nginx/sites-available/selks4.conf ];
 then
     
     # if the filename exists - make sure we don't overwrite.
-    mv /etc/nginx/sites-available/selks5.conf /opt/selks/preupgrade/selks5.conf
+    mv /etc/nginx/sites-available/selks4.conf /opt/selks/preupgrade/selks4.conf
     
 fi
 
-rm -rf /etc/nginx/sites-available/selks5.conf
-rm -rf /etc/nginx/sites-enabled/selks5.conf
+rm -rf /etc/nginx/sites-available/selks4.conf
+rm -rf /etc/nginx/sites-enabled/selks4.conf
 
 if [ -f /etc/nginx/sites-available/selks5.conf ];
 then
@@ -85,7 +91,8 @@ then
 fi
 
 
-cat >> /etc/nginx/sites-available/selks6.conf <<EOF
+cat >> /etc/nginx/sites-available/selks5.conf <<EOF
+
 server {
     listen 127.0.0.1:80;
     listen 127.0.1.1:80;
@@ -147,6 +154,7 @@ server {
         proxy_redirect off;
     }
 
+
    location /spaces/ {
         proxy_pass http://127.0.0.1:5601/spaces/;
         proxy_redirect off;
@@ -174,7 +182,7 @@ server {
 EOF
 
 # enable sites
-ln -s /etc/nginx/sites-available/selks6.conf /etc/nginx/sites-enabled/selks6.conf
+ln -s /etc/nginx/sites-available/selks5.conf /etc/nginx/sites-enabled/selks5.conf
 
 /bin/systemctl restart nginx
 
@@ -262,14 +270,14 @@ output {
       hosts => "127.0.0.1"
       index => "logstash-%{event_type}-%{+YYYY.MM.dd}"
       template_overwrite => true
-      template => "/etc/logstash/elasticsearch7-template.json"
+      template => "/etc/logstash/elasticsearch6-template.json"
     }
   } else {
     elasticsearch {
       hosts => "127.0.0.1"
       index => "logstash-%{+YYYY.MM.dd}"
       template_overwrite => true
-      template => "/etc/logstash/elasticsearch7-template.json"
+      template => "/etc/logstash/elasticsearch6-template.json"
     }
   }
 }
@@ -284,7 +292,9 @@ then
     
 fi
 
-cat >> /etc/logstash/elasticsearch7-template.json <<EOF 
+
+cat >> /etc/logstash/elasticsearch6-template.json <<EOF 
+
 {
   "template" : "logstash-*",
   "version" : 60001,
@@ -293,37 +303,39 @@ cat >> /etc/logstash/elasticsearch7-template.json <<EOF
     "index.refresh_interval" : "5s"
   },
   "mappings" : {
-    "dynamic_templates" : [ {
-      "message_field" : {
-        "path_match" : "message",
-        "match_mapping_type" : "string",
-        "mapping" : {
-          "type" : "text",
-          "norms" : false
-        }
-      }
-    }, {
-      "string_fields" : {
-        "match" : "*",
-        "match_mapping_type" : "string",
-        "mapping" : {
-          "type" : "text", "norms" : false,
-          "fields" : {
-            "keyword" : { "type": "keyword", "ignore_above": 256 }
+    "_default_" : {
+      "dynamic_templates" : [ {
+        "message_field" : {
+          "path_match" : "message",
+          "match_mapping_type" : "string",
+          "mapping" : {
+            "type" : "text",
+            "norms" : false
           }
         }
-      }
-    } ],
-    "properties" : {
-      "@timestamp": { "type": "date"},
-      "@version": { "type": "keyword"},
-      "geoip"  : {
-        "dynamic": true,
-        "properties" : {
-          "ip": { "type": "ip" },
-          "location" : { "type" : "geo_point" },
-          "latitude" : { "type" : "half_float" },
-          "longitude" : { "type" : "half_float" }
+      }, {
+        "string_fields" : {
+          "match" : "*",
+          "match_mapping_type" : "string",
+          "mapping" : {
+            "type" : "text", "norms" : false,
+            "fields" : {
+              "keyword" : { "type": "keyword", "ignore_above": 256 }
+            }
+          }
+        }
+      } ],
+      "properties" : {
+        "@timestamp": { "type": "date"},
+        "@version": { "type": "keyword"},
+        "geoip"  : {
+          "dynamic": true,
+          "properties" : {
+            "ip": { "type": "ip" },
+            "location" : { "type" : "geo_point" },
+            "latitude" : { "type" : "half_float" },
+            "longitude" : { "type" : "half_float" }
+          }
         }
       }
     }
@@ -344,12 +356,13 @@ cat >> /etc/apt/sources.list.d/selks6.list <<EOF
 #
 # Manual changes here can be overwritten during 
 # SELKS updates and upgrades
-deb http://packages.stamus-networks.com/selks6/debian/ buster main
-deb http://packages.stamus-networks.com/selks6/debian-kernel/ buster main
-#deb http://packages.stamus-networks.com/selks6/debian-test/ buster main
+
+deb http://packages.stamus-networks.com/selks5/debian/ buster main
+deb http://packages.stamus-networks.com/selks5/debian-kernel/ buster main
+#deb http://packages.stamus-networks.com/selks5/debian-test/ buster main
 EOF
 
-wget -qO - http://packages.stamus-networks.com/packages.selks6.stamus-networks.com.gpg.key | apt-key add - 
+wget -qO - http://packages.stamus-networks.com/packages.selks5.stamus-networks.com.gpg.key | apt-key add - 
 
 /bin/systemctl stop kibana
 
@@ -409,41 +422,309 @@ chown logstash -R /data/nsm/
 
 sleep 30
 
+curl -X PUT "localhost:9200/.kibana-6" -H 'Content-Type: application/json' -d'
+{
+  "settings" : {
+    "number_of_shards" : 1,
+    "number_of_replicas": 0,
+    "index.mapper.dynamic": false
+  },
+  "mappings" : {
+    "doc": {
+      "properties": {
+        "type": {
+          "type": "keyword"
+        },
+        "updated_at": {
+          "type": "date"
+        },
+        "config": {
+          "properties": {
+            "buildNum": {
+              "type": "keyword"
+            }
+          }
+        },
+        "index-pattern": {
+          "properties": {
+            "fieldFormatMap": {
+              "type": "text"
+            },
+            "fields": {
+              "type": "text"
+            },
+            "intervalName": {
+              "type": "keyword"
+            },
+            "notExpandable": {
+              "type": "boolean"
+            },
+            "sourceFilters": {
+              "type": "text"
+            },
+            "timeFieldName": {
+              "type": "keyword"
+            },
+            "title": {
+              "type": "text"
+            }
+          }
+        },
+        "visualization": {
+          "properties": {
+            "description": {
+              "type": "text"
+            },
+            "kibanaSavedObjectMeta": {
+              "properties": {
+                "searchSourceJSON": {
+                  "type": "text"
+                }
+              }
+            },
+            "savedSearchId": {
+              "type": "keyword"
+            },
+            "title": {
+              "type": "text"
+            },
+            "uiStateJSON": {
+              "type": "text"
+            },
+            "version": {
+              "type": "integer"
+            },
+            "visState": {
+              "type": "text"
+            }
+          }
+        },
+        "search": {
+          "properties": {
+            "columns": {
+              "type": "keyword"
+            },
+            "description": {
+              "type": "text"
+            },
+            "hits": {
+              "type": "integer"
+            },
+            "kibanaSavedObjectMeta": {
+              "properties": {
+                "searchSourceJSON": {
+                  "type": "text"
+                }
+              }
+            },
+            "sort": {
+              "type": "keyword"
+            },
+            "title": {
+              "type": "text"
+            },
+            "version": {
+              "type": "integer"
+            }
+          }
+        },
+        "dashboard": {
+          "properties": {
+            "description": {
+              "type": "text"
+            },
+            "hits": {
+              "type": "integer"
+            },
+            "kibanaSavedObjectMeta": {
+              "properties": {
+                "searchSourceJSON": {
+                  "type": "text"
+                }
+              }
+            },
+            "optionsJSON": {
+              "type": "text"
+            },
+            "panelsJSON": {
+              "type": "text"
+            },
+            "refreshInterval": {
+              "properties": {
+                "display": {
+                  "type": "keyword"
+                },
+                "pause": {
+                  "type": "boolean"
+                },
+                "section": {
+                  "type": "integer"
+                },
+                "value": {
+                  "type": "integer"
+                }
+              }
+            },
+            "timeFrom": {
+              "type": "keyword"
+            },
+            "timeRestore": {
+              "type": "boolean"
+            },
+            "timeTo": {
+              "type": "keyword"
+            },
+            "title": {
+              "type": "text"
+            },
+            "uiStateJSON": {
+              "type": "text"
+            },
+            "version": {
+              "type": "integer"
+            }
+          }
+        },
+        "url": {
+          "properties": {
+            "accessCount": {
+              "type": "long"
+            },
+            "accessDate": {
+              "type": "date"
+            },
+            "createDate": {
+              "type": "date"
+            },
+            "url": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 2048
+                }
+              }
+            }
+          }
+        },
+        "server": {
+          "properties": {
+            "uuid": {
+              "type": "keyword"
+            }
+          }
+        },
+        "timelion-sheet": {
+          "properties": {
+            "description": {
+              "type": "text"
+            },
+            "hits": {
+              "type": "integer"
+            },
+            "kibanaSavedObjectMeta": {
+              "properties": {
+                "searchSourceJSON": {
+                  "type": "text"
+                }
+              }
+            },
+            "timelion_chart_height": {
+              "type": "integer"
+            },
+            "timelion_columns": {
+              "type": "integer"
+            },
+            "timelion_interval": {
+              "type": "keyword"
+            },
+            "timelion_other_interval": {
+              "type": "keyword"
+            },
+            "timelion_rows": {
+              "type": "integer"
+            },
+            "timelion_sheet": {
+              "type": "text"
+            },
+            "title": {
+              "type": "text"
+            },
+            "version": {
+              "type": "integer"
+            }
+          }
+        },
+        "graph-workspace": {
+          "properties": {
+            "description": {
+              "type": "text"
+            },
+            "kibanaSavedObjectMeta": {
+              "properties": {
+                "searchSourceJSON": {
+                  "type": "text"
+                }
+              }
+            },
+            "numLinks": {
+              "type": "integer"
+            },
+            "numVertices": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "text"
+            },
+            "version": {
+              "type": "integer"
+            },
+            "wsState": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+'
+
+curl -X POST "localhost:9200/_reindex" -H 'Content-Type: application/json' -d'
+{
+  "source": {
+    "index": ".kibana"
+  },
+  "dest": {
+    "index": ".kibana-6"
+  },
+  "script": {
+    "inline": "ctx._source = [ ctx._type : ctx._source ]; ctx._source.type = ctx._type; ctx._id = ctx._type + \":\" + ctx._id; ctx._type = \"doc\"; ",
+    "lang": "painless"
+  }
+}
+'
+
+curl -X POST "localhost:9200/_aliases" -H 'Content-Type: application/json' -d'
+{
+  "actions" : [
+    { "add":  { "index": ".kibana-6", "alias": ".kibana" } },
+    { "remove_index": { "index": ".kibana" } }
+  ]
+}
+'
+
 # Install elasticsearch-curator
 apt-get update && apt-get -y install elasticsearch-curator
-
-# rm old curator start line
-mv /opt/selks/delete-old-logs.sh /opt/selks/preupgrade/delete-old-logs.sh 
-
-# create the new clean up
-cat >> /opt/selks/delete-old-logs.sh <<EOF
-#!/bin/bash
-
-/usr/bin/curator_cli delete_indices --filter_list \
-'
-[
-  {
-    "filtertype": "age",
-    "source": "creation_date",
-    "direction": "older",
-    "unit": "days",
-    "unit_count": 14
-  },
-  {
-    "filtertype": "pattern",
-    "kind": "prefix",
-    "value": "logstash*"
-  }
-]
-'
-EOF
 
 # Install Moloch
 mkdir -p /opt/molochtmp
 cd /opt/molochtmp/ && \
 apt-get -y install libwww-perl libjson-perl libyaml-dev libcrypto++6
-wget https://files.molo.ch/builds/ubuntu-18.04/moloch_2.2.3-1_amd64.deb
-dpkg -i moloch_2.2.3-1_amd64.deb
+
+wget https://files.molo.ch/builds/ubuntu-18.04/moloch_2.1.2-1_amd64.deb
+dpkg -i moloch_2.1.2-1_amd64.deb
+
 
 cd /opt/
 # clean up the downloaded deb pkgs
@@ -456,12 +737,13 @@ apt-mark hold moloch
 echo "0 3 * * * root ( /data/moloch/db/db.pl http://127.0.0.1:9200 expire daily 14 )" >> /etc/crontab
 
 # Scrius conf prep
-sed -i 's/ELASTICSEARCH_VERSION = 6/ELASTICSEARCH_VERSION = 7/g' /etc/scirius/local_settings.py
-sed -i 's/KIBANA_VERSION = 6/KIBANA_VERSION = 7/g' /etc/scirius/local_settings.py
+
+sed -i 's/ELASTICSEARCH_VERSION = 5/ELASTICSEARCH_VERSION = 6/g' /etc/scirius/local_settings.py
+sed -i 's/KIBANA_VERSION=4/KIBANA_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_INDEX = "kibana-int"/KIBANA_INDEX = ".kibana"/g' /etc/scirius/local_settings.py
-sed -i 's/KIBANA6_DASHBOARDS_PATH = "\/opt\/selks\/kibana6-dashboards\/"/KIBANA6_DASHBOARDS_PATH = "\/opt\/selks\/kibana7-dashboards\/"/g' /etc/scirius/local_settings.py
+sed -i 's/KIBANA_DASHBOARDS_PATH = "\/opt\/selks\/kibana5-dashboards\/"/KIBANA6_DASHBOARDS_PATH = "\/opt\/selks\/kibana6-dashboards\/"/g' /etc/scirius/local_settings.py
 #echo "ELASTICSEARCH_KEYWORD = \"keyword\"" >> /etc/scirius/local_settings.py
-echo "ELASTICSEARCH_KEYWORD = \"keyword\"" >> /etc/scirius/local_settings.py
+
 echo "USE_MOLOCH = True" >> /etc/scirius/local_settings.py
 echo "MOLOCH_URL = \"http://localhost:8005\"" >> /etc/scirius/local_settings.py
 /usr/bin/supervisorctl restart scirius 
