@@ -762,6 +762,9 @@ apt-get update
 apt-get --allow-releaseinfo-change update
 apt-get -y install cuda
 
+
+echo "export PATH=/usr/local/cuda-11.4/bin\${PATH:+:\${PATH}}" >> /root/.bashrc
+echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.4/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /root/.bashrc
 export PATH=/usr/local/cuda-11.4/bin${PATH:+:${PATH}}
 export LD_LIBRARY_PATH=/usr/local/cuda-11.4/lib64\
                          ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
