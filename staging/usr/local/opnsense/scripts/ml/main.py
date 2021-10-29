@@ -5,7 +5,7 @@ from ray.tune.integration.mlflow import MLflowLoggerCallback
 
 import common
 
-common.init_node()
+run, client = common.init_experiment("experiment-main")
 
 tune.run(
     "PPO",
