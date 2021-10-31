@@ -246,7 +246,7 @@ systemctl enable ray
 
 systemctl daemon-reload
 
-/bin/selks-first-time-setup_stamus
+#/bin/selks-first-time-setup_stamus
 
 cat /dev/null > ~/.bash_history && history -c
 
