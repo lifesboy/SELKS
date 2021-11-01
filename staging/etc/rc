@@ -229,6 +229,7 @@ if [ ! -e "/usr/local/cuda-11.4/lib64" ]; then
   if [ $answer == 'n' ]; then
       echo "Cancel first time setup!"
   else
+      /usr/bin/selks-first-time-setup_cuda
       /usr/bin/selks-first-time-setup_stamus
   fi
 fi
