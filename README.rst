@@ -1,5 +1,5 @@
 =====
-SELKS - ONR
+SELKS
 =====
 
 Intro
@@ -19,7 +19,7 @@ ready to use out of the box solution.
     :alt: SELKS 5
     :align: center
 
-SELKS-ONR is comprised of the following major components:
+SELKS is comprised of the following major components:
 
 * S - Suricata IDPS - http://suricata-ids.org/
 * E - Elasticsearch - https://www.elastic.co/products/elasticsearch
@@ -27,9 +27,6 @@ SELKS-ONR is comprised of the following major components:
 * K - Kibana - https://www.elastic.co/products/kibana
 * S - Scirius - https://github.com/StamusNetworks/scirius
 * EveBox - https://evebox.org/
-* O - OpnSense - https://github.com/opnsense
-* N - Nvidia GPU - https://github.com/NVIDIA
-* R - RLlib - https://github.com/ray-project
 
 And it includes preconfigured dashboards like this one:
 
