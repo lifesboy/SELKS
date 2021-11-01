@@ -298,7 +298,7 @@ cp staging/usr/share/applications/Scirius.desktop Stamus-Live-Build/config/inclu
 # Same as above but for root
 cp staging/usr/share/applications/Scirius.desktop Stamus-Live-Build/config/includes.chroot/root/Desktop/
 
-# Logstash and Elasticsearch 7 template
+# Logstash and Elasticsearch 6 template
 cp staging/etc/logstash/conf.d/logstash.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/ 
 cp staging/etc/logstash/conf.d/cic.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
 cp staging/etc/logstash/conf.d/ray-result.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
@@ -311,8 +311,6 @@ cp staging/etc/logstash/elasticsearch6-ray-ppo-result-template.json Stamus-Live-
 cp staging/etc/logstash/elasticsearch6-ray-ppo-params-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-ray-ppo-progress-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/pipelines.yml Stamus-Live-Build/config/includes.chroot/etc/logstash/
-cp staging/etc/logstash/elasticsearch7-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
-
 
 # Moloch for SELKS set up
 #cp staging/etc/systemd/system/molochpcapread-selks.service Stamus-Live-Build/config/includes.chroot/etc/systemd/system/ 
@@ -411,7 +409,6 @@ cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroo
 cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
-
 
 # Add core system packages to be installed
 echo "

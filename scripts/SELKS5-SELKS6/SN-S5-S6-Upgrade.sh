@@ -19,13 +19,9 @@ if (( $EUID != 0 )); then
 fi
 
 # make place holder for all pre upgrade configs that have been overwritten 
-
 mkdir -p /opt/selks/preupgrade
 mkdir -p /opt/selks/preupgrade/elasticsearch/etc/elasticsearch
 mkdir -p /opt/selks/preupgrade/elasticsearch/etc/default/
-
-mkdir -p /opt/selks/preupgrade/elasticsearch/etc/{default,elasticsearch}
-
 
 mv /etc/alternatives/desktop-background  /opt/selks/preupgrade
 
@@ -92,7 +88,6 @@ fi
 
 
 cat >> /etc/nginx/sites-available/selks5.conf <<EOF
-
 server {
     listen 127.0.0.1:80;
     listen 127.0.1.1:80;
@@ -151,22 +146,6 @@ server {
 
     location /ui/ {
         proxy_pass http://127.0.0.1:5601/ui/;
-        proxy_redirect off;
-    }
-
-
-   location /spaces/ {
-        proxy_pass http://127.0.0.1:5601/spaces/;
-        proxy_redirect off;
-    }
-
-  location /node_modules/ {
-        proxy_pass http://127.0.0.1:5601/node_modules/;
-        proxy_redirect off;
-    }
-
-  location /internal/ {
-        proxy_pass http://127.0.0.1:5601/internal/;
         proxy_redirect off;
     }
 
@@ -292,7 +271,6 @@ then
     
 fi
 
-
 cat >> /etc/logstash/elasticsearch6-template.json <<EOF 
 
 {
@@ -356,7 +334,6 @@ cat >> /etc/apt/sources.list.d/selks6.list <<EOF
 #
 # Manual changes here can be overwritten during 
 # SELKS updates and upgrades
-
 deb http://packages.stamus-networks.com/selks5/debian/ buster main
 deb http://packages.stamus-networks.com/selks5/debian-kernel/ buster main
 #deb http://packages.stamus-networks.com/selks5/debian-test/ buster main
@@ -721,10 +698,8 @@ apt-get update && apt-get -y install elasticsearch-curator
 mkdir -p /opt/molochtmp
 cd /opt/molochtmp/ && \
 apt-get -y install libwww-perl libjson-perl libyaml-dev libcrypto++6
-
 wget https://files.molo.ch/builds/ubuntu-18.04/moloch_2.1.2-1_amd64.deb
 dpkg -i moloch_2.1.2-1_amd64.deb
-
 
 cd /opt/
 # clean up the downloaded deb pkgs
@@ -737,13 +712,11 @@ apt-mark hold moloch
 echo "0 3 * * * root ( /data/moloch/db/db.pl http://127.0.0.1:9200 expire daily 14 )" >> /etc/crontab
 
 # Scrius conf prep
-
 sed -i 's/ELASTICSEARCH_VERSION = 5/ELASTICSEARCH_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_VERSION=4/KIBANA_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_INDEX = "kibana-int"/KIBANA_INDEX = ".kibana"/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_DASHBOARDS_PATH = "\/opt\/selks\/kibana5-dashboards\/"/KIBANA6_DASHBOARDS_PATH = "\/opt\/selks\/kibana6-dashboards\/"/g' /etc/scirius/local_settings.py
 #echo "ELASTICSEARCH_KEYWORD = \"keyword\"" >> /etc/scirius/local_settings.py
-
 echo "USE_MOLOCH = True" >> /etc/scirius/local_settings.py
 echo "MOLOCH_URL = \"http://localhost:8005\"" >> /etc/scirius/local_settings.py
 /usr/bin/supervisorctl restart scirius 
