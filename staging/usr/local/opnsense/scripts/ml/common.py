@@ -39,7 +39,7 @@ def init_node():
 def init_tracking(name: str) -> (ActiveRun, MlflowClient):
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(name)
-    run = mlflow.start_run()
+    run = mlflow.active_run() if mlflow.active_run() else mlflow.start_run()
     client = MlflowClient()
     client.set_tag(run_id=run.info.run_id, key=TAG_RUN_UUID, value=run.info.run_id)
     return run, client
