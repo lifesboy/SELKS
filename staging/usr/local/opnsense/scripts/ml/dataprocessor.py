@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-from typing import List
-
+from sys import version_info
+import pandas
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
 from ray.data.impl.arrow_block import ArrowRow
@@ -15,14 +15,17 @@ import anomaly_normalization as norm
 
 from datetime import date
 import mlflow
-
+PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
+                                                  minor=version_info.minor,
+                                                  micro=version_info.micro)
 run, client = common.init_experiment('data-processor')
 
 num_rows = 0
 
 
-class BatchPreprocessor:
+class BatchPreprocessor(mlflow.pyfunc.PythonModel):
     def __init__(self):
+        super().__init__()
         global run
         self.processed_num = 0
         self.run, self.client = common.init_tracking('data-processor')
@@ -46,19 +49,36 @@ class BatchPreprocessor:
         return data
 
 
+preprocessor_model_path = "preprocessor"
+preprocessor_reg_model_name = "BatchPreprocessor"
+preprocessor_model = BatchPreprocessor()
+conda_env = {
+    'channels': ['defaults', 'conda-forge'],
+    'dependencies': [
+        'python={}'.format(PYTHON_VERSION),
+        'pip'
+    ],
+    'pip': [
+        'mlflow=={}'.format(mlflow.__version__),
+        'pandas=={}'.format(pandas.__version__),
+        'ray=={}'.format(ray.__version__)
+    ],
+    'name': 'mlflow-env'
+}
+
 # ray.init(local_mode=True)
 # ray.init(num_cpus=8)
 
 data_source = [
     # common.TRAIN_DATA_DIR + 'demo.csv',
-    common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
     # common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
-    common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv',
-    common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Friday-23-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv',
+    # common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
     common.TRAIN_DATA_DIR + 'Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv',
     # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
 ]
@@ -88,4 +108,8 @@ pipe = pipe.map_batches(BatchPreprocessor, batch_format="pandas", compute="actor
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
 pipe.write_csv(common.TMP_DIR)
 
+mlflow.pyfunc.log_model(artifact_path=preprocessor_model_path,
+                        python_model=preprocessor_model,
+                        registered_model_name=preprocessor_reg_model_name,
+                        conda_env=conda_env)
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
