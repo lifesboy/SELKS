@@ -787,11 +787,11 @@ python3 -m pip install pyarrow fsspec tensorflow==2.6.0 aioredis==1.3.1 pandas t
 python3 -m pip install scikit-image sklearn keras typing-extensions==3.7.4.3 gputil starlette uvicorn pydantic
 python3 -m pip install mlflow==1.20.2 mlflow-elasticsearchstore mlflow-ray-serve --ignore-installed PyYAML
 
-python3 -m pip uninstall protobuf scipy numpy six requests -y
-python3 -m pip uninstall ray ray[tune] ray[rllib] ray[default] ray[serve] -y
-python3 -m pip uninstall pyarrow fsspec tensorflow==2.6.0 aioredis==1.3.1 pandas tqdm gym numba dm-tree -y
-python3 -m pip uninstall scikit-image sklearn keras typing-extensions==3.7.4.3 gputil starlette uvicorn pydantic -y
-python3 -m pip uninstall mlflow==1.20.2 mlflow-elasticsearchstore mlflow-ray-serve -y
+#python3 -m pip uninstall protobuf scipy numpy six requests -y
+#python3 -m pip uninstall ray ray[tune] ray[rllib] ray[default] ray[serve] -y
+#python3 -m pip uninstall pyarrow fsspec tensorflow==2.6.0 aioredis==1.3.1 pandas tqdm gym numba dm-tree -y
+#python3 -m pip uninstall scikit-image sklearn keras typing-extensions==3.7.4.3 gputil starlette uvicorn pydantic -y
+#python3 -m pip uninstall mlflow==1.20.2 mlflow-elasticsearchstore mlflow-ray-serve -y
 
 #python3 -m pip install PyYAML==6.0 --ignore-installed PyYAML
 ### END Install RLlib/AI/ML scripts ###
