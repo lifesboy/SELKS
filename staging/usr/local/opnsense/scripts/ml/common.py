@@ -49,3 +49,7 @@ def init_experiment(name: str) -> (ActiveRun, MlflowClient):
     init_node()
     exp = name  # + datetime.now().strftime("-%Y%m%dT%H%M%S")
     return init_tracking(exp)
+
+
+def get_train_id():
+    return datetime.now().strftime("%Y%m%dT%H%M%S")

@@ -106,7 +106,7 @@ pipe = pipe.map_batches(BatchPreprocessor, batch_format="pandas", compute="actor
 # tf.keras.layers.BatchNormalization
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
-pipe.write_csv(common.TMP_DIR)
+pipe.write_csv(path=common.TMP_DIR + 'processed_data_' + common.get_train_id() + '/', try_create_dir=True)
 
 mlflow.pyfunc.log_model(artifact_path=preprocessor_model_path,
                         python_model=preprocessor_model,
