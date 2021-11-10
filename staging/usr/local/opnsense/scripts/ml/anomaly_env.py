@@ -30,7 +30,7 @@ class AnomalyEnv(gym.Env):
             # common.TRAIN_DATA_DIR + 'Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv',
             # common.TRAIN_DATA_DIR + 'Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv',
             # common.TRAIN_DATA_DIR + 'Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv',
-            common.TRAIN_DATA_DIR + 'processed_data_20211108T142556/c5ba958bdad34eab855d2dabe385814a_000000_000000.csv',
+            common.TMP_DIR + 'processed_data_20211108T142556/c5ba958bdad34eab855d2dabe385814a_000000_000000.csv',
             # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
         ]
         pipe: DatasetPipeline = ray.data.read_csv(data_source).window(blocks_per_window=batch_size)
