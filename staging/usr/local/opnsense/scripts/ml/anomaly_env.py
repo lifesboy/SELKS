@@ -5,6 +5,7 @@ import random
 
 
 # @ray.remote
+from ray.data import Dataset
 from ray.data.dataset_pipeline import DatasetPipeline
 
 import common
@@ -20,7 +21,7 @@ class AnomalyEnv(gym.Env):
         num_gpus = 0.2
         num_cpus = 0.5
         parallelism = 5
-        data_source = [
+        self.data_source = [
             # common.TRAIN_DATA_DIR + 'demo.csv',
             # common.TRAIN_DATA_DIR + 'Friday-02-03-2018_TrafficForML_CICFlowMeter.csv',
             # common.TRAIN_DATA_DIR + 'Friday-16-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
@@ -33,8 +34,8 @@ class AnomalyEnv(gym.Env):
             common.TMP_DIR + 'processed_data_20211108T142556/c5ba958bdad34eab855d2dabe385814a_000000_000000.csv',
             # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
         ]
-        self.pipe: DatasetPipeline = ray.data.read_csv(data_source).window(blocks_per_window=batch_size)
-        self.iter = self.pipe.iter_batches(batch_size=1)
+        self.data_set: Dataset = ray.data.read_csv(self.data_source)
+        self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
         self.observation_space = Discrete(2)
         self.action_space = Discrete(2)
         # Note: Set `repeat_delay` to 0 for simply repeating the seen
@@ -45,7 +46,7 @@ class AnomalyEnv(gym.Env):
 
     def reset(self):
         self.history = [0] * self.delay
-        self.iter = self.pipe.iter_batches(batch_size=1)
+        self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
         return self._next_obs()
 
     def step(self, action):
