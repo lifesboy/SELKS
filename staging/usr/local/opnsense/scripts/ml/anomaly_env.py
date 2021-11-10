@@ -34,7 +34,7 @@ class AnomalyEnv(gym.Env):
             # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
         ]
         pipe: DatasetPipeline = ray.data.read_csv(data_source).window(blocks_per_window=batch_size)
-        self.observation_space = pipe
+        self.observation_space = pipe.iter_batches(batch_size=1)
         self.action_space = Discrete(2)
         # Note: Set `repeat_delay` to 0 for simply repeating the seen
         # observation (no delay).
@@ -51,10 +51,10 @@ class AnomalyEnv(gym.Env):
             reward = 1
         else:
             reward = -1
-        done = len(self.history) > self.episode_len
+        done = (len(self.history) > self.episode_len) or (self.history[-1] is None)
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
-        token = self.observation_space.take(1)[LABEL]
+        token = next(self.observation_space)[LABEL][0]
         self.history.append(token)
         return token
