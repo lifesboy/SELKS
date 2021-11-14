@@ -54,7 +54,7 @@ class AnomalyEnv(gym.Env):
 
     def step(self, action):
         # if action == self.history[-(1 + self.delay)]:
-        if self.history[-1] and action == self.history[-1][-1]:
+        if (self.history[-1] is None) or (action == self.history[-1][-1]):
             reward = 1
         else:
             reward = -1
