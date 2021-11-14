@@ -63,6 +63,6 @@ class AnomalyEnv(gym.Env):
     def _next_obs(self):
         # token = next(self.iter)[LABEL][0] # next(iter)[LABEL], next(iter)[DST_PORT]
         i = next(self.iter)
-        token = np.array([i[DST_PORT][0], i[PROTOCOL][0], i[LABEL][0]], np.float32) if i else None
+        token = np.array([i[DST_PORT].item(), i[PROTOCOL].item(), i[LABEL].item()], np.float32) if i else None
         self.history.append(token)
         return token
