@@ -47,7 +47,8 @@ class AnomalyEnv(gym.Env):
         self.history = []
 
     def reset(self):
-        self.history = [0] * self.delay
+        # self.history = [0] * self.delay
+        self.history = []
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
         return self._next_obs()
 
