@@ -38,7 +38,7 @@ class AnomalyEnv(gym.Env):
         ]
         self.data_set: Dataset = ray.data.read_csv(self.data_source)
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
-        self.observation_space = Box(low=0., high=1., shape=(3,), dtype=np.float32)
+        self.observation_space = Box(low=0., high=1., shape=(6,), dtype=np.float32)
         self.action_space = Discrete(2)
         # Note: Set `repeat_delay` to 0 for simply repeating the seen
         # observation (no delay).
@@ -64,6 +64,13 @@ class AnomalyEnv(gym.Env):
     def _next_obs(self):
         # token = next(self.iter)[LABEL][0] # next(iter)[LABEL], next(iter)[DST_PORT]
         i = next(self.iter)
-        token = np.array([i[DST_PORT].item(), i[PROTOCOL].item(), i[LABEL].item()], np.float32) if i is not None else None
+        token = np.array([
+            i[DST_PORT].item(),
+            i[PROTOCOL].item(),
+            i[FLOW_DURATION].item(),
+            i[TOT_FWD_PKTS].item(),
+            i[TOT_BWD_PKTS].item(),
+            i[LABEL].item()],
+            np.float32) if i is not None else None
         self.history.append(token)
         return token
