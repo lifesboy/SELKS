@@ -1,7 +1,9 @@
 import gym
 import ray
-from gym.spaces import Discrete
+from gym.spaces import Discrete, Box
+import numpy as np
 import random
+import pandas as pd
 
 
 # @ray.remote
@@ -36,7 +38,7 @@ class AnomalyEnv(gym.Env):
         ]
         self.data_set: Dataset = ray.data.read_csv(self.data_source)
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
-        self.observation_space = Discrete(2)
+        self.observation_space = Box(low=0., high=1., shape=(3,), dtype=np.float32)
         self.action_space = Discrete(2)
         # Note: Set `repeat_delay` to 0 for simply repeating the seen
         # observation (no delay).
@@ -58,6 +60,8 @@ class AnomalyEnv(gym.Env):
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
-        token = next(self.iter)[LABEL][0]
+        # token = next(self.iter)[LABEL][0] # next(iter)[LABEL], next(iter)[DST_PORT]
+        i = next(self.iter)
+        token = np.array([i[DST_PORT][0], i[PROTOCOL][0], i[LABEL][0]], np.float32) if i else None
         self.history.append(token)
         return token
