@@ -69,6 +69,7 @@ if __name__ == "__main__":
         "entropy_coeff": 0.001,
         "num_sgd_iter": 5,
         "vf_loss_coeff": 1e-5,
+        "vf_clip_param": 1000.0,
         "model": {
             "custom_model": "rnn",
             "max_seq_len": 20,
