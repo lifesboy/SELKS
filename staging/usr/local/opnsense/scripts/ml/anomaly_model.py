@@ -59,7 +59,7 @@ if __name__ == "__main__":
     config = {
         "env": args.env,
         "env_config": {
-            "repeat_delay": 2,
+            "episode_len": 1e4,
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
