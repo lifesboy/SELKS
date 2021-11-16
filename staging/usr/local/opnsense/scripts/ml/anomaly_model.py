@@ -113,6 +113,7 @@ if __name__ == "__main__":
     # >>         state = state_out
 
     results = tune.run(args.run, config=config, stop=stop, verbose=1,
+                       checkpoint_at_end=True,
                        callbacks=[MLflowLoggerCallback(
                            experiment_name="anomaly-model",
                            save_artifact=True)])
