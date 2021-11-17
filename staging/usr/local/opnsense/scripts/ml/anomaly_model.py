@@ -40,6 +40,11 @@ parser.add_argument(
     default=100000,
     help="Number of timesteps to train.")
 parser.add_argument(
+    "--stop-episode-len",
+    type=int,
+    default=1e4,
+    help="Max length of episode to train.")
+parser.add_argument(
     "--stop-reward",
     type=float,
     default=90.0,
@@ -59,7 +64,7 @@ if __name__ == "__main__":
     config = {
         "env": args.env,
         "env_config": {
-            "episode_len": 1e4,
+            "episode_len": args.stop_episode_len,
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
