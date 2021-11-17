@@ -9,6 +9,7 @@ from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 
 import common
+import anomaly_env
 from anomaly_env import AnomalyEnv
 
 parser = argparse.ArgumentParser()
@@ -100,13 +101,13 @@ class AnomalyExperiment():
         return checkpoint_path, results
 
     def load(self, path):
-        self.agent = PPOTrainer(config=self.config)
+        self.agent = PPOTrainer(config=self.config, env=self.args.env)
         self.agent.restore(path)
 
     def test(self):
-        check_learning_achieved(results, self.args.stop_reward)
+        # check_learning_achieved(results, self.args.stop_reward)
 
-        env = self.args.env
+        env = getattr(anomaly_env, self.args.env)(self.config)
         # run until episode ends
         episode_reward = 0
         done = False
@@ -122,6 +123,7 @@ class AnomalyExperiment():
 if __name__ == "__main__":
     exp = AnomalyExperiment()
     checkpoint_path, results = exp.train()
+    # checkpoint_path = '/drl/ray_results/PPO/PPO_AnomalyEnv_6e374_00000_0_2021-11-17_16-00-05/checkpoint_000008/checkpoint-8'
     print("Checkpoint path:", checkpoint_path)
     exp.load(checkpoint_path)
     exp.test()
