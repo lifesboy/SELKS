@@ -5,7 +5,7 @@ import mlflow
 
 import common
 
-common.init_node()
+run, client = common.init_experiment("my_experiment")
 
 
 @mlflow_mixin
