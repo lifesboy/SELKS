@@ -106,7 +106,7 @@ class AnomalyExperiment():
     def test(self):
         check_learning_achieved(results, self.args.stop_reward)
 
-        env = self.env
+        env = self.args.env
         # run until episode ends
         episode_reward = 0
         done = False
