@@ -93,7 +93,8 @@ class AnomalyExperiment():
                            callbacks=[MLflowLoggerCallback(
                                experiment_name="anomaly-model",
                                save_artifact=True)])
-        checkpoints = results.get_trial_checkpoints_paths(trial=results.get_best_trial('episode_reward_mean'),
+        checkpoints = results.get_trial_checkpoints_paths(trial=results.get_best_trial(metric='episode_reward_mean',
+                                                                                       mode='max'),
                                                           metric='episode_reward_mean')
         checkpoint_path = checkpoints[0][0]
         return checkpoint_path, results
