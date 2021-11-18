@@ -88,7 +88,7 @@ class AnomalyExperiment():
     def train(self):
         results = tune.run(self.args.run, config=self.config, stop=self.stop, verbose=1,
                            checkpoint_at_end=True,
-                           checkpoint_freq=10,
+                           checkpoint_freq=1,
                            keep_checkpoints_num=10,
                            checkpoint_score_attr='training_iteration',
                            callbacks=[MLflowLoggerCallback(
