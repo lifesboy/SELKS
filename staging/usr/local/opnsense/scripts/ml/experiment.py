@@ -81,7 +81,7 @@ class AnomalyExperiment():
             "episode_reward_mean": args.stop_reward,
         }
 
-        run, client = common.init_experiment("anomaly_experiment")
+        self.run, self.client = common.init_experiment("anomaly_experiment")
         ModelCatalog.register_custom_model("rnn", RNNModel)
         register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
 
@@ -116,14 +116,17 @@ class AnomalyExperiment():
             action = self.agent.compute_action(obs)
             obs, reward, done, info = env.step(action)
             episode_reward += reward
+            self.client.log_metric(run_id=self.run.info.run_id, key="evaluation.action", value=action)
+            self.client.log_metric(run_id=self.run.info.run_id, key="evaluation.episode_reward", value=episode_reward)
 
         return episode_reward
 
 
 if __name__ == "__main__":
     exp = AnomalyExperiment()
-    checkpoint_path, results = exp.train()
+    # checkpoint_path, results = exp.train()
     # checkpoint_path = '/drl/ray_results/PPO/PPO_AnomalyEnv_6e374_00000_0_2021-11-17_16-00-05/checkpoint_000008/checkpoint-8'
+    checkpoint_path = '/drl/artifacts/6/facfe1a0fb6c4ce38a97a21a90ac73a7/artifacts/checkpoint_000020/checkpoint-20'
     print("Checkpoint path:", checkpoint_path)
     exp.load(checkpoint_path)
     exp.test()
