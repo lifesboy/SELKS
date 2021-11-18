@@ -112,6 +112,8 @@ class AnomalyExperiment():
         episode_reward = 0
         done = False
         obs = env.reset()
+
+        self.client.log_metric(run_id=self.run.info.run_id, key="evaluation.episode_reward", value=episode_reward)
         while not done:
             action = self.agent.compute_action(obs)
             obs, reward, done, info = env.step(action)
