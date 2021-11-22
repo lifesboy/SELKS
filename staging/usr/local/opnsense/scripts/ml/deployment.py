@@ -35,22 +35,16 @@ class ServeAnomalyPPOModel:
             env="CartPole-v0")
         self.trainer.restore(checkpoint_path)
 
-    async def __call__(self, request: Request):
+    async def __call__(self, data):
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL,
                             value='ServeAnomalyPPOModel')
 
-        json_input = await request.json()
-        obs = json_input["observation"]
-        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": obs}, artifact_file="data.json")
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
 
-        action = self.trainer.compute_action(obs)
+        action = self.trainer.compute_action(data)
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": action}, artifact_file="data.json")
 
         return {"action": int(action)}
-
-
-client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="ServeAnomalyPPOModel.deploy")
-ServeAnomalyPPOModel.deploy()
 
 
 @serve.deployment
@@ -61,10 +55,6 @@ def model_two(data):
     client2.log_dict(run_id=run2.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
     client2.log_dict(run_id=run2.info.run_id, dictionary={"action": data}, artifact_file="data.json")
     return data
-
-
-client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="model_two.deploy")
-model_two.deploy()
 
 
 # max_concurrent_queries is optional. By default, if you pass in an async
@@ -80,13 +70,14 @@ class ComposedModel:
     async def __call__(self, starlette_request):
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='ComposedModel')
 
-        data = await starlette_request.body()
-        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
+        data = await starlette_request.json()
+        observation = data["observation"]
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": observation}, artifact_file="data.json")
 
-        score = await self.model_one.remote(data=data)
-        if score > 0.5:
-            result = await self.model_two.remote(data=data)
-            result = {"model_used": 2, "score": score}
+        score = await self.model_one.remote(data=observation)
+        if not score:
+            result = await self.model_two.remote(data=observation)
+            result = {"model_used": 2, "score": result}
         else:
             result = {"model_used": 1, "score": score}
 
@@ -96,6 +87,12 @@ class ComposedModel:
         return result
 
 
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="ServeAnomalyPPOModel.deploy")
+ServeAnomalyPPOModel.deploy("/tmp/rllib_checkpoint/checkpoint_000001/checkpoint-1")
+
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="model_two.deploy")
+model_two.deploy()
+
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="ComposedModel.deploy")
 ComposedModel.deploy()
 
@@ -104,7 +101,7 @@ for _ in range(10):
     env = gym.make("CartPole-v0")
     obs = env.reset()
     print(f"-> Sending observation {obs}")
-    resp = requests.get("http://0.0.0.0:8989/cartpole-ppo", json={"observation": obs.tolist()})
+    resp = requests.get("http://0.0.0.0:8989/anomaly", json={"observation": obs.tolist()})
     print(f"<- Received response {resp.json()}")
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
