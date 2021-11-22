@@ -1,6 +1,7 @@
 import gym
 from starlette.requests import Request
 import requests
+import random
 
 import ray.rllib.agents.ppo as ppo
 from ray import serve
@@ -43,9 +44,10 @@ class ServeAnomalyPPOModel:
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
 
         action = self.trainer.compute_action(data)
+        action = float(action)
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": action}, artifact_file="data.json")
 
-        return action
+        return {"action": action}
 
 
 @serve.deployment
@@ -57,7 +59,7 @@ def model_two(data):
     print("Model 2 called with data ", data)
     client2.log_dict(run_id=run2.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
     client2.log_dict(run_id=run2.info.run_id, dictionary={"action": data}, artifact_file="data.json")
-    return data
+    return {"action": float(random.randint(0, 1))}
 
 
 # max_concurrent_queries is optional. By default, if you pass in an async
@@ -80,7 +82,7 @@ class ComposedModel:
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": observation}, artifact_file="data.json")
 
         score = await self.model_one.remote(data=observation)
-        if not score:
+        if score["action"] == 1:
             result = await self.model_two.remote(data=observation)
             result = {"model_used": 2, "score": result}
         else:
@@ -107,6 +109,6 @@ for _ in range(10):
     obs = env.reset()
     print(f"-> Sending observation {obs}")
     resp = requests.get("http://0.0.0.0:8989/anomaly", json={"observation": obs.tolist()})
-    print(f"<- Received response {resp.json() if resp.ok() else resp}")
+    print(f"<- Received response {resp.json() if resp.ok else resp}")
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
