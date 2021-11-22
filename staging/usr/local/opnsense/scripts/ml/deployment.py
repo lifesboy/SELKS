@@ -45,7 +45,7 @@ class ServeAnomalyPPOModel:
         action = self.trainer.compute_action(data)
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": action}, artifact_file="data.json")
 
-        return {"action": int(action)}
+        return action
 
 
 @serve.deployment
@@ -107,6 +107,6 @@ for _ in range(10):
     obs = env.reset()
     print(f"-> Sending observation {obs}")
     resp = requests.get("http://0.0.0.0:8989/anomaly", json={"observation": obs.tolist()})
-    print(f"<- Received response {resp.body()}")
+    print(f"<- Received response {resp.json() if resp.ok() else resp}")
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
