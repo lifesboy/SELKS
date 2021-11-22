@@ -8,7 +8,7 @@ from ray import serve
 import common
 
 run, client = common.init_experiment('anomaly_deployment')
-client.log_metric(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
 
 serve.start(http_options={"host": "0.0.0.0", "port": 8989})
 
@@ -41,15 +41,15 @@ class ServeAnomalyPPOModel:
 
         json_input = await request.json()
         obs = json_input["observation"]
-        self.client.log_metric(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_OBS, value=obs)
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": obs}, artifact_file="data.json")
 
         action = self.trainer.compute_action(obs)
-        self.client.log_metric(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_ACTION, value=action)
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": action}, artifact_file="data.json")
 
         return {"action": int(action)}
 
 
-client.log_metric(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="ServeAnomalyPPOModel.deploy")
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="ServeAnomalyPPOModel.deploy")
 ServeAnomalyPPOModel.deploy()
 
 
@@ -58,12 +58,12 @@ def model_two(data):
     run2, client2 = common.init_experiment('anomaly_deployment')
     client2.set_tag(run_id=run2.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='model_two')
     print("Model 2 called with data ", data)
-    client2.log_metric(run_id=run2.info.run_id, key=common.TAG_DEPLOYMENT_RUN_OBS, value=data)
-    client2.log_metric(run_id=run2.info.run_id, key=common.TAG_DEPLOYMENT_RUN_ACTION, value=data)
+    client2.log_dict(run_id=run2.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
+    client2.log_dict(run_id=run2.info.run_id, dictionary={"action": data}, artifact_file="data.json")
     return data
 
 
-client.log_metric(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="model_two.deploy")
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="model_two.deploy")
 model_two.deploy()
 
 
@@ -81,7 +81,7 @@ class ComposedModel:
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='ComposedModel')
 
         data = await starlette_request.body()
-        self.client.log_metric(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_OBS, value=data)
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
 
         score = await self.model_one.remote(data=data)
         if score > 0.5:
@@ -90,15 +90,16 @@ class ComposedModel:
         else:
             result = {"model_used": 1, "score": score}
 
-        self.client.log_metric(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_ACTION, value=result)
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": result}, artifact_file="data.json")
+        # self.client.log_metric(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_ACTION, value=result)
 
         return result
 
 
-client.log_metric(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="ComposedModel.deploy")
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="ComposedModel.deploy")
 ComposedModel.deploy()
 
-client.log_metric(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Testing")
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Testing")
 for _ in range(10):
     env = gym.make("CartPole-v0")
     obs = env.reset()
@@ -106,4 +107,4 @@ for _ in range(10):
     resp = requests.get("http://0.0.0.0:8989/cartpole-ppo", json={"observation": obs.tolist()})
     print(f"<- Received response {resp.json()}")
 
-client.log_metric(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
+client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
