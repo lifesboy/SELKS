@@ -31,6 +31,12 @@ TAG_PARENT_RUN_UUID = 'run.parent.uuid'
 TAG_RUN_TYPE = 'run.type'
 TAG_RUN_STATUS = 'run.status'
 
+TAG_DEPLOYMENT_STATUS = 'deployment.status'
+
+TAG_DEPLOYMENT_RUN_MODEL = 'deployment.run.model'
+TAG_DEPLOYMENT_RUN_OBS = 'deployment.run.obs'
+TAG_DEPLOYMENT_RUN_ACTION = 'deployment.run.action'
+
 
 def init_node():
     ray.init(address=RAY_HEAD_NODE_ADDRESS)
