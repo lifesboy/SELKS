@@ -50,6 +50,8 @@ parser.add_argument(
     default=90.0,
     help="Reward at which we stop training.")
 
+# python3 anomaly_model.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
