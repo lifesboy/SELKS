@@ -25,7 +25,8 @@ serve.start(http_options={"host": "0.0.0.0", "port": 8989})
 @serve.deployment
 class ServeAnomalyPPOModel:
     def __init__(self, checkpoint_path) -> None:
-        self.run, self.client = common.init_experiment("anomaly_deployment")
+        # self.run, self.client = common.init_experiment("anomaly_deployment")
+        self.run, self.client = run, client
         self.trainer = ppo.PPOTrainer(
             config={
                 "framework": "tf",
@@ -49,7 +50,9 @@ class ServeAnomalyPPOModel:
 
 @serve.deployment
 def model_two(data):
-    run2, client2 = common.init_experiment('anomaly_deployment')
+    # run2, client2 = common.init_experiment('anomaly_deployment')
+    run2, client2 = run, client
+
     client2.set_tag(run_id=run2.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='model_two')
     print("Model 2 called with data ", data)
     client2.log_dict(run_id=run2.info.run_id, dictionary={"obs": data}, artifact_file="data.json")
@@ -62,7 +65,9 @@ def model_two(data):
 @serve.deployment(max_concurrent_queries=10, route_prefix="/anomaly")
 class ComposedModel:
     def __init__(self):
-        self.run, self.client = common.init_experiment("anomaly_deployment")
+        # self.run, self.client = common.init_experiment("anomaly_deployment")
+        self.run, self.client = run, client
+
         self.model_one = ServeAnomalyPPOModel.get_handle()
         self.model_two = model_two.get_handle()
 
