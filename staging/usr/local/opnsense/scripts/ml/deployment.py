@@ -107,6 +107,6 @@ for _ in range(10):
     obs = env.reset()
     print(f"-> Sending observation {obs}")
     resp = requests.get("http://0.0.0.0:8989/anomaly", json={"observation": obs.tolist()})
-    print(f"<- Received response {resp.json()}")
+    print(f"<- Received response {resp.body()}")
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
