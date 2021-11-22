@@ -2,6 +2,7 @@ import gym
 from starlette.requests import Request
 import requests
 import random
+import time
 
 import ray.rllib.agents.ppo as ppo
 from ray import serve
@@ -104,11 +105,12 @@ client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="
 ComposedModel.deploy()
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Testing")
-for _ in range(10):
+for _ in range(1000):
     env = gym.make("CartPole-v0")
     obs = env.reset()
     print(f"-> Sending observation {obs}")
     resp = requests.get("http://0.0.0.0:8989/anomaly", json={"observation": obs.tolist()})
     print(f"<- Received response {resp.json() if resp.ok else resp}")
+    time.sleep(random.randint(1, 5))
 
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
