@@ -52,9 +52,9 @@ def train_ppo_model():
 checkpoint_path = train_ppo_model()
 # __doc_train_model_end__
 
-ray.init(num_cpus=8)
+#ray.init(num_cpus=8)
 # __doc_deploy_begin__
-serve.start()
+serve.start(http_options={"port": 6789})
 ServePPOModel.deploy(checkpoint_path)
 # __doc_deploy_end__
 
