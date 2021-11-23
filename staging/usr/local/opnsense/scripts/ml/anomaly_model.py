@@ -2,6 +2,8 @@
 
 import argparse
 import os
+
+import mlflow
 import yaml
 
 import ray
@@ -118,7 +120,7 @@ if __name__ == "__main__":
     # >>         state = init_state
     # >>     else:
     # >>         state = state_out
-
+    mlflow.tensorflow.autolog()
     results = tune.run(args.run, config=config, stop=stop, verbose=1,
                        checkpoint_at_end=True,
                        callbacks=[MLflowLoggerCallback(
