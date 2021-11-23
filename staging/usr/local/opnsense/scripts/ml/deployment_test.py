@@ -1,8 +1,5 @@
 import gym
 from locust import HttpUser, between, task
-import requests
-import random
-import time
 
 import common
 
@@ -21,12 +18,8 @@ class AnomalyDeploymentModelTest(HttpUser):
         env = gym.make("CartPole-v0")
         obs = env.reset()
         print(f"-> Sending observation {obs}")
-        self.client.get("http://selks.ddns.net:8989/anomaly", json={"observation": obs.tolist()})
+        resp = self.client.get("http://selks.ddns.net:8989/anomaly", json={"observation": obs.tolist()})
         print(f"<- Received response {resp.json() if resp.ok else resp}")
-
-    @task
-    def about(self):
-        self.client.get("/about/")
 
 # if __name__ == "__main__":
 #     locust
