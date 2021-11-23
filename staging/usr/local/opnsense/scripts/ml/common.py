@@ -40,6 +40,8 @@ TAG_DEPLOYMENT_RUN_MODEL = 'deployment.run.model'
 TAG_DEPLOYMENT_RUN_OBS = 'deployment.run.obs'
 TAG_DEPLOYMENT_RUN_ACTION = 'deployment.run.action'
 
+TAG_DEPLOYMENT_TEST_STATUS = 'deployment.test.status'
+
 
 def init_node():
     ray.init(address=RAY_HEAD_NODE_ADDRESS)

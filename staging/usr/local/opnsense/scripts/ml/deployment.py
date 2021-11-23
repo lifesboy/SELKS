@@ -12,7 +12,7 @@ import common
 run, client = common.init_experiment('anomaly_deployment')
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
 
-serve.start(http_options={"host": "0.0.0.0", "port": 8989})
+serve.start(http_options={"host": common.MODEL_SERVE_ADDRESS, "port": common.MODEL_SERVE_PORT})
 
 
 # Our pipeline will be structured as follows:
@@ -24,7 +24,7 @@ serve.start(http_options={"host": "0.0.0.0", "port": 8989})
 # Let's define two models that just print out the data they received.
 
 
-@serve.deployment
+@serve.deployment(name="ServeAnomalyPPOModel", ray_actor_options={"num_gpus": 0.1})
 class ServeAnomalyPPOModel:
     def __init__(self, checkpoint_path) -> None:
         # self.run, self.client = common.init_experiment("anomaly_deployment")
@@ -51,7 +51,7 @@ class ServeAnomalyPPOModel:
         return {"action": action}
 
 
-@serve.deployment
+@serve.deployment(name="model_two", ray_actor_options={"num_gpus": 0})
 def model_two(data):
     # run2, client2 = common.init_experiment('anomaly_deployment')
     run2, client2 = run, client
@@ -65,7 +65,7 @@ def model_two(data):
 
 # max_concurrent_queries is optional. By default, if you pass in an async
 # function, Ray Serve sets the limit to a high number.
-@serve.deployment(max_concurrent_queries=10, route_prefix="/anomaly")
+@serve.deployment(name="ComposedModel", max_concurrent_queries=1000, route_prefix="/anomaly")
 class ComposedModel:
     def __init__(self):
         # self.run, self.client = common.init_experiment("anomaly_deployment")
@@ -109,7 +109,7 @@ for _ in range(1000):
     env = gym.make("CartPole-v0")
     obs = env.reset()
     print(f"-> Sending observation {obs}")
-    resp = requests.get("http://selks.ddns.net:8989/anomaly", json={"observation": obs.tolist()})
+    resp = requests.get("http://selks.ddns.net:6789/anomaly", json={"observation": obs.tolist()})
     print(f"<- Received response {resp.json() if resp.ok else resp}")
     time.sleep(random.randint(1, 5))
 
