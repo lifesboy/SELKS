@@ -25,7 +25,7 @@ serve.start(http_options={"host": common.MODEL_SERVE_ADDRESS, "port": common.MOD
 
 
 @serve.deployment(name="ServeAnomalyPPOModel",
-                  num_replicas=3,
+                  num_replicas=10,
                   ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01})
 class ServeAnomalyPPOModel:
     def __init__(self, checkpoint_path) -> None:
@@ -55,7 +55,7 @@ class ServeAnomalyPPOModel:
 
 @serve.deployment(name="model_two",
                   num_replicas=1,
-                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01})
+                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0})
 def model_two(data):
     # run2, client2 = common.init_experiment('anomaly_deployment')
     run2, client2 = run, client
@@ -71,7 +71,7 @@ def model_two(data):
 # function, Ray Serve sets the limit to a high number.
 @serve.deployment(name="ComposedModel",
                   num_replicas=2,
-                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01},
+                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0},
                   max_concurrent_queries=1000,
                   route_prefix="/anomaly")
 class ComposedModel:
