@@ -16,7 +16,7 @@ class ServePPOModel:
     def __init__(self, checkpoint_path) -> None:
         self.trainer = ppo.PPOTrainer(
             config={
-                "framework": "torch",
+                "framework": "tf",
                 # only 1 "local" worker with an env (not really used here).
                 "num_workers": 0,
             },
