@@ -24,7 +24,9 @@ serve.start(http_options={"host": common.MODEL_SERVE_ADDRESS, "port": common.MOD
 # Let's define two models that just print out the data they received.
 
 
-@serve.deployment(name="ServeAnomalyPPOModel", num_replicas=3, ray_actor_options={"num_gpus": 0.1})
+@serve.deployment(name="ServeAnomalyPPOModel",
+                  num_replicas=3,
+                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01})
 class ServeAnomalyPPOModel:
     def __init__(self, checkpoint_path) -> None:
         # self.run, self.client = common.init_experiment("anomaly_deployment")
@@ -51,7 +53,9 @@ class ServeAnomalyPPOModel:
         return {"action": action}
 
 
-@serve.deployment(name="model_two", num_replicas=2, ray_actor_options={"num_gpus": 0})
+@serve.deployment(name="model_two",
+                  num_replicas=1,
+                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01})
 def model_two(data):
     # run2, client2 = common.init_experiment('anomaly_deployment')
     run2, client2 = run, client
@@ -65,7 +69,11 @@ def model_two(data):
 
 # max_concurrent_queries is optional. By default, if you pass in an async
 # function, Ray Serve sets the limit to a high number.
-@serve.deployment(name="ComposedModel", num_replicas=2, max_concurrent_queries=1000, route_prefix="/anomaly")
+@serve.deployment(name="ComposedModel",
+                  num_replicas=2,
+                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01},
+                  max_concurrent_queries=1000,
+                  route_prefix="/anomaly")
 class ComposedModel:
     def __init__(self):
         # self.run, self.client = common.init_experiment("anomaly_deployment")
