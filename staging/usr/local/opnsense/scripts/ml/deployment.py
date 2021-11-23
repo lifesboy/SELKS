@@ -109,7 +109,7 @@ for _ in range(1000):
     env = gym.make("CartPole-v0")
     obs = env.reset()
     print(f"-> Sending observation {obs}")
-    resp = requests.get("http://0.0.0.0:8989/anomaly", json={"observation": obs.tolist()})
+    resp = requests.get("http://selks.ddns.net:8989/anomaly", json={"observation": obs.tolist()})
     print(f"<- Received response {resp.json() if resp.ok else resp}")
     time.sleep(random.randint(1, 5))
 
