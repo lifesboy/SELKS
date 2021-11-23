@@ -65,7 +65,7 @@ for _ in range(10):
     obs = env.reset()
     print(f"-> Sending observation {obs}")
     resp = requests.get(
-        "http://localhost:8989/cartpole-ppo",
+        "http://localhost:6789/cartpole-ppo",
         json={"observation": obs.tolist()})
     print(f"<- Received response {resp.json()}")
 # Output:
