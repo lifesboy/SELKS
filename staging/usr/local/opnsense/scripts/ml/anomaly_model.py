@@ -87,7 +87,7 @@ class AnomalyModel(RecurrentNetwork):
             "PetalWidth": tf.Variable([], dtype=tf.float64, name="PetalWidth"),
         }
         receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feat_specifications)
-        model_out.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
+        self.rnn_model.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
 
         return model_out, [h, c]
 
