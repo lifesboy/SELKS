@@ -69,7 +69,7 @@ class AnomalyModel(RecurrentNetwork):
             1, activation=None, name="values")(lstm_out)
 
         # Create the RNN model
-        self.rnn_model: Model = tf.keras.Model(
+        self.rnn_model: Model = Model(
             inputs=[input_layer, seq_in, state_in_h, state_in_c],
             outputs=[logits, values, state_h, state_c])
         self.rnn_model.summary()
