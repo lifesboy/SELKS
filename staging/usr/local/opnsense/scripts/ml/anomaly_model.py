@@ -8,10 +8,13 @@ import mlflow
 import yaml
 
 import ray
+from gym import Space
+from keras import Model
 from ray import tune
 from ray.rllib.models.modelv2 import ModelV2
 from ray.rllib.models.preprocessors import get_preprocessor
 from ray.rllib.models.tf.recurrent_net import RecurrentNetwork
+from ray.rllib.utils.typing import ModelConfigDict
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 
@@ -30,13 +33,13 @@ from ray.rllib.utils.annotations import override
 class AnomalyModel(RecurrentNetwork):
 
     def __init__(self,
-                 obs_space,
-                 action_space,
-                 num_outputs,
-                 model_config,
-                 name,
-                 hiddens_size=256,
-                 cell_size=64):
+                 obs_space: Space,
+                 action_space: Space,
+                 num_outputs: int,
+                 model_config: ModelConfigDict,
+                 name: str,
+                 hiddens_size: int = 256,
+                 cell_size: int = 64):
         super(AnomalyModel, self).__init__(obs_space, action_space, num_outputs,
                                            model_config, name)
         self.cell_size = cell_size
@@ -66,7 +69,7 @@ class AnomalyModel(RecurrentNetwork):
             1, activation=None, name="values")(lstm_out)
 
         # Create the RNN model
-        self.rnn_model = tf.keras.Model(
+        self.rnn_model: Model = tf.keras.Model(
             inputs=[input_layer, seq_in, state_in_h, state_in_c],
             outputs=[logits, values, state_h, state_c])
         self.rnn_model.summary()
