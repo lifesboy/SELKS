@@ -22,6 +22,7 @@ from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
 from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.rllib.utils.framework import try_import_tf, try_import_torch
+
 tf1, tf, tfv = try_import_tf()
 from ray.rllib.utils.annotations import override
 
@@ -37,14 +38,14 @@ class AnomalyModel(RecurrentNetwork):
                  hiddens_size=256,
                  cell_size=64):
         super(AnomalyModel, self).__init__(obs_space, action_space, num_outputs,
-                                       model_config, name)
+                                           model_config, name)
         self.cell_size = cell_size
 
         # Define input layers
         input_layer = tf.keras.layers.Input(
             shape=(None, obs_space.shape[0]), name="inputs")
-        state_in_h = tf.keras.layers.Input(shape=(cell_size, ), name="h")
-        state_in_c = tf.keras.layers.Input(shape=(cell_size, ), name="c")
+        state_in_h = tf.keras.layers.Input(shape=(cell_size,), name="h")
+        state_in_c = tf.keras.layers.Input(shape=(cell_size,), name="c")
         seq_in = tf.keras.layers.Input(shape=(), name="seq_in", dtype=tf.int32)
 
         # Preprocess observation with a hidden layer and send to LSTM cell
@@ -52,9 +53,9 @@ class AnomalyModel(RecurrentNetwork):
             hiddens_size, activation=tf.nn.relu, name="dense1")(input_layer)
         lstm_out, state_h, state_c = tf.keras.layers.LSTM(
             cell_size, return_sequences=True, return_state=True, name="lstm")(
-                inputs=dense1,
-                mask=tf.sequence_mask(seq_in),
-                initial_state=[state_in_h, state_in_c])
+            inputs=dense1,
+            mask=tf.sequence_mask(seq_in),
+            initial_state=[state_in_h, state_in_c])
 
         # Postprocess LSTM output with another hidden layer and compute values
         logits = tf.keras.layers.Dense(
@@ -141,8 +142,9 @@ if __name__ == "__main__":
     mlflow.tensorflow.autolog()
     run, client = common.init_experiment("anomaly-model")
 
-    ModelCatalog.register_custom_model(
-        "rnn", AnomalyModel)
+    ModelCatalog.register_custom_model("rnn", RNNModel)
+    ModelCatalog.register_custom_model("anomaly", AnomalyModel)
+
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
     register_env("AnomalyInitialObsEnv", lambda _: AnomalyInitialObsEnv())
 
@@ -162,7 +164,7 @@ if __name__ == "__main__":
         "vf_loss_coeff": 1e-5,
         "vf_clip_param": 1000.0,
         "model": {
-            "custom_model": "rnn",
+            "custom_model": "anomaly",
             "max_seq_len": 20,
             "custom_model_config": {
                 "cell_size": 32,
