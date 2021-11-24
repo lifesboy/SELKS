@@ -74,6 +74,17 @@ class AnomalyModel(RecurrentNetwork):
     def forward_rnn(self, inputs, state, seq_lens):
         model_out, self._value_out, h, c = self.rnn_model([inputs, seq_lens] +
                                                           state)
+
+        # Creating output tf.Variables to specify the output of the saved model.
+        feat_specifications = {
+            "SepalLength": tf.Variable([], dtype=tf.float64, name="SepalLength"),
+            "SepalWidth": tf.Variable([], dtype=tf.float64, name="SepalWidth"),
+            "PetalLength": tf.Variable([], dtype=tf.float64, name="PetalLength"),
+            "PetalWidth": tf.Variable([], dtype=tf.float64, name="PetalWidth"),
+        }
+        receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feat_specifications)
+        model_out.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
+
         return model_out, [h, c]
 
     @override(ModelV2)
