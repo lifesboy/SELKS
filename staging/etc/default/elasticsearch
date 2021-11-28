@@ -50,4 +50,4 @@ ES_STARTUP_SLEEP_TIME=5
 # property is set at boot time in /usr/lib/sysctl.d/elasticsearch.conf
 #MAX_MAP_COUNT=262144
 
-ES_HEAP_SIZE=10g
+ES_HEAP_SIZE=6g
