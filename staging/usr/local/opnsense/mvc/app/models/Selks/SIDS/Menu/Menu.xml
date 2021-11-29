@@ -5,4 +5,7 @@
             <Log VisibleName="Log File" url="/ui/diagnostics/log/core/suricata" />
         </SIDS>
     </Services>
+    <Lobby>
+        <Kibana order="1" VisibleName="Kibana" url="https://selks.ddns.net/app/kibana" cssClass="fa fa-shield fa-fw" />
+    </Lobby>
 </menu>
