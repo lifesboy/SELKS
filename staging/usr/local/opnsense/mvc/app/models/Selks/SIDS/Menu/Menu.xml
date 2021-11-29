@@ -6,9 +6,9 @@
         </SIDS>
     </Services>
     <Reporting>
-        <Kibana order="1" isExternal="Y" VisibleName="Kibana" url="https://selks.ddns.net/app/kibana" cssClass="fa fa-line-chart fa-fw" />
-        <Evebox order="2" isExternal="Y" VisibleName="Eve box" url="https://selks.ddns.net/evebox" cssClass="fa fa-line-chart fa-fw" />
-        <Hunt order="3" isExternal="Y" VisibleName="Hunt" url="https://selks.ddns.net/rules/hunt" cssClass="fa fa-line-chart fa-fw" />
-        <RuleStats order="4" isExternal="Y" VisibleName="Rule Stats" url="https://selks.ddns.net/rules" cssClass="fa fa-line-chart fa-fw" />
+        <Kibana order="1" isExternal="Y" VisibleName="Kibana" url="http://selks.ddns.net/app/kibana" cssClass="fa fa-line-chart fa-fw" />
+        <Evebox order="2" isExternal="Y" VisibleName="Eve box" url="http://selks.ddns.net/evebox" cssClass="fa fa-line-chart fa-fw" />
+        <Hunt order="3" isExternal="Y" VisibleName="Hunt" url="http://selks.ddns.net/rules/hunt" cssClass="fa fa-line-chart fa-fw" />
+        <RuleStats order="4" isExternal="Y" VisibleName="Rule Stats" url="http://selks.ddns.net/rules" cssClass="fa fa-line-chart fa-fw" />
     </Reporting>
 </menu>
