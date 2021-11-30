@@ -14,7 +14,7 @@
 vars:
   # more specific is better for alert accuracy and performance
   address-groups:
-    HOME_NET: "[{{Selks.Anomaly.general.homenet|default('192.168.0.0/16,10.0.0.0/8,172.16.0.0/12')}}]"
+    HOME_NET: "[{{Selks.SIDS.general.homenet|default('192.168.0.0/16,10.0.0.0/8,172.16.0.0/12')}}]"
     EXTERNAL_NET: "!$HOME_NET"
     HTTP_SERVERS: "$HOME_NET"
     SMTP_SERVERS: "$HOME_NET"
@@ -75,7 +75,7 @@ outputs:
       #filetype: regular # 'regular', 'unix_stream' or 'unix_dgram'
 
 
-#  {% if not helpers.empty('Selks.Anomaly.general.syslog_eve') %}
+#  {% if not helpers.empty('Selks.SIDS.general.syslog_eve') %}
 ## Extensible Event Format (nicknamed EVE) to syslog
 #  - eve-log:
 #      enabled: yes
@@ -85,7 +85,7 @@ outputs:
 #      level: Info
 #      types:
 #        - alert:
-#      {%     if not helpers.empty('Selks.Anomaly.general.LogPayload') %}
+#      {%     if not helpers.empty('Selks.SIDS.general.LogPayload') %}
 #      payload: no
 #      payload-buffer-size: 4kb
 #      payload-printable: yes
@@ -451,7 +451,7 @@ outputs:
 
   # a line based alerts log similar to fast.log into syslog
   - syslog:
-      enabled: {% if helpers.empty('Selks.Anomaly.general.syslog') %}no{% else %}yes{% endif %}
+      enabled: {% if helpers.empty('Selks.SIDS.general.syslog') %}no{% else %}yes{% endif %}
 
       # reported identity to syslog. If ommited the program name (usually
       # suricata) will be used.
@@ -574,7 +574,7 @@ outputs:
       scripts:
       #   - script1.lua
 
-# Logging configuration.  This is not about logging Anomaly alerts/events, but
+# Logging configuration.  This is not about logging SIDS alerts/events, but
 # output about what Suricata is doing, like startup messages, errors, etc.
 logging:
   # The default log level: can be overridden in an output section.
@@ -702,8 +702,8 @@ af-packet:
     #use-mmap: no
     #tpacket-v3: yes
 
-  {% if helpers.exists('Selks.Anomaly.general.interfaces') %}
-  {% for intfName in Selks.Anomaly.general.interfaces.split(',') %}
+  {% if helpers.exists('Selks.SIDS.general.interfaces') %}
+  {% for intfName in Selks.SIDS.general.interfaces.split(',') %}
 
   - interface: {{physical_interface(intfName)}}
     threads: auto
@@ -751,7 +751,7 @@ pcap:
     # listening on the same interface.
     #threads: 16
     # set to no to disable promiscuous mode:
-    promisc: {% if not helpers.empty('Selks.Anomaly.general.promisc') %}yes{% else %}no{% endif %} #  promiscuous mode
+    promisc: {% if not helpers.empty('Selks.SIDS.general.promisc') %}yes{% else %}no{% endif %} #  promiscuous mode
     # set snaplen, if not set it defaults to MTU if MTU can be known
     # via ioctl call and to full capture if not.
     #snaplen: 1518
@@ -1118,8 +1118,8 @@ runmode: workers
 # Preallocated size for each packet. Default is 1514 which is the classical
 # size for pcap on Ethernet. You should adjust this value to the highest
 # packet size (MTU + hardware header) on your system.
-{% if helpers.exists('Selks.Anomaly.general.defaultPacketSize') %}
-default-packet-size: {{Selks.Anomaly.general.defaultPacketSize|default('1514')}}
+{% if helpers.exists('Selks.SIDS.general.defaultPacketSize') %}
+default-packet-size: {{Selks.SIDS.general.defaultPacketSize|default('1514')}}
 {% endif %}
 
 # Unix command socket that can be used to pass commands to Suricata.
@@ -1377,7 +1377,7 @@ flow-timeouts:
 stream:
   memcap: 64mb
   checksum-validation: yes      # reject wrong csums
-  inline: {% if Selks.Anomaly.general.ips|default("0") == "1" %}true{% else %}auto{% endif %}
+  inline: {% if Selks.SIDS.general.ips|default("0") == "1" %}true{% else %}auto{% endif %}
 
   reassembly:
     memcap: 256mb
@@ -1450,12 +1450,12 @@ decoder:
 # If the argument specified is 0, the engine uses an internally defined
 # default limit.  When a value is not specified, there are no limits on the recursion.
 detect:
-  profile: {% if helpers.exists('Selks.Anomaly.general.detect') %} {{ Selks.Anomaly.general.detect.Profile|default("medium")}} {% else %}medium{% endif %}
+  profile: {% if helpers.exists('Selks.SIDS.general.detect') %} {{ Selks.SIDS.general.detect.Profile|default("medium")}} {% else %}medium{% endif %}
 
   custom-values:
-    toclient-groups: {% if helpers.exists('Selks.Anomaly.general.detect') %} {{ Selks.Anomaly.general.detect.toclient_groups|default("3")}} {% else %}3{% endif %}
+    toclient-groups: {% if helpers.exists('Selks.SIDS.general.detect') %} {{ Selks.SIDS.general.detect.toclient_groups|default("3")}} {% else %}3{% endif %}
 
-    toserver-groups: {% if helpers.exists('Selks.Anomaly.general.detect') %} {{ Selks.Anomaly.general.detect.toserver_groups|default("25")}} {% else %}25{% endif %}
+    toserver-groups: {% if helpers.exists('Selks.SIDS.general.detect') %} {{ Selks.SIDS.general.detect.toserver_groups|default("25")}} {% else %}25{% endif %}
 
   sgh-mpm-context: auto
   inspection-recursion-limit: 3000
@@ -1507,7 +1507,7 @@ detect:
 # ruleset is small enough to fit in memory, in which case one can
 # use "full" with "ac".  The rest of the mpms can be run in "full" mode.
 
-mpm-algo: {% if helpers.exists('Selks.Anomaly.general') %} {{ Selks.Anomaly.general.MPMAlgo|default("ac")}} {% else %}ac{% endif %}
+mpm-algo: {% if helpers.exists('Selks.SIDS.general') %} {{ Selks.SIDS.general.MPMAlgo|default("ac")}} {% else %}ac{% endif %}
 
 # Select the matching algorithm you want to use for single-pattern searches.
 #
@@ -1739,7 +1739,7 @@ netmap:
     #copy-mode: ips
     #copy-iface: eth3
     # Set to yes to disable promiscuous mode
-    #disable-promisc: {% if helpers.empty('Selks.Anomaly.general.promisc') %}yes{% else %}no{% endif %} #  promiscuous mode
+    #disable-promisc: {% if helpers.empty('Selks.SIDS.general.promisc') %}yes{% else %}no{% endif %} #  promiscuous mode
     # Choose checksum verification mode for the interface. At the moment
     # of the capture, some packets may be with an invalid checksum due to
     # offloading to the network card of the checksum computation.

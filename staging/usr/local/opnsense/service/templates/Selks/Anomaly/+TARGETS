@@ -1,0 +1,9 @@
+OPNsense.rules:/etc/suricata/rules/OPNsense.rules
+classification.config:/etc/suricata/classification.config
+custom.yaml:/etc/suricata/custom.yaml
+newsyslog.conf:/etc/newsyslog.conf.d/suricata
+rc.conf.d:/etc/rc.conf.d/suricata
+reference.config:/etc/suricata/reference.config
+rule-updater.config:/etc/suricata/rule-updater.config
+rules.config:/etc/suricata/rules.config
+suricata.yaml:/etc/suricata/suricata.yaml

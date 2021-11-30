@@ -5,8 +5,8 @@
 #
 
 # -- User defined rules
-{% if helpers.exists('Selks.Anomaly.userDefinedRules.rule') %}
-{%      for rule in helpers.toList('Selks.Anomaly.userDefinedRules.rule') %}
+{% if helpers.exists('Selks.SIDS.userDefinedRules.rule') %}
+{%      for rule in helpers.toList('Selks.SIDS.userDefinedRules.rule') %}
 {%          if rule.enabled|default('0') == '1' %}
 {{rule.action}}{% if rule.fingerprint|default('') != ""
       %} tls {% else %} ip {% endif %} {% if rule.source|default('') != "" %} {{ rule.source }} {% else %} any {% endif %} any -> {% if rule.destination|default('') != "" %} {{ rule.destination }} {% else %} any {% endif %} any (msg:"{{rule.description.replace('"','\"')}}"; {%

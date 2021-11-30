@@ -1,0 +1,5 @@
+<menu>
+    <NextGenerationIDPS>
+        <Anomaly order="0" VisibleName="Anomaly Detection" url="/ui/anomaly" cssClass="fa fa-shield fa-fw" />
+    </NextGenerationIDPS>
+</menu>
