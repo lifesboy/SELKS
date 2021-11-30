@@ -28,15 +28,15 @@
  *
  */
 
-namespace Selks\SIDS;
+namespace Selks\Anomaly;
 
 use OPNsense\Base\BaseModel;
 
 /**
- * Class SIDS
- * @package Selks\SIDS
+ * Class Anomaly
+ * @package Selks\Anomaly
  */
-class SIDS extends BaseModel
+class Anomaly extends BaseModel
 {
     /**
      * @var array internal list of all sid's in this object
