@@ -238,7 +238,7 @@ POSSIBILITY OF SUCH DAMAGE.
          */
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             loadGeneralSettings();
-            if (e.target.id == 'download_settings_tab') {
+            if (e.target.id == 'training_histories_tab') {
                 /**
                  * grid for installable rule files
                  */
@@ -699,12 +699,8 @@ POSSIBILITY OF SUCH DAMAGE.
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
-    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Settings') }}</a></li>
-    <li><a data-toggle="tab" href="#download_settings" id="download_settings_tab">{{ lang._('Download') }}</a></li>
-    <li><a data-toggle="tab" href="#rules" id="rule_tab">{{ lang._('Rules') }}</a></li>
-    <li><a data-toggle="tab" href="#userrules" id="userrules_tab">{{ lang._('User defined') }}</a></li>
-    <li><a data-toggle="tab" href="#alerts" id="alert_tab">{{ lang._('Alerts') }}</a></li>
-    <li><a href="" id="scheduled_updates" style="display:none">{{ lang._('Schedule') }}</a></li>
+    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training Setting') }}</a></li>
+    <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Histories') }}</a></li>
 </ul>
 <div class="tab-content content-box">
     <div id="settings" class="tab-pane fade in">
@@ -722,7 +718,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
         </div>
     </div>
-    <div id="download_settings" class="tab-pane fade in">
+    <div id="training_histories" class="tab-pane fade in">
       <!-- add installable rule files -->
       <table class="table table-striped table-condensed table-responsive">
           <tbody>
@@ -809,140 +805,6 @@ POSSIBILITY OF SUCH DAMAGE.
           ></button>
           <br/><br/>
       </div>
-    </div>
-    <div id="rules" class="tab-pane fade in">
-        <div class="bootgrid-header container-fluid">
-            <div class="row">
-                <div class="col-sm-12 actionBar">
-                    <select id="rulemetadata" title="{{ lang._('Filters') }}" class="selectpicker" multiple=multiple data-live-search="true" data-size="10" data-width="100%">
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- tab page "installed rules" -->
-        <table id="grid-installedrules" data-store-selection="true" class="table table-condensed table-hover table-striped table-responsive" data-editAlert="ruleChangeMessage" data-editDialog="DialogRule">
-            <thead>
-            <tr>
-                <th data-column-id="sid" data-type="numeric" data-visible="true" data-identifier="true" data-width="6em">{{ lang._('sid') }}</th>
-                <th data-column-id="action" data-type="string">{{ lang._('Action') }}</th>
-                <th data-column-id="source" data-type="string">{{ lang._('Source') }}</th>
-                <th data-column-id="classtype" data-type="string">{{ lang._('ClassType') }}</th>
-                <th data-column-id="msg" data-type="string">{{ lang._('Message') }}</th>
-                <th data-column-id="enabled" data-formatter="rowtoggle" data-sortable="false" data-width="10em">{{ lang._('Info / Enabled') }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td>
-                    <button title="{{ lang._('Disable selected') }}" id="disableSelectedRules" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><span class="fa fa-square-o"></span></button>
-                    <button title="{{ lang._('Enable selected') }}" id="enableSelectedRules" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><span class="fa fa-check-square-o"></span></button>
-                    <button title="{{ lang._('Alert selected') }}" id="alertSelectedRules" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><span class="fa"></span>{{ lang._('alert') }}</button>
-                    <button title="{{ lang._('Drop selected') }}" id="dropSelectedRules" data-toggle="tooltip" type="button" class="btn btn-xs btn-default"><span class="fa"></span>{{ lang._('drop') }}</button>
-                </td>
-                <td></td>
-            </tr>
-            </tfoot>
-        </table>
-        <div class="col-md-12">
-            <div id="ruleChangeMessage" class="alert alert-info" style="display: none" role="alert">
-                {{ lang._('After changing settings, please remember to apply them with the button below') }}
-            </div>
-            <hr/>
-            <button class="btn btn-primary act_update"
-                    data-endpoint='/api/anomaly/service/reloadRules'
-                    data-label="{{ lang._('Apply') }}"
-                    data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
-                    type="button"
-            ></button>
-            <br/>
-            <br/>
-        </div>
-    </div>
-    <div id="userrules" class="tab-pane fade in">
-        <!-- tab page "userrules" -->
-        <table id="grid-userrules" data-store-selection="true" class="table table-condensed table-hover table-striped table-responsive" data-editAlert="userdefineChangeMessage" data-editDialog="DialogUserDefined">
-            <thead>
-                <tr>
-                    <th data-column-id="enabled" data-formatter="rowtoggle" data-sortable="false" data-width="10em">{{ lang._('Enabled') }}</th>
-                    <th data-column-id="action" data-type="string" data-sortable="true">{{ lang._('Action') }}</th>
-                    <th data-column-id="description" data-type="string" data-sortable="true">{{ lang._('Description') }}</th>
-                    <th data-column-id="uuid" data-type="string" data-identifier="true" data-visible="false">{{ lang._('ID') }}</th>
-                    <th data-column-id="commands" data-width="7em" data-formatter="commands" data-sortable="false">{{ lang._('Commands') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-                <tr >
-                    <td></td>
-                    <td>
-                        <button data-action="add" type="button" class="btn btn-xs btn-default"><span class="fa fa-plus"></span></button>
-                        <button data-action="deleteSelected" type="button" class="btn btn-xs btn-default"><span class="fa fa-trash-o"></span></button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-        <div class="col-md-12">
-            <div id="userdefineChangeMessage" class="alert alert-info" style="display: none" role="alert">
-                {{ lang._('After changing settings, please remember to apply them with the button below') }}
-            </div>
-            <hr/>
-            <button class="btn btn-primary act_update"
-                    data-endpoint='/api/anomaly/service/reloadRules'
-                    data-label="{{ lang._('Apply') }}"
-                    data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
-                    type="button"
-            ></button>
-            <br/>
-            <br/>
-        </div>
-    </div>
-    <div id="alerts" class="tab-pane fade in">
-        <!-- tab page "alerts" -->
-        <div id="grid-alerts-header" class="bootgrid-header container-fluid">
-            <div class="row">
-                <div class="col-sm-12 actionBar">
-                    <select id="alert-logfile" class="selectpicker" data-width="200px"></select>
-                    <span id="actDeleteLog" class="btn btn-lg fa fa-trash" style="cursor: pointer;" title="{{ lang._('Delete Alert Log') }}"></span>
-                    <select id="alert-logfile-max" class="selectpicker" data-width="80px">
-                        <option value="7">7</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="250">250</option>
-                        <option value="500">500</option>
-                        <option value="1000">1000</option>
-                        <option value="-1">{{ lang._('All') }}</option>
-                    </select>
-                    <div class="search form-group">
-                        <div class="input-group">
-                            <input class="search-field form-control" placeholder="{{ lang._('Search') }}" type="text" id="inputSearchAlerts">
-                            <span id="actQueryAlerts" class="icon input-group-addon fa fa-refresh" title="{{ lang._('Query') }}" style="cursor: pointer;"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <table id="grid-alerts" data-store-selection="true" class="table table-condensed table-hover table-striped table-responsive">
-            <thead>
-              <tr>
-                  <th data-column-id="timestamp" data-type="string" data-sortable="false">{{ lang._('Timestamp') }}</th>
-                  <th data-column-id="alert_sid" data-type="string" data-sortable="false"  data-width="70px">{{ lang._('SID') }}</th>
-                  <th data-column-id="alert_action" data-type="string" data-sortable="false" data-width="70px">{{ lang._('Action') }}</th>
-                  <th data-column-id="in_iface" data-type="interface" data-sortable="false" data-width="100px">{{ lang._('Interface') }}</th>
-                  <th data-column-id="src_ip" data-type="string" data-sortable="false" data-width="150px">{{ lang._('Source') }}</th>
-                  <th data-column-id="src_port" data-type="string" data-sortable="false" data-width="70px">{{ lang._('Port') }}</th>
-                  <th data-column-id="dest_ip" data-type="string" data-sortable="false" data-width="150px">{{ lang._('Destination') }}</th>
-                  <th data-column-id="dest_port" data-type="string" data-sortable="false" data-width="70px">{{ lang._('Port') }}</th>
-                  <th data-column-id="alert" data-type="string" data-sortable="false" >{{ lang._('Alert') }}</th>
-                  <th data-column-id="info" data-formatter="info" data-sortable="false" data-width="4em">{{ lang._('Info') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
 </div>
 
