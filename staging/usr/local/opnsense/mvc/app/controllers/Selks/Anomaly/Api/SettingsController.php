@@ -53,9 +53,9 @@ class SettingsController extends ApiMutableModelControllerBase
     {
         $settingsNodes = array('general');
         $result = array();
-        $mdlSIDS = $this->getModel();
+        $mdlAnomaly = $this->getModel();
         foreach ($settingsNodes as $key) {
-            $result[$key] = $mdlSIDS->$key->getNodes();
+            $result[$key] = $mdlAnomaly->$key->getNodes();
         }
         return $result;
     }
@@ -412,13 +412,13 @@ class SettingsController extends ApiMutableModelControllerBase
             $data = json_decode($response, true);
             if ($data != null && array_key_exists("items", $data) && array_key_exists($filename, $data['items'])) {
                 // filename exists, input ruleset data
-                $mdlSIDS = $this->getModel();
-                $node = $mdlSIDS->getFileNode($filename);
+                $mdlAnomaly = $this->getModel();
+                $node = $mdlAnomaly->getFileNode($filename);
 
                 // send post attributes to model
                 $node->setNodes($_POST);
 
-                $validations = $mdlSIDS->validate($node->__reference . ".", "");
+                $validations = $mdlAnomaly->validate($node->__reference . ".", "");
                 if (!empty($validations)) {
                     $result['validations'] = $validations;
                 } else {
@@ -556,18 +556,18 @@ class SettingsController extends ApiMutableModelControllerBase
             $ruleinfo = $this->getRuleInfoAction($sid);
             $newAction = $this->request->getPost("action", "striptags", null);
             if (!empty($ruleinfo)) {
-                $mdlSIDS = $this->getModel();
+                $mdlAnomaly = $this->getModel();
                 if (
                     $ruleinfo['enabled_default'] == $ruleinfo['enabled'] &&
                     $ruleinfo['action_default'] == $newAction
                 ) {
                     // if we're switching back to default, remove alter rule
-                    $mdlSIDS->removeRule($sid);
+                    $mdlAnomaly->removeRule($sid);
                 } else {
-                    $mdlSIDS->setAction($sid, $newAction);
+                    $mdlAnomaly->setAction($sid, $newAction);
                 }
 
-                $validations = $mdlSIDS->validate();
+                $validations = $mdlAnomaly->validate();
                 if (!empty($validations)) {
                     $result['validations'] = $validations;
                 } else {
