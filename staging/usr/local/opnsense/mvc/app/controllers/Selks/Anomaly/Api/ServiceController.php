@@ -86,9 +86,9 @@ class ServiceController extends ApiMutableServiceControllerBase
 
             if ($bckresult == "OK") {
                 if ((string)$mdlAnomaly->general->enabled == 1) {
-                    $bckresult = trim($backend->configdRun("anomaly start %s %s %s %s" % (
+                    $bckresult = trim($backend->configdRun(sprintf("anomaly start %s %s %s %s",
                         $mdlAnomaly->general->StopIters, $mdlAnomaly->general->StopEpisodeLen,
-                        $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward));
+                        $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward)));
                     if ($bckresult == "OK") {
                         if ($runStatus['status'] == 'running') {
                             $status = $this->restartAction()['response'];
