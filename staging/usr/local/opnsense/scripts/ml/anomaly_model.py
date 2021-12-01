@@ -89,7 +89,8 @@ class AnomalyModel(RecurrentNetwork):
         }
         receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feat_specifications)
         # self.rnn_model.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
-        tf.keras.experimental.export_saved_model(self.rnn_model, "/tmp/anomaly_model/")
+        # tf.keras.experimental.export_saved_model(self.rnn_model, "/tmp/anomaly_model/")
+        mlflow.keras.log_model(self.rnn_model, "anomaly-model")
 
         return model_out, [h, c]
 
