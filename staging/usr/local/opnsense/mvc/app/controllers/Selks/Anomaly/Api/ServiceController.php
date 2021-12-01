@@ -66,7 +66,7 @@ class ServiceController extends ApiMutableServiceControllerBase
             if ((string)$mdlAnomaly->general->UpdateCron == "") {
                 $mdlCron = new Cron();
                 // update cron relation (if this doesn't break consistency)
-                $mdlAnomaly->general->UpdateCron = $mdlCron->newDailyJob("Anomaly", "anomaly update", "anomaly rule updates", "*", "0");
+                $mdlAnomaly->general->UpdateCron = $mdlCron->newDailyJob("Anomaly", "anomaly update", "anomaly training updates", "*", "0");
 
                 if ($mdlCron->performValidation()->count() == 0) {
                     $mdlCron->serializeToConfig();
@@ -86,7 +86,7 @@ class ServiceController extends ApiMutableServiceControllerBase
 
             if ($bckresult == "OK") {
                 if ((string)$mdlAnomaly->general->enabled == 1) {
-                    $bckresult = trim($backend->configdRun("anomaly install rules"));
+                    $bckresult = trim($backend->configdRun("anomaly training start"));
                     if ($bckresult == "OK") {
                         if ($runStatus['status'] == 'running') {
                             $status = $this->restartAction()['response'];
@@ -94,7 +94,7 @@ class ServiceController extends ApiMutableServiceControllerBase
                             $status = $this->startAction()['response'];
                         }
                     } else {
-                        $status = "error installing anomaly rules (" . $bckresult . ")";
+                        $status = "error training anomaly model (" . $bckresult . ")";
                     }
                 } else {
                     $status = "OK";

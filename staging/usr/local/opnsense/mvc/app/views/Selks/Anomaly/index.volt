@@ -709,7 +709,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <hr/>
             <button class="btn btn-primary" id="reconfigureAct"
                     data-endpoint='/api/anomaly/service/reconfigure'
-                    data-label="{{ lang._('Apply') }}"
+                    data-label="{{ lang._('Train') }}"
                     data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
                     data-service-widget="anomaly"
                     type="button"
