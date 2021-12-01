@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Example of using a custom RNN keras model."""
 
 import argparse
