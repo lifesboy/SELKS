@@ -64,7 +64,7 @@ class ServiceController extends ApiMutableServiceControllerBase
             $runStatus = $this->statusAction();
             $runCommand = sprintf("anomaly start %s %s %s %s",
                         $mdlAnomaly->general->StopIters, $mdlAnomaly->general->StopEpisodeLen,
-                        $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward)
+                        $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward);
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
             if ((string)$mdlAnomaly->general->UpdateCron == "") {
