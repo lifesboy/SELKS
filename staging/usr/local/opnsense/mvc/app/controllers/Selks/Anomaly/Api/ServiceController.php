@@ -62,11 +62,15 @@ class ServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
+            $runCommand = sprintf("anomaly start %s %s %s %s",
+                        $mdlAnomaly->general->StopIters, $mdlAnomaly->general->StopEpisodeLen,
+                        $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward)
+
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
             if ((string)$mdlAnomaly->general->UpdateCron == "") {
                 $mdlCron = new Cron();
                 // update cron relation (if this doesn't break consistency)
-                $mdlAnomaly->general->UpdateCron = $mdlCron->newDailyJob("Anomaly", "anomaly update", "anomaly training updates", "*", "0");
+                $mdlAnomaly->general->UpdateCron = $mdlCron->newDailyJob("Anomaly", $runCommand, "anomaly training updates", "*", "0");
 
                 if ($mdlCron->performValidation()->count() == 0) {
                     $mdlCron->serializeToConfig();
@@ -86,9 +90,7 @@ class ServiceController extends ApiMutableServiceControllerBase
 
             if ($bckresult == "OK") {
                 if ((string)$mdlAnomaly->general->enabled == 1) {
-                    $bckresult = trim($backend->configdRun(sprintf("anomaly start %s %s %s %s",
-                        $mdlAnomaly->general->StopIters, $mdlAnomaly->general->StopEpisodeLen,
-                        $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward), true));
+                    $bckresult = trim($backend->configdRun($runCommand, true));
                     if ($bckresult != null) {
                         $status ="ok";
 //                         if ($runStatus['status'] == 'running') {
