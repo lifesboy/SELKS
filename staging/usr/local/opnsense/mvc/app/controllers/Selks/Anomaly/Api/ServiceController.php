@@ -89,12 +89,13 @@ class ServiceController extends ApiMutableServiceControllerBase
                     $bckresult = trim($backend->configdRun(sprintf("anomaly start %s %s %s %s",
                         $mdlAnomaly->general->StopIters, $mdlAnomaly->general->StopEpisodeLen,
                         $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward), true));
-                    if ($bckresult == "OK") {
-                        if ($runStatus['status'] == 'running') {
-                            $status = $this->restartAction()['response'];
-                        } else {
-                            $status = $this->startAction()['response'];
-                        }
+                    if ($bckresult != null) {
+                        $status ="ok";
+//                         if ($runStatus['status'] == 'running') {
+//                             $status = $this->restartAction()['response'];
+//                         } else {
+//                             $status = $this->startAction()['response'];
+//                         }
                     } else {
                         $status = "error training anomaly model (" . $bckresult . ")";
                     }
