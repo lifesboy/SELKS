@@ -23,8 +23,6 @@ PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
                                                   micro=version_info.micro)
 run, client = common.init_experiment('data-processor')
 
-num_rows = 0
-
 
 class BatchPreprocessor(mlflow.pyfunc.PythonModel):
     def __init__(self):
