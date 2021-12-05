@@ -161,8 +161,8 @@ POSSIBILITY OF SUCH DAMAGE.
                         $("#scheduled_updates").show();
                     }
                 });
-                formatTokenizersUI();
-                $('.selectpicker').selectpicker('refresh');
+
+                loadDataProcessorSettings();
             });
         }
 
@@ -247,7 +247,6 @@ POSSIBILITY OF SUCH DAMAGE.
          */
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             loadGeneralSettings();
-            loadDataProcessorSettings();
             if (e.target.id == 'training_histories_tab') {
                 /**
                  * grid for installable rule files
