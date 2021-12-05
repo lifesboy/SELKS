@@ -130,24 +130,26 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
     client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
 
-    pipe: DatasetPipeline = ray.data.read_csv(data_source_files).window(blocks_per_window=batch_size)
+    if data_source_files and len(data_source_files) > 0:
+        pipe: DatasetPipeline = ray.data.read_csv(data_source_files).window(blocks_per_window=batch_size)
 
-    # client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preprocess')
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='counting')
-    # client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.count())
+        # client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TYPE, value='preprocess')
+        # client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='counting')
+        # client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.count())
 
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
-    pipe = pipe.map_batches(BatchPreprocessor, batch_format="pandas", compute="actors",
-                            batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
+        client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
+        pipe = pipe.map_batches(BatchPreprocessor, batch_format="pandas", compute="actors",
+                                batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
 
-    # tf.keras.layers.BatchNormalization
+        # tf.keras.layers.BatchNormalization
 
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
-    data_destination_file = pipe.write_csv(path=common.DATA_NORMALIZED_DIR + data_destination + '/', try_create_dir=True)
-    client.log_param(run_id=run.info.run_id, key='data_destination_file', value=data_destination_file)
+        client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
+        data_destination_file = pipe.write_csv(path=common.DATA_NORMALIZED_DIR + data_destination + '/', try_create_dir=True)
+        client.log_param(run_id=run.info.run_id, key='data_destination_file', value=data_destination_file)
 
-    mlflow.pyfunc.log_model(artifact_path=preprocessor_model_path,
-                            python_model=preprocessor_model,
-                            registered_model_name=preprocessor_reg_model_name,
-                            conda_env=conda_env)
+        mlflow.pyfunc.log_model(artifact_path=preprocessor_model_path,
+                                python_model=preprocessor_model,
+                                registered_model_name=preprocessor_reg_model_name,
+                                conda_env=conda_env)
+
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
