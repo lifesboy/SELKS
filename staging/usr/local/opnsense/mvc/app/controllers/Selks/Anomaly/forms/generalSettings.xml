@@ -6,6 +6,12 @@
         <help>Enable training anomaly model.</help>
     </field>
     <field>
+        <id>anomaly.general.DataSource</id>
+        <label>--data-source</label>
+        <type>text</type>
+        <help><![CDATA[Data source to preprocess.]]></help>
+    </field>
+    <field>
         <id>anomaly.general.StopIters</id>
         <label>--stop-iters</label>
         <type>text</type>

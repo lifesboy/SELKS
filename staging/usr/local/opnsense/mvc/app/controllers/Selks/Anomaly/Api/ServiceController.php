@@ -62,7 +62,8 @@ class ServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly start %s %s %s %s",
+            $runCommand = sprintf("anomaly start %s %s %s %s %s",
+                        $mdlAnomaly->general->DataSource,
                         $mdlAnomaly->general->StopIters, $mdlAnomaly->general->StopEpisodeLen,
                         $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward);
 
