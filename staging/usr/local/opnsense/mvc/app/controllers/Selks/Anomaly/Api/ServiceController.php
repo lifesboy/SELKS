@@ -70,7 +70,7 @@ class ServiceController extends ApiMutableServiceControllerBase
             if ((string)$mdlAnomaly->general->UpdateCron == "") {
                 $mdlCron = new Cron();
                 // update cron relation (if this doesn't break consistency)
-                $mdlAnomaly->general->UpdateCron = $mdlCron->newDailyJob("Anomaly", $runCommand, "anomaly training updates", "*", "0");
+                $mdlAnomaly->general->UpdateCron = $mdlCron->newDailyJob("Anomaly Training", $runCommand, "anomaly training updates", "*", "0");
 
                 if ($mdlCron->performValidation()->count() == 0) {
                     $mdlCron->serializeToConfig();
@@ -106,6 +106,68 @@ class ServiceController extends ApiMutableServiceControllerBase
                 }
             } else {
                 $status = "error generating anomaly template (" . $bckresult . ")";
+            }
+        }
+        return array("status" => $status);
+    }
+
+    /**
+     * Reconfigure Anomaly Data Processor
+     * @return array result status
+     * @throws \Exception when configd action fails
+     * @throws \OPNsense\Base\ModelException when unable to construct model
+     * @throws \Phalcon\Validation\Exception when one or more model validations fail
+     */
+    public function reconfigureDataProcessorAction()
+    {
+        $status = "failed";
+        if ($this->request->isPost()) {
+            // close session for long running action
+            $this->sessionClose();
+            $mdlAnomaly = new Anomaly();
+            $runStatus = $this->statusAction();
+            $runCommand = sprintf("anomaly dataprocessor start %s %s %s %s %s",
+                $mdlAnomaly->dataProcessor->DataSource,
+                $mdlAnomaly->dataProcessor->BatchSize,
+                $mdlAnomaly->dataProcessor->NumGpus,
+                $mdlAnomaly->dataProcessor->NumCpus,
+                $mdlAnomaly->dataProcessor->DataDestination);
+
+            // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
+            if ((string)$mdlAnomaly->dataProcessor->UpdateCron == "") {
+                $mdlCron = new Cron();
+                // update cron relation (if this doesn't break consistency)
+                $mdlAnomaly->dataProcessor->UpdateCron = $mdlCron->newDailyJob("Anomaly Data Processor", $runCommand, "anomaly data processor updates", "*", "0");
+
+                if ($mdlCron->performValidation()->count() == 0) {
+                    $mdlCron->serializeToConfig();
+                    // save data to config, do not validate because the current in memory model doesn't know about the
+                    // cron item just created.
+                    $mdlAnomaly->serializeToConfig($validateFullModel = false, $disable_validation = true);
+                    Config::getInstance()->save();
+                }
+            }
+
+//             if ($runStatus['status'] == "running" && (string)$mdlAnomaly->dataProcessor->enabled == 0) {
+//                 $this->stopAction();
+//             }
+
+            $backend = new Backend();
+            $bckresult = trim($backend->configdRun('template reload Selks/Anomaly'));
+
+            if ($bckresult == "OK") {
+                if ((string)$mdlAnomaly->dataProcessor->enabled == 1) {
+                    $bckresult = trim($backend->configdRun($runCommand, true));
+                    if ($bckresult != null) {
+                        $status ="ok";
+                    } else {
+                        $status = "error running data processor anomaly model (" . $bckresult . ")";
+                    }
+                } else {
+                    $status = "OK";
+                }
+            } else {
+                $status = "error generating anomaly data processor template (" . $bckresult . ")";
             }
         }
         return array("status" => $status);

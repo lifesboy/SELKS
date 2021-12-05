@@ -51,6 +51,8 @@ POSSIBILITY OF SUCH DAMAGE.
         var interface_descriptions = {};
         //
         var data_get_map = {'frm_GeneralSettings':"/api/anomaly/settings/get"};
+        //
+        var data_processor_settings_get_map = {'frm_dataProcessorSettings':"/api/anomaly/dataProcessorSettings/get"};
 
         /**
          * update service status
@@ -172,6 +174,29 @@ POSSIBILITY OF SUCH DAMAGE.
             });
         }
 
+        // load initial data
+        function loadDataProcessorSettings() {
+            // hide detect_custom fields when not applicable
+            $("#anomaly\\.general\\.detect\\.Profile").change(function(){
+                if ($("#anomaly\\.general\\.detect\\.Profile").val() == "custom") {
+                    $(".detect_custom").closest("tr").removeClass("hidden");
+                } else {
+                    $(".detect_custom").closest("tr").addClass("hidden");
+                }
+            });
+            mapDataToFormUI(data_processor_settings_get_map).done(function(data){
+                // set schedule updates link to cron
+                $.each(data.frm_dataProcessorSettings.anomaly.dataProcessorSettings.UpdateCron, function(key, value) {
+                    if (value.selected == 1) {
+                        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates").show();
+                    }
+                });
+                formatTokenizersUI();
+                $('.selectpicker').selectpicker('refresh');
+            });
+        }
+
 
         /**
          * toggle selected items
@@ -238,6 +263,7 @@ POSSIBILITY OF SUCH DAMAGE.
          */
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             loadGeneralSettings();
+            loadDataProcessorSettings();
             if (e.target.id == 'training_histories_tab') {
                 /**
                  * grid for installable rule files
@@ -592,6 +618,15 @@ POSSIBILITY OF SUCH DAMAGE.
                 return dfObj;
             }
         });
+        $("#reconfigureDataProcessorAct").SimpleActionButton({
+            onPreAction: function() {
+                const dfObj = new $.Deferred();
+                saveFormToEndpoint("/api/anomaly/dataProcessorSettings/set", 'frm_DataPreprocessorSettings', function(){
+                    dfObj.resolve();
+                });
+                return dfObj;
+            }
+        });
         $("#updateSettings").click(function(){
             $("#updateSettings_progress").addClass("fa fa-spinner fa-pulse");
             var settings = {};
@@ -700,6 +735,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
     <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training Setting') }}</a></li>
+    <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('Data Processor Settings') }}</a></li>
     <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Histories') }}</a></li>
 </ul>
 <div class="tab-content content-box">
@@ -711,6 +747,21 @@ POSSIBILITY OF SUCH DAMAGE.
                     data-endpoint='/api/anomaly/service/reconfigure'
                     data-label="{{ lang._('Train') }}"
                     data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
+                    data-service-widget="anomaly"
+                    type="button"
+            ></button>
+            <br/>
+            <br/>
+        </div>
+    </div>
+    <div id="dataProcessorSettings" class="tab-pane fade in">
+        {{ partial("layout_partials/base_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings'])}}
+        <div class="col-md-12">
+            <hr/>
+            <button class="btn btn-primary" id="reconfigureDataProcessorAct"
+                    data-endpoint='/api/anomaly/service/reconfigureDataProcessor'
+                    data-label="{{ lang._('Process') }}"
+                    data-error-title="{{ lang._('Error reconfiguring Anomaly Data Processor') }}"
                     data-service-widget="anomaly"
                     type="button"
             ></button>

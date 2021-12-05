@@ -1,0 +1,38 @@
+<form>
+    <field>
+        <id>anomaly.dataProcessor.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable data processor anomaly model.</help>
+    </field>
+    <field>
+        <id>anomaly.dataProcessor.DataSource</id>
+        <label>--data-source</label>
+        <type>text</type>
+        <help><![CDATA[Data source to preprocess.]]></help>
+    </field>
+    <field>
+        <id>anomaly.dataProcessor.BatchSize</id>
+        <label>--batch-size</label>
+        <type>text</type>
+        <help><![CDATA[Batch size to preprocess.]]></help>
+    </field>
+    <field>
+        <id>anomaly.dataProcessor.NumGpus</id>
+        <label>--num-gpus</label>
+        <type>text</type>
+        <help><![CDATA[Number of Gpus to preprocess.]]></help>
+    </field>
+    <field>
+        <id>anomaly.dataProcessor.NumCpus</id>
+        <label>--num-gpus</label>
+        <type>text</type>
+        <help><![CDATA[Number of Cpus to preprocess.]]></help>
+    </field>
+    <field>
+        <id>anomaly.dataProcessor.DataDestination</id>
+        <label>--data-destination</label>
+        <type>text</type>
+        <help><![CDATA[Data destination to preprocess.]]></help>
+    </field>
+</form>

@@ -1,11 +1,9 @@
 <acl>
     <page-services-anomaly>
-        <name>Services: SELKS Intrusion Detection</name>
+        <name>Services: Anomaly Detection</name>
         <patterns>
             <pattern>ui/anomaly/*</pattern>
             <pattern>api/anomaly/*</pattern>
-            <pattern>ui/diagnostics/log/suricata/*</pattern>
-            <pattern>api/diagnostics/log/suricata/*</pattern>
         </patterns>
     </page-services-anomaly>
 </acl>

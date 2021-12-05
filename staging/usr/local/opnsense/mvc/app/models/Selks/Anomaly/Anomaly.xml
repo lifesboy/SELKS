@@ -133,5 +133,50 @@
                 <Required>N</Required>
             </UpdateCron>
         </general>
+        <dataProcessor>
+            <enabled type="BooleanField">
+                <default>0</default>
+                <Required>Y</Required>
+            </enabled>
+            <DataSource type="TextField">
+                <Required>Y</Required>
+            </DataSource>
+            <BatchSize type="IntegerField">
+                <Required>N</Required>
+                <MinimumValue>1</MinimumValue>
+                <MaximumValue>9999999999</MaximumValue>
+                <ValidationMessage>Enter a valid batch size</ValidationMessage>
+            </BatchSize>
+            <NumGpus type="NumericField">
+                <Required>N</Required>
+                <MinimumValue>0</MinimumValue>
+                <MaximumValue>9999999999</MaximumValue>
+                <ValidationMessage>Enter a valid num of gpus</ValidationMessage>
+            </NumGpus>
+            <NumCpus type="NumericField">
+                <Required>N</Required>
+                <MinimumValue>0</MinimumValue>
+                <MaximumValue>9999999999</MaximumValue>
+                <ValidationMessage>Enter a valid num of cpus</ValidationMessage>
+            </NumCpus>
+            <DataDestination type="TextField">
+                <Required>Y</Required>
+                <ValidationMessage>Enter a valid data destination name</ValidationMessage>
+            </DataDestination>
+            <UpdateCron type="ModelRelationField">
+                <Model>
+                    <queues>
+                        <source>OPNsense.Cron.Cron</source>
+                        <items>jobs.job</items>
+                        <display>description</display>
+                        <filters>
+                            <origin>/Anomaly/</origin>
+                        </filters>
+                    </queues>
+                </Model>
+                <ValidationMessage>Related cron not found.</ValidationMessage>
+                <Required>N</Required>
+            </UpdateCron>
+        </dataProcessor>
     </items>
 </model>

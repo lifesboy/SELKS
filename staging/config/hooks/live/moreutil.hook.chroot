@@ -248,6 +248,9 @@ mkdir -p /var/log/ray
 ln -s /selks/staging/etc/systemd/system/ray.service /etc/systemd/system/ray.service
 systemctl enable ray
 
+chmod 755 /usr/local/opnsense/scripts/ml/anomaly_model.py
+chmod 755 /usr/local/opnsense/scripts/ml/dataprocessor.py
+
 systemctl daemon-reload
 
 #/bin/selks-first-time-setup_stamus
