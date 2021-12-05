@@ -52,7 +52,7 @@ POSSIBILITY OF SUCH DAMAGE.
         //
         var data_get_map = {'frm_GeneralSettings':"/api/anomaly/settings/get"};
         //
-        var data_processor_settings_get_map = {'frm_dataProcessorSettings':"/api/anomaly/dataProcessorSettings/get"};
+        var data_processor_settings_get_map = {'frm_dataProcessorSettings':"/api/anomaly/data-processor-settings/get"};
 
         /**
          * update service status
@@ -621,7 +621,7 @@ POSSIBILITY OF SUCH DAMAGE.
         $("#reconfigureDataProcessorAct").SimpleActionButton({
             onPreAction: function() {
                 const dfObj = new $.Deferred();
-                saveFormToEndpoint("/api/anomaly/dataProcessorSettings/set", 'frm_DataPreprocessorSettings', function(){
+                saveFormToEndpoint("/api/anomaly/data-processor-settings/set", 'frm_DataPreprocessorSettings', function(){
                     dfObj.resolve();
                 });
                 return dfObj;
@@ -759,7 +759,7 @@ POSSIBILITY OF SUCH DAMAGE.
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureDataProcessorAct"
-                    data-endpoint='/api/anomaly/service/reconfigureDataProcessor'
+                    data-endpoint='/api/anomaly/data-processor-service/reconfigure'
                     data-label="{{ lang._('Process') }}"
                     data-error-title="{{ lang._('Error reconfiguring Anomaly Data Processor') }}"
                     data-service-widget="anomaly"
