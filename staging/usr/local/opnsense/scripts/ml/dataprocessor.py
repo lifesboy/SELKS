@@ -138,7 +138,9 @@ if __name__ == "__main__":
         # tf.keras.layers.BatchNormalization
 
         client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
-        data_destination_file = pipe.write_csv(path=common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/', try_create_dir=True)
+        pipe.write_csv(path=common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/', try_create_dir=True)
+
+        data_destination_file = glob.glob(common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/')
         client.log_param(run_id=run.info.run_id, key='data_destination_file', value=data_destination_file)
 
         mlflow.pyfunc.log_model(artifact_path=preprocessor_model_path,
