@@ -621,7 +621,7 @@ POSSIBILITY OF SUCH DAMAGE.
         $("#reconfigureDataProcessorAct").SimpleActionButton({
             onPreAction: function() {
                 const dfObj = new $.Deferred();
-                saveFormToEndpoint("/api/anomaly/data-processor-settings/set", 'frm_DataPreprocessorSettings', function(){
+                saveFormToEndpoint("/api/anomaly/data-processor-settings/set", 'frm_DataProcessorSettings', function(){
                     dfObj.resolve();
                 });
                 return dfObj;
