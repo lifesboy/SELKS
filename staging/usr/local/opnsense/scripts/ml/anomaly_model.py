@@ -149,7 +149,7 @@ parser.add_argument(
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    data_source = args.episode_len
+    data_source = args.data_source
     data_source_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
 
     mlflow.tensorflow.autolog()
