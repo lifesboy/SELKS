@@ -52,7 +52,7 @@ POSSIBILITY OF SUCH DAMAGE.
         //
         var data_get_map = {'frm_GeneralSettings':"/api/anomaly/settings/get"};
         //
-        var data_processor_settings_get_map = {'frm_dataProcessorSettings':"/api/anomaly/data-processor-settings/get"};
+        var data_processor_settings_get_map = {'frm_DataProcessorSettings':"/api/anomaly/data-processor-settings/get"};
 
         /**
          * update service status
@@ -170,7 +170,7 @@ POSSIBILITY OF SUCH DAMAGE.
         function loadDataProcessorSettings() {
             mapDataToFormUI(data_processor_settings_get_map).done(function(data){
                 // set schedule updates link to cron
-                $.each(data.frm_dataProcessorSettings.anomaly.dataProcessorSettings.UpdateCron, function(key, value) {
+                $.each(data.frm_DataProcessorSettings.anomaly.dataProcessorSettings.UpdateCron, function(key, value) {
                     if (value.selected == 1) {
                         $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
                         $("#scheduled_updates").show();
