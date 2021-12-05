@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import glob
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -71,3 +72,11 @@ def init_experiment(name: str) -> (ActiveRun, MlflowClient):
 
 def get_train_id():
     return datetime.now().strftime("%Y%m%dT%H%M%S")
+
+
+def get_data_featured_extracted_files_by_pattern(pattern: str):
+    return glob.glob(DATA_FEATURED_EXTRACTED_DIR + pattern)
+
+
+def get_data_normalized_labeled_files_by_pattern(pattern: str):
+    return glob.glob(DATA_NORMALIZED_LABELED_DIR + pattern)

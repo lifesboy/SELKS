@@ -115,6 +115,11 @@ parser.add_argument(
 parser.add_argument("--env", type=str, default="AnomalyEnv")
 parser.add_argument("--num-cpus", type=int, default=0)
 parser.add_argument(
+    "--data-source",
+    type=str,
+    default="*/*",
+    help="data source file path filter pattern")
+parser.add_argument(
     "--as-test",
     action="store_true",
     help="Whether this script should be run as a test: --stop-reward must "
@@ -144,9 +149,14 @@ parser.add_argument(
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    data_source = args.episode_len
+    data_source_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
 
     mlflow.tensorflow.autolog()
     run, client = common.init_experiment("anomaly-model")
+
+    client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
+    client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
 
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
@@ -159,6 +169,7 @@ if __name__ == "__main__":
         "env": args.env,
         "env_config": {
             "episode_len": args.stop_episode_len,
+            "data_source_files": data_source_files,
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.

@@ -50,10 +50,6 @@ class BatchPreprocessor(mlflow.pyfunc.PythonModel):
         return data
 
 
-def get_data_featured_extracted_files_by_pattern(pattern: str):
-    return glob.glob(common.DATA_FEATURED_EXTRACTED_DIR + pattern)
-
-
 preprocessor_model_path = "preprocessor"
 preprocessor_reg_model_name = "BatchPreprocessor"
 preprocessor_model = BatchPreprocessor()
@@ -75,7 +71,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--data-source",
     type=str,
-    default="*",
+    default="*/*",
     help="data source file path filter pattern")
 parser.add_argument(
     "--batch-size",
@@ -119,7 +115,7 @@ if __name__ == "__main__":
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_destination = args.data_destination
-    data_source_files = get_data_featured_extracted_files_by_pattern(data_source)
+    data_source_files = common.get_data_featured_extracted_files_by_pattern(data_source)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
@@ -142,7 +138,7 @@ if __name__ == "__main__":
         # tf.keras.layers.BatchNormalization
 
         client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
-        data_destination_file = pipe.write_csv(path=common.DATA_NORMALIZED_DIR + data_destination + '/', try_create_dir=True)
+        data_destination_file = pipe.write_csv(path=common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/', try_create_dir=True)
         client.log_param(run_id=run.info.run_id, key='data_destination_file', value=data_destination_file)
 
         mlflow.pyfunc.log_model(artifact_path=preprocessor_model_path,

@@ -19,10 +19,9 @@ class AnomalyEnv(gym.Env):
 
     def __init__(self, config=None):
         config = config or {}
-        self.data_source = [
-            common.TMP_DIR + 'processed_data_20211108T142556/c5ba958bdad34eab855d2dabe385814a_000000_000000.csv',
-        ]
-        self.data_set: Dataset = ray.data.read_csv(self.data_source)
+        self.data_source_files = config.get("data_source_files", [])
+        self.data_set: Dataset = ray.data.read_csv(self.data_source_files)
+
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
 
         self.observation_space = Box(low=0., high=1., shape=(6,), dtype=np.float32)
