@@ -153,14 +153,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
         // load initial data
         function loadGeneralSettings() {
-            // hide detect_custom fields when not applicable
-            $("#anomaly\\.general\\.detect\\.Profile").change(function(){
-                if ($("#anomaly\\.general\\.detect\\.Profile").val() == "custom") {
-                    $(".detect_custom").closest("tr").removeClass("hidden");
-                } else {
-                    $(".detect_custom").closest("tr").addClass("hidden");
-                }
-            });
             mapDataToFormUI(data_get_map).done(function(data){
                 // set schedule updates link to cron
                 $.each(data.frm_GeneralSettings.anomaly.general.UpdateCron, function(key, value) {
@@ -176,14 +168,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
         // load initial data
         function loadDataProcessorSettings() {
-            // hide detect_custom fields when not applicable
-            $("#anomaly\\.general\\.detect\\.Profile").change(function(){
-                if ($("#anomaly\\.general\\.detect\\.Profile").val() == "custom") {
-                    $(".detect_custom").closest("tr").removeClass("hidden");
-                } else {
-                    $(".detect_custom").closest("tr").addClass("hidden");
-                }
-            });
             mapDataToFormUI(data_processor_settings_get_map).done(function(data){
                 // set schedule updates link to cron
                 $.each(data.frm_dataProcessorSettings.anomaly.dataProcessorSettings.UpdateCron, function(key, value) {
