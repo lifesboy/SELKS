@@ -693,9 +693,7 @@ function filter_generate_aliases()
     $aliases .= "define wan_net = 192.168.1.18/24 # la dia chi mang cua card WAN\n";
     $aliases .= "define wan_address = 192.168.1.18 # dia chi ip cua card WAN\n";
     $aliases .= "define loopback_net = 127.0.0.1/8 # dia chi ipv4 loopback\n";
-    $aliases .= "\n";
-    $aliases .= "define wan_net = 192.168.113.0/24\n";
-    $aliases .= "define lan_net = 192.168.179.0/24\n";
+
     $aliases .= "\n";
     $aliases .= "# set interface names\n";
     $aliases .= "define wan = eno1\n";
@@ -707,8 +705,6 @@ function filter_generate_aliases()
     $aliases .= "# set bogons for table <bogons> persist file \"/usr/local/etc/bogons\" in pf\n";
     $aliases .= "\n";
     $aliases .= "define bogons = { 0.0.0.0/8, 127.0.0.0/8, 169.254.0.0/16,192.0.0.0/24, 192.0.2.0/24, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 240.0.0.0/4 }\n";
-    $aliases .= "define icmp_type = {echo-reply, destination-unreachable}\n";
-    $aliases .= "define icmp_type = {echo-reply, destination-unreachable}\n";
     if (is_bogonsv6_used()) {
         $aliases .= "define bogonsv6 = { 2000::/16,2001:1000::/23,2001:100::/24,2001:10::/28,2001:1::/32,2001:20::/27,2001:2::/31,"
             ."2001:40::/26,2001:4::/30,2001:4e00::/23,2001:6000::/19,2001:80::/25,2001:8::/29,2001:c000::/18,2001:db8::/32,"
