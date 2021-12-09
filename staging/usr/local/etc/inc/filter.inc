@@ -473,13 +473,16 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
         $limitrules .= "set timeout src.track {$config['system']['srctrack']}\n";
     }
 
-    $rules = "{$limitrules}\n";
+    $rules = "#!/usr/sbin/nft -fnn\n";
+    //$rules = "{$limitrules}\n";
+    $rules .= "# Start by flushing all the rules.\n";
+    $rules .= "flush ruleset\n";
     $rules .= "{$aliases} \n";
-    $rules .= filter_setup_logging_interfaces($cnfint);
+    //$rules .= filter_setup_logging_interfaces($cnfint);
     $rules .= "\n";
-    $rules .= "set skip on pfsync0\n";
+    //$rules .= "set skip on pfsync0\n";
     $rules .= "\n";
-    $rules .= filter_generate_scrubing($cnfint);
+    //$rules .= filter_generate_scrubing($cnfint);
     $rules .= "\n";
     $rules .= $fw->anchorToText('nat,binat,rdr', 'head');
     $rules .= "{$natrules}\n";
@@ -503,9 +506,13 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
         return;
     }
 
-    @file_put_contents('/tmp/rules.limits', $limitrules);
-    mwexec('/sbin/pfctl -Of /tmp/rules.limits');
-    exec('/sbin/pfctl -o basic -f /tmp/rules.debug 2>&1', $rules_error, $rules_loading);
+    //@file_put_contents('/tmp/rules.limits', $limitrules);
+    //mwexec('/sbin/pfctl -Of /tmp/rules.limits');
+
+    //disable translate port to service name: 80 thanh http
+    mwexec('/usr/sbin/nft -fnn');
+
+    exec('/usr/sbin/nft -f /tmp/rules.debug 2>&1', $rules_error, $rules_loading);
 
     foreach ($sched_kill_states as $label) {
         mwexecf('/sbin/pfctl -k label -k %s', $label);
