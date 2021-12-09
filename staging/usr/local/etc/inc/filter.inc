@@ -761,6 +761,12 @@ function filter_generate_aliases()
     $aliasObject = new \OPNsense\Firewall\Alias();
     foreach ($aliasObject->aliasIterator() as $aliased) {
         switch ($aliased['type']) {
+            case "bogons":
+            case "bogonsv6":
+            case "sshlockout":
+            case "virusprot":
+            case "virusprot_ipv6":
+                break;
             case "urltable_ports":
             case "url_ports":
                 # a bit of a hack, but prevents the ruleset from not being able to load if these types are in
@@ -774,9 +780,8 @@ function filter_generate_aliases()
                 $aliases .= "{$aliased['name']} = \"{ {$tmp_ports} }\"\n";
                 break;
             default:
-                $tblopt = (!empty($aliased['counters']) ? 'counters' : '') . " persist ";
-                $aliases .= "table <{$aliased['name']}> {$tblopt} \n";
-                $aliases .= "{$aliased['name']} = \"<{$aliased['name']}>\"\n";
+                //$tblopt = (!empty($aliased['counters']) ? 'counters' : '') . " persist ";
+                $aliases .= "define {$aliased['name']} {}\n"; //.{$tblopt}
                 break;
         }
     }
