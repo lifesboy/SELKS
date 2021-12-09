@@ -83,6 +83,11 @@ ln -s /selks/staging/usr/bin/selks-upgrade_stamus /usr/bin/selks-upgrade_stamus
 
 chmod 755 /selks/staging/usr/bin/selks*
 
+
+ln -s /selks/staging/usr/bin/dpinger /usr/bin/dpinger
+
+chmod 755 /usr/bin/dpinger
+
 #cat > /etc/network/interfaces.d/eno1 <<EOF
 ## Stamus Networks SELKS eno1 interface set up auto generated!
 #auto eno1
