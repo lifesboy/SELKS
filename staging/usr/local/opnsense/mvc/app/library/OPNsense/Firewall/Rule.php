@@ -173,16 +173,16 @@ abstract class Rule
         foreach (explode('|', $map) as $item) {
             $tmp = explode(':', $item);
             if ($tmp[0] == $value) {
-                $retval = $tmp[1] . " ";
+                $retval = $tmp[1];
                 break;
             }
         }
         if (!empty($retval)) {
             $mapval = $retval;
-            $retval = $prefix . $retval . $suffix . " ";
+            $retval = $prefix . $retval . $suffix;
             $retval = str_replace('{value}', $value, $retval);
             $retval = str_replace('{map}', $mapval, $retval);
-            return $retval;
+            return $retval . " ";
         } else {
             return "";
         }
