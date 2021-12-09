@@ -207,7 +207,7 @@ abstract class Rule
      */
     protected function ruleToText(&$procorder, &$rule)
     {
-        $ruleTxt = '';
+        $ruleTxt = 'add rule ';
         foreach ($procorder as $tag => $handle) {
             // support reuse of the same fieldname
             $tag = explode(".", $tag)[0];
