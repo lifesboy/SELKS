@@ -698,8 +698,8 @@ function filter_generate_aliases()
     $aliases .= "define lan_net = 192.168.179.0/24\n";
     $aliases .= "\n";
     $aliases .= "# set interface names\n";
-    $aliases .= "define wan = ens33\n";
-    $aliases .= "define lan = ens36\n";
+    $aliases .= "define wan = eno1\n";
+    $aliases .= "define lan = enp2s0\n";
     $aliases .= "# set interface names\n";
     $aliases .= "define all_interfaces= {\$wan, \$lan}\n";
     $aliases .= "\n";
