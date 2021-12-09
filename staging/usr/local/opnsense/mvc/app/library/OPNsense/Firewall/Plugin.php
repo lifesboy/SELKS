@@ -408,7 +408,7 @@ class Plugin
     {
         $result = "";
         foreach ($this->tables as $table) {
-            $result .= "table <{$table['name']}>";
+            $result .= "add table {$table['name']}";
             if ($table['persist']) {
                 $result .= " persist";
             }
