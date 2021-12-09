@@ -741,19 +741,25 @@ function filter_generate_aliases()
     $aliases .= "# DAT LAI POLICY DEFAULT LA DROP \n";
     $aliases .= "# IPV4\n";
     $aliases .= "# INPUT\n";
-    $aliases .= "add chain ip ip_filter_table input { policy drop;}\n";
+    $aliases .= "# add chain ip ip_filter_table input { policy drop;}\n";
     $aliases .= "# FORWARD\n";
-    $aliases .= "add chain ip ip_filter_table forward { policy drop;}\n";
+    $aliases .= "# add chain ip ip_filter_table forward { policy drop;}\n";
     $aliases .= "# OUTPUT\n";
     $aliases .= "add chain ip ip_filter_table output { policy drop;}\n";
     $aliases .= "\n";
     $aliases .= "# IPV6\n";
     $aliases .= "# INPUT\n";
-    $aliases .= "add chain ip6 ip6_filter_table input { policy drop;}\n";
+    $aliases .= "# add chain ip6 ip6_filter_table input { policy drop;}\n";
     $aliases .= "# FORWARD\n";
-    $aliases .= "add chain ip6 ip6_filter_table forward { policy drop;}\n";
+    $aliases .= "# add chain ip6 ip6_filter_table forward { policy drop;}\n";
     $aliases .= "# OUTPUT\n";
-    $aliases .= "add chain ip6 ip6_filter_table output { policy drop;}\n";
+    $aliases .= "# add chain ip6 ip6_filter_table output { policy drop;}\n";
+
+    $aliases .= "\n";
+    $aliases .= "# Cau hinh DNAT\n";
+    $aliases .= "add table ip_nat\n";
+    $aliases .= "add chain ip_nat prerouting { type nat hook prerouting priority -110; }\n";
+    $aliases .= "add chain ip_nat postrouting { type nat hook postrouting priority 110; }\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
