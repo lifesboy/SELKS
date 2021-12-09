@@ -162,6 +162,33 @@ abstract class Rule
     }
 
     /**
+     * parse data, use replace map
+     * @param string $value field value
+     * @param string $map
+     * @return string
+     */
+    protected function parseReplaceVariable($value, $map, $prefix = "", $suffix = "")
+    {
+        $retval = $value;
+        foreach (explode('|', $map) as $item) {
+            $tmp = explode(':', $item);
+            if ($tmp[0] == $value) {
+                $retval = $tmp[1] . " ";
+                break;
+            }
+        }
+        if (!empty($retval)) {
+            $mapval = $retval;
+            $retval = $prefix . $retval . $suffix . " ";
+            $retval = str_replace('{value}', $value, $retval);
+            $retval = str_replace('{map}', $mapval, $retval);
+            return $retval;
+        } else {
+            return "";
+        }
+    }
+
+    /**
      * rule reader, applies standard rule patterns
      * @param string type of rule to be read
      * @return iterator rules to generate
