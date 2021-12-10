@@ -65,7 +65,7 @@ abstract class Rule
      */
     protected function parseIsComment($value)
     {
-        return !empty($value) ? "#" : "";
+        return !empty($value) ? "# add rule" : "add rule";
     }
 
     /**
@@ -234,7 +234,7 @@ abstract class Rule
      */
     protected function ruleToText(&$procorder, &$rule)
     {
-        $ruleTxt = 'add rule ';
+        $ruleTxt = '';
         foreach ($procorder as $tag => $handle) {
             // support reuse of the same fieldname
             $tag = explode(".", $tag)[0];
