@@ -37,9 +37,9 @@ class FilterRule extends Rule
     private $gatewayMapping = array();
 
     private $procorder = array(
+        'disabled' => 'parseIsComment',
         'ipprotocol' => 'parseReplaceVariable,inet:ip|inet6:ip6,, {map}_filter_table',
         'protocol' => 'parseReplaceSimple,tcp/udp:',
-        #'disabled' => 'parseIsComment',
         'direction' => 'parseReplaceSimple,in:input|out:output|any:forward|:forward',
         #'log' => 'parseBool,log',
         #'quick' => 'parseBool,quick',
