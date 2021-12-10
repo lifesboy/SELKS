@@ -351,34 +351,37 @@ abstract class Rule
     protected function parseFrom($ipprotocol, $from, $from_port, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceVariable($ipprotocol, 'inet:ip|inet6:ip6|:ip');
+        $from = $this->parseReplaceVariable($from, 'any:');
         if (!empty($from) && strpos($from, '$') === false) {
             // don't wrap aliases in curly brackets
             $from = "{" . $from . "}";
         }
-        $from_port = $from_port === 'any' ? '' : $from_port;
+        $from_port = $this->parseReplaceVariable($from_port, 'any:');
         if (!empty($from_port) && strpos($from_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $from_port = "{" . $from_port . "}";
         }
         $value = empty($from) ? '' : 'saddr ' . $from;
         $value .= empty($from_port) ? '' : ' sport ' . $from_port;
-        return empty($value) ? '' : $ipprotocol . ' ' . $prefix . $value . $suffix . ' ';
+        return empty($value) ? '' : $ipprotocol . $prefix . $value . $suffix . ' ';
     }
 
     protected function parseTo($ipprotocol, $to, $to_port, $prefix = "", $suffix = "")
     {
+        $ipprotocol = $this->parseReplaceVariable($ipprotocol, 'inet:ip|inet6:ip6|:ip');
+        $to = $this->parseReplaceVariable($to, 'any:');
         if (!empty($to) && strpos($to, '$') === false) {
             // don't wrap aliases in curly brackets
             $to = "{" . $to . "}";
         }
-        $to_port = $to_port === 'any' ? '' : $to_port;
+        $to_port = $this->parseReplaceVariable($to_port, 'any:');
         if (!empty($to_port) && strpos($to_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $to_port = "{" . $to_port . "}";
         }
         $value = empty($to) ? '' : 'saddr ' . $to;
         $value .= empty($to_port) ? '' : ' sport ' . $to_port;
-        return empty($value) ? '' : $ipprotocol . ' ' . $prefix . $value . $suffix . ' ';
+        return empty($value) ? '' : $ipprotocol . $prefix . $value . $suffix . ' ';
     }
 
     /**
