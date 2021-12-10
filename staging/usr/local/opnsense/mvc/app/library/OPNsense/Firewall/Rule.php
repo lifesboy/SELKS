@@ -337,9 +337,9 @@ abstract class Rule
         if (empty($value)) {
             return "";
         } elseif (empty($this->interfaceMapping[$value]['if'])) {
-            return "{$prefix}##{$value}##{$suffix} ";
+            return "{$prefix}\${$value}{$suffix} ";
         } else {
-            return "{$prefix}" . $this->interfaceMapping[$value]['if'] . "{$suffix} ";
+            return "{$prefix}\"" . $this->interfaceMapping[$value]['if'] . "\"{$suffix} ";
         }
     }
 
