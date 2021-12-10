@@ -40,7 +40,6 @@ class FilterRule extends Rule
         'ipprotocol' => 'parseReplaceVariable,inet:ip|inet6:ip6,, {map}_filter_table',
         'protocol' => 'parseReplaceSimple,tcp/udp:',
         #'disabled' => 'parseIsComment',
-        #'type' => 'parseType',
         'direction' => 'parseReplaceSimple,in:input|out:output|any:forward|:forward',
         #'log' => 'parseBool,log',
         #'quick' => 'parseBool,quick',
@@ -61,6 +60,7 @@ class FilterRule extends Rule
         'tag' => 'parsePlain, tag ',
         'tagged' => 'parsePlain, tagged ',
         'allowopts' => 'parseBool,allow-opts',
+        'type' => 'parseType',
         'label' => 'parsePlain,label ",",63',
         'descr' => 'parseComment'
     );
@@ -74,12 +74,16 @@ class FilterRule extends Rule
     {
         switch ($value) {
             case 'reject':
-                $type = 'block return';
+            case 'block':
+                $type = 'drop';
+                break;
+            case 'pass':
+                $type = 'accept';
                 break;
             default:
                 $type = $value;
         }
-        return empty($type) ? "pass " : $type . " ";
+        return empty($type) ? "accept " : $type . " ";
     }
 
     /**
