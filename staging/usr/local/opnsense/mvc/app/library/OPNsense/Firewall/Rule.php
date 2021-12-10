@@ -237,10 +237,15 @@ abstract class Rule
         $ruleTxt = '';
         foreach ($procorder as $tag => $handle) {
             // support reuse of the same fieldname
-            $tag = explode(".", $tag)[0];
+            // $tag = explode(".", $tag)[0];
+            $tags = explode(",", $tag);
             $tmp = explode(',', $handle);
             $method = $tmp[0];
-            $args = array(isset($rule[$tag]) ? $rule[$tag] : null);
+            // $args = array(isset($rule[$tag]) ? $rule[$tag] : null);
+            $args = array_map(function ($i) use (&$rule) {
+                $t = explode(".", $i)[0];
+                return isset($rule[$t]) ? $rule[$t] : null;
+            }, $tags);
             if (count($tmp) > 1) {
                 array_shift($tmp);
                 $args = array_merge($args, $tmp);
