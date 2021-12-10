@@ -41,7 +41,7 @@ class FilterRule extends Rule
         'protocol' => 'parseReplaceSimple,tcp/udp:',
         #'disabled' => 'parseIsComment',
         #'type' => 'parseType',
-        'direction' => 'parseReplaceSimple,any:|:in',
+        'direction' => 'parseReplaceSimple,in:input|out:output|any:forward|:forward',
         #'log' => 'parseBool,log',
         #'quick' => 'parseBool,quick',
         'interface' => 'parseInterface',
