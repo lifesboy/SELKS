@@ -291,7 +291,7 @@ function filter_core_rules_system($fw, $defaults)
     // Lockout rules
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'tcp', 'from' => '<sshlockout>', 'to' => '(self)' , 'descr' => 'sshlockout', 'direction' => 'in',
+        array('protocol' => 'tcp', 'from' => 'sshlockout', 'to' => '(self)' , 'descr' => 'sshlockout', 'direction' => 'in',
         'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
         $defaults['block']
     );
@@ -303,13 +303,13 @@ function filter_core_rules_system($fw, $defaults)
     }
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'tcp', 'from' => '<sshlockout>', 'to' => '(self)' , 'descr' => 'sshlockout',
+        array('protocol' => 'tcp', 'from' => 'sshlockout', 'to' => '(self)' , 'descr' => 'sshlockout',
         'direction' => 'in','to_port' => $webport),
         $defaults['block']
     );
 
     // block all in alias <virusprot>
-    $fw->registerFilterRule(1, array('from' => '<virusprot>', 'descr' => 'virusprot overload table'), $defaults['block']);
+    $fw->registerFilterRule(1, array('from' => 'virusprot', 'descr' => 'virusprot overload table'), $defaults['block']);
 
     // block bogons and private nets
     $bogontmpl = array('type' => 'block', 'log' => !isset($config['syslog']['nologbogons']), 'disablereplyto' => 1);
@@ -319,7 +319,7 @@ function filter_core_rules_system($fw, $defaults)
     foreach ($fw->getInterfaceMapping() as $intf => $intfinfo) {
         $fw->registerFilterRule(
             5,
-            array('from' => "<bogons>", 'direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet',
+            array('from' => "bogons", 'direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet',
             'descr' => "Block bogon IPv4 networks from " . $intfinfo['descr'],
             '#ref' => "interfaces.php?if=" . $intf . "#blockbogons",
             'disabled' => !isset($intfinfo['blockbogons'])),
@@ -327,7 +327,7 @@ function filter_core_rules_system($fw, $defaults)
         );
         $fw->registerFilterRule(
             5,
-            array('from' => "<bogonsv6>", 'direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet6',
+            array('from' => "bogonsv6", 'direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet6',
             'disabled' => !isset($config['system']['ipv6allow']) || !isset($intfinfo['blockbogons']),
             '#ref' => "interfaces.php?if=" . $intf . "#blockbogons",
             'descr' => "Block bogon IPv6 networks from " . $intfinfo['descr']),
