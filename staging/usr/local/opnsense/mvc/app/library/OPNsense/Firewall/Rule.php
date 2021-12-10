@@ -350,6 +350,7 @@ abstract class Rule
 
     protected function parseFrom($ipprotocol, $from, $from_port, $prefix = "", $suffix = "")
     {
+        $ipprotocol = $this->parseReplaceVariable($ipprotocol, 'inet:ip|inet6:ip6|:ip');
         if (!empty($from) && strpos($from, '$') === false) {
             // don't wrap aliases in curly brackets
             $from = "{" . $from . "}";
