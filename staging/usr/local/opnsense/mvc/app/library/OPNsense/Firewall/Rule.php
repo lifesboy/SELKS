@@ -150,7 +150,7 @@ abstract class Rule
         foreach (explode('|', $map) as $item) {
             $tmp = explode(':', $item);
             if ($tmp[0] == $value) {
-                $retval = $tmp[1] . " ";
+                $retval = $tmp[1];
                 break;
             }
         }
