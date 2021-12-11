@@ -39,12 +39,13 @@ class AnomalyDeploymentModelTest(HttpUser):
 
     def __init__(self, environment):
         super().__init__()
-        global run, client
-        self.ml_run = run
-        self.ml_client = client
+        self.ml_run, self.ml_client = common.init_experiment('anomaly_deployment_test')
 
     def on_start(self):
         self.ml_client.set_tag(run_id=self.ml_run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Testing")
+
+    def on_stop(self):
+        self.ml_client.set_tag(run_id=self.ml_run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Done")
 
     @task
     def anomaly(self):
@@ -53,7 +54,6 @@ class AnomalyDeploymentModelTest(HttpUser):
         print(f"-> Sending observation {obs}")
         resp = self.client.get("http://selks.ddns.net:6789/anomaly", json={"observation": obs.tolist()})
         print(f"<- Received response {resp.json() if resp.ok else resp}")
-
 
 # if __name__ == "__main__":
 #     locust
