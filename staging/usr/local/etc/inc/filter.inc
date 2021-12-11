@@ -391,6 +391,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
     $natrules .= "# no rdr proto carp all\n";
+    $natrules .= "add rule ip ip_filter_table forward ct status dnat accept\n";
     $natrules .= $fw->outputNatRules();
 
     if ($verbose) {
