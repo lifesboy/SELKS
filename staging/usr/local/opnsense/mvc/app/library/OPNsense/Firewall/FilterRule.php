@@ -39,7 +39,7 @@ class FilterRule extends Rule
     private $procorder = array(
         'disabled' => 'parseIsComment',
         'ipprotocol' => 'parseReplaceVariable,inet:ip|inet6:ip6,, {map}_filter_table',
-        'protocol' => 'parseReplaceSimple,tcp/udp:,ipv6-icmp:,icmp:',
+        'protocol' => 'parseReplaceSimple,tcp/udp:|ipv6-icmp:|icmp:',
         'direction' => 'parseReplaceSimple,in:input|out:output|any:forward|:forward',
         #'log' => 'parseBool,log',
         #'quick' => 'parseBool,quick',
