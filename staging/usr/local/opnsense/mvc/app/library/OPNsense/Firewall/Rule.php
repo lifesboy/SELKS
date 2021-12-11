@@ -363,7 +363,8 @@ abstract class Rule
             $from_port = "{" . $from_port . "}";
         }
         $value = empty($from) ? '' : 'saddr ' . $from;
-        $value .= empty($from_port) ? '' : $this->parseReplaceSimple($protocol, 'any:|tcp/udp:') . ' sport ' . $from_port;
+        $value .= empty($from_port) ? ''
+            : $this->parseReplaceSimple($protocol, 'any:|tcp/udp:', ' ') . ' sport ' . $from_port;
         return empty($value) ? '' : $ipprotocol . $prefix . $value . $suffix . ' ';
     }
 
@@ -381,7 +382,8 @@ abstract class Rule
             $to_port = "{" . $to_port . "}";
         }
         $value = empty($to) ? '' : 'daddr ' . $to;
-        $value .= empty($to_port) ? '' : $this->parseReplaceSimple($protocol, 'any:|tcp/udp:') . ' dport ' . $to_port;
+        $value .= empty($to_port) ? '' :
+            $this->parseReplaceSimple($protocol, 'any:|tcp/udp:', ' ') . ' dport ' . $to_port;
         return empty($value) ? '' : $ipprotocol . $prefix . $value . $suffix . ' ';
     }
 
