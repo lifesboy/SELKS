@@ -810,7 +810,8 @@ function filter_rules_legacy(&$FilterIflist)
     }
     foreach ($FilterIflist as $on => $oc) {
         if (!$isbridged && !isset($oc['internal_dynamic']) && $oc['if'] != 'lo0') {
-            $ipfrules .= "antispoof {$log['block']} for {$oc['if']} \n";
+            //todo add antispoof rule
+            // $ipfrules .= "antispoof {$log['block']} for {$oc['if']} \n";
         }
     }
     return $ipfrules;
