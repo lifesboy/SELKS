@@ -305,7 +305,7 @@ function get_specialnets($only_enabled=false)
 {
     $specialnets = array();
     $specialnets["any"] = gettext("any");
-    $specialnets["(self)"] = gettext("This Firewall");
+    $specialnets["this_firewall"] = gettext("This Firewall");
     $filter = $only_enabled ? array("enable" => true) : array();
     foreach (legacy_config_get_interfaces($filter) as $ifent => $ifdetail) {
         $specialnets[$ifent] = htmlspecialchars($ifdetail['descr']) . " " . gettext("net");

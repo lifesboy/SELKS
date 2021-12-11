@@ -389,7 +389,7 @@ include("head.inc");
 <?php                 elseif (is_specialnet($natent['source']['network'])):?>
                         <?=htmlspecialchars(get_specialnets()[$natent['source']['network']]); ?>
 <?php                 else: ?>
-                        <?=$natent['source']['network'] == "(self)" ? gettext("This Firewall") : htmlspecialchars($natent['source']['network']); ?>&nbsp;
+                        <?=$natent['source']['network'] == "this_firewall" ? gettext("This Firewall") : htmlspecialchars($natent['source']['network']); ?>&nbsp;
 <?php                 endif; ?>
                     </td>
                     <td class="hidden-xs hidden-sm">
