@@ -270,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if($pconfig['source'] == "any") {
             $natent['source']['network'] = "any";
         } else if($pconfig['source'] == "(self)" || $pconfig['source'] == "this_firewall") {
-            $natent['source']['network'] = '$' . 'this_firewall';
+            $natent['source']['network'] = 'this_firewall';
         } else if(is_alias($pconfig['source']) || is_specialnet($pconfig['source'])) {
             $natent['source']['network'] = trim($pconfig['source']);
         } else {
