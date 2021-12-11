@@ -279,7 +279,7 @@ abstract class Rule
                 } elseif (!empty($rule[$tag]['network'])) {
                     $network_name = $rule[$tag]['network'];
                     $matches = "";
-                    if ($network_name == 'this_firewall') {
+                    if ($network_name == 'this_firewall' || $network_name == '(self)') {
                         $rule[$target] = '$this_firewall';
                     } elseif (preg_match("/^(wan|lan|opt[0-9]+)ip$/", $network_name, $matches)) {
                         if (!empty($interfaces[$matches[1]]['if'])) {
