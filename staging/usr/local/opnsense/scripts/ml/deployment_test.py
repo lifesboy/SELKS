@@ -24,14 +24,14 @@ def _(environment, **kw):
     print("Custom argument supplied: serving_url=%s" % environment.parsed_options.serving_url)
 
     global run, client
-    run, client = common.init_experiment('anomaly_deployment_test')
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Start")
+    #run, client = common.init_experiment('anomaly_deployment_test')
+    #client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Start")
 
 
 @events.test_stop.add_listener
 def _(environment, **kw):
     global run, client
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Done")
+    #client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Done")
 
 
 class AnomalyDeploymentModelTest(HttpUser):
