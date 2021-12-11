@@ -279,8 +279,8 @@ abstract class Rule
                 } elseif (!empty($rule[$tag]['network'])) {
                     $network_name = $rule[$tag]['network'];
                     $matches = "";
-                    if ($network_name == '(self)') {
-                        $rule[$target] = "(self)";
+                    if ($network_name == 'this_firewall') {
+                        $rule[$target] = "this_firewall";
                     } elseif (preg_match("/^(wan|lan|opt[0-9]+)ip$/", $network_name, $matches)) {
                         if (!empty($interfaces[$matches[1]]['if'])) {
                             $rule[$target] = "({$interfaces["{$matches[1]}"]['if']})";
@@ -351,7 +351,7 @@ abstract class Rule
     protected function parseFrom($ipprotocol, $from, $from_port, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceVariable($ipprotocol, 'inet:ip|inet6:ip6|:ip');
-        $from = $this->parseReplaceVariable($from, 'any:,(self):this_firewall');
+        $from = $this->parseReplaceVariable($from, 'any:');
         if (!empty($from) && strpos($from, '$') === false) {
             // don't wrap aliases in curly brackets
             $from = "{" . $from . "}";
@@ -369,7 +369,7 @@ abstract class Rule
     protected function parseTo($ipprotocol, $to, $to_port, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceVariable($ipprotocol, 'inet:ip|inet6:ip6|:ip');
-        $to = $this->parseReplaceVariable($to, 'any:,(self):this_firewall');
+        $to = $this->parseReplaceVariable($to, 'any:,');
         if (!empty($to) && strpos($to, '$') === false) {
             // don't wrap aliases in curly brackets
             $to = "{" . $to . "}";

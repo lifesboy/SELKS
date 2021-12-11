@@ -81,7 +81,7 @@ class NetworkAliasField extends BaseListField
             self::$internalStaticOptionList = array();
             // static nets
             self::$internalStaticOptionList['any'] = gettext('any');
-            self::$internalStaticOptionList['(self)'] = gettext("This Firewall");
+            self::$internalStaticOptionList['this_firewall'] = gettext("This Firewall");
             // interface nets and addresses
             $configObj = Config::getInstance()->object();
             foreach ($configObj->interfaces->children() as $ifname => $ifdetail) {

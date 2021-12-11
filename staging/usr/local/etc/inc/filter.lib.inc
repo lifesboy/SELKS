@@ -240,7 +240,7 @@ function filter_core_rules_system($fw, $defaults)
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '129,133,134,135,136',
-            'statetype' => 'keep', 'descr' => 'IPv6 requirements (ICMP)', 'from' => '(self)',
+            'statetype' => 'keep', 'descr' => 'IPv6 requirements (ICMP)', 'from' => 'this_firewall',
             'to' => 'fe80::/10,ff02::/16', 'direction' => 'out' ),
         $defaults['pass']
     );
@@ -279,7 +279,7 @@ function filter_core_rules_system($fw, $defaults)
     $fw->registerFilterRule(
         1,
         array('protocol' => 'carp', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
-            'from' => '(self)', 'direction' => 'in', 'disabled' => !$carp_disabled),
+            'from' => 'this_firewall', 'direction' => 'in', 'disabled' => !$carp_disabled),
         $defaults['block']
     );
     $fw->registerFilterRule(
@@ -291,7 +291,7 @@ function filter_core_rules_system($fw, $defaults)
     // Lockout rules
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '(self)' , 'descr' => '$sshlockout', 'direction' => 'in',
+        array('protocol' => 'tcp', 'from' => '$sshlockout', 'to' => 'this_firewall' , 'descr' => '$sshlockout', 'direction' => 'in',
         'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
         $defaults['block']
     );
@@ -303,7 +303,7 @@ function filter_core_rules_system($fw, $defaults)
     }
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '(self)' , 'descr' => '$sshlockout',
+        array('protocol' => 'tcp', 'from' => '$sshlockout', 'to' => 'this_firewall' , 'descr' => '$sshlockout',
         'direction' => 'in','to_port' => $webport),
         $defaults['block']
     );

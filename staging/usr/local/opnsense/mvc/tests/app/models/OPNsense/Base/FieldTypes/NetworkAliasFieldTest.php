@@ -63,7 +63,7 @@ class NetworkAliasFieldTest extends Field_Framework_TestCase
         $field->eventPostLoading();
         $field->setValue('any');
         $this->assertEmpty($this->validate($field));
-        $field->setValue('(self)');
+        $field->setValue('this_firewall');
         $this->assertEmpty($this->validate($field));
     }
 

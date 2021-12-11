@@ -402,7 +402,7 @@
         <any>1</any>
       </source>
       <destination>
-        <network>(self)</network>
+        <network>this_firewall</network>
       </destination>
       <updated>
         <username>root@10.0.2.2</username>
