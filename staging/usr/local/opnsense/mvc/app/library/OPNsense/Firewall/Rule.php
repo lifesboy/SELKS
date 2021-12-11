@@ -286,7 +286,8 @@ abstract class Rule
                             $rule[$target] = "({$interfaces["{$matches[1]}"]['if']})";
                         }
                     } elseif (!empty($interfaces[$network_name]['if'])) {
-                        $rule[$target] = "({$interfaces[$network_name]['if']}:network)";
+                        // $rule[$target] = "({$interfaces[$network_name]['if']}:network)";
+                        $rule[$target] = $network_name."_net";
                     } elseif (Util::isIpAddress($rule[$tag]['network']) || Util::isSubnet($rule[$tag]['network'])) {
                         $rule[$target] = $rule[$tag]['network'];
                     } elseif (Util::isAlias($rule[$tag]['network'])) {
