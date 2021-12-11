@@ -54,6 +54,9 @@ POSSIBILITY OF SUCH DAMAGE.
         //
         var data_processor_settings_get_map = {'frm_DataProcessorSettings':"/api/anomaly/data-processor-settings/get"};
 
+        //
+        var testing_settings_get_map = {'frm_TestingSettings':"/api/anomaly/testing-settings/get"};
+
         /**
          * update service status
          */
@@ -152,21 +155,6 @@ POSSIBILITY OF SUCH DAMAGE.
         }
 
         // load initial data
-        function loadGeneralSettings() {
-            mapDataToFormUI(data_get_map).done(function(data){
-                // set schedule updates link to cron
-                $.each(data.frm_GeneralSettings.anomaly.general.UpdateCron, function(key, value) {
-                    if (value.selected == 1) {
-                        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
-                        $("#scheduled_updates").show();
-                    }
-                });
-
-                loadDataProcessorSettings();
-            });
-        }
-
-        // load initial data
         function loadDataProcessorSettings() {
             mapDataToFormUI(data_processor_settings_get_map).done(function(data){
                 // set schedule updates link to cron
@@ -181,6 +169,34 @@ POSSIBILITY OF SUCH DAMAGE.
             });
         }
 
+        // load initial data
+        function loadTestingSettings() {
+            mapDataToFormUI(testing_settings_get_map).done(function(data){
+                // set schedule updates link to cron
+                $.each(data.frm_TestingSettings.anomaly.testingSettings.UpdateCron, function(key, value) {
+                    if (value.selected == 1) {
+                        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates").show();
+                    }
+                });
+                loadDataProcessorSettings();
+            });
+        }
+
+        // load initial data
+        function loadGeneralSettings() {
+            mapDataToFormUI(data_get_map).done(function(data){
+                // set schedule updates link to cron
+                $.each(data.frm_GeneralSettings.anomaly.general.UpdateCron, function(key, value) {
+                    if (value.selected == 1) {
+                        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates").show();
+                    }
+                });
+
+                loadTestingSettings();
+            });
+        }
 
         /**
          * toggle selected items
@@ -592,6 +608,15 @@ POSSIBILITY OF SUCH DAMAGE.
         /**
          * save settings and reconfigure anomaly
          */
+        $("#reconfigureTestingAct").SimpleActionButton({
+            onPreAction: function() {
+                const dfObj = new $.Deferred();
+                saveFormToEndpoint("/api/anomaly/testing-settings/set", 'frm_TestingSettings', function(){
+                    dfObj.resolve();
+                });
+                return dfObj;
+            }
+        });
         $("#reconfigureAct").SimpleActionButton({
             onPreAction: function() {
                 const dfObj = new $.Deferred();
@@ -717,11 +742,27 @@ POSSIBILITY OF SUCH DAMAGE.
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
+    <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('Testing Setting') }}</a></li>
     <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training Setting') }}</a></li>
     <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('Data Processor Settings') }}</a></li>
     <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Histories') }}</a></li>
 </ul>
 <div class="tab-content content-box">
+    <div id="testingSettings" class="tab-pane fade in">
+        {{ partial("layout_partials/base_form",['fields':formTestingSettings,'id':'frm_TestingSettings'])}}
+        <div class="col-md-12">
+            <hr/>
+            <button class="btn btn-primary" id="reconfigureTestingAct"
+                    data-endpoint='/api/anomaly/testing-service/reconfigure'
+                    data-label="{{ lang._('Train') }}"
+                    data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
+                    data-service-widget="anomaly"
+                    type="button"
+            ></button>
+            <br/>
+            <br/>
+        </div>
+    </div>
     <div id="settings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings'])}}
         <div class="col-md-12">

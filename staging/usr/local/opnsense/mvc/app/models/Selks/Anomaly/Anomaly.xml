@@ -181,5 +181,32 @@
                 <Required>N</Required>
             </UpdateCron>
         </dataProcessor>
+        <testing>
+            <enabled type="BooleanField">
+                <default>0</default>
+                <Required>Y</Required>
+            </enabled>
+            <DataSource type="TextField">
+                <Required>Y</Required>
+            </DataSource>
+            <ServingUrl type="TextField">
+                <Required>Y</Required>
+                <ValidationMessage>Enter a valid serving url</ValidationMessage>
+            </ServingUrl>
+            <UpdateCron type="ModelRelationField">
+                <Model>
+                    <queues>
+                        <source>OPNsense.Cron.Cron</source>
+                        <items>jobs.job</items>
+                        <display>description</display>
+                        <filters>
+                            <origin>/Anomaly/</origin>
+                        </filters>
+                    </queues>
+                </Model>
+                <ValidationMessage>Related cron not found.</ValidationMessage>
+                <Required>N</Required>
+            </UpdateCron>
+        </testing>
     </items>
 </model>

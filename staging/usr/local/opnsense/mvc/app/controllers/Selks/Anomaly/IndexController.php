@@ -48,6 +48,7 @@ class IndexController extends \OPNsense\Base\IndexController
         $this->view->formGeneralSettings = $this->getForm("generalSettings");
         // link Anomaly data processor settings
         $this->view->formDataProcessorSettings = $this->getForm("dataProcessorSettings");
+        $this->view->formTestingSettings = $this->getForm("testingSettings");
         // link alert list dialog
         $this->view->formDialogRuleset = $this->getForm("dialogRuleset");
         // link fingerprint dialog
