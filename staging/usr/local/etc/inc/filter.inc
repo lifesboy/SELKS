@@ -308,6 +308,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
             if (substr($ifcfg['if'], 0, 4) != 'ovpn' && !empty($ifcfg['gateway'])) {
                 foreach (array(500, null) as $dstport) {
                     $rule = array(
+                        "disabled" => true,
                         "interface" => $intf,
                         "dstport" => $dstport,
                         "staticnatport" => !empty($dstport),
@@ -328,6 +329,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     foreach (filter_core_get_antilockout() as $lockoutif => $lockoutprts) {
         foreach ($lockoutprts as $port) {
             $rule = array(
+                "disabled" => true,
                 'interface' => $lockoutif,
                 "nordr" => true,
                 "protocol" => "tcp",
