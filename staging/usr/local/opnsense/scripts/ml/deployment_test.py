@@ -37,11 +37,8 @@ def _(environment, **kw):
 class AnomalyDeploymentModelTest(HttpUser):
     wait_time = between(5, 15)
 
-    def __init__(self, environment):
-        super().__init__()
-        self.ml_run, self.ml_client = common.init_experiment('anomaly_deployment_test')
-
     def on_start(self):
+        self.ml_run, self.ml_client = common.init_experiment('anomaly_deployment_test')
         self.ml_client.set_tag(run_id=self.ml_run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Testing")
 
     def on_stop(self):
