@@ -56,7 +56,7 @@ class FilterRule extends Rule
         'icmp-type' => 'parsePlain,icmp-type {,}',
         'icmp6-type' => 'parsePlain,icmp6-type {,}',
         'flags' => 'parsePlain, flags ',
-        'state' => 'parseState',
+        #'state' => 'parseState',
         'set-prio' => 'parsePlain, set prio ',
         'prio' => 'parsePlain, prio ',
         'tag' => 'parsePlain, tag ',
