@@ -41,7 +41,6 @@ class FilterRule extends Rule
         'ipprotocol' => 'parseReplaceVariable,inet:ip|inet6:ip6,, {map}_filter_table',
         'direction' => 'parseReplaceSimple,in:input|out:output|any:forward|:forward',
         'statetype' => 'parseState',
-        'log' => 'parseBool,log',
         #'quick' => 'parseBool,quick',
         'interface' => 'parseInterface',
         #'gateway' => 'parseRoute',
@@ -62,6 +61,7 @@ class FilterRule extends Rule
         'tag' => 'parsePlain, tag ',
         'tagged' => 'parsePlain, tagged ',
         'allowopts' => 'parseBool,allow-opts',
+        'log' => 'parseBool,log',
         'type' => 'parseType',
         'label' => 'parsePlain,comment ",",63',
         'descr' => 'parseComment'
