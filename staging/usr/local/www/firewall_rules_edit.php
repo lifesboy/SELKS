@@ -62,7 +62,7 @@ function FormSetAdvancedOptions(&$item) {
         }
     }
 
-    if (!empty($item["statetype"]) && $item["statetype"] != 'keep state') {
+    if (!empty($item["statetype"])) {
         return true;
     }
     return false;
@@ -1586,21 +1586,21 @@ include("head.inc");
                     <tr class="opt_advanced hidden">
                         <td><a id="help_for_statetype" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("State Type");?></td>
                         <td>
-                          <select name="statetype" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                            <option value="keep state" <?= empty($pconfig['statetype']) || $pconfig['statetype'] == "keep state" ? "selected=\"selected\"" : ""; ?>>
-                              <?=gettext("keep state");?>
+                          <select name="statetype" class="selectpicker" multiple="multiple" data-live-search="true" data-size="5" data-width="auto">
+                            <option value="new" <?= in_array('new', explode(',', $pconfig['statetype']))  ? "selected=\"selected\"" : ""; ?>>
+                              <?=gettext("new");?>
                             </option>
-                            <option value="sloppy state" <?=$pconfig['statetype'] == "sloppy state" ? "selected=\"selected\"" :""; ?>>
-                              <?=gettext("sloppy state");?>
+                            <option value="established" <?= in_array('established', explode(',', $pconfig['statetype'])) ? "selected=\"selected\"" :""; ?>>
+                              <?=gettext("established");?>
                             </option>
-                            <option value="modulate state"<?=$pconfig['statetype'] == "modulate state" ?  "selected=\"selected\"" :""; ?>>
-                              <?=gettext("modulate state");?>
+                            <option value="related"<?= in_array('related', explode(',', $pconfig['statetype'])) ?  "selected=\"selected\"" :""; ?>>
+                              <?=gettext("related");?>
                             </option>
-                            <option value="synproxy state"<?=$pconfig['statetype'] == "synproxy state" ?  "selected=\"selected\"" :""; ?>>
-                              <?=gettext("synproxy state");?>
+                            <option value="invalid"<?= in_array('invalid', explode(',', $pconfig['statetype'])) ?  "selected=\"selected\"" :""; ?>>
+                              <?=gettext("invalid");?>
                             </option>
-                            <option value="none"<?=$pconfig['statetype'] == "none" ? "selected=\"selected\"" :""; ?>>
-                              <?=gettext("none");?>
+                            <option value="untracked"<?= in_array('untracked', explode(',', $pconfig['statetype'])) ? "selected=\"selected\"" :""; ?>>
+                              <?=gettext("untracked");?>
                             </option>
                           </select>
                           <div class="hidden" data-for="help_for_statetype">
@@ -1608,12 +1608,13 @@ include("head.inc");
                               <?=gettext("Hint: Select which type of state tracking mechanism you would like to use. If in doubt, use keep state.");?>
                             </span>
                               <ul>
-                                <li><?= sprintf(gettext('%sKeep state%s is used for stateful connection tracking.'),'<strong>', '</strong>') ?></li>
-                                <li><?= sprintf(gettext('%sSloppy state%s works like keep state, but it does not check sequence numbers. Use it when the firewall does not see all packets.'),'<strong>', '</strong>') ?></li>
-                                <li><?= sprintf(gettext('%sSynproxy state%s proxies incoming TCP connections to help protect servers from spoofed TCP SYN floods. This option includes the functionality of keep state and modulate state combined.'),'<strong>', '</strong>') ?></li>
-                                <li><?= sprintf(gettext("%sNone%s: Do not use state mechanisms to keep track. This is only useful if you're doing advanced queueing in certain situations. Please check the documentation."),'<strong>', '</strong>') ?></li>
+                                <li><?= sprintf(gettext('%snew%sNetfilter has so far seen packets between this pair of hosts in only one direction. At least one of these packets is part of a valid initialization sequence, e.g. SYN packet for a TCP connection.'),'<strong>', '</strong>') ?></li>
+                                <li><?= sprintf(gettext('%sestablished%sNetfilter has seen valid packets travel in both directions between this pair of hosts. For TCP connections, the three-way-handshake has been successfully completed.'),'<strong>', '</strong>') ?></li>
+                                <li><?= sprintf(gettext('%srelated%sThis connection was initiated after the main connection, as expected from normal operation of the main connection. A common example is an FTP data channel established at the behest of an FTP control channel.'),'<strong>', '</strong>') ?></li>
+                                <li><?= sprintf(gettext("%sinvalid%sAssigned to packets that do not follow the expected behavior of a connection."),'<strong>', '</strong>') ?></li>
+                                <li><?= sprintf(gettext("%suntracked%sDummy state assigned to packets that have been explicitly excluded from conntrack. See notrack."),'<strong>', '</strong>') ?></li>
                               </ul>
-                              <p><?= sprintf(gettext('Source and more information can be found %shere%s.'),'<a href="https://www.freebsd.org/cgi/man.cgi?query=pf.conf&amp;sektion=5">','</a>') ?></p>
+                              <p><?= sprintf(gettext('Source and more information can be found %shere%s.'),'<a href="https://wiki.nftables.org/wiki-nftables/index.php/Matching_connection_tracking_stateful_metainformation#ct_state_-_conntrack_state">','</a>') ?></p>
                           </div>
                         </td>
                     </tr>

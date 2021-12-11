@@ -149,7 +149,7 @@ function pf_firewall($fw)
                 foreach ($networks as $network) {
                     $fw->registerFilterRule(
                         10,
-                        array('interface' => $gw['interface'], 'statetype' => 'sloppy', 'ipprotocol' => $proto,
+                        array('interface' => $gw['interface'], 'statetype' => 'related', 'ipprotocol' => $proto,
                             'protocol' => 'tcp','flags' => 'any', 'from' => $network['from'],
                             'to' => $network['to'], 'quick' => false,
                             'descr' => "pass traffic between statically routed subnets",
@@ -158,7 +158,7 @@ function pf_firewall($fw)
                     );
                     $fw->registerFilterRule(
                         10,
-                        array('interface' => $gw['interface'], 'statetype' => 'sloppy', 'ipprotocol' => $proto,
+                        array('interface' => $gw['interface'], 'statetype' => 'related', 'ipprotocol' => $proto,
                             'from' => $network['from'],'to' => $network['to'], 'quick' => false,
                             'descr' => "pass traffic between statically routed subnets",
                             '#ref' => 'system_advanced_firewall.php#bypassstaticroutes'),

@@ -393,7 +393,7 @@
       <type>pass</type>
       <interface>lan</interface>
       <ipprotocol>inet</ipprotocol>
-      <statetype>keep state</statetype>
+      <statetype>new</statetype>
       <descr>sd</descr>
       <direction>in</direction>
       <category>aa</category>
