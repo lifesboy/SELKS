@@ -724,6 +724,7 @@ function filter_generate_aliases()
     $aliases .= "\n";
     $aliases .= "# named set de tao bang sshlockout\n";
     $aliases .= "add set ip ip_filter_table sshlockout { type ipv4_addr; flags interval; }\n";
+    $aliases .= "add set ip6 ip6_filter_table sshlockout { type ipv6_addr; flags interval; }\n";
     $aliases .= "\n";
     $aliases .= "# named set de tao bang virusprot\n";
     $aliases .= "add set ip ip_filter_table virusprot { type ipv4_addr; flags interval; }\n";
