@@ -269,8 +269,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         /* parse source entry */
         if($pconfig['source'] == "any") {
             $natent['source']['network'] = "any";
-        } else if($pconfig['source'] == "(self)") {
-            $natent['source']['network'] = "(self)";
+        } else if($pconfig['source'] == "(self)" || $pconfig['source'] == "this_firewall") {
+            $natent['source']['network'] = "this_firewall";
         } else if(is_alias($pconfig['source']) || is_specialnet($pconfig['source'])) {
             $natent['source']['network'] = trim($pconfig['source']);
         } else {
@@ -501,7 +501,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select name="source" id="source" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['source'];?>" <?=!is_alias($pconfig['source']) && !in_array($pconfig['source'],array('(self)','any'))  ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                              <option data-other=true value="<?=$pconfig['source'];?>" <?=!is_alias($pconfig['source']) && !in_array($pconfig['source'],array('this_firewall','any'))  ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                            foreach (legacy_list_aliases("network") as $alias):
 ?>

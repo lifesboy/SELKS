@@ -450,7 +450,7 @@ function pconfig_to_address(&$adr, $padr, $pmask, $pnot=false, $pbeginport=0, $p
 
 function is_specialnet($net)
 {
-    if (in_array($net, array('any','(self)'))) {
+    if (in_array($net, array('any','(self)','this_firewall'))) {
         return true;
     } else {
         foreach (legacy_config_get_interfaces(array("enable" => true)) as $ifent => $ifdetail) {
