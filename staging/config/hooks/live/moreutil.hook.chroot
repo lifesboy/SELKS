@@ -252,6 +252,9 @@ systemctl enable mlflow-tracking
 mkdir -p /var/log/ray
 ln -s /selks/staging/etc/systemd/system/ray.service /etc/systemd/system/ray.service
 systemctl enable ray
+mkdir -p /var/log/anomaly-testing
+ln -s /selks/staging/etc/systemd/system/anomaly-testing.service /etc/systemd/system/anomaly-testing.service
+systemctl enable anomaly-testing
 
 chmod 755 /usr/local/opnsense/scripts/ml/anomaly_model.py
 chmod 755 /usr/local/opnsense/scripts/ml/dataprocessor.py

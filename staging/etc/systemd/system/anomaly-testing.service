@@ -1,0 +1,17 @@
+[Unit]
+Description=Anomaly Testing Server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+RestartSec=30
+StandardOutput=file:/var/log/anomaly-testing/anomaly-testing.log
+StandardError=file:/var/log/anomaly-testing/anomaly-testing.log
+User=root
+
+ExecStart=/usr/local/bin/locust --web-host 0.0.0.0 --web-port 8089 -f /usr/local/opnsense/scripts/ml/deployment_test.py
+WorkingDirectory=/usr/local/opnsense/scripts/ml/
+
+[Install]
+WantedBy=multi-user.target
