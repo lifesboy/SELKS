@@ -278,20 +278,37 @@ function filter_core_rules_system($fw, $defaults)
     $carp_disabled = empty($config['hasync']) && empty($config['virtualip']['vip']);
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'carp', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
+        array('ipprotocol' => 'inet', 'protocol' => 'carp', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
             'from' => '$this_firewall', 'direction' => 'in', 'disabled' => !$carp_disabled),
         $defaults['block']
     );
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'carp', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
+        array('ipprotocol' => 'inet6', 'protocol' => 'carp', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
+            'from' => '$this_firewall', 'direction' => 'in', 'disabled' => !$carp_disabled),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'carp', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'carp', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
         $defaults['pass']
     );
 
     // Lockout rules
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall' , 'descr' => '$sshlockout', 'direction' => 'in',
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall' , 'descr' => '$sshlockout', 'direction' => 'in',
+        'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall' , 'descr' => '$sshlockout', 'direction' => 'in',
         'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
         $defaults['block']
     );
@@ -303,7 +320,13 @@ function filter_core_rules_system($fw, $defaults)
     }
     $fw->registerFilterRule(
         1,
-        array('protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall' , 'descr' => '$sshlockout',
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall' , 'descr' => '$sshlockout',
+        'direction' => 'in','to_port' => $webport),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall' , 'descr' => '$sshlockout',
         'direction' => 'in','to_port' => $webport),
         $defaults['block']
     );
