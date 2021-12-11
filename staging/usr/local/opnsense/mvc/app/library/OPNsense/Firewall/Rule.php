@@ -351,7 +351,7 @@ abstract class Rule
     protected function parseFrom($ipprotocol, $from, $from_port, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceVariable($ipprotocol, 'inet:ip|inet6:ip6|:ip');
-        $from = $this->parseReplaceVariable($from, 'any:');
+        $from = $this->parseReplaceVariable($from, 'any:,(self):this_firewall');
         if (!empty($from) && strpos($from, '$') === false) {
             // don't wrap aliases in curly brackets
             $from = "{" . $from . "}";
@@ -369,7 +369,7 @@ abstract class Rule
     protected function parseTo($ipprotocol, $to, $to_port, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceVariable($ipprotocol, 'inet:ip|inet6:ip6|:ip');
-        $to = $this->parseReplaceVariable($to, 'any:');
+        $to = $this->parseReplaceVariable($to, 'any:,(self):this_firewall');
         if (!empty($to) && strpos($to, '$') === false) {
             // don't wrap aliases in curly brackets
             $to = "{" . $to . "}";
