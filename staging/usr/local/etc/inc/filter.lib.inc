@@ -581,6 +581,7 @@ function filter_core_rules_system($fw, $defaults)
         $fw->registerFilterRule(
             5,
             array(
+                'ipprotocol' => 'inet',
                 'direction' => 'in',
                 'interface' => $lockoutif,
                 'statetype' => 'new',
