@@ -332,7 +332,8 @@ function filter_core_rules_system($fw, $defaults)
     );
 
     // block all in alias $virusprot
-    $fw->registerFilterRule(1, array('from' => '$virusprot', 'descr' => '$virusprot overload table'), $defaults['block']);
+    $fw->registerFilterRule(1, array('ipprotocol' => 'inet', 'from' => '$virusprot', 'descr' => '$virusprot overload table'), $defaults['block']);
+    $fw->registerFilterRule(1, array('ipprotocol' => 'inet6', 'from' => '$virusprot', 'descr' => '$virusprot overload table'), $defaults['block']);
 
     // block bogons and private nets
     $bogontmpl = array('type' => 'block', 'log' => !isset($config['syslog']['nologbogons']), 'disablereplyto' => 1);
@@ -380,14 +381,14 @@ function filter_core_rules_system($fw, $defaults)
         if (isset($config['system']['ipv6allow']) && in_array($intfinfo['ipaddrv6'], array("slaac","dhcp6"))) {
             $fw->registerFilterRule(
                 1,
-                array('protocol' => 'udp', 'from' => 'fe80::/10', 'from_port' => 546, 'to' => 'fe80::/10',
+                array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from' => 'fe80::/10', 'from_port' => 546, 'to' => 'fe80::/10',
                     'interface' => $intf, 'to_port' => 546, 'descr' => 'allow dhcpv6 client in ' . $intfinfo['descr'],
                     '#ref' => 'system_advanced_firewall.php#ipv6allow'),
                 $defaults['pass']
             );
             $fw->registerFilterRule(
                 1,
-                array('protocol' => 'udp', 'from_port' => 547,'to_port' => 546, 'direction' => 'in',
+                array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 547,'to_port' => 546, 'direction' => 'in',
                     'interface' => $intf, 'descr' => 'allow dhcpv6 client in ' . $intfinfo['descr'],
                     '#ref' => 'system_advanced_firewall.php#ipv6allow'),
                 $defaults['pass']
@@ -397,6 +398,7 @@ function filter_core_rules_system($fw, $defaults)
                 '#ref' => 'system_advanced_firewall.php#ipv6allow',
                 'direction' => 'out',
                 'interface' => $intf,
+                'ipprotocol' => 'inet6',
                 'protocol' => 'udp',
                 'from_port' => 546,
                 'to_port' => 547,
@@ -411,14 +413,14 @@ function filter_core_rules_system($fw, $defaults)
             case "pptp":
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => 'tcp','to_port' => 1723, 'direction' => 'in', 'statetype' => 'established', 'quick' => false,
+                    array('ipprotocol' => 'inet', 'protocol' => 'tcp','to_port' => 1723, 'direction' => 'in', 'statetype' => 'established', 'quick' => false,
                         '#ref' => "interfaces.php?if=" . $intf . "#type",
                         'interface' => $intf, 'flags' => 'S/SA', 'descr' => 'allow PPTP client on ' . $intfinfo['descr']),
                     $defaults['pass']
                 );
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => 'gre', 'direction' => 'in', 'statetype' => 'new', 'quick' => false,
+                    array('ipprotocol' => 'inet', 'protocol' => 'gre', 'direction' => 'in', 'statetype' => 'new', 'quick' => false,
                         '#ref' => "interfaces.php?if=" . $intf . "#type",
                         'interface' => $intf, 'descr' => 'allow PPTP client on ' . $intfinfo['descr']),
                     $defaults['pass']
@@ -427,14 +429,14 @@ function filter_core_rules_system($fw, $defaults)
             case "dhcp":
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => 'udp', 'direction' => 'in', 'quick' => false, 'from_port' => 67, 'to_port' => 68,
+                    array('ipprotocol' => 'inet', 'protocol' => 'udp', 'direction' => 'in', 'quick' => false, 'from_port' => 67, 'to_port' => 68,
                         '#ref' => "interfaces.php?if=" . $intf . "#type",
                         'interface' => $intf, 'descr' => 'allow DHCP client on ' . $intfinfo['descr']),
                     $defaults['pass']
                 );
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => 'udp', 'direction' => 'out', 'quick' => false, 'from_port' => 68, 'to_port' => 67,
+                    array('ipprotocol' => 'inet', 'protocol' => 'udp', 'direction' => 'out', 'quick' => false, 'from_port' => 68, 'to_port' => 67,
                         '#ref' => "interfaces.php?if=" . $intf . "#type",
                         'interface' => $intf, 'descr' => 'allow DHCP client on ' . $intfinfo['descr']),
                     $defaults['pass']
@@ -444,21 +446,21 @@ function filter_core_rules_system($fw, $defaults)
                 if (isset($config['dhcpd'][$intf]['enable'])) {
                     $fw->registerFilterRule(
                         5,
-                        array('protocol' => 'udp', 'direction' => 'in', 'from_port' => 68, 'to' => '255.255.255.255',
+                        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'direction' => 'in', 'from_port' => 68, 'to' => '255.255.255.255',
                             '#ref' => "services_dhcp.php?if=" . $intf . "#enable",
                             'to_port' => 67, 'interface' => $intf, 'descr' => 'allow access to DHCP server'),
                         $defaults['pass']
                     );
                     $fw->registerFilterRule(
                         5,
-                        array('protocol' => 'udp', 'direction' => 'in', 'from_port' => 68, 'to' => '$this_firewall',
+                        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'direction' => 'in', 'from_port' => 68, 'to' => '$this_firewall',
                             '#ref' => "services_dhcp.php?if=" . $intf . "#enable",
                             'to_port' => 67, 'interface' => $intf, 'descr' => 'allow access to DHCP server'),
                         $defaults['pass']
                     );
                     $fw->registerFilterRule(
                         5,
-                        array('protocol' => 'udp', 'direction' => 'out', 'from_port' => 67, 'from' => '$this_firewall',
+                        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'direction' => 'out', 'from_port' => 67, 'from' => '$this_firewall',
                             '#ref' => "services_dhcp.php?if=" . $intf . "#enable",
                             'to_port' => 68, 'interface' => $intf, 'descr' => 'allow access to DHCP server'),
                         $defaults['pass']
@@ -466,7 +468,15 @@ function filter_core_rules_system($fw, $defaults)
                     if (!empty($config['dhcpd'][$intf]['failover_peerip'])) {
                         $fw->registerFilterRule(
                             5,
-                            array('protocol' => 'tcp/udp', 'direction' => 'in', 'to' => '$this_firewall', 'to_port' => '519,520',
+                            array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to' => '$this_firewall', 'to_port' => '519,520',
+                                '#ref' => "services_dhcp.php?if=" . $intf . "#failover_peerip",
+                                'from' => $config['dhcpd'][$intf]['failover_peerip'],
+                                'interface' => $intf, 'descr' => 'allow access to DHCP failover'),
+                            $defaults['pass']
+                        );
+                        $fw->registerFilterRule(
+                            5,
+                            array('ipprotocol' => 'inet', 'protocol' => 'udp', 'direction' => 'in', 'to' => '$this_firewall', 'to_port' => '519,520',
                                 '#ref' => "services_dhcp.php?if=" . $intf . "#failover_peerip",
                                 'from' => $config['dhcpd'][$intf]['failover_peerip'],
                                 'interface' => $intf, 'descr' => 'allow access to DHCP failover'),
@@ -481,14 +491,14 @@ function filter_core_rules_system($fw, $defaults)
             case "6rd":
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => '41', 'direction' => 'in', 'from' => $config['interfaces'][$intf]['gateway-6rd'],
+                    array('ipprotocol' => 'inet6', 'protocol' => '41', 'direction' => 'in', 'from' => $config['interfaces'][$intf]['gateway-6rd'],
                         '#ref' => "interfaces.php?if=" . $intf . "#type6",
                         'quick' => false, 'interface' => $intf, 'descr' => 'Allow 6in4 traffic in for 6rd on ' . $intfinfo['descr']),
                     $defaults['pass']
                 );
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => '41', 'direction' => 'out', 'to' => $config['interfaces'][$intf]['gateway-6rd'],
+                    array('ipprotocol' => 'inet6', 'protocol' => '41', 'direction' => 'out', 'to' => $config['interfaces'][$intf]['gateway-6rd'],
                         '#ref' => "interfaces.php?if=" . $intf . "#type6",
                         'quick' => false, 'interface' => $intf, 'descr' => 'Allow 6in4 traffic out for 6rd on ' . $intfinfo['descr']),
                     $defaults['pass']
@@ -497,14 +507,14 @@ function filter_core_rules_system($fw, $defaults)
             case "6to4":
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => '41', 'direction' => 'in', 'to' => '$this_firewall','interface' => $intf,
+                    array('ipprotocol' => 'inet6', 'protocol' => '41', 'direction' => 'in', 'to' => '$this_firewall','interface' => $intf,
                         '#ref' => "interfaces.php?if=" . $intf . "#type6",
                         'quick' => false, 'descr' => 'Allow 6in4 traffic in for 6to4 on ' . $intfinfo['descr']),
                     $defaults['pass']
                 );
                 $fw->registerFilterRule(
                     5,
-                    array('protocol' => '41', 'direction' => 'out', 'from' => '$this_firewall','interface' => $intf,
+                    array('ipprotocol' => 'inet6', 'protocol' => '41', 'direction' => 'out', 'from' => '$this_firewall','interface' => $intf,
                         '#ref' => "interfaces.php?if=" . $intf . "#type6",
                         'quick' => false, 'descr' => 'Allow 6in4 traffic out for 6to4 on ' . $intfinfo['descr']),
                     $defaults['pass']
@@ -558,11 +568,18 @@ function filter_core_rules_system($fw, $defaults)
         }
     }
     // loopback
-    $fw->registerFilterRule(5, array('interface' => 'loopback', 'descr' => 'pass loopback'), $defaults['pass']);
+    $fw->registerFilterRule(5, array('ipprotocol' => 'inet', 'interface' => 'loopback', 'descr' => 'pass loopback'), $defaults['pass']);
+    $fw->registerFilterRule(5, array('ipprotocol' => 'inet4', 'interface' => 'loopback', 'descr' => 'pass loopback'), $defaults['pass']);
     // out from this Firewall
     $fw->registerFilterRule(
         5,
-        array('direction' => 'out', 'statetype' => 'new', 'allowopts' => true,
+        array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'new', 'allowopts' => true,
+        'quick' => false, "descr" => "let out anything from firewall host itself"),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        5,
+        array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'new', 'allowopts' => true,
         'quick' => false, "descr" => "let out anything from firewall host itself"),
         $defaults['pass']
     );
@@ -570,7 +587,14 @@ function filter_core_rules_system($fw, $defaults)
     if (!empty(iterator_to_array($fw->getInterfaceMapping())['enc0'])) {
         $fw->registerFilterRule(
             5,
-            array('direction' => 'out', 'statetype' => 'new', 'quick' => false, 'interface' => 'enc0',
+            array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'new', 'quick' => false, 'interface' => 'enc0',
+                '#ref' => 'vpn_ipsec.php#enable',
+                'descr' => 'IPsec internal host to host'),
+            $defaults['pass']
+        );
+        $fw->registerFilterRule(
+            5,
+            array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'new', 'quick' => false, 'interface' => 'enc0',
                 '#ref' => 'vpn_ipsec.php#enable',
                 'descr' => 'IPsec internal host to host'),
             $defaults['pass']
@@ -582,6 +606,21 @@ function filter_core_rules_system($fw, $defaults)
             5,
             array(
                 'ipprotocol' => 'inet',
+                'direction' => 'in',
+                'interface' => $lockoutif,
+                'statetype' => 'new',
+                'protocol' => 'tcp',
+                'to' => '$this_firewall',
+                'to_port' => implode(' ', $lockoutprts),
+                'descr' => 'anti-lockout rule',
+                '#ref' => 'system_advanced_firewall.php#noantilockout'
+            ),
+            $defaults['pass']
+        );
+        $fw->registerFilterRule(
+            5,
+            array(
+                'ipprotocol' => 'inet6',
                 'direction' => 'in',
                 'interface' => $lockoutif,
                 'statetype' => 'new',
