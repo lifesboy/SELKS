@@ -8,8 +8,7 @@ import common
 # make sure the helper utilities are importable
 sys.path.append(os.getcwd())
 
-run, client = common.init_experiment('anomaly_deployment_test')
-client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Start")
+run, client = None, None
 
 
 @events.init_command_line_parser.add_listener
@@ -24,12 +23,28 @@ def _(environment, **kw):
     print("Custom argument supplied: data_source=%s" % environment.parsed_options.data_source)
     print("Custom argument supplied: serving_url=%s" % environment.parsed_options.serving_url)
 
+    global run, client
+    run, client = common.init_experiment('anomaly_deployment_test')
+    client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Start")
+
+
+@events.test_stop.add_listener
+def _(environment, **kw):
+    global run, client
+    client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Done")
+
 
 class AnomalyDeploymentModelTest(HttpUser):
     wait_time = between(5, 15)
 
+    def __init__(self, environment):
+        super().__init__()
+        global run, client
+        self.ml_run = run
+        self.ml_client = client
+
     def on_start(self):
-        client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Testing")
+        self.ml_client.set_tag(run_id=self.ml_run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Testing")
 
     @task
     def anomaly(self):
@@ -42,8 +57,6 @@ class AnomalyDeploymentModelTest(HttpUser):
 
 # if __name__ == "__main__":
 #     locust
-
-client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_TEST_STATUS, value="Done")
 
 # Run: locust -f deployment_test.py
 # Visit: http://0.0.0.0:8089/
