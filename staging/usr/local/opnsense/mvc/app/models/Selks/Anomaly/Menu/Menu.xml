@@ -1,5 +1,6 @@
 <menu>
     <NextGenerationIDPS>
         <Anomaly order="0" VisibleName="Anomaly Detection" url="/ui/anomaly" cssClass="fa fa-shield fa-fw" />
+        <AnomalyTesting order="1" isExternal="Y" VisibleName="Anomaly testing" url="http://selks.ddns.net:8089/" cssClass="fa fa-eye fa-fw" />
     </NextGenerationIDPS>
 </menu>
