@@ -3,7 +3,7 @@
 # $FreeBSD$
 #
 
-# netif is required for lo0 because syslogd tries to open a local socket
+# netif is required for lo because syslogd tries to open a local socket
 #
 # PROVIDE: syslogd
 # REQUIRE: mountcritremote FILESYSTEMS newsyslog netif

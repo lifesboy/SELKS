@@ -161,7 +161,7 @@ include("head.inc");
                     <select name="pfsyncinterface" class="selectpicker" data-style="btn-default" data-live-search="true">
 <?php
                     $ifaces = get_configured_interface_with_descr();
-                    $ifaces["lo0"] = gettext("loopback");
+                    $ifaces["lo"] = gettext("loopback");
                     foreach ($ifaces as $ifname => $iface):
 ?>
                       <option value="<?=htmlentities($ifname);?>" <?= ($pconfig['pfsyncinterface'] === $ifname) ? 'selected="selected"' : ''; ?>>

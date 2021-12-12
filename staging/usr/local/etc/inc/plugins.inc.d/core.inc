@@ -226,10 +226,10 @@ function core_syslog()
 function core_interfaces()
 {
     return [
-        'lo0' => [
+        'lo' => [
             'descr' => gettext('Loopback'),
             'enable' => true,
-            'if' => 'lo0',
+            'if' => 'lo',
             'ipaddr' => '127.0.0.1',
             'ipaddrv6' => '::1',
             'subnet' => '8',

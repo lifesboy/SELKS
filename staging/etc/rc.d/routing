@@ -149,7 +149,7 @@ static_inet()
 	# Provide loopback route in all routing tables.  This has to come
 	# first so that any following routes can be added.
 	static_routes="_loopback ${static_routes}"
-	route__loopback="-inet 127.0.0.1 -iface lo0 ${_fibmod}"
+	route__loopback="-inet 127.0.0.1 -iface lo ${_fibmod}"
 
 	# Add default route.
 	case ${defaultrouter} in
@@ -201,7 +201,7 @@ static_inet6()
 	ipv6_route__v4compat="::0.0.0.0 -prefixlen 96 ::1 -reject ${fibmod}"
 
 	# Create a loopback route in every fib
-	ipv6_route__loopback="::1 -prefixlen 128 -iface lo0 ${fibmod}"
+	ipv6_route__loopback="::1 -prefixlen 128 -iface lo ${fibmod}"
 
 	# Disallow link-local unicast packets without outgoing scope
 	# identifiers.  However, if you set "ipv6_default_interface",
@@ -263,7 +263,7 @@ static_inet6()
 			[Nn][Oo][Nn][Ee])
 				return
 				;;
-			lo0)
+			lo)
 				continue
 				;;
 			esac

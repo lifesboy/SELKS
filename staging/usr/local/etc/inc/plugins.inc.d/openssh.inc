@@ -90,7 +90,7 @@ function openssh_configure_do($verbose = false, $interface = '')
     $interfaces = array();
     if (!empty($sshcfg['interfaces'])) {
         $interfaces = explode(',', $sshcfg['interfaces']);
-        $interfaces[] = 'lo0';
+        $interfaces[] = 'lo';
     }
 
     if (!empty($interface) && !in_array($interface, $interfaces)) {

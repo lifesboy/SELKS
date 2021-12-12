@@ -125,8 +125,8 @@ function interfaces_loopback_configure($verbose = false)
         flush();
     }
 
-    legacy_interface_setaddress('lo0', '127.0.0.1');
-    legacy_interface_flags('lo0', 'up');
+    legacy_interface_setaddress('lo', '127.0.0.1');
+    legacy_interface_flags('lo', 'up');
 
     if ($verbose) {
         echo "done.\n";
@@ -1624,7 +1624,7 @@ function interface_ipalias_configure(&$vip)
         return;
     }
 
-    if ($vip['interface'] != 'lo0' && !isset($config['interfaces'][$vip['interface']]['enable'])) {
+    if ($vip['interface'] != 'lo' && !isset($config['interfaces'][$vip['interface']]['enable'])) {
         return;
     }
 

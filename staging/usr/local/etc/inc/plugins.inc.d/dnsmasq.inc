@@ -124,11 +124,11 @@ function dnsmasq_configure_do($verbose = false)
 
     if (!empty($config['dnsmasq']['interface'])) {
         $interfaces = explode(',', $config['dnsmasq']['interface']);
-        $interfaces[] = 'lo0';
+        $interfaces[] = 'lo';
         $addresses = array();
 
         foreach (interfaces_addresses($interfaces) as $tmpaddr => $info) {
-            if ($info['name'] == 'lo0' && $info['family'] == 'inet' && $tmpaddr != '127.0.0.1') {
+            if ($info['name'] == 'lo' && $info['family'] == 'inet' && $tmpaddr != '127.0.0.1') {
                 /* allow other DNS services to bind to loopback aliases */
                 continue;
             }

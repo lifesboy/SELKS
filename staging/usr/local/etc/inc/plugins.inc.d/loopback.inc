@@ -46,7 +46,7 @@ function loopback_configure_interface($verbose = false)
 {
     $cnf = OPNsense\Core\Config::getInstance()->object();
     $configured_interfaces = legacy_interface_listget();
-    $configured_devices = ['lo0']; // lo0 should always be configured
+    $configured_devices = ['lo']; // lo should always be configured
     $loopbacks = iterator_to_array((new \OPNsense\Interfaces\Loopback())->loopback->iterateItems());
     if ($verbose && !empty($loopbacks)) {
         echo 'Configuring Loopback interfaces...';

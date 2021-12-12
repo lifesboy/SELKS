@@ -771,7 +771,7 @@ $( document ).ready(function() {
                         foreach (get_configured_ip_aliases_list() as $aliasip => $aliasif) {
                             $interfaces[$aliasif.'|'.$aliasip] = $aliasip." (".get_vip_descr($aliasip).")";
                         }
-                        $interfaces['lo0'] = "Localhost";
+                        $interfaces['lo'] = "Localhost";
                         $interfaces['any'] = "any";
                         foreach ($interfaces as $iface => $ifacename) :?>
                           <option value="<?=$iface; ?>"<?=$iface == $pconfig['interface'] ? ' selected="selected"' : '';?>>

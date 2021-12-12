@@ -338,7 +338,7 @@ $( document ).ready(function() {
                       <select name="interface" class="selectpicker" data-width="auto">
 <?php
                       $interfaces = legacy_config_get_interfaces(array('virtual' => false));
-                      $interfaces['lo0'] = array('descr' => 'Loopback');
+                      $interfaces['lo'] = array('descr' => 'Loopback');
                       foreach ($interfaces as $iface => $ifcfg): ?>
                         <option value="<?=$iface;?>" <?= $iface == $pconfig['interface'] ? 'selected="selected"' : '' ?>>
                           <?= htmlspecialchars($ifcfg['descr']) ?>

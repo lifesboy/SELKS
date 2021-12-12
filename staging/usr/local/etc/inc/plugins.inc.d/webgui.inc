@@ -45,7 +45,7 @@ function webgui_configure_do($verbose = false, $interface = '')
     $interfaces = array();
     if (!empty($config['system']['webgui']['interfaces'])) {
         $interfaces = explode(',', $config['system']['webgui']['interfaces']);
-        $interfaces[] = 'lo0';
+        $interfaces[] = 'lo';
     }
 
     @mkdir('/var/lib/php/sessions', 0750, true);

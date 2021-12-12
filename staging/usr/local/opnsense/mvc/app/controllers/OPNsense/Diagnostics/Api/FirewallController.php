@@ -84,7 +84,7 @@ class FirewallController extends ApiControllerBase
                 $label_map = array();
                 switch ($group_by) {
                     case 'interface':
-                        $label_map["lo0"] = gettext("loopback");
+                        $label_map["lo"] = gettext("loopback");
                         if (Config::getInstance()->object()->interfaces->count() > 0) {
                             foreach (Config::getInstance()->object()->interfaces->children() as $k => $n) {
                                 $label_map[(string)$n->if] = !empty((string)$n->descr) ? (string)$n->descr : $k;

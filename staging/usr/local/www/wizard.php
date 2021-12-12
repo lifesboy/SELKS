@@ -525,7 +525,7 @@ include("head.inc");
                                             }
                                             $interfaces = get_configured_interface_with_descr();
                                             if (!empty($field['subtype']) && $field['subtype'] == 'openvpn') {
-                                                $interfaces['lo0'] = 'Localhost';
+                                                $interfaces['lo'] = 'Localhost';
                                                 $interfaces['any'] = 'any';
                                             }
                                             foreach ($interfaces as $ifname => $iface) {

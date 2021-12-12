@@ -640,7 +640,7 @@ $( document ).ready(function() {
               foreach ($aliaslist as $aliasip => $aliasif) {
                   $interfaces[$aliasif.'|'.$aliasip] = $aliasip." (".get_vip_descr($aliasip).")";
               }
-              $interfaces['lo0'] = "Localhost";
+              $interfaces['lo'] = "Localhost";
               $interfaces['any'] = "any";
               foreach ($interfaces as $iface => $ifacename) :
                   $selected = "";

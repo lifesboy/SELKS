@@ -42,7 +42,7 @@ rtadvd_precmd()
 		command_args=
 		for i in `list_net_interfaces`; do
 			case $i in
-			lo0)	continue ;;
+			lo)	continue ;;
 			esac
 			if ipv6if $i; then
 				command_args="${command_args} ${i}"

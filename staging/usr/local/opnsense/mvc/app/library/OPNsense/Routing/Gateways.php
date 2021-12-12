@@ -139,7 +139,7 @@ class Gateways
             // add loopback, lowest priority
             $this->cached_gateways[$this->newKey(255)] = [
                 'name' => 'Null4',
-                'if' => 'lo0',
+                'if' => 'lo',
                 'interface' => 'loopback',
                 'ipprotocol' => 'inet',
                 'gateway' => '127.0.0.1',
@@ -148,7 +148,7 @@ class Gateways
             ];
             $this->cached_gateways[$this->newKey(255)] = [
                 'name' => 'Null6',
-                'if' => 'lo0',
+                'if' => 'lo',
                 'interface' => 'loopback',
                 'ipprotocol' => 'inet6',
                 'gateway' => '::1',

@@ -219,7 +219,7 @@ POSSIBILITY OF SUCH DAMAGE.
                   data.map(function(item){
                       let item_dir = item.key.split(',').pop();
                       let item_intf = item.key.split(',')[0];
-                      if (item_intf != '0' && item_intf != 'lo0' ) {
+                      if (item_intf != '0' && item_intf != 'lo' ) {
                           if (direction == item_dir) {
                               if (interface_names[item_intf] != undefined) {
                                   item.key = interface_names[item_intf];

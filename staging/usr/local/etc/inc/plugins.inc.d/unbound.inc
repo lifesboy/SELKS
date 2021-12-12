@@ -155,11 +155,11 @@ EOF;
     $bindints = '';
     if (!empty($config['unbound']['active_interface'])) {
         $active_interfaces = explode(',', $config['unbound']['active_interface']);
-        $active_interfaces[] = 'lo0';
+        $active_interfaces[] = 'lo';
         $addresses = array();
 
         foreach (interfaces_addresses($active_interfaces) as $tmpaddr => $info) {
-            if ($info['name'] == 'lo0' && $info['family'] == 'inet' && $tmpaddr != '127.0.0.1') {
+            if ($info['name'] == 'lo' && $info['family'] == 'inet' && $tmpaddr != '127.0.0.1') {
                 /* allow other DNS services to bind to loopback aliases */
                 continue;
             }
@@ -526,7 +526,7 @@ function unbound_add_host_entries()
     }
     $ifconfig_details = legacy_interfaces_details();
     foreach ($interfaces as $interface) {
-        if ($interface == 'lo0' || substr($interface, 0, 4) == 'ovpn') {
+        if ($interface == 'lo' || substr($interface, 0, 4) == 'ovpn') {
             continue;
         }
 
