@@ -60,7 +60,7 @@ class FilterRule extends Rule
         'prio' => 'parsePlain, prio ',
         'tag' => 'parsePlain, tag ',
         'tagged' => 'parsePlain, tagged ',
-        'allowopts' => 'parseBool,allow-opts',
+        #'allowopts' => 'parseBool,allow-opts',
         'log' => 'parseBool,log',
         'type' => 'parseType',
         'label' => 'parsePlain,comment ",",63',
