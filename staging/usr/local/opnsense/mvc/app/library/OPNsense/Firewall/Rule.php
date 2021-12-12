@@ -280,14 +280,14 @@ abstract class Rule
                     $network_name = $rule[$tag]['network'];
                     $matches = "";
                     if (trim($network_name) == 'this_firewall' || trim($network_name) == '(self)') {
-                        $rule[$target] = '$this_firewall';
+                        $rule[$target] = '$this_firewall' . $this->parseReplaceSimple($rule['ipprotocol'], 'inet:ip|inet6:ip6', '_');
                     } elseif (preg_match("/^(wan|lan|opt[0-9]+)ip$/", $network_name, $matches)) {
                         if (!empty($interfaces[$matches[1]]['if'])) {
                             $rule[$target] = "({$interfaces["{$matches[1]}"]['if']})";
                         }
                     } elseif (!empty($interfaces[$network_name]['if'])) {
                         // $rule[$target] = "({$interfaces[$network_name]['if']}:network)";
-                        $rule[$target] = '$' . $network_name . "_net";
+                        $rule[$target] = '$' . $network_name . "_net" . $this->parseReplaceSimple($rule['ipprotocol'], 'inet:ip|inet6:ip6', '_');;
                     } elseif (Util::isIpAddress($rule[$tag]['network']) || Util::isSubnet($rule[$tag]['network'])) {
                         $rule[$target] = $rule[$tag]['network'];
                     } elseif (Util::isAlias($rule[$tag]['network'])) {
