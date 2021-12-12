@@ -677,6 +677,18 @@ function filter_core_rules_system($fw, $defaults)
                             array('from' => $ifcfg['if'], 'direction' => 'out', 'gateway' => $gwname,
                             'destination' => array('network' => $ifdescr, "not" => true),
                             'allowopts' => true,
+                            'ipprotocol' => 'inet',
+                            'quick' => false,
+                            '#ref' => 'system_advanced_firewall.php#pf_disable_force_gw',
+                            'descr' => "let out anything from firewall host itself (force gw)"),
+                            $defaults['pass']
+                        );
+                        $fw->registerFilterRule(
+                            100000,
+                            array('from' => $ifcfg['if'], 'direction' => 'out', 'gateway' => $gwname,
+                            'destination' => array('network' => $ifdescr, "not" => true),
+                            'allowopts' => true,
+                            'ipprotocol' => 'inet6',
                             'quick' => false,
                             '#ref' => 'system_advanced_firewall.php#pf_disable_force_gw',
                             'descr' => "let out anything from firewall host itself (force gw)"),
