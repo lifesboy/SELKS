@@ -332,8 +332,8 @@ function filter_core_rules_system($fw, $defaults)
     );
 
     // block all in alias $virusprot
-    $fw->registerFilterRule(1, array('ipprotocol' => 'inet', 'from' => '$virusprot', 'descr' => '$virusprot overload table'), $defaults['block']);
-    $fw->registerFilterRule(1, array('ipprotocol' => 'inet6', 'from' => '$virusprot', 'descr' => '$virusprot overload table'), $defaults['block']);
+    $fw->registerFilterRule(1, array('ipprotocol' => 'inet', 'from' => '$virusprot_ip', 'descr' => '$virusprot overload table'), $defaults['block']);
+    $fw->registerFilterRule(1, array('ipprotocol' => 'inet6', 'from' => '$virusprot_ip6', 'descr' => '$virusprot overload table'), $defaults['block']);
 
     // block bogons and private nets
     $bogontmpl = array('type' => 'block', 'log' => !isset($config['syslog']['nologbogons']), 'disablereplyto' => 1);
