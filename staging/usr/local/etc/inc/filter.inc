@@ -731,9 +731,9 @@ function filter_generate_aliases()
     $aliases .= "add set ip ip_filter_table sshlockout { type ipv4_addr; flags interval; }\n";
     $aliases .= "add set ip6 ip6_filter_table sshlockout { type ipv6_addr; flags interval; }\n";
     $aliases .= "\n";
-    $aliases .= "# named set de tao bang virusprot\n";
-    $aliases .= "add set ip ip_filter_table virusprot { type ipv4_addr; flags interval; }\n";
-    $aliases .= "add set ip6 ip6_filter_table virusprot_ipv6 { type ipv6_addr; flags interval; }\n";
+    $aliases .= "define virusprot_ip = {0.0.0.1}\n";
+    $aliases .= "define virusprot_ip6 = {2000::/16}\n";
+
     $aliases .= "\n";
     $aliases .= "# them cac chain, chain ten la \"input\", \"forward\" va \"output\"\n";
     $aliases .= "# IPV4\n";
