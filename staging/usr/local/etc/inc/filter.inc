@@ -719,17 +719,12 @@ function filter_generate_aliases()
     }
 
     $aliases .= "\n";
-    $aliases .= "define sshlockout_ip = {0.0.0.1}\n";
-    $aliases .= "define sshlockout_ip6 = {2000::/16}\n";
-
-    $aliases .= "\n";
     $aliases .= "\n# table declaration\n";
     $aliases .= "add table ip ip_filter_table\n";
     $aliases .= "add table ip6 ip6_filter_table\n";
     $aliases .= "\n";
-    $aliases .= "# named set de tao bang sshlockout\n";
-    $aliases .= "add set ip ip_filter_table sshlockout { type ipv4_addr; flags interval; }\n";
-    $aliases .= "add set ip6 ip6_filter_table sshlockout { type ipv6_addr; flags interval; }\n";
+    $aliases .= "define sshlockout_ip = {0.0.0.1}\n";
+    $aliases .= "define sshlockout_ip6 = {2000::/16}\n";
     $aliases .= "\n";
     $aliases .= "define virusprot_ip = {0.0.0.1}\n";
     $aliases .= "define virusprot_ip6 = {2000::/16}\n";
