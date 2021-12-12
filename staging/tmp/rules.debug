@@ -1,16 +1,12 @@
 #!/usr/sbin/nft -fnn
-##### goc la nhu nay !/usr/sbin/nft -f
-##### doi thanh      !/usr/sbin/nft -fnn => disable translate port to service name: 80 thanh http
-
-
-# Hook order is: ingress -> prerouting -> input/output/forward -> postrouting
-
 # Start by flushing all the rules.
 flush ruleset
 
 # Defining variables is easy in nftables scripts.
-
+# Loi Comment lai# define lan_net = {10.0.2.15/24} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24
+# Sua thanh
 define lan_net = {10.0.2.15/24} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24
+
 # => nen lay dia chi ip tu cau hinh - ifconfig - thi tot, ko nen hard code
 define lan_address = 10.0.2.15 # dia chi cua card lan enp2s0
 define this_firewall = {10.0.2.15, 192.168.1.18} # dia chi cua 2 card mang cua firewall
@@ -18,178 +14,30 @@ define wan_net = 192.168.1.18/24 # la dia chi mang cua card WAN
 define wan_address = 192.168.1.18 # dia chi ip cua card WAN
 define loopback_net = 127.0.0.1/8 # dia chi ipv4 loopback
 
-define wan_net = 192.168.113.0/24
-define lan_net = 192.168.179.0/24
-
-# Dinh nghia cac tham so cua luat duoi dang cac bien
-# add rule ip ip_filter_table forward tcp dport { http} accept comment "ping imcp tu WAN intface vao LAN net echo request"
-# add rule ip ip_filter_table input iif $lan ip saddr $bogons drop comment "Block bogon IPv4 networks from LAN"
-# 1) family address: ipv4 hoac ipv6, ipv4 co gia tri la ip; ipv6 co gia tri la ip6
-# (tham so bat buoc)
-# Tham so tren trang web tao rule:  TCP/IP Version
-# IPv4 => ip ip_filter_table; IPV6 => ip6 ip6_filter_table; ca 2 IPv4+IPv6 thi tao ra 2 luat
-# De mac dinh la IPv4, ip
-# *family_address = ip => la keyword cua nft => chi duoc dua dang tham so cua code
-# Dau sao (*) la tham so bat buoc, chi tao ra tu code chuyen doi tu giao dien web sang lenh nftables,
-# tham so dau * khong phai la bien cua nft
-# Cu phap luat tao ra den day la:
-# add rule *family_address
-# 2) table name: co 2 bang: bang 1 la ip_filter_table cho ipv4; bang 2 la ip6_filter_table cho ipv6
-# (tham so bat buoc)
-# *table_name = ip_filter_table => la keyword cua nft
-# Mac dinh la bang cua ipv4: ip_filter_table
-# Tham so 2) chi nftable moi co, pf ko co
-# Luat tao ra den day la:
-# add rule *family_address *table_name
-# 3) chain name: co 3 chain la: input, output, forward. Ung 3 direction di vao, ra, xuyen qua firewall
-# (tham so bat buoc)
-# Tham so tren trang web tao rule:  Direction
-# *chain_direction = input => la keyword cua nft
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction
-# De dem counter duoc thi phai them keyword counter ngay sau *chain_direction => *chain_direction ^counter
-# 4) iif hoac oif, day khong phai la tham so bat buoc, chi dung khi co interface xac dinh trong rule
-# (tham so khong bat buoc)
-# de mac dinh la iif, la interface cho input => khong dung bien iif duoc vi day la ten cua keyword nft
-# interface_parameter = iif  => la keyword cua nft
-# tham so 4) nay phai ket hop voi tham so o 5) moi dung cu phap
-# 5) Card mang di cung voi tham so $interface_parameter iif: $lan hoac $wan
-# (tham so khong bat buoc)
-# neu co tham so 4) moi co tham so 5) nay
-# Dau $ (do la) chi tham so nay la bien cua lenh nftables, khong phai keyword cua nft
-# hoac $all_interfaces (tuy chon, khong bat buoc)
-# Tham so tren trang web tao rule: Interface
 # set interface names
-define wan = ens33
-define lan = ens36
+define wan = eno1
+define lan = enp2s0
 # set interface names
 define all_interfaces= {$wan, $lan}
-# Cu phap ket hop 4) va 5) la: ^(interface_parameter $lan)
-# Dau mu (^) la tham so khong bat buoc, chi tao ra tu code chuyen doi tu giao dien web sang lenh nftables,
-# tham so dau ^ khong phai la bien cua nft
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan)
-# trong dau dong mo ngoac "()" la 2 tham so tro len ket hop voi nhau moi tao thanh 1 tham so su dung duoc
-# 6) Dia chi ip nguon cua goi tin
-# (tham so khong bat buoc)
-# Tham so tren trang web tao rule: Source
-define source_address = {10.0.0.1/8, 192.168.1.0/24}
-# Cu phap : ip saddr 10.1.1.1 => ^(family_address saddr $source_address)
-# Trong do: *family_address la tham so o 1), saddr la keyword.
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address)
-#
-# 7) Giao thuc: tcp, udp, icmp... nhung chi 1 giao thuc, ko phai danh sach
-# (tham so khong bat buoc)
-# Tham so tren trang web tao rule: Protocol
-# protocol_name = tcp
-# Neu giao thuc la tcp, udp thi hien port de chon => phai ket hop voi tham so o 8) hoac 11) source_ports
-# hoac destination_ports de tao ra tham so: ^(protocol_name sport $source_ports) hoac ^(protocol_name dport $destination_ports)
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(protocol_name sport $source_ports)
-# 7.1) Cac kieu goi tin icmp duoc so sanh, kieu icmp dua vao dang set
-define icmp_type = {echo-reply, destination-unreachable,..}
-# Neu giao thuc icmp thi hien kieu echo-request, echo-reply, ...
-# thi cu phap la protocol= icmp type
-# ket hop voi cac kieu cua: icmp echo-reply, destination-unreachable...
-# ^(icmp type $icmp_type)
-# icmp type {echo-reply, destination-unreachable, source-quench, redirect, echo-request, time-exceeded, parameter-problem, timestamp-request, timestamp-reply, info-request, info-reply, address-mask-request, address-mask-reply, router-advertisement, router-solicitation}
-# add rule $family_address $table_name $chain_direction $interface_parameter $lan $family_address saddr $source_address ^(icmp type $icmp_type) accept
-# 7.2) Giao thuc khac, ngoai tcp, udp va icmp
-# ospf, bgp, ....
-# *ip_protocol_name
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(ip protocol *ip_protocol_name) ^(family_address daddr destination_address) *action ^(comment "Noi dung can dem counter")
-
-# 8) port nguon, source_port cua giao thuc duoi dang list. chi khi giao thuc la tcp, udp moi la co port,
-# cac giao thuc khac thi khong dung port, ma dung type hoac cu phap rieng khac
-# tham so source_ports phai dat sau keyword: giao thuc (tcp/udp) sport, vi du "tcp sport $source_ports"
-define source_ports = {80, 81}
-# Tham so tren trang web tao rule: Source port range. Chu y: nam o phan Advanced cua Source, phai bam vao moi hien ra
-# source_ports la {80, 81} hoac {80-500}
-# Cu phap them vao: ^(protocol_name sport $source_ports)
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(protocol_name sport $source_ports)
-
-# 9) Action: drop, accept => keyword cua nft
-# Tham so bat buoc
-# *action
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(protocol_name sport $source_ports) *action
-
-# 10)  Dia chi ip dich cua goi tin, dang list cho de them bot
-# Tham so tren trang web tao rule: Destination
-define destination_address = {10.0.0.1/8, 192.168.1.0/24}
-# cu phap la: ip daddr $destination_address => phai co family address o truoc daddr
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(protocol_name sport $source_ports) ^(family_address daddr destination_address) *action
-
-# 11) port dest
-# tham so port dest phai dat sau keyword: giao thuc (tcp/udp) dport, vi du tcp dport $destination_ports
-define destination_ports = {80, 81}
-# Cu phap la: ^(protocol_name dport $destination_ports)
-# Luat tao ra den day la:
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(protocol_name sport $source_ports) ^(family_address daddr destination_address) ^(protocol_name dport $destination_ports) *action
-
-# 12) Ghi chu comment de cho phep de dang loc ra cac luat, cac bo dem counter goi tin khop voi luat
-# Tham so khong bat buoc
-# Tham so tren trang web tao rule: Description
-# ^(comment "Noi dung can dem counter")
-# Luat tao ra den day la: ******************DAY LA CU PHAP TAO LUAT TONG QUAT***********
-#
-# Giao thuc TCP, UDP
-#
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(protocol_name sport $source_ports) ^(family_address daddr destination_address) ^(protocol_name dport $destination_ports) *action ^(comment "Noi dung can dem counter")
-#
-# Giai thich: * la bat buoc, ^ la khong bat buoc, dong mo ngoac () la tham so ket hop cua 2 tham so
-#
-# Giao thuc ICMP
-#
-# Chu y voi ^protocol la icmp thi phai cu phap khac la ^(icmp type $icmp_type). Xem rule o cuoi noi dung 7.1)
-#
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(icmp type $icmp_type) ^(family_address daddr destination_address) *action ^(comment "Noi dung can dem counter")
-#
-# Giao thuc KHAC: OSPF, eigrp, ... ipv4 su dung cu phap khac voi ipv6 khi match cac giao thuc khac
-#
-# IPV4 cua giao thuc khac ospf, eigrp: ^(ip protocol *ip_protocol_name)
-#
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(ip protocol *ip_protocol_name) ^(family_address daddr destination_address) *action ^(comment "Noi dung can dem counter")
-#
-# IPV6 cua giao thuc khac ospf, eigrp: ^(ip6 nexthdr *ip_protocol_name)
-#
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(ip6 nexthdr *ip_protocol_name) ^(family_address daddr destination_address) *action ^(comment "Noi dung can dem counter")
-
-
 
 # set declaration for bogons, sshlockout table
-#
 # set bogons for table <bogons> persist file "/usr/local/etc/bogons" in pf
-define bogons = { 0.0.0.0/8, 127.0.0.0/8, 169.254.0.0/16,192.0.0.0/24, 192.0.2.0/24, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 240.0.0.0/4 }
-define bogonsv6 = { 2000::/16,2001:1000::/23,2001:100::/24,2001:10::/28,2001:1::/32,2001:20::/27,2001:2::/31,
-2001:40::/26,2001:4::/30,2001:4e00::/23,2001:6000::/19,2001:80::/25,2001:8::/29,2001:c000::/18,2001:db8::/32,
-2003:4000::/18,2003:8000::/17,2004::/14,2008::/13,2010::/12,2020::/11,2040::/10,2080::/9,2100::/8,2200::/7,
-2410::/12,2420::/11,2440::/10,2480::/9,2500::/8,2610:1000::/20,2610:2000::/19,2610:200::/23,2610:4000::/18,
-2610:400::/22,2610:8000::/17,2610:800::/21,2611::/16,2612::/15,2614::/14,2618::/13,2620:1000::/20,2620:2000::/19,
-2620:200::/23,2620:4000::/18,2620:400::/22,2620:8000::/17,2620:800::/21,2621::/16,2622::/15,2624::/14,2628::/13,
-2630::/12,2640::/10,2680::/9,2700::/8,2810::/12,2820::/11,2840::/10,2880::/9,2900::/8,2a10::/12,2a20::/11,
-2a40::/10,2a80::/9,2b00::/8,2c10::/12,2c20::/11,2c40::/10,2c80::/9,2d00::/8,2e00::/7,3000::/4,4000::/2,8000::/1,::/3}
-#
-#
+
+define bogons = { 127.0.0.0/8, 169.254.0.0/16,192.0.0.0/24, 192.0.2.0/24, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 240.0.0.0/4 }
+define bogonsv6 = { 2000::/16,2001:1000::/23,2001:100::/24,2001:10::/28,2001:1::/32,2001:20::/27,2001:2::/31,2001:40::/26,2001:4::/30,2001:4e00::/23,2001:6000::/19,2001:80::/25,2001:8::/29,2001:c000::/18,2001:db8::/32,2003:4000::/18,2003:8000::/17,2004::/14,2008::/13,2010::/12,2020::/11,2040::/10,2080::/9,2100::/8,2200::/7,2410::/12,2420::/11,2440::/10,2480::/9,2500::/8,2610:1000::/20,2610:2000::/19,2610:200::/23,2610:4000::/18,2610:400::/22,2610:8000::/17,2610:800::/21,2611::/16,2612::/15,2614::/14,2618::/13,2620:1000::/20,2620:2000::/19,2620:200::/23,2620:4000::/18,2620:400::/22,2620:8000::/17,2620:800::/21,2621::/16,2622::/15,2624::/14,2628::/13,2630::/12,2640::/10,2680::/9,2700::/8,2810::/12,2820::/11,2840::/10,2880::/9,2900::/8,2a10::/12,2a20::/11,2a40::/10,2a80::/9,2b00::/8,2c10::/12,2c20::/11,2c40::/10,2c80::/9,2d00::/8,2e00::/7,3000::/4,4000::/2,8000::/1,::/3}
+
+
 # table declaration
-#
 add table ip ip_filter_table
 add table ip6 ip6_filter_table
 
-#named set de tao bang sshlockout
+# named set de tao bang sshlockout => set thi su dung la dau @. Vi du @sshlockout
 add set ip ip_filter_table sshlockout { type ipv4_addr; flags interval; }
-# cu phap them cac element vao named set
-#add element filter sshlockout {0.0.0.0/8}
-#add element filter sshlockout {10.0.0.0/8}
-#add element filter sshlockout {41.62.0.0/16}
-#add element filter sshlockout {41.67.64.0/20}
-# anonymous set, khong dung duoc vi de trong list se bao loi nft
-#define sshlockout = {}
+# Loi Comment lai # vi cung ten bang nhung phai 2 bang khac nhau, truoc la sshlockout
+# nay chuyen thanh sshlockout_ipv6 => set thi su dung la dau @. Vi du @sshlockout_ipv6
+add set ip6 ip6_filter_table sshlockout_ipv6 { type ipv6_addr; flags interval; }
 
-#named set de tao bang virusprot
+# named set de tao bang virusprot
 add set ip ip_filter_table virusprot { type ipv4_addr; flags interval; }
 add set ip6 ip6_filter_table virusprot_ipv6 { type ipv6_addr; flags interval; }
 
@@ -203,249 +51,161 @@ add chain ip6 ip6_filter_table input { type filter hook input priority 30; polic
 add chain ip6 ip6_filter_table forward { type filter hook forward priority 30; policy accept;}
 add chain ip6 ip6_filter_table output { type filter hook output priority 30; policy accept;}
 
-# Cho ping tu ngoai vao firewall de kiem tra
+# THEM CHAIN DE UU TIEN THUC HIEN CHONG LOCKOUT - ANTI LOCKOUT CHAIN AND RULE HERE
 # IPV4
-# INPUT
-add rule ip ip_filter_table input ip protocol icmp icmp type { echo-request, echo-reply, time-exceeded, parameter-problem, destination-unreachable } accept
-# OUTPUT
-add rule ip ip_filter_table output ip protocol icmp icmp type { echo-request, echo-reply, time-exceeded, parameter-problem, destination-unreachable } accept
-# FORWARD
-# luat de test ping va mo http tu may ben kia sang ben nay dang forward
-# ****da bo sung "counter" vao ngay sau ten chain "forward" de dem
-# add rule ip ip_filter_table forward counter tcp dport { http} accept comment "Allow to forward http to xp xampp web server counter ipv4 forward accept http"
-#
-#
-# khong cho lenh nay la ko ping xuyen qua firewall duoc
-# ****da bo sung "counter" vao ngay sau ten chain "forward" de dem
-# add rule ip ip_filter_table forward counter ip protocol icmp icmp type { echo-request, echo-reply, time-exceeded, parameter-problem, destination-unreachable } accept comment "counter ipv4 forward accept icmp"
-#
-#
+add chain ip ip_filter_table input_antilockout { type filter hook input priority 4; policy accept;}
+add chain ip ip_filter_table forward_antilockout { type filter hook forward priority 4; policy accept;}
+add chain ip ip_filter_table output_antilockout { type filter hook output priority 4; policy accept;}
 
-#ket luan: ban dau phai cho ca 2, sau do tat 1 trong 2 roi van duoc,
-# tat ca 2 roi cho lai 1 trong 2 cung khong duoc
-# => net xoa bang inet_table di => da xoa bang inet_table roi
-
-# HTTP va SSH
-# Cac luat ban dau de may tram dieu khien duoc firewall qua http va ssh
-# Phai co luat tren ipv4 neu khong co, policy mac dinh cua ipv4 se drop
-# IPV4
-# INPUT
-add rule ip ip_filter_table input tcp dport { http, https, ssh } accept comment "anti-lockout rule"
-add rule ip ip_filter_table input ct state invalid drop comment "Drop invalid connections"
-add rule ip ip_filter_table input ct state established,related log prefix "nft.accept input state established, related_" accept comment "Accept traffic originated from us"
-# OUTPUT
-add rule ip ip_filter_table output ct state invalid drop comment "Drop invalid connections"
-add rule ip ip_filter_table output ct state established,related log prefix "nft.accept output state established,related_" accept
-
-# IPV6
-# INPUT
-# Phai co luat tren ipv6 neu khong co, policy mac dinh cua ipv6 se drop http va ssh
-add rule ip6 ip6_filter_table input tcp dport { http, https, ssh } accept comment "anti-lockout rule"
-add rule ip6 ip6_filter_table input ct state invalid drop comment "Drop invalid connections"
-add rule ip6 ip6_filter_table input ct state established,related log prefix "nft.accept input state established, related_" accept comment "Accept traffic originated from us"
-# OUTPUT
-add rule ip6 ip6_filter_table output ct state invalid drop comment "Drop invalid connections"
-add rule ip6 ip6_filter_table output ct state established,related log prefix "nft.accept output state established,related_" accept
-
-# Default deny rule cua
-#block in inet from {any} to {any} label "8164f82fd0b4f3b0e0c494228a454c17" # Default deny rule
-#block in inet6 from {any} to {any} label "8164f82fd0b4f3b0e0c494228a454c17" # Default deny rule
 # DAT LAI POLICY DEFAULT LA DROP
-# de default luat la drop khi khong co chi dinh luat cho phep service cu the
 # IPV4
 # INPUT
-add chain ip ip_filter_table input { policy drop;}
-add rule ip ip_filter_table input counter comment "counter ipv4 input policy drop"
-add rule ip ip_filter_table input log prefix "nft.drop ipv4 input_"
+# add chain ip ip_filter_table input { policy drop;}
 # FORWARD
-add chain ip ip_filter_table forward { policy drop;}
-add rule ip ip_filter_table forward ct state established,related log prefix "nft.accept forward state established,related_" accept
-add rule ip ip_filter_table forward counter comment "counter ipv4 forward policy drop"
-add rule ip ip_filter_table forward log prefix "nft.drop ipv4 forward_"
+# add chain ip ip_filter_table forward { policy drop;}
 # OUTPUT
-add chain ip ip_filter_table output { policy drop;}
-add rule ip ip_filter_table output counter comment "counter ipv4 output policy drop"
-add rule ip ip_filter_table output log prefix "nft.drop ipv4 output_"
+# add chain ip ip_filter_table output { policy drop;}
 
 # IPV6
 # INPUT
-add chain ip6 ip6_filter_table input { policy drop;}
-add rule ip6 ip6_filter_table input counter
-add rule ip6 ip6_filter_table input log prefix "nft.drop ipv4 input_"
+# add chain ip6 ip6_filter_table input { policy drop;}
 # FORWARD
-add chain ip6 ip6_filter_table forward { policy drop;}
-add rule ip6 ip6_filter_table forward ct state established,related log prefix "nft.accept forward state established,related_" accept
-add rule ip6 ip6_filter_table forward counter
-add rule ip6 ip6_filter_table forward log prefix "nft.drop ipv6 forward_"
+# add chain ip6 ip6_filter_table forward { policy drop;}
 # OUTPUT
-add chain ip6 ip6_filter_table output { policy drop;}
-add rule ip6 ip6_filter_table output counter
-add rule ip6 ip6_filter_table output log prefix "nft.drop ipv4 output_"
+# add chain ip6 ip6_filter_table output { policy drop;}
 
-#Cho phep tat cac goi tin ICMP cua IPv6, co 5 luat mac dinh o pf trong bang Floating
-#pass in quick inet6 proto ipv6-icmp from {any} to {any} icmp6-type {1,2,135,136} keep state label "9dff917e83b570f19343d5e2941a545e" # IPv6 requirements (ICMP)
-#pass out quick inet6 proto ipv6-icmp from {(self)} to {fe80::/10,ff02::/16} icmp6-type {129,133,134,135,136} keep state label "b026daa4d56d35a3021d47d79578008d" # IPv6 requirements (ICMP)
-#pass in quick inet6 proto ipv6-icmp from {fe80::/10} to {fe80::/10,ff02::/16} icmp6-type {128,133,134,135,136} keep state label "d147534c4012c8dd65eda59292c0ab90" # IPv6 requirements (ICMP)
-#pass in quick inet6 proto ipv6-icmp from {ff02::/16} to {fe80::/10} icmp6-type {128,133,134,135,136} keep state label "df042096359aa49094a20b3ac111f4b7" # IPv6 requirements (ICMP)
-#pass in quick inet6 proto ipv6-icmp from {::} to {ff02::/16} icmp6-type {128,133,134,135,136} keep state label "d8fdc41aeac05a86adfb74e6052317d8" # IPv6 requirements (ICMP)
+# Cau hinh DNAT
+add table ip_nat
+add chain ip_nat prerouting { type nat hook prerouting priority -110; }
+add chain ip_nat postrouting { type nat hook postrouting priority 110; }
 
-# IPV6
-add rule ip6 ip6_filter_table input icmpv6 type { destination-unreachable, packet-too-big, nd-neighbor-solicit, nd-neighbor-advert} accept
-#add rule ip6 ip6_filter_table output ip6 daddr {fe80::/10,ff02::/16} icmpv6 type { echo-reply, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert} accept
-add rule ip6 ip6_filter_table output iif $all_interfaces ip6 daddr {fe80::/10,ff02::/16} icmpv6 type { echo-reply, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert} accept
-#add rule ip6 ip6_filter_table output oifname {"ens33", "ens36"} ip6 daddr {fe80::/10,ff02::/16} icmpv6 type { echo-reply, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert} accept
-add rule ip6 ip6_filter_table input ip6 saddr {fe80::/10} ip6 daddr {fe80::/10,ff02::/16} icmpv6 type { echo-request, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert} accept
-add rule ip6 ip6_filter_table input ip6 saddr {ff02::/16} ip6 daddr {fe80::/10} icmpv6 type { echo-request, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert} accept
-add rule ip6 ip6_filter_table input ip6 saddr {::} ip6 daddr {ff02::/16} icmpv6 type { echo-request, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert} accept
 
-# block all targetting port 0
-# block in quick inet proto {tcp udp} from {any} port {0} to {any} label "055888faf366f8a2c7f1750d10972bd8" # block all targetting port 0
-# block in quick inet6 proto {tcp udp} from {any} port {0} to {any} label "055888faf366f8a2c7f1750d10972bd8" # block all targetting port 0
-# block in quick inet proto {tcp udp} from {any} to {any} port {0} label "7a8b700e4eb5aee74ba3bb8c84ab144e" # block all targetting port 0
-# block in quick inet6 proto {tcp udp} from {any} to {any} port {0} label "7a8b700e4eb5aee74ba3bb8c84ab144e" # block all targetting port 0
-# Vi huong block la in nen chain la input, ca 2 loai family address nen la ip va ip6
-# IPV4
-add rule ip ip_filter_table input tcp sport {0} drop comment "block all targetting port 0"
-add rule ip ip_filter_table input udp sport {0} drop comment "block all targetting port 0"
-add rule ip ip_filter_table input tcp dport {0} drop comment "block all targetting port 0"
-add rule ip ip_filter_table input udp dport {0} drop comment "block all targetting port 0"
-# IPV6
-add rule ip6 ip6_filter_table input tcp sport {0} drop comment "block all targetting port 0"
-add rule ip6 ip6_filter_table input udp sport {0} drop comment "block all targetting port 0"
-add rule ip6 ip6_filter_table input tcp dport {0} drop comment "block all targetting port 0"
-add rule ip6 ip6_filter_table input udp dport {0} drop comment "block all targetting port 0"
 
-# CARP defaults
-#block in quick proto carp from {(self)} to {any} label "e61eb78a7d81ee047de7e0522e86aa7c" # CARP defaults
-#pass quick proto carp from {any} to {any} label "2c615f338a7ce8979aef58584d268e0e" # CARP defaults
-# IPV4, tuy nhien, IPV6 khong co giao thuc CARP va VRRP
-add rule ip ip_filter_table input iif $all_interfaces ip protocol 112 drop comment "CARP defaults"
-add rule ip ip_filter_table input ip protocol 112 accept comment "CARP defaults"
-add rule ip ip_filter_table output ip protocol 112 accept comment "CARP defaults"
+# User Aliases
 
-# chuyen doi 2 luat sau cua pf
-# sshlockout
-#block in quick proto tcp from {<sshlockout>} to {(self)} port {22} label "e4ddd6926820aea1dd5627b7f4af97e7" # sshlockout
-#block in quick proto tcp from {<sshlockout>} to {(self)} port {80} label "e01434ee628f9054e449c7dc4ae58447" # sshlockout
-# sshlockout
-# IPV4
-#add rule ip ip_filter_table input iif $all_interfaces ip saddr @sshlockout tcp dport { http, https, ssh } drop comment "sshlockout"
-# khong dung iif $all_interfaces van chan cac duong vao http va ssh cua firewall
-add rule ip ip_filter_table input ip saddr @sshlockout tcp dport { http, https, ssh } drop comment "sshlockout"
+# Plugins tables
 
-# chan virus co trong bang <virusprot>, cac ip co chua virus
-# block in quick from {<virusprot>} to {any} label "ee12eb4ed372a1de1d91c2c2264a6c6d" # virusprot overload table
-# IPV4
-add rule ip ip_filter_table input ip saddr @virusprot drop comment "virusprot overload table"
-# IPV6
-add rule ip6 ip6_filter_table input ip6 saddr @virusprot_ipv6 drop comment "virusprot ipv6 overload table"
 
-# chuyen doi 3 luat sau cua pf allow dhcpv6 client in LAN
-#pass in quick on em1 proto udp from {fe80::/10} port {546} to {fe80::/10} port {546} label "32f3dc1aafa61a6dd0e74ae1f17955cd" # allow dhcpv6 client in LAN
-#pass in quick on em1 proto udp from {any} port {547} to {any} port {546} label "2a80f4b3e62e71c6bc8e5b7db5a49d8a" # allow dhcpv6 client in LAN
-#pass out quick on em1 proto udp from {any} port {546} to {any} port {547} label "957d95902984106e2b344773174e0c72" # allow dhcpv6 client in LAN
 
-# allow dhcpv6 client in LAN
-#IPV6
-add rule ip6 ip6_filter_table input iif $lan ip6 saddr {fe80::/10} udp sport {546} ip6 daddr {fe80::/10} udp dport {546} accept comment "allow dhcpv6 client in LAN"
-add rule ip6 ip6_filter_table input iif $lan udp sport {547} udp dport {546} accept comment "allow dhcpv6 client in LAN"
-add rule ip6 ip6_filter_table output iif $lan udp sport {546} udp dport {547} accept comment "allow dhcpv6 client in LAN"
 
-# chuyen doi 3 luat sau cua pf allow dhcpv6 client in WAN
-#pass in quick on em0 proto udp from {fe80::/10} port {546} to {fe80::/10} port {546} label "608029de78ac13794139ab0c2ae8ad5e" # allow dhcpv6 client in WAN
-#pass in quick on em0 proto udp from {any} port {547} to {any} port {546} label "ed93b1efafb9641d0b4795a41bc2f3c1" # allow dhcpv6 client in WAN
-#pass out quick on em0 proto udp from {any} port {546} to {any} port {547} label "bc9f8c7d27c536108f14275fb266b6a9" # allow dhcpv6 client in WAN
 
-#allow dhcpv6 client in WAN
-add rule ip6 ip6_filter_table input iif $wan ip6 saddr {fe80::/10} udp sport {546} ip6 daddr {fe80::/10} udp dport {546} accept comment "allow dhcpv6 client in WAN"
-add rule ip6 ip6_filter_table input iif $wan udp sport {547} udp dport {546} accept comment "allow dhcpv6 client in WAN"
-add rule ip6 ip6_filter_table output iif $wan udp sport {546} udp dport {547} accept comment "allow dhcpv6 client in WAN"
+# NAT Redirects
+# no nat proto carp all
+# no rdr proto carp all
+add rule ip ip_filter_table forward ct status dnat accept
+# [prio: 200]
+# add rule nat iif eno1 inet from $lan_net to any port 500 -> (eno1:0) static-port # Automatic outbound rule
+# add rule nat iif eno1 inet from 127.0.0.0/8 to any port 500 -> (eno1:0) static-port # Automatic outbound rule
+# add rule nat iif eno1 inet from 10.10.0.0/20 to any port 500 -> (eno1:0) static-port # Automatic outbound rule
+# add rule nat iif eno1 inet from $lan_net to any -> (eno1:0) port 1024:65535 # Automatic outbound rule
+# add rule nat iif eno1 inet from 127.0.0.0/8 to any -> (eno1:0) port 1024:65535 # Automatic outbound rule
+# add rule nat iif eno1 inet from 10.10.0.0/20 to any -> (eno1:0) port 1024:65535 # Automatic outbound rule
+# [prio: 300]
+# add rule no rdr iif enp2s0 proto tcp to {(enp2s0)} port {22} # Anti lockout, prevent redirects for protected ports to this interface ip
+# add rule no rdr iif enp2s0 proto tcp to {(enp2s0)} port {80} # Anti lockout, prevent redirects for protected ports to this interface ip
 
-#chuyen doi luat bogon lo loopback # Block bogon IPv4 networks from loopback
-# block in quick on lo0 inet from {<bogons>} to {any} label "7c31a9cd6ab89ef5031f059a57b4defe" # Block bogon IPv4 networks from loopback
-# block in quick on lo0 inet6 from {<bogonsv6>} to {any} label "6cc59413853f35ab92b7f50ae7dde6ac" # Block bogon IPv6 networks from loopback
-# block in quick on lo0 inet from {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} to {any} label "673fe0826134d3181909b9a8c2f47d0b" # Block private networks from loopback
-# block in quick on lo0 inet6 from {fc00::/7} to {any} label "daa7543463e9667311e17ca0d9f4744d" # Block private networks from loopback
+# antispoof log for enp2s0
+# antispoof log for eno1
+# [prio: 1]
+# add rule ip6 ip6_filter_table forward iif lo log accept comment "4a9123f072dfe196c25c230f907c6dac" # Pass all loopback IPv6
+# add rule ip6 ip6_filter_table forward log drop comment "0ec8294e29827da393c3bfad611eecbb" # Block all IPv6
+add rule ip ip_filter_table forward log drop comment "02f4bab031b57d1e30553ce08e0ec131" # Default deny rule
+add rule ip6 ip6_filter_table forward log drop comment "02f4bab031b57d1e30553ce08e0ec131" # Default deny rule
+add rule ip6 ip6_filter_table forward ct state new icmpv6 type {1,2,135,136} log accept comment "54bfdfdee5ce76b3c7b04f3baffdfb84" # IPv6 requirements (ICMP)
+# Loi Comment lai # add rule ip6 ip6_filter_table output ct state new ip6 saddr $this_firewall ip6 daddr {fe80::/10,ff02::/16} icmpv6 type {129,133,134,135,136} log accept comment "b87969f4ab451436f81dd104e4a2d0d4" # IPv6 requirements (ICMP)
+add rule ip6 ip6_filter_table input ct state new ip6 saddr {fe80::/10} ip6 daddr {fe80::/10,ff02::/16} icmpv6 type {128,133,134,135,136} log accept comment "32aa850a3ee213ede8682b601ee916f2" # IPv6 requirements (ICMP)
+add rule ip6 ip6_filter_table input ct state new ip6 saddr {ff02::/16} ip6 daddr {fe80::/10} icmpv6 type {128,133,134,135,136} log accept comment "574e4214c9b104d38e897a4b92f93dae" # IPv6 requirements (ICMP)
+add rule ip6 ip6_filter_table input ct state new ip6 saddr {::} ip6 daddr {ff02::/16} icmpv6 type {128,133,134,135,136} log accept comment "21b6ee8f1b71af3f959dab6a7331e1df" # IPv6 requirements (ICMP)
+add rule ip ip_filter_table forward log drop comment "7b5bdc64d7ae74be1932f6764a591da5" # block all targetting port 0
+add rule ip6 ip6_filter_table forward log drop comment "7b5bdc64d7ae74be1932f6764a591da5" # block all targetting port 0
+add rule ip ip_filter_table forward log drop comment "ae69f581dc429e3484a65f8ecd63baa5" # block all targetting port 0
+add rule ip6 ip6_filter_table forward log drop comment "ae69f581dc429e3484a65f8ecd63baa5" # block all targetting port 0
+add rule ip ip_filter_table input ip saddr $this_firewall log drop comment "a5163b087ace1e9a25fddb39a98d8e84" # CARP defaults
+# Loi Comment lai # $this_firewall chi co ipv4, muon chan ipv6 thi them $this_firewall_ipv6
+# Loi Comment lai # add rule ip6 ip6_filter_table input ip6 saddr $this_firewall log drop comment "cad0fa5ed4746c8e7d9375b01a7343ba" # CARP defaults
+add rule ip ip_filter_table forward log accept comment "262c3de6dca3dd1298fd0503bce23f8e" # CARP defaults
+add rule ip6 ip6_filter_table forward log accept comment "34e731af83987d62ae9f1736bd708605" # CARP defaults
+add rule ip ip_filter_table input ip saddr @sshlockout ip daddr $this_firewall tcp  dport {22} log drop comment "4903904596f77dc5e2a12fb74a6a80ff" # @sshlockout
+# Loi Comment lai # $this_firewall chi co ipv4, muon chan ipv6 thi them $this_firewall_ipv6
+# Loi Comment lai # add rule ip6 ip6_filter_table input ip6 saddr @sshlockout_ipv6 ip6 daddr $this_firewall tcp  dport {22} log drop comment "af843cf1df8abc6076c919e3f32aff44" # @sshlockout
+# Loi Comment lai # add rule ip ip_filter_table input ip saddr @sshlockout ip daddr $this_firewall tcp  dport {80} log drop comment "b107feb30c84e40e3647416c026d3372" # @sshlockout
+# Loi Comment lai # $this_firewall chi co ipv4, muon chan ipv6 thi them $this_firewall_ipv6
+# Loi Comment lai # add rule ip6 ip6_filter_table input ip6 saddr @sshlockout_ipv6 ip6 daddr $this_firewall tcp  dport {80} log drop comment "54302ee8d58a9ecbebb878642f9564d2" # @sshlockout
+add rule ip ip_filter_table forward ip saddr @virusprot log drop comment "f98705a0401645d11ce34109c6fbd841" # @virusprot overload table
+# Loi Comment lai # phai doi tu @virusprot sang @virusprot_ipv6
+add rule ip6 ip6_filter_table forward ip6 saddr @virusprot_ipv6 log drop comment "3d8acc771b1d0d42c41a97c47fec15a3" # @virusprot overload table
+add rule ip6 ip6_filter_table forward iif enp2s0 ip6 saddr {fe80::/10} ip6 daddr {fe80::/10,ff02::/16} udp  dport {546} log accept comment "fef3d333d96a8d3558956de1fffc61cc" # allow access to DHCPv6 server on LAN
+add rule ip6 ip6_filter_table forward iif enp2s0 ip6 saddr {fe80::/10} ip6 daddr {ff02::/16} udp  dport {547} log accept comment "d2bd536587a9f5680c1f850b2d346839" # allow access to DHCPv6 server on LAN
+add rule ip6 ip6_filter_table forward iif enp2s0 ip6 saddr {ff02::/16} ip6 daddr {fe80::/10} udp  dport {547} log accept comment "3420206ced96c01ef73fbc4ac9deb745" # allow access to DHCPv6 server on LAN
+# Loi Comment lai #  add rule ip6 ip6_filter_table input iif enp2s0 ip6 saddr {fe80::/10} ip6 daddr $this_firewall udp  dport {546} log accept comment "563a31ff4646bb49d3b0daa57dfe1952" # allow access to DHCPv6 server on LAN
+# Loi Comment lai #  add rule ip6 ip6_filter_table output iif enp2s0 ip6 saddr $this_firewall udp  sport {547} ip6 daddr {fe80::/10} log accept comment "eb3a85f63c098f2329e311fdb8b9b1bd" # allow access to DHCPv6 server on LAN
+# [prio: 5]
+# add rule ip ip_filter_table input iif lo ip saddr $bogons log drop comment "8978ceefb3307867b3226c45a2b44c15" # Block bogon IPv4 networks from loopback
+# add rule ip6 ip6_filter_table input iif lo ip6 saddr $bogonsv6 log drop comment "67ad619cf5142cac99dafc8625877c3d" # Block bogon IPv6 networks from loopback
+# add rule ip ip_filter_table input iif lo ip saddr {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} log drop comment "3328075ef8a2796ffb4adb64d6cbd836" # Block private networks from loopback
+# add rule ip6 ip6_filter_table input iif lo ip6 saddr {fc00::/7} log drop comment "f1981f0c5a6324bffadb74fa3367f9aa" # Block private networks from loopback
+# add rule ip ip_filter_table input iif enp2s0 ip saddr $bogons log drop comment "a3d95a893ca99fdcfc8ebb8d0f0267b8" # Block bogon IPv4 networks from LAN
+# add rule ip6 ip6_filter_table input iif enp2s0 ip6 saddr $bogonsv6 log drop comment "a22652f0890383870c0805892017ef17" # Block bogon IPv6 networks from LAN
+# add rule ip ip_filter_table input iif enp2s0 ip saddr {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} log drop comment "59eaa3b97b11c51ddfce6afe4f71eeb8" # Block private networks from LAN
+# add rule ip6 ip6_filter_table input iif enp2s0 ip6 saddr {fc00::/7} log drop comment "b41015c9cba1b7ab9fa566f6ee78f58c" # Block private networks from LAN
+# add rule ip ip_filter_table input iif lo ip saddr $bogons log drop comment "fb2647ed65f48a65b8eda7c40ef792ef" # Block bogon IPv4 networks from Loopback
+# add rule ip6 ip6_filter_table input iif lo ip6 saddr $bogonsv6 log drop comment "fbd9bf0ddb1a62319012bebc4a5e4ce2" # Block bogon IPv6 networks from Loopback
+# add rule ip ip_filter_table input iif lo ip saddr {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} log drop comment "9d59048c2ca76128e62ef15066bef954" # Block private networks from Loopback
+# add rule ip6 ip6_filter_table input iif lo ip6 saddr {fc00::/7} log drop comment "e0abd0daa005c9bd545c57004e7c1603" # Block private networks from Loopback
+# add rule ip ip_filter_table input iif openvpn ip saddr $bogons log drop comment "77621b6d85457e62157580823dffdf0e" # Block bogon IPv4 networks from OpenVPN
+# add rule ip6 ip6_filter_table input iif openvpn ip6 saddr $bogonsv6 log drop comment "d0fbeea1f5d753899e15b6aed96e6dbd" # Block bogon IPv6 networks from OpenVPN
+# add rule ip ip_filter_table input iif openvpn ip saddr {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} log drop comment "d7a184385814e3ee66552f7d862ed84a" # Block private networks from OpenVPN
+# add rule ip6 ip6_filter_table input iif openvpn ip6 saddr {fc00::/7} log drop comment "e830e03cba3eda2f1fcd764e40d33f4e" # Block private networks from OpenVPN
+add rule ip ip_filter_table input iif eno1 ip saddr $bogons log drop comment "8b5c34368818d14512c90e9d4af1b1ed" # Block bogon IPv4 networks from WAN
+add rule ip6 ip6_filter_table input iif eno1 ip6 saddr $bogonsv6 log drop comment "25fa1c57e9d458705315a69c695b3142" # Block bogon IPv6 networks from WAN
+# Loi Comment lai # Khong chan mang private tu WAN
+# Loi Comment lai # add rule ip ip_filter_table input iif eno1 ip saddr {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} log drop comment "1eb94a38e58994641aff378c21d5984f" # Block private networks from WAN
+add rule ip6 ip6_filter_table input iif eno1 ip6 saddr {fc00::/7} log drop comment "45afd72424c84d011c07957569151480" # Block private networks from WAN
+# Loi Comment lai # loi luc thua chu ip o truoc chu udp: ip udp sport .., xem giai thich o 7.2)
+add rule ip ip_filter_table input iif enp2s0 udp sport {68} ip daddr {255.255.255.255} udp  dport {67} log accept comment "0c75a2c48239f811750e6a2639997c5e" # allow access to DHCP server
+# Loi Comment lai # loi luc thua chu ip o truoc chu udp: ip udp sport .., xem giai thich o 7.2)
+add rule ip ip_filter_table input iif enp2s0 udp sport {68} ip daddr $this_firewall udp  dport {67} log accept comment "0a213fe4b01305388aa32f2e035b4f18" # allow access to DHCP server
+# Loi Comment lai # loi luc thua chu ip o truoc chu udp: ip udp sport .., xem giai thich o 7.2),
+# nam sau chu udp sport {67}: ban dau la udp sport {67} ip udp  dport {68}=> sua thanh udp sport {67} udp dport {68}
+add rule ip ip_filter_table output iif enp2s0 ip saddr $this_firewall udp sport {67} udp  dport {68} log accept comment "6f5025569cadb93cc68c189a9c245b5e" # allow access to DHCP server
+# Loi Comment lai # Khong co interface lo, chi co interface lo
+add rule ip ip_filter_table forward iif lo log accept comment "faf69840f4e9af1f8961551d20ecefdc" # pass loopback
+# Loi Comment lai # ko co bang inet4_filter_table
+# Loi Comment lai # add rule inet4 inet4_filter_table forward iif lo log accept comment "f57f0b4400247726f4d69eede2dae9e8" # pass loopback
+# Loi Comment lai # ko co tham so allow-opts
+add rule ip ip_filter_table output ct state new log accept comment "3770fb70da443e511aafe92bb87dad86" # let out anything from firewall host itself
+add rule ip6 ip6_filter_table output ct state new log accept comment "2633bf4dc43e3225d7dea0ce454766fb" # let out anything from firewall host itself
+# Loi Comment lai # Loi thieu dau phay trong {22, 80}
+# Loi Comment lai # # luat goc ben anh Huong gui sang la:
+#add rule ip ip_filter_table input tcp dport { http, https, ssh } accept comment "anti-lockout rule"
+# luat cua Tuan lam tu dong
+# add rule ip ip_filter_table input ct state new iif enp2s0 ip daddr $this_firewall tcp  dport {22, 80} log accept comment "2b909a9d3d835906a2e517ab12dbe7e8" # anti-lockout rule
+# nen phai sua lai xoa: "ct state new iif enp2s0" di, dua vao chain input_antilockout vua dinh nghia moi
+add rule ip ip_filter_table input_antilockout ip daddr $this_firewall tcp  dport {22, 80} log accept comment "2b909a9d3d835906a2e517ab12dbe7e8" # anti-lockout rule
+add rule ip ip_filter_table input_antilockout ct state established,related log prefix "nft.accept input_antilockout state established, related_" accept comment "Accept traffic originated from us"
+# OUTPUT
+add rule ip ip_filter_table output_antilockout ct state invalid drop comment "Drop invalid connections"
+add rule ip ip_filter_table output_antilockout ct state established,related log prefix "nft.accept output_antilockout state established,related_" accept
 
-# Block bogon IPv4 networks from loopback, tuy nhien chua su dung,
-# chi khi kich hoat tinh nang o trang  http://192.168.203.129/interfaces.php?if=lan moi bat len
-# IPV4
-###add rule ip ip_filter_table input iif lo ip saddr $bogons drop comment "Block bogon IPv4 networks from loopback"
-# IPV6
-###add rule ip6 ip6_filter_table input iif lo ip6 saddr $bogonsv6 drop comment "Block bogon IPv6 networks from loopback"
 
-# chuyen doi luat bogon card lan, tuy nhien chua su dung
-# block in quick on em1 inet from {<bogons>} to {any} label "905d384826ec270b160b1b1b666dd136" # Block bogon IPv4 networks from LAN
-# block in quick on em1 inet6 from {<bogonsv6>} to {any} label "cc61e8783155f24fe67bf264aa30c78e" # Block bogon IPv6 networks from LAN
-# block in quick on em1 inet from {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} to {any} label "d40be24b1f16c9e68e664ec499e32ad6" # Block private networks from LAN
-# block in quick on em1 inet6 from {fc00::/7} to {any} label "188d9eca0cc29bfae8fd6532d6e74952" # Block private networks from LAN
-# IPV4
-###add rule ip ip_filter_table input iif $lan ip saddr $bogons drop comment "Block bogon IPv4 networks from LAN"
-# IPV6
-###add rule ip6 ip6_filter_table input iif $lan ip6 saddr $bogonsv6 drop comment "Block bogon IPv6 networks from LAN"
 
-# khong block private net vi mang bca dung private address.
-
-# chuyen doi luat bogon card wan, tuy nhien chua su dung
-# block in quick on em0 inet from {<bogons>} to {any} label "71a81a5b9078529d19c7f071d48e01f9" # Block bogon IPv4 networks from WAN
-# block in quick on em0 inet6 from {<bogonsv6>} to {any} label "5443fb4ed97a0d6859cbfead1480b7bc" # Block bogon IPv6 networks from WAN
-# block in quick on em0 inet from {10.0.0.0/8,127.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16} to {any} label "9f47d98867d94f60b21b0406ea0ca0da" # Block private networks from WAN
-# block in quick on em0 inet6 from {fc00::/7} to {any} label "e660702614f543bbc68ff197c03ebce5" # Block private networks from WAN
-
-# Block bogon IPv4 networks from wan, tuy nhien chua su dung,
-# chi khi kich hoat tinh nang o trang  http://192.168.203.129/interfaces.php?if=lan moi bat len
-# IPV4
-###add rule ip ip_filter_table input iif $wan ip saddr $bogons drop comment "Block bogon IPv4 networks from WAN"
-# IPV6
-###add rule ip6 ip6_filter_table input iif $wan ip6 saddr $bogonsv6 drop comment "Block bogon IPv6 networks from WAN"
-# chuyen doi 2 luat allow DHCP client on WAN
-#pass in on em0 proto udp from {any} port {67} to {any} port {68} label "46fc10576859cad5bfb072da5f309a9b" # allow DHCP client on WAN
-#pass out on em0 proto udp from {any} port {68} to {any} port {67} label "b574198c5a3db74bcd752a5dbecc0430" # allow DHCP client on WAN
-
-# IPV4
-add rule ip ip_filter_table input iif $wan udp sport {67} udp dport {68} accept comment "allow DHCP client on WAN"
-add rule ip ip_filter_table input iif $wan udp sport {68} udp dport {67} accept comment "allow DHCP client on WAN"
-
-# cho phep loopback any den any
-#pass in quick on lo0 from {any} to {any} label "e0d31e3de9e37717b5c3f2e926a737b0" # pass loopback
-# IPV4
-add rule ip ip_filter_table input iif lo accept comment "pass loopback"
-# IPV6
-add rule ip6 ip6_filter_table input iif lo accept comment "pass loopback"
-# cho phep ban than firewall di ra khap noi
-#pass out from {any} to {any} keep state allow-opts label "fcc89aee950e474ad952872fb6c678aa" # let out anything from firewall host itself
-# IPV4
-add rule ip ip_filter_table output oif $all_interfaces accept comment "let out anything from firewall host itself"
-# IPV6
-add rule ip6 ip6_filter_table output oif $all_interfaces accept comment "let out anything from firewall host itself"
-
-add rule ip ip_filter_table input tcp dport { https } accept comment "Floating. Cho https ko chon Interface, bat ky huong nao qua firewall"
-###############################-CONG THUC-######################################
-# TEST luat tao ra theo cong thuc duoi day, da xay dung duoc o tren
-# # TCP, UDP
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(protocol_name sport $source_ports) ^(family_address daddr destination_address) ^(protocol_name dport $destination_ports) *action ^(comment "Noi dung can dem counter")
-# ICMP
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(family_address daddr destination_address) ^(icmp type $icmp_type) *action ^(comment "Noi dung can dem counter")
-## Giao thuc KHAC: OSPF, EIGRP,...
-# add rule *family_address *table_name *chain_direction ^counter ^(interface_parameter $lan) ^(family_address saddr $source_address) ^(ip protocol *ip_protocol_name) ^(family_address daddr destination_address) *action ^(comment "Noi dung can dem counter")
-######################################## TEST #################################
-#
-# giao thuc tcp, udp
-add rule ip ip_filter_table forward counter iif $wan oif $lan tcp dport {81, 443} accept comment "luat tu cong thu cho phep http 2"
-add rule ip6 ip6_filter_table forward counter iif $wan oif $lan tcp dport {81, 443} accept comment "luat tu cong thu cho phep http 2"
-
-#
-# giao thuc icmp
-#
-# add rule ip ip_filter_table forward counter iif $wan oif $lan ip saddr {192.168.113.0/24} icmp type { echo-request, echo-reply, time-exceeded, parameter-problem, destination-unreachable } accept comment "cho ping icmp forward"
-add rule ip ip_filter_table forward counter ip saddr {192.168.113.0/24} icmp type { echo-request, echo-reply, time-exceeded, parameter-problem, destination-unreachable } accept comment "cho ping icmp forward"
-add rule ip6 ip6_filter_table forward counter ip6 saddr {fc00::/7} icmp type { echo-request, echo-reply, time-exceeded, parameter-problem, destination-unreachable } accept comment "cho ping ip6 icmp forward"
-add rule ip6 ip6_filter_table forward counter ip6 saddr {fc00::/7} icmpv6 type { destination-unreachable, packet-too-big, nd-neighbor-solicit, nd-neighbor-advert} accept comment "cho ping ip6 icmpv6 forward"
-
-#
-# Giao thuc khac 3 giao thuc thuong dung tcp, udp, icmp: vi du la ospf
-#
-add rule ip ip_filter_table forward counter ip saddr {192.168.113.0/24} ip protocol {ospf, eigrp, rdp} accept comment "giao thuc ospf"
-add rule ip6 ip6_filter_table forward counter ip6 saddr {fc00::/7} ip6 nexthdr {ospf, eigrp, rdp} accept comment "giao thuc ospf"
-
-#
+# Loi Comment lai # add rule ip6 ip6_filter_table input ct state new iif enp2s0 ip6 daddr $this_firewall tcp  dport {22 80} log accept comment "708e4ca21b0805fcd8c5a7654a92e14d" # anti-lockout rule
+# [prio: 100000]
+# Loi Comment lai # Thieu cu phap *family_address *table_name => ip ip_filter_table
+# Cu phap phu dinh, negative !$wan_net doi thanh != $wan_net
+# Trong ip saddr {} phai la dia chi ip, ko phai la ten interface ip saddr {eno1} => ip saddr {$wan_address}
+# Loi Comment lai # add rule output ct state new ip saddr {eno1} ip daddr !$wan_net log accept comment "ae654cccd6d394c4e8e9912a9268a4b7" # let out anything from firewall host itself (force gw)
+# Sua thanh
+add rule ip ip_filter_table output ct state new ip saddr {$wan_address} ip daddr != $wan_net log accept comment "ae654cccd6d394c4e8e9912a9268a4b7" # let out anything from firewall host itself (force gw)
+# [prio: 200000]
+add rule ip ip_filter_table output ct state established iif enp2s0 ip saddr $lan_net accept comment "442cdf1a18e0c7e57774084148a3abdf"
+# Loi Comment lai # card lo khonng duoc dung dia chi cua $lan_net
+# Loi Comment lai # add rule ip ip_filter_table output ct state established iif lo ip saddr $lan_net accept comment "442cdf1a18e0c7e57774084148a3abdf"
+# Loi Comment lai # chua dinh nghia bien openvpn
+# Loi Comment lai # add rule ip ip_filter_table output ct state established iif openvpn ip saddr $lan_net accept comment "442cdf1a18e0c7e57774084148a3abdf"
+# Loi Comment lai # eno1 phai la ip WAN ko phai la lan_net
+# Loi Comment lai # add rule ip ip_filter_table output ct state established iif eno1 ip saddr $lan_net accept comment "442cdf1a18e0c7e57774084148a3abdf"
+# [prio: 400000]
+add rule ip ip_filter_table forward iif enp2s0 ip saddr $lan_net accept comment "c9fb95f8275a8a73ce4a68190ed7bc51" # : Default allow LAN to any rule
+# Loi Comment lai # add rule ip6 ip6_filter_table forward iif enp2s0 ip6 saddr $lan_net accept comment "e0d7d87c02c29ff98108738507811fec" # : Default allow LAN IPv6 to any rule
+add rule ip ip_filter_table input ct state new iif enp2s0 ip daddr $this_firewall accept comment "77075e9b888bc1fb377f1c532b9f5468" # : sd
