@@ -362,7 +362,7 @@ abstract class Rule
             // don't wrap aliases in curly brackets
             $from_port = "{" . $from_port . "}";
         }
-        $value = empty($from) ? '' : $ipprotocol . ' saddr ' . $from;
+        $value = empty($from) ? '' : $ipprotocol . 'saddr ' . $from;
         $value .= empty($from_port) ? ''
             : $this->parseReplaceSimple($protocol, 'any:|tcp/udp:', ' ') . ' sport ' . $from_port;
         return empty($value) ? '' : $prefix . $value . $suffix . ' ';
@@ -381,7 +381,7 @@ abstract class Rule
             // don't wrap aliases in curly brackets
             $to_port = "{" . $to_port . "}";
         }
-        $value = empty($to) ? '' : $ipprotocol . ' daddr ' . $to;
+        $value = empty($to) ? '' : $ipprotocol . 'daddr ' . $to;
         $value .= empty($to_port) ? '' :
             $this->parseReplaceSimple($protocol, 'any:|tcp/udp:', ' ') . ' dport ' . $to_port;
         return empty($value) ? '' : $prefix . $value . $suffix . ' ';
