@@ -351,7 +351,7 @@ abstract class Rule
 
     protected function parseFrom($ipprotocol, $protocol, $from, $from_port, $prefix = "", $suffix = "")
     {
-        $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet6:ip6|:ip');
+        $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet4:ip|inet6:ip6|:ip');
         $from = trim($this->parseReplaceSimple($from, 'any:'));
         if (!empty($from) && strpos($from, '$') === false) {
             // don't wrap aliases in curly brackets
@@ -370,7 +370,7 @@ abstract class Rule
 
     protected function parseTo($ipprotocol, $protocol, $to, $to_port, $prefix = "", $suffix = "")
     {
-        $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet6:ip6|:ip');
+        $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet4:ip|inet6:ip6|:ip');
         $to = trim($this->parseReplaceSimple($to, 'any:'));
         if (!empty($to) && strpos($to, '$') === false) {
             // don't wrap aliases in curly brackets
