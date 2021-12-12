@@ -357,7 +357,7 @@ abstract class Rule
             // don't wrap aliases in curly brackets
             $from = "{" . $from . "}";
         }
-        $from_port = trim($this->parseReplaceSimple($from_port, 'any:'));
+        $from_port = trim($this->parseReplaceSimple($from_port, 'any:| :,'));
         if (!empty($from_port) && strpos($from_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $from_port = "{" . $from_port . "}";
@@ -376,7 +376,7 @@ abstract class Rule
             // don't wrap aliases in curly brackets
             $to = "{" . $to . "}";
         }
-        $to_port = trim($this->parseReplaceSimple($to_port, 'any:'));
+        $to_port = trim($this->parseReplaceSimple($to_port, 'any:| :,'));
         if (!empty($to_port) && strpos($to_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $to_port = "{" . $to_port . "}";
