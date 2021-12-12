@@ -689,13 +689,19 @@ function filter_generate_scrubing(&$FilterIflist)
 function filter_generate_aliases()
 {
     $aliases = "\n# Defining variables is easy in nftables scripts.\n";
-    $aliases .= "define lan_net = {10.0.2.15/24} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24\n";
+    $aliases .= "define lan_net_ip = {10.0.2.15/24} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24\n";
+    $aliases .= "define lan_net_ip6 = {fe80::260:97ff:fe5b:732d} # la dia chi mang cua card LAN enp2s0: fe80::260:97ff:fe5b:732d\n";
     $aliases .= "\n# => nen lay dia chi ip tu cau hinh - ifconfig - thi tot, ko nen hard code\n";
-    $aliases .= "define lan_address = 10.0.2.15 # dia chi cua card lan enp2s0\n";
-    $aliases .= "define this_firewall = {10.0.2.15, 192.168.1.18} # dia chi cua 2 card mang cua firewall \n";
-    $aliases .= "define wan_net = 192.168.1.18/24 # la dia chi mang cua card WAN\n";
-    $aliases .= "define wan_address = 192.168.1.18 # dia chi ip cua card WAN\n";
-    $aliases .= "define loopback_net = 127.0.0.1/8 # dia chi ipv4 loopback\n";
+    $aliases .= "define lan_address_ip = {10.0.2.15} # dia chi cua card lan enp2s0\n";
+    $aliases .= "define lan_address_ip6 = {fe80::260:97ff:fe5b:732d} # dia chi cua card lan enp2s0\n";
+    $aliases .= "define this_firewall_ip = {10.0.2.15, 192.168.1.18} # dia chi cua 2 card mang cua firewall\n";
+    $aliases .= "define this_firewall_ip6 = {fe80::8a88:88ff:fe88:8788, fe80::260:97ff:fe5b:732d} # dia chi cua 2 card mang cua firewall\n";
+    $aliases .= "define wan_net_ip = {192.168.1.18/24} # la dia chi mang cua card WAN\n";
+    $aliases .= "define wan_net_ip6 = {fe80::8a88:88ff:fe88:8788} # la dia chi mang cua card WAN\n";
+    $aliases .= "define wan_address_ip = {192.168.1.18} # dia chi ip cua card WAN\n";
+    $aliases .= "define wan_address_ip6 = {fe80::8a88:88ff:fe88:8788} # dia chi ip cua card WAN\n";
+    $aliases .= "define loopback_net_ip = 127.0.0.1/8 # dia chi ipv4 loopback\n";
+    $aliases .= "define loopback_net_ip6 = ::1 # dia chi ipv4 loopback\n";
 
     $aliases .= "\n";
     $aliases .= "# set interface names\n";
@@ -707,17 +713,14 @@ function filter_generate_aliases()
     $aliases .= "# set declaration for bogons, sshlockout table\n";
     $aliases .= "# set bogons for table <bogons> persist file \"/usr/local/etc/bogons\" in pf\n";
     $aliases .= "\n";
-    $aliases .= "define bogons = { 0.0.0.0/8, 127.0.0.0/8, 169.254.0.0/16,192.0.0.0/24, 192.0.2.0/24, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 240.0.0.0/4 }\n";
+    $aliases .= "define bogons_ip = { 127.0.0.0/8, 169.254.0.0/16,192.0.0.0/24, 192.0.2.0/24, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 240.0.0.0/4 }\n";
     if (is_bogonsv6_used()) {
-        $aliases .= "define bogonsv6 = { 2000::/16,2001:1000::/23,2001:100::/24,2001:10::/28,2001:1::/32,2001:20::/27,2001:2::/31,"
-            ."2001:40::/26,2001:4::/30,2001:4e00::/23,2001:6000::/19,2001:80::/25,2001:8::/29,2001:c000::/18,2001:db8::/32,"
-            ."2003:4000::/18,2003:8000::/17,2004::/14,2008::/13,2010::/12,2020::/11,2040::/10,2080::/9,2100::/8,2200::/7,"
-            ."2410::/12,2420::/11,2440::/10,2480::/9,2500::/8,2610:1000::/20,2610:2000::/19,2610:200::/23,2610:4000::/18,"
-            ."2610:400::/22,2610:8000::/17,2610:800::/21,2611::/16,2612::/15,2614::/14,2618::/13,2620:1000::/20,2620:2000::/19,"
-            ."2620:200::/23,2620:4000::/18,2620:400::/22,2620:8000::/17,2620:800::/21,2621::/16,2622::/15,2624::/14,2628::/13,"
-            ."2630::/12,2640::/10,2680::/9,2700::/8,2810::/12,2820::/11,2840::/10,2880::/9,2900::/8,2a10::/12,2a20::/11,"
-            ."2a40::/10,2a80::/9,2b00::/8,2c10::/12,2c20::/11,2c40::/10,2c80::/9,2d00::/8,2e00::/7,3000::/4,4000::/2,8000::/1,::/3}\n";
+        $aliases .= "define bogons_ip6 = { 2000::/16,2001:1000::/23,2001:100::/24,2001:10::/28,2001:1::/32,2001:20::/27,2001:2::/31,2001:40::/26,2001:4::/30,2001:4e00::/23,2001:6000::/19,2001:80::/25,2001:8::/29,2001:c000::/18,2001:db8::/32,2003:4000::/18,2003:8000::/17,2004::/14,2008::/13,2010::/12,2020::/11,2040::/10,2080::/9,2100::/8,2200::/7,2410::/12,2420::/11,2440::/10,2480::/9,2500::/8,2610:1000::/20,2610:2000::/19,2610:200::/23,2610:4000::/18,2610:400::/22,2610:8000::/17,2610:800::/21,2611::/16,2612::/15,2614::/14,2618::/13,2620:1000::/20,2620:2000::/19,2620:200::/23,2620:4000::/18,2620:400::/22,2620:8000::/17,2620:800::/21,2621::/16,2622::/15,2624::/14,2628::/13,2630::/12,2640::/10,2680::/9,2700::/8,2810::/12,2820::/11,2840::/10,2880::/9,2900::/8,2a10::/12,2a20::/11,2a40::/10,2a80::/9,2b00::/8,2c10::/12,2c20::/11,2c40::/10,2c80::/9,2d00::/8,2e00::/7,3000::/4,4000::/2,8000::/1,::/3}\n";
     }
+
+    $aliases .= "\n";
+    $aliases .= "define sshlockout_ip = {0.0.0.1}\n";
+    $aliases .= "define sshlockout_ip6 = {2000::/16}\n";
 
     $aliases .= "\n";
     $aliases .= "\n# table declaration\n";
