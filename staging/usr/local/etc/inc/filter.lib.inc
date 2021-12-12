@@ -233,35 +233,35 @@ function filter_core_rules_system($fw, $defaults)
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '1,2,135,136',
-            'statetype' => 'new', 'descr' => 'IPv6 requirements (ICMP)'),
+            'descr' => 'IPv6 requirements (ICMP)'),
         $defaults['pass']
     );
     // Allow only bare essential icmpv6 packets
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '129,133,134,135,136',
-            'statetype' => 'new', 'descr' => 'IPv6 requirements (ICMP)', 'from' => '$this_firewall_ip6',
+            'descr' => 'IPv6 requirements (ICMP)', 'from' => '$this_firewall_ip6',
             'to' => 'fe80::/10,ff02::/16', 'direction' => 'out' ),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
-            'statetype' => 'new', 'descr' => 'IPv6 requirements (ICMP)', 'from' => 'fe80::/10',
+            'descr' => 'IPv6 requirements (ICMP)', 'from' => 'fe80::/10',
             'to' => 'fe80::/10,ff02::/16', 'direction' => 'in' ),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
-            'statetype' => 'new', 'descr' => 'IPv6 requirements (ICMP)', 'from' => 'ff02::/16',
+            'descr' => 'IPv6 requirements (ICMP)', 'from' => 'ff02::/16',
             'to' => 'fe80::/10', 'direction' => 'in' ),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
-            'statetype' => 'new', 'descr' => 'IPv6 requirements (ICMP)', 'from' => '::',
+            'descr' => 'IPv6 requirements (ICMP)', 'from' => '::',
             'to' => 'ff02::/16', 'direction' => 'in' ),
         $defaults['pass']
     );
@@ -413,14 +413,14 @@ function filter_core_rules_system($fw, $defaults)
             case "pptp":
                 $fw->registerFilterRule(
                     5,
-                    array('ipprotocol' => 'inet', 'protocol' => 'tcp','to_port' => 1723, 'direction' => 'in', 'statetype' => 'established', 'quick' => false,
+                    array('ipprotocol' => 'inet', 'protocol' => 'tcp','to_port' => 1723, 'direction' => 'in', 'statetype' => 'established,related', 'quick' => false,
                         '#ref' => "interfaces.php?if=" . $intf . "#type",
                         'interface' => $intf, 'flags' => 'S/SA', 'descr' => 'allow PPTP client on ' . $intfinfo['descr']),
                     $defaults['pass']
                 );
                 $fw->registerFilterRule(
                     5,
-                    array('ipprotocol' => 'inet', 'protocol' => 'gre', 'direction' => 'in', 'statetype' => 'new', 'quick' => false,
+                    array('ipprotocol' => 'inet', 'protocol' => 'gre', 'direction' => 'in', 'quick' => false,
                         '#ref' => "interfaces.php?if=" . $intf . "#type",
                         'interface' => $intf, 'descr' => 'allow PPTP client on ' . $intfinfo['descr']),
                     $defaults['pass']
@@ -573,13 +573,13 @@ function filter_core_rules_system($fw, $defaults)
     // out from this Firewall
     $fw->registerFilterRule(
         5,
-        array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'new', 'allowopts' => true,
+        array('ipprotocol' => 'inet', 'direction' => 'out', 'allowopts' => true,
         'quick' => false, "descr" => "let out anything from firewall host itself"),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         5,
-        array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'new', 'allowopts' => true,
+        array('ipprotocol' => 'inet6', 'direction' => 'out', 'allowopts' => true,
         'quick' => false, "descr" => "let out anything from firewall host itself"),
         $defaults['pass']
     );
@@ -587,14 +587,14 @@ function filter_core_rules_system($fw, $defaults)
     if (!empty(iterator_to_array($fw->getInterfaceMapping())['enc0'])) {
         $fw->registerFilterRule(
             5,
-            array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'new', 'quick' => false, 'interface' => 'enc0',
+            array('ipprotocol' => 'inet', 'direction' => 'out', 'quick' => false, 'interface' => 'enc0',
                 '#ref' => 'vpn_ipsec.php#enable',
                 'descr' => 'IPsec internal host to host'),
             $defaults['pass']
         );
         $fw->registerFilterRule(
             5,
-            array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'new', 'quick' => false, 'interface' => 'enc0',
+            array('ipprotocol' => 'inet6', 'direction' => 'out', 'quick' => false, 'interface' => 'enc0',
                 '#ref' => 'vpn_ipsec.php#enable',
                 'descr' => 'IPsec internal host to host'),
             $defaults['pass']
@@ -608,7 +608,6 @@ function filter_core_rules_system($fw, $defaults)
                 'ipprotocol' => 'inet',
                 'direction' => 'in',
                 'interface' => $lockoutif,
-                'statetype' => 'new',
                 'protocol' => 'tcp',
                 'to' => '$this_firewall_ip',
                 'to_port' => implode(' ', $lockoutprts),
@@ -623,7 +622,6 @@ function filter_core_rules_system($fw, $defaults)
                 'ipprotocol' => 'inet6',
                 'direction' => 'in',
                 'interface' => $lockoutif,
-                'statetype' => 'new',
                 'protocol' => 'tcp',
                 'to' => '$this_firewall_ip6',
                 'to_port' => implode(' ', $lockoutprts),
@@ -639,19 +637,19 @@ function filter_core_rules_system($fw, $defaults)
     if (isset($pptpdcfg['mode']) && $pptpdcfg['mode'] == 'server') {
         $fw->registerFilterRule(
             5,
-            array('ipprotocol' => 'inet', 'direction' => 'in', 'interface' => 'wan', 'statetype' => 'established','protocol' => 'tcp',
+            array('ipprotocol' => 'inet', 'direction' => 'in', 'interface' => 'wan', 'statetype' => 'established,related','protocol' => 'tcp',
                 'to' => '$this_firewall_ip', 'to_port' => '1723', 'quick' => false, 'descr' => 'allow pptpd'),
             $defaults['pass']
         );
         $fw->registerFilterRule(
             5,
-            array('ipprotocol' => 'inet6', 'direction' => 'in', 'interface' => 'wan', 'statetype' => 'established','protocol' => 'tcp',
+            array('ipprotocol' => 'inet6', 'direction' => 'in', 'interface' => 'wan', 'statetype' => 'established,related','protocol' => 'tcp',
                 'to' => '$this_firewall_ip6', 'to_port' => '1723', 'quick' => false, 'descr' => 'allow pptpd'),
             $defaults['pass']
         );
         $fw->registerFilterRule(
             5,
-            array('direction' => 'in', 'interface' => 'wan', 'statetype' => 'established',
+            array('direction' => 'in', 'interface' => 'wan', 'statetype' => 'established,related',
                 'protocol' => 'gre', 'descr' => 'allow pptpd', 'quick' => false),
             $defaults['pass']
         );
@@ -678,7 +676,6 @@ function filter_core_rules_system($fw, $defaults)
                             100000,
                             array('from' => $ifcfg['if'], 'direction' => 'out', 'gateway' => $gwname,
                             'destination' => array('network' => $ifdescr, "not" => true),
-                            'statetype' => 'new',
                             'allowopts' => true,
                             'quick' => false,
                             '#ref' => 'system_advanced_firewall.php#pf_disable_force_gw',

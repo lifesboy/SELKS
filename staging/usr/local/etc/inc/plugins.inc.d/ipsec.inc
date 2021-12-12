@@ -260,7 +260,6 @@ function ipsec_firewall(\OPNsense\Firewall\Plugin $fw)
                                       "log" => !isset($config['syslog']['nologdefaultpass']),
                                       "quick" => false,
                                       "type" => "pass",
-                                      "statetype" => "new",
                                       "#ref" => "vpn_ipsec_settings.php#disablevpnrules",
                                       "descr" => "IPsec: " . (!empty($ph1ent['descr']) ? $ph1ent['descr'] : $rgip)
                                     );

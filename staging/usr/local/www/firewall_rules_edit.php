@@ -1605,7 +1605,7 @@ include("head.inc");
                           </select>
                           <div class="hidden" data-for="help_for_statetype">
                             <span>
-                              <?=gettext("Hint: Select which type of state tracking mechanism you would like to use. If in doubt, use keep state.");?>
+                              <?=gettext("Hint: Select which type of state tracking mechanism you would like to use. If in doubt, do not set.");?>
                             </span>
                               <ul>
                                 <li><?= sprintf(gettext('%snew%sNetfilter has so far seen packets between this pair of hosts in only one direction. At least one of these packets is part of a valid initialization sequence, e.g. SYN packet for a TCP connection.'),'<strong>', '</strong>') ?></li>
