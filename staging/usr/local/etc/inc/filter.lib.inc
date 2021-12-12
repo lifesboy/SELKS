@@ -302,13 +302,13 @@ function filter_core_rules_system($fw, $defaults)
     // Lockout rules
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout', 'direction' => 'in',
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from' => '$sshlockout_ip', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout', 'direction' => 'in',
         'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
         $defaults['block']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout', 'direction' => 'in',
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout_ip6', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout', 'direction' => 'in',
         'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
         $defaults['block']
     );
@@ -320,13 +320,13 @@ function filter_core_rules_system($fw, $defaults)
     }
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout',
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from' => '$sshlockout_ip', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout',
         'direction' => 'in','to_port' => $webport),
         $defaults['block']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout', 'to' => '$this_firewall_ip6' , 'descr' => '$sshlockout',
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout_ip6', 'to' => '$this_firewall_ip6' , 'descr' => '$sshlockout',
         'direction' => 'in','to_port' => $webport),
         $defaults['block']
     );
