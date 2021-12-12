@@ -306,7 +306,7 @@ abstract class Rule
                     }
                 }
                 if (!empty($rule[$target]) && $rule[$target] != 'any' && isset($rule[$tag]['not'])) {
-                    $rule[$target] = "!" . $rule[$target];
+                    $rule[$target] = "!= " . $rule[$target];
                 }
                 if (isset($rule['protocol']) && in_array(strtolower($rule['protocol']), array("tcp","udp","tcp/udp"))) {
                     $port = str_replace('-', ':', $rule[$tag]['port']);
