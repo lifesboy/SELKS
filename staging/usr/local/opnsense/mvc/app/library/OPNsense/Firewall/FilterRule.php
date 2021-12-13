@@ -52,7 +52,7 @@ class FilterRule extends Rule
         #'to' => 'parsePlainCurly,ip daddr ',
         #'to_port' => 'parsePlainCurly, dport ',
         'ipprotocol,protocol,to,to_port' => 'parseTo',
-        'protocol' => 'parseReplaceSimple,inet:|inet4:|inet6:|ip:|ip6:|tcp:|udp:|tcp/udp:|icmp:|ipv6-icmp:|icmpv6:', #advance protocols
+        'ipprotocol,protocol' => 'parseAdvanceProtocol',
         'icmp-type' => 'parsePlain,icmp type {,}',
         'icmp6-type' => 'parsePlain,icmpv6 type {,}',
         'flags' => 'parsePlain, flags ',

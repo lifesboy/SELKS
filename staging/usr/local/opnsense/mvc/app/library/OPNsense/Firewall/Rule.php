@@ -377,6 +377,18 @@ abstract class Rule
         }
     }
 
+    protected function parseAdvanceProtocol($ipprotocol, $protocol, $prefix = "", $suffix = "")
+    {
+        $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet4:ip|inet6:ip6|:ip');
+        $protocol = trim($this->parseReplaceSimple($protocol, 'inet:|inet4:|inet6:|ip:|ip6:|tcp:|udp:|tcp/udp:|icmp:|ipv6-icmp:|icmpv6:'));
+        if (!empty($protocol) && strpos($protocol, '$') === false) {
+            // don't wrap aliases in curly brackets
+            $protocol = "{" . $protocol . "}";
+        }
+        $value = empty($protocol) ? '' : $protocol;
+        return empty($value) ? '' : $prefix . $value . $suffix . ' ';
+    }
+
     protected function parseFrom($ipprotocol, $protocol, $from, $from_port, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet4:ip|inet6:ip6|:ip');
