@@ -772,7 +772,7 @@ function filter_generate_aliases()
     $aliases .= "add chain ip ip_filter_table output_antilockout { type filter hook output priority 4; policy accept;}\n";
     $aliases .= 'add rule ip ip_filter_table input_antilockout ip daddr $this_firewall_ip tcp  dport {22, 80} log accept comment "2b909a9d3d835906a2e517ab12dbe7e8" # anti-lockout rule'."\n";
     $aliases .= 'add rule ip ip_filter_table input_antilockout ct state established,related log prefix "nft.accept input_antilockout state established, related_" accept comment "Accept traffic originated from us"'."\n";
-    $aliases .= '# OUTPUT\n';
+    $aliases .= "# OUTPUT\n";
     $aliases .= 'add rule ip ip_filter_table output_antilockout ct state invalid drop comment "Drop invalid connections"'."\n";
     $aliases .= 'add rule ip ip_filter_table output_antilockout ct state established,related log prefix "nft.accept output_antilockout state established,related_" accept'."\n";
 
