@@ -278,24 +278,24 @@ function filter_core_rules_system($fw, $defaults)
     $carp_disabled = empty($config['hasync']) && empty($config['virtualip']['vip']);
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'carp', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
+        array('ipprotocol' => 'inet', 'protocol' => '112', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
             'from' => '$this_firewall_ip', 'direction' => 'in', 'disabled' => !$carp_disabled),
         $defaults['block']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'carp', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
+        array('ipprotocol' => 'inet6', 'protocol' => '112', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
             'from' => '$this_firewall_ip6', 'direction' => 'in', 'disabled' => !$carp_disabled),
         $defaults['block']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'carp', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
+        array('ipprotocol' => 'inet', 'protocol' => '112', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'carp', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
+        array('ipprotocol' => 'inet6', 'protocol' => '112', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
         $defaults['pass']
     );
 
