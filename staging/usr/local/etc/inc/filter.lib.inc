@@ -308,7 +308,7 @@ function filter_core_rules_system($fw, $defaults)
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout_ip6', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout', 'direction' => 'in',
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout_ip6', 'to' => '$this_firewall_ip6' , 'descr' => '$sshlockout', 'direction' => 'in',
         'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
         $defaults['block']
     );
