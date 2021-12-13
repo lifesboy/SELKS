@@ -385,7 +385,7 @@ abstract class Rule
             // don't wrap aliases in curly brackets
             $protocol = "{" . $protocol . "}";
         }
-        $value = empty($protocol) ? '' : $protocol;
+        $value = empty($protocol) ? '' : $ipprotocol . 'protocol ' . $protocol;
         return empty($value) ? '' : $prefix . $value . $suffix . ' ';
     }
 
