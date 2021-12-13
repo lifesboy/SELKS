@@ -223,11 +223,11 @@ function filter_core_rules_system($fw, $defaults)
     );
 
     // default Deny rule (when no other rules match)
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet46', 'descr' => 'Default deny rule', 'quick' => false),
-        $defaults['block']
-    );
+    //$fw->registerFilterRule(
+    //    1,
+    //    array('ipprotocol' => 'inet46', 'descr' => 'Default deny rule', 'quick' => false),
+    //    $defaults['block']
+    //);
 
     // IPv6 ICMP requirements
     $fw->registerFilterRule(
