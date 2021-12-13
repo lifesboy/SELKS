@@ -208,20 +208,31 @@ abstract class Rule
             }
 
             foreach ($ipprotos as $ipproto) {
-                $rule = $this->rule;
-                if ($ipproto == 'inet6' && !empty($this->interfaceMapping[$interface]['IPv6_override'])) {
-                    $rule['interface'] = $this->interfaceMapping[$interface]['IPv6_override'];
+                if (isset($this->rule['protocol']) && $this->rule['protocol'] == 'tcp/udp') {
+                    $protos = array('tcp', 'udp');
+                } else if (isset($this->rule['protocol'])) {
+                    $protos = array($this->rule['protocol']);
                 } else {
-                    $rule['interface'] = $interface;
+                    $protos = array(null);
                 }
-                $rule['ipprotocol'] = $ipproto;
-                $this->convertAddress($rule);
-                // disable rule when interface not found
-                if (!empty($interface) && empty($this->interfaceMapping[$interface]['if'])) {
-                    $this->log("Interface {$interface} not found");
-                    $rule['disabled'] = true;
+
+                foreach ($protos as $proto) {
+                    $rule = $this->rule;
+                    if ($ipproto == 'inet6' && !empty($this->interfaceMapping[$interface]['IPv6_override'])) {
+                        $rule['interface'] = $this->interfaceMapping[$interface]['IPv6_override'];
+                    } else {
+                        $rule['interface'] = $interface;
+                    }
+                    $rule['ipprotocol'] = $ipproto;
+                    $rule['protocol'] = $proto;
+                    $this->convertAddress($rule);
+                    // disable rule when interface not found
+                    if (!empty($interface) && empty($this->interfaceMapping[$interface]['if'])) {
+                        $this->log("Interface {$interface} not found");
+                        $rule['disabled'] = true;
+                    }
+                    yield $rule;
                 }
-                yield $rule;
             }
         }
     }
