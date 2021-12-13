@@ -161,6 +161,23 @@ abstract class Rule
         }
     }
 
+    protected function parseReplaceSimpleAllowZero($value, $map, $prefix = "", $suffix = "")
+    {
+        $retval = $value;
+        foreach (explode('|', $map) as $item) {
+            $tmp = explode(':', $item);
+            if ($tmp[0] === $value) {
+                $retval = $tmp[1];
+                break;
+            }
+        }
+        if ($retval !== '') {
+            return $prefix . $retval . $suffix . " ";
+        } else {
+            return "";
+        }
+    }
+
     /**
      * parse data, use replace map
      * @param string $value field value
@@ -368,7 +385,7 @@ abstract class Rule
             // don't wrap aliases in curly brackets
             $from = "{" . $from . "}";
         }
-        $from_port = trim($this->parseReplaceSimple($from_port, 'any:'));
+        $from_port = trim($this->parseReplaceSimpleAllowZero($from_port, 'any:'));
         if ($from_port != '' && strpos($from_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $from_port = "{" . implode(',', explode(' ', $from_port)) . "}";
@@ -387,7 +404,7 @@ abstract class Rule
             // don't wrap aliases in curly brackets
             $to = "{" . $to . "}";
         }
-        $to_port = trim($this->parseReplaceSimple($to_port, 'any:'));
+        $to_port = trim($this->parseReplaceSimpleAllowZero($to_port, 'any:'));
         if ($to_port != '' && strpos($to_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $to_port = "{" . implode(',', explode(' ', $to_port)) . "}";
