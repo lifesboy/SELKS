@@ -358,12 +358,12 @@ abstract class Rule
             $from = "{" . $from . "}";
         }
         $from_port = trim($this->parseReplaceSimple($from_port, 'any:'));
-        if (!empty($from_port) && strpos($from_port, '$') === false) {
+        if ($from_port != '' && strpos($from_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $from_port = "{" . implode(',', explode(' ', $from_port)) . "}";
         }
         $value = empty($from) ? '' : $ipprotocol . 'saddr ' . $from;
-        $value .= empty($from_port) ? ''
+        $value .= $from_port == '' ? ''
             : $this->parseReplaceSimple($protocol, 'any:|tcp/udp:', ' ') . ' sport ' . $from_port;
         return empty($value) ? '' : $prefix . $value . $suffix . ' ';
     }
@@ -377,12 +377,12 @@ abstract class Rule
             $to = "{" . $to . "}";
         }
         $to_port = trim($this->parseReplaceSimple($to_port, 'any:'));
-        if (!empty($to_port) && strpos($to_port, '$') === false) {
+        if ($to_port != '' && strpos($to_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $to_port = "{" . implode(',', explode(' ', $to_port)) . "}";
         }
         $value = empty($to) ? '' : $ipprotocol . 'daddr ' . $to;
-        $value .= empty($to_port) ? '' :
+        $value .= $to_port  == '' ? '' :
             $this->parseReplaceSimple($protocol, 'any:|tcp/udp:', ' ') . ' dport ' . $to_port;
         return empty($value) ? '' : $prefix . $value . $suffix . ' ';
     }
