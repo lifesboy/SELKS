@@ -269,7 +269,7 @@ function filter_core_rules_system($fw, $defaults)
     foreach (array('from_port', 'to_port') as $target) {
         $fw->registerFilterRule(
             1,
-            array('ipprotocol' => 'inet46', 'protocol' => 'tcp/udp', $target => '0',
+            array('ipprotocol' => 'inet46', 'protocol' => 'tcp/udp', $target => '0', 'direction' => 'in',
                 'descr' => 'block all targetting port 0'),
             $defaults['block']
         );
