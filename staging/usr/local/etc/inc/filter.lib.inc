@@ -357,22 +357,22 @@ function filter_core_rules_system($fw, $defaults)
             'descr' => "Block bogon IPv6 networks from " . $intfinfo['descr']),
             $bogontmpl
         );
-        $fw->registerFilterRule(
-            5,
-            array('direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet',
-            '#ref' => "interfaces.php?if=" . $intf . "#blockpriv",
-            'descr' => "Block private networks from " . $intfinfo['descr'],
-            'disabled' => !isset($intfinfo['blockpriv'])),
-            $privtmpl
-        );
-        $fw->registerFilterRule(
-            5,
-            array('direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet6',
-            '#ref' => "interfaces.php?if=" . $intf . "#blockpriv",
-            'descr' => "Block private networks from " . $intfinfo['descr'], 'from' => 'fc00::/7',
-            'disabled' => !isset($intfinfo['blockpriv'])),
-            $privtmpl
-        );
+        #$fw->registerFilterRule(
+        #    5,
+        #    array('direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet',
+        #    '#ref' => "interfaces.php?if=" . $intf . "#blockpriv",
+        #    'descr' => "Block private networks from " . $intfinfo['descr'],
+        #    'disabled' => !isset($intfinfo['blockpriv'])),
+        #    $privtmpl
+        #);
+        #$fw->registerFilterRule(
+        #    5,
+        #    array('direction' => 'in', 'interface' => $intf, 'ipprotocol' => 'inet6',
+        #    '#ref' => "interfaces.php?if=" . $intf . "#blockpriv",
+        #    'descr' => "Block private networks from " . $intfinfo['descr'], 'from' => 'fc00::/7',
+        #    'disabled' => !isset($intfinfo['blockpriv'])),
+        #    $privtmpl
+        #);
     }
 
     // interface configuration per type
