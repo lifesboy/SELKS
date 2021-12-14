@@ -513,7 +513,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     //mwexec('/sbin/pfctl -Of /tmp/rules.limits');
 
     //disable translate port to service name: 80 thanh http
-    mwexec('/usr/sbin/nft -fnn');
+    //mwexec('/usr/sbin/nft -fnn');
 
     exec('/usr/sbin/nft -f /tmp/rules.debug 2>&1', $rules_error, $rules_loading);
 
