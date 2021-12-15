@@ -1,0 +1,88 @@
+This is Suricata version 6.0.0-dev (8cbae1371 2020-03-29)
+Features: NFQ PCAP_SET_BUFF AF_PACKET HAVE_PACKET_FANOUT LIBCAP_NG LIBNET1.1 HAVE_HTP_URI_NORMALIZE_HOOK PCRE_JIT HAVE_NSS HAVE_LUA HAVE_LUAJIT HAVE_LIBJANSSON TLS MAGIC RUST
+SIMD support: none
+Atomic intrinsics: 1 2 4 8 byte(s)
+64-bits, Little-endian architecture
+GCC version 8.3.0, C version 199901
+compiled with _FORTIFY_SOURCE=2
+L1 cache line size (CLS)=64
+thread local storage method: __thread
+compiled with LibHTP v0.5.32, linked against LibHTP v0.5.32
+
+Suricata Configuration:
+  AF_PACKET support:                       yes
+  eBPF support:                            no
+  XDP support:                             no
+  PF_RING support:                         no
+  NFQueue support:                         yes
+  NFLOG support:                           no
+  IPFW support:                            no
+  Netmap support:                          no
+  DAG enabled:                             no
+  Napatech enabled:                        no
+  WinDivert enabled:                       no
+
+  Unix socket enabled:                     yes
+  Detection enabled:                       yes
+
+  Libmagic support:                        yes
+  libnss support:                          yes
+  libnspr support:                         yes
+  libjansson support:                      yes
+  hiredis support:                         yes
+  hiredis async with libevent:             no
+  Prelude support:                         no
+  PCRE jit:                                yes
+  LUA support:                             yes, through luajit
+  libluajit:                               yes
+  GeoIP2 support:                          yes
+  Non-bundled htp:                         yes
+  Old barnyard2 support:
+  Hyperscan support:                       yes
+  Libnet support:                          yes
+  liblz4 support:                          yes
+
+  Rust support:                            yes
+  Rust strict mode:                        no
+  Rust compiler path:                      /root/.cargo/bin/rustc
+  Rust compiler version:                   rustc 1.42.0 (b8cedc004 2020-03-09)
+  Cargo path:                              /root/.cargo/bin/cargo
+  Cargo version:                           cargo 1.42.0 (86334295e 2020-01-31)
+  Cargo vendor:                            yes
+
+  Python support:                          yes
+  Python path:                             /usr/bin/python3
+  Python distutils                         yes
+  Python yaml                              yes
+  Install suricatactl:                     yes
+  Install suricatasc:                      yes
+  Install suricata-update:                 yes
+
+  Profiling enabled:                       no
+  Profiling locks enabled:                 no
+
+Development settings:
+  Coccinelle / spatch:                     yes
+  Unit tests enabled:                      no
+  Debug output enabled:                    no
+  Debug validation enabled:                no
+
+Generic build parameters:
+  Installation prefix:                     /usr
+  Configuration directory:                 /etc/suricata/
+  Log directory:                           /var/log/suricata/
+
+  --prefix                                 /usr
+  --sysconfdir                             /etc
+  --localstatedir                          /var
+  --datarootdir                            /usr/share
+
+  Host:                                    x86_64-pc-linux-gnu
+  Compiler:                                gcc (exec name) / g++ (real)
+  GCC Protect enabled:                     yes
+  GCC march native enabled:                no
+  GCC Profile enabled:                     no
+  Position Independent Executable enabled: yes
+  CFLAGS                                   -g -O2 -fdebug-prefix-map=/STAMUS/SELKS/Suricata/suricata-2020033001=. -fstack-protector-strong -Wformat -Werror=format-security -I${srcdir}/../rust/gen
+  PCAP_CFLAGS                               -I/usr/include
+  SECCFLAGS                                -fstack-protector -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security
