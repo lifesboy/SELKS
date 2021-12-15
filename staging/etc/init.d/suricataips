@@ -25,6 +25,7 @@ NAME=suricataips
 DESC="Suricata Next Generation IPS"
 DAEMON=/usr/bin/suricata
 SCRIPTNAME=/etc/init.d/$NAME
+PIDFILE=/var/run/$NAME.pid
 LISTENMODE=nfqueue
 NFQUEUE=" -q 3 -q 4 -q 5"
 
