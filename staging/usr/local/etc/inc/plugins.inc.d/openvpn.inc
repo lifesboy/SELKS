@@ -87,12 +87,12 @@ function openvpn_interfaces()
             foreach ($config['openvpn']["openvpn-{$mode}"] as &$settings) {
                 if (empty($settings['disable'])) {
                     $oic = array('enable' => true);
-                    $oic['if'] = 'openvpn';
+                    $oic['if'] = "ovpn{$mode[0]}{$settings['vpnid']}";
                     $oic['descr'] = 'OpenVPN';
                     $oic['type'] = 'group';
                     $oic['virtual'] = true;
                     $oic['networks'] = array();
-                    $interfaces['openvpn'] = $oic;
+                    $interfaces[$oic['if']] = $oic;
                     break 2;
                 }
             }
