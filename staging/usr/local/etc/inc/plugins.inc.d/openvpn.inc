@@ -520,12 +520,19 @@ function openvpn_reconfigure($mode, $settings, $device_only = false)
     }
 
     if (!does_interface_exist($devname)) {
-        if (!file_exists("/dev/{$devnode}")) {
-            mwexecf('/sbin/ifconfig %s create', array($devnode));
+        if (!file_exists("/dev/net/{$devnode}")) {
+            // mwexecf('/sbin/ifconfig %s create', array($devnode));
+            mwexecf('mknod /dev/net/%s c 10 200', array($devnode));
+            mwexecf('chmod 666 /dev/net/%s', array($devnode));
+
+            // openvpn --mktun --dev ovpns1 --dev-type tun --dev-node /dev/net/tun1
+            mwexecf('openvpn --mktun --dev %s --dev-type %s --dev-node %s', array($devname, $settings['dev_mode'], "/dev/net/{$devnode}"));
         }
 
-        mwexecf('/sbin/ifconfig %s name %s', array($devnode, $devname));
-        mwexecf('/sbin/ifconfig %s group openvpn', array($devname));
+        //mwexecf('ip link set %s name %s', array($devnode, $devname));//debian rename if
+
+        //mwexecf('/sbin/ifconfig %s name %s', array($devnode, $devname));
+        //mwexecf('/sbin/ifconfig %s group openvpn', array($devname));
     }
 
     if ($device_only || isset($settings['disable'])) {
@@ -571,7 +578,7 @@ function openvpn_reconfigure($mode, $settings, $device_only = false)
             break;
     }
 
-    $conf .= "dev-node /dev/{$devnode}\n";
+    $conf .= "dev-node /dev/net/{$devnode}\n";
     $conf .= "writepid /var/run/openvpn_{$mode_id}.pid\n";
     $conf .= "script-security 3\n";
     $conf .= "daemon\n";
