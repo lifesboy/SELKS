@@ -784,7 +784,7 @@ function step12_submitphpaction()
         }
         $rule['source']['any'] = true;
         $rule['destination']['any'] = true;
-        $rule['interface'] = "openvpn";
+        $rule['interface'] = "ovpn{$server['dev_mode'][0]}{$server['vpnid']}";
         $rule['type'] = "pass";
         $rule['enabled'] = "on";
         $rule['created'] = make_config_revision_entry();
