@@ -1015,7 +1015,10 @@ function openvpn_delete($mode, &$settings)
 
     killbypid("/var/run/openvpn_{$mode_id}.pid", 'TERM', true);
 
-    mwexecf('/sbin/ifconfig %s destroy', array($devname));
+    // mwexecf('/sbin/ifconfig %s destroy', array($devname));
+    mwexecf('/sbin/ifconfig %s down', array($devname));
+    mwexecf('/sbin/ip link set %s down', array($devname));
+    mwexecf('/sbin/ip link delete %s', array($devname));
 
     @array_map('unlink', glob("/var/etc/openvpn/{$mode_id}.*"));
 }
