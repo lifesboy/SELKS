@@ -394,6 +394,8 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $natrules .= "# no nat proto carp all\n";
     $natrules .= "# no rdr proto carp all\n";
     $natrules .= "add rule ip ip_filter_table forward ct status dnat accept\n";
+    $natrules .= "add rule ip_nat prerouting ip daddr 192.168.1.18 tcp dport { 82} dnat to 10.0.2.10:80\n";
+    $natrules .= "add rule ip_nat postrouting masquerade\n";
     $natrules .= $fw->outputNatRules();
 
     if ($verbose) {
