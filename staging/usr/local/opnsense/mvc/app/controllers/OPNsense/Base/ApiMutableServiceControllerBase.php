@@ -223,4 +223,27 @@ abstract class ApiMutableServiceControllerBase extends ApiControllerBase
 
         return array('status' => $status);
     }
+
+    public function statusActionOf($cmd)
+    {
+        $backend = new Backend();
+        $model = $this->getModel();
+        $response = $backend->configdRun(escapeshellarg($cmd));
+
+        if (strpos($response, 'not running') > 0) {
+            if ((string)$model->getNodeByReference(static::$internalServiceEnabled) == '1') {
+                $status = 'stopped';
+            } else {
+                $status = 'disabled';
+            }
+        } elseif (strpos($response, 'is running') > 0) {
+            $status = 'running';
+        } elseif ((string)$model->getNodeByReference(static::$internalServiceEnabled) == '0') {
+            $status = 'disabled';
+        } else {
+            $status = 'unknown';
+        }
+
+        return array('status' => $status);
+    }
 }

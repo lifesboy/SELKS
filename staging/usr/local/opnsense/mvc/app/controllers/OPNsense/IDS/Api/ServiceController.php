@@ -62,6 +62,7 @@ class ServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlIDS = new IDS();
             $runStatus = $this->statusAction();
+            $runStatusIds = $this->statusActionOf("ids status ips");
             // we should always have a cron item configured for IDS, let's create one upon first reconfigure.
             if ((string)$mdlIDS->general->UpdateCron == "") {
                 $mdlCron = new Cron();
@@ -77,11 +78,14 @@ class ServiceController extends ApiMutableServiceControllerBase
                 }
             }
 
+            $backend = new Backend();
+            if ($runStatusIds['status'] == "running" && (string)$mdlIDS->general->ips == 0) {
+                $backend->configdRun("ids stop ips");
+            }
             if ($runStatus['status'] == "running" && (string)$mdlIDS->general->enabled == 0) {
                 $this->stopAction();
             }
 
-            $backend = new Backend();
             $bckresult = trim($backend->configdRun('template reload OPNsense/IDS'));
 
             if ($bckresult == "OK") {
@@ -92,6 +96,14 @@ class ServiceController extends ApiMutableServiceControllerBase
                             $status = $this->restartAction()['response'];
                         } else {
                             $status = $this->startAction()['response'];
+                        }
+
+                        if ((string)$mdlIDS->general->ips == 1) {
+                            if ($runStatusIds['status'] == 'running') {
+                                $backend->configdRun("ids restart ips");
+                            } else {
+                                $backend->configdRun("ids start ips");
+                            }
                         }
                     } else {
                         $status = "error installing ids rules (" . $bckresult . ")";
