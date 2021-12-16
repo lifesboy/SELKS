@@ -390,6 +390,12 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
         flush();
     }
 
+    $ipsrules = "\n# IPS rules\n";
+    $ipsrules .= "#forward all traffic to suricata by nfqueue\n";
+    $ipsrules .= "add ip_filter_table ips-input queue num 3-5 bypass\n";
+    $ipsrules .= "add ip_filter_table ips-forward queue num 3-5 bypass\n";
+    $ipsrules .= "add ip_filter_table ips-output queue num 3-5 bypass\n";
+
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
     $natrules .= "# no rdr proto carp all\n";
@@ -488,6 +494,8 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     //$rules .= "set skip on pfsync0\n";
     $rules .= "\n";
     //$rules .= filter_generate_scrubing($cnfint);
+    $rules .= "\n";
+    $rules .= "{$ipsrules}\n";
     $rules .= "\n";
     $rules .= $fw->anchorToText('nat,binat,rdr', 'head');
     $rules .= "{$natrules}\n";
@@ -761,9 +769,9 @@ function filter_generate_aliases()
 
     $aliases .= "\n";
     $aliases .= "# Cau hinh IPS chain\n";
-    $aliases .= "add chain ip ip_filter_table ips-input { type filter hook input priority 20; policy accept; queue num 3-5 bypass;}\n";
-    $aliases .= "add chain ip ip_filter_table ips-forward { type filter hook input priority 20; policy accept; queue num 3-5 bypass;}\n";
-    $aliases .= "add chain ip ip_filter_table ips-output { type filter hook input priority 20; policy accept; queue num 3-5 bypass;}\n";
+    $aliases .= "add chain ip ip_filter_table ips-input { type filter hook input priority 20; policy accept; }\n";
+    $aliases .= "add chain ip ip_filter_table ips-forward { type filter hook input priority 20; policy accept; }\n";
+    $aliases .= "add chain ip ip_filter_table ips-output { type filter hook input priority 20; policy accept; }\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
