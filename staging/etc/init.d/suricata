@@ -25,10 +25,10 @@ NAME=suricata
 DESC="Suricata Next Generation IDS/IPS"
 DAEMON=/usr/bin/$NAME
 SCRIPTNAME=/etc/init.d/$NAME
-#LISTENMODE=nfqueue
-#NFQUEUE=" -q 3 -q 4 -q 5"
+LISTENMODE=nfqueue
+NFQUEUE=" -q 3 -q 4 -q 5"
 
-LISTENMODE=af-packet
+#LISTENMODE=af-packet
 
 . /lib/lsb/init-functions
 
