@@ -760,6 +760,13 @@ function filter_generate_aliases()
     $aliases .= "# add chain ip6 ip6_filter_table output { policy drop;}\n";
 
     $aliases .= "\n";
+    $aliases .= "# Cau hinh IPS chain\n";
+    $aliases .= "add chain ip ip_filter_table ips-input { type filter hook input priority 20; policy accept; queue num 3-5 bypass;}\n";
+    $aliases .= "add chain ip ip_filter_table ips-forward { type filter hook input priority 20; policy accept; queue num 3-5 bypass;}\n";
+    $aliases .= "add chain ip ip_filter_table ips-output { type filter hook input priority 20; policy accept; queue num 3-5 bypass;}\n";
+    $aliases .= "\n";
+
+    $aliases .= "\n";
     $aliases .= "# Cau hinh DNAT\n";
     $aliases .= "add table ip_nat\n";
     $aliases .= "add chain ip_nat prerouting { type nat hook prerouting priority -110; }\n";
