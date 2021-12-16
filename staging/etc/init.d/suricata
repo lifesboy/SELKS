@@ -26,7 +26,8 @@ DESC="Suricata Next Generation IDS/IPS"
 DAEMON=/usr/bin/$NAME
 SCRIPTNAME=/etc/init.d/$NAME
 LISTENMODE=nfqueue
-NFQUEUE=" -q 3 -q 4 -q 5"
+#NFQUEUE=" -q 3 -q 4 -q 5"
+NFQUEUE=" -q 3"
 
 #LISTENMODE=af-packet
 
