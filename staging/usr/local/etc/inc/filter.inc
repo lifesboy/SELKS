@@ -395,6 +395,9 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $ipsrules .= "add ip_filter_table ips-input queue num 3-5 bypass counter\n";
     $ipsrules .= "add ip_filter_table ips-forward queue num 3-5 bypass counter\n";
     $ipsrules .= "add ip_filter_table ips-output queue num 3-5 bypass counter\n";
+    $ipsrules .= "add ip6_filter_table ips-input queue num 3-5 bypass counter\n";
+    $ipsrules .= "add ip6_filter_table ips-forward queue num 3-5 bypass counter\n";
+    $ipsrules .= "add ip6_filter_table ips-output queue num 3-5 bypass counter\n";
 
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
@@ -772,6 +775,9 @@ function filter_generate_aliases()
     $aliases .= "add chain ip ip_filter_table ips-input { type filter hook input priority 20; policy accept; }\n";
     $aliases .= "add chain ip ip_filter_table ips-forward { type filter hook input priority 20; policy accept; }\n";
     $aliases .= "add chain ip ip_filter_table ips-output { type filter hook input priority 20; policy accept; }\n";
+    $aliases .= "add chain ip6 ip6_filter_table ips-input { type filter hook input priority 20; policy accept; }\n";
+    $aliases .= "add chain ip6 ip6_filter_table ips-forward { type filter hook input priority 20; policy accept; }\n";
+    $aliases .= "add chain ip6 ip6_filter_table ips-output { type filter hook input priority 20; policy accept; }\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
