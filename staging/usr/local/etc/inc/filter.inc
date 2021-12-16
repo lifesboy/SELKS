@@ -392,9 +392,9 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 
     $ipsrules = "\n# IPS rules\n";
     $ipsrules .= "#forward all traffic to suricata by nfqueue\n";
-    $ipsrules .= "add ip_filter_table ips-input queue num 3-5 bypass\n";
-    $ipsrules .= "add ip_filter_table ips-forward queue num 3-5 bypass\n";
-    $ipsrules .= "add ip_filter_table ips-output queue num 3-5 bypass\n";
+    $ipsrules .= "add ip_filter_table ips-input queue num 3-5 bypass counter\n";
+    $ipsrules .= "add ip_filter_table ips-forward queue num 3-5 bypass counter\n";
+    $ipsrules .= "add ip_filter_table ips-output queue num 3-5 bypass counter\n";
 
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
