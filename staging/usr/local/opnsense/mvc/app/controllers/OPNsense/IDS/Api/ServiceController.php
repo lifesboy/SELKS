@@ -62,7 +62,7 @@ class ServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlIDS = new IDS();
             $runStatus = $this->statusAction();
-            $runStatusIps = $this->statusActionOf("ids statusips");
+            //$runStatusIps = $this->statusActionOf("ids statusips");
             // we should always have a cron item configured for IDS, let's create one upon first reconfigure.
             if ((string)$mdlIDS->general->UpdateCron == "") {
                 $mdlCron = new Cron();
@@ -79,9 +79,9 @@ class ServiceController extends ApiMutableServiceControllerBase
             }
 
             $backend = new Backend();
-            if ($runStatusIps['status'] == "running" && (string)$mdlIDS->general->ips == 0) {
-                $backend->configdRun("ids stopips");
-            }
+            //if ($runStatusIps['status'] == "running" && (string)$mdlIDS->general->ips == 0) {
+            //    $backend->configdRun("ids stopips");
+            //}
             if ($runStatus['status'] == "running" && (string)$mdlIDS->general->enabled == 0) {
                 $this->stopAction();
             }
@@ -98,13 +98,13 @@ class ServiceController extends ApiMutableServiceControllerBase
                             $status = $this->startAction()['response'];
                         }
 
-                        if ((string)$mdlIDS->general->ips == 1) {
-                            if ($runStatusIps['status'] == 'running') {
-                                $backend->configdRun("ids restartips");
-                            } else {
-                                $backend->configdRun("ids startips");
-                            }
-                        }
+                        //if ((string)$mdlIDS->general->ips == 1) {
+                        //    if ($runStatusIps['status'] == 'running') {
+                        //        $backend->configdRun("ids restartips");
+                        //    } else {
+                        //        $backend->configdRun("ids startips");
+                        //    }
+                        //}
                     } else {
                         $status = "error installing ids rules (" . $bckresult . ")";
                     }
