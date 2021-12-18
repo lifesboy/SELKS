@@ -89,6 +89,7 @@ apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-de
 #apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
 cd /binaries/suricata
 #curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
+sh autogen.sh
 ./configure --enable-nfqueue --sysconfdir=/etc --localstatedir=/var --prefix=/usr/ --enable-lua --enable-rules --enable-rust  #--enable-suricata-update
 make
 make install-full
