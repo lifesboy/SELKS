@@ -416,6 +416,7 @@ cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroo
 cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
 
 # Add core system packages to be installed
 echo "
