@@ -143,6 +143,13 @@ if [ ! -d /binaries/selks ]; then
   git clone -b gpu --single-branch https://github.com/lifesboy/SELKS.git /binaries/selks
 fi
 
+if [ ! -d /binaries/suricata ]; then
+  git clone -b master-6.0.x --single-branch https://github.com/lifesboy/suricata.git /binaries/suricata
+  rm -rf /binaries/suricata/libhtp
+  git clone -b 0.5.x --single-branch https://github.com/lifesboy/libhtp.git /binaries/suricata/libhtp
+  curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
+fi
+
 
 mkdir -p Stamus-Live-Build
 # Hook directory for the initramfs script to be copied to

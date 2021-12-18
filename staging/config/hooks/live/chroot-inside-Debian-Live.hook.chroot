@@ -74,13 +74,29 @@ chown logstash:logstash /var/cache/logstash/sincedbs/
 
 ### START Suricata ###
 
+apt remove --purge rustc
+apt-get install curl
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
+source $HOME/.cargo/env
+cargo install --force cbindgen
+
 apt-get update && \
 apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-dev   \
                 libnet1-dev libyaml-0-2 libyaml-dev pkg-config zlib1g zlib1g-dev \
                 libcap-ng-dev libcap-ng0 make libmagic-dev         \
                 libnss3-dev libgeoip-dev liblua5.1-dev libhiredis-dev libevent-dev \
-                python-yaml rustc cargo
-apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
+                python-yaml
+#apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
+cd /binaries/suricata
+#curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
+./configure --enable-nfqueue --sysconfdir=/etc --localstatedir=/var --prefix=/usr/ --enable-lua --enable-rules --enable-rust  #--enable-suricata-update
+make
+make install-full
+ldconfig /usr/local/lib
+suricata --build-info
+ldd /usr/bin/suricata
+cd -
+
 apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
 apt-get install -y flow-tools
 #make sure Suricata can write in /data/nsm
