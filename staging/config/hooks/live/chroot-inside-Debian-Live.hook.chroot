@@ -86,6 +86,13 @@ apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-de
                 libcap-ng-dev libcap-ng0 make libmagic-dev         \
                 libnss3-dev libgeoip-dev liblua5.1-dev libhiredis-dev libevent-dev \
                 python-yaml
+apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
+apt-get install -y python3-pip
+pip3 install --upgrade suricata-update
+whereis suricata-update
+ln -s /usr/local/bin/suricata-update /usr/bin/suricata-update
+apt-get -y install libtcmalloc-minimal4 libjansson-dev
+
 #apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
 cd /binaries/suricata
 #curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
@@ -98,7 +105,6 @@ suricata --build-info
 ldd /usr/bin/suricata
 cd -
 
-apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
 apt-get install -y flow-tools
 #make sure Suricata can write in /data/nsm
 mkdir -p /data/nsm/
