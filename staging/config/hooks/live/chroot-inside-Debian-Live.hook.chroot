@@ -620,7 +620,7 @@ EOF
 
 mkdir -p /var/lib/scirius/static/
 apt-get update && \
-apt-get install -y scirius
+yes | apt-get install -y scirius
 sed -i 's/ELASTICSEARCH_VERSION = 5/ELASTICSEARCH_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_VERSION=4/KIBANA_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_INDEX = "kibana-int"/KIBANA_INDEX = ".kibana"/g' /etc/scirius/local_settings.py
