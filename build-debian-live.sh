@@ -147,7 +147,10 @@ if [ ! -d /binaries/suricata ]; then
   git clone -b master-6.0.x --single-branch https://github.com/lifesboy/suricata.git /binaries/suricata
   rm -rf /binaries/suricata/libhtp
   git clone -b 0.5.x --single-branch https://github.com/lifesboy/libhtp.git /binaries/suricata/libhtp
+  mkdir -p /binaries/suricata/suricata-update
+  cd /binaries/suricata/suricata-update
   curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
+  cd -
 fi
 
 
