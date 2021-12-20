@@ -93,17 +93,7 @@ whereis suricata-update
 ln -s /usr/local/bin/suricata-update /usr/bin/suricata-update
 apt-get -y install libtcmalloc-minimal4 libjansson-dev
 
-#apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
-cd /binaries/suricata
-#curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
-sh autogen.sh
-./configure --enable-nfqueue --sysconfdir=/etc --localstatedir=/var --prefix=/usr/ --enable-lua --enable-rust --enable-rules #--enable-suricata-update
-make
-make install-full
-ldconfig /usr/local/lib
-suricata --build-info
-ldd /usr/bin/suricata
-cd -
+apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
 
 apt-get install -y flow-tools
 #make sure Suricata can write in /data/nsm
@@ -628,6 +618,19 @@ sed -i 's/KIBANA_DASHBOARDS_PATH = "\/opt\/selks\/kibana5-dashboards\/"/KIBANA6_
 echo "ELASTICSEARCH_KEYWORD = \"keyword\"" >> /etc/scirius/local_settings.py
 echo "USE_MOLOCH = True" >> /etc/scirius/local_settings.py
 echo "MOLOCH_URL = \"http://localhost:8005\"" >> /etc/scirius/local_settings.py
+
+### overwite suricata of scirius
+cd /binaries/suricata
+#curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
+sh autogen.sh
+./configure --enable-nfqueue --sysconfdir=/etc --localstatedir=/var --prefix=/usr/ --enable-lua --enable-rust --enable-rules #--enable-suricata-update
+make
+make install-full
+ldconfig /usr/local/lib
+suricata --build-info
+ldd /usr/bin/suricata
+cd -
+### end overwite suricata of scirius
 
 # supervisor conf
 ln -s /usr/share/doc/scirius/examples/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
