@@ -139,7 +139,7 @@ ln -s /selks/staging/etc/init.d/suricataips /etc/init.d/suricataips
 #
 #EOF
 
-nft -f /etc/nftables.conf
+# nft -f /etc/nftables.conf
 
 /bin/systemctl daemon-reload
 

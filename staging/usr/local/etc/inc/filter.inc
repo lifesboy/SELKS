@@ -773,11 +773,11 @@ function filter_generate_aliases()
     $aliases .= "\n";
     $aliases .= "# Cau hinh IPS chain\n";
     $aliases .= "add chain ip ip_filter_table ips-input { type filter hook input priority 20; policy accept; }\n";
-    $aliases .= "add chain ip ip_filter_table ips-forward { type filter hook input priority 20; policy accept; }\n";
-    $aliases .= "add chain ip ip_filter_table ips-output { type filter hook input priority 20; policy accept; }\n";
+    $aliases .= "add chain ip ip_filter_table ips-forward { type filter hook forward priority 20; policy accept; }\n";
+    $aliases .= "add chain ip ip_filter_table ips-output { type filter hook output priority 20; policy accept; }\n";
     $aliases .= "add chain ip6 ip6_filter_table ips-input { type filter hook input priority 20; policy accept; }\n";
-    $aliases .= "add chain ip6 ip6_filter_table ips-forward { type filter hook input priority 20; policy accept; }\n";
-    $aliases .= "add chain ip6 ip6_filter_table ips-output { type filter hook input priority 20; policy accept; }\n";
+    $aliases .= "add chain ip6 ip6_filter_table ips-forward { type filter hook forward priority 20; policy accept; }\n";
+    $aliases .= "add chain ip6 ip6_filter_table ips-output { type filter hook output priority 20; policy accept; }\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
