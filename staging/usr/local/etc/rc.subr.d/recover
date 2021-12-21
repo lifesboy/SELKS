@@ -345,7 +345,9 @@ function recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $p
 
 	echo "===> Restoring php.ini files\n";
 	file_put_contents('/usr/local/etc/php.ini', $php_ini);
-	file_put_contents('/usr/local/lib/php.ini', $php_ini);
+	file_put_contents('/etc/php/7.3/cli/php.ini', $php_ini);
+	file_put_contents('/etc/php/7.3/cgi/php.ini', $php_ini);
+	file_put_contents('/etc/php/7.3/fpm/php.ini', $php_ini);
 
 	recover_rebuild();
 }
