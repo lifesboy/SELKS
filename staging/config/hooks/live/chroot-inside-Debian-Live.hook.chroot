@@ -629,7 +629,11 @@ sh autogen.sh
 ./configure --enable-nfqueue --sysconfdir=/etc --localstatedir=/var --prefix=/usr/ --enable-lua --enable-rust --enable-rules #--enable-suricata-update
 make
 make install-full
+
+#fix symbol lookup error: /usr/bin/suricata: undefined symbol: htp_config_set_lzma_layers
 ldconfig /usr/local/lib
+ldconfig /usr/lib
+
 suricata --build-info
 ldd /usr/bin/suricata
 cd -
