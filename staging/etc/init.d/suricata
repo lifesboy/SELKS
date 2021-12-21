@@ -100,7 +100,7 @@ case "$1" in
   start)
        if [ -f $PIDFILE ]; then
            PID1=`cat $PIDFILE`
-           if pkill -c "$PID1" 2>/dev/null; then
+           if [ -e "/proc/$PID1/status" ]; then
                echo "$NAME is already running with PID $PID1"
                exit 0
            fi
@@ -125,19 +125,19 @@ case "$1" in
            exit 0;
        fi
        start-stop-daemon --oknodo --stop --quiet --pidfile=$PIDFILE --exec $DAEMON
-       if [ -n "$PID2" ]; then
-           pkill -TERM "$PID2"
+       if [ -n "$PID2" ] && [ -e "/proc/$PID2/status" ]; then
+           kill -TERM "$PID2"
            ret=$?
            sleep 2
-           if pkill -c "$PID2" 2>/dev/null; then
+           if [ -e "/proc/$PID2/status" ]; then
                ret=$?
                echo -n "Waiting . "
                cnt=0
-               while pkill -c "$PID2" 2>/dev/null; do
+               while [ -e "/proc/$PID2/status" ]; do
                    ret=$?
                    cnt=`expr "$cnt" + 1`
                    if [ "$cnt" -gt 10 ]; then
-                      pkill -9 "$PID2"
+                      kill -9 "$PID2"
                       break
                    fi
                    sleep 2
@@ -154,7 +154,7 @@ case "$1" in
        # Check if running...
        if [ -s $PIDFILE ]; then
            PID3=`cat $PIDFILE`
-           if pkill -c "$PID3" 2>/dev/null; then
+           if [ -e "/proc/$PID3/status" ]; then
                echo "$NAME is running with PID $PID3"
                exit 0
            else
