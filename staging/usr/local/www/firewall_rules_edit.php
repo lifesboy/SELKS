@@ -794,19 +794,19 @@ include("head.inc");
                       $is_quick = $pconfig['quick'];
                   }
 ?>
-                  <tr>
-                    <td><a id="help_for_quick" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Quick");?>
-                    </td>
-                    <td>
-                      <input name="quick" type="checkbox" id="quick" value="yes" <?= !empty($is_quick) ? "checked=\"checked\"" : "";?> />
-                      <strong><?=gettext("Apply the action immediately on match.");?></strong>
-                      <div class="hidden" data-for="help_for_quick">
-                        <?=gettext("If a packet matches a rule specifying quick, ".
-                                   "then that rule is considered the last matching rule and the specified action is taken. ".
-                                   "When a rule does not have quick enabled, the last matching rule wins.");?>
-                      </div>
-                    </td>
-                  </tr>
+<!--                  <tr>-->
+<!--                    <td><a id="help_for_quick" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> --><?//=gettext("Quick");?>
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                      <input name="quick" type="checkbox" id="quick" value="yes" --><?//= !empty($is_quick) ? "checked=\"checked\"" : "";?><!-- />-->
+<!--                      <strong>--><?//=gettext("Apply the action immediately on match.");?><!--</strong>-->
+<!--                      <div class="hidden" data-for="help_for_quick">-->
+<!--                        --><?//=gettext("If a packet matches a rule specifying quick, ".
+//                                   "then that rule is considered the last matching rule and the specified action is taken. ".
+//                                   "When a rule does not have quick enabled, the last matching rule wins.");?>
+<!--                      </div>-->
+<!--                    </td>-->
+<!--                  </tr>-->
 <?php
                   if( !empty($pconfig['associated-rule-id']) ): ?>
                   <tr>
