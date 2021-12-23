@@ -380,7 +380,7 @@ abstract class Rule
     protected function parseAdvanceProtocol($ipprotocol, $protocol, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip protocol|inet4:ip protocol|inet6:ip6 nexthdr|:ip protocol|ip:ip protocol|ip6:ip6 nexthdr');
-        $protocol = trim($this->parseReplaceSimple($protocol, 'inet:|inet4:|inet6:|ip:|ip6:|tcp:|udp:|tcp/udp:|icmp:|ipv6-icmp:|icmpv6:'));
+        $protocol = trim($this->parseReplaceSimple($protocol, 'inet:|inet4:|inet6:|ip:|ip6:|tcp:|udp:|tcp/udp:|ipv6-icmp:|icmpv6:'));
         if (!empty($protocol) && strpos($protocol, '$') === false) {
             // don't wrap aliases in curly brackets
             $protocol = "{" . $protocol . "}";
