@@ -398,6 +398,7 @@ abstract class Rule
             $from = "{" . $from . "}";
         }
         $from_port = trim($this->parseReplaceSimpleAllowZero($from_port, 'any:'));
+        str_replace(':', '-', $from_port);
         if ($from_port != '' && strpos($from_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $from_port = "{" . implode(',', explode(' ', $from_port)) . "}";
@@ -417,6 +418,7 @@ abstract class Rule
             $to = "{" . $to . "}";
         }
         $to_port = trim($this->parseReplaceSimpleAllowZero($to_port, 'any:'));
+        str_replace(':', '-', $to_port);
         if ($to_port != '' && strpos($to_port, '$') === false) {
             // don't wrap aliases in curly brackets
             $to_port = "{" . implode(',', explode(' ', $to_port)) . "}";
