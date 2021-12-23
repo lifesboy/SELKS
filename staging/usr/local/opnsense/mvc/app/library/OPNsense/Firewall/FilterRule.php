@@ -242,8 +242,10 @@ class FilterRule extends Rule
             if ($rule['protocol'] == "icmp" && !empty($rule['icmptype'])) {
                 if ($rule['ipprotocol'] == 'inet') {
                     $rule['icmp-type'] = $rule['icmptype'];
+                    $rule['protocol'] = null;
                 } elseif ($rule['ipprotocol'] == 'inet6') {
                     $rule['icmp6-type'] = $rule['icmptype'];
+                    $rule['protocol'] = null;
                 }
             }
             // icmpv6
