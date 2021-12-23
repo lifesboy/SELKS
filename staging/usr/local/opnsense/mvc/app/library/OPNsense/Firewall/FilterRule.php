@@ -247,7 +247,7 @@ class FilterRule extends Rule
                 }
             }
             // icmpv6
-            if ($rule['ipprotocol'] == 'inet6' && !empty($rule['protocol']) && $rule['protocol'] == "icmp") {
+            if ($rule['ipprotocol'] == 'inet6' && !empty($rule['protocol']) && $rule['protocol'] == "icmp" && !empty($rule['icmptype'])) {
                 $rule['protocol'] = 'ipv6-icmp';
             }
             // set prio
