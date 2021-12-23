@@ -832,6 +832,29 @@ include("head.inc");
                   </tr>
 <?php
                   endif; ?>
+
+                  <?php
+                  // XXX: for legacy compatibility we keep supporting "any" on floating rules, regular rules should choose
+                  $direction_options = !empty($pconfig['floating']) ? array('in','out', 'any') : array('in','out');?>
+                  <tr>
+                      <td><a id="help_for_direction" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Direction");?></td>
+                      <td>
+                          <select name="direction" class="selectpicker" data-live-search="true" data-size="5" >
+                              <?php
+                              foreach ($direction_options as $direction): ?>
+                                  <option value="<?=$direction;?>" <?= $direction == $pconfig['direction'] ? "selected=\"selected\"" : "" ?>>
+                                      <?=$direction;?>
+                                  </option>
+                              <?php
+                              endforeach; ?>
+                          </select>
+                          <div class="hidden" data-for="help_for_direction">
+                              <?=gettext("Direction of the traffic. The default policy is to filter inbound traffic, ".
+                                  "which sets the policy to the interface originally receiving the traffic.") ?>
+                          </div>
+                      </td>
+                  <tr>
+
                   <tr>
                     <td><a id="help_for_interface" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Interface");?></td>
                     <td>
@@ -862,27 +885,6 @@ include("head.inc");
                         </div>
                     </td>
                   </tr>
-<?php
-                  // XXX: for legacy compatibility we keep supporting "any" on floating rules, regular rules should choose
-                  $direction_options = !empty($pconfig['floating']) ? array('in','out', 'any') : array('in','out');?>
-                  <tr>
-                    <td><a id="help_for_direction" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Direction");?></td>
-                    <td>
-                      <select name="direction" class="selectpicker" data-live-search="true" data-size="5" >
-<?php
-                      foreach ($direction_options as $direction): ?>
-                      <option value="<?=$direction;?>" <?= $direction == $pconfig['direction'] ? "selected=\"selected\"" : "" ?>>
-                          <?=$direction;?>
-                      </option>
-<?php
-                      endforeach; ?>
-                      </select>
-                      <div class="hidden" data-for="help_for_direction">
-                        <?=gettext("Direction of the traffic. The default policy is to filter inbound traffic, ".
-                                   "which sets the policy to the interface originally receiving the traffic.") ?>
-                      </div>
-                    </td>
-                  <tr>
                   <tr>
                     <td><a id="help_for_ipv46" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("TCP/IP Version");?></td>
                     <td>
