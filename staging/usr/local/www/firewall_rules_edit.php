@@ -835,7 +835,7 @@ include("head.inc");
 
                   <?php
                   // XXX: for legacy compatibility we keep supporting "any" on floating rules, regular rules should choose
-                  $direction_options = !empty($pconfig['floating']) ? array('in','out', 'any') : array('in','out');?>
+                  $direction_options = !empty($pconfig['floating']) ? array('in','out', 'forward') : array('in','out');?>
                   <tr>
                       <td><a id="help_for_direction" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Direction");?></td>
                       <td>

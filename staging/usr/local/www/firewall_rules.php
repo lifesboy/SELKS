@@ -153,7 +153,7 @@ function firewall_rule_item_icons($filterent)
     } else {
         $result .= sprintf(
             "<i class=\"fa fa-exchange fa-fw\" data-toggle=\"tooltip\" title=\"%s\"></i>",
-            gettext("any")
+            gettext("forward")
         );
     }
     if (empty($filterent['floating']) && $filterent['quick'] === null){
