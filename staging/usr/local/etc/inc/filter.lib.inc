@@ -331,10 +331,22 @@ function filter_core_rules_system($fw, $defaults)
         $defaults['block']
     );
 
+    // Anti-lockout for http, https, ssh
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh', 'descr' => 'anti-lockout rule'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh', 'descr' => 'anti-lockout rule'),
+        $defaults['pass']
+    );
+
     // Allow Connect Web Opnsense
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in','to_port' => $webport, 'descr' => 'Allow Connect Web Opnsense'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => $webport, 'descr' => 'Allow Connect Web Opnsense'),
         $defaults['pass']
     );
 

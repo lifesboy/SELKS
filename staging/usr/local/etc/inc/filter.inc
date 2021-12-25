@@ -787,28 +787,28 @@ function filter_generate_aliases()
     $aliases .= "add chain ip_nat postrouting { type nat hook postrouting priority 110; }\n";
     $aliases .= "\n";
 
-    $aliases .= "\n";
-    $aliases .= "# THEM CHAIN DE UU TIEN THUC HIEN CHONG LOCKOUT - ANTI LOCKOUT CHAIN AND RULE HERE \n";
-    $aliases .= "# IPV4 \n";
-    $aliases .= "add chain ip ip_filter_table input_antilockout { type filter hook input priority 4; policy accept;}\n";
-    $aliases .= "add chain ip ip_filter_table forward_antilockout { type filter hook forward priority 4; policy accept;}\n";
-    $aliases .= "add chain ip ip_filter_table output_antilockout { type filter hook output priority 4; policy accept;}\n";
-    $aliases .= "# IPV6 \n";
-    $aliases .= "add chain ip6 ip6_filter_table input_antilockout { type filter hook input priority 4; policy accept;}\n";
-    $aliases .= "add chain ip6 ip6_filter_table forward_antilockout { type filter hook forward priority 4; policy accept;}\n";
-    $aliases .= "add chain ip6 ip6_filter_table output_antilockout { type filter hook output priority 4; policy accept;}\n";
-
-    $aliases .= "\n";
-    $aliases .= "# INPUT\n";
-    $aliases .= 'add rule ip ip_filter_table input_antilockout tcp dport { http, https, ssh } accept comment "anti-lockout rule"'."\n";
-    $aliases .= 'add rule ip ip_filter_table input_antilockout tcp dport 82 accept comment "anti-lockout rule"'."\n";
-    $aliases .= 'add rule ip6 ip6_filter_table input_antilockout tcp dport { http, https, ssh } accept comment "anti-lockout rule"'."\n";
-    $aliases .= 'add rule ip6 ip6_filter_table input_antilockout tcp dport 82 accept comment "anti-lockout rule"'."\n";
-    $aliases .= "# OUTPUT\n";
-    $aliases .= 'add rule ip ip_filter_table output_antilockout ct state invalid drop comment "Drop invalid connections"'."\n";
-    $aliases .= 'add rule ip ip_filter_table output_antilockout ct state established,related log prefix "nft.accept output_antilockout state established,related_" accept'."\n";
-    $aliases .= 'add rule ip6 ip6_filter_table output_antilockout ct state invalid drop comment "Drop invalid connections"'."\n";
-    $aliases .= 'add rule ip6 ip6_filter_table output_antilockout ct state established,related log prefix "nft.accept output_antilockout state established,related_" accept'."\n";
+//    $aliases .= "\n";
+//    $aliases .= "# THEM CHAIN DE UU TIEN THUC HIEN CHONG LOCKOUT - ANTI LOCKOUT CHAIN AND RULE HERE \n";
+//    $aliases .= "# IPV4 \n";
+//    $aliases .= "add chain ip ip_filter_table input_antilockout { type filter hook input priority 4; policy accept;}\n";
+//    $aliases .= "add chain ip ip_filter_table forward_antilockout { type filter hook forward priority 4; policy accept;}\n";
+//    $aliases .= "add chain ip ip_filter_table output_antilockout { type filter hook output priority 4; policy accept;}\n";
+//    $aliases .= "# IPV6 \n";
+//    $aliases .= "add chain ip6 ip6_filter_table input_antilockout { type filter hook input priority 4; policy accept;}\n";
+//    $aliases .= "add chain ip6 ip6_filter_table forward_antilockout { type filter hook forward priority 4; policy accept;}\n";
+//    $aliases .= "add chain ip6 ip6_filter_table output_antilockout { type filter hook output priority 4; policy accept;}\n";
+//
+//    $aliases .= "\n";
+//    $aliases .= "# INPUT\n";
+//    $aliases .= 'add rule ip ip_filter_table input_antilockout tcp dport { http, https, ssh } accept comment "anti-lockout rule"'."\n";
+//    $aliases .= 'add rule ip ip_filter_table input_antilockout tcp dport 82 accept comment "anti-lockout rule"'."\n";
+//    $aliases .= 'add rule ip6 ip6_filter_table input_antilockout tcp dport { http, https, ssh } accept comment "anti-lockout rule"'."\n";
+//    $aliases .= 'add rule ip6 ip6_filter_table input_antilockout tcp dport 82 accept comment "anti-lockout rule"'."\n";
+//    $aliases .= "# OUTPUT\n";
+//    $aliases .= 'add rule ip ip_filter_table output_antilockout ct state invalid drop comment "Drop invalid connections"'."\n";
+//    $aliases .= 'add rule ip ip_filter_table output_antilockout ct state established,related log prefix "nft.accept output_antilockout state established,related_" accept'."\n";
+//    $aliases .= 'add rule ip6 ip6_filter_table output_antilockout ct state invalid drop comment "Drop invalid connections"'."\n";
+//    $aliases .= 'add rule ip6 ip6_filter_table output_antilockout ct state established,related log prefix "nft.accept output_antilockout state established,related_" accept'."\n";
 
     $aliases .= "\n";
     $aliases .= "\n";
