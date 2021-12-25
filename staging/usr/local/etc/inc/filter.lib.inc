@@ -316,7 +316,7 @@ function filter_core_rules_system($fw, $defaults)
     if (!empty($config['system']['webgui']['port'])) {
         $webport = $config['system']['webgui']['port'];
     } elseif ($config['system']['webgui']['protocol'] == 'http') {
-        $webport = '80';
+        $webport = '81';
     }
     $fw->registerFilterRule(
         1,
@@ -328,6 +328,18 @@ function filter_core_rules_system($fw, $defaults)
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout_ip6', 'to' => '$this_firewall_ip6' , 'descr' => '$sshlockout',
         'direction' => 'in','to_port' => $webport),
+        $defaults['block']
+    );
+
+    // Allow Connect Web Opnsense
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in','to_port' => $webport, 'descr' => 'Allow Connect Web Opnsense'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in','to_port' => 81, 'descr' => 'Allow Connect Web Opnsense'),
         $defaults['block']
     );
 
