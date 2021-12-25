@@ -367,6 +367,31 @@
   <filter>
     <rule>
       <type>pass</type>
+      <interface>lan,lo,openvpn,wan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <statetype>established</statetype>
+      <direction>out</direction>
+      <floating>yes</floating>
+      <quick>1</quick>
+      <source>
+        <network>wan</network>
+      </source>
+      <destination>
+        <any>1</any>
+      </destination>
+      <updated>
+        <username>root@10.0.2.2</username>
+        <time>1611320386.8993</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </updated>
+      <created>
+        <username>root@10.0.2.2</username>
+        <time>1611320386.8993</time>
+        <description>/firewall_rules_edit.php made changes</description>
+      </created>
+    </rule>
+    <rule>
+      <type>pass</type>
       <ipprotocol>inet</ipprotocol>
       <descr>Default allow LAN to any rule</descr>
       <interface>lan</interface>
@@ -388,32 +413,6 @@
       <destination>
         <any/>
       </destination>
-    </rule>
-    <rule>
-      <type>pass</type>
-      <interface>lan</interface>
-      <ipprotocol>inet</ipprotocol>
-      <statetype>new</statetype>
-      <descr>sd</descr>
-      <direction>in</direction>
-      <category>aa</category>
-      <quick>1</quick>
-      <source>
-        <any>1</any>
-      </source>
-      <destination>
-        <network>this_firewall</network>
-      </destination>
-      <updated>
-        <username>root@10.0.2.2</username>
-        <time>1611320386.8993</time>
-        <description>/firewall_rules_edit.php made changes</description>
-      </updated>
-      <created>
-        <username>root@10.0.2.2</username>
-        <time>1611320386.8993</time>
-        <description>/firewall_rules_edit.php made changes</description>
-      </created>
     </rule>
   </filter>
   <rrd>
@@ -455,7 +454,7 @@
     <monitor_type>
       <name>SMTP</name>
       <type>send</type>
-      <descr>Generic SMTP</descr>
+      <descr><![CDATA[Generic SMTP]]></descr>
       <options>
         <send/>
         <expect>220 *</expect>
@@ -487,38 +486,9 @@
       <zones/>
       <templates/>
     </captiveportal>
-    <cron version="1.0.1">
-      <jobs/>
-    </cron>
-    <IDS version="1.0.5">
-      <rules/>
-      <userDefinedRules/>
-      <files/>
-      <fileTags/>
-      <general>
-        <enabled>1</enabled>
-        <ips>1</ips>
-        <promisc>0</promisc>
-        <interfaces>wan</interfaces>
-        <homenet>192.168.0.0/16,10.0.0.0/8,172.16.0.0/12</homenet>
-        <defaultPacketSize/>
-        <UpdateCron/>
-        <AlertLogrotate>W0D23</AlertLogrotate>
-        <AlertSaveLogs>4</AlertSaveLogs>
-        <MPMAlgo>ac</MPMAlgo>
-        <detect>
-          <Profile>high</Profile>
-          <toclient_groups/>
-          <toserver_groups/>
-        </detect>
-        <syslog>0</syslog>
-        <syslog_eve>0</syslog_eve>
-        <LogPayload>0</LogPayload>
-      </general>
-    </IDS>
     <Interfaces>
-      <loopbacks/>
       <vxlans/>
+      <loopbacks/>
     </Interfaces>
     <monit version="1.0.8">
       <general>
@@ -844,6 +814,62 @@
         <template/>
       </error_pages>
     </proxy>
+    <IDS version="1.0.5">
+      <rules/>
+      <userDefinedRules/>
+      <files/>
+      <fileTags/>
+      <general>
+        <enabled>1</enabled>
+        <ips>1</ips>
+        <promisc>0</promisc>
+        <interfaces>lan,wan</interfaces>
+        <homenet>192.168.0.0/16,10.0.0.0/8,172.16.0.0/12</homenet>
+        <defaultPacketSize/>
+        <UpdateCron>59cc6eb9-d535-4057-8131-6bf315d5982d</UpdateCron>
+        <AlertLogrotate>W0D23</AlertLogrotate>
+        <AlertSaveLogs>4</AlertSaveLogs>
+        <MPMAlgo>ac</MPMAlgo>
+        <detect>
+          <Profile>high</Profile>
+          <toclient_groups/>
+          <toserver_groups/>
+        </detect>
+        <syslog>0</syslog>
+        <syslog_eve>0</syslog_eve>
+        <LogPayload>0</LogPayload>
+      </general>
+    </IDS>
+    <cron version="1.0.1">
+      <jobs>
+        <job uuid="59cc6eb9-d535-4057-8131-6bf315d5982d">
+          <origin>IDS</origin>
+          <enabled>0</enabled>
+          <minutes>0</minutes>
+          <hours>0</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>ids update</command>
+          <parameters/>
+          <description>ids rule updates</description>
+        </job>
+        <job uuid="92c14099-7e2a-44e5-bdd1-7fcd0f22172b">
+          <origin>SIDS</origin>
+          <enabled>0</enabled>
+          <minutes>0</minutes>
+          <hours>0</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>sids update</command>
+          <parameters/>
+          <description>sids rule updates</description>
+        </job>
+      </jobs>
+    </cron>
   </OPNsense>
   <ca>
     <refid>600ee8bc64a2b</refid>
@@ -987,7 +1013,57 @@
     <openvpn-client/>
   </openvpn>
   <dhcpdv6/>
-  <staticroutes>
-    <route/>
-  </staticroutes>
+  <Selks>
+    <SIDS version="1.0.5">
+      <rules/>
+      <userDefinedRules/>
+      <files/>
+      <fileTags/>
+      <general>
+        <enabled>1</enabled>
+        <ips>0</ips>
+        <promisc>0</promisc>
+        <interfaces>wan</interfaces>
+        <homenet>192.168.0.0/16,10.0.0.0/8,172.16.0.0/12</homenet>
+        <defaultPacketSize/>
+        <UpdateCron>92c14099-7e2a-44e5-bdd1-7fcd0f22172b</UpdateCron>
+        <AlertLogrotate>W0D23</AlertLogrotate>
+        <AlertSaveLogs>4</AlertSaveLogs>
+        <MPMAlgo>ac</MPMAlgo>
+        <detect>
+          <Profile>medium</Profile>
+          <toclient_groups/>
+          <toserver_groups/>
+        </detect>
+        <syslog>0</syslog>
+        <syslog_eve>0</syslog_eve>
+        <LogPayload>0</LogPayload>
+      </general>
+    </SIDS>
+    <Anomaly version="1.0.0">
+      <rules/>
+      <userDefinedRules/>
+      <files/>
+      <fileTags/>
+      <general>
+        <enabled>1</enabled>
+        <DataSource>cic2018_Friday-02-03-2018/*</DataSource>
+        <StopIters>1000</StopIters>
+        <StopEpisodeLen>1000</StopEpisodeLen>
+        <StopTimesteps>1000</StopTimesteps>
+        <StopReward>100</StopReward>
+        <UpdateCron/>
+      </general>
+      <dataProcessor>
+        <enabled>1</enabled>
+        <DataSource>cic2018/Friday-02-03-2018*.csv</DataSource>
+        <BatchSize>102400</BatchSize>
+        <NumGpus>0.1</NumGpus>
+        <NumCpus>0</NumCpus>
+        <DataDestination>cic2018_Friday-02-03-2018</DataDestination>
+        <UpdateCron/>
+      </dataProcessor>
+    </Anomaly>
+  </Selks>
+  <staticroutes/>
 </opnsense>

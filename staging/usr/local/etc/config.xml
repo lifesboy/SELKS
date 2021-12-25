@@ -253,7 +253,7 @@
     </webgui>
     <disablenatreflection>yes</disablenatreflection>
     <usevirtualterminal>1</usevirtualterminal>
-    <disableconsolemenu/>
+    <disableconsolemenu>1</disableconsolemenu>
     <disablevlanhwfilter>1</disablevlanhwfilter>
     <disablechecksumoffloading>1</disablechecksumoffloading>
     <disablesegmentationoffloading>1</disablesegmentationoffloading>
