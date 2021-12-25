@@ -331,6 +331,56 @@ function filter_core_rules_system($fw, $defaults)
         $defaults['block']
     );
 
+    // Allow internet domain lookup
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'in','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'in','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'in','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'in','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'out','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'out','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'out','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'out','to_port' => '32768:65535'),
+        $defaults['block']
+    );
+
     // block all in alias $virusprot
     $fw->registerFilterRule(1, array('ipprotocol' => 'inet', 'from' => '$virusprot_ip', 'descr' => '$virusprot overload table'), $defaults['block']);
     $fw->registerFilterRule(1, array('ipprotocol' => 'inet6', 'from' => '$virusprot_ip6', 'descr' => '$virusprot overload table'), $defaults['block']);
