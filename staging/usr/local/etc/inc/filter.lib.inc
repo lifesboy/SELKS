@@ -335,7 +335,7 @@ function filter_core_rules_system($fw, $defaults)
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in','to_port' => $webport, 'descr' => 'Allow Connect Web Opnsense'),
-        $defaults['block']
+        $defaults['pass']
     );
 
     // Allow internet domain lookup
@@ -343,81 +343,81 @@ function filter_core_rules_system($fw, $defaults)
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
             'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established,accept'),
-        $defaults['block']
+        $defaults['pass']
     );
 
     //Accept traffic originated from us
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'direction' => 'in', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'direction' => 'forward', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'direction' => 'in', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
-        $defaults['block']
+        $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'direction' => 'forward', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
-        $defaults['block']
+        $defaults['pass']
     );
 
     // block all in alias $virusprot
