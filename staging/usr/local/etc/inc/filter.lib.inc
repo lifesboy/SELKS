@@ -381,6 +381,38 @@ function filter_core_rules_system($fw, $defaults)
         $defaults['block']
     );
 
+    //Accept traffic originated from us
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'direction' => 'in', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'direction' => 'forward', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'direction' => 'in', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
+        $defaults['block']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet6', 'direction' => 'forward', 'statetype' => 'established, related_', 'descr' => 'Accept traffic originated from us'),
+        $defaults['block']
+    );
+
     // block all in alias $virusprot
     $fw->registerFilterRule(1, array('ipprotocol' => 'inet', 'from' => '$virusprot_ip', 'descr' => '$virusprot overload table'), $defaults['block']);
     $fw->registerFilterRule(1, array('ipprotocol' => 'inet6', 'from' => '$virusprot_ip6', 'descr' => '$virusprot overload table'), $defaults['block']);
