@@ -337,11 +337,6 @@ function filter_core_rules_system($fw, $defaults)
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in','to_port' => $webport, 'descr' => 'Allow Connect Web Opnsense'),
         $defaults['block']
     );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in','to_port' => 81, 'descr' => 'Allow Connect Web Opnsense'),
-        $defaults['block']
-    );
 
     // Allow internet domain lookup
     $fw->registerFilterRule(
