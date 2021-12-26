@@ -886,6 +886,36 @@ include("head.inc");
                     </td>
                   </tr>
                   <tr>
+                    <td><a id="help_for_ointerface" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Out Interface");?></td>
+                    <td>
+<?php
+                    if (!empty($pconfig['floating'])): ?>
+                      <select name="ointerface[]" title="Select interfaces..." multiple="multiple" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
+<?php
+                    else: ?>
+                      <select name="ointerface" class="selectpicker" data-live-search="true" data-size="5" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
+<?php
+                    endif;
+
+                    foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
+                        <option value="<?=$iface;?>"
+                            <?= !empty($pconfig['ointerface']) && (
+                                  $iface == $pconfig['ointerface'] ||
+                                  // match floating / multiple interfaces
+                                  (!is_array($pconfig['ointerface']) && in_array($iface, explode(',', $pconfig['ointerface']))) ||
+                                  (is_array($pconfig['ointerface']) && in_array($iface, $pconfig['ointerface']))
+                                ) ? 'selected="selected"' : ''; ?>>
+                          <?= htmlspecialchars($ifdetail['descr']) ?>
+                        </option>
+<?php
+                    endforeach; ?>
+                        </select>
+                        <div class="hidden" data-for="help_for_ointerface">
+                          <?=gettext("Choose on which interface packets must come out to match this rule.");?>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
                     <td><a id="help_for_ipv46" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("TCP/IP Version");?></td>
                     <td>
                       <select name="ipprotocol" class="selectpicker" data-live-search="true" data-size="5" >
