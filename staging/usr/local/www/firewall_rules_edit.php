@@ -601,13 +601,13 @@ include("head.inc");
       });
 
       $("#direction").change(function() {
-          $("#interface").addClass("hidden");
-          $("#ointerface").addClass("hidden");
+          $("#interfacebox").addClass("hidden");
+          $("#ointerfacebox").addClass("hidden");
           if ( $("#direction").val() == 'in' || $("#direction").val() == 'forward' ) {
-              $("#interface").removeClass("hidden");
+              $("#interfacebox").removeClass("hidden");
           }
           if ( $("#direction").val() == 'out' || $("#direction").val() == 'forward' ) {
-              $("#ointerface").removeClass("hidden");
+              $("#ointerfacebox").removeClass("hidden");
           }
       });
 
@@ -867,7 +867,7 @@ include("head.inc");
                       </td>
                   <tr>
 
-                  <tr>
+                  <tr id="interfacebox">
                     <td><a id="help_for_interface" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Interface");?></td>
                     <td>
 <?php
@@ -897,7 +897,7 @@ include("head.inc");
                         </div>
                     </td>
                   </tr>
-                  <tr class="<?= $pconfig['direction'] != "forward" ? "hidden" : "";?>">
+                  <tr id="ointerfacebox">
                     <td><a id="help_for_ointerface" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Out Interface");?></td>
                     <td>
 <?php
