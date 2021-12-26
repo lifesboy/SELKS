@@ -43,7 +43,7 @@ class FilterRule extends Rule
         'statetype' => 'parseState',
         #'quick' => 'parseBool,quick',
         'interface' => 'parseInterface',
-        'ointerface' => 'parseInterface,oif',
+        'ointerface' => 'parseInterface,oif ',
         #'gateway' => 'parseRoute',
         #'reply' =>  'parsePlain',
         #'from' => 'parsePlainCurly,ip saddr ',
