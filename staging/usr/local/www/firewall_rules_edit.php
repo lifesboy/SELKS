@@ -886,7 +886,7 @@ include("head.inc");
                         </div>
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="<?= $pconfig['direction'] != "forward" ? "hidden" : "";?>">
                     <td><a id="help_for_ointerface" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Out Interface");?></td>
                     <td>
 <?php
