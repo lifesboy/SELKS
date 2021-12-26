@@ -600,6 +600,17 @@ include("head.inc");
           }
       });
 
+      $("#direction").change(function() {
+          $("#interface").addClass("hidden");
+          $("#ointerface").addClass("hidden");
+          if ( $("#direction").val() == 'in' || $("#direction").val() == 'forward' ) {
+              $("#interface").removeClass("hidden");
+          }
+          if ( $("#direction").val() == 'out' || $("#direction").val() == 'forward' ) {
+              $("#ointerface").removeClass("hidden");
+          }
+      });
+
       $("#proto").change(function() {
           $("#icmpbox").addClass("hidden");
           $("#icmp6box").addClass("hidden");
@@ -840,7 +851,7 @@ include("head.inc");
                   <tr>
                       <td><a id="help_for_direction" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Direction");?></td>
                       <td>
-                          <select name="direction" class="selectpicker" data-live-search="true" data-size="5" >
+                          <select name="direction" id="direction" class="selectpicker" data-live-search="true" data-size="5" >
                               <?php
                               foreach ($direction_options as $direction): ?>
                                   <option value="<?=$direction;?>" <?= $direction == $pconfig['direction'] ? "selected=\"selected\"" : "" ?>>
@@ -861,10 +872,10 @@ include("head.inc");
                     <td>
 <?php
                     if (!empty($pconfig['floating'])): ?>
-                      <select name="interface[]" title="Select interfaces..." multiple="multiple" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
+                      <select name="interface[]" id="interface" title="Select interfaces..." multiple="multiple" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     else: ?>
-                      <select name="interface" class="selectpicker" data-live-search="true" data-size="5" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
+                      <select name="interface" id="interface"  class="selectpicker" data-live-search="true" data-size="5" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     endif;
 
@@ -891,10 +902,10 @@ include("head.inc");
                     <td>
 <?php
                     if (!empty($pconfig['floating'])): ?>
-                      <select name="ointerface[]" title="Select interfaces..." multiple="multiple" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
+                      <select name="ointerface[]" id="ointerface" title="Select interfaces..." multiple="multiple" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     else: ?>
-                      <select name="ointerface" class="selectpicker" data-live-search="true" data-size="5" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
+                      <select name="ointerface" id="ointerface" class="selectpicker" data-live-search="true" data-size="5" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     endif;
 
