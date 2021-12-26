@@ -102,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'icmptype',
         'icmp6-type',
         'interface',
+        'ointerface',
         'ipprotocol',
         'log',
         'max',
@@ -411,7 +412,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (count($input_errors) == 0) {
         $filterent = array();
         // 1-on-1 copy of form values
-        $copy_fields = array('type', 'interface', 'ipprotocol', 'tag', 'tagged', 'max', 'max-src-nodes'
+        $copy_fields = array('type', 'interface', 'ointerface', 'ipprotocol', 'tag', 'tagged', 'max', 'max-src-nodes'
                             , 'max-src-conn', 'max-src-states', 'statetimeout', 'statetype', 'os', 'descr', 'gateway'
                             , 'sched', 'associated-rule-id', 'direction'
                             , 'max-src-conn-rate', 'max-src-conn-rates', 'category') ;
