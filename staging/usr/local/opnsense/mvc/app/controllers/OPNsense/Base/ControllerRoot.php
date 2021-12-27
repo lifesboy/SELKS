@@ -85,7 +85,7 @@ class ControllerRoot extends Controller
         $locale = $lang . '.UTF-8';
         bind_textdomain_codeset('OPNsense', $locale);
         $this->translator = new ViewTranslator(array(
-            'directory' => '/usr/local/share/locale',
+            'directory' => '/usr/share/locale',
             'defaultDomain' => 'OPNsense',
             'locale' => $locale,
         ));

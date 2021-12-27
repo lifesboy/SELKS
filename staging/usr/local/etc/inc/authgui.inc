@@ -57,7 +57,7 @@ function set_language()
 
     putenv('LANG=' . $lang_encoding);
     textdomain($textdomain);
-    bindtextdomain($textdomain, '/usr/local/share/locale');
+    bindtextdomain($textdomain, '/usr/share/locale');
     bind_textdomain_codeset($textdomain, $lang_encoding);
 }
 
