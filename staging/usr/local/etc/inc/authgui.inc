@@ -52,13 +52,16 @@ function set_language()
         $lang = $config['system']['user'][$userindex[$_SESSION['Username']]]['language'];
     }
 
+    putenv("LC_MESSAGES=$lang");
+    setlocale(LC_MESSAGES, $lang);
+
     $lang_encoding = $lang . '.UTF-8';
     $textdomain = 'OPNsense';
 
     putenv('LANG=' . $lang_encoding);
     textdomain($textdomain);
     bindtextdomain($textdomain, '/usr/share/locale');
-    bind_textdomain_codeset($textdomain, $lang_encoding);
+    bind_textdomain_codeset($textdomain, 'UTF-8');
 }
 
 function session_auth(&$Login_Error)
