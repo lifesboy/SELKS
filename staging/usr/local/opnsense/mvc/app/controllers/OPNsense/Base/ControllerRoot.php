@@ -31,7 +31,6 @@ namespace OPNsense\Base;
 use OPNsense\Core\Config;
 use Phalcon\Mvc\Controller;
 use Phalcon\Logger\Adapter\Syslog;
-use Phalcon\Translate\InterpolatorFactory;
 use OPNsense\Core\ACL;
 
 /**
@@ -84,8 +83,7 @@ class ControllerRoot extends Controller
         }
 
         $locale = $lang . '.UTF-8';
-        $interpolator = new InterpolatorFactory();
-        $this->translator = new ViewTranslator($interpolator, array(
+        $this->translator = new ViewTranslator(array(
             'directory' => '/usr/share/locale',
             'defaultDomain' => 'OPNsense',
             'locale' => $locale,
