@@ -208,7 +208,10 @@ fastcgi.server = ( ".php" =>
       "max-procs" => 2,
       "bin-environment" => (
         "PHP_FCGI_CHILDREN" => "3",
-        "PHP_FCGI_MAX_REQUESTS" => "100"
+        "PHP_FCGI_MAX_REQUESTS" => "100",
+        "LC_ALL" => "vi_VN",
+        "LC_MESSAGES" => "vi_VN",
+        "LANG" => "vi_VN.UTF-8"
       ),
       "bin-path" => "/usr/bin/php-cgi"
     )
