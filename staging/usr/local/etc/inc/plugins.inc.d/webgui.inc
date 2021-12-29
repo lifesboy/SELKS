@@ -163,6 +163,12 @@ function webgui_generate_config($port, $cert, $key, $ca, $listeners)
 {
     global $config;
 
+    $lang = 'vi_VN';
+    if (!empty($config['system']['language'])) {
+        $lang = $config['system']['language'];
+    }
+    $lang_encoding = $lang . '.UTF-8';
+
     $cert_location = 'cert.pem';
     $ca_location = 'ca.pem';
 
@@ -209,9 +215,8 @@ fastcgi.server = ( ".php" =>
       "bin-environment" => (
         "PHP_FCGI_CHILDREN" => "3",
         "PHP_FCGI_MAX_REQUESTS" => "100",
-        "LC_ALL" => "vi_VN",
-        "LC_MESSAGES" => "vi_VN",
-        "LANG" => "vi_VN.UTF-8"
+        "LC_MESSAGES" => "$lang",
+        "LANG" => "$lang_encoding"
       ),
       "bin-path" => "/usr/bin/php-cgi"
     )
