@@ -11,6 +11,7 @@ set -ex
 apt-get update && apt-get upgrade -y
 
 # Docker
+apt-get -y install cgroupfs-mount
 apt-get -y install apt-transport-https ca-certificates curl gnupg2 pass lsb-release
 
 curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
