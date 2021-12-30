@@ -45,6 +45,9 @@ ln -s /selks/staging/docker /docker
 #install PostgresSQL
 cd /docker/postgres
 docker-compose up -d
+mv /etc/scirius  /etc/scirius.bak
+ln -s /selks/staging/etc/scirius /etc/scirius
+cd -
 
 cp -R /binaries/selks /
 #cd /selks
