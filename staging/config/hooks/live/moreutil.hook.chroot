@@ -41,6 +41,10 @@ cd /cicflowmeter
 python3 setup.py install
 cd -
 
+#install PostgresSQL
+cd /docker/postgres
+docker-compose up -d
+
 cp -R /binaries/selks /
 #cd /selks
 #git checkout gpu

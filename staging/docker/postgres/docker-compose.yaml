@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  postgres-service:
+    tty: true # Enables debugging capabilities when attached to this container.
+    container_name: postgres_11_2
+    image: postgres:11.2
+    ports:
+      - 5432:5432
+    volumes:
+      - /var/spg/postgres_11_2/data:/var/lib/postgresql/data
+      #- ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data
+    networks:
+      - postgres_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1g"
+        max-file: "2"
+networks:
+  postgres_network:
+    name: postgres_network
+    driver: bridge
