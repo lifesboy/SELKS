@@ -381,6 +381,12 @@ function filter_core_rules_system($fw, $defaults)
             'to_port' => '9200', 'descr' => 'Allow Connect Scirius Elasticsearch'),
         $defaults['pass']
     );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
+            'to_port' => '5601', 'descr' => 'Allow Connect Scirius Kibana'),
+        $defaults['pass']
+    );
 
     // Allow internet domain lookup
     $fw->registerFilterRule(
