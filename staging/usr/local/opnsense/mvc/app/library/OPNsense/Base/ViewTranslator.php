@@ -36,7 +36,7 @@ use Phalcon\Translate\Adapter\Gettext;
  */
 class ViewTranslator extends Gettext
 {
-    public function _($translateKey, array $placeholders = [])
+    public function _($translateKey, $placeholders = null)
     {
         $translateValue = parent::_($translateKey, $placeholders);
         /* gettext() embedded in JavaScript can cause syntax errors */
