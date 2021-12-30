@@ -41,6 +41,7 @@ cd /cicflowmeter
 python3 setup.py install
 cd -
 
+ln -s /selks/staging/docker /docker
 #install PostgresSQL
 cd /docker/postgres
 docker-compose up -d

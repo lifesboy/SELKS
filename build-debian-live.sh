@@ -408,9 +408,6 @@ cp -R staging/etc/lighttpd Stamus-Live-Build/chroot/etc/
 
 chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroot/usr/local/etc
 
-# copy docker configs
-cp -R staging/docker Stamus-Live-Build/chroot/docker
-
 # cp OPNSense desktop shortcuts
 cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
 
