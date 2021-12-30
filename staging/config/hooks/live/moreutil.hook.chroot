@@ -45,8 +45,23 @@ ln -s /selks/staging/docker /docker
 #install PostgresSQL
 cd /docker/postgres
 docker-compose up -d
+apt-get -y build-dep python-psycopg2
+pip install psycopg2-binary
+cd -
+
+#Migrate scirius to PostgresSQL
+cd /usr/share/python/scirius/bin
+python manage.py dumpdata > datadump.json
 mv /etc/scirius  /etc/scirius.bak
 ln -s /selks/staging/etc/scirius /etc/scirius
+python manage.py migrate --run-syncdb
+cat >> removecontent.py <<EOF
+from django.contrib.contenttypes.models import ContentType
+ContentType.objects.all().delete()
+quit()
+EOF
+python manage.py shell < removecontent.py
+python manage.py loaddata datadump.json
 cd -
 
 cp -R /binaries/selks /
