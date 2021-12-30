@@ -350,6 +350,38 @@ function filter_core_rules_system($fw, $defaults)
         $defaults['pass']
     );
 
+    // Allow Scirius using internal services
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
+            'to_port' => '5432', 'descr' => 'Allow Connect Scirius Postgres Database'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
+            'to_port' => '8000', 'descr' => 'Allow Connect Scirius web server upstream'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
+            'to_port' => '8005', 'descr' => 'Allow Connect Scirius Moloch database'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
+            'to_port' => '5636', 'descr' => 'Allow Connect Scirius Evebox'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
+            'to_port' => '9200', 'descr' => 'Allow Connect Scirius Elasticsearch'),
+        $defaults['pass']
+    );
+
     // Allow internet domain lookup
     $fw->registerFilterRule(
         1,
