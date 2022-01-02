@@ -396,6 +396,31 @@ function filter_core_rules_system($fw, $defaults)
     );
     $fw->registerFilterRule(
         1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '8075', 'descr' => 'Allow Connect to ray GCS server'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '8076', 'descr' => 'Allow Connect to ray Object manager'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '8077', 'descr' => 'Allow Connect to ray Node manager'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '6666', 'descr' => 'Allow Connect to ray Metrics'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '10002:19999', 'descr' => 'Allow Connect to ray Worker'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '6379', 'descr' => 'Allow Connect to ray redis cluster'),
         $defaults['pass']
     );
