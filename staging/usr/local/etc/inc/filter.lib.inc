@@ -388,6 +388,38 @@ function filter_core_rules_system($fw, $defaults)
         $defaults['pass']
     );
 
+    // Allow Machine learning access
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '8265', 'descr' => 'Allow Connect to ray dashboard'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '6379', 'descr' => 'Allow Connect to ray redis cluster'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '39265', 'descr' => 'Allow Connect to ray logs'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '5000', 'descr' => 'Allow Connect to ML Flow tracking'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '6789', 'descr' => 'Allow Connect to Anomaly model serve deployment'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '8089', 'descr' => 'Allow Connect to Anomaly model testing UI'),
+        $defaults['pass']
+    );
+
     // Allow internet domain lookup
     $fw->registerFilterRule(
         1,
