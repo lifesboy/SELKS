@@ -41,6 +41,8 @@ cd /cicflowmeter
 python3 setup.py install
 cd -
 
+cp -R /binaries/selks /
+
 ln -s /selks/staging/docker /docker
 #install PostgresSQL
 cd /docker/postgres
@@ -64,7 +66,6 @@ python manage.py shell < removecontent.py
 python manage.py loaddata datadump.json
 cd -
 
-cp -R /binaries/selks /
 #cd /selks
 #git checkout gpu
 #sudo ./install-deps.sh
