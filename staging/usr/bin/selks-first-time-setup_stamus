@@ -37,6 +37,7 @@ echo "START of first time setup script - $(date) "
 cd /docker/postgres
 service docker start
 sleep 1m
+docker ps -a
 docker-compose up -d
 cd -
 #Migrate scirius to PostgresSQL
