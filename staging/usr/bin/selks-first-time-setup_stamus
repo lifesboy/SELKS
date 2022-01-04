@@ -164,6 +164,7 @@ cd /usr/share/python/scirius/ \
 && python bin/manage.py loaddata datadump.json \
 && deactivate && cd /opt/
 
+service elasticsearch start
 cd /usr/share/python/scirius/ && . bin/activate && python bin/manage.py kibana_reset && deactivate && cd /opt/
 
 if [ $? -ne 0 ]; then
