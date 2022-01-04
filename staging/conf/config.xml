@@ -332,7 +332,7 @@
     <openvpn>
       <internal_dynamic>1</internal_dynamic>
       <enable>1</enable>
-      <if>openvpn</if>
+      <if>openvpn1</if>
       <descr>OpenVPN</descr>
       <type>group</type>
       <virtual>1</virtual>
