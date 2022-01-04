@@ -155,6 +155,10 @@ ls -la /usr/share/python/scirius/datadump.json
 
 service postgresql start
 sudo -u postgres psql -h /run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+sudo -u postgres psql -h /run/postgresql -c "DROP SCHEMA public CASCADE;"
+sudo -u postgres psql -h /run/postgresql -c "CREATE SCHEMA public;"
+sudo -u postgres psql -h /run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
+sudo -u postgres psql -h /run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
 /usr/bin/supervisorctl restart scirius
 
 cd /usr/share/python/scirius/ \
