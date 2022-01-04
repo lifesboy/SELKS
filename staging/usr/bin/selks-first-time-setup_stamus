@@ -134,6 +134,7 @@ service supervisor restart
 
 cd /usr/share/python/scirius/ \
 && . bin/activate \
+&& python -m pip install psycopg2-binary \
 && python bin/manage.py dumpdata > datadump.json \
 && deactivate && cd /opt/
 
