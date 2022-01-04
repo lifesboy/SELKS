@@ -153,7 +153,6 @@ cat /etc/scirius/local_settings.py
 cat /usr/share/python/scirius/removecontent.py
 ls -la /usr/share/python/scirius/datadump.json
 
-nano /etc/postgresql/11/main/pg_hba.conf
 service postgresql start
 sudo -u postgres psql -h /run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 /usr/bin/supervisorctl restart scirius
