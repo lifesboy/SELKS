@@ -64,12 +64,15 @@ kibana:x:123:
 evebox:x:124:
 unbound:x:125:
 docker:x:998:
+audit:x:77:
+admins:x:1999:root,selks-user
 selks-user:x:1000:
 systemd-coredump:x:997:
-ssl-cert:x:126:
+ssl-cert:x:126:postgres
 ftp:x:127:
 smmta:x:128:
 smmsp:x:129:
+postgres:x:130:
 
 #####################
 _pflogd:*:64:####
