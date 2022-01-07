@@ -535,8 +535,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         write_config();
         mark_subsystem_dirty('filter');
 
-        header(url_safe('Location: /firewall_rules.php?if=%s', array(
-            !empty($pconfig['floating']) ? 'FloatingRules' : $pconfig['interface']
+        header(url_safe('Location: /firewall_rules.php?direction=%s', array(
+            $pconfig['direction']
         )));
         exit;
     }
