@@ -317,7 +317,7 @@ $selected_direction = 'all';
 if (isset($_GET['direction'])) {
     $selected_direction = htmlspecialchars($_GET['direction']);
 }
-if (in_array($selected_direction, array('all', 'in', 'forward', 'out'))) {
+if (!in_array($selected_direction, array('all', 'in', 'forward', 'out'))) {
     $selected_direction = 'all';
     header(url_safe('Location: /firewall_rules.php?direction=%s', array($selected_direction)));
 }
