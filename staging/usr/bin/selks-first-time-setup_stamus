@@ -204,7 +204,7 @@ ln -s /selks/staging/etc/init.d/suricataips /etc/init.d/suricataips
 
 #apt-get remove iptables -y
 
-echo "FINISH of first time setup script - $(date) " 
+echo "FINISH of first time setup stamus - $(date) "
 
 echo -e "\e[1m\nExited with ${EXIT_STATUS}"
 echo -e "\e[1mFull log located at - /opt/selks/log/selks-first-time-setup_stamus.log"

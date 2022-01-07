@@ -223,16 +223,16 @@ mount | grep ' on / ' | awk '{ print $1 }'
 date
 
 #fist time setup base on CUDA installation
-if [ ! -e "/usr/local/cuda-11.4/lib64" ]; then
-  echo "Run first time setup (y: default after 5s, n: cancel)?: "
-  read -t 5 -n 1 answer
-  if [ $answer == 'n' ]; then
-      echo "Cancel first time setup!"
-  else
-      /usr/bin/selks-first-time-setup_cuda
-      /usr/bin/selks-first-time-setup_stamus
-  fi
-fi
+#if [ ! -e "/usr/local/cuda-11.4/lib64" ]; then
+#  echo "Run first time setup (y: default after 5s, n: cancel)?: "
+#  read -t 5 -n 1 answer
+#  if [ $answer == 'n' ]; then
+#      echo "Cancel first time setup!"
+#  else
+#      /usr/bin/selks-first-time-setup_cuda
+#      /usr/bin/selks-first-time-setup_stamus
+#  fi
+#fi
 #end first time setup
 
 #/usr/local/sbin/opnsense-shell banner

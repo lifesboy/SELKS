@@ -42,7 +42,7 @@ dpkg -i /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb
 dpkg -i /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb
 ### END Install RLlib/AI/ML scripts ###
 
-echo "FINISH of first time setup script - $(date) "
+echo "FINISH of first time setup cuda - $(date) "
 
 ) 2>&1 | tee -a /opt/selks/log/selks-first-time-setup_cuda.log
 

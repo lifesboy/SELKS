@@ -80,6 +80,7 @@ ln -s /selks/staging/usr/bin/selks-disable-suri-capture_stamus /usr/bin/selks-di
 ln -s /selks/staging/usr/bin/selks-enable-suri-capture_stamus /usr/bin/selks-enable-suri-capture_stamus
 ln -s /selks/staging/usr/bin/selks-first-time-setup_stamus /usr/bin/selks-first-time-setup_stamus
 ln -s /selks/staging/usr/bin/selks-first-time-setup_cuda /usr/bin/selks-first-time-setup_cuda
+ln -s /selks/staging/usr/bin/selks-first-time-setup /usr/bin/selks-first-time-setup
 ln -s /selks/staging/usr/bin/selks-health-check_stamus /usr/bin/selks-health-check_stamus
 ln -s /selks/staging/usr/bin/selks-idps-interface-tuneup_stamus /usr/bin/selks-idps-interface-tuneup_stamus
 ln -s /selks/staging/usr/bin/selks-kernel-tuneup_stamus /usr/bin/selks-kernel-tuneup_stamus
