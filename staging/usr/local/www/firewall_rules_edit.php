@@ -157,6 +157,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (isset($_GET['direction'])) {
             $pconfig['direction'] = $_GET['direction'];
         }
+        if (in_array($pconfig['direction'], array('in', 'out', 'forward'))) {
+            $pconfig['direction'] = 'in';
+        }
+
         $pconfig['src'] = "any";
         $pconfig['dst'] = "any";
     }

@@ -214,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_GET['direction'])) {
         $current_direction = htmlspecialchars($_GET['direction']);
     } else {
-        $current_direction = "in";
+        $current_direction = "all";
     }
     $pconfig = $_POST;
     if (isset($pconfig['id']) && isset($a_filter[$pconfig['id']])) {
@@ -663,7 +663,7 @@ $( document ).ready(function() {
 <?php
           $direction_has_rules = false;
           foreach ($a_filter as $i => $filterent) {
-            if ($selected_direction == $filterent['direction']) {
+            if ($selected_direction == $filterent['direction'] || $selected_direction == 'all') {
               $direction_has_rules = true;
               break;
             }
@@ -678,7 +678,7 @@ $( document ).ready(function() {
             'locally. Think of a router – data is always being sent to it but rarely actually destined for the ' .
             'router itself; the data is just forwarded to its target. Unless you’re doing some kind of routing, ' .
             'NATing, or something else on your system that requires forwarding, you won’t even use this chain.')) ?>
-<?php else: ?>
+<?php elseif ($selected_direction == 'out'): ?>
         <?php print_info_box(gettext('Output – This chain is used for outgoing connections. For example, if you try to ping ' .
             'google.com, iptables will check its output chain to see what the rules are regarding ping ' .
             'and google.com before making a decision to allow or deny the connection attempt..')) ?>
@@ -734,7 +734,7 @@ $( document ).ready(function() {
                 filter_core_bootstrap($fw);
                 plugins_firewall($fw);
                 foreach ($fw->iterateFilterRules() as $rule):
-                    $is_selected = $rule->getDirection() == $selected_direction;
+                    $is_selected = $rule->getDirection() == $selected_direction || $selected_direction == 'all';
                     if ($rule->isEnabled() && $is_selected):
                         $filterent = $rule->getRawRule();
                         $filterent['quick'] = !isset($filterent['quick']) || $filterent['quick'];
@@ -782,7 +782,7 @@ $( document ).ready(function() {
                 endforeach;?>
 <?php
                 foreach ($a_filter as $i => $filterent):
-                if ($selected_direction == $filterent['direction']):
+                if ($selected_direction == $filterent['direction'] || $selected_direction == 'all'):
                   // calculate a hash so we can track these records in the ruleset, new style (mvc) code will
                   // automatically provide us with a uuid, this is a workaround to provide some help with tracking issues.
                   $rule_hash = OPNsense\Firewall\Util::calcRuleHash($a_filter_raw[$i]);
@@ -1019,16 +1019,16 @@ $( document ).ready(function() {
                   </tr>
                   <tr class="hidden-xs hidden-sm">
                     <td>
-<?php if ($selected_direction == 'in'): ?>
+<?php if ($selected_direction == 'in' || $selected_direction == 'all'): ?>
                         <?= gettext('Input – This chain is used to control the behavior for incoming connections. ' .
                         'For example, if a user attempts to SSH into your PC/server, iptables will attempt to match' .
                         'the IP address and port to a rule in the input chain.') ?>
-<?php elseif ($selected_direction == 'forward'): ?>
+<?php elseif ($selected_direction == 'forward' || $selected_direction == 'all'): ?>
                         <?= gettext('Forward – This chain is used for incoming connections that aren’t actually being delivered ' .
                         'locally. Think of a router – data is always being sent to it but rarely actually destined for the ' .
                         'router itself; the data is just forwarded to its target. Unless you’re doing some kind of routing, ' .
                         'NATing, or something else on your system that requires forwarding, you won’t even use this chain.') ?>
-<?php else: ?>
+<?php elseif ($selected_direction == 'out' || $selected_direction == 'all'): ?>
                         <?= gettext('Output – This chain is used for outgoing connections. For example, if you try to ping ' .
                         'google.com, iptables will check its output chain to see what the rules are regarding ping ' .
                         'and google.com before making a decision to allow or deny the connection attempt..') ?>

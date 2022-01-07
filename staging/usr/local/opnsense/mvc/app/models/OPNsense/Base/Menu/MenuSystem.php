@@ -295,6 +295,7 @@ class MenuSystem
         // add interfaces to "Firewall: Rules" menu tab...
         // $iftargets['fw'] = array_merge(array('FloatingRules' => gettext('Floating')), $iftargets['fw']);
         $iftargets['fw'] = array_merge(
+            array('all' => gettext('All')),
             array('in' => gettext('Input')),
             array('forward' => gettext('Forward')),
             array('out' => gettext('Output'))
