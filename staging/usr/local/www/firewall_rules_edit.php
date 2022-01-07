@@ -154,13 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     } else {
         /* defaults */
-        if (isset($_GET['if'])) {
-            if ($_GET['if'] == "FloatingRules" ) {
-                $pconfig['floating'] = true;
-                $pconfig['quick'] = true;
-            } else {
-                $pconfig['interface'] = $_GET['if'];
-            }
+        if (isset($_GET['direction'])) {
+            $pconfig['direction'] = $_GET['direction'];
         }
         $pconfig['src'] = "any";
         $pconfig['dst'] = "any";
