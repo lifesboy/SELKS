@@ -211,10 +211,10 @@ function firewall_rule_item_log($filterent)
 $a_filter = &config_read_array('filter', 'rule');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_GET['if'])) {
-        $current_if = htmlspecialchars($_GET['if']);
+    if (isset($_GET['direction'])) {
+        $current_direction = htmlspecialchars($_GET['direction']);
     } else {
-        $current_if = "FloatingRules";
+        $current_direction = "in";
     }
     $pconfig = $_POST;
     if (isset($pconfig['id']) && isset($a_filter[$pconfig['id']])) {
@@ -242,7 +242,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($a_filter[$id]);
         write_config();
         mark_subsystem_dirty('filter');
-        header(url_safe('Location: /firewall_rules.php?if=%s', array($current_if)));
+        header(url_safe('Location: /firewall_rules.php?direction=%s', array($current_direction)));
         exit;
     } elseif (isset($pconfig['act']) && $pconfig['act'] == 'del_x' && isset($pconfig['rule']) && count($pconfig['rule']) > 0) {
         // delete selected rules
@@ -260,7 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         write_config();
         mark_subsystem_dirty('filter');
-        header(url_safe('Location: /firewall_rules.php?if=%s', array($current_if)));
+        header(url_safe('Location: /firewall_rules.php?direction=%s', array($current_direction)));
         exit;
     } elseif (isset($pconfig['act']) && in_array($pconfig['act'], array('toggle_enable', 'toggle_disable')) && isset($pconfig['rule']) && count($pconfig['rule']) > 0) {
         foreach ($pconfig['rule'] as $rulei) {
@@ -268,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         write_config();
         mark_subsystem_dirty('filter');
-        header(url_safe('Location: /firewall_rules.php?if=%s', array($current_if)));
+        header(url_safe('Location: /firewall_rules.php?direction=%s', array($current_direction)));
         exit;
     } elseif ( isset($pconfig['act']) && $pconfig['act'] == 'move' && isset($pconfig['rule']) && count($pconfig['rule']) > 0) {
         // move selected rules
@@ -279,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $a_filter = legacy_move_config_list_items($a_filter, $id,  $pconfig['rule']);
         write_config();
         mark_subsystem_dirty('filter');
-        header(url_safe('Location: /firewall_rules.php?if=%s', array($current_if)));
+        header(url_safe('Location: /firewall_rules.php?direction=%s', array($current_direction)));
         exit;
     } elseif (isset($pconfig['act']) && $pconfig['act'] == 'toggle' && isset($id)) {
         // toggle item
@@ -313,9 +313,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$selected_if = 'FloatingRules';
-if (isset($_GET['if'])) {
-    $selected_if = htmlspecialchars($_GET['if']);
+$selected_direction = 'in';
+if (isset($_GET['direction'])) {
+    $selected_direction = htmlspecialchars($_GET['direction']);
 }
 
 $selected_category = [];
@@ -326,7 +326,7 @@ if (isset($_GET['category'])) {
 include("head.inc");
 
 $main_buttons = array(
-    array('label' => gettext('Add'), 'href' => 'firewall_rules_edit.php?if=' . $selected_if),
+    array('label' => gettext('Add'), 'href' => 'firewall_rules_edit.php?direction=' . $selected_direction),
 );
 
 $a_filter_raw = config_read_array('filter', 'rule');
@@ -661,30 +661,32 @@ $( document ).ready(function() {
           </div>
         </div>
 <?php
-          $interface_has_rules = false;
+          $direction_has_rules = false;
           foreach ($a_filter as $i => $filterent) {
-            if ((!isset($filterent['floating']) && $selected_if == $filterent['interface']) ||
-              ((isset($filterent['floating']) || empty($filterent['interface'])) && $selected_if == 'FloatingRules')) {
-              $interface_has_rules = true;
+            if ($selected_direction == $filterent['direction']) {
+              $direction_has_rules = true;
               break;
             }
           } ?>
-<?php if (!$interface_has_rules): ?>
-<?php if ($selected_if == 'FloatingRules'): ?>
-        <?php print_info_box(gettext('No floating rules are currently defined. Floating rules are ' .
-          'not bound to a single interface and can therefore be used to span ' .
-          'policies over multiple networks at the same time.')) ?>
+<?php if (!$direction_has_rules): ?>
+<?php if ($selected_direction == 'in'): ?>
+        <?php print_info_box(gettext('Input – This chain is used to control the behavior for incoming connections. ' .
+          'For example, if a user attempts to SSH into your PC/server, iptables will attempt to match' .
+          'the IP address and port to a rule in the input chain.')) ?>
+<?php elseif ($selected_direction == 'forward'): ?>
+        <?php print_info_box(gettext('Forward – This chain is used for incoming connections that aren’t actually being delivered ' .
+            'locally. Think of a router – data is always being sent to it but rarely actually destined for the ' .
+            'router itself; the data is just forwarded to its target. Unless you’re doing some kind of routing, ' .
+            'NATing, or something else on your system that requires forwarding, you won’t even use this chain.')) ?>
 <?php else: ?>
-        <?php print_info_box(sprintf(gettext('No %s rules are currently defined. All incoming connections ' .
-          'on this interface will be blocked until you add a pass rule. Exceptions for automatically generated ' .
-          'rules may apply.'),
-          !empty($config['interfaces'][$selected_if]['descr']) ?
-          $config['interfaces'][$selected_if]['descr'] : strtoupper($selected_if))) ?>
+        <?php print_info_box(gettext('Output – This chain is used for outgoing connections. For example, if you try to ping ' .
+            'google.com, iptables will check its output chain to see what the rules are regarding ping ' .
+            'and google.com before making a decision to allow or deny the connection attempt..')) ?>
 <?php endif ?>
 <?php endif ?>
         <section class="col-xs-12">
           <div class="content-box">
-            <form action="firewall_rules.php?if=<?=$selected_if;?>" method="post" name="iform" id="iform">
+            <form action="firewall_rules.php?if=<?=$selected_direction;?>" method="post" name="iform" id="iform">
               <input type="hidden" id="id" name="id" value="" />
               <input type="hidden" id="action" name="act" value="" />
               <div class="table-responsive">
@@ -732,9 +734,7 @@ $( document ).ready(function() {
                 filter_core_bootstrap($fw);
                 plugins_firewall($fw);
                 foreach ($fw->iterateFilterRules() as $rule):
-                    $is_selected = $rule->getInterface() == $selected_if || (
-                        ($rule->getInterface() == "" || strpos($rule->getInterface(), ",") !== false) && $selected_if == "FloatingRules"
-                    );
+                    $is_selected = $rule->getDirection() == $selected_direction;
                     if ($rule->isEnabled() && $is_selected):
                         $filterent = $rule->getRawRule();
                         $filterent['quick'] = !isset($filterent['quick']) || $filterent['quick'];
@@ -782,13 +782,7 @@ $( document ).ready(function() {
                 endforeach;?>
 <?php
                 foreach ($a_filter as $i => $filterent):
-                if (
-                    (!isset($filterent['floating']) && $selected_if == $filterent['interface']) ||
-                     (
-                        (isset($filterent['floating']) || empty($filterent['interface'])) &&
-                        $selected_if == 'FloatingRules'
-                     )
-                ):
+                if ($selected_direction == $filterent['direction']):
                   // calculate a hash so we can track these records in the ruleset, new style (mvc) code will
                   // automatically provide us with a uuid, this is a workaround to provide some help with tracking issues.
                   $rule_hash = OPNsense\Firewall\Util::calcRuleHash($a_filter_raw[$i]);
@@ -927,10 +921,10 @@ $( document ).ready(function() {
                       // if for some reason (broken config) a rule is in there which doesn't have a related nat rule
                       // make sure we are able to delete it.
 ?>
-                      <a href="firewall_rules_edit.php?if=<?=$selected_if;?>&id=<?=$i;?>" data-toggle="tooltip" title="<?= html_safe(gettext('Edit')) ?>" class="btn btn-default btn-xs">
+                      <a href="firewall_rules_edit.php?direction=<?=$selected_direction;?>&id=<?=$i;?>" data-toggle="tooltip" title="<?= html_safe(gettext('Edit')) ?>" class="btn btn-default btn-xs">
                         <i class="fa fa-pencil fa-fw"></i>
                       </a>
-                      <a href="firewall_rules_edit.php?if=<?=$selected_if;?>&dup=<?=$i;?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?= html_safe(gettext('Clone')) ?>">
+                      <a href="firewall_rules_edit.php?direction=<?=$selected_direction;?>&dup=<?=$i;?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?= html_safe(gettext('Clone')) ?>">
                         <i class="fa fa-clone fa-fw"></i>
                       </a>
 <?php endif ?>
@@ -1025,19 +1019,19 @@ $( document ).ready(function() {
                   </tr>
                   <tr class="hidden-xs hidden-sm">
                     <td>
-<?php if ('FloatingRules' != $selected_if): ?>
-                      <?= sprintf(gettext('%s rules are evaluated on a first-match basis by default (i.e. ' .
-                        'the action of the first rule to match a packet will be executed). ' .
-                        'This means that if you use block rules, you will have to pay attention ' .
-                        'to the rule order. Everything that is not explicitly passed is blocked ' .
-                        'by default.'), !empty($config['interfaces'][$selected_if]['descr']) ?
-                        $config['interfaces'][$selected_if]['descr'] : strtoupper($selected_if)) ?>
+<?php if ($selected_direction == 'in'): ?>
+                        <?= gettext('Input – This chain is used to control the behavior for incoming connections. ' .
+                        'For example, if a user attempts to SSH into your PC/server, iptables will attempt to match' .
+                        'the IP address and port to a rule in the input chain.') ?>
+<?php elseif ($selected_direction == 'forward'): ?>
+                        <?= gettext('Forward – This chain is used for incoming connections that aren’t actually being delivered ' .
+                        'locally. Think of a router – data is always being sent to it but rarely actually destined for the ' .
+                        'router itself; the data is just forwarded to its target. Unless you’re doing some kind of routing, ' .
+                        'NATing, or something else on your system that requires forwarding, you won’t even use this chain.') ?>
 <?php else: ?>
-                        <?= gettext('Floating rules are evaluated on a first-match basis (i.e. ' .
-                        'the action of the first rule to match a packet will be executed) only ' .
-                        'if the "quick" option is checked on a rule. Otherwise they will only apply if no ' .
-                        'other rules match. Pay close attention to the rule order and options ' .
-                        'chosen. If no rule here matches, the per-interface or default rules are used.') ?>
+                        <?= gettext('Output – This chain is used for outgoing connections. For example, if you try to ping ' .
+                        'google.com, iptables will check its output chain to see what the rules are regarding ping ' .
+                        'and google.com before making a decision to allow or deny the connection attempt..') ?>
 <?php endif ?>
                     </td>
                   </tr>
