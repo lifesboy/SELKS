@@ -1023,12 +1023,14 @@ $( document ).ready(function() {
                         <?= gettext('Input – This chain is used to control the behavior for incoming connections. ' .
                         'For example, if a user attempts to SSH into your PC/server, iptables will attempt to match' .
                         'the IP address and port to a rule in the input chain.') ?>
-<?php elseif ($selected_direction == 'forward' || $selected_direction == 'all'): ?>
+<?php endif ?>
+<?php if ($selected_direction == 'forward' || $selected_direction == 'all'): ?>
                         <?= gettext('Forward – This chain is used for incoming connections that aren’t actually being delivered ' .
                         'locally. Think of a router – data is always being sent to it but rarely actually destined for the ' .
                         'router itself; the data is just forwarded to its target. Unless you’re doing some kind of routing, ' .
                         'NATing, or something else on your system that requires forwarding, you won’t even use this chain.') ?>
-<?php elseif ($selected_direction == 'out' || $selected_direction == 'all'): ?>
+<?php endif ?>
+<?php if ($selected_direction == 'out' || $selected_direction == 'all'): ?>
                         <?= gettext('Output – This chain is used for outgoing connections. For example, if you try to ping ' .
                         'google.com, iptables will check its output chain to see what the rules are regarding ping ' .
                         'and google.com before making a decision to allow or deny the connection attempt..') ?>
