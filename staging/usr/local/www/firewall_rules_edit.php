@@ -600,6 +600,15 @@ include("head.inc");
           }
       });
 
+      $("#interfacebox").addClass("hidden");
+      $("#ointerfacebox").addClass("hidden");
+      if ( $("#direction").val() == 'in' || $("#direction").val() == 'forward' ) {
+          $("#interfacebox").removeClass("hidden");
+      }
+      if ( $("#direction").val() == 'out' || $("#direction").val() == 'forward' ) {
+          $("#ointerfacebox").removeClass("hidden");
+      }
+      
       $("#direction").change(function() {
           $("#interfacebox").addClass("hidden");
           $("#ointerfacebox").addClass("hidden");
