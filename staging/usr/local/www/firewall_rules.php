@@ -313,7 +313,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$selected_direction = 'in';
+$selected_direction = 'all';
 if (isset($_GET['direction'])) {
     $selected_direction = htmlspecialchars($_GET['direction']);
 }

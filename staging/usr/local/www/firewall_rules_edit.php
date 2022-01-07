@@ -1702,7 +1702,7 @@ include("head.inc");
                       <td>&nbsp;</td>
                       <td>
                         <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
-                        <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/firewall_rules.php?if=<?= !empty($pconfig['floating']) ? 'FloatingRules' : $pconfig['interface'] ?>'" />
+                        <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/firewall_rules.php?direction=<?= $pconfig['interface'] ?>'" />
                       </td>
                     </tr>
                   </table>

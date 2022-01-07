@@ -124,7 +124,7 @@ $main_buttons = array(
                 foreach ($a_ifgroups as $ifgroupentry): ?>
                   <tr>
                     <td>
-                      <a href="/firewall_rules.php?if=<?=$ifgroupentry['ifname'];?>"><?=$ifgroupentry['ifname'];?></a>
+                      <a href="/firewall_rules.php?direction=all</a>
                     </td>
                     <td>
 <?php
