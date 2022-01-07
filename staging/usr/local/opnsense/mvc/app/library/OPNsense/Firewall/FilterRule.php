@@ -277,6 +277,14 @@ class FilterRule extends Rule
     }
 
     /**
+     * return direction
+     */
+    public function getDirection()
+    {
+        return !empty($this->rule['direction']) ? $this->rule['direction'] : "";
+    }
+
+    /**
      * output rule as string
      * @return string ruleset
      */
