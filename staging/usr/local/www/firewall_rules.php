@@ -317,10 +317,10 @@ $selected_direction = 'all';
 if (isset($_GET['direction'])) {
     $selected_direction = htmlspecialchars($_GET['direction']);
 }
-if (!in_array($selected_direction, array('all', 'in', 'forward', 'out'))) {
-    $selected_direction = 'all';
-    header(url_safe('Location: /firewall_rules.php?direction=%s', array($selected_direction)));
-}
+//if (!in_array($selected_direction, array('all', 'in', 'forward', 'out'))) {
+//    $selected_direction = 'all';
+//    header(url_safe('Location: /firewall_rules.php?direction=%s', array($selected_direction)));
+//}
 
 $selected_category = [];
 if (isset($_GET['category'])) {
@@ -690,7 +690,7 @@ $( document ).ready(function() {
 <?php endif ?>
         <section class="col-xs-12">
           <div class="content-box">
-            <form action="firewall_rules.php?if=<?=$selected_direction;?>" method="post" name="iform" id="iform">
+            <form action="firewall_rules.php?direction=<?=$selected_direction;?>" method="post" name="iform" id="iform">
               <input type="hidden" id="id" name="id" value="" />
               <input type="hidden" id="action" name="act" value="" />
               <div class="table-responsive">
