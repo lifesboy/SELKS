@@ -230,74 +230,74 @@ function filter_core_rules_system($fw, $defaults)
     //);
 
     // IPv6 ICMP requirements
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '1,2,135,136',
-            'descr' => 'IPv6 requirements (ICMP)'),
-        $defaults['pass']
-    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '1,2,135,136',
+//            'descr' => 'IPv6 requirements (ICMP)'),
+//        $defaults['pass']
+//    );
     // Allow only bare essential icmpv6 packets
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '129,133,134,135,136',
-            'descr' => 'IPv6 requirements (ICMP)', 'from' => '$this_firewall_ip6',
-            'to' => 'fe80::/10,ff02::/16', 'direction' => 'out' ),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
-            'descr' => 'IPv6 requirements (ICMP)', 'from' => 'fe80::/10',
-            'to' => 'fe80::/10,ff02::/16', 'direction' => 'in' ),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
-            'descr' => 'IPv6 requirements (ICMP)', 'from' => 'ff02::/16',
-            'to' => 'fe80::/10', 'direction' => 'in' ),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
-            'descr' => 'IPv6 requirements (ICMP)', 'from' => '::',
-            'to' => 'ff02::/16', 'direction' => 'in' ),
-        $defaults['pass']
-    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '129,133,134,135,136',
+//            'descr' => 'IPv6 requirements (ICMP)', 'from' => '$this_firewall_ip6',
+//            'to' => 'fe80::/10,ff02::/16', 'direction' => 'out' ),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
+//            'descr' => 'IPv6 requirements (ICMP)', 'from' => 'fe80::/10',
+//            'to' => 'fe80::/10,ff02::/16', 'direction' => 'in' ),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
+//            'descr' => 'IPv6 requirements (ICMP)', 'from' => 'ff02::/16',
+//            'to' => 'fe80::/10', 'direction' => 'in' ),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'ipv6-icmp', 'icmp6-type' => '128,133,134,135,136',
+//            'descr' => 'IPv6 requirements (ICMP)', 'from' => '::',
+//            'to' => 'ff02::/16', 'direction' => 'in' ),
+//        $defaults['pass']
+//    );
     // block all targetting port 0
-    foreach (array('from_port', 'to_port') as $target) {
-        $fw->registerFilterRule(
-            1,
-            array('ipprotocol' => 'inet46', 'protocol' => 'tcp/udp', $target => '0', 'direction' => 'in',
-                'descr' => 'block all targetting port 0'),
-            $defaults['block']
-        );
-    }
+//    foreach (array('from_port', 'to_port') as $target) {
+//        $fw->registerFilterRule(
+//            1,
+//            array('ipprotocol' => 'inet46', 'protocol' => 'tcp/udp', $target => '0', 'direction' => 'in',
+//                'descr' => 'block all targetting port 0'),
+//            $defaults['block']
+//        );
+//    }
     // CARP defaults
-    $carp_disabled = empty($config['hasync']) && empty($config['virtualip']['vip']);
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => '112', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
-            'from' => '$this_firewall_ip', 'direction' => 'in', 'disabled' => !$carp_disabled),
-        $defaults['block']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => '112', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
-            'from' => '$this_firewall_ip6', 'direction' => 'in', 'disabled' => !$carp_disabled),
-        $defaults['block']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => '112', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => '112', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
-        $defaults['pass']
-    );
+//    $carp_disabled = empty($config['hasync']) && empty($config['virtualip']['vip']);
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet', 'protocol' => '112', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
+//            'from' => '$this_firewall_ip', 'direction' => 'in', 'disabled' => !$carp_disabled),
+//        $defaults['block']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => '112', 'descr' => 'CARP defaults', '#ref' => 'system_hasync.php',
+//            'from' => '$this_firewall_ip6', 'direction' => 'in', 'disabled' => !$carp_disabled),
+//        $defaults['block']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet', 'protocol' => '112', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => '112', 'direction' => 'any', 'descr' => 'CARP defaults', '#ref' => 'firewall_virtual_ip.php'),
+//        $defaults['pass']
+//    );
 
     // Lockout rules
     $fw->registerFilterRule(
@@ -498,32 +498,32 @@ function filter_core_rules_system($fw, $defaults)
     //Accept traffic originated from us
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'direction' => 'in', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us'),
+        array('ipprotocol' => 'inet', 'direction' => 'in', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us (state: established,related)'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us'),
+        array('ipprotocol' => 'inet', 'direction' => 'out', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us (state: established,related)'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'direction' => 'forward', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us'),
+        array('ipprotocol' => 'inet', 'direction' => 'forward', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us (state: established,related)'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'direction' => 'in', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us'),
+        array('ipprotocol' => 'inet6', 'direction' => 'in', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us (state: established,related)'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us'),
+        array('ipprotocol' => 'inet6', 'direction' => 'out', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us (state: established,related)'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'direction' => 'forward', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us'),
+        array('ipprotocol' => 'inet6', 'direction' => 'forward', 'statetype' => 'established,related', 'descr' => 'Accept traffic originated from us (state: established,related)'),
         $defaults['pass']
     );
 
