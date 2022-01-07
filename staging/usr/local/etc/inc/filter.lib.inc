@@ -528,8 +528,8 @@ function filter_core_rules_system($fw, $defaults)
     );
 
     // block all in alias $virusprot
-    $fw->registerFilterRule(1, array('ipprotocol' => 'inet', 'from' => '$virusprot_ip', 'descr' => '$virusprot overload table'), $defaults['block']);
-    $fw->registerFilterRule(1, array('ipprotocol' => 'inet6', 'from' => '$virusprot_ip6', 'descr' => '$virusprot overload table'), $defaults['block']);
+//    $fw->registerFilterRule(1, array('ipprotocol' => 'inet', 'from' => '$virusprot_ip', 'descr' => '$virusprot overload table'), $defaults['block']);
+//    $fw->registerFilterRule(1, array('ipprotocol' => 'inet6', 'from' => '$virusprot_ip6', 'descr' => '$virusprot overload table'), $defaults['block']);
 
     // block bogons and private nets
     $bogontmpl = array('type' => 'block', 'log' => !isset($config['syslog']['nologbogons']), 'disablereplyto' => 1);
@@ -770,13 +770,13 @@ function filter_core_rules_system($fw, $defaults)
     $fw->registerFilterRule(
         5,
         array('ipprotocol' => 'inet', 'direction' => 'out', 'allowopts' => true,
-        'quick' => false, "descr" => "let out anything from firewall host itself"),
+        'from' => '$this_firewall_ip', "descr" => "let out anything from firewall host itself"),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         5,
         array('ipprotocol' => 'inet6', 'direction' => 'out', 'allowopts' => true,
-        'quick' => false, "descr" => "let out anything from firewall host itself"),
+        'from' => '$this_firewall_ip6', "descr" => "let out anything from firewall host itself"),
         $defaults['pass']
     );
     // ipsec
