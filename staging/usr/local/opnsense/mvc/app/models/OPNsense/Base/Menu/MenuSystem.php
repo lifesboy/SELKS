@@ -293,16 +293,21 @@ class MenuSystem
         }
 
         // add interfaces to "Firewall: Rules" menu tab...
-        $iftargets['fw'] = array_merge(array('FloatingRules' => gettext('Floating')), $iftargets['fw']);
+        // $iftargets['fw'] = array_merge(array('FloatingRules' => gettext('Floating')), $iftargets['fw']);
+        $iftargets['fw'] = array_merge(
+            array('in' => gettext('Input')),
+            array('forward' => gettext('Forward')),
+            array('out' => gettext('Output'))
+        );
         $ordid = 0;
         foreach ($iftargets['fw'] as $key => $descr) {
             $this->appendItem('Firewall.Rules', $key, array(
-                'url' => '/firewall_rules.php?if=' . $key,
+                'url' => '/firewall_rules.php?direction=' . $key,
                 'visiblename' => $descr,
                 'order' => $ordid++,
             ));
             $this->appendItem('Firewall.Rules.' . $key, 'Select' . $key, array(
-                'url' => '/firewall_rules.php?if=' . $key . '&*',
+                'url' => '/firewall_rules.php?direction=' . $key . '&*',
                 'visibility' => 'hidden',
             ));
             if ($key == 'FloatingRules') {
@@ -312,11 +317,11 @@ class MenuSystem
                 ));
             }
             $this->appendItem('Firewall.Rules.' . $key, 'Add' . $key, array(
-                'url' => '/firewall_rules_edit.php?if=' . $key,
+                'url' => '/firewall_rules_edit.php?direction=' . $key,
                 'visibility' => 'hidden',
             ));
             $this->appendItem('Firewall.Rules.' . $key, 'Edit' . $key, array(
-                'url' => '/firewall_rules_edit.php?if=' . $key . '&*',
+                'url' => '/firewall_rules_edit.php?direction=' . $key . '&*',
                 'visibility' => 'hidden',
             ));
         }
