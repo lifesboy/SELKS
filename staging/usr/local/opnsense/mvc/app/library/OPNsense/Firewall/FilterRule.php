@@ -253,6 +253,14 @@ class FilterRule extends Rule
             if ($rule['ipprotocol'] == 'inet6' && !empty($rule['protocol']) && $rule['protocol'] == "icmp" && !empty($rule['icmptype'])) {
                 $rule['protocol'] = 'ipv6-icmp';
             }
+
+            //remove redundancy interface by direction
+            if ($rule['direction'] == "in") {
+                $rule['ointerface'] = null;
+            } elseif ($rule['direction'] == "out") {
+                $rule['interface'] = null;
+            }
+
             // set prio
             if (
                 isset($rule['set-prio']) && $rule['set-prio'] !== ""
