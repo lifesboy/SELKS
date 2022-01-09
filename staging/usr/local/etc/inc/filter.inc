@@ -713,8 +713,8 @@ function filter_generate_aliases()
     $aliases .= "define wan_net_ip6 = {fe80::8a88:88ff:fe88:8788} # la dia chi mang cua card WAN\n";
     $aliases .= "define wan_address_ip = {192.168.1.18} # dia chi ip cua card WAN\n";
     $aliases .= "define wan_address_ip6 = {fe80::8a88:88ff:fe88:8788} # dia chi ip cua card WAN\n";
-    $aliases .= "define loopback_net_ip = 127.0.0.1/8 # dia chi ipv4 loopback\n";
-    $aliases .= "define loopback_net_ip6 = ::1 # dia chi ipv4 loopback\n";
+    $aliases .= "define loopback_net_ip = {127.0.0.1/8} # dia chi ipv4 loopback\n";
+    $aliases .= "define loopback_net_ip6 = {::1} # dia chi ipv4 loopback\n";
 
     $aliases .= "\n";
     $aliases .= "# set interface names\n";
