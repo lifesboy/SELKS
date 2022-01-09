@@ -1328,6 +1328,16 @@ include("head.inc");
                     </td>
                   </tr>
                   <tr>
+                    <td><a id="help_for_log_prefix" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Log prefix");?></td>
+                    <td>
+                      <input name="log_prefix" type="text" id="log_prefix" size="40" value="<?=$pconfig['log_prefix'];?>" />
+                      <strong><?=gettext("Log prefix");?></strong>
+                      <div class="hidden" data-for="help_for_log">
+                          <?=gettext("You may enter or select a category here to group firewall rules (not parsed)."); ?>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
                     <td><a id="help_for_category" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Category"); ?></td>
                     <td>
                       <input name="category" type="text" class="formfld unknown" id="category" size="40" value="<?=$pconfig['category'];?>" />
