@@ -118,8 +118,10 @@ sed -i -E "s/(#*)'ENGINE': 'django.db.backends.postgresql_psycopg2',/#'ENGINE': 
 sed -i -E "s/(#*)'NAME': 'postgres',/#'NAME': 'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#*)'USER':'postgres',/#'USER':'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#*)'PASSWORD':'postgres',/#'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'HOST':'127.0.0.1',/#'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'PORT':'5432',/#'PORT':'5432',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'HOST':'127.0.0.1',/#'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'PORT':'5432',/#'PORT':'5432',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'HOST':'',/#'HOST':'',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'PORT':'',/#'PORT':'',/g" /etc/scirius/local_settings.py
 
 cat >> /usr/share/python/scirius/removecontent.py <<EOF
 from django.contrib.contenttypes.models import ContentType
@@ -146,8 +148,10 @@ sed -i -E "s/(#+)'ENGINE': 'django.db.backends.postgresql_psycopg2',/'ENGINE': '
 sed -i -E "s/(#+)'NAME': 'postgres',/'NAME': 'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'USER':'postgres',/'USER':'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'PASSWORD':'postgres',/'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'PORT':'5432',/'PORT':'5432',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'PORT':'5432',/'PORT':'5432',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'HOST':'',/'HOST':'',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'PORT':'',/'PORT':'',/g" /etc/scirius/local_settings.py
 
 cat /etc/scirius/local_settings.py
 cat /usr/share/python/scirius/removecontent.py
