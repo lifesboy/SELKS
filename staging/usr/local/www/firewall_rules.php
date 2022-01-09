@@ -700,10 +700,8 @@ $( document ).ready(function() {
                       <td><input type="checkbox" id="selectAll"></td>
                       <td>&nbsp;</td>
                       <td class="view-info"><strong><?= gettext('Protocol') ?></strong></td>
-                      <td class="view-info"><strong><?= gettext('Interface') ?></strong></td>
                       <td class="view-info"><strong><?= gettext('Source') ?></strong></td>
                       <td class="view-info hidden-xs hidden-sm"><strong><?= gettext('Port') ?></strong></td>
-                      <td class="view-info"><strong><?= gettext('Out Interface') ?></strong></td>
                       <td class="view-info hidden-xs hidden-sm"><strong><?= gettext('Destination') ?></strong></td>
                       <td class="view-info hidden-xs hidden-sm"><strong><?= gettext('Port') ?></strong></td>
                       <td class="view-info hidden-xs hidden-sm"><strong><?= gettext('Gateway') ?></strong></td>
@@ -721,8 +719,8 @@ $( document ).ready(function() {
                   <tr id="expand-internal-rules" style="display: none;">
                       <td><i class="fa fa-folder-o text-muted"></i></td>
                       <td></td>
-                      <td class="view-info" colspan="3"> </td>
-                      <td class="view-info hidden-xs hidden-sm" colspan="6"> </td>
+                      <td class="view-info" colspan="2"> </td>
+                      <td class="view-info hidden-xs hidden-sm" colspan="5"> </td>
                       <td colspan="2" class="view-stats hidden-xs hidden-sm"></td>
                       <td colspan="2" class="view-stats"></td>
                       <td><?= gettext('Automatically generated rules') ?></td>
@@ -757,16 +755,10 @@ $( document ).ready(function() {
                           <?=firewall_rule_item_proto($filterent);?>
                       </td>
                       <td class="view-info">
-                          <?=!empty($filterent['interface']) ? $filterent['interface'] : "*";?>
-                      </td>
-                      <td class="view-info">
                           <?=!empty($filterent['from']) ? $filterent['from'] : "*";?>
                       </td>
                       <td class="view-info hidden-xs hidden-sm">
                           <?=!empty($filterent['from_port']) ? $filterent['from_port'] : "*";?>
-                      </td>
-                      <td class="view-info hidden-xs hidden-sm">
-                          <?=!empty($filterent['ointerface']) ? $filterent['ointerface'] : "*";?>
                       </td>
                       <td class="view-info hidden-xs hidden-sm">
                           <?=!empty($filterent['to']) ? $filterent['to'] : "*";?>
