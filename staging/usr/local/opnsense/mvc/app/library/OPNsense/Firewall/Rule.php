@@ -389,6 +389,12 @@ abstract class Rule
         return empty($value) ? '' : $prefix . $value . $suffix . ' ';
     }
 
+    protected function parseLog($log, $logPrefix, $prefix = "", $suffix = "")
+    {
+        $value = $this->parsePlain($logPrefix, 'log prefix ');
+        return empty($log) ? '' : $prefix . $value . $suffix . ' ';
+    }
+
     protected function parseFrom($ipprotocol, $protocol, $from, $from_port, $prefix = "", $suffix = "")
     {
         $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet4:ip|inet6:ip6|:ip');
