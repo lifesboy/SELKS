@@ -414,7 +414,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // 1-on-1 copy of form values
         $copy_fields = array('type', 'interface', 'ointerface', 'ipprotocol', 'tag', 'tagged', 'max', 'max-src-nodes'
                             , 'max-src-conn', 'max-src-states', 'statetimeout', 'statetype', 'os', 'descr', 'gateway'
-                            , 'sched', 'associated-rule-id', 'direction'
+                            , 'sched', 'associated-rule-id', 'direction', 'log_prefix'
                             , 'max-src-conn-rate', 'max-src-conn-rates', 'category') ;
 
         foreach ($copy_fields as $fieldname) {
