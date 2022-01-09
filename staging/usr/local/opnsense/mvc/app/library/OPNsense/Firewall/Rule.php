@@ -391,7 +391,7 @@ abstract class Rule
 
     protected function parseLog($log, $logPrefix, $prefix = "", $suffix = "")
     {
-        $value = $this->parsePlain(empty($logPrefix) ? 'nft log_' : $logPrefix, 'log prefix ');
+        $value = $this->parsePlain(empty($logPrefix) ? 'nft log_' : $logPrefix, 'log prefix "', '"');
         return $this->parseBool($log, $prefix . $value . $suffix . ' ', '');
     }
 
