@@ -879,7 +879,7 @@ include("head.inc");
                     <td><a id="help_for_interface" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Interface");?></td>
                     <td>
 <?php
-                    if (!empty($pconfig['floating'])): ?>
+                    if (!empty($pconfig['direction'])): ?>
                       <select name="interface[]" id="interface" title="Select interfaces..." multiple="multiple" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     else: ?>
@@ -909,7 +909,7 @@ include("head.inc");
                     <td><a id="help_for_ointerface" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Out Interface");?></td>
                     <td>
 <?php
-                    if (!empty($pconfig['floating'])): ?>
+                    if (!empty($pconfig['direction'])): ?>
                       <select name="ointerface[]" id="ointerface" title="Select interfaces..." multiple="multiple" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     else: ?>
