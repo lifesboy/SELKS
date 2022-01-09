@@ -154,7 +154,8 @@ cat /usr/share/python/scirius/removecontent.py
 ls -la /usr/share/python/scirius/datadump.json
 
 # su - postgres -c "/usr/lib/postgresql/11/bin/pg_ctl start -D /usr/share/postgresql/11/data"
-service postgresql start
+# service postgresql start
+pg_ctlcluster 11 main start
 sudo -u postgres psql -h /run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 sudo -u postgres psql -h /run/postgresql -c "DROP SCHEMA public CASCADE;"
 sudo -u postgres psql -h /run/postgresql -c "CREATE SCHEMA public;"
