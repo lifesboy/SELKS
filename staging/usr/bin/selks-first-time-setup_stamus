@@ -157,11 +157,13 @@ ls -la /usr/share/python/scirius/datadump.json
 # service postgresql start
 # fix hangs on start postgresql on ssh terminal https://dba.stackexchange.com/questions/243075/pg-ctl-hangs-over-ssh
 pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
-sudo -u postgres psql -h /run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
-sudo -u postgres psql -h /run/postgresql -c "DROP SCHEMA public CASCADE;"
-sudo -u postgres psql -h /run/postgresql -c "CREATE SCHEMA public;"
-sudo -u postgres psql -h /run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
-sudo -u postgres psql -h /run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
+#/run/postgresql/.s.PGSQL.5432
+#/var/run/postgresql/.s.PGSQL.5432
+sudo -u postgres psql -h /var/run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+sudo -u postgres psql -h /var/run/postgresql -c "DROP SCHEMA public CASCADE;"
+sudo -u postgres psql -h /var/run/postgresql -c "CREATE SCHEMA public;"
+sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
+sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
 /usr/bin/supervisorctl restart scirius
 
 cd /usr/share/python/scirius/ \
