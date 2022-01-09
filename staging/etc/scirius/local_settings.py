@@ -46,8 +46,8 @@ DATABASES = {
      'NAME': 'postgres',
      'USER':'postgres',
      'PASSWORD':'postgres',
-     'HOST':'',
-     'PORT':'',
+     'HOST':'127.0.0.1',
+     'PORT':'5432',
   }
 }
 DBBACKUP_STORAGE_OPTIONS = {'location': '/var/backups/'}
