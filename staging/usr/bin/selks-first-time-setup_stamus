@@ -149,6 +149,8 @@ sed -i -E "s/(#+)'PASSWORD':'postgres',/'PASSWORD':'postgres',/g" /etc/scirius/l
 sed -i -E "s/(#+)'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'PORT':'5432',/'PORT':'5432',/g" /etc/scirius/local_settings.py
 
+sed -i "s/host    all             all             127.0.0.1\/32            md5/host    all             all             0.0.0.0\/0            md5/g" /etc/postgresql/11/main/pg_hba.conf
+
 cat /etc/scirius/local_settings.py
 cat /usr/share/python/scirius/removecontent.py
 ls -la /usr/share/python/scirius/datadump.json
