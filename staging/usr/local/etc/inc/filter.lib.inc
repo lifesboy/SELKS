@@ -367,32 +367,72 @@ function filter_core_rules_system($fw, $defaults)
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
-            'to_port' => '8000', 'descr' => 'Allow Connect Scirius web server upstream'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'interface' => 'loopback',
+            'from' => '$this_firewall_ip', 'to' => '$lo_net_ip', 'to_port' => '8000',
+            'descr' => 'Allow Connect Scirius web server upstream'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
-            'to_port' => '8005', 'descr' => 'Allow Connect Scirius Moloch database'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'out', 'ointerface' => 'loopback',
+            'from' => '$lo_net_ip', 'to' => '$lo_net_ip', 'to_port' => '8000',
+            'descr' => 'Allow Connect Scirius web server upstream'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
-            'to_port' => '5636', 'descr' => 'Allow Connect Scirius Evebox'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'interface' => 'loopback',
+            'from' => '$this_firewall_ip', 'to' => '$lo_net_ip', 'to_port' => '8005',
+            'descr' => 'Allow Connect Scirius Moloch database'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
-            'to_port' => '9200', 'descr' => 'Allow Connect Scirius Elasticsearch'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'out', 'ointerface' => 'loopback',
+            'from' => '$lo_net_ip', 'to' => '$lo_net_ip', 'to_port' => '8005',
+            'descr' => 'Allow Connect Scirius Moloch database'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
-            'to_port' => '5601', 'descr' => 'Allow Connect Scirius Kibana'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'interface' => 'loopback',
+            'from' => '$this_firewall_ip', 'to' => '$lo_net_ip', 'to_port' => '5636',
+            'descr' => 'Allow Connect Scirius Evebox'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'out', 'ointerface' => 'loopback',
+            'from' => '$lo_net_ip', 'to' => '$lo_net_ip', 'to_port' => '5636',
+            'descr' => 'Allow Connect Scirius Evebox'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'interface' => 'loopback',
+            'from' => '$this_firewall_ip', 'to' => '$lo_net_ip', 'to_port' => '9200',
+            'descr' => 'Allow Connect Scirius Elasticsearch'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'out', 'ointerface' => 'loopback',
+            'from' => '$lo_net_ip', 'to' => '$lo_net_ip', 'to_port' => '9200',
+            'descr' => 'Allow Connect Scirius Elasticsearch'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'interface' => 'loopback',
+            'from' => '$this_firewall_ip', 'to' => '$lo_net_ip', 'to_port' => '5601',
+            'descr' => 'Allow Connect Scirius Kibana'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'out', 'ointerface' => 'loopback',
+            'from' => '$lo_net_ip', 'to' => '$lo_net_ip', 'to_port' => '5601',
+            'descr' => 'Allow Connect Scirius Kibana'),
         $defaults['pass']
     );
 
