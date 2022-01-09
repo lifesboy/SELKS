@@ -886,7 +886,11 @@ include("head.inc");
                       <select name="interface" id="interface"  class="selectpicker" data-live-search="true" data-size="5" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     endif;
-
+?>
+                        <option value="any" <?= empty($pconfig['interface']) || ('any' == $pconfig['interface']) ? 'selected="selected"' : ''; ?>>
+                            <?=gettext("Any");?>
+                        </option>
+<?php
                     foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
                         <option value="<?=$iface;?>"
                             <?= !empty($pconfig['interface']) && (
@@ -916,7 +920,11 @@ include("head.inc");
                       <select name="ointerface" id="ointerface" class="selectpicker" data-live-search="true" data-size="5" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                     endif;
-
+?>
+                        <option value="any" <?= empty($pconfig['ointerface']) || ('any' == $pconfig['ointerface']) ? 'selected="selected"' : ''; ?>>
+                            <?=gettext("Any");?>
+                        </option>
+<?php
                     foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
                         <option value="<?=$iface;?>"
                             <?= !empty($pconfig['ointerface']) && (
