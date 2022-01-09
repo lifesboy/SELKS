@@ -888,7 +888,7 @@ include("head.inc");
                     endif;
 ?>
                         <option value="any" <?= empty($pconfig['interface']) || ('any' == $pconfig['interface']) ? 'selected="selected"' : ''; ?>>
-                            <?=gettext("Any");?>
+                            <?=gettext("any");?>
                         </option>
 <?php
                     foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
@@ -922,7 +922,7 @@ include("head.inc");
                     endif;
 ?>
                         <option value="any" <?= empty($pconfig['ointerface']) || ('any' == $pconfig['ointerface']) ? 'selected="selected"' : ''; ?>>
-                            <?=gettext("Any");?>
+                            <?=gettext("any");?>
                         </option>
 <?php
                     foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
