@@ -105,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'ointerface',
         'ipprotocol',
         'log',
+        'log_prefix',
         'max',
         'max-src-conn',
         'max-src-conn-rate',
