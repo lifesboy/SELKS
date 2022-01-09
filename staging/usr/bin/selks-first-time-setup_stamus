@@ -156,6 +156,7 @@ ls -la /usr/share/python/scirius/datadump.json
 # su - postgres -c "/usr/lib/postgresql/11/bin/pg_ctl start -D /usr/share/postgresql/11/data"
 # service postgresql start
 # fix hangs on start postgresql on ssh terminal https://dba.stackexchange.com/questions/243075/pg-ctl-hangs-over-ssh
+pg_ctlcluster 11 main stop # sometime we have to stop before call restart @_@
 pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
 #/run/postgresql/.s.PGSQL.5432
 #/var/run/postgresql/.s.PGSQL.5432
