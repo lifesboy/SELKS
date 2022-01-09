@@ -115,7 +115,7 @@ fi
 sed -i -E "s/(#+)'ENGINE': 'django.db.backends.sqlite3',/'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#*)'ENGINE': 'django.db.backends.postgresql_psycopg2',/#'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'NAME': 'postgres',/#'NAME': 'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'NAME': 'public',/#'NAME': 'public',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#*)'USER':'postgres',/#'USER':'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#*)'PASSWORD':'postgres',/#'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#*)'HOST':'127.0.0.1',/#'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
@@ -143,7 +143,7 @@ ln -s /selks/staging/etc/scirius /etc/scirius
 sed -i -E "s/(#*)'ENGINE': 'django.db.backends.sqlite3',/#'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#*)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/#'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'ENGINE': 'django.db.backends.postgresql_psycopg2',/'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'NAME': 'postgres',/'NAME': 'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'NAME': 'public',/'NAME': 'public',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'USER':'postgres',/'USER':'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'PASSWORD':'postgres',/'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
 sed -i -E "s/(#+)'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
