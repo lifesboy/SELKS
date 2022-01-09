@@ -887,7 +887,7 @@ include("head.inc");
 <?php
                     endif;
 ?>
-                        <option value="any" <?= empty($pconfig['interface']) || ('any' == $pconfig['interface']) ? 'selected="selected"' : ''; ?>>
+                        <option value="" <?= empty($pconfig['interface']) || ('any' == $pconfig['interface']) ? 'selected="selected"' : ''; ?>>
                             <?=gettext("any");?>
                         </option>
 <?php
@@ -921,7 +921,7 @@ include("head.inc");
 <?php
                     endif;
 ?>
-                        <option value="any" <?= empty($pconfig['ointerface']) || ('any' == $pconfig['ointerface']) ? 'selected="selected"' : ''; ?>>
+                        <option value="" <?= empty($pconfig['ointerface']) || ('any' == $pconfig['ointerface']) ? 'selected="selected"' : ''; ?>>
                             <?=gettext("any");?>
                         </option>
 <?php
