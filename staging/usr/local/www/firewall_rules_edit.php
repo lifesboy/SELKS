@@ -1324,9 +1324,8 @@ include("head.inc");
                     <td><a id="help_for_log_prefix" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Log prefix");?></td>
                     <td>
                       <input name="log_prefix" type="text" id="log_prefix" size="40" value="<?=$pconfig['log_prefix'];?>" />
-                      <strong><?=gettext("Log prefix");?></strong>
-                      <div class="hidden" data-for="help_for_log">
-                          <?=gettext("You may enter or select a category here to group firewall rules (not parsed)."); ?>
+                      <div class="hidden" data-for="help_for_log_prefix">
+                          <?=gettext("You may enter log_prefix for filter firewall log."); ?>
                       </div>
                     </td>
                   </tr>
