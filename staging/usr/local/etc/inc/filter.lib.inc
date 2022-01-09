@@ -351,12 +351,12 @@ function filter_core_rules_system($fw, $defaults)
     );
 
     // Allow Scirius using internal services
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$lo_net_ip',
-            'to_port' => '5432', 'descr' => 'Allow Connect Scirius Postgres Database'),
-        $defaults['pass']
-    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$lo_net_ip',
+//            'to_port' => '5432', 'descr' => 'Allow Connect Scirius Postgres Database'),
+//        $defaults['pass']
+//    );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'from' => '$this_firewall_ip',
