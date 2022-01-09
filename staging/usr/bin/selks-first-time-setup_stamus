@@ -112,14 +112,14 @@ if [ -e "/etc/scirius.bak" ]; then
   rm -rf /etc/scirius
   mv /etc/scirius.bak  /etc/scirius
 fi
-sed -i "s/#'ENGINE': 'django.db.backends.sqlite3',/'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
-sed -i "s/#'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
-sed -i "s/'ENGINE': 'django.db.backends.postgresql_psycopg2',/#'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
-sed -i "s/'NAME': 'postgres',/#'NAME': 'postgres',/g" /etc/scirius/local_settings.py
-sed -i "s/'USER':'postgres',/#'USER':'postgres',/g" /etc/scirius/local_settings.py
-sed -i "s/'PASSWORD':'postgres',/#'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
-sed -i "s/'HOST':'127.0.0.1',/#'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
-sed -i "s/'PORT':'5432',/#'PORT':'5432',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'ENGINE': 'django.db.backends.sqlite3',/'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'ENGINE': 'django.db.backends.postgresql_psycopg2',/#'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'NAME': 'postgres',/#'NAME': 'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'USER':'postgres',/#'USER':'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'PASSWORD':'postgres',/#'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'HOST':'127.0.0.1',/#'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'PORT':'5432',/#'PORT':'5432',/g" /etc/scirius/local_settings.py
 
 cat >> /usr/share/python/scirius/removecontent.py <<EOF
 from django.contrib.contenttypes.models import ContentType
@@ -140,14 +140,14 @@ cd /usr/share/python/scirius/ \
 
 mv /etc/scirius  /etc/scirius.bak
 ln -s /selks/staging/etc/scirius /etc/scirius
-sed -i "s/'ENGINE': 'django.db.backends.sqlite3',/#'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
-sed -i "s/'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/#'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
-sed -i "s/#'ENGINE': 'django.db.backends.postgresql_psycopg2',/'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
-sed -i "s/#'NAME': 'postgres',/'NAME': 'postgres',/g" /etc/scirius/local_settings.py
-sed -i "s/#'USER':'postgres',/'USER':'postgres',/g" /etc/scirius/local_settings.py
-sed -i "s/#'PASSWORD':'postgres',/'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
-sed -i "s/#'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
-sed -i "s/#'PORT':'5432',/'PORT':'5432',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'ENGINE': 'django.db.backends.sqlite3',/#'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#*)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/#'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'ENGINE': 'django.db.backends.postgresql_psycopg2',/'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'NAME': 'postgres',/'NAME': 'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'USER':'postgres',/'USER':'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'PASSWORD':'postgres',/'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
+sed -i -E "s/(#+)'PORT':'5432',/'PORT':'5432',/g" /etc/scirius/local_settings.py
 
 cat /etc/scirius/local_settings.py
 cat /usr/share/python/scirius/removecontent.py
