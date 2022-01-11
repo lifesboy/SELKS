@@ -62,7 +62,7 @@ elasticsearch:x:122:
 logstash:x:999:www-data
 kibana:x:123:
 evebox:x:124:
-unbound:x:125:
+unbound:x:125:postgres
 docker:x:998:
 audit:x:77:
 admins:x:1999:root,selks-user
