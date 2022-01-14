@@ -775,12 +775,12 @@ function filter_generate_aliases()
 
     $aliases .= "\n";
     $aliases .= "# Cau hinh IPS chain\n";
-    $aliases .= "add chain ip ip_ips_table ips-input { type filter hook input priority 30; policy accept; }\n";
-    //$aliases .= "add chain ip ip_ips_table ips-forward { type filter hook forward priority 30; policy accept; }\n";
-    //$aliases .= "add chain ip ip_ips_table ips-output { type filter hook output priority 30; policy accept; }\n";
-    //$aliases .= "add chain ip6 ip6_ips_table ips-input { type filter hook input priority 30; policy accept; }\n";
-    //$aliases .= "add chain ip6 ip6_ips_table ips-forward { type filter hook forward priority 30; policy accept; }\n";
-    //$aliases .= "add chain ip6 ip6_ips_table ips-output { type filter hook output priority 30; policy accept; }\n";
+    $aliases .= "add chain ip ip_ips_table ips-input { type filter hook input priority 40; policy accept; }\n";
+    //$aliases .= "add chain ip ip_ips_table ips-forward { type filter hook forward priority 40; policy accept; }\n";
+    //$aliases .= "add chain ip ip_ips_table ips-output { type filter hook output priority 40; policy accept; }\n";
+    //$aliases .= "add chain ip6 ip6_ips_table ips-input { type filter hook input priority 40; policy accept; }\n";
+    //$aliases .= "add chain ip6 ip6_ips_table ips-forward { type filter hook forward priority 40; policy accept; }\n";
+    //$aliases .= "add chain ip6 ip6_ips_table ips-output { type filter hook output priority 40; policy accept; }\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
