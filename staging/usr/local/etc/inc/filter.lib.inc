@@ -522,52 +522,58 @@ function filter_core_rules_system($fw, $defaults)
     // Allow internet domain lookup
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established'),
+        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'out','to_port' => '53', 'log' => true, 'log_prefix' => 'nft_ipv4_output_accept_dns_udp___'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established'),
+        array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'descr' => 'Allow internet domain lookup',
+            'direction' => 'out','to_port' => '53', 'log' => true, 'log_prefix' => 'nft_ipv6_output_accept_dns_udp___'),
         $defaults['pass']
     );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established'),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established'),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
-        $defaults['pass']
-    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+//            'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established'),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+//            'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established'),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+//            'direction' => 'in','to_port' => '32768:65535', 'statetype' => 'established'),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+//            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+//            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+//            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
+//        $defaults['pass']
+//    );
+//    $fw->registerFilterRule(
+//        1,
+//        array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'from_port' => 'domain', 'descr' => 'Allow internet domain lookup',
+//            'direction' => 'out','to_port' => '32768:65535', 'statetype' => 'new,established'),
+//        $defaults['pass']
+//    );
 
     //Accept traffic originated from us
     $fw->registerFilterRule(
