@@ -392,12 +392,12 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 
     $ipsrules = "\n# IPS rules\n";
     $ipsrules .= "#forward all traffic to suricata by nfqueue\n";
-    $ipsrules .= "add rule ip ip_ips_table ips-input queue num 3 bypass counter\n";
-//    $ipsrules .= "add rule ip ip_ips_table ips-forward queue num 3 bypass counter\n";
-//    $ipsrules .= "add rule ip ip_ips_table ips-output queue num 3 bypass counter\n";
-//    $ipsrules .= "add rule ip6 ip6_ips_table ips-input queue num 3 bypass counter\n";
-//    $ipsrules .= "add rule ip6 ip6_ips_table ips-forward queue num 3 bypass counter\n";
-//    $ipsrules .= "add rule ip6 ip6_ips_table ips-output queue num 3 bypass counter\n";
+    $ipsrules .= "add rule ip ip_ips_table ips-input queue num 3 bypass counter accept\n";
+//    $ipsrules .= "add rule ip ip_ips_table ips-forward queue num 3 bypass counter accept\n";
+//    $ipsrules .= "add rule ip ip_ips_table ips-output queue num 3 bypass counter accept\n";
+//    $ipsrules .= "add rule ip6 ip6_ips_table ips-input queue num 3 bypass counter accept\n";
+//    $ipsrules .= "add rule ip6 ip6_ips_table ips-forward queue num 3 bypass counter accept\n";
+//    $ipsrules .= "add rule ip6 ip6_ips_table ips-output queue num 3 bypass counter accept\n";
 
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
