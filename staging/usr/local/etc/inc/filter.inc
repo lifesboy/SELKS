@@ -392,12 +392,12 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 
     $ipsrules = "\n# IPS rules\n";
     $ipsrules .= "#forward all traffic to suricata by nfqueue\n";
-    $ipsrules .= "add rule ip ip_filter_table ips-input queue num 3 bypass counter\n";
-    $ipsrules .= "add rule ip ip_filter_table ips-forward queue num 4 bypass counter\n";
-    $ipsrules .= "add rule ip ip_filter_table ips-output queue num 5 bypass counter\n";
-    $ipsrules .= "add rule ip6 ip6_filter_table ips-input queue num 6 bypass counter\n";
-    $ipsrules .= "add rule ip6 ip6_filter_table ips-forward queue num 7 bypass counter\n";
-    $ipsrules .= "add rule ip6 ip6_filter_table ips-output queue num 8 bypass counter\n";
+    $ipsrules .= "add rule ip ip_ips_table ips-input queue num 3 bypass counter\n";
+//    $ipsrules .= "add rule ip ip_ips_table ips-forward queue num 3 bypass counter\n";
+//    $ipsrules .= "add rule ip ip_ips_table ips-output queue num 3 bypass counter\n";
+//    $ipsrules .= "add rule ip6 ip6_ips_table ips-input queue num 3 bypass counter\n";
+//    $ipsrules .= "add rule ip6 ip6_ips_table ips-forward queue num 3 bypass counter\n";
+//    $ipsrules .= "add rule ip6 ip6_ips_table ips-output queue num 3 bypass counter\n";
 
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
@@ -736,6 +736,9 @@ function filter_generate_aliases()
     $aliases .= "add table ip ip_filter_table\n";
     $aliases .= "add table ip6 ip6_filter_table\n";
     $aliases .= "\n";
+    $aliases .= "add table ip ip_ips_table\n";
+    $aliases .= "add table ip6 ip6_ips_table\n";
+    $aliases .= "\n";
     $aliases .= "define sshlockout_ip = {0.0.0.1}\n";
     $aliases .= "define sshlockout_ip6 = {2000::/16}\n";
     $aliases .= "\n";
@@ -772,12 +775,12 @@ function filter_generate_aliases()
 
     $aliases .= "\n";
     $aliases .= "# Cau hinh IPS chain\n";
-    $aliases .= "add chain ip ip_filter_table ips-input { type filter hook input priority 20; policy accept; }\n";
-    $aliases .= "add chain ip ip_filter_table ips-forward { type filter hook forward priority 20; policy accept; }\n";
-    $aliases .= "add chain ip ip_filter_table ips-output { type filter hook output priority 20; policy accept; }\n";
-    $aliases .= "add chain ip6 ip6_filter_table ips-input { type filter hook input priority 20; policy accept; }\n";
-    $aliases .= "add chain ip6 ip6_filter_table ips-forward { type filter hook forward priority 20; policy accept; }\n";
-    $aliases .= "add chain ip6 ip6_filter_table ips-output { type filter hook output priority 20; policy accept; }\n";
+    $aliases .= "add chain ip ip_ips_table ips-input { type filter hook input priority 30; policy accept; }\n";
+    //$aliases .= "add chain ip ip_ips_table ips-forward { type filter hook forward priority 30; policy accept; }\n";
+    //$aliases .= "add chain ip ip_ips_table ips-output { type filter hook output priority 30; policy accept; }\n";
+    //$aliases .= "add chain ip6 ip6_ips_table ips-input { type filter hook input priority 30; policy accept; }\n";
+    //$aliases .= "add chain ip6 ip6_ips_table ips-forward { type filter hook forward priority 30; policy accept; }\n";
+    //$aliases .= "add chain ip6 ip6_ips_table ips-output { type filter hook output priority 30; policy accept; }\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
