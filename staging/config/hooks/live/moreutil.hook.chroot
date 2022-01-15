@@ -218,10 +218,13 @@ ln -s /selks/staging/etc/mtree /etc/mtree
 ln -s /run /var/run
 ln -s /usr/bin/openssl /usr/local/bin/openssl
 
+ln -s /selks/staging/usr/sbin/configctl /usr/sbin/configctl
 ln -s /selks/staging/usr/sbin/pluginctl /usr/sbin/pluginctl
 ln -s /selks/staging/usr/local/sbin/opnsense-importer /usr/local/sbin/opnsense-importer
 ln -s /selks/staging/usr/local/sbin/opnsense-shell /usr/local/sbin/opnsense-shell
 ln -s /selks/staging/usr/local/sbin/opnsense-version /sbin/opnsense-version
+ln -s /selks/staging/usr/sbin/beep.sh /usr/sbin/beep.sh
+ln -s /selks/staging/usr/sbin/ping_hosts.sh /usr/sbin/ping_hosts.sh
 ln -s /selks/staging/etc/rc.conf.d /etc/rc.conf.d
 chmod 755 /usr/sbin/pluginctl
 chmod 755 /usr/local/sbin/opnsense-importer
