@@ -58,12 +58,12 @@ else:
 
 def SuriReload(reload = False):
     if reload:
-        if subprocess.call(['service', 'suricata', 'reload']):
+        if subprocess.call(['configctl', 'ids', 'reload']):
             logging.error("Unable to reload suricata")
         else:
             logging.info("Reloaded suricata")
     else:
-        if subprocess.call(['service', 'suricata', 'restart']):
+        if subprocess.call(['configctl', 'ids', 'restart']):
             logging.error("Unable to restart suricata")
         else:
             logging.info("Restarted suricata")
