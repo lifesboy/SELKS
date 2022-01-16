@@ -58,7 +58,7 @@ if [ ! -d ${SYSDIR}/${SYSLEVEL} ]; then
 fi
 
 #SYSHOOKS="$(find -s ${SYSDIR}/${SYSLEVEL} -type f})"
-SYSHOOKS="$(find ${SYSDIR}/${SYSLEVEL} -type f})"
+SYSHOOKS="$(find ${SYSDIR}/${SYSLEVEL} -type f)"
 
 for _SYSHOOK in ${SYSHOOKS}; do
 	SYSHOOK=${_SYSHOOK##"${SYSDIR}/"}
