@@ -42,7 +42,7 @@ if (is_ipaddrv4($pinghost) || is_hostname($pinghost)) {
 }
 if ($command) {
     echo "\n";
-    passthru("/sbin/{$command} -c 3 -n " . escapeshellarg($pinghost));
+    passthru("/bin/{$command} -c 3 -n " . escapeshellarg($pinghost));
     echo "\nPress ENTER to continue.\n";
     fgets($fp);
 }
