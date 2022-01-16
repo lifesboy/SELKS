@@ -355,7 +355,7 @@ function recover_base($etc_group, $etc_master_passwd, $etc_shells, $etc_ttys, $p
 
 function recover_pkg()
 {
-	recover_ports();
+	//recover_ports();
 	recover_rebuild();
 }
 
