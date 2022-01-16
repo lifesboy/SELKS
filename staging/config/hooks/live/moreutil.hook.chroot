@@ -9,6 +9,7 @@
 set -ex
 
 apt-get update && apt-get upgrade -y
+apt-get install -y udev
 
 # Docker
 apt-get -y install cgroupfs-mount
