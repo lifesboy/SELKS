@@ -27,8 +27,8 @@ DAEMON=/usr/bin/$NAME
 SCRIPTNAME=/etc/init.d/$NAME
 PIDFILE=/var/run/$NAME.pid
 LISTENMODE=nfqueue
-#NFQUEUE=" -q 3 -q 4 -q 5"
-NFQUEUE=" -q 3"
+NFQUEUE=" -q 3 -q 4 -q 5"
+#NFQUEUE=" -q 3"
 RUN_AS_USER="logstash"
 
 #LISTENMODE=af-packet
