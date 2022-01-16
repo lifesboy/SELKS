@@ -1935,6 +1935,7 @@ default-rule-path: /etc/suricata/rules
 
 rule-files:
  - scirius.rules
+ - OPNsense.rules
  # - suricata.rules
 
 ##
