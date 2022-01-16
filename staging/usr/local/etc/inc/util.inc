@@ -90,7 +90,7 @@ function waitforpid($pidfile, $timeout = -1)
 
 function is_process_running($process)
 {
-    exec('/bin/pgrep -anx ' . escapeshellarg($process), $output, $retval);
+    exec('/bin/pgrep -nf ' . escapeshellarg($process), $output, $retval);
 
     return (intval($retval) == 0);
 }
