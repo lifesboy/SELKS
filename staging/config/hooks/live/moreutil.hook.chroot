@@ -242,6 +242,7 @@ chmod 755 -R /usr/local/etc/rc.subr.d/
 chmod 755 /usr/local/etc/rc.bootup
 chmod 755 /usr/local/etc/rc.syshook
 chmod 755 -R /etc/rc.conf.d/
+chmod 755 -R /usr/local/etc/rc.syshook.d/
 
 chmod 755 /selks/staging/usr/local/etc/rc.configure_firmware
 chmod 755 /selks/staging/usr/local/etc/rc.configure_interface
