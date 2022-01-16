@@ -403,7 +403,7 @@ function local_sync_accounts()
     global $config;
 
     /* remove local users to avoid uid conflicts */
-    $fd = popen('/usr/sbin/pw usershow -a', 'r');
+    $fd = popen('/bin/getent passwd', 'r');
     if ($fd) {
         while (!feof($fd)) {
             $line = explode(':', fgets($fd));
@@ -415,20 +415,20 @@ function local_sync_accounts()
              * can cause issues. Just remove crontab before run it when necessary
              */
             @unlink("/var/cron/tabs/{$line[0]}");
-            mwexecf('/usr/sbin/pw userdel -n %s', $line[0]);
+            mwexecf('/sbin/userdel %s', $line[0]);
         }
         pclose($fd);
     }
 
     /* remove local groups to avoid gid conflicts */
-    $fd = popen('/usr/sbin/pw groupshow -a', 'r');
+    $fd = popen('/bin/getent group', 'r');
     if ($fd) {
         while (!feof($fd)) {
             $line = explode(':', fgets($fd));
             if (count($line) < 3 || !strncmp($line[0], '_', 1) || $line[2] < 2000 || $line[2] > 65000) {
                 continue;
             }
-            mwexecf('/usr/sbin/pw groupdel -g %s', $line[2]);
+            mwexecf('/sbin/groupdel %s', $line[0]);
         }
         pclose($fd);
     }
@@ -470,7 +470,7 @@ function local_user_set(&$user, $force_password = false)
     $user_name = $user['name'];
     $user_uid = $user['uid'];
 
-    $lock_account = 'lock';
+    $lock_account = '-l';
 
     $is_expired = !empty($user['expires']) &&
         strtotime('-1 day') > strtotime(date('m/d/Y', strtotime($user['expires'])));
@@ -480,7 +480,7 @@ function local_user_set(&$user, $force_password = false)
     $is_unlocked = !$is_disabled && !$is_expired;
 
     if ($is_unlocked) {
-        $lock_account = 'unlock';
+        $lock_account = '-u';
     } elseif ($user_uid == 0) {
         /*
          * The root account should not be locked as this will have
@@ -490,7 +490,7 @@ function local_user_set(&$user, $force_password = false)
          * prevent root login in the console when integrated
          * authentication is off.
          */
-        $lock_account = 'unlock';
+        $lock_account = '-u';
         $user_pass = '*';
     }
 
@@ -515,7 +515,7 @@ function local_user_set(&$user, $force_password = false)
     }
 
     /* read from pw db */
-    $fd = popen("/usr/sbin/pw usershow -n {$user_name} 2>&1", "r");
+    $fd = popen("/bin/getent passwd {$user_name} 2>&1", "r");
     $pwread = fgets($fd);
     pclose($fd);
     $userattrs = explode(":", trim($pwread));
@@ -529,11 +529,14 @@ function local_user_set(&$user, $force_password = false)
 
     $comment = str_replace(array(':', '!', '@'), ' ', $user['descr']);
     /* add or mod pw db */
-    $cmd = "/usr/sbin/pw {$user_op} -q -u {$user_uid} -n {$user_name}" .
-      " -g {$user_group} -s {$user_shell} -d {$user_home}" .
-      " -c " . escapeshellarg($comment) . " -H 0 2>&1";
+//    $cmd = "/usr/sbin/pw {$user_op} -q -u {$user_uid} -n {$user_name}" .
+//        " -g {$user_group} -s {$user_shell} -d {$user_home}" .
+//        " -c " . escapeshellarg($comment) . " -H 0 2>&1";
+    $cmd = "/sbin/{$user_op} -u {$user_uid} {$user_name}" .
+      " -G {$user_group} -s {$user_shell} -d {$user_home}" .
+      " -c " . escapeshellarg($comment) . " -p {$user_pass}>&1";
     $fd = popen($cmd, 'w');
-    fwrite($fd, $user_pass);
+    // fwrite($fd, $user_pass);
     pclose($fd);
 
     /* create user directory if required */
@@ -555,7 +558,7 @@ function local_user_set(&$user, $force_password = false)
         @unlink("{$user_home}/.ssh/authorized_keys");
     }
 
-    mwexecf('/usr/sbin/pw %s %s', array($lock_account, $user_name), true);
+    mwexecf('/sbin/passwd %s %s', array($lock_account, $user_name), true);
 }
 
 function local_user_del($user)
@@ -564,7 +567,7 @@ function local_user_del($user)
     local_user_set_groups($user);
 
     /* delete from pw db */
-    mwexecf('/usr/sbin/pw userdel -n %s -r', $user['name']);
+    mwexecf('/sbin/userdel %s -r', $user['name']);
 
     /* Delete user from groups needs a call to write_config() */
     local_group_del_user($user);
@@ -694,20 +697,22 @@ function local_group_set($group, $reset = false)
         $group_members = implode(',', $group['member']);
     }
 
-    $ret = mwexecf('/usr/sbin/pw groupshow %s', $group_name, true);
+    $ret = mwexecf('/bin/getent group %s', $group_name, true);
     if ($ret) {
         $group_op = 'groupadd';
     } else {
         $group_op = 'groupmod';
     }
 
-    mwexecf('/usr/sbin/pw %s %s -g %s -M %s', array($group_op, $group_name, $group_gid, $group_members));
+    //todo add group members
+    // mwexecf('/usr/sbin/pw %s %s -g %s -M %s', array($group_op, $group_name, $group_gid, $group_members));
+    mwexecf('/sbin/%s %s -g %s', array($group_op, $group_name, $group_gid));
 }
 
 function local_group_del($group)
 {
     /* delete from group db */
-    mwexecf('/usr/sbin/pw groupdel %s', $group['name']);
+    mwexecf('/sbin/groupdel %s', $group['name']);
 }
 
 
