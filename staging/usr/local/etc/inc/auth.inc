@@ -534,7 +534,7 @@ function local_user_set(&$user, $force_password = false)
 //        " -c " . escapeshellarg($comment) . " -H 0 2>&1";
     $cmd = "/sbin/{$user_op} -u {$user_uid} {$user_name}" .
       " -G {$user_group} -s {$user_shell} -d {$user_home}" .
-      " -c " . escapeshellarg($comment) . " -p {$user_pass}>&1";
+      " -c " . escapeshellarg($comment) . " -p '{$user_pass}'>&1";
     $fd = popen($cmd, 'w');
     // fwrite($fd, $user_pass);
     pclose($fd);
