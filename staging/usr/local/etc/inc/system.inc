@@ -1008,7 +1008,8 @@ function system_devd_configure($verbose = false)
         flush();
     }
 
-    exec('/sbin/devd');
+    //exec('/sbin/devd');
+    exec('/bin/udevadm trigger');
     /* historic sleep */
     sleep(1);
 
