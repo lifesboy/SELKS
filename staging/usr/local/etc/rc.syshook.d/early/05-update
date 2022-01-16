@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#Temporarily disable to not support yet
+exit 0
+
 # Perform major updates
 for STAGE in B P; do
 	if opnsense-update -${STAGE}; then

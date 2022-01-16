@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#Temporarily disable to not support yet
+exit 0
+
 # when virtualip_carp_maintenancemode is set, make sure we startup in demoted state
 if [ -f /conf/config.xml ]; then
     IS_MNT=$(grep -c virtualip_carp_maintenancemode /conf/config.xml)

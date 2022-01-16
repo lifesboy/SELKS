@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#Temporarily disable to not support yet
+exit 0
+
 # Restore backups from previous shutdown
 /usr/local/etc/rc.syshook backup restore
 
