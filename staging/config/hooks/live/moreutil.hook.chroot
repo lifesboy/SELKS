@@ -77,6 +77,7 @@ mv /usr/bin/selks-secondstage-upgrade_stamus  /usr/bin/selks-secondstage-upgrade
 mv /usr/bin/selks-setup-ids-interface  /usr/bin/selks-setup-ids-interface.bak
 mv /usr/bin/selks-tools  /usr/bin/selks-tools.bak
 mv /usr/bin/selks-upgrade_stamus  /usr/bin/selks-upgrade_stamus.bak
+mv /usr/sbin/suri_reloader /usr/sbin/suri_reloader.bak
 ln -s /selks/staging/usr/bin/selks-db-logs-cleanup_stamus /usr/bin/selks-db-logs-cleanup_stamus
 ln -s /selks/staging/usr/bin/selks-disable-interface-offloading_stamus /usr/bin/selks-disable-interface-offloading_stamus
 ln -s /selks/staging/usr/bin/selks-disable-suri-capture_stamus /usr/bin/selks-disable-suri-capture_stamus
@@ -100,6 +101,10 @@ chmod 755 /selks/staging/usr/bin/selks*
 ln -s /selks/staging/usr/bin/dpinger /usr/bin/dpinger
 
 chmod 755 /usr/bin/dpinger
+
+ln -s /selks/staging/usr/sbin/suri_reloader /usr/sbin/suri_reloader
+
+chmod 755 /usr/sbin/suri_reloader
 
 #cat > /etc/network/interfaces.d/eno1 <<EOF
 ## Stamus Networks SELKS eno1 interface set up auto generated!
