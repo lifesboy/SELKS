@@ -501,7 +501,7 @@ function local_user_set(&$user, $force_password = false)
     } else {
         $user_shell = isset($user['shell']) ? $user['shell'] : '/sbin/nologin';
         $user_home = "/home/{$user_name}";
-        $user_group = 'nobody';
+        $user_group = 'nogroup';
     }
 
     /* admins access gives wheely rights */
