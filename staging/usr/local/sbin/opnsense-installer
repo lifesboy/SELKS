@@ -57,11 +57,11 @@ done
 
 daemon -f lua50c51 ${CONFIGS}
 
-conscontrol mute on > /dev/null
+dmesg -D > /dev/null
 
 dfuife_curses -b /usr/local/share/dfuife_curses/hourglass.txt
 
-conscontrol mute off > /dev/null
+dmesg -E > /dev/null
 
 if [ ! -f /tmp/install_complete ]; then
 	echo "The installation was aborted."

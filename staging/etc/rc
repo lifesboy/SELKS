@@ -166,6 +166,7 @@ chmod 755 /usr/local/etc/rc.subr.d/recover
 
 # enable console output if it was muted
 #/sbin/conscontrol mute off > /dev/null
+#/bin/dmesg -D
 
 # all sorts of maintenance tasks for /var
 /usr/local/etc/rc.subr.d/var

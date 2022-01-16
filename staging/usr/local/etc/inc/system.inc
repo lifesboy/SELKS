@@ -1096,14 +1096,16 @@ function system_console_mutable()
 function system_console_mute()
 {
     if (system_console_mutable()) {
-        exec('/sbin/conscontrol mute on');
+        // exec('/sbin/conscontrol mute on');
+        //exec('/bin/dmesg -D');
     }
 }
 
 function system_console_unmute()
 {
     if (system_console_mutable()) {
-        exec('/sbin/conscontrol mute off');
+        // exec('/sbin/conscontrol mute off');
+        //exec('/bin/dmesg -E');
     }
 }
 

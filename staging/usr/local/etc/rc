@@ -147,7 +147,7 @@ fi
 /usr/local/sbin/opnsense-importer -b
 
 # enable console output if it was muted
-/sbin/conscontrol mute off > /dev/null
+/bin/dmesg -D > /dev/null
 
 # all sorts of maintenance tasks for /var
 /usr/local/etc/rc.subr.d/var
