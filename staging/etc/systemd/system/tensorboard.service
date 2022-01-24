@@ -1,0 +1,17 @@
+[Unit]
+Description=Tensorboard Server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+RestartSec=30
+StandardOutput=file:/var/log/tensorboard/tensorboard.log
+StandardError=file:/var/log/tensorboard/error.log
+User=root
+
+ExecStart=/usr/local/bin/tensorboard --logdir /drl/ray_results/PPO --host 0.0.0.0  --port 6006
+WorkingDirectory=/drl
+
+[Install]
+WantedBy=multi-user.target

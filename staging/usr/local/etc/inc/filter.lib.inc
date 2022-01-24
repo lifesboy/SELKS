@@ -514,6 +514,11 @@ function filter_core_rules_system($fw, $defaults)
     );
     $fw->registerFilterRule(
         1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '6006', 'descr' => 'Allow Connect to Tensorboard'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '6789', 'descr' => 'Allow Connect to Anomaly model serve deployment'),
         $defaults['pass']
     );

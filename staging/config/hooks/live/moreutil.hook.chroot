@@ -276,6 +276,9 @@ mv /usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elastic
 mkdir -p /var/log/mlflow
 ln -s /selks/staging/etc/systemd/system/mlflow-tracking.service /etc/systemd/system/mlflow-tracking.service
 systemctl enable mlflow-tracking
+mkdir -p /var/log/tensorboard
+ln -s /selks/staging/etc/systemd/system/tensorboard.service /etc/systemd/system/tensorboard.service
+systemctl enable tensorboard
 mkdir -p /var/log/ray
 ln -s /selks/staging/etc/systemd/system/ray.service /etc/systemd/system/ray.service
 systemctl enable ray
