@@ -13,6 +13,7 @@
     </Reporting>
     <NextGenerationIDPS order="40" VisibleName="Next Generation IDPS" cssClass="glyphicon glyphicon-fire">
         <MLFlow order="1" isExternal="Y" VisibleName="ML Flow" url="http://selks.ddns.net:5000/" cssClass="fa fa-exchange fa-fw" />
-        <RayCluster order="2" isExternal="Y" VisibleName="Ray Cluster" url="http://selks.ddns.net:8265/" cssClass="fa fa-sitemap fa-fw" />
+        <TensorBoard order="2" isExternal="Y" VisibleName="ML Flow" url="http://selks.ddns.net:6006/" cssClass="fa fa-line-chart fa-fw" />
+        <RayCluster order="3" isExternal="Y" VisibleName="Ray Cluster" url="http://selks.ddns.net:8265/" cssClass="fa fa-sitemap fa-fw" />
     </NextGenerationIDPS>
 </menu>
