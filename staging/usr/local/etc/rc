@@ -198,9 +198,6 @@ rm /var/run/booting
 # Execute the normal syshook / plugin commands
 /usr/local/etc/rc.syshook start
 
-chmod 0755 /etc/init.d/ray
-/etc/init.d/ray start
-
 echo -n "Root file system: "
 mount | grep ' on / ' | awk '{ print $1 }'
 date
