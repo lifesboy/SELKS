@@ -1,0 +1,17 @@
+[Unit]
+Description=RLLib start ray cluster
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+RestartSec=30
+StandardOutput=file:/var/log/rllib/rllib.log
+StandardError=file:/var/log/rllib/error.log
+User=root
+
+ExecStart=/etc/init.d/ray start
+ExecStop=/etc/init.d/ray stop
+
+[Install]
+WantedBy=multi-user.target
