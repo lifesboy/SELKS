@@ -6,6 +6,7 @@ After=network-online.target
 [Service]
 Restart=on-failure
 RestartSec=30
+RemainAfterExit=true
 StandardOutput=file:/var/log/ray/ray.log
 StandardError=file:/var/log/ray/error.log
 User=root
