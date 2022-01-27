@@ -194,7 +194,7 @@ chmod 755 /etc/init.d/hostid
 chmod 755 /etc/init.d/swap
 chmod 755 /etc/init.d/fsck
 chmod 755 /etc/init.d/root
-chmod 755 /etc/init.d/ray
+#chmod 755 /etc/init.d/ray
 chmod 755 /etc/init.d/squid
 systemctl enable rc.service
 update-rc.d rcnetworking defaults
