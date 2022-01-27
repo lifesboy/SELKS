@@ -281,12 +281,12 @@ systemctl enable mlflow-tracking
 mkdir -p /var/log/tensorboard
 ln -s /selks/staging/etc/systemd/system/tensorboard.service /etc/systemd/system/tensorboard.service
 systemctl enable tensorboard
-#mkdir -p /var/log/ray
-#ln -s /selks/staging/etc/systemd/system/ray.service /etc/systemd/system/ray.service
-#systemctl enable ray
-mkdir -p /var/log/rllib
-ln -s /selks/staging/etc/systemd/system/rllib.service /etc/systemd/system/rllib.service
-systemctl enable rllib
+mkdir -p /var/log/ray
+ln -s /selks/staging/etc/systemd/system/ray.service /etc/systemd/system/ray.service
+systemctl enable ray
+#mkdir -p /var/log/rllib
+#ln -s /selks/staging/etc/systemd/system/rllib.service /etc/systemd/system/rllib.service
+#systemctl enable rllib
 mkdir -p /var/log/anomaly-testing
 ln -s /selks/staging/etc/systemd/system/anomaly-testing.service /etc/systemd/system/anomaly-testing.service
 systemctl enable anomaly-testing
