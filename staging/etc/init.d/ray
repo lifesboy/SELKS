@@ -18,7 +18,6 @@ NAME=ray
 DESC="ray cluster"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
-#31990, 63176
 DAEMON_OPTS="--head --node-ip-address 127.0.0.1 --address selks.ddns.net --port 6379 --include-dashboard true --dashboard-host 0.0.0.0 --dashboard-port 8265 --gcs-server-port 8075 --object-manager-port 8076 --node-manager-port 8077 --min-worker-port 10002 --max-worker-port 19999"
 #DAEMON_OPTS="--head --node-ip-address 123.16.153.97 --address selks.ddns.net --port 6379 --dashboard-host 0.0.0.0 --dashboard-port 8265"
 
@@ -40,6 +39,8 @@ case "$1" in
     start)
         log_daemon_msg "Starting $DESC" $NAME
         $DAEMON start $DAEMON_OPTS
+        #combine tensorboard to block rllib service daemon after starting ray
+        /usr/local/bin/tensorboard --logdir /drl/ray_results/PPO --host 0.0.0.0  --port 6006
         ;;
     stop)
         log_daemon_msg "Stopping $DESC" $NAME
