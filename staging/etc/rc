@@ -207,6 +207,9 @@ echo "done."
 # Execute the early syshook / plugin commands
 /usr/local/etc/rc.syshook early
 
+#patch to fix missing /var/run/configd.pid when starting on boot up
+service configd restart
+
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !!! PHP starts working here, not earlier !!!
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
