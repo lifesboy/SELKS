@@ -12,4 +12,4 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 4	*	*	*	*	(/usr/local/opnsense/scripts/syslog/log_archive ) > /dev/null
 */4	*	*	*	*	(/usr/local/sbin/ping_hosts.sh) > /dev/null
 1	3	1	*	*	(configctl filter schedule bogons) > /dev/null
-*	*	*	*	*	(/usr/local/bin/flock -n -E 0 -o /tmp/filter_update_tables.lock /usr/local/opnsense/scripts/filter/update_tables.py) > /dev/null
+*	*	*	*	*	(/bin/flock -n -E 0 -o /tmp/filter_update_tables.lock /usr/local/opnsense/scripts/filter/update_tables.py) > /dev/null

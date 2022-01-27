@@ -26,7 +26,7 @@
 
 BASEDIR="/usr/local/opnsense/scripts/firmware"
 LOCKFILE="/tmp/pkg_upgrade.progress"
-FLOCK="/usr/local/bin/flock -n -o"
+FLOCK="/bin/flock -n -o"
 COMMANDS="
 check
 health

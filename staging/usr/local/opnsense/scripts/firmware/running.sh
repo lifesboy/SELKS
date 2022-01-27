@@ -25,7 +25,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 LOCKFILE="/tmp/pkg_upgrade.progress"
-FLOCK="/usr/local/bin/flock"
+FLOCK="/bin/flock"
 
 if [ ! -f ${FLOCK} ]; then
 	# backwards-compat
