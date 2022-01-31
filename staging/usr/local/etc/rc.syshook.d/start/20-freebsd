@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#/etc/init.d/suricata start
+configctl ids start
+
 #todo
 #Temporarily disable to not support yet
 exit 0
