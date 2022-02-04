@@ -76,7 +76,7 @@
                     $('#{{base_form_id}} .selectpicker').selectpicker('refresh');
                     // link on change event
                     $('#{{base_form_id}} #rulemetadata').on('change', function(){
-                        $('#{{base_form_id}} #grid-installedrules').bootgrid('reload');
+                        $('#{{base_form_id}} #grid-datasets').bootgrid('reload');
                     });
                 }
             });
@@ -105,10 +105,10 @@
         setTimeout(updateRuleMetadata, 500);
 
         /**
-         * grid installed rules
+         * grid installed datasets
          */
-        $('#{{base_form_id}} #grid-installedrules').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
-        $("#{{base_form_id}} #grid-installedrules").UIBootgrid(
+        $('#{{base_form_id}} #grid-datasets').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
+        $("#{{base_form_id}} #grid-datasets").UIBootgrid(
             {   search:'/api/ids/settings/searchinstalledrules',
                 get:'/api/ids/settings/getRuleInfo/',
                 set:'/api/ids/settings/setRule/',
@@ -158,31 +158,31 @@
             }
         );
         /**
-         * disable/enable [+action] selected rules
+         * disable/enable [+action] selected datasets
          */
         $("#{{base_form_id}} #disableSelectedRules").unbind('click').click(function(event){
             event.preventDefault();
             $("#{{base_form_id}} #disableSelectedRules > span").removeClass("fa-square-o").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', 0, 100).done(function(){
+            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', 0, 100).done(function(){
                 $("#disableSelectedRules > span").removeClass("fa-spinner fa-pulse");
                 $("#disableSelectedRules > span").addClass("fa-square-o");
             });
         });
         $("#{{base_form_id}} #enableSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-check-square-o").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', 1, 100).done(function(){
+            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', 1, 100).done(function(){
                 $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-spinner fa-pulse").addClass("fa-check-square-o");
             });
         });
         $("#{{base_form_id}} #alertSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #alertSelectedRules > span").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', "alert", 100).done(function(){
+            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', "alert", 100).done(function(){
                 $("#{{base_form_id}} #alertSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
         $("#{{base_form_id}} #dropSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #dropSelectedRules > span").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', "drop", 100).done(function(){
+            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', "drop", 100).done(function(){
                 $("#{{base_form_id}} #dropSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
@@ -191,7 +191,7 @@
 </script>
 
 <form id="{{base_form_id}}" class="form-inline" data-title="{{data_title|default('')}}">
-    <div id="rules" class="tab-pane fade in">
+    <div id="datasets" class="tab-pane fade in">
         <div class="bootgrid-header container-fluid">
             <div class="row">
                 <div class="col-sm-12 actionBar">
@@ -201,8 +201,8 @@
             </div>
         </div>
 
-        <!-- tab page "installed rules" -->
-        <table id="grid-installedrules" data-store-selection="true" class="table table-condensed table-hover table-striped table-responsive" data-editAlert="ruleChangeMessage" data-editDialog="DialogRule">
+        <!-- tab page "installed datasets" -->
+        <table id="grid-datasets" data-store-selection="true" class="table table-condensed table-hover table-striped table-responsive" data-editAlert="ruleChangeMessage" data-editDialog="DialogRule">
             <thead>
             <tr>
                 <th data-column-id="sid" data-type="numeric" data-visible="true" data-identifier="true" data-width="6em">{{ lang._('sid') }}</th>
