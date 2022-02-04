@@ -115,6 +115,10 @@ case "$1" in
            USER_SWITCH=--user=${RUN_AS_USER}
            chown ${RUN_AS_USER}:${RUN_AS_USER} /var/run/suricata
        fi
+       
+       #fix htp_config_set_lzma_layers
+       /sbin/ldconfig /usr/lib /usr/local/lib /lib
+
        echo -n "Starting suricata in $IDMODE mode..."
        $DAEMON $SURICATA_OPTIONS $USER_SWITCH > /var/log/suricata/suricata-start.log  2>&1 &
        echo " done."
