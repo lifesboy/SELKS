@@ -1,6 +1,6 @@
 <menu>
     <NextGenerationIDPS>
-        <Anomaly order="0" VisibleName="Anomaly AI Training" url="/ui/anomaly" cssClass="fa fa-shield fa-fw" />
-        <TrainingBenchmark order="1" isExternal="Y" VisibleName="Training benchmark" url="http://selks.ddns.net:6006/" cssClass="fa fa-line-chart fa-fw" />
+        <Anomaly order="0" VisibleName="AI Training" url="/ui/anomaly" cssClass="fa fa-shield fa-fw" />
+        <AIBenchmark order="1" isExternal="Y" VisibleName="AI benchmark" url="http://selks.ddns.net:6006/" cssClass="fa fa-line-chart fa-fw" />
     </NextGenerationIDPS>
 </menu>
