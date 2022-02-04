@@ -95,7 +95,7 @@ class Metadata(object):
 
                     required_files = list()
                     for rule_filename in rule_xml.find('dirs'):
-                        files = list(Path(rule_filename).rglob("*.csv"))
+                        files = list(Path(rule_filename.text.strip()).rglob("*.csv"))
                         for dataset_file in files:
                             if 'documentation_url' in rule_filename.attrib:
                                 documentation_url = rule_filename.attrib['documentation_url']
