@@ -85,7 +85,6 @@ class Metadata(object):
             if src_location is None or 'url' not in src_location.attrib:
                 syslog.syslog(syslog.LOG_ERR, 'anomaly metadata missing location  @ %s' % filename)
             else:
-                os.
                 if rule_xml.find('dirs') is None:
                     syslog.syslog(syslog.LOG_ERR, 'anomaly metadata missing dirs  @ %s' % filename)
                 else:
