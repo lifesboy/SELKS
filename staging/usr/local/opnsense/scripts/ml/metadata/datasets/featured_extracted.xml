@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <dataset>
-    <location url="/cic/datasets/" prefix="featured_extracted"/>
+    <location url="/cic/dataset/" prefix="featured_extracted"/>
     <version>0.0.1</version>
     <dirs>
-        <dir description="featured extracted" url="inline::datasets/featured_extracted">/cic/datasets/featured_extracted</dir>
+        <dir description="featured extracted" url="inline::dataset/featured_extracted">/cic/dataset/featured_extracted</dir>
     </dirs>
 </dataset>

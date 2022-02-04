@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <dataset>
-    <location url="/cic/datasets/" prefix="normalized_labeled"/>
+    <location url="/cic/dataset/" prefix="normalized_labeled"/>
     <version>0.0.1</version>
     <dirs>
-        <dir description="normalized labeled" url="inline::datasets/normalized_labeled">normalized_labeled</dir>
+        <dir description="normalized labeled" url="inline::dataset/normalized_labeled">/cic/dataset/normalized_labeled</dir>
     </dirs>
 </dataset>
