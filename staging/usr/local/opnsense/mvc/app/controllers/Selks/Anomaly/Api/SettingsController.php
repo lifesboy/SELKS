@@ -223,10 +223,10 @@ class SettingsController extends ApiMutableModelControllerBase
      * @return array
      * @throws \Exception when configd action fails
      */
-    public function listRuleMetadataAction()
+    public function listDatasetMetadataAction()
     {
         $this->sessionClose();
-        $response = (new Backend())->configdRun("anomaly list rulemetadata");
+        $response = (new Backend())->configdRun("anomaly list datasetmetadata");
         $data = json_decode($response, true);
         if ($data != null) {
             return $data;

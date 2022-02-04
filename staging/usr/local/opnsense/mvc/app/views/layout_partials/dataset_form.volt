@@ -57,7 +57,7 @@
          * list all known classtypes and add to selection box
          */
         function updateRuleMetadata() {
-            ajaxGet("/api/ids/settings/listRuleMetadata", {}, function(data, status) {
+            ajaxGet("/api/anomaly/settings/listDatasetMetadata", {}, function(data, status) {
                 if (status == "success") {
                     $('#{{base_form_id}} #rulemetadata').empty();
                     $.each(Object.assign({}, {'action': ['drop', 'alert']}, data), function(key, values) {
