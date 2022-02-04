@@ -128,8 +128,8 @@
                     },
                     onBeforeRenderDialog: function(payload) {
                         // update form with dynamic fields
-                        let template_tr = $("#{{base_form_id}} #row___template__");
-                        $("#{{base_form_id}} .__rule__metadata_record").remove();
+                        let template_tr = $("#row___template__");
+                        $(".__rule__metadata_record").remove();
                         template_tr.hide();
                         if (payload.frm_DialogRule) {
                             $.each(payload.frm_DialogRule, function(key, value){
@@ -146,7 +146,7 @@
                                 if (key === 'reference_html') {
                                     value = $("<textarea/>").html(value).text();
                                 }
-                                new_tr.find("#{{base_form_id}} #__template__").prop("id", key).html(value);
+                                new_tr.find("#__template__").prop("id", key).html(value);
                                 new_tr.show();
                                 new_tr.insertBefore(template_tr);
                             });
