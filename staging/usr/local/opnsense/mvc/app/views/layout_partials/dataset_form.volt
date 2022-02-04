@@ -56,10 +56,10 @@
         /**
          * list all known classtypes and add to selection box
          */
-        function updateRuleMetadata() {
+        function updateDatasetMetadata() {
             ajaxGet("/api/anomaly/settings/listDatasetMetadata", {}, function(data, status) {
                 if (status == "success") {
-                    $('#{{base_form_id}} #rulemetadata').empty();
+                    $('#{{base_form_id}} #datasetmetadata').empty();
                     $.each(Object.assign({}, {'action': ['drop', 'alert']}, data), function(key, values) {
                         let $optgroup = $("<optgroup/>");
                         $optgroup.prop('label', key);
@@ -71,11 +71,11 @@
                                 .data('content', "<span class='badge'>"+key+"\\"+values[i].substr(0, 50)+"</span>")
                             );
                         }
-                        $('#{{base_form_id}} #rulemetadata').append($optgroup);
+                        $('#{{base_form_id}} #datasetmetadata').append($optgroup);
                     });
                     $('#{{base_form_id}} .selectpicker').selectpicker('refresh');
                     // link on change event
-                    $('#{{base_form_id}} #rulemetadata').on('change', function(){
+                    $('#{{base_form_id}} #datasetmetadata').on('change', function(){
                         $('#{{base_form_id}} #grid-datasets').bootgrid('reload');
                     });
                 }
@@ -86,7 +86,7 @@
          * Add classtype / action to rule filter
          */
         function addRuleFilters(request) {
-            $('#{{base_form_id}} #rulemetadata').find("option:selected").each(function(){
+            $('#{{base_form_id}} #datasetmetadata').find("option:selected").each(function(){
                 let filter_name = $(this).data('property');
                 if (request[filter_name] === undefined) {
                     request[filter_name] = $(this).data('value');
@@ -102,7 +102,7 @@
         //
 
         // delay refresh for a bit
-        setTimeout(updateRuleMetadata, 500);
+        setTimeout(updateDatasetMetadata, 500);
 
         /**
          * grid installed datasets
@@ -195,7 +195,7 @@
         <div class="bootgrid-header container-fluid">
             <div class="row">
                 <div class="col-sm-12 actionBar">
-                    <select id="rulemetadata" title="{{ lang._('Filters') }}" class="selectpicker" multiple=multiple data-live-search="true" data-size="10" data-width="100%">
+                    <select id="datasetmetadata" title="{{ lang._('Filters') }}" class="selectpicker" multiple=multiple data-live-search="true" data-size="10" data-width="100%">
                     </select>
                 </div>
             </div>
