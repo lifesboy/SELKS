@@ -94,9 +94,9 @@ class Metadata(object):
                             http_headers[header.tag] = header.text.strip()
 
                     required_files = list()
-                    for dir in rule_xml.find('dirs'):
-                        files = list(Path(dir).rglob("*.csv"))
-                        for rule_filename in files:
+                    for rule_filename in rule_xml.find('dirs'):
+                        files = list(Path(rule_filename).rglob("*.csv"))
+                        for dataset_file in files:
                             if 'documentation_url' in rule_filename.attrib:
                                 documentation_url = rule_filename.attrib['documentation_url']
                             elif 'documentation_url' in rule_xml.attrib:
@@ -110,7 +110,7 @@ class Metadata(object):
                             }
                             metadata_record['documentation_url'] = documentation_url
                             metadata_record['source'] = src_location.attrib
-                            metadata_record['filename'] = rule_filename.text.strip()
+                            metadata_record['filename'] = dataset_file.name.strip()
                             metadata_record['http_headers'] = http_headers
                             # for an archive, define file to extract
                             metadata_record['url_filename'] = None
