@@ -82,6 +82,21 @@
             });
         }
 
+        /**
+         * Add classtype / action to rule filter
+         */
+        function addRuleFilters(request) {
+            $('#rulemetadata').find("option:selected").each(function(){
+                let filter_name = $(this).data('property');
+                if (request[filter_name] === undefined) {
+                    request[filter_name] = $(this).data('value');
+                } else {
+                    request[filter_name] += "," + $(this).data('value');
+                }
+            });
+            return request;
+        }
+
         //
         // activate rule tab page
         //
