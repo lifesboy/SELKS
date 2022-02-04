@@ -121,7 +121,7 @@ class SettingsController extends ApiMutableModelControllerBase
 
             // request list of installed rules
             $backend = new Backend();
-            $response = $backend->configdpRun("anomaly dataprocessor querylocaldatasets", array($itemsPerPage,
+            $response = $backend->configdpRun("anomaly query datasets", array($itemsPerPage,
                 ($currentPage - 1) * $itemsPerPage,
                 $searchPhrase, $sortStr));
 
@@ -157,13 +157,13 @@ class SettingsController extends ApiMutableModelControllerBase
      * @throws \Exception when configd action fails
      * @throws \ReflectionException when not bound to model
      */
-    public function getRuleInfoAction($sid = null)
+    public function getDatasetInfoAction($sid = null)
     {
         // request list of installed rules
         if (!empty($sid)) {
             $this->sessionClose();
             $backend = new Backend();
-            $response = $backend->configdpRun("anomaly query rules", array(1, 0,'sid/' . $sid));
+            $response = $backend->configdpRun("anomaly query datasets", array(1, 0,'sid/' . $sid));
             $data = json_decode($response, true);
         } else {
             $data = null;
