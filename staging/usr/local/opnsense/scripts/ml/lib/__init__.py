@@ -25,5 +25,6 @@
 """
 
 # define paths used by suricata
+dataset_source_directory = '/cic/dataset/'
 rule_source_directory = '/etc/suricata/rules/'
 suricata_alert_log = '/var/log/suricata/eve.json'
