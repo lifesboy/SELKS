@@ -121,7 +121,7 @@ class SettingsController extends ApiMutableModelControllerBase
 
             // request list of installed rules
             $backend = new Backend();
-            $response = $backend->configdpRun("anomaly dataprocessor query rules", array($itemsPerPage,
+            $response = $backend->configdpRun("anomaly dataprocessor query localdatasets", array($itemsPerPage,
                 ($currentPage - 1) * $itemsPerPage,
                 $searchPhrase, $sortStr));
 
