@@ -8,7 +8,7 @@ import os
 import os.path
 import ujson
 from lib import metadata
-from lib import rule_source_directory
+from lib import dataset_source_directory
 
 md = metadata.Metadata()
 if __name__ == '__main__':
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     for rule in md.list_rules():
         if not rule['required'] and not rule['deprecated']:
             items[rule['filename']] = rule
-            rule_filename = ('%s/%s' % (rule_source_directory, rule['filename'])).replace('//', '/')
+            rule_filename = ('%s/%s' % (dataset_source_directory, rule['filename'])).replace('//', '/')
             if os.path.exists(rule_filename):
                 items[rule['filename']]['modified_local'] = os.stat(rule_filename).st_mtime
             else:

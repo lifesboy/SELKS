@@ -32,15 +32,19 @@ import os
 import syslog
 import glob
 import xml.etree.ElementTree
+from pathlib import Path
+
+from lib import dataset_source_directory
+
 
 
 class Metadata(object):
     def __init__(self):
-        self._rules_dir = '%s/../metadata/rules/' % (os.path.dirname(os.path.abspath(__file__)))
+        self._rules_dir = '%s/../metadata/datasets/' % (os.path.dirname(os.path.abspath(__file__)))
 
     def _list_xml_sources(self, replace_tags = {}):
-        """ list all available rule xml files
-        :return: generator method returning all known rule xml files
+        """ list all available dataset xml files
+        :return: generator method returning all known dataset xml files
         """
         for filename in sorted(glob.glob('%s*.xml' % self._rules_dir), reverse=True):
             try:
@@ -54,7 +58,7 @@ class Metadata(object):
                 yield rule_xml
             except xml.etree.ElementTree.ParseError:
                 # unparseable metadata
-                syslog.syslog(syslog.LOG_ERR, 'suricata metadata unparsable @ %s' % filename)
+                syslog.syslog(syslog.LOG_ERR, 'anomaly metadata unparsable @ %s' % filename)
                 continue
 
     def list_rule_properties(self):
@@ -72,17 +76,18 @@ class Metadata(object):
         return result
 
     def list_rules(self, replace_tags = {}):
-        """ list all available rules
-        :return: generator method returning all known rulefiles
+        """ list all available datasets
+        :return: generator method returning all known datasetfiles
         """
         target_filenames = list()
         for rule_xml in self._list_xml_sources(replace_tags):
             src_location = rule_xml.find('location')
             if src_location is None or 'url' not in src_location.attrib:
-                syslog.syslog(syslog.LOG_ERR, 'suricata metadata missing location  @ %s' % filename)
+                syslog.syslog(syslog.LOG_ERR, 'anomaly metadata missing location  @ %s' % filename)
             else:
-                if rule_xml.find('files') is None:
-                    syslog.syslog(syslog.LOG_ERR, 'suricata metadata missing files  @ %s' % filename)
+                os.
+                if rule_xml.find('dirs') is None:
+                    syslog.syslog(syslog.LOG_ERR, 'anomaly metadata missing dirs  @ %s' % filename)
                 else:
                     http_headers = dict()
                     if rule_xml.find('headers') is not None:
@@ -90,59 +95,61 @@ class Metadata(object):
                             http_headers[header.tag] = header.text.strip()
 
                     required_files = list()
-                    for rule_filename in rule_xml.find('files'):
-                        if 'documentation_url' in rule_filename.attrib:
-                            documentation_url = rule_filename.attrib['documentation_url']
-                        elif 'documentation_url' in rule_xml.attrib:
-                            documentation_url = rule_xml.attrib['documentation_url']
-                        else:
-                            documentation_url = ""
-                        metadata_record = {
-                            'required': False,
-                            'deprecated': False,
-                            'metadata_source': rule_xml.attrib['metadata_source']
-                        }
-                        metadata_record['documentation_url'] = documentation_url
-                        metadata_record['source'] = src_location.attrib
-                        metadata_record['filename'] = rule_filename.text.strip()
-                        metadata_record['http_headers'] = http_headers
-                        # for an archive, define file to extract
-                        metadata_record['url_filename'] = None
-                        if 'url' in rule_filename.attrib and rule_filename.attrib['url'].startswith('inline::'):
-                            metadata_record['url'] = (metadata_record['source']['url'])
-                            metadata_record['url_filename'] = rule_filename.attrib['url'][8:]
-                        elif 'url' in rule_filename.attrib:
-                            metadata_record['url'] = (rule_filename.attrib['url'])
-                        else:
-                            metadata_record['url'] = ('%s/%s' % (metadata_record['source']['url'],
-                                                                 metadata_record['filename']))
-                        if rule_xml.find('version') is not None and 'url' in rule_xml.find('version').attrib:
-                            metadata_record['version_url'] = rule_xml.find('version').attrib['url']
-                        else:
-                            metadata_record['version_url'] = None
-                        if 'prefix' in src_location.attrib:
-                            description_prefix = "%s/" % src_location.attrib['prefix']
-                        else:
-                            description_prefix = ""
-                        if 'description' in rule_filename.attrib:
-                            metadata_record['description'] = '%s%s' % (description_prefix,
-                                                                       rule_filename.attrib['description'])
-                        else:
-                            metadata_record['description'] = '%s%s' % (description_prefix,
-                                                                       rule_filename.text)
-                        if 'deprecated' in rule_filename.attrib \
-                                and rule_filename.attrib['deprecated'].lower().strip() == 'true':
-                            metadata_record['deprecated'] = True
-
-                        if metadata_record['filename'] not in target_filenames:
-                            if 'required' in rule_filename.attrib \
-                                    and rule_filename.attrib['required'].lower().strip() == 'true':
-                                # collect required rules/files, flush when this metadata package is parsed
-                                metadata_record['required'] = True
-                                required_files.append(metadata_record)
+                    for dir in rule_xml.find('dirs'):
+                        files = list(Path(dir).rglob("*.csv"))
+                        for rule_filename in files:
+                            if 'documentation_url' in rule_filename.attrib:
+                                documentation_url = rule_filename.attrib['documentation_url']
+                            elif 'documentation_url' in rule_xml.attrib:
+                                documentation_url = rule_xml.attrib['documentation_url']
                             else:
-                                yield metadata_record
-                        target_filenames.append(metadata_record['filename'])
+                                documentation_url = ""
+                            metadata_record = {
+                                'required': False,
+                                'deprecated': False,
+                                'metadata_source': rule_xml.attrib['metadata_source']
+                            }
+                            metadata_record['documentation_url'] = documentation_url
+                            metadata_record['source'] = src_location.attrib
+                            metadata_record['filename'] = rule_filename.text.strip()
+                            metadata_record['http_headers'] = http_headers
+                            # for an archive, define file to extract
+                            metadata_record['url_filename'] = None
+                            if 'url' in rule_filename.attrib and rule_filename.attrib['url'].startswith('inline::'):
+                                metadata_record['url'] = (metadata_record['source']['url'])
+                                metadata_record['url_filename'] = rule_filename.attrib['url'][8:]
+                            elif 'url' in rule_filename.attrib:
+                                metadata_record['url'] = (rule_filename.attrib['url'])
+                            else:
+                                metadata_record['url'] = ('%s/%s' % (metadata_record['source']['url'],
+                                                                     metadata_record['filename']))
+                            if rule_xml.find('version') is not None and 'url' in rule_xml.find('version').attrib:
+                                metadata_record['version_url'] = rule_xml.find('version').attrib['url']
+                            else:
+                                metadata_record['version_url'] = None
+                            if 'prefix' in src_location.attrib:
+                                description_prefix = "%s/" % src_location.attrib['prefix']
+                            else:
+                                description_prefix = ""
+                            if 'description' in rule_filename.attrib:
+                                metadata_record['description'] = '%s%s' % (description_prefix,
+                                                                           rule_filename.attrib['description'])
+                            else:
+                                metadata_record['description'] = '%s%s' % (description_prefix,
+                                                                           rule_filename.text)
+                            if 'deprecated' in rule_filename.attrib \
+                                    and rule_filename.attrib['deprecated'].lower().strip() == 'true':
+                                metadata_record['deprecated'] = True
+
+                            if metadata_record['filename'] not in target_filenames:
+                                if 'required' in rule_filename.attrib \
+                                        and rule_filename.attrib['required'].lower().strip() == 'true':
+                                    # collect required rules/files, flush when this metadata package is parsed
+                                    metadata_record['required'] = True
+                                    required_files.append(metadata_record)
+                                else:
+                                    yield metadata_record
+                            target_filenames.append(metadata_record['filename'])
                     # flush required files last, so we can skip required when there's nothing else in the set selected
                     for metadata_record in required_files:
                         yield metadata_record
