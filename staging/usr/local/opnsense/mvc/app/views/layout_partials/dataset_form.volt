@@ -50,6 +50,131 @@
 {%         break %}
 {%     endif %}
 {% endfor %}
+
+<script>
+    $( document ).ready(function() {
+        /**
+         * list all known classtypes and add to selection box
+         */
+        function updateRuleMetadata() {
+            ajaxGet("/api/ids/settings/listRuleMetadata", {}, function(data, status) {
+                if (status == "success") {
+                    $('#rulemetadata').empty();
+                    $.each(Object.assign({}, {'action': ['drop', 'alert']}, data), function(key, values) {
+                        let $optgroup = $("<optgroup/>");
+                        $optgroup.prop('label', key);
+                        for (let i=0; i < values.length ; ++i) {
+                            $optgroup.append(
+                              $("<option>").val(values[i]).text(values[i].substr(0, 50))
+                                .data('property', key)
+                                .data('value', values[i])
+                                .data('content', "<span class='badge'>"+key+"\\"+values[i].substr(0, 50)+"</span>")
+                            );
+                        }
+                        $('#rulemetadata').append($optgroup);
+                    });
+                    $('.selectpicker').selectpicker('refresh');
+                    // link on change event
+                    $('#rulemetadata').on('change', function(){
+                        $('#grid-installedrules').bootgrid('reload');
+                    });
+                }
+            });
+        }
+
+        //
+        // activate rule tab page
+        //
+
+        // delay refresh for a bit
+        setTimeout(updateRuleMetadata, 500);
+
+        /**
+         * grid installed rules
+         */
+        $('#grid-installedrules').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
+        $("#grid-installedrules").UIBootgrid(
+            {   search:'/api/ids/settings/searchinstalledrules',
+                get:'/api/ids/settings/getRuleInfo/',
+                set:'/api/ids/settings/setRule/',
+                options:{
+                    requestHandler:addRuleFilters,
+                    rowCount:[10, 25, 50,100,500,1000] ,
+                    formatters:{
+                        rowtoggle: function (column, row) {
+                            var toggle = " <button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.sid + "\"><span class=\"fa fa-pencil\"></span></button> ";
+                            if (parseInt(row[column.id], 2) == 1) {
+                                toggle += "&nbsp; <span style=\"cursor: pointer;\" class=\"fa fa-check-square-o command-toggle\" data-value=\"1\" data-row-id=\"" + row.sid + "\"></span>";
+                            } else {
+                                toggle += "&nbsp; <span style=\"cursor: pointer;\" class=\"fa fa-square-o command-toggle\" data-value=\"0\" data-row-id=\"" + row.sid + "\"></span>";
+                            }
+                            return toggle;
+                        }
+                    },
+                    onBeforeRenderDialog: function(payload) {
+                        // update form with dynamic fields
+                        let template_tr = $("#row___template__");
+                        $(".__rule__metadata_record").remove();
+                        template_tr.hide();
+                        if (payload.frm_DialogRule) {
+                            $.each(payload.frm_DialogRule, function(key, value){
+                                // ignore fixed fields and empty values
+                                if (['sid', 'rev', 'action', 'action_default', 'installed_action',
+                                     'enabled', 'enabled_default', 'msg', 'reference'].includes(key)
+                                     || value === null) {
+                                    return;
+                                }
+                                let new_tr = template_tr.clone();
+                                new_tr.prop("id", "row_" + key);
+                                new_tr.addClass("__rule__metadata_record");
+                                new_tr.html(new_tr.html().replace('__template__label__', key));
+                                if (key === 'reference_html') {
+                                    value = $("<textarea/>").html(value).text();
+                                }
+                                new_tr.find("#__template__").prop("id", key).html(value);
+                                new_tr.show();
+                                new_tr.insertBefore(template_tr);
+                            });
+                        }
+                        return (new $.Deferred()).resolve();
+                    }
+                },
+                toggle:'/api/ids/settings/toggleRule/'
+            }
+        );
+        /**
+         * disable/enable [+action] selected rules
+         */
+        $("#disableSelectedRules").unbind('click').click(function(event){
+            event.preventDefault();
+            $("#disableSelectedRules > span").removeClass("fa-square-o").addClass("fa-spinner fa-pulse");
+            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', 0, 100).done(function(){
+                $("#disableSelectedRules > span").removeClass("fa-spinner fa-pulse");
+                $("#disableSelectedRules > span").addClass("fa-square-o");
+            });
+        });
+        $("#enableSelectedRules").unbind('click').click(function(){
+            $("#enableSelectedRules > span").removeClass("fa-check-square-o").addClass("fa-spinner fa-pulse");
+            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', 1, 100).done(function(){
+                $("#enableSelectedRules > span").removeClass("fa-spinner fa-pulse").addClass("fa-check-square-o");
+            });
+        });
+        $("#alertSelectedRules").unbind('click').click(function(){
+            $("#alertSelectedRules > span").addClass("fa-spinner fa-pulse");
+            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', "alert", 100).done(function(){
+                $("#alertSelectedRules > span").removeClass("fa-spinner fa-pulse");
+            });
+        });
+        $("#dropSelectedRules").unbind('click').click(function(){
+            $("#dropSelectedRules > span").addClass("fa-spinner fa-pulse");
+            actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', "drop", 100).done(function(){
+                $("#dropSelectedRules > span").removeClass("fa-spinner fa-pulse");
+            });
+        });
+
+    });
+</script>
+
 <form id="{{base_form_id}}" class="form-inline" data-title="{{data_title|default('')}}">
     <div id="rules" class="tab-pane fade in">
         <div class="bootgrid-header container-fluid">
