@@ -59,7 +59,7 @@
         function updateRuleMetadata() {
             ajaxGet("/api/ids/settings/listRuleMetadata", {}, function(data, status) {
                 if (status == "success") {
-                    $('#rulemetadata').empty();
+                    $('#{{base_form_id}} #rulemetadata').empty();
                     $.each(Object.assign({}, {'action': ['drop', 'alert']}, data), function(key, values) {
                         let $optgroup = $("<optgroup/>");
                         $optgroup.prop('label', key);
@@ -71,12 +71,12 @@
                                 .data('content', "<span class='badge'>"+key+"\\"+values[i].substr(0, 50)+"</span>")
                             );
                         }
-                        $('#rulemetadata').append($optgroup);
+                        $('#{{base_form_id}} #rulemetadata').append($optgroup);
                     });
-                    $('.selectpicker').selectpicker('refresh');
+                    $('#{{base_form_id}} .selectpicker').selectpicker('refresh');
                     // link on change event
-                    $('#rulemetadata').on('change', function(){
-                        $('#grid-installedrules').bootgrid('reload');
+                    $('#{{base_form_id}} #rulemetadata').on('change', function(){
+                        $('#{{base_form_id}} #grid-installedrules').bootgrid('reload');
                     });
                 }
             });
@@ -86,7 +86,7 @@
          * Add classtype / action to rule filter
          */
         function addRuleFilters(request) {
-            $('#rulemetadata').find("option:selected").each(function(){
+            $('#{{base_form_id}} #rulemetadata').find("option:selected").each(function(){
                 let filter_name = $(this).data('property');
                 if (request[filter_name] === undefined) {
                     request[filter_name] = $(this).data('value');
@@ -107,8 +107,8 @@
         /**
          * grid installed rules
          */
-        $('#grid-installedrules').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
-        $("#grid-installedrules").UIBootgrid(
+        $('#{{base_form_id}} #grid-installedrules').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
+        $("#{{base_form_id}} #grid-installedrules").UIBootgrid(
             {   search:'/api/ids/settings/searchinstalledrules',
                 get:'/api/ids/settings/getRuleInfo/',
                 set:'/api/ids/settings/setRule/',
@@ -128,8 +128,8 @@
                     },
                     onBeforeRenderDialog: function(payload) {
                         // update form with dynamic fields
-                        let template_tr = $("#row___template__");
-                        $(".__rule__metadata_record").remove();
+                        let template_tr = $("#{{base_form_id}} #row___template__");
+                        $("#{{base_form_id}} .__rule__metadata_record").remove();
                         template_tr.hide();
                         if (payload.frm_DialogRule) {
                             $.each(payload.frm_DialogRule, function(key, value){
@@ -146,7 +146,7 @@
                                 if (key === 'reference_html') {
                                     value = $("<textarea/>").html(value).text();
                                 }
-                                new_tr.find("#__template__").prop("id", key).html(value);
+                                new_tr.find("#{{base_form_id}} #__template__").prop("id", key).html(value);
                                 new_tr.show();
                                 new_tr.insertBefore(template_tr);
                             });
@@ -160,30 +160,30 @@
         /**
          * disable/enable [+action] selected rules
          */
-        $("#disableSelectedRules").unbind('click').click(function(event){
+        $("#{{base_form_id}} #disableSelectedRules").unbind('click').click(function(event){
             event.preventDefault();
-            $("#disableSelectedRules > span").removeClass("fa-square-o").addClass("fa-spinner fa-pulse");
+            $("#{{base_form_id}} #disableSelectedRules > span").removeClass("fa-square-o").addClass("fa-spinner fa-pulse");
             actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', 0, 100).done(function(){
                 $("#disableSelectedRules > span").removeClass("fa-spinner fa-pulse");
                 $("#disableSelectedRules > span").addClass("fa-square-o");
             });
         });
-        $("#enableSelectedRules").unbind('click').click(function(){
-            $("#enableSelectedRules > span").removeClass("fa-check-square-o").addClass("fa-spinner fa-pulse");
+        $("#{{base_form_id}} #enableSelectedRules").unbind('click').click(function(){
+            $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-check-square-o").addClass("fa-spinner fa-pulse");
             actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', 1, 100).done(function(){
-                $("#enableSelectedRules > span").removeClass("fa-spinner fa-pulse").addClass("fa-check-square-o");
+                $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-spinner fa-pulse").addClass("fa-check-square-o");
             });
         });
-        $("#alertSelectedRules").unbind('click').click(function(){
-            $("#alertSelectedRules > span").addClass("fa-spinner fa-pulse");
+        $("#{{base_form_id}} #alertSelectedRules").unbind('click').click(function(){
+            $("#{{base_form_id}} #alertSelectedRules > span").addClass("fa-spinner fa-pulse");
             actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', "alert", 100).done(function(){
-                $("#alertSelectedRules > span").removeClass("fa-spinner fa-pulse");
+                $("#{{base_form_id}} #alertSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
-        $("#dropSelectedRules").unbind('click').click(function(){
-            $("#dropSelectedRules > span").addClass("fa-spinner fa-pulse");
+        $("#{{base_form_id}} #dropSelectedRules").unbind('click').click(function(){
+            $("#{{base_form_id}} #dropSelectedRules > span").addClass("fa-spinner fa-pulse");
             actionToggleSelected('grid-installedrules', '/api/ids/settings/toggleRule/', "drop", 100).done(function(){
-                $("#dropSelectedRules > span").removeClass("fa-spinner fa-pulse");
+                $("#{{base_form_id}} #dropSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
 
