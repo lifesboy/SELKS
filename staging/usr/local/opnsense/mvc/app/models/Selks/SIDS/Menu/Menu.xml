@@ -1,10 +1,10 @@
 <menu>
-    <Services>
-        <SIDS VisibleName="SELKS Intrusion Detection" cssClass="fa fa-shield fa-fw">
-            <Administration url="/ui/sids" />
-            <Log VisibleName="Log File" url="/ui/diagnostics/log/core/suricata" />
-        </SIDS>
-    </Services>
+<!--    <Services>-->
+<!--        <SIDS VisibleName="SELKS Intrusion Detection" cssClass="fa fa-shield fa-fw">-->
+<!--            <Administration url="/ui/sids" />-->
+<!--            <Log VisibleName="Log File" url="/ui/diagnostics/log/core/suricata" />-->
+<!--        </SIDS>-->
+<!--    </Services>-->
     <Reporting>
         <Kibana order="1" isExternal="Y" VisibleName="Kibana" url="http://selks.ddns.net/app/kibana" cssClass="fa fa-line-chart fa-fw" />
         <Evebox order="2" isExternal="Y" VisibleName="Eve box" url="http://selks.ddns.net/evebox" cssClass="fa fa-line-chart fa-fw" />

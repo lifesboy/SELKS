@@ -1,8 +1,14 @@
 <menu>
-    <Services>
-        <IDS VisibleName="Intrusion Detection" cssClass="fa fa-shield fa-fw">
+<!--    <Services>-->
+<!--        <IDS VisibleName="Intrusion Detection" cssClass="fa fa-shield fa-fw">-->
+<!--            <Administration url="/ui/ids" />-->
+<!--            <Log VisibleName="Log File" url="/ui/diagnostics/log/core/suricata" />-->
+<!--        </IDS>-->
+<!--    </Services>-->
+    <NextGenerationIDPS>
+        <IDS order="6" VisibleName="Intrusion Detection" cssClass="fa fa-shield fa-fw">
             <Administration url="/ui/ids" />
             <Log VisibleName="Log File" url="/ui/diagnostics/log/core/suricata" />
         </IDS>
-    </Services>
+    </NextGenerationIDPS>
 </menu>
