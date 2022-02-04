@@ -780,7 +780,7 @@ POSSIBILITY OF SUCH DAMAGE.
     </div>
     <div id="dataProcessorSettings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings'])}}
-        {{ partial("layout_partials/dataset_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings'])}}
+        {{ partial("layout_partials/dataset_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings_Dataset'])}}
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureDataProcessorAct"
