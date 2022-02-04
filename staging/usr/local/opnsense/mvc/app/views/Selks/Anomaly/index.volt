@@ -742,9 +742,9 @@ POSSIBILITY OF SUCH DAMAGE.
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
-    <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('Testing Setting') }}</a></li>
-    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training Setting') }}</a></li>
     <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('Data Processor Settings') }}</a></li>
+    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training Setting') }}</a></li>
+    <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('Testing Setting') }}</a></li>
     <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Histories') }}</a></li>
 </ul>
 <div class="tab-content content-box">
