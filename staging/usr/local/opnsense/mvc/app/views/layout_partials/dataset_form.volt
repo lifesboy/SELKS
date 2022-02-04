@@ -109,7 +109,7 @@
          */
         $('#{{base_form_id}} #grid-datasets').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
         $("#{{base_form_id}} #grid-datasets").UIBootgrid(
-            {   search:'/api/ids/settings/searchinstalledrules',
+            {   search:'/api/anomaly/settings/searchlocaldatasets',
                 get:'/api/ids/settings/getRuleInfo/',
                 set:'/api/ids/settings/setRule/',
                 options:{
