@@ -116,14 +116,14 @@ class RuleCache(object):
                 record['metadata']['labels'] = ','.join(labels)
                 #record['metadata']['top_data'] = top_data
 
-                record['metadata']['affected_product'] = None
-                record['metadata']['attack_target'] = None
-                record['metadata']['former_category'] = None
-                record['metadata']['deployment'] = None
+                #record['metadata']['affected_product'] = None
+                #record['metadata']['attack_target'] = None
+                #record['metadata']['former_category'] = None
+                #record['metadata']['deployment'] = None
                 record['metadata']['signature_severity'] = 'Major'
                 record['metadata']['tag'] = '_'.join(labels).replace(' ', '_')
-                record['metadata']['bugtraq'] = None
-                record['metadata']['cve'] = None
+                #record['metadata']['bugtraq'] = None
+                #record['metadata']['cve'] = None
 
                 #record['distance'] = 0
                 record['reference']= 'url,selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
