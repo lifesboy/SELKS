@@ -354,7 +354,7 @@ class RuleCache(object):
                     record[cur.description[fieldNum][0]] = row[fieldNum]
                 result['rows'].append(record)
                 if record['sid']:
-                    all_sids.append("%d" % record['sid'])
+                    all_sids.append("%s" % record['sid'])
 
             # extend with collected metadata attributes
             cur.execute("select * from dataset_properties where sid in (%s) order by sid" %
