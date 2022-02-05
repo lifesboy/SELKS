@@ -750,6 +750,7 @@ POSSIBILITY OF SUCH DAMAGE.
 <div class="tab-content content-box">
     <div id="testingSettings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formTestingSettings,'id':'frm_TestingSettings'])}}
+        {{ partial("layout_partials/dataset_form",['fields':formTestingSettings,'id':'frm_TestingSettings_Dataset'])}}
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureTestingAct"
