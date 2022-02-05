@@ -86,7 +86,7 @@ class RuleCache(object):
         with open(filename, 'r') as f_in:
             source_filename = filename.split('/')[-1]
             dt = ray.data.read_csv(filename)
-            rule_info_record = {'dataset': filename, 'metadata': None}
+            dataset_info_record = {'dataset': filename, 'metadata': None}
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
@@ -122,9 +122,9 @@ class RuleCache(object):
                 record['metadata']['reference'] = dict()
                 record['metadata']['reference']['cve'] = None
                 record['metadata']['reference']['url'] = 'selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
-                rule_info_record['metadata'] = record
+                dataset_info_record['metadata'] = record
 
-            yield rule_info_record
+            yield dataset_info_record
 
     def is_changed(self):
         """ check if datasets on disk are probably different from datasets in cache
@@ -186,31 +186,31 @@ class RuleCache(object):
             'fieldnames': (','.join(self._rule_fields)),
             'fieldvalues': ':' + (',:'.join(self._rule_fields))
         }
-        rule_prop_sql = 'insert into dataset_properties(sid, property, value) values (:sid, :property, :value)'
+        dataset_prop_sql = 'insert into dataset_properties(sid, property, value) values (:sid, :property, :value)'
         for filename in all_rule_files:
             file_mtime = os.stat(filename).st_mtime
             if file_mtime > last_mtime:
                 last_mtime = file_mtime
             datasets = list()
             dataset_properties = list()
-            for rule_info_record in self.list_datasets(filename=filename):
-                if rule_info_record['metadata'] is not None:
-                    datasets.append(rule_info_record['metadata'])
+            for dataset_info_record in self.list_datasets(filename=filename):
+                if dataset_info_record['metadata'] is not None:
+                    datasets.append(dataset_info_record['metadata'])
                     for prop in ['classtype']:
                         dataset_properties.append({
-                            "sid": rule_info_record['metadata']['sid'],
+                            "sid": dataset_info_record['metadata']['sid'],
                             "property": prop,
-                            "value": rule_info_record['metadata'][prop]
+                            "value": dataset_info_record['metadata'][prop]
                         })
-                    for prop in rule_info_record['metadata']['metadata']:
+                    for prop in dataset_info_record['metadata']['metadata']:
                         dataset_properties.append({
-                            "sid": rule_info_record['metadata']['sid'],
+                            "sid": dataset_info_record['metadata']['sid'],
                             "property": prop,
-                            "value": rule_info_record['metadata']['metadata'][prop]
+                            "value": dataset_info_record['metadata']['metadata'][prop]
                         })
 
             cur.executemany(datasets_sql, datasets)
-            cur.executemany(rule_prop_sql, dataset_properties)
+            cur.executemany(dataset_prop_sql, dataset_properties)
         cur.execute('INSERT INTO stats (timestamp,files) VALUES (?,?) ', (last_mtime, len(all_rule_files)))
         cur.execute("""
                 create table metadata_histogram as
@@ -353,16 +353,16 @@ class RuleCache(object):
             cur.execute("select * from dataset_properties where sid in (%s) order by sid" %
                 ",".join(all_sids)
             )
-            rule_props = dict()
+            dataset_props = dict()
             for row in cur.fetchall():
-                if row[0] not in rule_props:
-                    rule_props[row[0]] = dict()
-                rule_props[row[0]][row[1]] = row[2]
+                if row[0] not in dataset_props:
+                    dataset_props[row[0]] = dict()
+                dataset_props[row[0]][row[1]] = row[2]
 
             for record in result['rows']:
-                if record['sid'] in rule_props:
-                    for fieldname in rule_props[record['sid']]:
-                        record[fieldname] = rule_props[record['sid']][fieldname]
+                if record['sid'] in dataset_props:
+                    for fieldname in dataset_props[record['sid']]:
+                        record[fieldname] = dataset_props[record['sid']][fieldname]
         return result
 
     def list_metadata(self):
