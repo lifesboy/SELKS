@@ -36,6 +36,7 @@ import shlex
 import fcntl
 import csv
 from hashlib import md5
+from datetime import datetime
 from configparser import ConfigParser
 from lib import dataset_source_directory
 
@@ -91,6 +92,8 @@ class RuleCache(object):
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
             top_data = dt.take(10)
+            features = list(top_data[0].keys())
+            labels = list()
             if count > 0:
                 # define basic record
                 record = {
@@ -106,23 +109,25 @@ class RuleCache(object):
                     'metadata': dict()
                 }
                 record['metadata']['artifact'] = filename
-                record['metadata']['created_at'] = os.stat(filename).st_ctime
-                record['metadata']['updated_at'] = os.stat(filename).st_mtime
+                record['metadata']['created_at'] = datetime.fromtimestamp(os.stat(filename).st_ctime).strftime('%Y_%m_%d')
+                record['metadata']['updated_at'] = datetime.fromtimestamp(os.stat(filename).st_mtime).strftime('%Y_%m_%d')
                 record['metadata']['count'] = count
-                record['metadata']['features'] = list(top_data[0].keys())
-                record['metadata']['labels'] = list()
-                record['metadata']['top_data'] = top_data
+                record['metadata']['features'] = ','.join(features)
+                record['metadata']['labels'] = ','.join(labels)
+                #record['metadata']['top_data'] = top_data
 
-                record['metadata']['distance'] = 0
                 record['metadata']['affected_product'] = None
                 record['metadata']['attack_target'] = None
                 record['metadata']['deployment'] = None
                 record['metadata']['signature_severity'] = 'Major'
-                record['metadata']['tag'] = '_'.join(record['metadata']['labels']).replace(' ', '_')
-                record['metadata']['reference'] = dict()
-                record['metadata']['reference']['cve'] = None
-                record['metadata']['reference']['url'] = 'selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
+                record['metadata']['tag'] = '_'.join(labels).replace(' ', '_')
                 dataset_info_record['metadata'] = record
+
+                #record['distance'] = 0
+                record['reference'] = dict()
+                record['reference']['bugtraq'] = None
+                record['reference']['cve'] = None
+                record['reference']['url'] = 'selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
 
             yield dataset_info_record
 
