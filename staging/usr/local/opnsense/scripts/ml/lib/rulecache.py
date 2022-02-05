@@ -41,6 +41,7 @@ from configparser import ConfigParser
 from lib import dataset_source_directory
 
 import ray
+from ray.data.aggregate import Min, Max, Mean
 import common
 
 class RuleCache(object):
@@ -91,8 +92,7 @@ class RuleCache(object):
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
-            top_data = dt.take(10)
-            features = list(top_data[0].keys())
+            features = [i.name for i in dt.schema()]
             labels = list()
             if count > 0:
                 # define basic record
@@ -115,11 +115,14 @@ class RuleCache(object):
                 record['metadata']['features'] = ','.join(features)
                 record['metadata']['labels'] = ','.join(labels)
                 #record['metadata']['top_data'] = top_data
-                for f in features:
-                    f_name = f.replace(' ', '_')
-                    record['metadata'][f_name] = True
-                    record['metadata']["%s:min" % f_name] = dt.min(f)
-                    record['metadata']["%s:max" % f_name] = dt.max(f)
+
+                #num_features = len(features)
+                #feature_metadata = dt.filter(lambda x: len(x) == num_features).aggregate(*[g(f) for f in features for g in [Max, Min]])
+                #for f in features:
+                #    f_name = f.replace(' ', '_')
+                #    record['metadata'][f_name] = True
+                #    record['metadata']["%s:min" % f_name] = dt.min(f)
+                #    record['metadata']["%s:max" % f_name] = dt.max(f)
 
                 #record['metadata']['affected_product'] = None
                 #record['metadata']['attack_target'] = None
