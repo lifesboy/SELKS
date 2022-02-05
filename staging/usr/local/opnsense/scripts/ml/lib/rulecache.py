@@ -25,7 +25,7 @@
 
     --------------------------------------------------------------------------------------
 
-    shared module for suricata scripts, handles the installed rules cache for easy access
+    shared module for suricata scripts, handles the installed datasets cache for easy access
 """
 
 import os
@@ -35,9 +35,12 @@ import sqlite3
 import shlex
 import fcntl
 import csv
+from hashlib import md5
 from configparser import ConfigParser
-from lib import rule_source_directory
+from lib import dataset_source_directory
 
+import ray
+import common
 
 class RuleCache(object):
     """
@@ -45,13 +48,14 @@ class RuleCache(object):
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
-        self.cachefile = '%srules.sqlite' % rule_source_directory
+        self.cachefile = '%sdatasets.sqlite' % dataset_source_directory
         self._rule_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
+        self._run, self._client = common.init_experiment('dataset-cache')
 
     @staticmethod
     def list_local():
         all_rule_files = []
-        for filename in glob.glob('%s*.rules' % rule_source_directory):
+        for filename in glob.glob('%s*.csv' % dataset_source_directory):
             all_rule_files.append(filename)
 
         return all_rule_files
@@ -59,7 +63,7 @@ class RuleCache(object):
     @staticmethod
     def list_local_changes():
         # parse OPNsense rule config
-        rule_config_fn = ('%s../rules.config' % rule_source_directory)
+        rule_config_fn = ('%s../datasets.config' % dataset_source_directory)
         rule_config_mtime = os.stat(rule_config_fn).st_mtime
         rule_updates = {}
         if os.path.exists(rule_config_fn):
@@ -74,49 +78,56 @@ class RuleCache(object):
         return rule_updates
 
 
-    def list_rules(self, filename):
+    def list_datasets(self, filename):
         """ generator function to list rule file content including metadata
         :param filename:
         :return:
         """
         with open(filename, 'r') as f_in:
             source_filename = filename.split('/')[-1]
-            for rule in f_in:
-                rule_info_record = {'rule': rule.strip(), 'metadata': None}
-                msg_pos = rule.find('msg:')
-                if msg_pos != -1:
-                    # define basic record
-                    record = {
-                        'enabled': rule[0:20].strip()[0] != '#',
-                        'source': source_filename,
-                        'sid': None,
-                        'rev': None,
-                        'gid': None,
-                        'msg': None,
-                        'reference': None,
-                        'classtype': '##none##',
-                        'action': rule[0:20].replace('#', '').strip().split()[0],
-                        'metadata': dict()
-                    }
-                    rule_metadata = rule[msg_pos:-1]
-                    for section in list(csv.reader([rule_metadata], delimiter=";", escapechar="\\"))[0]:
-                        sep = section.find(':')
-                        if sep > 0:
-                            prop = section[0:sep].strip()
-                            value = section[sep+1:].strip(' "')
-                            if prop == 'metadata':
-                                for mdtag in list(csv.reader([value], delimiter=","))[0]:
-                                    parts = mdtag.split(maxsplit=1)
-                                    record['metadata'][parts[0]] = parts[1]
-                            else:
-                                record[prop] = value
+            dt = ray.data.read_csv(filename)
+            rule_info_record = {'dataset': filename, 'metadata': None}
+            # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
+            filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
+            count = dt.count()
+            top_data = dt.take(10)
+            if count > 0:
+                # define basic record
+                record = {
+                    'enabled': True,
+                    'source': source_filename,
+                    'sid': filename_md5_sum,
+                    'rev': None,
+                    'gid': None,
+                    'msg': None,
+                    'reference': None,
+                    'classtype': '##none##', # AI agents will recognize this attribute
+                    'action': '', # AI agents will recognize this attribute
+                    'metadata': dict()
+                }
+                record['metadata']['artifact'] = filename
+                record['metadata']['created_at'] = os.stat(filename).st_ctime
+                record['metadata']['updated_at'] = os.stat(filename).st_mtime
+                record['metadata']['count'] = count
+                record['metadata']['features'] = list(top_data[0].keys())
+                record['metadata']['labels'] = list()
+                record['metadata']['top_data'] = top_data
 
-                    rule_info_record['metadata'] = record
+                record['metadata']['distance'] = 0
+                record['metadata']['affected_product'] = None
+                record['metadata']['attack_target'] = None
+                record['metadata']['deployment'] = None
+                record['metadata']['signature_severity'] = 'Major'
+                record['metadata']['tag'] = '_'.join(record['metadata']['labels']).replace(' ', '_')
+                record['metadata']['reference'] = dict()
+                record['metadata']['reference']['cve'] = None
+                record['metadata']['reference']['url'] = 'selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
+                rule_info_record['metadata'] = record
 
-                yield rule_info_record
+            yield rule_info_record
 
     def is_changed(self):
-        """ check if rules on disk are probably different from rules in cache
+        """ check if datasets on disk are probably different from datasets in cache
         :return: boolean
         """
         if os.path.exists(self.cachefile):
@@ -164,47 +175,47 @@ class RuleCache(object):
         cur = db.cursor()
 
         cur.execute("create table stats (timestamp number, files number)")
-        cur.execute("""create table rules (sid INTEGER, msg TEXT,
+        cur.execute("""create table datasets (sid TEXT, msg TEXT,
                                            rev INTEGER, gid INTEGER, reference TEXT,
                                            enabled BOOLEAN, action text, source TEXT)""")
-        cur.execute("create table rule_properties(sid INTEGER, property text, value text) ")
-        cur.execute("create table local_rule_changes(sid number primary key, action text, last_mtime number)")
+        cur.execute("create table dataset_properties(sid TEXT, property text, value text) ")
+        cur.execute("create table local_dataset_changes(sid text primary key, action text, last_mtime number)")
         last_mtime = 0
         all_rule_files = self.list_local()
-        rules_sql = 'insert into rules(%(fieldnames)s) values (%(fieldvalues)s)' % {
+        datasets_sql = 'insert into datasets(%(fieldnames)s) values (%(fieldvalues)s)' % {
             'fieldnames': (','.join(self._rule_fields)),
             'fieldvalues': ':' + (',:'.join(self._rule_fields))
         }
-        rule_prop_sql = 'insert into rule_properties(sid, property, value) values (:sid, :property, :value)'
+        rule_prop_sql = 'insert into dataset_properties(sid, property, value) values (:sid, :property, :value)'
         for filename in all_rule_files:
             file_mtime = os.stat(filename).st_mtime
             if file_mtime > last_mtime:
                 last_mtime = file_mtime
-            rules = list()
-            rule_properties = list()
-            for rule_info_record in self.list_rules(filename=filename):
+            datasets = list()
+            dataset_properties = list()
+            for rule_info_record in self.list_datasets(filename=filename):
                 if rule_info_record['metadata'] is not None:
-                    rules.append(rule_info_record['metadata'])
+                    datasets.append(rule_info_record['metadata'])
                     for prop in ['classtype']:
-                        rule_properties.append({
+                        dataset_properties.append({
                             "sid": rule_info_record['metadata']['sid'],
                             "property": prop,
                             "value": rule_info_record['metadata'][prop]
                         })
                     for prop in rule_info_record['metadata']['metadata']:
-                        rule_properties.append({
+                        dataset_properties.append({
                             "sid": rule_info_record['metadata']['sid'],
                             "property": prop,
                             "value": rule_info_record['metadata']['metadata'][prop]
                         })
 
-            cur.executemany(rules_sql, rules)
-            cur.executemany(rule_prop_sql, rule_properties)
+            cur.executemany(datasets_sql, datasets)
+            cur.executemany(rule_prop_sql, dataset_properties)
         cur.execute('INSERT INTO stats (timestamp,files) VALUES (?,?) ', (last_mtime, len(all_rule_files)))
         cur.execute("""
                 create table metadata_histogram as
-                select distinct property, value, count(*) number_of_rules
-                from  rule_properties
+                select distinct property, value, count(*) number_of_datasets
+                from  dataset_properties
                 where property not in ('created_at', 'updated_at')
                 group by property, value
         """)
@@ -216,14 +227,14 @@ class RuleCache(object):
 
 
     def update_local_changes(self):
-        """ read local rules.config containing changes on installed ruleset and update to "local_rule_changes" table
+        """ read local datasets.config containing changes on installed dataset and update to "local_dataset_changes" table
         """
         if os.path.exists(self.cachefile):
             db = sqlite3.connect(self.cachefile)
             cur = db.cursor()
-            cur.execute('select max(last_mtime) from local_rule_changes')
+            cur.execute('select max(last_mtime) from local_dataset_changes')
             last_mtime = cur.fetchall()[0][0]
-            rule_config_mtime = os.stat(('%s../rules.config' % rule_source_directory)).st_mtime
+            rule_config_mtime = os.stat(('%s../datasets.config' % dataset_source_directory)).st_mtime
             if rule_config_mtime != last_mtime:
                 # make sure only one process is updating this table
                 lock = open(self.cachefile + '.LCK', 'w')
@@ -235,18 +246,18 @@ class RuleCache(object):
                     fcntl.flock(lock, fcntl.LOCK_UN)
                     return
                 # delete and insert local changes
-                cur.execute('delete from local_rule_changes')
+                cur.execute('delete from local_dataset_changes')
                 local_changes = self.list_local_changes()
                 for sid in local_changes:
                     sql_params = (sid, local_changes[sid]['action'], local_changes[sid]['mtime'])
-                    cur.execute('insert into local_rule_changes(sid, action, last_mtime) values (?,?,?)', sql_params)
+                    cur.execute('insert into local_dataset_changes(sid, action, last_mtime) values (?,?,?)', sql_params)
                 db.commit()
                 # release lock
                 fcntl.flock(lock, fcntl.LOCK_UN)
 
 
     def search(self, limit, offset, filter_txt, sort_by):
-        """ search installed rules
+        """ search installed datasets
         :param limit: limit number of rows
         :param offset: limit offset
         :param filter_txt: text to search, used format fieldname1,fieldname2/searchphrase include % to match on a part
@@ -277,7 +288,7 @@ class RuleCache(object):
                             sql_item.append('cast(' + fieldname + " as text) like '%'|| :" + fieldname + " || '%' ")
                         sql_parameters[fieldname] = searchcontent.replace('*', '')
                     else:
-                        # property value combinations per rule are queried from the rule_properties table
+                        # property value combinations per rule are queried from the dataset_properties table
                         pfieldnm = "property_%d" % len(prop_values)
                         vfieldnm = "value_%d" % len(prop_values)
                         if searchcontent.find('*') == -1:
@@ -292,16 +303,16 @@ class RuleCache(object):
 
             sql = """select *
                      from (
-                         select rules.*, case when rc.action is null then rules.action else rc.action end installed_action
-                         from rules
+                         select datasets.*, case when rc.action is null then datasets.action else rc.action end installed_action
+                         from datasets
                   """
 
             if len(prop_values) > 0:
-                sql_1 = "select sid, count(*) from rule_properties where " + " or ".join(prop_values)
+                sql_1 = "select sid, count(*) from dataset_properties where " + " or ".join(prop_values)
                 sql_1 += " group by sid"
                 sql_1 += " having count(*) = %d " % len(prop_values)
-                sql += "inner join (%s) p on p.sid = rules.sid " % sql_1
-            sql += "left join local_rule_changes rc on rules.sid = rc.sid ) a"
+                sql += "inner join (%s) p on p.sid = datasets.sid " % sql_1
+            sql += "left join local_dataset_changes rc on datasets.sid = rc.sid ) a"
 
             if len(sql_filters) > 0:
                 sql += ' where ' + " and ".join(list(map(lambda x:" (%s)"%x, sql_filters)))
@@ -339,7 +350,7 @@ class RuleCache(object):
                     all_sids.append("%d" % record['sid'])
 
             # extend with collected metadata attributes
-            cur.execute("select * from rule_properties where sid in (%s) order by sid" %
+            cur.execute("select * from dataset_properties where sid in (%s) order by sid" %
                 ",".join(all_sids)
             )
             rule_props = dict()
