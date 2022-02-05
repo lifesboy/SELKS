@@ -765,6 +765,7 @@ POSSIBILITY OF SUCH DAMAGE.
     </div>
     <div id="settings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings'])}}
+        {{ partial("layout_partials/dataset_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings_Dataset'])}}
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureAct"
