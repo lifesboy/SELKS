@@ -55,7 +55,7 @@ class RuleCache(object):
     @staticmethod
     def list_local():
         all_rule_files = []
-        for filename in glob.glob('%s*.csv' % dataset_source_directory):
+        for filename in glob.glob('%s*/**/*.csv' % dataset_source_directory):
             all_rule_files.append(filename)
 
         return all_rule_files
