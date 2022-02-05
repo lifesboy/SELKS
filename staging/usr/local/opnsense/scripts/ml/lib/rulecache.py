@@ -357,8 +357,8 @@ class RuleCache(object):
                     all_sids.append("%s" % record['sid'])
 
             # extend with collected metadata attributes
-            cur.execute("select * from dataset_properties where sid in (%s) order by sid" %
-                ",".join(all_sids)
+            cur.execute("select * from dataset_properties where sid in ('%s') order by sid" %
+                "','".join(all_sids)
             )
             dataset_props = dict()
             for row in cur.fetchall():
