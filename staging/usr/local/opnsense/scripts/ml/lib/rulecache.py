@@ -50,7 +50,7 @@ class RuleCache(object):
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
         self.cachefile = '%sdatasets.sqlite' % dataset_source_directory
-        self._rule_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
+        self._dataset_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
         self._run, self._client = common.init_experiment('dataset-cache')
 
     @staticmethod
@@ -118,16 +118,18 @@ class RuleCache(object):
 
                 record['metadata']['affected_product'] = None
                 record['metadata']['attack_target'] = None
+                record['metadata']['former_category'] = None
                 record['metadata']['deployment'] = None
                 record['metadata']['signature_severity'] = 'Major'
                 record['metadata']['tag'] = '_'.join(labels).replace(' ', '_')
-                dataset_info_record['metadata'] = record
+                record['metadata']['bugtraq'] = None
+                record['metadata']['cve'] = None
 
                 #record['distance'] = 0
-                record['reference'] = dict()
-                record['reference']['bugtraq'] = None
-                record['reference']['cve'] = None
-                record['reference']['url'] = 'selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
+                record['reference']= 'url,selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
+
+                dataset_info_record['metadata'] = record
+
 
             yield dataset_info_record
 
@@ -188,8 +190,8 @@ class RuleCache(object):
         last_mtime = 0
         all_rule_files = self.list_local()
         datasets_sql = 'insert into datasets(%(fieldnames)s) values (%(fieldvalues)s)' % {
-            'fieldnames': (','.join(self._rule_fields)),
-            'fieldvalues': ':' + (',:'.join(self._rule_fields))
+            'fieldnames': (','.join(self._dataset_fields)),
+            'fieldvalues': ':' + (',:'.join(self._dataset_fields))
         }
         dataset_prop_sql = 'insert into dataset_properties(sid, property, value) values (:sid, :property, :value)'
         for filename in all_rule_files:
