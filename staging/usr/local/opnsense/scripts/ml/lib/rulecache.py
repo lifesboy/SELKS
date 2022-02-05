@@ -115,6 +115,11 @@ class RuleCache(object):
                 record['metadata']['features'] = ','.join(features)
                 record['metadata']['labels'] = ','.join(labels)
                 #record['metadata']['top_data'] = top_data
+                for f in features:
+                    f_name = f.replace(' ', '_')
+                    record['metadata'][f_name] = True
+                    record['metadata']["%s:min" % f_name] = dt.min(f)
+                    record['metadata']["%s:max" % f_name] = dt.max(f)
 
                 #record['metadata']['affected_product'] = None
                 #record['metadata']['attack_target'] = None
