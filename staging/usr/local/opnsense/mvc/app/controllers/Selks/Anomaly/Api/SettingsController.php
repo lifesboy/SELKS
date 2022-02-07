@@ -487,13 +487,13 @@ class SettingsController extends ApiMutableModelControllerBase
      * @throws \Phalcon\Validation\Exception when field validations fail
      * @throws \ReflectionException when not bound to model
      */
-    public function toggleRuleAction($sids, $enabled = null)
+    public function toggleDatasetAction($sids, $enabled = null)
     {
         if ($this->request->isPost()) {
             $this->sessionClose();
             $update_count = 0;
             foreach (explode(",", $sids) as $sid) {
-                $ruleinfo = $this->getRuleInfoAction($sid);
+                $ruleinfo = $this->getDatasetInfoAction($sid);
                 $current_action = null;
                 foreach ($ruleinfo['action'] as $key => $act) {
                     if (!empty($act['selected'])) {
@@ -551,9 +551,9 @@ class SettingsController extends ApiMutableModelControllerBase
         if ($this->request->isPost() && $this->request->hasPost("action")) {
             $this->sessionClose();
             if ($this->request->hasPost('enabled')) {
-                $this->toggleRuleAction($sid, $this->request->getPost("enabled", "int", null));
+                $this->toggleDatasetAction($sid, $this->request->getPost("enabled", "int", null));
             }
-            $ruleinfo = $this->getRuleInfoAction($sid);
+            $ruleinfo = $this->getDatasetInfoAction($sid);
             $newAction = $this->request->getPost("action", "striptags", null);
             if (!empty($ruleinfo)) {
                 $mdlAnomaly = $this->getModel();

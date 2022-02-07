@@ -217,7 +217,7 @@
                         return (new $.Deferred()).resolve();
                     }
                 },
-                toggle:'/api/ids/settings/toggleRule/'
+                toggle:'/api/anomaly/settings/toggleDataset/'
             }
         );
         /**
