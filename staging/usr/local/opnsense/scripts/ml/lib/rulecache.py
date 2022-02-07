@@ -117,7 +117,7 @@ class RuleCache(object):
                 record['metadata']['updated_at'] = datetime.fromtimestamp(os.stat(filename).st_mtime).strftime('%Y_%m_%d')
                 record['metadata']['count'] = count
                 record['metadata']['features'] = ','.join(features)
-                if (label):
+                if (label_column):
                     record['metadata']['label_column'] = label_column
 
                 #record['metadata']['top_data'] = top_data
