@@ -134,7 +134,7 @@
                     $('#{{base_form_id}} .selectpicker').selectpicker('refresh');
                     // link on change event
                     $('#{{base_form_id}} #datasetmetadata').on('change', function(){
-                        $('#{{base_form_id}} #grid-datasets').bootgrid('reload');
+                        $('#{{base_form_id}} #{{base_form_id}}-grid-datasets').bootgrid('reload');
                     });
                 }
             });
@@ -146,7 +146,7 @@
         function addRuleFilters(request) {
             // add loading overlay
             $('#processing-dialog').modal('show');
-            $("#{{base_form_id}} #grid-datasets").bootgrid().on("loaded.rs.jquery.bootgrid", function (e){
+            $("#{{base_form_id}} #{{base_form_id}}-grid-datasets").bootgrid().on("loaded.rs.jquery.bootgrid", function (e){
                 $('#processing-dialog').modal('hide');
             });
 
@@ -171,8 +171,8 @@
         /**
          * grid installed datasets
          */
-        $('#{{base_form_id}} #grid-datasets').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
-        $("#{{base_form_id}} #grid-datasets").UIBootgrid(
+        $('#{{base_form_id}} #{{base_form_id}}-grid-datasets').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
+        $("#{{base_form_id}} #{{base_form_id}}-grid-datasets").UIBootgrid(
             {   search:'{{base_api_endpoint}}searchlocaldatasets',
                 get:'{{base_api_endpoint}}getDatasetInfo/',
                 set:'{{base_api_endpoint}}setRule/',
@@ -227,26 +227,26 @@
         $("#{{base_form_id}} #disableSelectedRules").unbind('click').click(function(event){
             event.preventDefault();
             $("#{{base_form_id}} #disableSelectedRules > span").removeClass("fa-square-o").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', 0, 100).done(function(){
+            actionToggleSelected('{{base_form_id}}-grid-datasets', '{{base_api_endpoint}}toggleRule/', 0, 100).done(function(){
                 $("#disableSelectedRules > span").removeClass("fa-spinner fa-pulse");
                 $("#disableSelectedRules > span").addClass("fa-square-o");
             });
         });
         $("#{{base_form_id}} #enableSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-check-square-o").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', 1, 100).done(function(){
+            actionToggleSelected('{{base_form_id}}-grid-datasets', '{{base_api_endpoint}}toggleRule/', 1, 100).done(function(){
                 $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-spinner fa-pulse").addClass("fa-check-square-o");
             });
         });
         $("#{{base_form_id}} #alertSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #alertSelectedRules > span").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', "alert", 100).done(function(){
+            actionToggleSelected('{{base_form_id}}-grid-datasets', '{{base_api_endpoint}}toggleRule/', "alert", 100).done(function(){
                 $("#{{base_form_id}} #alertSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
         $("#{{base_form_id}} #dropSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #dropSelectedRules > span").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', "drop", 100).done(function(){
+            actionToggleSelected('{{base_form_id}}-grid-datasets', '{{base_api_endpoint}}toggleRule/', "drop", 100).done(function(){
                 $("#{{base_form_id}} #dropSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
@@ -266,7 +266,7 @@
         </div>
 
         <!-- tab page "installed datasets" -->
-        <table id="grid-datasets" data-store-selection="true" class="table table-condensed table-hover table-striped table-responsive" data-editAlert="ruleChangeMessage" data-editDialog="DialogRule">
+        <table id="{{base_form_id}}-grid-datasets" data-store-selection="true" class="table table-condensed table-hover table-striped table-responsive" data-editAlert="ruleChangeMessage" data-editDialog="DialogRule">
             <thead>
             <tr>
                 <th data-column-id="sid" data-type="numeric" data-visible="true" data-identifier="true" data-width="6em">{{ lang._('sid') }}</th>
