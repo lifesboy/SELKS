@@ -121,8 +121,8 @@ class RuleCache(object):
 
                 if (label_column):
                     record['metadata']['label_column'] = label_column
-                    if any(i for i in dt.schema() if i.name == label_column and str(i.type) == 'string'):
-                        features_float64 = [f.name for f in features_types if str(f.type) == 'double']
+                    features_float64 = [f.name for f in features_types if str(f.type) == 'double']
+                    if any(i for i in dt.schema() if i.name == label_column and str(i.type) == 'string') and len(features_float64) > 0:
                         output_signature = (tf.TensorSpec(shape=(None, 1), dtype=tf.float64), tf.TensorSpec(shape=(None), dtype=tf.string))
                         tfd = dt.to_tf(batch_size=1000000, label_column=label_column, feature_columns=[features_float64[0]], output_signature=output_signature)
                         labels = tfd.map(lambda _, x: tf.unique(x)[0]).reduce([''], lambda x,y: tf.unique(tf.concat([x, y], 0))[0]).numpy().tolist()
