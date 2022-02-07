@@ -54,6 +54,63 @@
 <script>
     $( document ).ready(function() {
         /**
+         * toggle selected items
+         * @param gridId: grid id to to use
+         * @param url: ajax action to call
+         * @param state: 0/1/undefined
+         * @param combine: number of keys to combine (separate with ,)
+         *                 try to avoid too much items per call (results in too long url's)
+         */
+        function actionToggleSelected(gridId, url, state, combine) {
+            var defer_toggle = $.Deferred();
+            var rows = $("#"+gridId).bootgrid('getSelectedRows');
+            if (rows != undefined){
+                var deferreds = [];
+                if (state != undefined) {
+                    var url_suffix = state;
+                } else {
+                    var url_suffix = "";
+                }
+                var base = $.when({});
+                var keyset = [];
+                $.each(rows, function(key, uuid){
+                    // only perform action in visible items
+                    if ($("#"+gridId).find("tr[data-row-id='"+uuid+"']").is(':visible')) {
+                        keyset.push(uuid);
+                        if ( combine === undefined || keyset.length > combine || rows[rows.length - 1] === uuid) {
+                            var call_url = url + keyset.join(',') +'/'+url_suffix;
+                            console.log('call_url', call_url);
+                            base = base.then(function() {
+                                var defer = $.Deferred();
+                                ajaxCall(call_url, {}, function(){
+                                    defer.resolve();
+                                });
+                                return defer.promise();
+                            });
+                            keyset = [];
+                        }
+                    }
+                });
+                // last action in the list, reload grid and release this promise
+                base.then(function(){
+                    $("#"+gridId).bootgrid("reload");
+                    let changemsg = $("#"+gridId).data("editalert");
+                    if (changemsg !== undefined) {
+                        $("#"+changemsg).slideDown(1000, function(){
+                            setTimeout(function(){
+                                $("#"+changemsg).slideUp(2000);
+                            }, 2000);
+                        });
+                    }
+                    defer_toggle.resolve();
+                });
+            } else {
+                defer_toggle.resolve();
+            }
+            return defer_toggle.promise();
+        }
+
+        /**
          * list all known classtypes and add to selection box
          */
         function updateDatasetMetadata() {
