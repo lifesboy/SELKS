@@ -79,7 +79,7 @@ class Anomaly extends BaseModel
                 $this->sid_list_preprocessing[$NodeValue->sid] = $NodeValue;
             }
             // list of known actions and defaults
-            $this->action_list_preprocessing = $this->preprocessingDatasets->getTemplateNode()->action->getNodeData();
+            $this->action_list_preprocessing = $this->preprocessingDatasets->dataset->getTemplateNode()->action->getNodeData();
         }
     }
 
