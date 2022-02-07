@@ -41,7 +41,10 @@ from configparser import ConfigParser
 from lib import dataset_source_directory
 
 import ray
-from ray.data.aggregate import Min, Max, Mean
+from ray.rllib.utils.framework import try_import_tf, try_import_torch
+tf1, tf, tfv = try_import_tf()
+tf1.enable_eager_execution()
+
 import common
 
 class RuleCache(object):
@@ -92,8 +95,9 @@ class RuleCache(object):
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
-            features = [i.name for i in dt.schema()]
-            labels = list()
+            label='Label'
+            features_types = [i for i in dt.schema() if i.name != label_column]
+            features = [i.name for i in features_types]
             if count > 0:
                 # define basic record
                 record = {
@@ -113,11 +117,17 @@ class RuleCache(object):
                 record['metadata']['updated_at'] = datetime.fromtimestamp(os.stat(filename).st_mtime).strftime('%Y_%m_%d')
                 record['metadata']['count'] = count
                 record['metadata']['features'] = ','.join(features)
-                record['metadata']['labels'] = ','.join(labels)
-                #record['metadata']['top_data'] = top_data
+                if (label):
+                    record['metadata']['label'] = label
 
-                #num_features = len(features)
-                #feature_metadata = dt.filter(lambda x: len(x) == num_features).aggregate(*[g(f) for f in features for g in [Max, Min]])
+                #record['metadata']['top_data'] = top_data
+                features_float64 = [f.name for f in features_types if str(f.type) == 'double']
+                output_signature = (tf.TensorSpec(shape=(None, 1), dtype=tf.float64), tf.TensorSpec(shape=(None), dtype=tf.string))
+                tfd = dt.to_tf(batch_size=1000000, label_column=label_column, feature_columns=[features_float64[0]], output_signature=output_signature)
+                labels = tfd.map(lambda _, x: tf.unique(x)[0]).reduce([''], lambda x,y: tf.unique(tf.concat([x, y], 0))[0]).numpy().tolist()
+                del labels[0]
+                record['metadata']['labels'] = ','.join(labels)
+
                 for f in features:
                    f_name = f.replace(' ', '_').lower()
                    record['metadata'][f_name] = True
