@@ -75,7 +75,7 @@ class Anomaly extends BaseModel
     private function updatePreprocessingSIDlist()
     {
         if (count($this->sid_list_preprocessing) == 0) {
-            foreach ($this->preprocessingDatasets->iterateItems() as $NodeKey => $NodeValue) {
+            foreach ($this->preprocessingDatasets->dataset->iterateItems() as $NodeKey => $NodeValue) {
                 $this->sid_list_preprocessing[$NodeValue->sid] = $NodeValue;
             }
             // list of known actions and defaults
@@ -108,7 +108,7 @@ class Anomaly extends BaseModel
     {
         $this->updatePreprocessingSIDlist();
         if (!array_key_exists($sid, $this->sid_list_preprocessing)) {
-            $rule = $this->preprocessingDatasets->Add();
+            $rule = $this->preprocessingDatasets->dataset->Add();
             $rule->sid = $sid;
             $this->sid_list_preprocessing[$sid] = $rule;
         }
@@ -191,9 +191,9 @@ class Anomaly extends BaseModel
     public function removePreprocessingDataset($sid)
     {
         // search and drop rule
-        foreach ($this->preprocessingDatasets->iterateItems() as $NodeKey => $NodeValue) {
+        foreach ($this->preprocessingDatasets->dataset->iterateItems() as $NodeKey => $NodeValue) {
             if ((string)$NodeValue->sid == $sid) {
-                $this->preprocessingDatasets->Del($NodeKey);
+                $this->preprocessingDatasets->dataset->Del($NodeKey);
                 unset($this->sid_list_preprocessing[$sid]);
                 break;
             }
