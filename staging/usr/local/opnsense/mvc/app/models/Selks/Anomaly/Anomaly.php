@@ -76,7 +76,7 @@ class Anomaly extends BaseModel
     {
         if (count($this->sid_list_preprocessing) == 0) {
             foreach ($this->preprocessingDatasets->dataset->iterateItems() as $NodeKey => $NodeValue) {
-                $this->sid_list_preprocessing[$NodeValue->sid] = $NodeValue;
+                $this->sid_list_preprocessing[$NodeValue->sid->__toString()] = $NodeValue;
             }
             // list of known actions and defaults
             $this->action_list_preprocessing = $this->preprocessingDatasets->dataset->getTemplateNode()->action->getNodeData();
