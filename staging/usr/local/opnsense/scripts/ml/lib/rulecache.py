@@ -101,7 +101,7 @@ class RuleCache(object):
             if count > 0:
                 # define basic record
                 record = {
-                    'enabled': True,
+                    'enabled': False,
                     'source': source_filename,
                     'sid': filename_md5_sum,
                     'rev': None,
