@@ -127,7 +127,9 @@ class RuleCache(object):
                         tfd = dt.to_tf(batch_size=1000000, label_column=label_column, feature_columns=[features_float64[0]], output_signature=output_signature)
                         labels = tfd.map(lambda _, x: tf.unique(x)[0]).reduce([''], lambda x,y: tf.unique(tf.concat([x, y], 0))[0]).numpy().tolist()
                         del labels[0]
+
                         record['metadata']['labels'] = ','.join(labels)
+                        record['metadata']['tag'] = '_'.join(labels).replace(' ', '_')
 
                 for f in features:
                    f_name = f.replace(' ', '_').lower()
@@ -140,7 +142,6 @@ class RuleCache(object):
                 #record['metadata']['former_category'] = None
                 #record['metadata']['deployment'] = None
                 record['metadata']['signature_severity'] = 'Major'
-                record['metadata']['tag'] = '_'.join(labels).replace(' ', '_')
                 #record['metadata']['bugtraq'] = None
                 #record['metadata']['cve'] = None
 
