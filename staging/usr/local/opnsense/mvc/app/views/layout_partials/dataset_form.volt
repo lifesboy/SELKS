@@ -64,7 +64,7 @@
          */
         function actionToggleSelected(gridId, url, state, combine) {
             var defer_toggle = $.Deferred();
-            var rows = $("#{{base_form_id}} #"+gridId).bootgrid('getSelectedRows');
+            var rows = $("#"+gridId).bootgrid('getSelectedRows');
             if (rows != undefined){
                 var deferreds = [];
                 if (state != undefined) {
@@ -76,10 +76,11 @@
                 var keyset = [];
                 $.each(rows, function(key, uuid){
                     // only perform action in visible items
-                    if ($("#{{base_form_id}} #"+gridId).find("tr[data-row-id='"+uuid+"']").is(':visible')) {
+                    if ($("#"+gridId).find("tr[data-row-id='"+uuid+"']").is(':visible')) {
                         keyset.push(uuid);
                         if ( combine === undefined || keyset.length > combine || rows[rows.length - 1] === uuid) {
                             var call_url = url + keyset.join(',') +'/'+url_suffix;
+                            console.log('call_url', call_url);
                             base = base.then(function() {
                                 var defer = $.Deferred();
                                 ajaxCall(call_url, {}, function(){
@@ -93,8 +94,8 @@
                 });
                 // last action in the list, reload grid and release this promise
                 base.then(function(){
-                    $("#{{base_form_id}} #"+gridId).bootgrid("reload");
-                    let changemsg = $("#{{base_form_id}} #"+gridId).data("editalert");
+                    $("#"+gridId).bootgrid("reload");
+                    let changemsg = $("#"+gridId).data("editalert");
                     if (changemsg !== undefined) {
                         $("#"+changemsg).slideDown(1000, function(){
                             setTimeout(function(){
