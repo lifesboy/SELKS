@@ -128,8 +128,8 @@ class RuleCache(object):
                         labels = tfd.map(lambda _, x: tf.unique(x)[0]).reduce([''], lambda x,y: tf.unique(tf.concat([x, y], 0))[0]).numpy().tolist()
                         del labels[0]
 
-                        record['metadata']['labels'] = ','.join(labels)
-                        record['metadata']['tag'] = '_'.join(labels).replace(' ', '_')
+                        record['metadata']['labels'] = b','.join(labels).decode('utf-8')
+                        record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
 
                 for f in features:
                    f_name = f.replace(' ', '_').lower()
