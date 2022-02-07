@@ -35,6 +35,7 @@
 
 {# Find if there are help supported or advanced field on this page #}
 {% set base_form_id=id %}
+{% set base_api_endpoint=api %}
 {% set help=false %}
 {% set advanced=false %}
 {% for field in fields|default({})%}
@@ -114,7 +115,7 @@
          * list all known classtypes and add to selection box
          */
         function updateDatasetMetadata() {
-            ajaxGet("/api/anomaly/settings/listDatasetMetadata", {}, function(data, status) {
+            ajaxGet("{{base_api_endpoint}}listDatasetMetadata", {}, function(data, status) {
                 if (status == "success") {
                     $('#{{base_form_id}} #datasetmetadata').empty();
                     $.each(Object.assign({}, {'action': ['drop', 'alert', '']}, data), function(key, values) {
@@ -172,9 +173,9 @@
          */
         $('#{{base_form_id}} #grid-datasets').bootgrid('destroy'); // always destroy previous grid, so data is always fresh
         $("#{{base_form_id}} #grid-datasets").UIBootgrid(
-            {   search:'/api/anomaly/settings/searchlocaldatasets',
-                get:'/api/anomaly/settings/getDatasetInfo/',
-                set:'/api/ids/settings/setRule/',
+            {   search:'{{base_api_endpoint}}searchlocaldatasets',
+                get:'{{base_api_endpoint}}getDatasetInfo/',
+                set:'{{base_api_endpoint}}setRule/',
                 options:{
                     requestHandler:addRuleFilters,
                     rowCount:[10, 25, 50,100,500,1000] ,
@@ -217,7 +218,7 @@
                         return (new $.Deferred()).resolve();
                     }
                 },
-                toggle:'/api/anomaly/settings/toggleDataset/'
+                toggle:'{{base_api_endpoint}}toggleDataset/'
             }
         );
         /**
@@ -226,26 +227,26 @@
         $("#{{base_form_id}} #disableSelectedRules").unbind('click').click(function(event){
             event.preventDefault();
             $("#{{base_form_id}} #disableSelectedRules > span").removeClass("fa-square-o").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', 0, 100).done(function(){
+            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', 0, 100).done(function(){
                 $("#disableSelectedRules > span").removeClass("fa-spinner fa-pulse");
                 $("#disableSelectedRules > span").addClass("fa-square-o");
             });
         });
         $("#{{base_form_id}} #enableSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-check-square-o").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', 1, 100).done(function(){
+            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', 1, 100).done(function(){
                 $("#{{base_form_id}} #enableSelectedRules > span").removeClass("fa-spinner fa-pulse").addClass("fa-check-square-o");
             });
         });
         $("#{{base_form_id}} #alertSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #alertSelectedRules > span").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', "alert", 100).done(function(){
+            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', "alert", 100).done(function(){
                 $("#{{base_form_id}} #alertSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
         $("#{{base_form_id}} #dropSelectedRules").unbind('click').click(function(){
             $("#{{base_form_id}} #dropSelectedRules > span").addClass("fa-spinner fa-pulse");
-            actionToggleSelected('grid-datasets', '/api/ids/settings/toggleRule/', "drop", 100).done(function(){
+            actionToggleSelected('grid-datasets', '{{base_api_endpoint}}toggleRule/', "drop", 100).done(function(){
                 $("#{{base_form_id}} #dropSelectedRules > span").removeClass("fa-spinner fa-pulse");
             });
         });
