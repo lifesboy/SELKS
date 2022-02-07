@@ -75,11 +75,11 @@ class Anomaly extends BaseModel
     private function updatePreprocessingSIDlist()
     {
         if (count($this->sid_list_preprocessing) == 0) {
-            foreach ($this->general->DataSource->iterateItems() as $NodeKey => $NodeValue) {
+            foreach ($this->preprocessingDatasets->iterateItems() as $NodeKey => $NodeValue) {
                 $this->sid_list_preprocessing[$NodeValue->sid->__toString()] = $NodeValue;
             }
             // list of known actions and defaults
-            $this->action_list_preprocessing = $this->general->DataSource->getTemplateNode()->action->getNodeData();
+            $this->action_list_preprocessing = $this->preprocessingDatasets->getTemplateNode()->action->getNodeData();
         }
     }
 
