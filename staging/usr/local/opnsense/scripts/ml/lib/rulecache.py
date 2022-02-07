@@ -95,7 +95,7 @@ class RuleCache(object):
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
-            label='Label'
+            label_column='Label'
             features_types = [i for i in dt.schema() if i.name != label_column]
             features = [i.name for i in features_types]
             if count > 0:
@@ -118,7 +118,7 @@ class RuleCache(object):
                 record['metadata']['count'] = count
                 record['metadata']['features'] = ','.join(features)
                 if (label):
-                    record['metadata']['label'] = label
+                    record['metadata']['label_column'] = label_column
 
                 #record['metadata']['top_data'] = top_data
                 features_float64 = [f.name for f in features_types if str(f.type) == 'double']
