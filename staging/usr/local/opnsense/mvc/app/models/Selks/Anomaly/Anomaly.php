@@ -215,6 +215,15 @@ class Anomaly extends BaseModel
             return $default;
         }
     }
+    public function getPreprocessingDatasetStatus($sid, $default)
+    {
+        $this->updatePreprocessingSIDlist();
+        if (!empty($sid) && array_key_exists($sid, $this->sid_list_preprocessing)) {
+            return (string)$this->sid_list_preprocessing[$sid]->enabled;
+        } else {
+            return $default;
+        }
+    }
 
     /**
      * retrieve current (altered) rule action
@@ -255,6 +264,43 @@ class Anomaly extends BaseModel
             // return plaintext default
             if (array_key_exists($default, $this->action_list)) {
                 return $this->action_list[$default]['value'];
+            } else {
+                return $default;
+            }
+        }
+    }
+    public function getPreprocessingDatasetAction($sid, $default, $response_plain = false)
+    {
+        $this->updatePreprocessingSIDlist();
+        if (!empty($sid) && array_key_exists($sid, $this->sid_list_preprocessing)) {
+            if (!$response_plain) {
+                return $this->sid_list_preprocessing[$sid]->action->getNodeData();
+            } else {
+                $act = (string)$this->sid_list_preprocessing[$sid]->action;
+                if (array_key_exists($act, $this->action_list_preprocessing)) {
+                    return $this->action_list_preprocessing[$act]['value'];
+                } else {
+                    return $act;
+                }
+            }
+        } elseif (!$response_plain) {
+            // generate selection for new field
+            $default_types = $this->action_list_preprocessing;
+            if (array_key_exists($default, $default_types)) {
+                foreach ($default_types as $key => $value) {
+                    if ($key ==  $default) {
+                        $default_types[$key]['selected'] = 1;
+                    } else {
+                        $default_types[$key]['selected'] = 0;
+                    }
+                }
+            }
+            // select default
+            return $default_types;
+        } else {
+            // return plaintext default
+            if (array_key_exists($default, $this->action_list_preprocessing)) {
+                return $this->action_list_preprocessing[$default]['value'];
             } else {
                 return $default;
             }
