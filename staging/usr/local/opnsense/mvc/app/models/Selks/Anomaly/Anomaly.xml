@@ -89,13 +89,8 @@
               </value>
             </tag>
         </fileTags>
-        <general>
-            <enabled type="BooleanField">
-                <default>0</default>
-                <Required>Y</Required>
-            </enabled>
-            <DataSource type="ArrayField">
-                <Required>Y</Required>
+        <preprocessingDatasets>
+            <dataset type="ArrayField">
                 <sid type="TextField">
                     <Required>Y</Required>
                 </sid>
@@ -111,6 +106,15 @@
                         <drop>Drop</drop>
                     </OptionValues>
                 </action>
+            </dataset>
+        </preprocessingDatasets>
+        <general>
+            <enabled type="BooleanField">
+                <default>0</default>
+                <Required>Y</Required>
+            </enabled>
+            <DataSource type="TextField">
+                <Required>Y</Required>
             </DataSource>
             <StopIters type="IntegerField">
                 <Required>N</Required>
