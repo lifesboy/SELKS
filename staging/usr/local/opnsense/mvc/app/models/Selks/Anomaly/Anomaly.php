@@ -49,6 +49,16 @@ class Anomaly extends BaseModel
     private $action_list = array();
 
     /**
+     * @var array internal list of all sid's in this object
+     */
+    private $sid_list_preprocessing = array();
+
+    /**
+     * @var array internal list of all known actions (key/value)
+     */
+    private $action_list_preprocessing = array();
+
+    /**
      * update internal cache of sid's and actions
      */
     private function updateSIDlist()
@@ -59,6 +69,17 @@ class Anomaly extends BaseModel
             }
             // list of known actions and defaults
             $this->action_list = $this->rules->rule->getTemplateNode()->action->getNodeData();
+        }
+    }
+
+    private function updatePreprocessingSIDlist()
+    {
+        if (count($this->sid_list_preprocessing) == 0) {
+            foreach ($this->general->DataSource->iterateItems() as $NodeKey => $NodeValue) {
+                $this->sid_list_preprocessing[$NodeValue->sid->__toString()] = $NodeValue;
+            }
+            // list of known actions and defaults
+            $this->action_list_preprocessing = $this->general->DataSource->getTemplateNode()->action->getNodeData();
         }
     }
 
@@ -79,6 +100,22 @@ class Anomaly extends BaseModel
     }
 
     /**
+     * get new or existing rule
+     * @param string $sid unique id
+     * @return mixed
+     */
+    private function getPreprocessingDataset($sid)
+    {
+        $this->updatePreprocessingSIDlist();
+        if (!array_key_exists($sid, $this->sid_list_preprocessing)) {
+            $rule = $this->general->DataSource->Add();
+            $rule->sid = $sid;
+            $this->sid_list_preprocessing[$sid] = $rule;
+        }
+        return $this->sid_list_preprocessing[$sid];
+    }
+
+    /**
      * enable rule
      * @param string $sid unique id
      * @return ArrayField affected rule
@@ -91,6 +128,18 @@ class Anomaly extends BaseModel
     }
 
     /**
+     * enable rule
+     * @param string $sid unique id
+     * @return ArrayField affected rule
+     */
+    public function enablePreprocessingDataset($sid)
+    {
+        $rule = $this->getPreprocessingDataset($sid);
+        $rule->enabled = "1";
+        return $rule;
+    }
+
+    /**
      * disable rule
      * @param string $sid unique id
      * @return ArrayField affected rule
@@ -98,6 +147,12 @@ class Anomaly extends BaseModel
     public function disableRule($sid)
     {
         $rule = $this->getRule($sid);
+        $rule->enabled = "0";
+        return $rule;
+    }
+    public function disablePreprocessingDataset($sid)
+    {
+        $rule = $this->getPreprocessingDataset($sid);
         $rule->enabled = "0";
         return $rule;
     }
@@ -124,6 +179,22 @@ class Anomaly extends BaseModel
             if ((string)$NodeValue->sid == $sid) {
                 $this->rules->rule->Del($NodeKey);
                 unset($this->sid_list[$sid]);
+                break;
+            }
+        }
+    }
+
+    /**
+     * remove rule by sid
+     * @param string $sid unique id
+     */
+    public function removePreprocessingDataset($sid)
+    {
+        // search and drop rule
+        foreach ($this->general->DataSource->iterateItems() as $NodeKey => $NodeValue) {
+            if ((string)$NodeValue->sid == $sid) {
+                $this->general->DataSource->Del($NodeKey);
+                unset($this->sid_list_preprocessing[$sid]);
                 break;
             }
         }

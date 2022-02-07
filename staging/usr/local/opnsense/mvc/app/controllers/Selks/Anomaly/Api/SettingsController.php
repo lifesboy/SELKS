@@ -521,11 +521,11 @@ class SettingsController extends ApiMutableModelControllerBase
                     }
                     if ($ruleinfo['enabled_default'] == $new_state && $current_action == $ruleinfo['action_default']) {
                         // if we're switching back to default, remove alter rule
-                        $this->getModel()->removeRule($sid);
+                        $this->getModel()->removePreprocessingDataset($sid);
                     } elseif ($new_state == 1) {
-                        $this->getModel()->enableRule($sid)->action = $current_action;
+                        $this->getModel()->enablePreprocessingDataset($sid)->action = $current_action;
                     } else {
-                        $this->getModel()->disableRule($sid)->action = $current_action;
+                        $this->getModel()->disablePreprocessingDataset($sid)->action = $current_action;
                     }
                     $update_count++;
                 }
