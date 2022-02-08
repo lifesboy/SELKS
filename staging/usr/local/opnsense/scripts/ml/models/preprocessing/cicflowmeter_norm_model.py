@@ -20,7 +20,7 @@ from datetime import date
 import mlflow
 
 
-class BaseUnitNormModel(mlflow.pyfunc.PythonModel):
+class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
     def __init__(self):
         super().__init__()
         # global run
