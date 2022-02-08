@@ -133,8 +133,8 @@ class SettingsController extends ApiMutableModelControllerBase
                 // update rule status with own administration
                 foreach ($result['rows'] as &$row) {
                     $row['enabled_default'] = $row['enabled'];
-                    $row['enabled'] = $this->getModel()->getPreprocessingDatasetStatus($row['sid'], $row['enabled']);
-                    $row['action'] = $this->getModel()->getPreprocessingDatasetAction($row['sid'], $row['action'], true);
+                    $row['enabled'] = $this->getModel()->getTrainingDatasetStatus($row['sid'], $row['enabled']);
+                    $row['action'] = $this->getModel()->getTrainingDatasetAction($row['sid'], $row['action'], true);
                 }
 
                 $result['rowCount'] = empty($result['rows']) || !is_array($result['rows']) ? 0 : count($result['rows']);
@@ -174,8 +174,8 @@ class SettingsController extends ApiMutableModelControllerBase
             // set current enable status (default + registered offset)
             $row['enabled_default'] = $row['enabled'];
             $row['action_default'] = $row['action'];
-            $row['enabled'] = $this->getModel()->getPreprocessingDatasetStatus($row['sid'], $row['enabled']);
-            $row['action'] = $this->getModel()->getPreprocessingDatasetAction($row['sid'], $row['action']);
+            $row['enabled'] = $this->getModel()->getTrainingDatasetStatus($row['sid'], $row['enabled']);
+            $row['action'] = $this->getModel()->getTrainingDatasetAction($row['sid'], $row['action']);
             //
             if (isset($row['reference']) && $row['reference'] != '') {
                 // browser friendly reference data
@@ -521,11 +521,11 @@ class SettingsController extends ApiMutableModelControllerBase
                     }
                     if ($ruleinfo['enabled_default'] == $new_state && $current_action == $ruleinfo['action_default']) {
                         // if we're switching back to default, remove alter rule
-                        $this->getModel()->removePreprocessingDataset($sid);
+                        $this->getModel()->removeTrainingDataset($sid);
                     } elseif ($new_state == 1) {
-                        $this->getModel()->enablePreprocessingDataset($sid)->action = $current_action;
+                        $this->getModel()->enableTrainingDataset($sid)->action = $current_action;
                     } else {
-                        $this->getModel()->disablePreprocessingDataset($sid)->action = $current_action;
+                        $this->getModel()->disableTrainingDataset($sid)->action = $current_action;
                     }
                     $update_count++;
                 }

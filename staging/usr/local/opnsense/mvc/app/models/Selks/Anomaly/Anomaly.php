@@ -42,21 +42,15 @@ class Anomaly extends BaseModel
      * @var array internal list of all sid's in this object
      */
     private $sid_list = array();
+    private $sid_list_preprocessing = array();
+    private $sid_list_training = array();
 
     /**
      * @var array internal list of all known actions (key/value)
      */
     private $action_list = array();
-
-    /**
-     * @var array internal list of all sid's in this object
-     */
-    private $sid_list_preprocessing = array();
-
-    /**
-     * @var array internal list of all known actions (key/value)
-     */
     private $action_list_preprocessing = array();
+    private $action_list_training = array();
 
     /**
      * update internal cache of sid's and actions
@@ -80,6 +74,17 @@ class Anomaly extends BaseModel
             }
             // list of known actions and defaults
             $this->action_list_preprocessing = $this->preprocessingDatasets->dataset->getTemplateNode()->action->getNodeData();
+        }
+    }
+
+    private function updateTrainingSIDlist()
+    {
+        if (count($this->sid_list_training) == 0) {
+            foreach ($this->trainingDatasets->dataset->iterateItems() as $NodeKey => $NodeValue) {
+                $this->sid_list_training[$NodeValue->sid->__toString()] = $NodeValue;
+            }
+            // list of known actions and defaults
+            $this->action_list_training = $this->trainingDatasets->dataset->getTemplateNode()->action->getNodeData();
         }
     }
 
@@ -115,6 +120,17 @@ class Anomaly extends BaseModel
         return $this->sid_list_preprocessing[$sid];
     }
 
+    private function getTrainingDataset($sid)
+    {
+        $this->updateTrainingSIDlist();
+        if (!array_key_exists($sid, $this->sid_list_training)) {
+            $rule = $this->trainingDatasets->dataset->Add();
+            $rule->sid = $sid;
+            $this->sid_list_training[$sid] = $rule;
+        }
+        return $this->sid_list_training[$sid];
+    }
+
     /**
      * enable rule
      * @param string $sid unique id
@@ -139,6 +155,13 @@ class Anomaly extends BaseModel
         return $rule;
     }
 
+    public function enableTrainingDataset($sid)
+    {
+        $rule = $this->getPreprocessingDataset($sid);
+        $rule->enabled = "1";
+        return $rule;
+    }
+
     /**
      * disable rule
      * @param string $sid unique id
@@ -150,9 +173,17 @@ class Anomaly extends BaseModel
         $rule->enabled = "0";
         return $rule;
     }
+
     public function disablePreprocessingDataset($sid)
     {
         $rule = $this->getPreprocessingDataset($sid);
+        $rule->enabled = "0";
+        return $rule;
+    }
+
+    public function disableTrainingDataset($sid)
+    {
+        $rule = $this->getTrainingDataset($sid);
         $rule->enabled = "0";
         return $rule;
     }
@@ -200,6 +231,18 @@ class Anomaly extends BaseModel
         }
     }
 
+    public function removeTrainingDataset($sid)
+    {
+        // search and drop rule
+        foreach ($this->trainingDatasets->dataset->iterateItems() as $NodeKey => $NodeValue) {
+            if ((string)$NodeValue->sid == $sid) {
+                $this->trainingDatasets->dataset->Del($NodeKey);
+                unset($this->sid_list_training[$sid]);
+                break;
+            }
+        }
+    }
+
     /**
      * retrieve current altered rule status
      * @param string $sid unique id
@@ -220,6 +263,15 @@ class Anomaly extends BaseModel
         $this->updatePreprocessingSIDlist();
         if (!empty($sid) && array_key_exists($sid, $this->sid_list_preprocessing)) {
             return (string)$this->sid_list_preprocessing[$sid]->enabled;
+        } else {
+            return $default;
+        }
+    }
+    public function getTrainingDatasetStatus($sid, $default)
+    {
+        $this->updateTrainingSIDlist();
+        if (!empty($sid) && array_key_exists($sid, $this->sid_list_training)) {
+            return (string)$this->sid_list_training[$sid]->enabled;
         } else {
             return $default;
         }
@@ -269,6 +321,7 @@ class Anomaly extends BaseModel
             }
         }
     }
+
     public function getPreprocessingDatasetAction($sid, $default, $response_plain = false)
     {
         $this->updatePreprocessingSIDlist();
@@ -301,6 +354,44 @@ class Anomaly extends BaseModel
             // return plaintext default
             if (array_key_exists($default, $this->action_list_preprocessing)) {
                 return $this->action_list_preprocessing[$default]['value'];
+            } else {
+                return $default;
+            }
+        }
+    }
+
+    public function getTrainingDatasetAction($sid, $default, $response_plain = false)
+    {
+        $this->updateTrainingSIDlist();
+        if (!empty($sid) && array_key_exists($sid, $this->sid_list_training)) {
+            if (!$response_plain) {
+                return $this->sid_list_training[$sid]->action->getNodeData();
+            } else {
+                $act = (string)$this->sid_list_training[$sid]->action;
+                if (array_key_exists($act, $this->action_list_training)) {
+                    return $this->action_list_training[$act]['value'];
+                } else {
+                    return $act;
+                }
+            }
+        } elseif (!$response_plain) {
+            // generate selection for new field
+            $default_types = $this->action_list_training;
+            if (array_key_exists($default, $default_types)) {
+                foreach ($default_types as $key => $value) {
+                    if ($key ==  $default) {
+                        $default_types[$key]['selected'] = 1;
+                    } else {
+                        $default_types[$key]['selected'] = 0;
+                    }
+                }
+            }
+            // select default
+            return $default_types;
+        } else {
+            // return plaintext default
+            if (array_key_exists($default, $this->action_list_training)) {
+                return $this->action_list_training[$default]['value'];
             } else {
                 return $default;
             }
