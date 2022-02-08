@@ -18,9 +18,30 @@ import anomaly_normalization as norm
 
 from datetime import date
 import mlflow
+from models.model_meta import ModelMeta
 
 
 class Cic2018NormModel(mlflow.pyfunc.PythonModel):
+
+    @staticmethod
+    def get_model_meta() -> ModelMeta:
+        return ModelMeta(artifact_path='preprocessor',
+                         registered_model_name='Cic2018NormModel',
+                         python_model=Cic2018NormModel(),
+                         conda_env={
+                             'channels': ['defaults', 'conda-forge'],
+                             'dependencies': [
+                                 'python={}'.format(PYTHON_VERSION),
+                                 'pip'
+                             ],
+                             'pip': [
+                                 'mlflow=={}'.format(mlflow.__version__),
+                                 'pandas=={}'.format(pandas.__version__),
+                                 'ray=={}'.format(ray.__version__)
+                             ],
+                             'name': 'mlflow-env'
+                         })
+
     def __init__(self):
         super().__init__()
         # global run
