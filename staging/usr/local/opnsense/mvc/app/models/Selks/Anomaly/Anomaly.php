@@ -157,10 +157,10 @@ class Anomaly extends BaseModel
 
     public function updatePreprocessingDataSource()
     {
-        $this->dataProcessor->DataSource = array_map(
+        $this->dataProcessor->DataSource = implode(',', array_map(
             function ($i) { return $i->artifact->__toString(); },
             array_filter($this->sid_list_preprocessing, function ($i) { return '1' === $i->enabled->__toString(); })
-        ).join(',');
+        ));
     }
 
     /**
