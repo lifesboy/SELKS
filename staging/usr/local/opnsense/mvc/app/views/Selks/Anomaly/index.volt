@@ -158,7 +158,7 @@ POSSIBILITY OF SUCH DAMAGE.
         function loadDataProcessorSettings() {
             mapDataToFormUI(data_processor_settings_get_map).done(function(data){
                 // set schedule updates link to cron
-                $.each(data.anomaly.dataProcessorSettings.UpdateCron, function(key, value) {
+                $.each(data.frm_DataProcessorSettings.anomaly.dataProcessorSettings.UpdateCron, function(key, value) {
                     if (value.selected == 1) {
                         $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
                         $("#scheduled_updates").show();
@@ -173,7 +173,7 @@ POSSIBILITY OF SUCH DAMAGE.
         function loadTestingSettings() {
             mapDataToFormUI(testing_settings_get_map).done(function(data){
                 // set schedule updates link to cron
-                $.each(data.anomaly.testingSettings.UpdateCron, function(key, value) {
+                $.each(data.frm_TestingSettings.anomaly.testingSettings.UpdateCron, function(key, value) {
                     if (value.selected == 1) {
                         $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
                         $("#scheduled_updates").show();
@@ -186,7 +186,7 @@ POSSIBILITY OF SUCH DAMAGE.
         function loadGeneralSettings() {
             mapDataToFormUI(data_get_map).done(function(data){
                 // set schedule updates link to cron
-                $.each(data.anomaly.general.UpdateCron, function(key, value) {
+                $.each(data.frm_GeneralSettings.anomaly.general.UpdateCron, function(key, value) {
                     if (value.selected == 1) {
                         $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
                         $("#scheduled_updates").show();
