@@ -44,6 +44,7 @@ class Anomaly extends BaseModel
     private $sid_list = array();
     private $sid_list_preprocessing = array();
     private $sid_list_training = array();
+    private $sid_list_testing = array();
 
     /**
      * @var array internal list of all known actions (key/value)
@@ -51,6 +52,7 @@ class Anomaly extends BaseModel
     private $action_list = array();
     private $action_list_preprocessing = array();
     private $action_list_training = array();
+    private $action_list_testing = array();
 
     /**
      * update internal cache of sid's and actions
@@ -85,6 +87,17 @@ class Anomaly extends BaseModel
             }
             // list of known actions and defaults
             $this->action_list_training = $this->trainingDatasets->dataset->getTemplateNode()->action->getNodeData();
+        }
+    }
+
+    private function updateTestingSIDlist()
+    {
+        if (count($this->sid_list_testing) == 0) {
+            foreach ($this->testingDatasets->dataset->iterateItems() as $NodeKey => $NodeValue) {
+                $this->sid_list_testing[$NodeValue->sid->__toString()] = $NodeValue;
+            }
+            // list of known actions and defaults
+            $this->action_list_testing = $this->testingDatasets->dataset->getTemplateNode()->action->getNodeData();
         }
     }
 
@@ -131,6 +144,17 @@ class Anomaly extends BaseModel
         return $this->sid_list_training[$sid];
     }
 
+    private function getTestingDataset($sid)
+    {
+        $this->updateTestingSIDlist();
+        if (!array_key_exists($sid, $this->sid_list_testing)) {
+            $rule = $this->testingDatasets->dataset->Add();
+            $rule->sid = $sid;
+            $this->sid_list_testing[$sid] = $rule;
+        }
+        return $this->sid_list_testing[$sid];
+    }
+
     /**
      * enable rule
      * @param string $sid unique id
@@ -157,7 +181,14 @@ class Anomaly extends BaseModel
 
     public function enableTrainingDataset($sid)
     {
-        $rule = $this->getPreprocessingDataset($sid);
+        $rule = $this->getTrainingDataset($sid);
+        $rule->enabled = "1";
+        return $rule;
+    }
+
+    public function enableTestingDataset($sid)
+    {
+        $rule = $this->getTestingDataset($sid);
         $rule->enabled = "1";
         return $rule;
     }
@@ -184,6 +215,13 @@ class Anomaly extends BaseModel
     public function disableTrainingDataset($sid)
     {
         $rule = $this->getTrainingDataset($sid);
+        $rule->enabled = "0";
+        return $rule;
+    }
+
+    public function disableTestingDataset($sid)
+    {
+        $rule = $this->getTestingDataset($sid);
         $rule->enabled = "0";
         return $rule;
     }
@@ -243,6 +281,18 @@ class Anomaly extends BaseModel
         }
     }
 
+    public function removeTestingDataset($sid)
+    {
+        // search and drop rule
+        foreach ($this->testingDatasets->dataset->iterateItems() as $NodeKey => $NodeValue) {
+            if ((string)$NodeValue->sid == $sid) {
+                $this->testingDatasets->dataset->Del($NodeKey);
+                unset($this->sid_list_testing[$sid]);
+                break;
+            }
+        }
+    }
+
     /**
      * retrieve current altered rule status
      * @param string $sid unique id
@@ -258,6 +308,7 @@ class Anomaly extends BaseModel
             return $default;
         }
     }
+
     public function getPreprocessingDatasetStatus($sid, $default)
     {
         $this->updatePreprocessingSIDlist();
@@ -267,11 +318,22 @@ class Anomaly extends BaseModel
             return $default;
         }
     }
+
     public function getTrainingDatasetStatus($sid, $default)
     {
         $this->updateTrainingSIDlist();
         if (!empty($sid) && array_key_exists($sid, $this->sid_list_training)) {
             return (string)$this->sid_list_training[$sid]->enabled;
+        } else {
+            return $default;
+        }
+    }
+
+    public function getTestingDatasetStatus($sid, $default)
+    {
+        $this->updateTestingSIDlist();
+        if (!empty($sid) && array_key_exists($sid, $this->sid_list_testing)) {
+            return (string)$this->sid_list_testing[$sid]->enabled;
         } else {
             return $default;
         }
@@ -392,6 +454,44 @@ class Anomaly extends BaseModel
             // return plaintext default
             if (array_key_exists($default, $this->action_list_training)) {
                 return $this->action_list_training[$default]['value'];
+            } else {
+                return $default;
+            }
+        }
+    }
+
+    public function getTestingDatasetAction($sid, $default, $response_plain = false)
+    {
+        $this->updateTestingSIDlist();
+        if (!empty($sid) && array_key_exists($sid, $this->sid_list_testing)) {
+            if (!$response_plain) {
+                return $this->sid_list_testing[$sid]->action->getNodeData();
+            } else {
+                $act = (string)$this->sid_list_testing[$sid]->action;
+                if (array_key_exists($act, $this->action_list_testing)) {
+                    return $this->action_list_testing[$act]['value'];
+                } else {
+                    return $act;
+                }
+            }
+        } elseif (!$response_plain) {
+            // generate selection for new field
+            $default_types = $this->action_list_testing;
+            if (array_key_exists($default, $default_types)) {
+                foreach ($default_types as $key => $value) {
+                    if ($key ==  $default) {
+                        $default_types[$key]['selected'] = 1;
+                    } else {
+                        $default_types[$key]['selected'] = 0;
+                    }
+                }
+            }
+            // select default
+            return $default_types;
+        } else {
+            // return plaintext default
+            if (array_key_exists($default, $this->action_list_testing)) {
+                return $this->action_list_testing[$default]['value'];
             } else {
                 return $default;
             }
