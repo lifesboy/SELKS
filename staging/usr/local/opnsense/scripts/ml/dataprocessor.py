@@ -71,8 +71,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--data-source",
     type=str,
-    default="*/*",
-    help="data source file path filter pattern")
+    default="",
+    help="data source file paths")
 parser.add_argument(
     "--batch-size",
     type=int,
@@ -115,7 +115,8 @@ if __name__ == "__main__":
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_destination = args.data_destination
-    data_source_files = common.get_data_featured_extracted_files_by_pattern(data_source)
+    #data_source_files = common.get_data_featured_extracted_files_by_pattern(data_source)
+    data_source_files = data_source.split(',')
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
