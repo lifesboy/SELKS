@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import glob
 import sys
+from sys import version_info
 from datetime import datetime
 from pathlib import Path
 from typing import Optional

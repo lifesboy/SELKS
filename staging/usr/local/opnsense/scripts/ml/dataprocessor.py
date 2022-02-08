@@ -1,71 +1,14 @@
 #!/usr/bin/python3
 import argparse
 import glob
-from sys import version_info
-import pandas
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
-from ray.data.impl.arrow_block import ArrowRow
-from pyarrow import Table
-from ray.tune.integration.mlflow import mlflow_mixin
 
-from pandas import DataFrame
 import common
-from anomaly_normalization import F1, F2, F3, F4, F5, F6
-from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
-import anomaly_normalization as norm
-
-from datetime import date
+from models.preprocessing.cic2018_norm_model import Cic2018NormModel
 import mlflow
 
-PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
-                                                  minor=version_info.minor,
-                                                  micro=version_info.micro)
 run, client = common.init_experiment('data-processor')
-
-
-class BatchPreprocessor(mlflow.pyfunc.PythonModel):
-    def __init__(self):
-        super().__init__()
-        global run
-        self.processed_num = 0
-        self.run, self.client = common.init_tracking('data-processor')
-        self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=run.info.run_id)
-
-    def __call__(self, batch: DataFrame) -> DataFrame:
-        self.processed_num += len(batch.index)
-        self.client.log_metric(run_id=self.run.info.run_id, key="row", value=self.processed_num)
-        return self.preprocess(batch)
-
-    @mlflow_mixin
-    def preprocess(self, df: DataFrame) -> DataFrame:
-        data = DataFrame(data={
-            DST_PORT: df[DST_PORT].apply(norm.norm_port).values,
-            PROTOCOL: df[PROTOCOL].apply(norm.norm_protocol).values,
-            FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h).values,
-            TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb).values,
-            TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb).values,
-            LABEL: df[LABEL].apply(norm.norm_label).values,
-        }, index=df[TIMESTAMP])
-        return data
-
-
-preprocessor_model_path = "preprocessor"
-preprocessor_reg_model_name = "BatchPreprocessor"
-preprocessor_model = BatchPreprocessor()
-conda_env = {
-    'channels': ['defaults', 'conda-forge'],
-    'dependencies': [
-        'python={}'.format(PYTHON_VERSION),
-        'pip'
-    ],
-    'pip': [
-        'mlflow=={}'.format(mlflow.__version__),
-        'pandas=={}'.format(pandas.__version__),
-        'ray=={}'.format(ray.__version__)
-    ],
-    'name': 'mlflow-env'
-}
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -133,7 +76,7 @@ if __name__ == "__main__":
         # client.set_tag(run_id=run.info.run_id, key=common.TAG_DATASET_SIZE, value=pipe.count())
 
         client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
-        pipe = pipe.map_batches(BatchPreprocessor, batch_format="pandas", compute="actors",
+        pipe = pipe.map_batches(Cic2018NormModel, batch_format="pandas", compute="actors",
                                 batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
 
         # tf.keras.layers.BatchNormalization
@@ -144,9 +87,11 @@ if __name__ == "__main__":
         data_destination_file = glob.glob(common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/*')
         client.log_param(run_id=run.info.run_id, key='data_destination_file', value=data_destination_file)
 
-        mlflow.pyfunc.log_model(artifact_path=preprocessor_model_path,
-                                python_model=preprocessor_model,
-                                registered_model_name=preprocessor_reg_model_name,
-                                conda_env=conda_env)
+        model_meta = Cic2018NormModel.get_model_meta()
+
+        mlflow.pyfunc.log_model(artifact_path=model_meta.artifact_path,
+                                python_model=model_meta.python_model,
+                                registered_model_name=model_meta.registered_model_name,
+                                conda_env=model_meta.conda_env)
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
