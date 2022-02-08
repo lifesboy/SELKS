@@ -284,6 +284,7 @@ class DataProcessorSettingsController extends ApiMutableModelControllerBase
                     } else {
                         $this->getModel()->disablePreprocessingDataset($sid)->action = $current_action;
                     }
+                    $this->getModel()->updatePreprocessingDataSource();
                     $update_count++;
                 }
             }

@@ -155,6 +155,14 @@ class Anomaly extends BaseModel
         return $this->sid_list_testing[$sid];
     }
 
+    public function updatePreprocessingDataSource()
+    {
+        $this->dataProcessor->DataSource = array_map(
+            function ($i) { return $i->artifact; },
+            array_filter($this->sid_list_preprocessing, function ($i) { return $i->enabled; })
+        ).join(',');
+    }
+
     /**
      * enable rule
      * @param string $sid unique id
