@@ -6,10 +6,10 @@
         <help>Enable data processor anomaly model.</help>
     </field>
     <field>
-        <id>anomaly.dataProcessor.DataSource</id>
-        <label>--data-source</label>
+        <id>anomaly.dataProcessor.DataDestination</id>
+        <label>--data-destination</label>
         <type>text</type>
-        <help><![CDATA[Data source to preprocess.]]></help>
+        <help><![CDATA[Data destination to preprocess.]]></help>
     </field>
     <field>
         <id>anomaly.dataProcessor.BatchSize</id>
@@ -30,9 +30,9 @@
         <help><![CDATA[Number of Cpus to preprocess.]]></help>
     </field>
     <field>
-        <id>anomaly.dataProcessor.DataDestination</id>
-        <label>--data-destination</label>
+        <id>anomaly.dataProcessor.DataSource</id>
+        <label>--data-source</label>
         <type>text</type>
-        <help><![CDATA[Data destination to preprocess.]]></help>
+        <help><![CDATA[Data source to preprocess.]]></help>
     </field>
 </form>
