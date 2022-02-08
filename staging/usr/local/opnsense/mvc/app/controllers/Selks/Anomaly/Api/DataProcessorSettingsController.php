@@ -280,9 +280,13 @@ class DataProcessorSettingsController extends ApiMutableModelControllerBase
                         // if we're switching back to default, remove alter rule
                         $this->getModel()->removePreprocessingDataset($sid);
                     } elseif ($new_state == 1) {
-                        $this->getModel()->enablePreprocessingDataset($sid)->action = $current_action;
+                        $dataset = $this->getModel()->enablePreprocessingDataset($sid);
+                        $dataset->action = $current_action;
+                        $dataset->artifact = $ruleinfo['artifact'];
                     } else {
-                        $this->getModel()->disablePreprocessingDataset($sid)->action = $current_action;
+                        $dataset = $this->getModel()->disablePreprocessingDataset($sid);
+                        $dataset->action = $current_action;
+                        $dataset->artifact = $ruleinfo['artifact'];
                     }
                     $this->getModel()->updatePreprocessingDataSource();
                     $update_count++;
