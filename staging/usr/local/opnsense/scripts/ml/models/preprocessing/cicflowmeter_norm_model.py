@@ -31,7 +31,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
                          conda_env={
                              'channels': ['defaults', 'conda-forge'],
                              'dependencies': [
-                                 'python={}'.format(PYTHON_VERSION),
+                                 'python={}'.format(common.PYTHON_VERSION),
                                  'pip'
                              ],
                              'pip': [

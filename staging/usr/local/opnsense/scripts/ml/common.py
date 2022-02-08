@@ -11,6 +11,11 @@ from mlflow.entities import Experiment, Run
 from mlflow.tracking import MlflowClient
 from mlflow.tracking.fluent import ActiveRun
 
+
+PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
+                                                  minor=version_info.minor,
+                                                  micro=version_info.micro)
+
 PATH_ML = '/usr/local/opnsense/scripts/ml'
 
 RAY_HEAD_NODE_ADDRESS = '127.0.0.1:6379'
