@@ -139,6 +139,10 @@ if [ ! -d /binaries/cicflowmeter ]; then
   git clone https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
 fi
 
+if [ ! -d /binaries/scirius ]; then
+  git clone https://github.com/lifesboy/scirius.git /binaries/scirius
+fi
+
 if [ ! -d /binaries/selks ]; then
   git clone -b gpu --single-branch https://github.com/lifesboy/SELKS.git /binaries/selks
 fi
@@ -418,6 +422,7 @@ cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/bi
 cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/scirius Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
 
