@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 import logging
 
 request_logger = logging.getLogger('django.request')
@@ -14,13 +13,11 @@ class Rule(models.Model):
     enabled = models.BooleanField(default=False)
     action = models.CharField(max_length=10000)
     source = models.CharField(max_length=10000)
-    imported_date = models.DateTimeField(default=timezone.now)
-    updated_date = models.DateTimeField(default=timezone.now)
     created = models.DateField(blank=True, null=True)
     updated = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.sid) + ":" + self.msg
+        return str(self.sid) + ":" + self.action
 
     def __init__(self, *args, **kwargs):
         models.Model.__init__(self, *args, **kwargs)
