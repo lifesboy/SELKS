@@ -61,6 +61,8 @@ npm install -g npm@latest webpack@3.11
 npm uninstall -g npm
 sudo npm install
 webpack
+#fix error migrate scirius db timezone
+python3 -m pip install psycopg2==2.8.6
 
 cd -
 
