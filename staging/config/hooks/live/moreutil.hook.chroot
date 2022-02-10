@@ -48,7 +48,7 @@ cd /scirius
 apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
 python3 -m pip install -r requirements.txt
 
-python3 -m pip install gitpython==0.3.1-beta2
+#python3 -m pip install gitpython==0.3.1-beta2
 python3 -m pip install gitdb
 apt-get install npm
 npm uninstall -g npm
