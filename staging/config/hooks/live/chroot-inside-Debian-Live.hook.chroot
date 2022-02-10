@@ -645,7 +645,8 @@ python3 setup.py install
 
 #mv /var/lib/scirius/static/ /var/lib/scirius/static.bak
 #cp -R static /var/lib/scirius/
-cp /scirius/scirius/local_settings.py /etc/scirius/local_settings.py
+mkdir -p /etc/scirius
+cp /scirius/scirius/local_settings.py /etc/scirius/
 
 sed -i 's/ELASTICSEARCH_VERSION = 5/ELASTICSEARCH_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_VERSION=4/KIBANA_VERSION = 6/g' /etc/scirius/local_settings.py
