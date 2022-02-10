@@ -610,9 +610,40 @@ EOF
 
 ### START Scirius, nginx, revrse proxy, supervisor and ssl ###
 
+cp -R /binaries/scirius /
+cd /scirius
+#python3 setup.py install
+apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
+python3 -m pip install -r requirements.txt
+
+#python3 -m pip install gitpython==0.3.1-beta2
+python3 -m pip install gitdb
+apt-get install npm
+npm uninstall -g npm
+sudo npm install node-sass-chokidar@^1.3.4
+npm install
+npm run build
+
+cd ..
+npm install -g npm@latest webpack@3.11
+npm uninstall -g npm
+sudo npm install
+webpack
+python3 manage.py collectstatic
+#fix error migrate scirius db timezone
+python3 -m pip install psycopg2==2.8.6
+#python3 manage.py migrate
+
+
 mkdir -p /var/lib/scirius/static/
-apt-get update && \
-yes | apt-get install -y scirius
+#apt-get update && \
+#yes | apt-get install -y scirius
+python3 setup.py install
+
+#mv /var/lib/scirius/static/ /var/lib/scirius/static.bak
+#cp -R static /var/lib/scirius/
+cp /scirius/scirius/local_settings.py /etc/scirius/local_settings.py
+
 sed -i 's/ELASTICSEARCH_VERSION = 5/ELASTICSEARCH_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_VERSION=4/KIBANA_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_INDEX = "kibana-int"/KIBANA_INDEX = ".kibana"/g' /etc/scirius/local_settings.py
@@ -620,6 +651,8 @@ sed -i 's/KIBANA_DASHBOARDS_PATH = "\/opt\/selks\/kibana5-dashboards\/"/KIBANA6_
 echo "ELASTICSEARCH_KEYWORD = \"keyword\"" >> /etc/scirius/local_settings.py
 echo "USE_MOLOCH = True" >> /etc/scirius/local_settings.py
 echo "MOLOCH_URL = \"http://localhost:8005\"" >> /etc/scirius/local_settings.py
+
+cd -
 
 ### overwite suricata of scirius
 cat > /etc/suricata/selks5-addin.yaml <<EOF
