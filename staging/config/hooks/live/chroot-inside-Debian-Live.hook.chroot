@@ -619,17 +619,20 @@ python3 -m pip install -r requirements.txt
 #python3 -m pip install gitpython==0.3.1-beta2
 python3 -m pip install gitdb
 apt-get install npm
+npm install
+
+cd hunt
 npm uninstall -g npm
 sudo npm install node-sass-chokidar@^1.3.4
 npm install
 npm run build
-
 cd ..
+
 npm install -g npm@latest webpack@3.11
 npm uninstall -g npm
 sudo npm install
 webpack
-python3 manage.py collectstatic
+python3 manage.py collectstatic --noinput
 #fix error migrate scirius db timezone
 python3 -m pip install psycopg2==2.8.6
 #python3 manage.py migrate
