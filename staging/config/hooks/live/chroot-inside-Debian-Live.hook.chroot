@@ -638,6 +638,9 @@ mkdir -p /var/lib/scirius/static/
 python3 setup.py install
 
 webpack
+mkdir -p /var/log/scirius/
+cat > /var/log/scirius/elasticsearch.log <<EOF
+EOF
 python3 manage.py collectstatic --noinput
 #fix error migrate scirius db timezone
 python3 -m pip install psycopg2==2.8.6
