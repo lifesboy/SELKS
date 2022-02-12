@@ -645,8 +645,8 @@ python3 setup.py install
 
 #mv /var/lib/scirius/static/ /var/lib/scirius/static.bak
 #cp -R static /var/lib/scirius/
-mkdir -p /etc/scirius
-cp /scirius/scirius/local_settings.py /etc/scirius/
+#mkdir -p /etc/scirius
+#cp /scirius/scirius/local_settings.py /etc/scirius/
 
 sed -i 's/ELASTICSEARCH_VERSION = 5/ELASTICSEARCH_VERSION = 6/g' /etc/scirius/local_settings.py
 sed -i 's/KIBANA_VERSION=4/KIBANA_VERSION = 6/g' /etc/scirius/local_settings.py
@@ -656,7 +656,7 @@ echo "ELASTICSEARCH_KEYWORD = \"keyword\"" >> /etc/scirius/local_settings.py
 echo "USE_MOLOCH = True" >> /etc/scirius/local_settings.py
 echo "MOLOCH_URL = \"http://localhost:8005\"" >> /etc/scirius/local_settings.py
 
-cd -
+cd /
 
 ### overwite suricata of scirius
 cat > /etc/suricata/selks5-addin.yaml <<EOF

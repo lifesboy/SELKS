@@ -312,6 +312,9 @@ cp staging/usr/share/applications/Scirius.desktop Stamus-Live-Build/config/inclu
 # Same as above but for root
 cp staging/usr/share/applications/Scirius.desktop Stamus-Live-Build/config/includes.chroot/root/Desktop/
 
+# Copy scirius config
+cp -R staging/etc/scirius Stamus-Live-Build/config/includes.chroot/etc/
+
 # Logstash and Elasticsearch 6 template
 cp staging/etc/logstash/conf.d/logstash.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/ 
 cp staging/etc/logstash/conf.d/cic.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
