@@ -622,14 +622,14 @@ apt-get install -y npm
 sudo npm install
 
 cd hunt
-npm uninstall -g npm
+#npm uninstall -g npm
 sudo npm install node-sass-chokidar@^1.3.4
 npm install
 npm run build
 cd ..
 
 npm install -g npm@latest webpack@3.11
-npm uninstall -g npm
+#npm uninstall -g npm
 sudo npm install
 
 mkdir -p /var/lib/scirius/static/
