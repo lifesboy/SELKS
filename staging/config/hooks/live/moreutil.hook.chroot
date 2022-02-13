@@ -45,14 +45,6 @@ cd -
 cp -R /binaries/selks /
 
 ln -s /selks/staging/docker /docker
-#install PostgresSQL
-apt-get -y install postgresql-11 postgresql-client-11
-apt-get -y build-dep python-psycopg2
-pip install psycopg2-binary
-cd -
-
-# fix conflict port 5432 when build env having service running on 5432
-sed -i -E "s/port = .*\# \(change requires restart\)/port = 5432 \# \(change requires restart\)/g" /etc/postgresql/11/main/postgresql.conf
 
 #cd /selks
 #git checkout gpu
