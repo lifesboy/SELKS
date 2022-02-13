@@ -94,7 +94,7 @@ do
      esac
 done
 
-cd /usr/share/python3/scirius/ && . bin/activate && python bin/manage.py kibana_reset && deactivate && cd /opt/
+cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py kibana_reset && deactivate && cd /opt/
 
 if [ $? -ne 0 ]; then
     echo -e "\e[31mDashboards loading set up job failed...Exiting..." 

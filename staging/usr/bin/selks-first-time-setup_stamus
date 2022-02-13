@@ -135,7 +135,7 @@ service supervisor restart
 cd /usr/share/python3/scirius/ \
 && . bin/activate \
 && python -m pip install psycopg2-binary \
-&& python bin/manage.py dumpdata > datadump.json \
+&& python3 bin/manage.py dumpdata > datadump.json \
 && deactivate && cd /opt/
 
 mv /etc/scirius  /etc/scirius.bak
@@ -171,13 +171,13 @@ sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO p
 
 cd /usr/share/python3/scirius/ \
 && . bin/activate \
-&& python bin/manage.py migrate --run-syncdb \
-&& python bin/manage.py shell < removecontent.py \
-&& python bin/manage.py loaddata datadump.json \
+&& python3 bin/manage.py migrate --run-syncdb \
+&& python3 bin/manage.py shell < removecontent.py \
+&& python3 bin/manage.py loaddata datadump.json \
 && deactivate && cd /opt/
 
 service elasticsearch start
-cd /usr/share/python3/scirius/ && . bin/activate && python bin/manage.py kibana_reset && deactivate && cd /opt/
+cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py kibana_reset && deactivate && cd /opt/
 
 if [ $? -ne 0 ]; then
     echo -e "\e[31mDashboards loading set up job failed...Exiting..."
