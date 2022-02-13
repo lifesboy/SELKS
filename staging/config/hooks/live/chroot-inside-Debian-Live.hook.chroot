@@ -693,7 +693,9 @@ ldd /usr/bin/suricata
 cd -
 ### end overwite suricata of scirius
 
+apt-get install -y supervisor
 # supervisor conf
+mkdir -p /etc/supervisor/conf.d/
 ln -s /usr/share/doc/scirius/examples/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
 
 # Set the right permissions for the logstash user to run suricata
