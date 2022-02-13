@@ -628,6 +628,7 @@ python3 -m pip install -r requirements.txt
 #python3 -m pip install gitpython==0.3.1-beta2
 python3 -m pip install gitdb
 apt-get install -y npm
+npm -v
 sudo npm install
 
 cd hunt
