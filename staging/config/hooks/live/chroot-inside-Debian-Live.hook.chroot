@@ -133,6 +133,8 @@ apt-get install python3-pip -y
 python3 -m pip install --upgrade pip
 
 #install PostgresSQL
+# should stop current running db to avoid conflict for later steps
+#pg_ctlcluster 11 main stop
 apt-get -y install postgresql-11 postgresql-client-11
 apt-get -y build-dep python-psycopg2
 pip install psycopg2-binary
