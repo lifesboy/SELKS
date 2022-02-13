@@ -104,7 +104,7 @@ ln -s /etc/nginx/sites-available/selks4.conf /etc/nginx/sites-enabled/selks4.con
 # supervisor conf
 ln -s /usr/share/doc/scirius/examples/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
 
-cd /usr/share/python/scirius/ && \
+cd /usr/share/python3/scirius/ && \
 source bin/activate
 python bin/manage.py loaddata /etc/scirius/scirius.json
 deactivate
@@ -405,7 +405,7 @@ EOF
 chmod 755 /opt/selks/delete-old-logs.sh
 
 # Set up a cron jobs for Logstash, Suricata, rule updates
-echo "0 2 * * * www-data ( cd /usr/share/python/scirius/ && . bin/activate && python bin/manage.py updatesuricata && deactivate )" >> /etc/crontab
+echo "0 2 * * * www-data ( cd /usr/share/python3/scirius/ && . bin/activate && python bin/manage.py updatesuricata && deactivate )" >> /etc/crontab
 echo "0 4 * * * root /opt/selks/delete-old-logs.sh" >> /etc/crontab
 # Alway leave a empty line before cron files end
 echo "" >> /etc/crontab

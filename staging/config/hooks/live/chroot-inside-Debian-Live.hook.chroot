@@ -785,7 +785,7 @@ EOF
 # enable sites
 ln -s /etc/nginx/sites-available/selks5.conf /etc/nginx/sites-enabled/selks5.conf
 
-cd /usr/share/python/scirius/ && \
+cd /usr/share/python3/scirius/ && \
 source bin/activate
 python bin/manage.py loaddata /etc/scirius/scirius.json
 python bin/manage.py addsource "ETOpen Ruleset" https://rules.emergingthreats.net/open/suricata-5.0/emerging.rules.tar.gz http sigs
@@ -921,7 +921,7 @@ EOF
 chmod 755 /opt/selks/delete-old-logs.sh
 
 # Set up a cron jobs for Logstash, Scirius, rule updates
-echo "0 2 * * * www-data ( cd /usr/share/python/scirius/ && . bin/activate && python bin/manage.py updatesuricata && deactivate )" >> /etc/crontab
+echo "0 2 * * * www-data ( cd /usr/share/python3/scirius/ && . bin/activate && python bin/manage.py updatesuricata && deactivate )" >> /etc/crontab
 echo "0 3 * * * root ( /data/moloch/db/db.pl http://127.0.0.1:9200 expire daily 14 )" >> /etc/crontab
 echo "0 4 * * * root /opt/selks/delete-old-logs.sh" >> /etc/crontab
 # always leave a empty line before cron files end
