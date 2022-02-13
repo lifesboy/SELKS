@@ -785,8 +785,9 @@ EOF
 # enable sites
 ln -s /etc/nginx/sites-available/selks5.conf /etc/nginx/sites-enabled/selks5.conf
 
-cd /usr/share/python3/scirius/ && \
-source bin/activate
+cd /usr/share/python3/scirius/
+#cd /usr/share/python3/scirius/ && \
+#source bin/activate
 python3 bin/manage.py loaddata /etc/scirius/scirius.json
 python3 bin/manage.py addsource "ETOpen Ruleset" https://rules.emergingthreats.net/open/suricata-5.0/emerging.rules.tar.gz http sigs
 python3 bin/manage.py addsource "SSLBL abuse.ch" https://sslbl.abuse.ch/blacklist/sslblacklist_tls_cert.rules http sig
