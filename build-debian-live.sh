@@ -524,7 +524,7 @@ d-i passwd/root-password-again password StamusNetworks
 " > Stamus-Live-Build/config/includes.installer/preseed.cfg
 
 # should stop current running db to avoid conflict for later steps
-pg_ctlcluster 11 main stop
+pg_ctlcluster 11 main stop || true
 
 # Build the ISO
 cd Stamus-Live-Build && ( lb build 2>&1 | tee build.log )
