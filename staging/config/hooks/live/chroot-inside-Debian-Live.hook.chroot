@@ -143,6 +143,12 @@ sed -i -E "s/port = .*\# \(change requires restart\)/port = 5432 \# \(change req
 sed -i "s/host    all             all             127.0.0.1\/32            md5/host    all             all             0.0.0.0\/0            md5/g" /etc/postgresql/11/main/pg_hba.conf
 pg_ctlcluster 11 main start
 
+sudo -u postgres psql -h /var/run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+sudo -u postgres psql -h /var/run/postgresql -c "DROP SCHEMA public CASCADE;"
+sudo -u postgres psql -h /var/run/postgresql -c "CREATE SCHEMA public;"
+sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
+sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
+
 cp -R /binaries/scirius /
 cd /scirius
 #python3 setup.py install
