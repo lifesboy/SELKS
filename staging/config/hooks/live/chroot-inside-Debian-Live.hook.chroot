@@ -194,7 +194,7 @@ python3 manage.py collectstatic --noinput
 #cp /scirius/scirius/local_settings.py /etc/scirius/
 
 chown -R www-data:www-data /var/lib/scirius/static
-### END Evebox ###
+### END Scirius ###
 
 ### START Install php ###
 apt-get install apt php-dev php-fpm php php-cgi lighttpd -y
