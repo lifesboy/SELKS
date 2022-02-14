@@ -139,6 +139,8 @@ pip install psycopg2-binary
 
 # fix conflict port 5432 when build env having service running on 5432
 sed -i -E "s/port = .*\# \(change requires restart\)/port = 5432 \# \(change requires restart\)/g" /etc/postgresql/11/main/postgresql.conf
+# fix to pre-setup db
+sed -i "s/host    all             all             127.0.0.1\/32            md5/host    all             all             0.0.0.0\/0            md5/g" /etc/postgresql/11/main/pg_hba.conf
 pg_ctlcluster 11 main start
 
 cp -R /binaries/scirius /
