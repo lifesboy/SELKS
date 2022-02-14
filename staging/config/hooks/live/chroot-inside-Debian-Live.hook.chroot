@@ -185,6 +185,7 @@ EOF
 #fix error migrate scirius db timezone
 python3 -m pip install psycopg2==2.8.6
 python3 manage.py migrate
+python3 manage.py createcachetable
 python3 manage.py collectstatic --noinput
 
 #mv /var/lib/scirius/static/ /var/lib/scirius/static.bak
