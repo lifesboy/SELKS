@@ -94,7 +94,7 @@ ln -s /selks/staging/usr/bin/dpinger /usr/bin/dpinger
 
 chmod 755 /usr/bin/dpinger
 
-mv /usr/sbin/suri_reloader /usr/sbin/suri_reloader.bak
+mv /usr/sbin/suri_reloader /usr/sbin/suri_reloader.bak || true
 ln -s /selks/staging/usr/sbin/suri_reloader /usr/sbin/suri_reloader
 
 chmod 755 /usr/sbin/suri_reloader
