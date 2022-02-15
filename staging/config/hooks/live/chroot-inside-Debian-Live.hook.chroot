@@ -829,7 +829,7 @@ touch /var/log/scirius.log
 touch /var/log/scirius-error.log
 chown www-data /var/log/scirius*
 chown -R www-data /var/lib/scirius/git-sources/
-chown -R www-data /var/lib/scirius/db/
+#chown -R www-data /var/lib/scirius/db/
 chown -R www-data.www-data /etc/suricata/rules/
 
 # fix permissions for user www-data/scirius
