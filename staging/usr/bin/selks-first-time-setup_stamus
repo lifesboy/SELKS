@@ -108,76 +108,77 @@ if [ $? -ne 0 ]; then
 fi
 
 #Migrate scirius to PostgresSQL
-if [ -e "/etc/scirius.bak" ]; then
-  rm -rf /etc/scirius
-  mv /etc/scirius.bak  /etc/scirius
-fi
-sed -i -E "s/(#+)'ENGINE': 'django.db.backends.sqlite3',/'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'ENGINE': 'django.db.backends.postgresql_psycopg2',/#'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'NAME': 'postgres',/#'NAME': 'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'USER':'postgres',/#'USER':'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'PASSWORD':'postgres',/#'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'HOST':'127.0.0.1',/#'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'PORT':'5432',/#'PORT':'5432',/g" /etc/scirius/local_settings.py
-
-cat >> /usr/share/python3/scirius/removecontent.py <<EOF
-from django.contrib.contenttypes.models import ContentType
-ContentType.objects.all().delete()
-quit()
-EOF
-
-cat /etc/scirius/local_settings.py
-
-service supervisor restart
-/usr/bin/supervisorctl restart scirius
-
-cd /usr/share/python3/scirius/ \
-&& . bin/activate \
-&& python -m pip install psycopg2-binary \
-&& python3 bin/manage.py dumpdata > datadump.json \
-&& deactivate && cd /opt/
+#if [ -e "/etc/scirius.bak" ]; then
+#  rm -rf /etc/scirius
+#  mv /etc/scirius.bak  /etc/scirius
+#fi
+#sed -i -E "s/(#+)'ENGINE': 'django.db.backends.sqlite3',/'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'ENGINE': 'django.db.backends.postgresql_psycopg2',/#'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'NAME': 'postgres',/#'NAME': 'postgres',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'USER':'postgres',/#'USER':'postgres',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'PASSWORD':'postgres',/#'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'HOST':'127.0.0.1',/#'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'PORT':'5432',/#'PORT':'5432',/g" /etc/scirius/local_settings.py
+#
+#cat >> /usr/share/python3/scirius/removecontent.py <<EOF
+#from django.contrib.contenttypes.models import ContentType
+#ContentType.objects.all().delete()
+#quit()
+#EOF
+#
+#cat /etc/scirius/local_settings.py
+#
+#service supervisor restart
+#/usr/bin/supervisorctl restart scirius
+#
+#cd /usr/share/python3/scirius/ \
+#&& . bin/activate \
+#&& python -m pip install psycopg2-binary \
+#&& python3 bin/manage.py dumpdata > datadump.json \
+#&& deactivate && cd /opt/
 
 mv /etc/scirius  /etc/scirius.bak
 ln -s /selks/staging/etc/scirius /etc/scirius
-sed -i -E "s/(#*)'ENGINE': 'django.db.backends.sqlite3',/#'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#*)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/#'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'ENGINE': 'django.db.backends.postgresql_psycopg2',/'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'NAME': 'postgres',/'NAME': 'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'USER':'postgres',/'USER':'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'PASSWORD':'postgres',/'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
-sed -i -E "s/(#+)'PORT':'5432',/'PORT':'5432',/g" /etc/scirius/local_settings.py
-
-sed -i "s/host    all             all             127.0.0.1\/32            md5/host    all             all             0.0.0.0\/0            md5/g" /etc/postgresql/11/main/pg_hba.conf
-
-cat /etc/scirius/local_settings.py
-cat /usr/share/python3/scirius/removecontent.py
-ls -la /usr/share/python3/scirius/datadump.json
-
-# su - postgres -c "/usr/lib/postgresql/11/bin/pg_ctl start -D /usr/share/postgresql/11/data"
-# service postgresql start
-# fix hangs on start postgresql on ssh terminal https://dba.stackexchange.com/questions/243075/pg-ctl-hangs-over-ssh
-pg_ctlcluster 11 main stop # sometime we have to stop before call restart @_@
-pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
-#/run/postgresql/.s.PGSQL.5432
-#/var/run/postgresql/.s.PGSQL.5432
-sudo -u postgres psql -h /var/run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
-sudo -u postgres psql -h /var/run/postgresql -c "DROP SCHEMA public CASCADE;"
-sudo -u postgres psql -h /var/run/postgresql -c "CREATE SCHEMA public;"
-sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
-sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
-/usr/bin/supervisorctl restart scirius
-
-cd /usr/share/python3/scirius/ \
-&& . bin/activate \
-&& python3 bin/manage.py migrate --run-syncdb \
-&& python3 bin/manage.py shell < removecontent.py \
-&& python3 bin/manage.py loaddata datadump.json \
-&& deactivate && cd /opt/
+#sed -i -E "s/(#*)'ENGINE': 'django.db.backends.sqlite3',/#'ENGINE': 'django.db.backends.sqlite3',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#*)'NAME': os.path.join\(BASE_DIR, 'db', 'db.sqlite3'\),/#'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'ENGINE': 'django.db.backends.postgresql_psycopg2',/'ENGINE': 'django.db.backends.postgresql_psycopg2',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'NAME': 'postgres',/'NAME': 'postgres',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'USER':'postgres',/'USER':'postgres',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'PASSWORD':'postgres',/'PASSWORD':'postgres',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'HOST':'127.0.0.1',/'HOST':'127.0.0.1',/g" /etc/scirius/local_settings.py
+#sed -i -E "s/(#+)'PORT':'5432',/'PORT':'5432',/g" /etc/scirius/local_settings.py
+#
+#sed -i "s/host    all             all             127.0.0.1\/32            md5/host    all             all             0.0.0.0\/0            md5/g" /etc/postgresql/11/main/pg_hba.conf
+#
+#cat /etc/scirius/local_settings.py
+#cat /usr/share/python3/scirius/removecontent.py
+#ls -la /usr/share/python3/scirius/datadump.json
+#
+## su - postgres -c "/usr/lib/postgresql/11/bin/pg_ctl start -D /usr/share/postgresql/11/data"
+## service postgresql start
+## fix hangs on start postgresql on ssh terminal https://dba.stackexchange.com/questions/243075/pg-ctl-hangs-over-ssh
+#pg_ctlcluster 11 main stop # sometime we have to stop before call restart @_@
+#pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
+##/run/postgresql/.s.PGSQL.5432
+##/var/run/postgresql/.s.PGSQL.5432
+#sudo -u postgres psql -h /var/run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+#sudo -u postgres psql -h /var/run/postgresql -c "DROP SCHEMA public CASCADE;"
+#sudo -u postgres psql -h /var/run/postgresql -c "CREATE SCHEMA public;"
+#sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
+#sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
+#/usr/bin/supervisorctl restart scirius
+#
+#cd /usr/share/python3/scirius/ \
+#&& . bin/activate \
+#&& python3 bin/manage.py migrate --run-syncdb \
+#&& python3 bin/manage.py shell < removecontent.py \
+#&& python3 bin/manage.py loaddata datadump.json \
+#&& deactivate && cd /opt/
 
 service elasticsearch start
-cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py kibana_reset && deactivate && cd /opt/
+#cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py kibana_reset && deactivate && cd /opt/
+cd /scirius/ && python3 bin/manage.py kibana_reset && cd /opt/
 
 if [ $? -ne 0 ]; then
     echo -e "\e[31mDashboards loading set up job failed...Exiting..."
