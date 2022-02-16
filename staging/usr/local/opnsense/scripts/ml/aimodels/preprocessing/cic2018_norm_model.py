@@ -18,7 +18,7 @@ import anomaly_normalization as norm
 
 from datetime import date
 import mlflow
-from models.model_meta import ModelMeta
+from aimodels.model_meta import ModelMeta
 
 
 class Cic2018NormModel(mlflow.pyfunc.PythonModel):

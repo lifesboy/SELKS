@@ -5,7 +5,7 @@ import ray
 from ray.data.dataset_pipeline import DatasetPipeline
 
 import common
-from models.preprocessing.cic2018_norm_model import Cic2018NormModel
+from aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
 import mlflow
 
 run, client = common.init_experiment('data-processor')
