@@ -222,29 +222,34 @@ class DatasetCache(object):
         }
         dataset_prop_sql = 'insert into dataset_properties(sid, property, value) values (:sid, :property, :value)'
         for filename in all_rule_files:
-            file_mtime = os.stat(filename).st_mtime
-            if file_mtime > last_mtime:
-                last_mtime = file_mtime
-            datasets = list()
-            dataset_properties = list()
-            for dataset_info_record in self.list_datasets(filename=filename):
-                if dataset_info_record['metadata'] is not None:
-                    datasets.append(dataset_info_record['metadata'])
-                    for prop in ['classtype']:
-                        dataset_properties.append({
-                            "sid": dataset_info_record['metadata']['sid'],
-                            "property": prop,
-                            "value": dataset_info_record['metadata'][prop]
-                        })
-                    for prop in dataset_info_record['metadata']['metadata']:
-                        dataset_properties.append({
-                            "sid": dataset_info_record['metadata']['sid'],
-                            "property": prop,
-                            "value": dataset_info_record['metadata']['metadata'][prop]
-                        })
+            try:
+                file_mtime = os.stat(filename).st_mtime
+                if file_mtime > last_mtime:
+                    last_mtime = file_mtime
+                datasets = list()
+                dataset_properties = list()
+                for dataset_info_record in self.list_datasets(filename=filename):
+                    if dataset_info_record['metadata'] is not None:
+                        datasets.append(dataset_info_record['metadata'])
+                        for prop in ['classtype']:
+                            dataset_properties.append({
+                                "sid": dataset_info_record['metadata']['sid'],
+                                "property": prop,
+                                "value": dataset_info_record['metadata'][prop]
+                            })
+                        for prop in dataset_info_record['metadata']['metadata']:
+                            dataset_properties.append({
+                                "sid": dataset_info_record['metadata']['sid'],
+                                "property": prop,
+                                "value": dataset_info_record['metadata']['metadata'][prop]
+                            })
 
-            cur.executemany(datasets_sql, datasets)
-            cur.executemany(dataset_prop_sql, dataset_properties)
+                cur.executemany(datasets_sql, datasets)
+                cur.executemany(dataset_prop_sql, dataset_properties)
+            except Exception as ex:
+                print(f"loading fail {filename=}, {ex=}")
+                pass
+
         cur.execute('INSERT INTO stats (timestamp,files) VALUES (?,?) ', (last_mtime, len(all_rule_files)))
         cur.execute("""
                 create table metadata_histogram as
