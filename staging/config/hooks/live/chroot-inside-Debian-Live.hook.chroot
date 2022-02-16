@@ -150,6 +150,7 @@ sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO p
 sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
 
 cp -R /binaries/scirius /
+ln -s /selks/staging/usr/local/opnsense/scripts/ml /scirius/ml
 cd /scirius
 #python3 setup.py install
 apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
