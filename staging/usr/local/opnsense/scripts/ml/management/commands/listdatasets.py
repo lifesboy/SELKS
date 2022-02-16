@@ -13,6 +13,7 @@ class Command(BaseCommand):
     help = 'List datasets'
 
     def __init__(self, *args, **kw):
+        BaseCommand.__init__(self, *args, **kw)
         self.md = metadata.Metadata()
 
     def handle(self, *args, **options):
