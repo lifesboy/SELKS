@@ -247,7 +247,7 @@ class DatasetCache(object):
                 cur.executemany(datasets_sql, datasets)
                 cur.executemany(dataset_prop_sql, dataset_properties)
             except Exception as ex:
-                print(f"loading fail {filename=}, {ex=}")
+                print('loading fail filename=%s, %s' % (filename, ex))
                 pass
 
         cur.execute('INSERT INTO stats (timestamp,files) VALUES (?,?) ', (last_mtime, len(all_rule_files)))
