@@ -194,6 +194,7 @@ python3 manage.py collectstatic --noinput
 #cp /scirius/scirius/local_settings.py /etc/scirius/
 
 chown -R www-data:www-data /var/lib/scirius/static
+chown -R www-data:www-data /var/log/scirius/elasticsearch.log
 ### END Scirius ###
 
 ### START Install php ###
