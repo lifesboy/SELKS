@@ -28,10 +28,10 @@ class Command(BaseCommand):
 
         # load parameters, ignore validation here the search method only processes valid input
         parameters = dict(
-            limit=options['--limit'],
-            offset=options['--offset'],
-            sort_by=options['--sort-by'],
-            filter_txt=options['--filter'],
+            limit=options['limit'],
+            offset=options['offset'],
+            sort_by=options['sort_by'],
+            filter_txt=options['filter'],
         )
 
         # dump output
