@@ -16,7 +16,18 @@ class Command(BaseCommand):
         BaseCommand.__init__(self, *args, **kw)
         self.rc = DatasetCache()
 
+    def add_arguments(self, parser):
+        parser.add_argument('limit', help='limit')
+        parser.add_argument('offset', help='offset')
+        parser.add_argument('sort_by', help='sort_by')
+        parser.add_argument('filter', help='filter')
+
     def handle(self, *args, **options):
+        limit = options['limit']
+        offset = options['offset']
+        sort_by = options['sort_by']
+        filter = options['filter']
+
         if self.rc.is_changed():
             self.rc.create()
 
