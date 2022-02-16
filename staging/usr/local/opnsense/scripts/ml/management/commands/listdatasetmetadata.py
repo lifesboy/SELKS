@@ -1,6 +1,10 @@
+import sys
+
+sys.path.insert(0, "/usr/local/opnsense/scripts/ml")
+
 from django.core.management.base import BaseCommand, CommandError
 import ujson
-from ml.lib.datasetcache import DatasetCache
+from lib.datasetcache import DatasetCache
 
 
 class Command(BaseCommand):
