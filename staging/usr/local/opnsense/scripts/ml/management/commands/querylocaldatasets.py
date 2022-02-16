@@ -17,10 +17,10 @@ class Command(BaseCommand):
         self.rc = DatasetCache()
 
     def add_arguments(self, parser):
-        parser.add_argument('--limit', action='append', type=int, default=0, help='limit')
-        parser.add_argument('--offset', action='append', type=int, default=0, help='offset')
-        parser.add_argument('--sort-by', action='append', type=str, default='', help='sort-by')
-        parser.add_argument('--filter', action='append', type=str, default='', help='filter')
+        parser.add_argument('--limit', type=int, default=0, help='limit')
+        parser.add_argument('--offset', type=int, default=0, help='offset')
+        parser.add_argument('--sort-by', type=str, default='', help='sort-by')
+        parser.add_argument('--filter', type=str, default='', help='filter')
 
     def handle(self, *args, **options):
         if self.rc.is_changed():
