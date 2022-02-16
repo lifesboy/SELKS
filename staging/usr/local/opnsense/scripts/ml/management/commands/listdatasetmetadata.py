@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 import ujson
-from lib.datasetcache import DatasetCache
+from ml.lib.datasetcache import DatasetCache
 
 
 class Command(BaseCommand):
