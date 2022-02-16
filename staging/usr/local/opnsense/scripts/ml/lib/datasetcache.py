@@ -42,12 +42,14 @@ from lib import dataset_source_directory
 
 import ray
 from ray.rllib.utils.framework import try_import_tf, try_import_torch
+
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
 
 import common
 
-class RuleCache(object):
+
+class DatasetCache(object):
     """
     """
 
@@ -82,7 +84,6 @@ class RuleCache(object):
                         rule_updates[sid][rule_item[0]] = rule_item[1]
         return rule_updates
 
-
     def list_datasets(self, filename):
         """ generator function to list rule file content including metadata
         :param filename:
@@ -95,7 +96,7 @@ class RuleCache(object):
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
-            label_column='Label'
+            label_column = 'Label'
             features_types = [i for i in dt.schema() if i.name != label_column]
             features = [i.name for i in features_types]
             if count > 0:
@@ -108,48 +109,54 @@ class RuleCache(object):
                     'gid': None,
                     'msg': None,
                     'reference': None,
-                    'classtype': '##none##', # AI agents will recognize this attribute
-                    'action': '', # AI agents will recognize this attribute
+                    'classtype': '##none##',  # AI agents will recognize this attribute
+                    'action': '',  # AI agents will recognize this attribute
                     'metadata': dict()
                 }
                 record['metadata']['artifact'] = filename
-                record['metadata']['created_at'] = datetime.fromtimestamp(os.stat(filename).st_ctime).strftime('%Y_%m_%d')
-                record['metadata']['updated_at'] = datetime.fromtimestamp(os.stat(filename).st_mtime).strftime('%Y_%m_%d')
+                record['metadata']['created_at'] = datetime.fromtimestamp(os.stat(filename).st_ctime).strftime(
+                    '%Y_%m_%d')
+                record['metadata']['updated_at'] = datetime.fromtimestamp(os.stat(filename).st_mtime).strftime(
+                    '%Y_%m_%d')
                 record['metadata']['count'] = count
                 record['metadata']['features'] = ','.join(features)
-                #record['metadata']['top_data'] = top_data
+                # record['metadata']['top_data'] = top_data
 
                 if (label_column):
                     record['metadata']['label_column'] = label_column
                     features_float64 = [f.name for f in features_types if str(f.type) == 'double']
-                    if any(i for i in dt.schema() if i.name == label_column and str(i.type) == 'string') and len(features_float64) > 0:
-                        output_signature = (tf.TensorSpec(shape=(None, 1), dtype=tf.float64), tf.TensorSpec(shape=(None), dtype=tf.string))
-                        tfd = dt.to_tf(batch_size=1000000, label_column=label_column, feature_columns=[features_float64[0]], output_signature=output_signature)
-                        labels = tfd.map(lambda _, x: tf.unique(x)[0]).reduce([''], lambda x,y: tf.unique(tf.concat([x, y], 0))[0]).numpy().tolist()
+                    if any(i for i in dt.schema() if i.name == label_column and str(i.type) == 'string') and len(
+                            features_float64) > 0:
+                        output_signature = (
+                            tf.TensorSpec(shape=(None, 1), dtype=tf.float64),
+                            tf.TensorSpec(shape=(None), dtype=tf.string))
+                        tfd = dt.to_tf(batch_size=1000000, label_column=label_column,
+                                       feature_columns=[features_float64[0]], output_signature=output_signature)
+                        labels = tfd.map(lambda _, x: tf.unique(x)[0]).reduce([''], lambda x, y:
+                        tf.unique(tf.concat([x, y], 0))[0]).numpy().tolist()
                         del labels[0]
 
                         record['metadata']['labels'] = b','.join(labels).decode('utf-8')
                         record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
 
                 for f in features:
-                   f_name = f.replace(' ', '_').lower()
-                   record['metadata'][f_name] = True
-                   #record['metadata']["%s:min" % f_name] = dt.min(f)
-                   #record['metadata']["%s:max" % f_name] = dt.max(f)
+                    f_name = f.replace(' ', '_').lower()
+                    record['metadata'][f_name] = True
+                    # record['metadata']["%s:min" % f_name] = dt.min(f)
+                    # record['metadata']["%s:max" % f_name] = dt.max(f)
 
-                #record['metadata']['affected_product'] = None
-                #record['metadata']['attack_target'] = None
-                #record['metadata']['former_category'] = None
-                #record['metadata']['deployment'] = None
+                # record['metadata']['affected_product'] = None
+                # record['metadata']['attack_target'] = None
+                # record['metadata']['former_category'] = None
+                # record['metadata']['deployment'] = None
                 record['metadata']['signature_severity'] = 'Major'
-                #record['metadata']['bugtraq'] = None
-                #record['metadata']['cve'] = None
+                # record['metadata']['bugtraq'] = None
+                # record['metadata']['cve'] = None
 
-                #record['distance'] = 0
-                record['reference']= 'url,selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
+                # record['distance'] = 0
+                record['reference'] = 'url,selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
 
                 dataset_info_record['metadata'] = record
-
 
             yield dataset_info_record
 
@@ -252,7 +259,6 @@ class RuleCache(object):
         # import local changes (if changed)
         self.update_local_changes()
 
-
     def update_local_changes(self):
         """ read local datasets.config containing changes on installed dataset and update to "local_dataset_changes" table
         """
@@ -281,7 +287,6 @@ class RuleCache(object):
                 db.commit()
                 # release lock
                 fcntl.flock(lock, fcntl.LOCK_UN)
-
 
     def search(self, limit, offset, filter_txt, sort_by):
         """ search installed datasets
@@ -321,7 +326,8 @@ class RuleCache(object):
                         if searchcontent.find('*') == -1:
                             prop_values.append("property = :%s and value like :%s " % (pfieldnm, vfieldnm))
                         else:
-                            prop_values.append("property = :%s and value like  '%'|| :%s  || '%'" % (pfieldnm, vfieldnm))
+                            prop_values.append(
+                                "property = :%s and value like  '%'|| :%s  || '%'" % (pfieldnm, vfieldnm))
                         sql_parameters[pfieldnm] = fieldname
                         sql_parameters[vfieldnm] = searchcontent.replace('*', '')
 
@@ -342,7 +348,7 @@ class RuleCache(object):
             sql += "left join local_dataset_changes rc on datasets.sid = rc.sid ) a"
 
             if len(sql_filters) > 0:
-                sql += ' where ' + " and ".join(list(map(lambda x:" (%s)"%x, sql_filters)))
+                sql += ' where ' + " and ".join(list(map(lambda x: " (%s)" % x, sql_filters)))
 
             # apply sort order (if any)
             sql_sort = []
@@ -378,8 +384,8 @@ class RuleCache(object):
 
             # extend with collected metadata attributes
             cur.execute("select * from dataset_properties where sid in ('%s') order by sid" %
-                "','".join(all_sids)
-            )
+                        "','".join(all_sids)
+                        )
             dataset_props = dict()
             for row in cur.fetchall():
                 if row[0] not in dataset_props:

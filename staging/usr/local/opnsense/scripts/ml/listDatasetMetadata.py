@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
 import ujson
-from lib.rulecache import RuleCache
+from lib.datasetcache import DatasetCache
 
 if __name__ == '__main__':
-    rc = RuleCache()
+    rc = DatasetCache()
     if rc.is_changed():
         rc.create()
 
