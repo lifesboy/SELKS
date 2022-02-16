@@ -177,7 +177,7 @@ ln -s /selks/staging/etc/scirius /etc/scirius
 #&& deactivate && cd /opt/
 
 service elasticsearch restart
-sleep 5 # waiting 5s for elasticsearch ready
+sleep 10 # waiting 10s for elasticsearch ready
 #cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py kibana_reset && deactivate && cd /opt/
 cd /scirius/ && python3 manage.py kibana_reset && cd /opt/
 
@@ -189,8 +189,8 @@ if [ $? -ne 0 ]; then
 fi
 
 
-mv /etc/nftables.conf /etc/nftables.conf.bak
-ln -s /selks/staging/etc/nftables.conf /etc/nftables.conf
+#mv /etc/nftables.conf /etc/nftables.conf.bak
+#ln -s /selks/staging/etc/nftables.conf /etc/nftables.conf
 #mv /etc/suricata/suricata.yaml /etc/suricata/suricata.yaml.bak
 #ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
 mv /etc/init.d/suricata /etc/init.d/suricata.bak
