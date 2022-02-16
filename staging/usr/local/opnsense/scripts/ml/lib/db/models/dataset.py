@@ -4,7 +4,7 @@ import logging
 request_logger = logging.getLogger('django.request')
 
 
-class Rule(models.Model):
+class Dataset(models.Model):
     sid = models.CharField(primary_key=True, max_length=256)
     msg = models.CharField(max_length=1000)
     rev = models.IntegerField(default=0)
