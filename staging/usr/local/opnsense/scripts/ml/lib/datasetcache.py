@@ -43,10 +43,10 @@ from django.db.models import Max
 from ray.rllib.utils.framework import try_import_tf
 
 from lib import dataset_source_directory
-from models.dataset import Dataset
-from models.dataset_properties import DatasetProperties
-from models.local_dataset_changes import LocalDatasetChanges
-from models.stats import Stats
+from ml.models.dataset import Dataset
+from ml.models.dataset_properties import DatasetProperties
+from ml.models.local_dataset_changes import LocalDatasetChanges
+from ml.models.stats import Stats
 
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
