@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             name='DatasetProperties',
             fields=[
                 ('sid', models.CharField(max_length=256, primary_key=True, serialize=False)),
-                ('action', models.CharField(max_length=10000)),
+                ('property', models.CharField(max_length=10000)),
                 ('value', models.CharField(max_length=10000)),
             ],
         ),
