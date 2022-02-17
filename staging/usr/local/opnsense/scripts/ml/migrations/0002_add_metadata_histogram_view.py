@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
         CreateView(
             name='MetadataHistogram',
             fields=[
-                ('property', models.CharField(blank=True, null=True)),
-                ('value', models.CharField(blank=True, null=True)),
+                ('property', models.CharField(max_length=10000, blank=True, null=True)),
+                ('value', models.CharField(max_length=10000, blank=True, null=True)),
                 ('number_of_datasets', models.IntegerField(default=0)),
             ],
         ),

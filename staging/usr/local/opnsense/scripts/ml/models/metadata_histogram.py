@@ -7,8 +7,8 @@ request_logger = logging.getLogger('django.request')
 
 
 class MetadataHistogram(DbView):
-    property = models.CharField(blank=True, null=True, db_column='property')
-    value = models.CharField(blank=True, null=True, db_column='value')
+    property = models.CharField(max_length=10000, blank=True, null=True, db_column='property')
+    value = models.CharField(max_length=10000, blank=True, null=True, db_column='value')
     number_of_datasets = models.IntegerField(blank=True, null=True, db_column='number_of_datasets')
 
     @classmethod
