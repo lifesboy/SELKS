@@ -14,9 +14,9 @@ class MetadataHistogram(DbView):
     @classmethod
     def get_view_str(cls):
         return """
-            create view MetadataHistogram as
+            create view metadata_histogram as
                 select distinct property, value, count(*) as number_of_datasets
-                from  DatasetProperties
+                from  dataset_properties
                 where property not in ('created_at', 'updated_at')
                 group by property, value
             """
