@@ -28,20 +28,25 @@
     shared module for suricata scripts, handles the installed datasets cache for easy access
 """
 
+import fcntl
+import glob
 import os
 import os.path
-import glob
-import sqlite3
 import shlex
-import fcntl
-import csv
-from hashlib import md5
-from datetime import datetime
+import sqlite3
 from configparser import ConfigParser
-from lib import dataset_source_directory
+from datetime import datetime
+from hashlib import md5
 
 import ray
-from ray.rllib.utils.framework import try_import_tf, try_import_torch
+from django.db.models import Max
+from ray.rllib.utils.framework import try_import_tf
+
+from lib import dataset_source_directory
+from models.dataset import Dataset
+from models.dataset_properties import DatasetProperties
+from models.local_dataset_changes import LocalDatasetChanges
+from models.stats import Stats
 
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
@@ -173,15 +178,14 @@ class DatasetCache(object):
                     last_mtime = file_mtime
 
             try:
-                db = sqlite3.connect(self.cachefile)
-                cur = db.cursor()
-                cur.execute("select count(*) from sqlite_master WHERE type='table'")
-                table_count = cur.fetchall()[0][0]
-                cur.execute('SELECT max(timestamp), max(files) FROM stats')
-                results = cur.fetchall()
-                if last_mtime == results[0][0] and len(all_rule_files) == results[0][1] and table_count == 5:
+                enough_table = Dataset.objects.exists() and DatasetProperties.objects.exists() \
+                               and LocalDatasetChanges.objects.exists() and Stats.objects.exists()
+                stats = Stats.objects.aggregate(Max('timestamp'), Max('files'))
+
+                if enough_table and \
+                        last_mtime == stats['timestamp__max'] and len(all_rule_files) == stats['files__max']:
                     return False
-            except sqlite3.DatabaseError:
+            except Exception:
                 # if some reason the cache is unreadble, continue and report changed
                 pass
         return True
