@@ -211,6 +211,8 @@ class DatasetCache(object):
         DatasetProperties.objects.all().delete()
         Stats.objects.all().delete()
         LocalDatasetChanges.objects.all().delete()
+        if os.path.exists(self.cachefile):
+            os.remove(self.cachefile)
 
         last_mtime = 0
         all_rule_files = self.list_local()
@@ -244,6 +246,7 @@ class DatasetCache(object):
                 pass
 
         Stats(timestamp=last_mtime, files=len(all_rule_files)).save()
+        os.system('touch {}'.format(self.cachefile))
         # release lock
         fcntl.flock(lock, fcntl.LOCK_UN)
         # import local changes (if changed)
@@ -254,10 +257,7 @@ class DatasetCache(object):
         """ read local datasets.config containing changes on installed dataset and update to "local_dataset_changes" table
         """
         if os.path.exists(self.cachefile):
-            db = sqlite3.connect(self.cachefile)
-            cur = db.cursor()
-            cur.execute('select max(last_mtime) from local_dataset_changes')
-            last_mtime = cur.fetchall()[0][0]
+            last_mtime = LocalDatasetChanges.objects.aggregate(Max('last_mtime'))['last_mtime__max']
             rule_config_mtime = os.stat(('%s../datasets.config' % dataset_source_directory)).st_mtime
             if rule_config_mtime != last_mtime:
                 # make sure only one process is updating this table
@@ -270,12 +270,10 @@ class DatasetCache(object):
                     fcntl.flock(lock, fcntl.LOCK_UN)
                     return
                 # delete and insert local changes
-                cur.execute('delete from local_dataset_changes')
+                LocalDatasetChanges.objects.all().delete()
                 local_changes = self.list_local_changes()
                 for sid in local_changes:
-                    sql_params = (sid, local_changes[sid]['action'], local_changes[sid]['mtime'])
-                    cur.execute('insert into local_dataset_changes(sid, action, last_mtime) values (?,?,?)', sql_params)
-                db.commit()
+                    LocalDatasetChanges(sid=sid, action=local_changes[sid]['action'], last_mtime=local_changes[sid]['mtime']).save()
                 # release lock
                 fcntl.flock(lock, fcntl.LOCK_UN)
 
