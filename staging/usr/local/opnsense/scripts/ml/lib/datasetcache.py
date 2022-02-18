@@ -39,10 +39,11 @@ from datetime import datetime
 from hashlib import md5
 
 import ray
+from django.db import transaction
 from django.db.models import Max
 from ray.rllib.utils.framework import try_import_tf
 
-from lib import dataset_source_directory
+from ml.lib import dataset_source_directory
 from ml.models.dataset import Dataset
 from ml.models.dataset_properties import DatasetProperties
 from ml.models.local_dataset_changes import LocalDatasetChanges
@@ -51,7 +52,7 @@ from ml.models.stats import Stats
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
 
-import common
+from ml import common
 
 
 class DatasetCache(object):
@@ -190,6 +191,7 @@ class DatasetCache(object):
                 pass
         return True
 
+    @transaction.atomic
     def create(self):
         """ create new cache
         :return: None
@@ -204,27 +206,14 @@ class DatasetCache(object):
             fcntl.flock(lock, fcntl.LOCK_UN)
             return
 
-        # remove existing DB
-        if os.path.exists(self.cachefile):
-            os.remove(self.cachefile)
+        # remove existing data
+        Dataset.all().delete()
+        DatasetProperties.all().delete()
+        Stats.all().delete()
+        LocalDatasetChanges.all().delete()
 
-        db = sqlite3.connect(self.cachefile)
-        db.text_factory = lambda x: str(x, 'utf-8', 'ignore')
-        cur = db.cursor()
-
-        cur.execute("create table stats (timestamp number, files number)")
-        cur.execute("""create table datasets (sid TEXT, msg TEXT,
-                                           rev INTEGER, gid INTEGER, reference TEXT,
-                                           enabled BOOLEAN, action text, source TEXT)""")
-        cur.execute("create table dataset_properties(sid TEXT, property text, value text) ")
-        cur.execute("create table local_dataset_changes(sid text primary key, action text, last_mtime number)")
         last_mtime = 0
         all_rule_files = self.list_local()
-        datasets_sql = 'insert into datasets(%(fieldnames)s) values (%(fieldvalues)s)' % {
-            'fieldnames': (','.join(self._dataset_fields)),
-            'fieldvalues': ':' + (',:'.join(self._dataset_fields))
-        }
-        dataset_prop_sql = 'insert into dataset_properties(sid, property, value) values (:sid, :property, :value)'
         for filename in all_rule_files:
             try:
                 file_mtime = os.stat(filename).st_mtime
@@ -248,26 +237,19 @@ class DatasetCache(object):
                                 "value": dataset_info_record['metadata']['metadata'][prop]
                             })
 
-                cur.executemany(datasets_sql, datasets)
-                cur.executemany(dataset_prop_sql, dataset_properties)
+                Dataset.objects.bulk_create(datasets)
+                DatasetProperties.objects.bulk_create(dataset_properties)
             except Exception as ex:
                 print('loading fail filename=%s, %s' % (filename, ex))
                 pass
 
-        cur.execute('INSERT INTO stats (timestamp,files) VALUES (?,?) ', (last_mtime, len(all_rule_files)))
-        cur.execute("""
-                create table metadata_histogram as
-                select distinct property, value, count(*) number_of_datasets
-                from  dataset_properties
-                where property not in ('created_at', 'updated_at')
-                group by property, value
-        """)
-        db.commit()
+        Stats(timestamp=last_mtime, files=len(all_rule_files)).save()
         # release lock
         fcntl.flock(lock, fcntl.LOCK_UN)
         # import local changes (if changed)
         self.update_local_changes()
 
+    @transaction.atomic
     def update_local_changes(self):
         """ read local datasets.config containing changes on installed dataset and update to "local_dataset_changes" table
         """
