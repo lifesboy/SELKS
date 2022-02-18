@@ -207,10 +207,10 @@ class DatasetCache(object):
             return
 
         # remove existing data
-        Dataset.all().delete()
-        DatasetProperties.all().delete()
-        Stats.all().delete()
-        LocalDatasetChanges.all().delete()
+        Dataset.objects.all().delete()
+        DatasetProperties.objects.all().delete()
+        Stats.objects.all().delete()
+        LocalDatasetChanges.objects.all().delete()
 
         last_mtime = 0
         all_rule_files = self.list_local()
