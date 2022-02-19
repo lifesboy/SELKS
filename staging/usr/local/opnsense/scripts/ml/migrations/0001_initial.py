@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             name='Stats',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('timestamp', models.IntegerField(default=0)),
+                ('timestamp', models.FloatField(default=0.0)),
                 ('files', models.IntegerField(default=0)),
             ],
         ),
