@@ -271,7 +271,7 @@ class DatasetCache(object):
 
             # todo
             # rule_config_mtime = os.stat(('%s../datasets.config' % dataset_source_directory)).st_mtime
-            if last_mtime > 0:  # rule_config_mtime != last_mtime:
+            if not last_mtime or last_mtime > 0:  # rule_config_mtime != last_mtime:
                 # make sure only one process is updating this table
                 lock = open(self.cachefile + '.LCK', 'w')
                 try:
