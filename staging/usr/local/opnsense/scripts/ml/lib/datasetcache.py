@@ -39,11 +39,13 @@ from datetime import datetime
 from hashlib import md5
 
 import ray
+from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import transaction
 from django.db.models import Max
 from ray.rllib.utils.framework import try_import_tf
 
 from ml.lib import dataset_source_directory
+from ml.models import MetadataHistogram
 from ml.models.dataset import Dataset
 from ml.models.dataset_properties import DatasetProperties
 from ml.models.local_dataset_changes import LocalDatasetChanges
@@ -406,11 +408,10 @@ class DatasetCache(object):
         """
         result = {}
         if os.path.exists(self.cachefile):
-            db = sqlite3.connect(self.cachefile)
-            cur = db.cursor()
-            cur.execute('SELECT property, value FROM metadata_histogram order by property, value')
-            for record in cur.fetchall():
-                if record[0] not in result:
-                    result[record[0]] = list()
-                result[record[0]].append(record[1])
+            histogram = (MetadataHistogram.objects
+                         .values_list('property', 'value')
+                         .annotate(value=ArrayAgg('value'))
+                         .order_by('property'))
+            result = dict([(prop, sorted(value or [])) for prop, value in histogram])
+
         return result
