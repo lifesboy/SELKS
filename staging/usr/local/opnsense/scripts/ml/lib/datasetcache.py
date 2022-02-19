@@ -191,7 +191,7 @@ class DatasetCache(object):
                 pass
         return True
 
-    @transaction.atomic
+    # @transaction.atomic
     def create(self):
         """ create new cache
         :return: None
@@ -262,7 +262,7 @@ class DatasetCache(object):
         # import local changes (if changed)
         self.update_local_changes()
 
-    @transaction.atomic
+    # @transaction.atomic
     def update_local_changes(self):
         """ read local datasets.config containing changes on installed dataset and update to "local_dataset_changes" table
         """
