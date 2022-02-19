@@ -41,7 +41,7 @@ from hashlib import md5
 import ray
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import transaction
-from django.db.models import Max
+from django.db.models import Max, Value
 from ray.rllib.utils.framework import try_import_tf
 
 from ml.lib import dataset_source_directory
@@ -412,8 +412,8 @@ class DatasetCache(object):
         if os.path.exists(self.cachefile):
             histogram = (MetadataHistogram.objects
                          .values_list('property', 'value')
-                         .annotate(value=ArrayAgg('values'))
+                         .annotate(values=ArrayAgg('value', default=Value([])))
                          .order_by('property'))
-            result = dict([(prop, sorted(values or [])) for prop, values in histogram])
+            result = dict([(prop, sorted(values)) for prop, values in histogram])
 
         return result
