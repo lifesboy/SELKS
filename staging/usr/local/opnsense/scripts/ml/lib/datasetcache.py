@@ -36,6 +36,7 @@ import shlex
 import sqlite3
 from configparser import ConfigParser
 from datetime import datetime
+from decimal import Decimal
 from hashlib import md5
 
 import ray
@@ -197,7 +198,8 @@ class DatasetCache(object):
 
                 stats = Stats.objects.aggregate(Max('timestamp'), Max('files'))
 
-                return last_mtime != stats['timestamp__max'] or len(all_rule_files) != stats['files__max']
+                return (Decimal(last_mtime).quantize(0) != stats['timestamp__max'].quantize(0)
+                        or len(all_rule_files) != stats['files__max'])
             except Exception:
                 # if some reason the cache is unreadble, continue and report changed
                 pass
