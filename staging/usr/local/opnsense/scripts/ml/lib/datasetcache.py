@@ -79,9 +79,9 @@ class DatasetCache(object):
     def list_local_changes():
         # parse OPNsense rule config
         rule_config_fn = ('%s../datasets.config' % dataset_source_directory)
-        rule_config_mtime = os.stat(rule_config_fn).st_mtime
         rule_updates = {}
         if os.path.exists(rule_config_fn):
+            rule_config_mtime = os.stat(rule_config_fn).st_mtime
             cnf = ConfigParser()
             cnf.read(rule_config_fn)
             for section in cnf.sections():
