@@ -234,8 +234,8 @@ class DatasetCache(object):
                                                 enabled=metadata['enabled'],
                                                 action=metadata['action'],
                                                 source=metadata['source'],
-                                                updated=metadata['updated'],
-                                                created=metadata['created']))
+                                                updated_at=metadata['updated_at'],
+                                                created_at=metadata['created_at']))
                         for prop in ['classtype']:
                             dataset_properties.append(DatasetProperties(
                                 sid=dataset_info_record['metadata']['sid'],
