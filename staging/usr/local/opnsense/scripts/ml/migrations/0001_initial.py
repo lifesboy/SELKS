@@ -44,18 +44,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='MetadataHistogram',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('property', models.CharField(blank=True, db_column='property', max_length=10000, null=True)),
-                ('value', models.CharField(blank=True, db_column='value', max_length=10000, null=True)),
-                ('number_of_datasets', models.IntegerField(blank=True, db_column='number_of_datasets', null=True)),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
             name='Stats',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
