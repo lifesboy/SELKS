@@ -31,14 +31,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('sid', models.CharField(max_length=256, primary_key=True, serialize=False)),
                 ('action', models.CharField(max_length=10000)),
-                ('last_mtime', models.FloatField(default=0.0)),
+                ('last_mtime', models.DecimalField(max_digits=17, decimal_places=7, default=0.0)),
             ],
         ),
         migrations.CreateModel(
             name='Stats',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('timestamp', models.FloatField(default=0.0)),
+                ('timestamp', models.DecimalField(max_digits=17, decimal_places=7, default=0.0)),
                 ('files', models.IntegerField(default=0)),
             ],
         ),
