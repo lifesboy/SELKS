@@ -268,8 +268,10 @@ class DatasetCache(object):
         """
         if os.path.exists(self.cachefile):
             last_mtime = LocalDatasetChanges.objects.aggregate(Max('last_mtime'))['last_mtime__max']
-            rule_config_mtime = os.stat(('%s../datasets.config' % dataset_source_directory)).st_mtime
-            if rule_config_mtime != last_mtime:
+
+            # todo
+            # rule_config_mtime = os.stat(('%s../datasets.config' % dataset_source_directory)).st_mtime
+            if last_mtime > 0:  # rule_config_mtime != last_mtime:
                 # make sure only one process is updating this table
                 lock = open(self.cachefile + '.LCK', 'w')
                 try:
@@ -283,7 +285,8 @@ class DatasetCache(object):
                 LocalDatasetChanges.objects.all().delete()
                 local_changes = self.list_local_changes()
                 for sid in local_changes:
-                    LocalDatasetChanges(sid=sid, action=local_changes[sid]['action'], last_mtime=local_changes[sid]['mtime']).save()
+                    LocalDatasetChanges(sid=sid, action=local_changes[sid]['action'],
+                                        last_mtime=local_changes[sid]['mtime']).save()
                 # release lock
                 fcntl.flock(lock, fcntl.LOCK_UN)
 
