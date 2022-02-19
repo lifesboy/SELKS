@@ -42,6 +42,8 @@ import ray
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import transaction
 from django.db.models import Max, Value
+from mlflow import ActiveRun
+from mlflow.tracking import MlflowClient
 from ray.rllib.utils.framework import try_import_tf
 
 from ml.lib import dataset_source_directory
@@ -60,12 +62,17 @@ from ml import common
 class DatasetCache(object):
     """
     """
+    _run: ActiveRun
+    _client: MlflowClient
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
         self.cachefile = '%sdatasets.sqlite' % dataset_source_directory
         self._dataset_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
-        self._run, self._client = common.init_experiment('dataset-cache')
+
+    def init_experiment(self):
+        if not self._run or not self._client:
+            self._run, self._client = common.init_experiment('dataset-cache')
 
     @staticmethod
     def list_local():
@@ -99,6 +106,7 @@ class DatasetCache(object):
         """
         with open(filename, 'r') as f_in:
             source_filename = filename.split('/')[-1]
+            self.init_experiment()
             dt = ray.data.read_csv(filename)
             dataset_info_record = {'dataset': filename, 'metadata': None}
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
