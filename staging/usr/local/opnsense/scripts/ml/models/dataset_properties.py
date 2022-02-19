@@ -9,5 +9,8 @@ class DatasetProperties(models.Model):
     property = models.CharField(max_length=10000)
     value = models.CharField(max_length=10000, null=True)
 
+    class Meta:
+        unique_together = ('sid', 'property',)
+
     def __init__(self, *args, **kwargs):
         models.Model.__init__(self, *args, **kwargs)
