@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DatasetProperties',
             fields=[
-                ('sid', models.CharField(max_length=256, primary_key=True, serialize=False)),
+                ('sid', models.CharField(max_length=256, serialize=False)),
                 ('property', models.CharField(max_length=10000)),
                 ('value', models.CharField(max_length=10000, null=True)),
             ],
