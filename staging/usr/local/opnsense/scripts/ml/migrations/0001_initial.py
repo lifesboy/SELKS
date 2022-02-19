@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('sid', models.CharField(max_length=256, primary_key=True, serialize=False)),
                 ('action', models.CharField(max_length=10000)),
-                ('last_mtime', models.IntegerField(default=0)),
+                ('last_mtime', models.FloatField(default=0.0)),
             ],
         ),
         migrations.CreateModel(
