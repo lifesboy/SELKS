@@ -412,8 +412,8 @@ class DatasetCache(object):
         if os.path.exists(self.cachefile):
             histogram = (MetadataHistogram.objects
                          .values_list('property', 'value')
-                         .annotate(value=ArrayAgg('value'))
+                         .annotate(value=ArrayAgg('values'))
                          .order_by('property'))
-            result = dict([(prop, sorted(value or [])) for prop, value in histogram])
+            result = dict([(prop, sorted(values or [])) for prop, values in histogram])
 
         return result
