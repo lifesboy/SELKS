@@ -62,8 +62,8 @@ from ml import common
 class DatasetCache(object):
     """
     """
-    _run: ActiveRun
-    _client: MlflowClient
+    _run: ActiveRun = None
+    _client: MlflowClient = None
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
