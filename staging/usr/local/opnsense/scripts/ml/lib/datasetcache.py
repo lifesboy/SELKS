@@ -181,13 +181,15 @@ class DatasetCache(object):
                     last_mtime = file_mtime
 
             try:
-                enough_table = Dataset.objects.exists() and DatasetProperties.objects.exists() \
-                               and LocalDatasetChanges.objects.exists() and Stats.objects.exists()
+                # guarantee table is created in db
+                Dataset.objects.exists()
+                DatasetProperties.objects.exists()
+                LocalDatasetChanges.objects.exists()
+                Stats.objects.exists()
+
                 stats = Stats.objects.aggregate(Max('timestamp'), Max('files'))
 
-                if enough_table and \
-                        last_mtime == stats['timestamp__max'] and len(all_rule_files) == stats['files__max']:
-                    return False
+                return last_mtime != stats['timestamp__max'] or len(all_rule_files) != stats['files__max']
             except Exception:
                 # if some reason the cache is unreadble, continue and report changed
                 pass
