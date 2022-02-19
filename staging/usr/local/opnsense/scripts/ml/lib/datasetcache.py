@@ -225,19 +225,29 @@ class DatasetCache(object):
                 dataset_properties = list()
                 for dataset_info_record in self.list_datasets(filename=filename):
                     if dataset_info_record['metadata'] is not None:
-                        datasets.append(dataset_info_record['metadata'])
+                        metadata = dataset_info_record['metadata']
+                        datasets.append(Dataset(sid=metadata['sid'],
+                                                msg=metadata['msg'],
+                                                rev=metadata['rev'],
+                                                gid=metadata['gid'],
+                                                reference=metadata['reference'],
+                                                enabled=metadata['enabled'],
+                                                action=metadata['action'],
+                                                source=metadata['source'],
+                                                updated=metadata['updated'],
+                                                created=metadata['created']))
                         for prop in ['classtype']:
-                            dataset_properties.append({
-                                "sid": dataset_info_record['metadata']['sid'],
-                                "property": prop,
-                                "value": dataset_info_record['metadata'][prop]
-                            })
+                            dataset_properties.append(DatasetProperties(
+                                sid=dataset_info_record['metadata']['sid'],
+                                property=prop,
+                                value=dataset_info_record['metadata'][prop]
+                            ))
                         for prop in dataset_info_record['metadata']['metadata']:
-                            dataset_properties.append({
-                                "sid": dataset_info_record['metadata']['sid'],
-                                "property": prop,
-                                "value": dataset_info_record['metadata']['metadata'][prop]
-                            })
+                            dataset_properties.append(DatasetProperties(
+                                sid=dataset_info_record['metadata']['sid'],
+                                property=prop,
+                                value=dataset_info_record['metadata']['metadata'][prop]
+                            ))
 
                 Dataset.objects.bulk_create(datasets)
                 DatasetProperties.objects.bulk_create(dataset_properties)
