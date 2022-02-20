@@ -405,11 +405,11 @@ class DatasetCache(object):
             dataset_props = DatasetProperties.objects.filter(sid__in=all_sids)
             dpm = dict(map(lambda i: (i.sid, i), dataset_props))
 
-            result['rows'] = map(lambda i: {
+            result['rows'] = list(map(lambda i: {
                 **i.__dict__,
                 **dpm[i.sid].__dict__,
                 **{'_state': None, 'id': None}
-            } if dpm[i.sid] else i, datasets)
+            } if dpm[i.sid] else i, datasets))
 
             #for row in cur.fetchall():
             #for row in datasets:
