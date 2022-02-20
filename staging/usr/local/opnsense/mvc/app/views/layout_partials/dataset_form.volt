@@ -54,6 +54,9 @@
 
 <script>
     $( document ).ready(function() {
+        const labels_{{base_form_id}} = {
+            noResults: "No results found!"
+        }
         /**
          * toggle selected items
          * @param gridId: grid id to to use
@@ -163,7 +166,9 @@
 
         function validateResponseData(response) {
             if (response && response.error) {
-                alert('Error while loading data ' + (response.error.msg || ''));
+                var errorMessage = 'Error while loading data: ' + (response.error.msg || 'Unknown')
+                labels_{{base_form_id}}.noResults = errorMessage;
+                //alert(errorMessage);
                 response.rows = response.rows || [];
                 response.total = response.total || 0;
                 response.rowCount = response.rowCount || 0;
@@ -204,6 +209,7 @@
                             return toggle;
                         }
                     },
+                    labels: labels_{{base_form_id}},
                     onBeforeRenderDialog: function(payload) {
                         // update form with dynamic fields
                         let template_tr = $("#row___template__");
