@@ -38,7 +38,7 @@ from configparser import ConfigParser
 from datetime import datetime
 from decimal import Decimal
 from hashlib import md5
-from itertools import starmap, chain
+from itertools import starmap, chain, groupby
 
 import ray
 from django.contrib.postgres.aggregates import ArrayAgg
@@ -407,11 +407,12 @@ class DatasetCache(object):
 
             all_sids = filter(None, map(lambda i: i.sid, datasets))
             dataset_props = DatasetProperties.objects.filter(sid__in=all_sids)
-            dpm = dict(map(lambda i: (i.sid, i), dataset_props))
+            dpm_g = groupby(dataset_props, key=lambda i: i.sid)
+            dpm = dict(starmap(lambda i, g: (i, list(g)), dpm_g))
 
             result['rows'] = list(map(lambda i: {
                 **i.__dict__,
-                **dpm[i.sid].__dict__,
+                **dict(map(lambda p: (p.property, p.value), dpm[i.sid])),
                 **{'_state': None, 'id': None}
             } if dpm[i.sid] else i, datasets))
 
