@@ -161,6 +161,19 @@
             return request;
         }
 
+        function validateResponseData(response) {
+            if (response && response.error) {
+                alert('Error while loading data ' + (response.error.msg || ''));
+                response.rows = response.rows || [];
+                response.total = response.total || 0;
+                response.rowCount = response.rowCount || 0;
+                response.current = response.current || 0;
+                //response.parameters = response.parameters || {};
+            }
+
+            return response;
+        }
+
         //
         // activate rule tab page
         //
@@ -178,6 +191,7 @@
                 set:'{{base_api_endpoint}}setRule/',
                 options:{
                     requestHandler:addRuleFilters,
+                    responseHandler:validateResponseData,
                     rowCount:[10, 25, 50,100,500,1000] ,
                     formatters:{
                         rowtoggle: function (column, row) {

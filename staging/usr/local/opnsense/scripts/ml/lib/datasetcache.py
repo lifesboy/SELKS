@@ -314,14 +314,21 @@ class DatasetCache(object):
         """
         result = {'rows': []}
         if os.path.exists(self.cachefile):
-            db = sqlite3.connect(self.cachefile)
-            cur = db.cursor()
-
             # construct query including filters
             sql_parameters = {}
             sql_filters = []
             prop_values = []
             rule_search_fields = ['msg', 'sid', 'source', 'installed_action']
+
+            fields_content = map(lambda i: i.split('/', maxsplit=1), shlex.split(filter_txt))
+            fc = map(lambda x, y: map(lambda i: (i.lower().strip(), y), x.split(',')), fields_content)
+
+            fc_dataset = filter(lambda f, _: f in rule_search_fields, fc)
+            fc_properties = filter(lambda f, _: f not in rule_search_fields, fc)
+
+            fcd_queries = map(lambda f, c: 'cast({} as text) like %{}%'.format(f, c), fc_dataset)
+            fcp_queries = map(lambda f, c: 'property={} and value like %{}%'.format(f, c), fc_dataset)
+
             for filtertag in shlex.split(filter_txt):
                 fieldnames, searchcontent = filtertag.split('/', maxsplit=1)
                 sql_item = []
@@ -376,8 +383,8 @@ class DatasetCache(object):
                         sql_sort.append('%s asc' % sortField.split()[0])
 
             # count total number of rows
-            cur.execute('select count(*) from (%s) a' % sql, sql_parameters)
-            result['total_rows'] = cur.fetchall()[0][0]
+            #cur.execute('select count(*) from (%s) a' % sql, sql_parameters)
+            result['total_rows'] = Dataset.objects.raw('select count(*) from (%s) a' % sql, sql_parameters)
 
             if len(sql_sort) > 0:
                 sql += ' order by %s' % (','.join(sql_sort))
@@ -388,9 +395,12 @@ class DatasetCache(object):
                     sql += ' offset %s' % offset
 
             # fetch results
-            cur.execute(sql, sql_parameters)
+            #cur.execute(sql, sql_parameters)
+            datasets = Dataset.objects.raw(sql, sql_parameters)
+
             all_sids = []
-            for row in cur.fetchall():
+            #for row in cur.fetchall():
+            for row in datasets:
                 record = {}
                 for fieldNum in range(len(cur.description)):
                     record[cur.description[fieldNum][0]] = row[fieldNum]

@@ -143,10 +143,10 @@ class DataProcessorSettingsController extends ApiMutableModelControllerBase
                 $result['current'] = (int)$currentPage;
                 return $result;
             } else {
-                return array();
+                return array('error' => array('msg' => 'timeout'));
             }
         } else {
-            return array();
+            return array('error' => array('msg' => 'invalid format'));
         }
     }
 
