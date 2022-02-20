@@ -38,6 +38,7 @@ from configparser import ConfigParser
 from datetime import datetime
 from decimal import Decimal
 from hashlib import md5
+from itertools import starmap, chain, filterfalse
 
 import ray
 from django.contrib.postgres.aggregates import ArrayAgg
@@ -321,13 +322,14 @@ class DatasetCache(object):
             rule_search_fields = ['msg', 'sid', 'source', 'installed_action']
 
             fields_content = map(lambda i: i.split('/', maxsplit=1), shlex.split(filter_txt))
-            fc = map(lambda x, y: map(lambda i: (i.lower().strip(), y), x.split(',')), fields_content)
+            fc_list = starmap(lambda f, _: list(map(lambda i, c=_: (f.lower().strip(), c), f.split(','))), fields_content)
+            fc = list(chain(*fc_list))
 
-            fc_dataset = filter(lambda f, _: f in rule_search_fields, fc)
-            fc_properties = filter(lambda f, _: f not in rule_search_fields, fc)
+            fc_dataset = filterfalse(lambda f, _, a=rule_search_fields: f in a, fc)
+            fc_properties = filter(lambda f, _, a=rule_search_fields: f not in a, fc)
 
-            fcd_queries = map(lambda f, c: 'cast({} as text) like %{}%'.format(f, c), fc_dataset)
-            fcp_queries = map(lambda f, c: 'property={} and value like %{}%'.format(f, c), fc_dataset)
+            fcd_queries = starmap(lambda f, c: 'cast({} as text) like %{}%'.format(f, c), fc_dataset)
+            fcp_queries = starmap(lambda f, c: 'property={} and value like %{}%'.format(f, c), fc_properties)
 
             for filtertag in shlex.split(filter_txt):
                 fieldnames, searchcontent = filtertag.split('/', maxsplit=1)
