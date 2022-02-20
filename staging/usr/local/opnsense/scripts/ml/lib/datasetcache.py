@@ -359,16 +359,16 @@ class DatasetCache(object):
 
             sql = """select *
                      from (
-                         select datasets.*, case when rc.action is null then datasets.action else rc.action end installed_action
-                         from datasets
+                         select ml_dataset.*, case when rc.action is null then ml_dataset.action else rc.action end installed_action
+                         from ml_dataset
                   """
 
             if len(prop_values) > 0:
-                sql_1 = "select sid, count(*) from dataset_properties where " + " or ".join(prop_values)
+                sql_1 = "select sid, count(*) from ml_datasetproperties where " + " or ".join(prop_values)
                 sql_1 += " group by sid"
                 sql_1 += " having count(*) = %d " % len(prop_values)
-                sql += "inner join (%s) p on p.sid = datasets.sid " % sql_1
-            sql += "left join local_dataset_changes rc on datasets.sid = rc.sid ) a"
+                sql += "inner join (%s) p on p.sid = ml_dataset.sid " % sql_1
+            sql += "left join ml_localdatasetchanges rc on ml_dataset.sid = rc.sid ) a"
 
             if len(sql_filters) > 0:
                 sql += ' where ' + " and ".join(list(map(lambda x: " (%s)" % x, sql_filters)))
