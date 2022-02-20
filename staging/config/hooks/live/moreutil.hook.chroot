@@ -147,6 +147,9 @@ ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 mv /etc/nginx/sites-available/selks5.conf /etc/nginx/sites-available/selks5.conf.bak
 ln -s /selks/staging/etc/nginx/sites-available/selks5.conf /etc/nginx/sites-available/selks5.conf
 
+mv /etc/logrotate.d /etc/logrotate.d.bak
+ln -s /selks/staging/etc/logrotate.d /etc/logrotate.d
+
 mv /etc/default/elasticsearch /etc/default/elasticsearch.bak
 ln -s /selks/staging/etc/default/elasticsearch /etc/default/elasticsearch
 
