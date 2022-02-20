@@ -150,6 +150,8 @@ if [ -n "${CIC_DEV}" ]; then
 fi
 #end mount cic data for AI/ML
 
+mkdir -p /cic/dataset/log
+
 # regenerate groups and users for base
 chmod 755 /usr/local/etc/rc.subr.d/recover
 /usr/local/etc/rc.subr.d/recover base > /dev/null
