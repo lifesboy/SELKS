@@ -338,19 +338,19 @@ class DatasetCache(object):
                         if fieldname != fieldnames.split(',')[0].strip():
                             sql_item.append(' or ')
                         if searchcontent.find('*') == -1:
-                            sql_item.append('cast(' + fieldname + " as text) like :" + fieldname + " ")
+                            sql_item.append('cast(' + fieldname + " as text) like %(" + fieldname + ")s ")
                         else:
-                            sql_item.append('cast(' + fieldname + " as text) like '%'|| :" + fieldname + " || '%' ")
+                            sql_item.append('cast(' + fieldname + " as text) like '%'|| %(" + fieldname + ")s || '%' ")
                         sql_parameters[fieldname] = searchcontent.replace('*', '')
                     else:
                         # property value combinations per rule are queried from the dataset_properties table
                         pfieldnm = "property_%d" % len(prop_values)
                         vfieldnm = "value_%d" % len(prop_values)
                         if searchcontent.find('*') == -1:
-                            prop_values.append("property = :%s and value like :%s " % (pfieldnm, vfieldnm))
+                            prop_values.append("property = %(%s)s and value like %(%s)s " % (pfieldnm, vfieldnm))
                         else:
                             prop_values.append(
-                                "property = :%s and value like  '%'|| :%s  || '%'" % (pfieldnm, vfieldnm))
+                                "property = :%s and value like  '%'|| %(%s)s  || '%'" % (pfieldnm, vfieldnm))
                         sql_parameters[pfieldnm] = fieldname
                         sql_parameters[vfieldnm] = searchcontent.replace('*', '')
 
