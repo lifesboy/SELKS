@@ -347,10 +347,9 @@ class DatasetCache(object):
                         pfieldnm = "property_%d" % len(prop_values)
                         vfieldnm = "value_%d" % len(prop_values)
                         if searchcontent.find('*') == -1:
-                            prop_values.append("property = %(%s)s and value like %(%s)s " % (pfieldnm, vfieldnm))
+                            prop_values.append("property = %({})s and value like %({})s ".format(pfieldnm, vfieldnm))
                         else:
-                            prop_values.append(
-                                "property = :%s and value like  '%'|| %(%s)s  || '%'" % (pfieldnm, vfieldnm))
+                            prop_values.append("property = %({})s and value like  '%'|| %({})s  || '%'".format(pfieldnm, vfieldnm))
                         sql_parameters[pfieldnm] = fieldname
                         sql_parameters[vfieldnm] = searchcontent.replace('*', '')
 
