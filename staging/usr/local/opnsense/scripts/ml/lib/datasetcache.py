@@ -382,6 +382,9 @@ class DatasetCache(object):
                     else:
                         sql_sort.append('%s asc' % sortField.split()[0])
 
+            fc_sort = map(lambda x: map(lambda i: (i[0], i[-1].lower()), x.split(' ')), sort_by.split(','))
+            fcs_query = map(lambda f, c: '%s %s' % (f, c if c == 'desc' else 'asc'), fc_sort)
+
             # count total number of rows
             #cur.execute('select count(*) from (%s) a' % sql, sql_parameters)
             result['total_rows'] = Dataset.objects.raw('select count(*) from (%s) a' % sql, sql_parameters)
@@ -398,30 +401,38 @@ class DatasetCache(object):
             #cur.execute(sql, sql_parameters)
             datasets = Dataset.objects.raw(sql, sql_parameters)
 
-            all_sids = []
+            all_sids = filter(None, map(lambda i: i.sid, datasets))
+            dataset_props = DatasetProperties.objects.where(sid__in=all_sids)
+            dpm = dict(map(lambda i: (i.sid, i), dataset_props))
+
+            result['rows'] = map(lambda i: {**i, **dpm[i.sid]} if dpm[i.sid] else i, datasets)
+
             #for row in cur.fetchall():
-            for row in datasets:
-                record = {}
-                for fieldNum in range(len(cur.description)):
-                    record[cur.description[fieldNum][0]] = row[fieldNum]
-                result['rows'].append(record)
-                if record['sid']:
-                    all_sids.append("%s" % record['sid'])
-
+            #for row in datasets:
+            #    record = {}
+            #    #for fieldNum in range(len(cur.description)):
+            #    #    record[cur.description[fieldNum][0]] = row[fieldNum]
+            #    #result['rows'].append(record)
+            #    #if record['sid']:
+            #    #    all_sids.append("%s" % record['sid'])
+            #
             # extend with collected metadata attributes
-            cur.execute("select * from dataset_properties where sid in ('%s') order by sid" %
-                        "','".join(all_sids)
-                        )
-            dataset_props = dict()
-            for row in cur.fetchall():
-                if row[0] not in dataset_props:
-                    dataset_props[row[0]] = dict()
-                dataset_props[row[0]][row[1]] = row[2]
+            # cur.execute("select * from dataset_properties where sid in ('%s') order by sid" %
+            #            "','".join(all_sids)
+            #            )
 
-            for record in result['rows']:
-                if record['sid'] in dataset_props:
-                    for fieldname in dataset_props[record['sid']]:
-                        record[fieldname] = dataset_props[record['sid']][fieldname]
+
+
+            #dataset_props = dict()
+            #for row in cur.fetchall():
+            #    if row[0] not in dataset_props:
+            #        dataset_props[row[0]] = dict()
+            #    dataset_props[row[0]][row[1]] = row[2]
+            #
+            #for record in result['rows']:
+            #    if record['sid'] in dataset_props:
+            #        for fieldname in dataset_props[record['sid']]:
+            #            record[fieldname] = dataset_props[record['sid']][fieldname]
         return result
 
     def list_metadata(self):
