@@ -1,7 +1,7 @@
 /var/log/suricata/eve.json {
 	daily
-	rotate 30
-        olddir /var/log/suricata/StatsByDate/
+	rotate 365
+        olddir /cic/dataset/log/suricata/
 	compress
 	missingok
 	notifempty
