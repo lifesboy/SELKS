@@ -387,7 +387,7 @@ class DatasetCache(object):
 
             # count total number of rows
             #cur.execute('select count(*) from (%s) a' % sql, sql_parameters)
-            result['total_rows'] = Dataset.objects.raw('select count(*) from (%s) a' % sql, sql_parameters)
+            result['total_rows'] = list(DatasetProperties.objects.raw('select 1 id, count(*) from (%s) a' % sql, sql_parameters))[0].count
 
             if len(sql_sort) > 0:
                 sql += ' order by %s' % (','.join(sql_sort))
@@ -399,13 +399,17 @@ class DatasetCache(object):
 
             # fetch results
             #cur.execute(sql, sql_parameters)
-            datasets = Dataset.objects.raw(sql, sql_parameters)
+            datasets = list(Dataset.objects.raw(sql, sql_parameters))
 
             all_sids = filter(None, map(lambda i: i.sid, datasets))
             dataset_props = DatasetProperties.objects.where(sid__in=all_sids)
             dpm = dict(map(lambda i: (i.sid, i), dataset_props))
 
-            result['rows'] = map(lambda i: {**i, **dpm[i.sid]} if dpm[i.sid] else i, datasets)
+            result['rows'] = map(lambda i: {
+                **i.__dict__,
+                **dpm[i.sid].__dict__,
+                **{'_state': None, 'id': None}
+            } if dpm[i.sid] else i, datasets)
 
             #for row in cur.fetchall():
             #for row in datasets:
