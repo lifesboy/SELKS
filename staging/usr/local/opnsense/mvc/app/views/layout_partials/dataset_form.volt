@@ -54,9 +54,6 @@
 
 <script>
     $( document ).ready(function() {
-        const labels_{{base_form_id}} = {
-            noResults: "No results found!"
-        }
         /**
          * toggle selected items
          * @param gridId: grid id to to use
@@ -165,9 +162,12 @@
         }
 
         function validateResponseData(response) {
+            $('#{{base_form_id}} .error-message').hide();
+
             if (response && response.error) {
                 var errorMessage = 'Error while loading data: ' + (response.error.msg || 'Unknown')
-                labels_{{base_form_id}}.noResults = errorMessage;
+                $('#{{base_form_id}} .error-message').text(errorMessage);
+                $('#{{base_form_id}} .error-message').show();
                 //alert(errorMessage);
                 response.rows = response.rows || [];
                 response.total = response.total || 0;
@@ -209,7 +209,6 @@
                             return toggle;
                         }
                     },
-                    labels: labels_{{base_form_id}},
                     onBeforeRenderDialog: function(payload) {
                         // update form with dynamic fields
                         let template_tr = $("#row___template__");
@@ -275,6 +274,7 @@
 </script>
 
 <form id="{{base_form_id}}" class="form-inline" data-title="{{data_title|default('')}}">
+    <label class="error-message"></label>
     <div id="datasets" class="tab-pane fade in">
         <div class="bootgrid-header container-fluid">
             <div class="row">
