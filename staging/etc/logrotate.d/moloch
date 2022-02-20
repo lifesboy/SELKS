@@ -1,0 +1,7 @@
+/data/moloch/logs/capture.log
+/data/moloch/logs/viewer.log {
+    daily
+    rotate 7
+    notifempty
+    copytruncate
+}
