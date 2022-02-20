@@ -325,8 +325,8 @@ class DatasetCache(object):
             fc_list = starmap(lambda f, _: list(map(lambda i, c=_: (f.lower().strip(), c), f.split(','))), fields_content)
             fc = list(chain(*fc_list))
 
-            fc_dataset = filterfalse(lambda f, _, a=rule_search_fields: f in a, fc)
-            fc_properties = filter(lambda f, _, a=rule_search_fields: f not in a, fc)
+            fc_dataset = filter(lambda i, a=rule_search_fields: i[0] in a, fc)
+            fc_properties = filter(lambda i, a=rule_search_fields: i[0] not in a, fc)
 
             fcd_queries = starmap(lambda f, c: 'cast({} as text) like %{}%'.format(f, c), fc_dataset)
             fcp_queries = starmap(lambda f, c: 'property={} and value like %{}%'.format(f, c), fc_properties)
