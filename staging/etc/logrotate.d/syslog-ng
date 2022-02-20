@@ -1,6 +1,7 @@
 /var/log/syslog
 {
 	rotate 7
+	copytruncate
 	olddir /cic/dataset/log/syslog/
 	hourly
 	missingok
@@ -27,6 +28,7 @@
 /var/log/error
 {
 	rotate 4
+	copytruncate
 	olddir /cic/dataset/log/kern/
 	hourly
 	missingok

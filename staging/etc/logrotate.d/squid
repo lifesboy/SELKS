@@ -6,9 +6,9 @@
 	compress
 	delaycompress
 	rotate 2
+	copytruncate
 	olddir /cic/dataset/log/squid/
 	missingok
-	nocreate
 	sharedscripts
 	prerotate
 		test ! -x /usr/sbin/sarg-reports || /usr/sbin/sarg-reports daily
