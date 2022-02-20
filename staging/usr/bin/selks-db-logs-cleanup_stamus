@@ -37,7 +37,7 @@ cleanup_routine() {
         /bin/systemctl stop molochpcapread-selks
         /bin/systemctl stop suricata
         /bin/systemctl stop logstash
-        rm -f /data/nsm/*
+        #rm -f /cic/dataset/nsm/*
         rm -f /data/moloch/raw/*
         rm -f /var/run/suricata.pid
         rm -f /var/log/suricata/*

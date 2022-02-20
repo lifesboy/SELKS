@@ -151,6 +151,8 @@ fi
 #end mount cic data for AI/ML
 
 mkdir -p /cic/dataset/log
+mkdir -p /cic/dataset/nsm/
+chown logstash -R /cic/dataset/nsm/
 
 # regenerate groups and users for base
 chmod 755 /usr/local/etc/rc.subr.d/recover

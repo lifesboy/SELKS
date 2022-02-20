@@ -96,9 +96,9 @@ apt-get -y install libtcmalloc-minimal4 libjansson-dev
 apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
 
 apt-get install -y flow-tools
-#make sure Suricata can write in /data/nsm
-mkdir -p /data/nsm/
-chown logstash -R /data/nsm/
+#make sure Suricata can write in /cic/dataset/nsm
+mkdir -p /cic/dataset/nsm/
+chown logstash -R /cic/dataset/nsm/
 
 apt-get install -y nftables
 systemctl enable nftables.service

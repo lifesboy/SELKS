@@ -391,8 +391,8 @@ chown -R kibana /usr/share/kibana/optimize/
 /usr/share/logstash/bin/logstash-plugin install logstash-filter-geoip
 /bin/systemctl restart logstash
 
-#make sure Suricata can write in /data/nsm
-chown logstash -R /data/nsm/
+#make sure Suricata can write in /cic/dataset/nsm
+chown logstash -R /cic/dataset/nsm/
 
 /bin/systemctl restart suricata
 /usr/bin/supervisorctl restart scirius 
