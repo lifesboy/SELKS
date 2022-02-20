@@ -1,6 +1,7 @@
 /var/log/syslog
 {
 	rotate 7
+	olddir /cic/dataset/log/syslog/
 	daily
 	missingok
 	notifempty
@@ -26,6 +27,7 @@
 /var/log/error
 {
 	rotate 4
+	olddir /cic/dataset/log/kern/
 	weekly
 	missingok
 	notifempty
