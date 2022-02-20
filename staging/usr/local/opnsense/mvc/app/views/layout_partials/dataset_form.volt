@@ -162,10 +162,12 @@
         }
 
         function validateResponseData(response) {
+            $('#{{base_form_id}}').removeClass("has-error");
             $('#{{base_form_id}} .error-message').hide();
 
             if (response && response.error) {
                 var errorMessage = 'Error while loading data: ' + (response.error.msg || 'Unknown')
+                $('#{{base_form_id}}').addClass("has-error");
                 $('#{{base_form_id}} .error-message').text(errorMessage);
                 $('#{{base_form_id}} .error-message').show();
                 //alert(errorMessage);
@@ -274,7 +276,9 @@
 </script>
 
 <form id="{{base_form_id}}" class="form-inline" data-title="{{data_title|default('')}}">
-    <label class="error-message"></label>
+    <div>
+        <label class="error-message control-label"></label>
+    </div>
     <div id="datasets" class="tab-pane fade in">
         <div class="bootgrid-header container-fluid">
             <div class="row">
