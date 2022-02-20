@@ -2,7 +2,7 @@
 #	Logrotate fragment for squid.
 #
 /var/log/squid/*.log {
-	daily
+	hourly
 	compress
 	delaycompress
 	rotate 2

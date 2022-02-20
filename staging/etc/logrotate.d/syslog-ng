@@ -2,7 +2,7 @@
 {
 	rotate 7
 	olddir /cic/dataset/log/syslog/
-	daily
+	hourly
 	missingok
 	notifempty
 	delaycompress
@@ -28,7 +28,7 @@
 {
 	rotate 4
 	olddir /cic/dataset/log/kern/
-	weekly
+	hourly
 	missingok
 	notifempty
 	compress

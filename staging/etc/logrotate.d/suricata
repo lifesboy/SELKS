@@ -1,5 +1,5 @@
 /var/log/suricata/eve.json {
-	daily
+	hourly
 	rotate 365
     olddir /cic/dataset/log/suricata/
 	compress
