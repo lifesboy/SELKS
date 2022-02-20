@@ -1,7 +1,7 @@
 /var/log/suricata/eve.json {
 	hourly
 	rotate 365
-    olddir /cic/dataset/log/suricata/
+	olddir /cic/dataset/log/suricata/
 	compress
 	missingok
 	notifempty
