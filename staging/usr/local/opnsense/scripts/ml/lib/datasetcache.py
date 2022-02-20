@@ -38,12 +38,12 @@ from configparser import ConfigParser
 from datetime import datetime
 from decimal import Decimal
 from hashlib import md5
-from itertools import starmap, chain, filterfalse
+from itertools import starmap, chain
 
 import ray
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import transaction
-from django.db.models import Max, Value
+from django.db.models import Max, Value, F, Q
 from mlflow import ActiveRun
 from mlflow.tracking import MlflowClient
 from ray.rllib.utils.framework import try_import_tf
@@ -328,8 +328,10 @@ class DatasetCache(object):
             fc_dataset = filter(lambda i, a=rule_search_fields: i[0] in a, fc)
             fc_properties = filter(lambda i, a=rule_search_fields: i[0] not in a, fc)
 
-            fcd_queries = starmap(lambda f, c: 'cast({} as text) like %{}%'.format(f, c), fc_dataset)
-            fcp_queries = starmap(lambda f, c: 'property={} and value like %{}%'.format(f, c), fc_properties)
+            fcd_queries = starmap(lambda f, c: Q(**{'%s__contains' % f: c}), fc_dataset)
+            fcp_queries = starmap(lambda f, c: Q(property=f, value__contains=c), fc_properties)
+
+            #Dataset.objects.filter([*list(fcd_queries), *list(fcp_queries)])
 
             for filtertag in shlex.split(filter_txt):
                 fieldnames, searchcontent = filtertag.split('/', maxsplit=1)
@@ -387,8 +389,9 @@ class DatasetCache(object):
             fcs_query = map(lambda f, c: '%s %s' % (f, c if c == 'desc' else 'asc'), fc_sort)
 
             # count total number of rows
-            #cur.execute('select count(*) from (%s) a' % sql, sql_parameters)
-            result['total_rows'] = list(DatasetProperties.objects.raw('select 1 id, count(*) from (%s) a' % sql, sql_parameters))[0].count
+            # cur.execute('select count(*) from (%s) a' % sql, sql_parameters)
+            result['total_rows'] = (list(DatasetProperties.objects
+                                         .raw('select 1 id, count(*) from (%s) a' % sql, sql_parameters))[0].count)
 
             if len(sql_sort) > 0:
                 sql += ' order by %s' % (','.join(sql_sort))
@@ -399,7 +402,7 @@ class DatasetCache(object):
                     sql += ' offset %s' % offset
 
             # fetch results
-            #cur.execute(sql, sql_parameters)
+            # cur.execute(sql, sql_parameters)
             datasets = list(Dataset.objects.raw(sql, sql_parameters))
 
             all_sids = filter(None, map(lambda i: i.sid, datasets))
@@ -412,8 +415,8 @@ class DatasetCache(object):
                 **{'_state': None, 'id': None}
             } if dpm[i.sid] else i, datasets))
 
-            #for row in cur.fetchall():
-            #for row in datasets:
+            # for row in cur.fetchall():
+            # for row in datasets:
             #    record = {}
             #    #for fieldNum in range(len(cur.description)):
             #    #    record[cur.description[fieldNum][0]] = row[fieldNum]
@@ -426,15 +429,13 @@ class DatasetCache(object):
             #            "','".join(all_sids)
             #            )
 
-
-
-            #dataset_props = dict()
-            #for row in cur.fetchall():
+            # dataset_props = dict()
+            # for row in cur.fetchall():
             #    if row[0] not in dataset_props:
             #        dataset_props[row[0]] = dict()
             #    dataset_props[row[0]][row[1]] = row[2]
             #
-            #for record in result['rows']:
+            # for record in result['rows']:
             #    if record['sid'] in dataset_props:
             #        for fieldname in dataset_props[record['sid']]:
             #            record[fieldname] = dataset_props[record['sid']][fieldname]
