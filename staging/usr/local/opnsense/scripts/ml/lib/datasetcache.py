@@ -402,7 +402,7 @@ class DatasetCache(object):
             datasets = list(Dataset.objects.raw(sql, sql_parameters))
 
             all_sids = filter(None, map(lambda i: i.sid, datasets))
-            dataset_props = DatasetProperties.objects.where(sid__in=all_sids)
+            dataset_props = DatasetProperties.objects.filter(sid__in=all_sids)
             dpm = dict(map(lambda i: (i.sid, i), dataset_props))
 
             result['rows'] = map(lambda i: {
