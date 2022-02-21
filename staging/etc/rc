@@ -150,6 +150,7 @@ if [ -n "${CIC_DEV}" ]; then
 fi
 #end mount cic data for AI/ML
 
+#Init backup dataset
 mkdir -p /cic/dataset/log
 mkdir -p /cic/dataset/log/suricata/
 mkdir -p /cic/dataset/log/squid/
@@ -157,6 +158,12 @@ mkdir -p /cic/dataset/log/syslog/
 mkdir -p /cic/dataset/log/kern/
 mkdir -p /cic/dataset/nsm/
 chown logstash -R /cic/dataset/nsm/
+
+#Init backup opnsense conf
+mkdir -p /drl/opnsense/conf/backup
+rm -rf /conf/backup.bak
+mv /conf/backup /conf/backup.bak
+ln -s /drl/opnsense/conf/backup /conf/backup
 
 # regenerate groups and users for base
 chmod 755 /usr/local/etc/rc.subr.d/recover
