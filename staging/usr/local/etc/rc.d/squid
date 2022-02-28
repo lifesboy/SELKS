@@ -32,7 +32,7 @@
 # squid_pidfile:
 #		The name (including the full path) of the Squid
 #		master process' PID file.
-#		Default: /var/run/squid/squid.pid.
+#		Default: /var/run/squid.pid.
 #		You only need to change this if you changed the
 #		corresponding entry in your Squid configuration.
 #
@@ -73,7 +73,7 @@ squid_load_rc_config()
 	: ${squid_conf:=/usr/local/etc/squid/squid.conf}
 	: ${squid_enable:=NO}
 	: ${squid_program:=/usr/local/sbin/squid}
-	: ${squid_pidfile:=/var/run/squid/squid.pid}
+	: ${squid_pidfile:=/var/run/squid.pid}
 	: ${squid_user:=squid}
 
 	required_args="-f ${squid_conf}"
