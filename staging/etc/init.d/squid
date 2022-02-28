@@ -4,7 +4,7 @@
 #
 # Version:	@(#)squid.rc  1.0  07-Jul-2006  luigi@debian.org
 #
-# pidfile: /var/run/squid/squid.pid
+# pidfile: /var/run/squid.pid
 #
 ### BEGIN INIT INFO
 # Provides:          squid
@@ -44,7 +44,7 @@
 # squid_pidfile:
 #		The name (including the full path) of the Squid
 #		master process' PID file.
-#		Default: /var/run/squid/squid.pid.
+#		Default: /var/run/squid.pid.
 #		You only need to change this if you changed the
 #		corresponding entry in your Squid configuration.
 #
@@ -62,7 +62,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DAEMON=/usr/sbin/squid
 NAME=squid
 DESC="Squid HTTP Proxy"
-PIDFILE=/var/run/squid/$NAME.pid
+PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 CONFIG=/etc/squid/squid.conf
 SQUID_ARGS="-YC -f $CONFIG"
@@ -87,6 +87,7 @@ ulimit -n 65535
 rcvar=squid_enable
 mkdir -p /etc/squid/errors/local
 chown -R proxy:proxy /etc/squid/errors/local
+chmod 777 /dev/shm
 
 # Make sure that we invoke squid with "-f ${squid_conf}"; define this
 # variable early so reload_cmd and stop_precmd pick it up:
@@ -111,7 +112,7 @@ squid_load_rc_config()
 	: ${squid_conf:=/etc/squid/squid.conf}
 	: ${squid_enable:=NO}
 	: ${squid_program:=/usr/sbin/squid}
-	: ${squid_pidfile:=/var/run/squid/squid.pid}
+	: ${squid_pidfile:=/var/run/squid.pid}
 	: ${squid_user:=proxy}
 
 	required_args="-f ${squid_conf}"
