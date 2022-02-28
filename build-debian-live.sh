@@ -157,6 +157,9 @@ if [ ! -d /binaries/suricata ]; then
   cd -
 fi
 
+if [ ! -d /binaries/squid ]; then
+  git clone https://github.com/lifesboy/squid.git /binaries/squid
+fi
 
 mkdir -p Stamus-Live-Build
 # Hook directory for the initramfs script to be copied to
@@ -428,6 +431,7 @@ cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/scirius Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/squid Stamus-Live-Build/chroot/binaries/
 
 # Add core system packages to be installed
 echo "

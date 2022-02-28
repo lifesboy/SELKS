@@ -253,7 +253,25 @@ apt-get install openvpn -y
 ### END Install vpn ###
 
 ### START Install Caching proxy ###
-apt-get install squid -y
+#apt-get install squid -y
+cd /binaries/squid
+sh bootstrap.sh
+./configure --prefix=/usr \
+  --with-default-user=proxy \
+  --with-openssl \
+  --enable-ssl \
+  --enable-ssl-crtd \
+  --localstatedir=/var/squid \
+  --libexecdir=${prefix}/lib/squid \
+  --srcdir=. \
+  --datadir=${prefix}/share/squid \
+  --sysconfdir=/etc/squid \
+  --with-default-user=proxy \
+  --with-logdir=/var/log/squid \
+  --with-pidfile=/var/run/squid.pid
+make all
+make install
+
 ### END Install Caching proxy ###
 
 ### START lighttpd opnsense ###
