@@ -254,21 +254,158 @@ apt-get install openvpn -y
 
 ### START Install Caching proxy ###
 #apt-get install squid -y
+apt-get install -y libecap3-dev libgnutls28-dev libpam0g-dev libkrb5-dev libtdb-dev libpmempool-dev
 cd /binaries/squid
 sh bootstrap.sh
-./configure --prefix=/usr \
-  --with-default-user=proxy \
-  --with-openssl \
-  --enable-ssl \
-  --enable-ssl-crtd \
-  --localstatedir=/var/squid \
-  --libexecdir=${prefix}/lib/squid \
-  --srcdir=. \
-  --datadir=${prefix}/share/squid \
-  --sysconfdir=/etc/squid \
-  --with-default-user=proxy \
-  --with-logdir=/var/log/squid \
-  --with-pidfile=/var/run/squid.pid
+./configure --build=x86_64-linux-gnu \
+ --prefix=/usr \
+ --includedir=${prefix}/include \
+ --mandir=${prefix}/share/man \
+ --infodir=${prefix}/share/info \
+ --sysconfdir=/etc \
+ --localstatedir=/var \
+ --libexecdir=${prefix}/lib/squid \
+ --srcdir=. \
+ --disable-maintainer-mode \
+ --disable-dependency-tracking \
+ --disable-silent-rules \
+ --with-build-environment=default \
+ --enable-build-info='Debian linux' \
+ --datadir=/usr/share/squid \
+ --sysconfdir=/etc/squid \
+ --libexecdir=/usr/lib/squid \
+ --mandir=/usr/share/man \
+ --enable-inline \
+ --disable-arch-native \
+ --enable-async-io=8 \
+ --enable-storeio=ufs,aufs,diskd,rock \
+ --enable-removal-policies=lru,heap \
+ --enable-delay-pools \
+ --enable-cache-digests \
+ --enable-icap-client \
+ --enable-follow-x-forwarded-for \
+ --enable-auth-basic=DB,fake,getpwnam,LDAP,NCSA,NIS,PAM,POP3,RADIUS,SASL,SMB \
+ --enable-auth-digest=file,LDAP \
+ --enable-auth-negotiate=kerberos,wrapper \
+ --enable-auth-ntlm=fake,SMB_LM \
+ --enable-external-acl-helpers=file_userip,kerberos_ldap_group,LDAP_group,session,SQL_session,time_quota,unix_group,wbinfo_group \
+ --enable-security-cert-validators=fake \
+ --enable-storeid-rewrite-helpers=file \
+ --enable-url-rewrite-helpers=fake \
+ --enable-eui \
+ --enable-esi \
+ --enable-icmp \
+ --enable-zph-qos \
+ --enable-ecap \
+ --disable-translation \
+ --with-swapdir=/var/spool/squid \
+ --with-logdir=/var/log/squid \
+ --with-pidfile=/var/run/squid.pid \
+ --with-filedescriptors=65536 \
+ --with-large-files \
+ --with-default-user=proxy \
+ --with-gnutls \
+ --enable-ssl \
+ --with-openssl \
+ --enable-security-cert-generators=file \
+ --enable-ssl-crtd \
+ --enable-linux-netfilter \
+ build_alias=x86_64-linux-gnu \
+ CC=x86_64-linux-gnu-gcc \
+ CFLAGS='-g -O2 -fdebug-prefix-map=/build/squid-SXQquB/squid-4.6=. -fstack-protector-strong -Wformat -Werror=format-security -Wall' \
+ LDFLAGS=-'Wl,-z,relro -Wl,-z,now -Wl,--as-needed -latomic' \
+ CPPFLAGS='-Wdate-time -D_FORTIFY_SOURCE=2' \
+ CXX=x86_64-linux-gnu-g++ \
+ CXXFLAGS='-g -O2 -fdebug-prefix-map=/build/squid-SXQquB/squid-4.6=. -fstack-protector-strong -Wformat -Werror=format-security' \
+ BUILDCXXFLAGS='-g -O2 -fdebug-prefix-map=/build/squid-SXQquB/squid-4.6=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -latomic' \
+ BUILDCXX=x86_64-linux-gnu-g++ \
+ LIBOPENSSL_CFLAGS=-I/usr/include \
+ LIBOPENSSL_LIBS='-lcrypto -lssl'
+
+#./configure --with-default-user=squid \
+# --bindir=/usr/local/sbin \
+# --sbindir=/usr/local/sbin \
+# --datadir=/usr/local/etc/squid \
+# --libexecdir=/usr/local/libexec/squid \
+# --localstatedir=/var \
+# --sysconfdir=/usr/local/etc/squid \
+# --with-logdir=/var/log/squid \
+# --with-pidfile=/var/run/squid.pid \
+# --with-swapdir=/var/squid/cache \
+# --without-gnutls \
+# --with-included-ltdl \
+# --enable-auth \
+# --enable-zph-qos \
+# --enable-build-info \
+# --enable-loadable-modules \
+# --enable-removal-policies=lru heap \
+# --disable-epoll \
+# --disable-linux-tproxy \
+# --disable-translation \
+# --disable-arch-native \
+# --disable-strict-error-checking \
+# --enable-eui \
+# --enable-cache-digests \
+# --enable-delay-pools \
+# --disable-ecap \
+# --disable-esi \
+# --enable-follow-x-forwarded-for \
+# --with-mit-krb5=/usr/local \
+# --enable-htcp \
+# --enable-icap-client \
+# --enable-icmp \
+# --enable-ident-lookups \
+# --enable-ipv6 \
+# --enable-kqueue \
+# --with-large-files \
+# --enable-http-violations \
+# --without-nettle \
+# --enable-snmp \
+# --enable-ssl \
+# --with-openssl=/usr/local \
+# --enable-security-cert-generators=file \
+# --enable-ssl-crtd \
+# --disable-stacktraces \
+# --disable-ipf-transparent \
+# --disable-ipfw-transparent \
+# --with-nat-devpf \
+# --enable-forw-via-db \
+# --enable-wccp \
+# --enable-wccpv2 \
+# --enable-auth-basic=LDAP SASL DB SMB_LM NCSA PAM POP3 RADIUS fake getpwnam \
+# --enable-auth-digest=eDirectory LDAP file \
+# --enable-external-acl-helpers=LDAP_group eDirectory_userip file_userip unix_group delayer kerberos_ldap_group \
+# --enable-auth-negotiate=kerberos wrapper \
+# --enable-auth-ntlm=fake SMB_LM \
+# --enable-storeio=aufs diskd rock ufs \
+# --enable-disk-io=DiskThreads DiskDaemon AIO Blocking IpcIo Mmapped \
+# --enable-log-daemon-helpers=file DB \
+# --enable-url-rewrite-helpers=fake LFS \
+# --enable-storeid-rewrite-helpers=file \
+# --enable-security-cert-validators=fake \
+# --prefix=/usr \
+# --includedir=${prefix}/include \
+# --mandir=/usr/local/man \
+# --disable-silent-rules \
+# --infodir=/usr/local/share/info/ \
+# --build=x86_64-linux-gnu \
+# --enable-ltdl-convenience
+# --enable-pf-transparent \
+# --disable-linux-netfilter \
+# build_alias=amd64-portbld-freebsd12.1 \
+# CC=cc \
+# CPPFLAGS=-I/usr/local/include -I/usr/local/include \
+# CXX=c++ \
+# CXXFLAGS=-O2 -pipe -DHARDENEDBSD -I/usr/local/include -I/usr/local/include -fPIE -fPIC -fsanitize=safe-stack -fstack-protector-all -DLDAP_DEPRECATED -fno-strict-aliasing  -DHARDENEDBSD -fPIE -fPIC -fsanitize=safe-stack  \
+# CPP=cpp \
+# CFLAGS=-I/usr/local/include -O2 -pipe  -DHARDENEDBSD -I/usr/local/include -I/usr/local/include -fPIE -fPIC -fsanitize=safe-stack -fstack-protector-all -DLDAP_DEPRECATED -fno-strict-aliasing  \
+# LDFLAGS=-L/usr/local/lib  -L/usr/local/lib -L/usr/local/lib -pthread -L/usr/local/lib -lpcreposix -lpcre -Wl,-rpath,/usr/local/lib:/usr/lib -pie -Wl,-z,relro -Wl,-z,now -fsanitize=safe-stack -Wl,-rpath,/usr/local/lib -fstack-protector-all  \
+# LIBS=-lkrb5 -lgssapi_krb5  \
+# KRB5CONFIG=/usr/local/bin/krb5-config \
+# krb5_config=/usr/local/bin/krb5-config \
+# LIBOPENSSL_CFLAGS=-I/usr/local/include \
+# LIBOPENSSL_LIBS=-lcrypto -lssl \
+
 make all
 make install
 
