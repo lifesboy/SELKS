@@ -45,8 +45,6 @@ python3 -m pip install dist/cicflowmeter-0.1.7-py3-none-any.whl
 #python3 setup.py install
 cd -
 
-cp -R /binaries/selks /
-
 ln -s /selks/staging/docker /docker
 
 #cd /selks

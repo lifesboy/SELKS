@@ -48,6 +48,8 @@ EOF
 
 mkdir -p  /opt/selks/
 
+cp -R /binaries/selks /
+
 ### START JAVA for ELK ###
 
 apt-get update && \
