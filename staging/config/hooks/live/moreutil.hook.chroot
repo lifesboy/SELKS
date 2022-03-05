@@ -174,7 +174,7 @@ ln /selks/staging/etc/init.d/swap /etc/init.d/swap
 ln /selks/staging/etc/init.d/fsck /etc/init.d/fsck
 ln /selks/staging/etc/init.d/root /etc/init.d/root
 #ln /selks/staging/etc/init.d/ray /etc/init.d/ray
-mv /etc/init.d/squid /etc/init.d/squid.bak
+mv /etc/init.d/squid /etc/init.d/squid.bak || true
 ln /selks/staging/etc/init.d/squid /etc/init.d/squid
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
