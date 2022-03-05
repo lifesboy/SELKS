@@ -165,6 +165,7 @@ python3 -m pip install -r requirements.txt
 #python3 -m pip install gitpython==0.3.1-beta2
 python3 -m pip install gitdb
 apt-get install -y npm
+npm install -g npm@5.8.0
 npm -v
 sudo npm install
 
