@@ -851,7 +851,7 @@ echo "MOLOCH_URL = \"http://localhost:8005\"" >> /etc/scirius/local_settings.py
 cd /
 
 ### overwite suricata of scirius
-cat > /etc/suricata/selks5-addin.yaml <<EOF
+cat > /etc/suricata/selks6-addin.yaml <<EOF
 EOF
 
 cd /binaries/suricata
