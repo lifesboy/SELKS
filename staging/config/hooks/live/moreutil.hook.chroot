@@ -145,8 +145,8 @@ ln -s /selks/staging/etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled
 ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
 ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 
-mv /etc/nginx/sites-available/selks5.conf /etc/nginx/sites-available/selks5.conf.bak
-ln -s /selks/staging/etc/nginx/sites-available/selks5.conf /etc/nginx/sites-available/selks5.conf
+mv /etc/nginx/sites-available/selks6.conf /etc/nginx/sites-available/selks6.conf.bak
+ln -s /selks/staging/etc/nginx/sites-available/selks6.conf /etc/nginx/sites-available/selks6.conf
 
 mv /etc/logrotate.d /etc/logrotate.d.bak
 ln -s /selks/staging/etc/logrotate.d /etc/logrotate.d
