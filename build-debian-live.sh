@@ -213,7 +213,10 @@ then
   mkdir -p config/packages.chroot/
   # Directory that needs to be present for the Kernel Version choice to work
   mkdir -p cache/contents.chroot/
-  
+  # Hook directory for the initramfs script to be copied to
+  #mkdir -p config/hooks/
+  mkdir -p config/hooks/live/
+
   # Copy the kernel image and headers
   #mv kernel-misc/*.deb config/packages.chroot/
   #cp ../staging/config/hooks/all_chroot_update-initramfs.sh config/hooks/all_chroot_update-initramfs.chroot
@@ -318,11 +321,13 @@ cp staging/usr/share/applications/Scirius.desktop Stamus-Live-Build/config/inclu
 # Copy scirius config
 cp -R staging/etc/scirius Stamus-Live-Build/config/includes.chroot/etc/
 
-# Logstash and Elasticsearch 6 template
+# Logstash and Elasticsearch 7 template
 cp staging/etc/logstash/conf.d/logstash.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/ 
 cp staging/etc/logstash/conf.d/cic.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
 cp staging/etc/logstash/conf.d/ray-result.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
 cp staging/etc/logstash/conf.d/ray-session.conf Stamus-Live-Build/config/includes.chroot/etc/logstash/conf.d/
+
+cp staging/etc/logstash/elasticsearch7-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-cic-2017-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
 cp staging/etc/logstash/elasticsearch6-cic-2018-template.json Stamus-Live-Build/config/includes.chroot/etc/logstash/
