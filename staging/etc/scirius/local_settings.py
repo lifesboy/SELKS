@@ -26,6 +26,7 @@ KIBANA_VERSION = 6
 KIBANA_INDEX = ".kibana"
 KIBANA_URL = "http://localhost:5601"
 KIBANA6_DASHBOARDS_PATH = "/opt/selks/kibana6-dashboards/"
+KIBANA7_DASHBOARDS_PATH = "/opt/selks/kibana7-dashboards/"
 USE_KIBANA = True
 KIBANA_PROXY = True
 
