@@ -153,8 +153,70 @@ sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO p
 
 cp -R /binaries/scirius /
 ln -s /selks/staging/usr/local/opnsense/scripts/ml /scirius/ml
+
 cat >> /scirius/scirius/settings.py <<EOF
 INSTALLED_APPS += ('ml',)
+EOF
+
+cat > /scirius/setup.py <<EOF
+import subprocess
+import os
+from setuptools import setup
+
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+    README = readme.read()
+
+# allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
+
+setup(
+    name='scirius',
+    version='3.8.0',
+    packages=['scirius','rules','suricata', 'accounts', 'viz', 'ml'],
+    scripts=['manage.py'],
+    include_package_data=True,
+    description='A web interface to manage Suricata rulesets',
+    long_description=README,
+    url='https://www.stamus-networks.com/open-source/#scirius',
+    author='Eric Leblond',
+    author_email='eleblond@stamus-networks.com',
+    classifiers=[
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.7',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    ],
+)
+
+# setup supervisor service
+cmd = '''
+    mkdir -p /usr/share/python3/scirius
+    cp -R ./usr/share/python3/scirius/bin /usr/share/python3/scirius
+    cp ./usr/share/python3/scirius/requirements.txt /usr/share/python3/scirius
+    cp ./usr/share/python3/scirius/get-pip.py /usr/share/python3/scirius
+    cd /usr/share/python3/scirius
+    . bin/activate
+    python3 get-pip.py
+    python3 -m pip install -r requirements.txt
+    deactivate
+    cd -
+
+    mkdir -p /usr/share/doc
+    cp -R ./usr/share/doc/scirius /usr/share/doc
+
+    mkdir -p /usr/share/python3/scirius/lib
+    ln -s /usr/lib/python3.7 /usr/share/python3/scirius/lib/python3.7
+
+    ln -s /etc/scirius/local_settings.py scirius/local_settings.py
+    ln -s /etc/scirius/local_settings.py /usr/share/python3/scirius/lib/python3.7/site-packages/scirius-3.8.0-py3.7.egg/scirius/local_settings.py
+'''
+exit_status = subprocess.call(cmd, shell=True)
+
 EOF
 
 cd /scirius
@@ -873,7 +935,8 @@ cd -
 apt-get install -y supervisor
 # supervisor conf
 mkdir -p /etc/supervisor/conf.d/
-ln -s /usr/share/doc/scirius/examples/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
+#ln -s /usr/share/doc/scirius/examples/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
+ln -s /selks/staging/etc/supervisor/conf.d/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
 
 # Set the right permissions for the logstash user to run suricata
 chown -R logstash:logstash /var/log/suricata
