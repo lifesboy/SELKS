@@ -310,9 +310,11 @@ fi
 
 case "$1" in
     start)
-	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
-	if test -n "$res";
+	#res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
+	#if test -n "$res";
+	if $DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*";
 	then
+	  res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
 		log_failure_msg "$res"
 		exit 3
 	else
