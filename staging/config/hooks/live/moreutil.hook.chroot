@@ -269,6 +269,8 @@ mv /etc/logstash /etc/logstash.bak
 ln -s /selks/staging/etc/logstash /etc/logstash
 mv /etc/systemd/system/logstash.service /etc/systemd/system/logstash.service.bak
 ln -s /selks/staging/etc/systemd/system/logstash.service /etc/systemd/system/logstash.service
+#mv /etc/systemd/system/squid.service /etc/systemd/system/squid.service.bak
+ln -s /selks/staging/etc/systemd/system/squid.service /etc/systemd/system/squid.service
 # Force to use /etc/init.d/elasticsearch
 mv /usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service.bak
 mkdir -p /var/log/mlflow
