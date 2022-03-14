@@ -335,9 +335,11 @@ case "$1" in
 	fi
 	;;
     reload|force-reload)
-	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
-	if test -n "$res";
+#	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
+#	if test -n "$res";
+  if $DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*";
 	then
+	  res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
 		log_failure_msg "$res"
 		exit 3
 	else
@@ -348,8 +350,9 @@ case "$1" in
 	fi
 	;;
     restart)
-	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
-	if test -n "$res";
+#	res=`$DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*"`
+#	if test -n "$res";
+  if $DAEMON -k parse -f $CONFIG 2>&1 | grep -o "FATAL: .*";
 	then
 		log_failure_msg "$res"
 		exit 3
