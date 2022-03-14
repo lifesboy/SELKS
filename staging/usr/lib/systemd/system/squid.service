@@ -5,18 +5,45 @@
 ## Please see the COPYING and CONTRIBUTORS files for details.
 ##
 
+#[Unit]
+#Description=Squid Web Proxy Server
+#Documentation=man:squid(8)
+#After=network.target network-online.target nss-lookup.target
+#
+#[Service]
+#Type=forking
+#PIDFile=/var/run/squid.pid
+#ExecStartPre=/usr/sbin/squid --foreground -z
+#ExecStart=/usr/sbin/squid -sYC
+#ExecReload=/bin/kill -HUP $MAINPID
+#KillMode=mixed
+#
+#[Install]
+#WantedBy=multi-user.target
+
 [Unit]
-Description=Squid Web Proxy Server
-Documentation=man:squid(8)
-After=network.target network-online.target nss-lookup.target
+Documentation=man:systemd-sysv-generator(8)
+SourcePath=/etc/init.d/squid
+Description=LSB: Squid HTTP Proxy version 4.x
+Before=multi-user.target
+Before=multi-user.target
+Before=multi-user.target
+Before=graphical.target
+After=network-online.target
+After=remote-fs.target
+After=nss-lookup.target
+Wants=network-online.target
 
 [Service]
 Type=forking
-PIDFile=/var/run/squid.pid
-ExecStartPre=/usr/sbin/squid --foreground -z
-ExecStart=/usr/sbin/squid -sYC
-ExecReload=/bin/kill -HUP $MAINPID
-KillMode=mixed
-
-[Install]
-WantedBy=multi-user.target
+Restart=no
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=no
+#PIDFile=/var/run/squid.pid
+SuccessExitStatus=5 6
+ExecStart=/etc/init.d/squid start
+ExecStop=/etc/init.d/squid stop
+ExecReload=/etc/init.d/squid reload
