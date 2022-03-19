@@ -153,6 +153,8 @@ ln -s /selks/staging/etc/logrotate.d /etc/logrotate.d
 
 mv /etc/default/elasticsearch /etc/default/elasticsearch.bak
 ln -s /selks/staging/etc/default/elasticsearch /etc/default/elasticsearch
+mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.bak
+ln -s /selks/staging/etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
 mkdir -p /etc/ray/
 ln -s /selks/staging/etc/ray/cluster.yaml /etc/ray/cluster.yaml
