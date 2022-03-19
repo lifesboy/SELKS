@@ -466,6 +466,13 @@ function filter_core_rules_system($fw, $defaults)
 //        $defaults['pass']
 //    );
 
+    // Allow Caching proxy squid - icap - clamav
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '3127,3128,3129', 'descr' => 'Allow Connect to squid'),
+        $defaults['pass']
+    );
+
     // Allow Machine learning access
     $fw->registerFilterRule(
         1,
