@@ -98,4 +98,4 @@ path.logs: /var/log/elasticsearch
 xpack.ml.enabled: false
 xpack.security.enabled: false
 
-server.publicBaseUrl: selks.ddns.net
+#server.publicBaseUrl: selks.ddns.net
