@@ -475,6 +475,8 @@ sh bootstrap.sh
 make all
 make install
 
+apt-get install -y clamav clamav-daemon
+
 ### END Install Caching proxy ###
 
 ### START lighttpd opnsense ###
