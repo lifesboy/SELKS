@@ -195,6 +195,7 @@ chmod -R o+r /var/log/boot.log
 chmod -R o+r /var/log/ray
 chmod -R o+r /var/log/scirius
 chmod -R o+r /var/log/scirius*
+chmod -R o+r /var/log/logstash
 
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
