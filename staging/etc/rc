@@ -189,6 +189,10 @@ chmod 755 /usr/local/etc/rc.subr.d/recover
 #ln -s /run /var/run
 chmod 0755 /var/run
 
+chmod -R o+r /var/log/nginx
+chmod -R o+r /var/log/squid
+chmod -R o+r /var/log/boot.log
+
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
 
