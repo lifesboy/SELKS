@@ -1,5 +1,5 @@
 {
-  "template" : "logstash-*",
+  "template" : "opnsense-*",
   "version" : 60001,
   "settings" : {
     "number_of_replicas": 0,
