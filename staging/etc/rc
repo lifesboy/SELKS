@@ -200,6 +200,7 @@ chmod -R o+r /var/log/elasticsearch
 chmod -R o+r /var/log/tensorboard
 chmod -R o+r /var/log/suricata/suricata.log
 chmod -R o+r /var/log/suricata/suricata-start.log
+chmod -R o+r /var/log/syslog
 
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
