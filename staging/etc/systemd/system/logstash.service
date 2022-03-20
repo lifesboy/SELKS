@@ -1,5 +1,6 @@
 [Unit]
 Description=logstash
+After=elasticsearch.service
 
 [Service]
 Type=simple
