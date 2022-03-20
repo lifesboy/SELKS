@@ -148,6 +148,9 @@ ln -s /selks/staging/etc/lighttpd/modules.conf /etc/lighttpd/modules.conf
 mv /etc/nginx/sites-available/selks6.conf /etc/nginx/sites-available/selks6.conf.bak
 ln -s /selks/staging/etc/nginx/sites-available/selks6.conf /etc/nginx/sites-available/selks6.conf
 
+mv /etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf.bak
+ln -s /selks/staging/etc/syslog-ng/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
+
 mv /etc/logrotate.d /etc/logrotate.d.bak
 ln -s /selks/staging/etc/logrotate.d /etc/logrotate.d
 
