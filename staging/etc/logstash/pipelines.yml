@@ -6,6 +6,12 @@
   path.config: "/etc/logstash/conf.d/logstash.conf"
 - pipeline.id: opnsense-php
   path.config: "/etc/logstash/conf.d/opnsense-php.conf"
+- pipeline.id: opnsense-squid
+  path.config: "/etc/logstash/conf.d/opnsense-squid.conf"
+- pipeline.id: selks-nginx
+  path.config: "/etc/logstash/conf.d/selks-nginx.conf"
+- pipeline.id: selks-boot
+  path.config: "/etc/logstash/conf.d/selks-boot.conf"
 #- pipeline.id: cic
 #  path.config: "/etc/logstash/conf.d/cic.conf"
 #- pipeline.id: ray-result
