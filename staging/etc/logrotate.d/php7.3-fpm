@@ -1,5 +1,6 @@
 /var/log/php7.3-fpm.log {
 	rotate 12
+	create 0644 root root
 	weekly
 	missingok
 	notifempty

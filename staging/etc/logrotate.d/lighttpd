@@ -2,6 +2,7 @@
         weekly
         missingok
         rotate 12
+        create 0644 www-data www-data
         compress
 	delaycompress
         notifempty

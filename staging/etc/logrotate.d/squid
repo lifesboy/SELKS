@@ -6,6 +6,7 @@
 	compress
 	delaycompress
 	rotate 2
+	create 0644 proxy proxy
 	copytruncate
 	olddir /cic/dataset/log/squid/
 	missingok
