@@ -6,6 +6,8 @@
   path.config: "/etc/logstash/conf.d/logstash.conf"
 - pipeline.id: sys-opnsense
   path.config: "/etc/logstash/conf.d/sys-opnsense.conf"
+- pipeline.id: sys-opnsense-syslog
+  path.config: "/etc/logstash/conf.d/sys-opnsense-syslog.conf"
 - pipeline.id: sys-selks
   path.config: "/etc/logstash/conf.d/sys-selks.conf"
 #- pipeline.id: cic
