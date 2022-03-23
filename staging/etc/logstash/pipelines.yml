@@ -5,15 +5,19 @@
 - pipeline.id: main
   path.config: "/etc/logstash/conf.d/logstash.conf"
   pipeline.workers: 2
+  pipeline.ecs_compatibility: v8
 - pipeline.id: sys-opnsense
   path.config: "/etc/logstash/conf.d/sys-opnsense.conf"
   pipeline.workers: 1
+  pipeline.ecs_compatibility: v8
 - pipeline.id: sys-opnsense-syslog
   path.config: "/etc/logstash/conf.d/sys-opnsense-syslog.conf"
   pipeline.workers: 1
+  pipeline.ecs_compatibility: v8
 - pipeline.id: sys-selks
   path.config: "/etc/logstash/conf.d/sys-selks.conf"
   pipeline.workers: 1
+  pipeline.ecs_compatibility: v8
 #- pipeline.id: cic
 #  path.config: "/etc/logstash/conf.d/cic.conf"
 #- pipeline.id: ray-result
