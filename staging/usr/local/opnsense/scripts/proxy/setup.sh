@@ -1,13 +1,13 @@
 #!/bin/sh
 
-SQUID_DIRS="/var/log/squid /var/run/squid /var/squid /var/squid/cache /var/squid/ssl /var/squid/logs"
+SQUID_DIRS="/var/log/squid /var/run/squid /var/squid /var/squid/cache /var/squid/ssl /var/squid/logs /var/log/squid"
 
 for SQUID_DIR in ${SQUID_DIRS}; do
     mkdir -p ${SQUID_DIR}
     chown -R proxy:proxy ${SQUID_DIR}
     chmod -R 750 ${SQUID_DIR}
 done
-chmod -R o+x /var/squid/logs
+chmod -R o+r /var/log/squid
 #/usr/sbin/pw groupmod proxy -m proxy
 /usr/sbin/squid -z -N > /dev/null 2>&1
 
