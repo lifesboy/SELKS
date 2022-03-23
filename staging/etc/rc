@@ -165,6 +165,10 @@ rm -rf /conf/backup.bak
 mv /conf/backup /conf/backup.bak
 ln -s /drl/opnsense/conf/backup /conf/backup
 
+#Init backup elk
+mkdir -p /drl/elasticsearch
+chown -R elasticsearch:elasticsearch /drl/elasticsearch
+
 # regenerate groups and users for base
 chmod 755 /usr/local/etc/rc.subr.d/recover
 /usr/local/etc/rc.subr.d/recover base > /dev/null
