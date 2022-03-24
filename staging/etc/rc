@@ -207,6 +207,16 @@ chmod -R o+r /var/log/suricata/suricata.log
 chmod -R o+r /var/log/suricata/suricata-start.log
 chmod -R o+r /var/log/syslog
 
+chmod 0755 /var/log/nginx
+chmod 0755 /var/log/squid
+chmod 0755 /var/log/clamav
+chmod 0755 /var/log/ray
+chmod 0755 /var/log/scirius
+chmod 0755 /var/log/logstash
+chmod 0755 /var/log/elasticsearch
+chmod 0755 /var/log/tensorboard
+chmod 0755 /var/log/suricata
+
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
 

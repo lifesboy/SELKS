@@ -8,6 +8,7 @@ for SQUID_DIR in ${SQUID_DIRS}; do
     chmod -R 750 ${SQUID_DIR}
 done
 chmod -R o+r /var/log/squid
+chmod 0755 /var/log/squid
 #/usr/sbin/pw groupmod proxy -m proxy
 /usr/sbin/squid -z -N > /dev/null 2>&1
 
