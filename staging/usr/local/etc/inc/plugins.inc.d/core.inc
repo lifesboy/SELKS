@@ -101,6 +101,17 @@ function core_services()
         'name' => 'syslog-ng',
     );
 
+    $services[] = array(
+        'description' => gettext('Elasticsearch Database'),
+        'php' => array(
+            "stop" => array('service elasticsearch stop'),
+            "start" => array('service elasticsearch start'),
+            "restart" => array('service elasticsearch restart')
+        ),
+        'pidfile' => '/var/run/elasticsearch/elasticsearch.pid',
+        'name' => 'elasticsearch',
+    );
+
     return $services;
 }
 
