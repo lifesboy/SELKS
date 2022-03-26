@@ -190,8 +190,9 @@ function system_api()
     $result['cpu'] = system_api_cpu_stats();
     $result['date_frmt'] = date("D M j G:i:s T Y");
     $result['date_time'] = time();
-    preg_match("/sec = (\d+)/", get_single_sysctl("kern.boottime"), $matches);
-    $result['uptime'] = $result['date_time'] - $matches[1];
+//    preg_match("/sec = (\d+)/", get_single_sysctl("kern.boottime"), $matches);
+//    $result['uptime'] = $result['date_time'] - $matches[1];
+    $result['uptime'] = $result['date_time'] - floatval(shell_exec('awk \'{print $1}\' /proc/uptime'));
     $result['config'] = system_api_config();
     $result['kernel'] = system_api_kernel();
     $result['disk'] = system_api_disk();
