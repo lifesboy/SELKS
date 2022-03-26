@@ -100,9 +100,11 @@ function system_api_kernel()
     $result = array();
 
     $result['pf'] = array();
-    $result['pf']['maxstates'] = !empty($config['system']['maximumstates']) ? $config['system']['maximumstates'] : default_state_size();
-    exec('/sbin/pfctl -si |grep "current entries" 2>/dev/null', $states);
-    $result['pf']['states'] = count($states) >  0 ? filter_var($states[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+//    $result['pf']['maxstates'] = !empty($config['system']['maximumstates']) ? $config['system']['maximumstates'] : default_state_size();
+//    exec('/sbin/pfctl -si |grep "current entries" 2>/dev/null', $states);
+//    $result['pf']['states'] = count($states) >  0 ? filter_var($states[0], FILTER_SANITIZE_NUMBER_INT) : 0;
+    $result['pf']['maxstates'] = intval(shell_exec('cat /proc/sys/net/netfilter/nf_conntrack_max'));
+    $result['pf']['states'] = intval(shell_exec('cat /proc/sys/net/netfilter/nf_conntrack_count'));
 
     $result['mbuf'] = array();
     exec('/usr/bin/netstat -mb | /usr/bin/grep "mbuf clusters in use"', $mbufs);
