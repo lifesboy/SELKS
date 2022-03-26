@@ -176,6 +176,9 @@ function service_control_start($name, $extras)
         foreach ($service['mwexec']['start'] as $cmd) {
             mwexec($cmd);
         }
+    } elseif (isset($service['systemctl'])) {
+        $cmd = sprintf(gettext("systemctl start %s"), htmlspecialchars($service['systemctl']));
+        mwexec($cmd);
     } else {
         return sprintf(gettext("Could not start service `%s'"), htmlspecialchars($name));
     }
@@ -210,6 +213,9 @@ function service_control_stop($name, $extras)
         }
     } elseif (isset($service['pidfile'])) {
         killbypid($service['pidfile'], 'TERM', true);
+    } elseif (isset($service['systemctl'])) {
+        $cmd = sprintf(gettext("systemctl stop %s"), htmlspecialchars($service['systemctl']));
+        mwexec($cmd);
     } else {
         /* last resort, but not very elegant */
         killbyname($service['name']);
@@ -249,6 +255,9 @@ function service_control_restart($name, $extras)
         foreach ($service['mwexec']['restart'] as $cmd) {
             mwexec($cmd);
         }
+    } elseif (isset($service['systemctl'])) {
+        $cmd = sprintf(gettext("systemctl restart %s"), htmlspecialchars($service['systemctl']));
+        mwexec($cmd);
     } else {
         return sprintf(gettext("Could not restart service `%s'"), htmlspecialchars($name));
     }

@@ -113,6 +113,17 @@ function core_services()
     );
 
     $services[] = array(
+        'description' => gettext('Kibana visualizer'),
+        'php' => array(
+            "stop" => array('system_elasticsearch_stop'),
+            "start" => array('system_elasticsearch_start'),
+            "restart" => array('system_elasticsearch_restart')
+        ),
+        'pidfile' => '/run/kibana/kibana.pid',
+        'name' => 'kibana',
+    );
+
+    $services[] = array(
         'description' => gettext('Logstash agent'),
         'php' => array(
             "stop" => array('system_logstash_stop'),
