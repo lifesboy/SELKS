@@ -107,9 +107,13 @@ function system_api_kernel()
     $result['pf']['states'] = intval(shell_exec('cat /proc/sys/net/netfilter/nf_conntrack_count'));
 
     $result['mbuf'] = array();
-    exec('/usr/bin/netstat -mb | /usr/bin/grep "mbuf clusters in use"', $mbufs);
-    $result['mbuf']['total'] = count($mbufs) > 0 ? explode('/', $mbufs[0])[2] : 0;
-    $result['mbuf']['max'] = count($mbufs) > 0 ? explode(' ', explode('/', $mbufs[0])[3])[0] : 0;
+//    exec('/usr/bin/netstat -mb | /usr/bin/grep "mbuf clusters in use"', $mbufs);
+//    $result['mbuf']['total'] = count($mbufs) > 0 ? explode('/', $mbufs[0])[2] : 0;
+//    $result['mbuf']['max'] = count($mbufs) > 0 ? explode(' ', explode('/', $mbufs[0])[3])[0] : 0;
+
+    $mbufs = preg_split('/\s+/', get_single_sysctl('net.ipv4.tcp_mem'));
+    $result['mbuf']['total'] = $mbufs[1];
+    $result['mbuf']['max'] = $mbufs[2];
 
 //    $totalMem = get_single_sysctl("vm.stats.vm.v_page_count");
 //    $inactiveMem = get_single_sysctl("vm.stats.vm.v_inactive_count");
