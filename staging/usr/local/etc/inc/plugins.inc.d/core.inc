@@ -114,12 +114,8 @@ function core_services()
 
     $services[] = array(
         'description' => gettext('Kibana visualizer'),
-        'php' => array(
-            "stop" => array('system_elasticsearch_stop'),
-            "start" => array('system_elasticsearch_start'),
-            "restart" => array('system_elasticsearch_restart')
-        ),
         'pidfile' => '/run/kibana/kibana.pid',
+        'systemctl' => 'kibana',
         'name' => 'kibana',
     );
 
