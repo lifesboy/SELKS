@@ -30,36 +30,46 @@ function system_api_cpu_stats()
 {
     $cpustats = array();
     // take a short snapshot to calculate cpu usage
-    $diff = array('user', 'nice', 'sys', 'intr', 'idle');
-    $cpuTicks1 = array_combine($diff, array_slice(explode(" ", get_single_sysctl('kern.cp_time')),0, 5));
-    usleep(100000);
-    $cpuTicks2 = array_combine($diff, array_slice(explode(" ", get_single_sysctl('kern.cp_time')),0, 5));
-    $totalStart = array_sum($cpuTicks1);
-    $totalEnd = array_sum($cpuTicks2);
-    if ($totalEnd <= $totalStart) {
-        // if for some reason the measurement is invalid, assume nothing has changed (all 0)
-        $totalEnd = $totalStart;
-    }
-    $totalDiff = $totalEnd - $totalStart;
-    if ($totalDiff != 0) {
-        $cpustats['used'] =  floor(100 * ($totalDiff - ($cpuTicks2['idle'] - $cpuTicks1['idle'])) / $totalDiff);
-        $cpustats['user'] = floor(100 * (($cpuTicks2['user'] - $cpuTicks1['user'])) / $totalDiff);
-        $cpustats['nice'] = floor(100 * (($cpuTicks2['nice'] - $cpuTicks1['nice'])) / $totalDiff);
-        $cpustats['sys'] = floor(100 * (($cpuTicks2['sys'] - $cpuTicks1['sys'])) / $totalDiff);
-        $cpustats['intr'] = floor(100 * (($cpuTicks2['intr'] - $cpuTicks1['intr'])) / $totalDiff);
-        $cpustats['idle'] = floor(100 * (($cpuTicks2['idle'] - $cpuTicks1['idle'])) / $totalDiff);
-    } else {
-        $cpustats['used'] = "0";
-        $cpustats['user'] = "0";
-        $cpustats['nice'] = "0";
-        $cpustats['sys'] = "0";
-        $cpustats['intr'] = "0";
-        $cpustats['idle'] = "0";
-    }
+//    $diff = array('user', 'nice', 'sys', 'intr', 'idle');
+//    $cpuTicks1 = array_combine($diff, array_slice(explode(" ", get_single_sysctl('kern.cp_time')),0, 5));
+//    usleep(100000);
+//    $cpuTicks2 = array_combine($diff, array_slice(explode(" ", get_single_sysctl('kern.cp_time')),0, 5));
+//    $totalStart = array_sum($cpuTicks1);
+//    $totalEnd = array_sum($cpuTicks2);
+//    if ($totalEnd <= $totalStart) {
+//        // if for some reason the measurement is invalid, assume nothing has changed (all 0)
+//        $totalEnd = $totalStart;
+//    }
+//    $totalDiff = $totalEnd - $totalStart;
+//    if ($totalDiff != 0) {
+//        $cpustats['used'] =  floor(100 * ($totalDiff - ($cpuTicks2['idle'] - $cpuTicks1['idle'])) / $totalDiff);
+//        $cpustats['user'] = floor(100 * (($cpuTicks2['user'] - $cpuTicks1['user'])) / $totalDiff);
+//        $cpustats['nice'] = floor(100 * (($cpuTicks2['nice'] - $cpuTicks1['nice'])) / $totalDiff);
+//        $cpustats['sys'] = floor(100 * (($cpuTicks2['sys'] - $cpuTicks1['sys'])) / $totalDiff);
+//        $cpustats['intr'] = floor(100 * (($cpuTicks2['intr'] - $cpuTicks1['intr'])) / $totalDiff);
+//        $cpustats['idle'] = floor(100 * (($cpuTicks2['idle'] - $cpuTicks1['idle'])) / $totalDiff);
+//    } else {
+//        $cpustats['used'] = "0";
+//        $cpustats['user'] = "0";
+//        $cpustats['nice'] = "0";
+//        $cpustats['sys'] = "0";
+//        $cpustats['intr'] = "0";
+//        $cpustats['idle'] = "0";
+//    }
+    $iostat = json_decode(shell_exec('iostat -c -o JSON'));
+    $cpustats['user'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['user'];
+    $cpustats['nice'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['nice'];
+    $cpustats['sys'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['system'];
+    $cpustats['intr'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['iowait'];
+    $cpustats['idle'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['idle'];
+    $cpustats['used'] = 100 - $cpustats['idle'];
+
 
     // cpu model and count
-    $cpustats['model'] = get_single_sysctl("hw.model");
-    $cpustats['cpus'] = get_single_sysctl('kern.smp.cpus');
+//    $cpustats['model'] = get_single_sysctl("hw.model");
+//    $cpustats['cpus'] = get_single_sysctl('kern.smp.cpus');
+    $cpustats['model'] = $iostat['sysstat']['hosts'][0]['machine'];
+    $cpustats['cpus'] = $iostat['sysstat']['hosts'][0]['number-of-cpus'];
 
     // cpu frequency
     $tmp = get_single_sysctl('dev.cpu.0.freq_levels');
