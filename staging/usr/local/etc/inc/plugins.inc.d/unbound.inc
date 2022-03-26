@@ -61,7 +61,8 @@ function unbound_services()
     $pconfig['description'] = gettext('Unbound DNS');
     $pconfig['php']['restart'] = array('unbound_configure_do');
     $pconfig['php']['start'] = array('unbound_configure_do');
-    $pconfig['pidfile'] = '/var/run/unbound.pid';
+    #$pconfig['pidfile'] = '/var/run/unbound.pid';
+    $pconfig['systemctl'] = 'unbound';
     $services[] = $pconfig;
 
     return $services;

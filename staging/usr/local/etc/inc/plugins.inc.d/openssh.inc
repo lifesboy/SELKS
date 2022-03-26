@@ -55,7 +55,8 @@ function openssh_services()
         $pconfig['configd']['restart'] = array('openssh restart');
         $pconfig['configd']['start'] = array('openssh start');
         $pconfig['configd']['stop'] = array('openssh stop');
-        $pconfig['pidfile'] = '/var/run/sshd.pid';
+        #$pconfig['pidfile'] = '/var/run/sshd.pid';
+        $pconfig['systemctl'] = 'sshd';
         $pconfig['name'] = 'openssh';
         $services[] = $pconfig;
     }
