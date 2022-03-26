@@ -68,7 +68,8 @@ function system_api_cpu_stats()
     // cpu model and count
 //    $cpustats['model'] = get_single_sysctl("hw.model");
 //    $cpustats['cpus'] = get_single_sysctl('kern.smp.cpus');
-    $cpustats['model'] = $iostat['sysstat']['hosts'][0]['machine'];
+    $cpuInfo = explode('\n', shell_exec('/proc/cpuinfo'));
+    $cpustats['model'] = explode(': ', $cpuInfo[5]);
     $cpustats['cpus'] = $iostat['sysstat']['hosts'][0]['number-of-cpus'];
 
     // cpu frequency
