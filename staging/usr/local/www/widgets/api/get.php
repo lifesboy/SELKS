@@ -66,7 +66,12 @@ foreach (glob(__DIR__."/plugins/*.inc") as $filename) {
         require $filename;
         $pluginFunctionName = $pluginName."_api";
         if (function_exists($pluginName."_api")) {
-            $result['data'][$pluginName] = $pluginFunctionName();
+            try {
+                $result['data'][$pluginName] = $pluginFunctionName();
+            } catch (Throwable $e) {
+                header("HTTP/1.1 502 Bad Gateway");
+                throw $e;
+            }
         }
     }
 }
