@@ -192,7 +192,7 @@ function system_api()
     $result['date_time'] = time();
 //    preg_match("/sec = (\d+)/", get_single_sysctl("kern.boottime"), $matches);
 //    $result['uptime'] = $result['date_time'] - $matches[1];
-    $result['uptime'] = $result['date_time'] - floatval(shell_exec('awk \'{print $1}\' /proc/uptime'));
+    $result['uptime'] = $result['date_time'] - intval(shell_exec('stat -c %Z /proc/'));
     $result['config'] = system_api_config();
     $result['kernel'] = system_api_kernel();
     $result['disk'] = system_api_disk();
