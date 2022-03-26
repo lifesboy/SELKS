@@ -119,6 +119,7 @@ function core_services()
             "start" => array('system_logstash_start'),
             "restart" => array('system_logstash_restart')
         ),
+        'systemctl' => array('logstash'),
         'name' => 'logstash',
     );
 

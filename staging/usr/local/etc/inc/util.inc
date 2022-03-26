@@ -95,6 +95,13 @@ function is_process_running($process)
     return (intval($retval) == 0);
 }
 
+function is_systemctl_service_running($process)
+{
+    exec('systemctl show --property MainPID --value ' . escapeshellarg($process), $output, $retval);
+
+    return (intval($retval) > 0);
+}
+
 function service_by_name($name, $filter = array())
 {
     $services = plugins_services();
@@ -125,6 +132,14 @@ function service_status($service)
 
     if (isset($service['pidfile'])) {
         return isvalidpid($service['pidfile']);
+    }
+
+    if (isset($service['systemctl'])) {
+        return is_systemctl_service_running($service['systemctl']);
+    }
+
+    if (isset($service['php']) && isset($service['php']['status'])) {
+        return mwexecf('%s', $service['php']['status'], true) == 0;
     }
 
     return is_process_running($service['name']);
