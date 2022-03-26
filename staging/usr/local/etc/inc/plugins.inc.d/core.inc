@@ -119,7 +119,6 @@ function core_services()
             "start" => array('system_logstash_start'),
             "restart" => array('system_logstash_restart')
         ),
-        'pidfile' => '/var/run/elasticsearch/elasticsearch.pid',
         'name' => 'logstash',
     );
 
