@@ -56,7 +56,7 @@ function system_api_cpu_stats()
 //        $cpustats['intr'] = "0";
 //        $cpustats['idle'] = "0";
 //    }
-    $iostat = json_decode(shell_exec('iostat -c -o JSON'));
+    $iostat = json_decode(shell_exec('iostat -c -o JSON'), true);
     $cpustats['user'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['user'];
     $cpustats['nice'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['nice'];
     $cpustats['sys'] = $iostat['sysstat']['hosts'][0]['statistics'][0]['avg-cpu']['system'];
