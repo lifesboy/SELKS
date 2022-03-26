@@ -98,7 +98,7 @@ function is_process_running($process)
 function is_systemctl_service_running($process)
 {
     exec('systemctl show --property MainPID --value ' . escapeshellarg($process), $output, $retval);
-
+    syslog(LOG_DEBUG, "is_systemctl_service_running ($process): output=$output, retval=$retval");
     return (intval($retval) == 0) && (intval($output) > 0);
 }
 
