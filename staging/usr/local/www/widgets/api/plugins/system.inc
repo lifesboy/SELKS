@@ -109,16 +109,22 @@ function system_api_kernel()
     $result['mbuf']['total'] = count($mbufs) > 0 ? explode('/', $mbufs[0])[2] : 0;
     $result['mbuf']['max'] = count($mbufs) > 0 ? explode(' ', explode('/', $mbufs[0])[3])[0] : 0;
 
-    $totalMem = get_single_sysctl("vm.stats.vm.v_page_count");
-    $inactiveMem = get_single_sysctl("vm.stats.vm.v_inactive_count");
-    $cachedMem = get_single_sysctl("vm.stats.vm.v_cache_count");
-    $freeMem = get_single_sysctl("vm.stats.vm.v_free_count");
-    $result['memory']['total'] = get_single_sysctl('hw.physmem');
-    if ($totalMem != 0) {
-        $result['memory']['used'] = round(((($totalMem - ($inactiveMem + $cachedMem + $freeMem))) / $totalMem)*$result['memory']['total'], 0);
-    } else {
-        $result['memory']['used'] = gettext('N/A');
-    }
+//    $totalMem = get_single_sysctl("vm.stats.vm.v_page_count");
+//    $inactiveMem = get_single_sysctl("vm.stats.vm.v_inactive_count");
+//    $cachedMem = get_single_sysctl("vm.stats.vm.v_cache_count");
+//    $freeMem = get_single_sysctl("vm.stats.vm.v_free_count");
+//    $result['memory']['total'] = get_single_sysctl('hw.physmem');
+//    if ($totalMem != 0) {
+//        $result['memory']['used'] = round(((($totalMem - ($inactiveMem + $cachedMem + $freeMem))) / $totalMem)*$result['memory']['total'], 0);
+//    } else {
+//        $result['memory']['used'] = gettext('N/A');
+//    }
+
+    $memInfo = explode("\n", shell_exec('free -m -w'))[1];
+    $memStats = preg_split('/\s+/', $memInfo);
+
+    $result['memory']['total'] = $memStats[1];
+    $result['memory']['used'] = $memStats[2];
 
     return $result;
 }
