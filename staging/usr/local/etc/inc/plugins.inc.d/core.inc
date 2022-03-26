@@ -112,6 +112,17 @@ function core_services()
         'name' => 'elasticsearch',
     );
 
+    $services[] = array(
+        'description' => gettext('Logstash agent'),
+        'php' => array(
+            "stop" => array('system_logstash_stop'),
+            "start" => array('system_logstash_start'),
+            "restart" => array('system_logstash_restart')
+        ),
+        'pidfile' => '/var/run/elasticsearch/elasticsearch.pid',
+        'name' => 'logstash',
+    );
+
     return $services;
 }
 

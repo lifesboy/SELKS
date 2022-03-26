@@ -778,6 +778,22 @@ function system_elasticsearch_restart()
     mwexecf("/usr/sbin/service elasticsearch restart");
 }
 
+function system_logstash_stop()
+{
+    killbypid('/var/run/logstash/logstash.pid', 'TERM', true);
+    mwexecf("/usr/sbin/service logstash stop");
+}
+
+function system_logstash_start()
+{
+    mwexecf("/usr/sbin/service logstash start");
+}
+
+function system_logstash_restart()
+{
+    mwexecf("/usr/sbin/service logstash restart");
+}
+
 function system_clear_log($logfile, $restart_syslogd = true)
 {
     if ($restart_syslogd) {
