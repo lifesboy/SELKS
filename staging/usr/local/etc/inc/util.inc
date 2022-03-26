@@ -1289,7 +1289,7 @@ function get_sysctl($names)
     exec("/sbin/sysctl -e " . implode(" ", $name_list), $output);
     $values = array();
     foreach ($output as $line) {
-        $line = explode(": ", $line, 2);
+        $line = explode(" = ", $line, 2);
         if (count($line) == 2) {
             $values[$line[0]] = $line[1];
         }
