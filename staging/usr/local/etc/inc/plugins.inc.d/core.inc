@@ -133,6 +133,12 @@ function core_services()
     );
 
     $services[] = array(
+        'description' => gettext('Web server for IDS visualizer'),
+        'systemctl' => 'nginx',
+        'name' => 'nginx',
+    );
+
+    $services[] = array(
         'description' => gettext('RLLib cluster for Machine learning'),
         'systemctl' => 'ray',
         'name' => 'ray',
