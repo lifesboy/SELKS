@@ -104,9 +104,9 @@ function core_services()
     $services[] = array(
         'description' => gettext('Elasticsearch Database'),
         'php' => array(
-            "stop" => array('service elasticsearch stop'),
-            "start" => array('service elasticsearch start'),
-            "restart" => array('service elasticsearch restart')
+            "stop" => array('system_elasticsearch_stop'),
+            "start" => array('system_elasticsearch_start'),
+            "restart" => array('system_elasticsearch_restart')
         ),
         'pidfile' => '/var/run/elasticsearch/elasticsearch.pid',
         'name' => 'elasticsearch',

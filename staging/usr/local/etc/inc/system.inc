@@ -762,6 +762,22 @@ function system_syslogd_stop()
     mwexecf("/usr/sbin/service syslog-ng stop");
 }
 
+function system_elasticsearch_stop()
+{
+    killbypid('/var/run/elasticsearch/elasticsearch.pid', 'TERM', true);
+    mwexecf("/usr/sbin/service elasticsearch stop");
+}
+
+function system_elasticsearch_start()
+{
+    mwexecf("/usr/sbin/service elasticsearch start");
+}
+
+function system_elasticsearch_restart()
+{
+    mwexecf("/usr/sbin/service elasticsearch restart");
+}
+
 function system_clear_log($logfile, $restart_syslogd = true)
 {
     if ($restart_syslogd) {
