@@ -132,6 +132,24 @@ function core_services()
         'name' => 'logstash',
     );
 
+    $services[] = array(
+        'description' => gettext('RLLib cluster for Machine learning'),
+        'systemctl' => 'ray',
+        'name' => 'ray',
+    );
+
+    $services[] = array(
+        'description' => gettext('MLFlow for manage AI models'),
+        'systemctl' => 'mlflow-tracking',
+        'name' => 'mlflow-tracking',
+    );
+
+    $services[] = array(
+        'description' => gettext('Tensorboard for AI training benchmark'),
+        'systemctl' => 'tensorboard',
+        'name' => 'tensorboard',
+    );
+
     return $services;
 }
 
