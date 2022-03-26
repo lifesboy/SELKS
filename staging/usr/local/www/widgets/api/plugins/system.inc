@@ -117,14 +117,14 @@ function system_api_disk()
 {
     $result = array();
     $result['swap'] = array();
-    exec("/usr/sbin/swapinfo -k", $swap_info);
+    exec("/sbin/swapon -s", $swap_info);
     foreach ($swap_info as $line) {
         if (strpos($line,'/dev/') !== false) {
             $parts = preg_split('/\s+/', $line);
             $swapItem = array();
             $swapItem['device'] = $parts[0];
-            $swapItem['total'] = $parts[1];
-            $swapItem['used'] = $parts[2];
+            $swapItem['total'] = $parts[2];
+            $swapItem['used'] = $parts[3];
             $result['swap'][] = $swapItem;
         }
     }
