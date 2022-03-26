@@ -120,7 +120,7 @@ function system_api_kernel()
 //        $result['memory']['used'] = gettext('N/A');
 //    }
 
-    $memInfo = explode("\n", shell_exec('free -m -w'))[1];
+    $memInfo = explode("\n", shell_exec('free -b -w'))[1];
     $memStats = preg_split('/\s+/', $memInfo);
 
     $result['memory']['total'] = $memStats[1];
