@@ -104,6 +104,17 @@ function core_services()
     );
 
     $services[] = array(
+        'description' => gettext('PostgresSQL Database'),
+        'mwexec' => array(
+            "stop" => array('pg_ctlcluster 11 main stop'),
+            "start" => array('pg_ctlcluster 11 main start'),
+            "restart" => array('pg_ctlcluster 11 main restart')
+        ),
+        'pidfile' => '/var/lib/postgresql/11/main/postmaster.pid',
+        'name' => 'postgresql',
+    );
+
+    $services[] = array(
         'description' => gettext('Elasticsearch Database'),
         'php' => array(
             "stop" => array('system_elasticsearch_stop'),
