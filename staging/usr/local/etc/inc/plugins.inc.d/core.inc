@@ -98,6 +98,7 @@ function core_services()
             "restart" => array('system_syslogd_start')
         ),
         'pidfile' => '/var/run/syslog-ng.pid',
+        'systemctl' => 'syslog-ng',
         'name' => 'syslog-ng',
     );
 
