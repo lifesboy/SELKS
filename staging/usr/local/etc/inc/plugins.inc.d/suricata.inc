@@ -44,7 +44,8 @@ function suricata_services()
                 'stop' => array('ids stop'),
             ),
             'pidfile' => '/var/run/suricata.pid',
-            'name' => 'suricata',
+            #'name' => 'suricata',
+            'name' => 'idps-rule-matching',
         );
     }
 
