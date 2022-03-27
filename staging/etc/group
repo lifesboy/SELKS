@@ -1,4 +1,4 @@
-root:x:0:
+root:x:0:root
 daemon:x:1:
 bin:x:2:
 sys:x:3:
@@ -73,6 +73,7 @@ ftp:x:127:
 smmta:x:128:
 smmsp:x:129:
 postgres:x:130:
+clam:x:2000:
 
 #####################
 _pflogd:*:64:####
