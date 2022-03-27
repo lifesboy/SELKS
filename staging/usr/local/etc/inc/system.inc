@@ -764,7 +764,7 @@ function system_syslogd_stop()
 
 function system_elasticsearch_stop()
 {
-    killbypid('/var/run/elasticsearch/elasticsearch.pid', 'TERM', true);
+    killbypid('/var/run/elasticsearch.pid', 'TERM', true);
     mwexecf("/usr/sbin/service elasticsearch stop");
 }
 

@@ -121,7 +121,7 @@ function core_services()
             "start" => array('system_elasticsearch_start'),
             "restart" => array('system_elasticsearch_restart')
         ),
-        'pidfile' => '/var/run/elasticsearch/elasticsearch.pid',
+        'pidfile' => '/var/run/elasticsearch.pid',
         'name' => 'elasticsearch',
     );
 

@@ -51,7 +51,7 @@ ES_PATH_CONF=/etc/$NAME
 MAX_MAP_COUNT=262144
 
 # Elasticsearch PID file directory
-PID_DIR="/var/run/elasticsearch"
+PID_DIR="/var/run"
 
 # End of variables that can be overwritten in $DEFAULT
 
@@ -108,7 +108,7 @@ case "$1" in
 
 	# Ensure that the PID_DIR exists (it is cleaned at OS startup time)
 	if [ -n "$PID_DIR" ] && [ ! -e "$PID_DIR" ]; then
-		mkdir -p "$PID_DIR" && chown elasticsearch:elasticsearch "$PID_DIR"
+		mkdir -p "$PID_DIR" # && chown elasticsearch:elasticsearch "$PID_DIR"
 	fi
 	if [ -n "$PID_FILE" ] && [ ! -e "$PID_FILE" ]; then
 		touch "$PID_FILE" && chown elasticsearch:elasticsearch "$PID_FILE"
