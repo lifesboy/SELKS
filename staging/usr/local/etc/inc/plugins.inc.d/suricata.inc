@@ -43,6 +43,7 @@ function suricata_services()
                 'start' => array('ids start'),
                 'stop' => array('ids stop'),
             ),
+            'pidfile' => '/var/run/suricata.pid',
             'name' => 'suricata',
         );
     }
