@@ -32,7 +32,7 @@ load_rc_config $name
 
 pidfile=/var/run/samplicator.pid
 procname="/usr/local/bin/samplicate"
-command=/usr/sbin/daemon
+command=/usr/sbin/daemonize
 command_args=" -cf -p ${pidfile} -u ${samplicator_runas} ${procname} ${samplicator_flags}"
 required_files=/usr/local/etc/samplicator.conf
 

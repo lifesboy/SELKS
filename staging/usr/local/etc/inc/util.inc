@@ -1147,7 +1147,7 @@ function mwexec($command, $mute = false)
 
 function mwexec_bg($command, $mute = false)
 {
-    mwexec("/usr/sbin/daemon -f {$command}", $mute);
+    mwexec("/usr/sbin/daemonize {$command}", $mute);
 }
 
 function exec_safe($format, $args = array())

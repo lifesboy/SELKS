@@ -48,7 +48,7 @@ case $strongswan_interface in
 
 [Vv][Ii][Cc][Ii])
 	# "vici"
-	command=/usr/sbin/daemon
+	command=/usr/sbin/daemonize
 	pidfile=/var/run/daemon-charon.pid
 	command_args="-S -P ${pidfile} ${charon_command} --use-syslog"
 
