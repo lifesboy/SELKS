@@ -104,7 +104,7 @@ ftp:x:127:
 smmta:x:128:
 smmsp:x:129:
 postgres:x:130:
-clamav:x:2000:
+clamav:x:131:
 EOF;
 
 $selinux_cfg = <<<EOF
