@@ -314,6 +314,10 @@ apt-get -f install
 apt-get install zfs-zed -y
 ### END Install zfs ###
 
+### START Install daemonize ###
+apt-get install daemonize -y
+### END Install daemonize ###
+
 ### START Install vpn ###
 apt-get install openvpn -y
 ### END Install vpn ###
