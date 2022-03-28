@@ -160,7 +160,7 @@ fi
 if [ ! -d /binaries/squid ]; then
   git clone https://github.com/lifesboy/squid.git /binaries/squid
 fi
-if [ ! -d /binaries/c-icap-server ]; then
+if [ ! -d /binaries/c-icap ]; then
   #git clone -b c_icap_0_5_x --single-branch https://github.com/lifesboy/c-icap-server.git /binaries/c-icap-server
   git clone https://github.com/lifesboy/c-icap.git /binaries/c-icap
 fi
@@ -445,7 +445,7 @@ cp -R /binaries/scirius Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squid Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/c-icap-server Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/c-icap Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
 
 # Add core system packages to be installed
