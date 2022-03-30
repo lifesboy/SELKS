@@ -306,6 +306,7 @@ apt-get install git build-essential fakeroot libncurses5-dev libssl-dev ccache -
 apt-get install build-essential autoconf libtool gawk alien fakeroot linux-headers-$(uname -r) -y
 apt-get install zlib1g-dev uuid-dev libattr1-dev libblkid-dev libselinux-dev libudev-dev libdevmapper-dev -y
 apt-get install parted lsscsi ksh -y
+apt-get install automake=1:1.16.1-4 -y
 apt-get install spl -y
 apt-get install zfs-dkms -y
 apt-get install zfsutils-linux -y
