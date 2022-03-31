@@ -487,7 +487,10 @@ cd /binaries/c-icap
 make
 make install
 
-cd /binaries/squidclamav
+cp -R /binaries/squidclamav /squidclamav
+cd /squidclamav
+git clean -df
+git checkout -- .
 sh bootstrap.sh
 ./configure --prefix=/usr/local/squidclamav --with-c-icap=/usr/local/c-icap
 #make -j $(($(grep ^cpu\ cores /proc/cpuinfo | uniq | sed s/[^0-9]//g)+1))
