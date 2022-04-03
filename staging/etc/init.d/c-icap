@@ -1,0 +1,84 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          c-icap
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Should-Start:      fam
+# Should-Stop:       fam
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start the c-icap daemon service backend.
+# Description:       c-icap daemon service backend
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/local/c-icap/bin/c-icap
+NAME=c-icap
+DESC="c-icap daemon service backend"
+PIDFILE=/var/run/c-icap/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+c_icap_conf="/usr/local/c-icap/etc/c-icap.conf"
+DAEMON_OPTS="-f ${c_icap_conf}"
+
+. /lib/lsb/init-functions
+
+name=$NAME
+pidfile=$PIDFILE
+desc=$DESC
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" $NAME
+        if ! start-stop-daemon --start --oknodo --quiet \
+            --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" $NAME
+        if start-stop-daemon --stop --retry 30 --oknodo --quiet \
+            --pidfile $PIDFILE --exec $DAEMON
+        then
+            rm -f $PIDFILE
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
+        ;;
+    reload|force-reload)
+        log_daemon_msg "Reloading $DESC configuration" $NAME
+        if start-stop-daemon --stop --signal INT --quiet \
+            --pidfile $PIDFILE --exec $DAEMON \
+            --retry=TERM/60/KILL/5
+        then
+            rm $PIDFILE
+            if start-stop-daemon --start --quiet  \
+                --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS ; then
+                log_end_msg 0
+            else
+                log_end_msg 1
+            fi
+        else
+            log_end_msg 1
+        fi
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    configtest|testconfig)
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON" "$NAME" && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|configtest|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
