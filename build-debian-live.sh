@@ -168,6 +168,9 @@ if [ ! -d /binaries/squidclamav ]; then
   #git clone -b v7.1 --single-branch https://github.com/lifesboy/squidclamav.git /binaries/squidclamav
   git clone https://github.com/lifesboy/squidclamav.git /binaries/squidclamav
 fi
+if [ ! -d /binaries/plugins ]; then
+  git clone https://github.com/lifesboy/plugins.git /binaries/plugins
+fi
 
 mkdir -p Stamus-Live-Build
 # Hook directory for the initramfs script to be copied to
@@ -447,6 +450,7 @@ cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squid Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/c-icap Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/plugins Stamus-Live-Build/chroot/plugins/
 
 # Add core system packages to be installed
 echo "
