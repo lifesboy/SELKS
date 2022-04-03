@@ -49,6 +49,9 @@ EOF
 mkdir -p  /opt/selks/
 
 cp -R /binaries/selks /
+cd /binaries/plugins
+sh make.sh all
+cd /
 
 ### START JAVA for ELK ###
 

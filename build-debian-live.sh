@@ -450,7 +450,7 @@ cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squid Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/c-icap Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/plugins Stamus-Live-Build/chroot/plugins/
+cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/
 
 # Add core system packages to be installed
 echo "
