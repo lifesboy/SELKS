@@ -294,6 +294,9 @@
     <dhcp6_debug>1</dhcp6_debug>
     <serialspeed>115200</serialspeed>
     <primaryconsole>video</primaryconsole>
+    <firmware>
+      <plugins>os-clamav,os-c-icap</plugins>
+    </firmware>
   </system>
   <interfaces>
     <wan>
@@ -747,6 +750,75 @@
         <LogPayload>0</LogPayload>
       </general>
     </IDS>
+    <clamav>
+      <url version="0.0.1">
+        <lists/>
+      </url>
+      <general version="1.0.0">
+        <enabled>1</enabled>
+        <fc_enabled>0</fc_enabled>
+        <enabletcp>1</enabletcp>
+        <maxthreads>2</maxthreads>
+        <maxqueue>2</maxqueue>
+        <idletimeout>30</idletimeout>
+        <maxdirrecursion>20</maxdirrecursion>
+        <followdirsym>0</followdirsym>
+        <followfilesym>0</followfilesym>
+        <disablecache>0</disablecache>
+        <scanpe>1</scanpe>
+        <scanelf>1</scanelf>
+        <detectbroken>0</detectbroken>
+        <scanole2>1</scanole2>
+        <ole2blockmarcros>0</ole2blockmarcros>
+        <scanpdf>1</scanpdf>
+        <scanswf>1</scanswf>
+        <scanxmldocs>1</scanxmldocs>
+        <scanhwp3>1</scanhwp3>
+        <scanmailfiles>1</scanmailfiles>
+        <scanhtml>1</scanhtml>
+        <scanarchive>1</scanarchive>
+        <arcblockenc>0</arcblockenc>
+        <maxscansize>100M</maxscansize>
+        <maxfilesize>25M</maxfilesize>
+        <maxrecursion>16</maxrecursion>
+        <maxfiles>10000</maxfiles>
+        <fc_logverbose>0</fc_logverbose>
+        <fc_databasemirror>database.clamav.net</fc_databasemirror>
+        <fc_timeout>60</fc_timeout>
+        <fc_malwareexpert>0</fc_malwareexpert>
+        <fc_blurl>0</fc_blurl>
+        <fc_jurlbla>0</fc_jurlbla>
+        <fc_bofhland>0</fc_bofhland>
+      </general>
+    </clamav>
+    <cicap>
+      <antivirus version="1.0.0">
+        <enable_clamav>1</enable_clamav>
+        <scanfiletypes>TEXT,DATA,EXECUTABLE,ARCHIVE,GIF,JPEG,MSOFFICE</scanfiletypes>
+        <sendpercentdata>5</sendpercentdata>
+        <startsendpercentdataafter>2M</startsendpercentdataafter>
+        <allow204responses>1</allow204responses>
+        <passonerror>0</passonerror>
+        <maxobjectsize>5M</maxobjectsize>
+      </antivirus>
+      <general version="1.0.1">
+        <enabled>1</enabled>
+        <timeout>300</timeout>
+        <maxkeepaliverequests>100</maxkeepaliverequests>
+        <keepalivetimeout>600</keepalivetimeout>
+        <startservers>3</startservers>
+        <maxservers>10</maxservers>
+        <minsparethreads>10</minsparethreads>
+        <maxsparethreads>20</maxsparethreads>
+        <threadsperchild>10</threadsperchild>
+        <maxrequestsperchild>0</maxrequestsperchild>
+        <listenaddress>::1</listenaddress>
+        <serveradmin/>
+        <servername/>
+        <enable_accesslog>1</enable_accesslog>
+        <localSquid>1</localSquid>
+      </general>
+    </cicap>
     <proxy version="1.0.3">
       <general>
         <enabled>1</enabled>
@@ -834,7 +906,7 @@
           </remoteACLs>
         </acl>
         <icap>
-          <enable>0</enable>
+          <enable>1</enable>
           <RequestURL>icap://[::1]:1344/avscan</RequestURL>
           <ResponseURL>icap://[::1]:1344/avscan</ResponseURL>
           <SendClientIP>1</SendClientIP>
