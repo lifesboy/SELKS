@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# $FreeBSD$
+#
+
+# PROVIDE: clamav_clamd
+# REQUIRE: LOGIN
+# BEFORE: mail
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf to enable clamd:
+#
+# clamav_clamd_enable="YES"
+# clamav_clamd_flags="<set as needed>"
+#
+# See clamd(8) for flags
+#
+
+. /etc/rc.subr
+
+name=clamav_clamd
+rcvar=clamav_clamd_enable
+
+# read settings, set default values
+load_rc_config "$name"
+
+: ${clamav_clamd_enable:=NO}
+: ${clamav_clamd_socket="/var/run/clamav/clamd.sock"}
+: ${clamav_clamd_pidfile="/var/run/clamav/clamd.pid"}
+: ${clamav_clamd_user="clamav"}
+
+command=/usr/local/sbin/clamd
+required_dirs=/var/db/clamav
+required_files=/usr/local/etc/clamd.conf
+
+start_precmd=clamav_clamd_precmd
+extra_commands=reload
+reload_cmd="/usr/local/bin/clamdscan --reload"
+
+#clamav .93 won't start without a valid main.c[vl]d file
+clamav_clamd_precmd()
+{
+	local rundir=${clamav_clamd_pidfile%/*}
+	if [ ! -d $rundir ] ; then
+		install -d -m 0755 -o ${clamav_clamd_user} -g ${clamav_clamd_user} $rundir
+	fi
+	if [ ! -f /var/db/clamav/main.cvd -a ! -f /var/db/clamav/main.cld ];then
+		echo "Missing /var/db/clamav/*.cvd or *.cld files.  You must run freshclam first"
+		exit 1
+	fi
+}
+
+run_rc_command "$1"
