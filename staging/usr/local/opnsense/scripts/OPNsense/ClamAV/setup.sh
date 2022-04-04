@@ -4,7 +4,7 @@ USER=clamav
 GROUP=clamav
 PERMS=0755
 DIRS="
-/var/db/clamav
+/var/lib/clamav
 /var/run/clamav
 /var/log/clamav
 "

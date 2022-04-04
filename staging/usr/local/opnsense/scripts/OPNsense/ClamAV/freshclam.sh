@@ -26,8 +26,8 @@
 # SUCH DAMAGE.
 
 PIDFILE="/var/run/clamav/freshclam-init.pid"
-CVDDBFILE="/var/db/clamav/main.cvd"
-CLDDBFILE="/var/db/clamav/main.cld"
+CVDDBFILE="/var/lib/clamav/main.cvd"
+CLDDBFILE="/var/lib/clamav/main.cld"
 COMMAND="${1}"
 
 if [ -f ${CVDDBFILE} -o -f ${CLDDBFILE} ]; then
