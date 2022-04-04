@@ -22,3 +22,4 @@ for DIR in ${DIRS}; do
 done
 
 chmod -R 0644 /var/log/clamav
+chmod 0755 /var/log/clamav
