@@ -266,7 +266,7 @@ slurp_config "$FRESHCLAM_CONF_FILE"
 if [ -z "$PidFile" ]
 then
   # Set the default PidFile.
-  PidFile='/run/clamav/freshclam.pid'
+  PidFile='/var/run/clamav/freshclam.pid'
 fi
 [ -n "$DataBaseDirectory" ] || DataBaseDirectory=/var/run/clamav
 
