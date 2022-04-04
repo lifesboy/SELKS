@@ -184,6 +184,7 @@ mv /etc/init.d/squid /etc/init.d/squid.bak || true
 ln /selks/staging/etc/init.d/squid /etc/init.d/squid
 ln /selks/staging/etc/init.d/c-icap /etc/init.d/c-icap
 ln /selks/staging/etc/init.d/clamav-clamd /etc/init.d/clamav-clamd
+ln /selks/staging/etc/init.d/clamav-freshclam /etc/init.d/clamav-freshclam
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
 chmod 755 /etc/init.d/rcnetworking
@@ -202,6 +203,7 @@ chmod 755 /etc/init.d/root
 chmod 755 /etc/init.d/squid
 chmod 755 /etc/init.d/c-icap
 chmod 755 /etc/init.d/clamav-clamd
+chmod 755 /etc/init.d/clamav-freshclam
 systemctl enable rc.service
 update-rc.d rcnetworking defaults
 update-rc.d rcfilesystems defaults
@@ -219,6 +221,7 @@ update-rc.d root defaults
 update-rc.d squid defaults
 update-rc.d c-icap defaults
 update-rc.d clamav-clamd defaults
+update-rc.d clamav-freshclam defaults
 
 systemctl set-default -f multi-user.target
 systemctl get-default

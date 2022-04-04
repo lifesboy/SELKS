@@ -1,0 +1,94 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          clamav_freshclam
+# Required-Start:    $local_fs $remote_fs $network $syslog $clamav-clamd
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Should-Start:      fam
+# Should-Stop:       fam
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start the freshclam daemon service backend.
+# Description:       freshclam daemon service backend
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/bin/freshclam
+NAME=freshclam
+DESC="freshclam daemon service backend"
+PIDFILE=/var/run/clamav/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+DAEMON_OPTS="--daemon -p ${PIDFILE}"
+
+. /lib/lsb/init-functions
+
+name=$NAME
+pidfile=$PIDFILE
+desc=$DESC
+
+clamav_clamd_user="clamav"
+
+clamav_freshclam_precmd()
+{
+	local rundir=${PIDFILE%/*}
+	if [ ! -d $rundir ] ; then
+		install -d -m 0755 -o ${clamav_freshclam_user} -g ${clamav_freshclam_user} $rundir
+	fi
+}
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" $NAME
+        clamav_freshclam_precmd
+        if ! start-stop-daemon --start --oknodo --quiet \
+            --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" $NAME
+        if start-stop-daemon --stop --retry 30 --oknodo --quiet \
+            --pidfile $PIDFILE --exec $DAEMON
+        then
+            rm -f $PIDFILE
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
+        ;;
+    reload|force-reload)
+        log_daemon_msg "Reloading $DESC configuration" $NAME
+        if start-stop-daemon --stop --signal INT --quiet \
+            --pidfile $PIDFILE --exec $DAEMON \
+            --retry=TERM/60/KILL/5
+        then
+            rm $PIDFILE
+            if start-stop-daemon --start --quiet  \
+                --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS ; then
+                log_end_msg 0
+            else
+                log_end_msg 1
+            fi
+        else
+            log_end_msg 1
+        fi
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    configtest|testconfig)
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON" "$NAME" && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|configtest|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
