@@ -20,3 +20,5 @@ for DIR in ${DIRS}; do
 	chown -R ${USER}:${GROUP} ${DIR}
 	chmod ${PERMS} ${DIR}
 done
+
+chmod -R 0644 /var/log/clamav
