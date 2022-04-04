@@ -1,0 +1,86 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          clamav-clamd
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Should-Start:      fam
+# Should-Stop:       fam
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start the clamd daemon service backend.
+# Description:       clamd daemon service backend
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/sbin/clamd
+NAME=clamd
+DESC="clamd daemon service backend"
+PIDFILE=/var/run/clamav/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+DAEMON_OPTS=""
+
+. /lib/lsb/init-functions
+
+name=$NAME
+pidfile=$PIDFILE
+desc=$DESC
+
+clamav_clamd_user="clamav"
+
+#clamav .93 won't start without a valid main.c[vl]d file
+clamav_clamd_precmd()
+{
+	local rundir=${PIDFILE%/*}
+	if [ ! -d $rundir ] ; then
+		install -d -m 0755 -o ${clamav_clamd_user} -g ${clamav_clamd_user} $rundir
+	fi
+	if [ ! -f /var/db/clamav/main.cvd -a ! -f /var/db/clamav/main.cld ];then
+		echo "Missing /var/db/clamav/*.cvd or *.cld files.  You must run freshclam first"
+		exit 1
+	fi
+}
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $DESC" $NAME
+        clamav_clamd_precmd
+        if ! start-stop-daemon --start --oknodo --quiet \
+            --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" $NAME
+        if start-stop-daemon --stop --retry 30 --oknodo --quiet \
+            --pidfile $PIDFILE --exec $DAEMON
+        then
+            rm -f $PIDFILE
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
+        ;;
+    reload|force-reload)
+        log_daemon_msg "Reloading $DESC configuration" $NAME
+        /bin/clamdscan --reload
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    configtest|testconfig)
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON" "$NAME" && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|configtest|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
