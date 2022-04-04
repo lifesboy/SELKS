@@ -34,10 +34,11 @@ RETURN="0"
 # development version, unless specifically given the development
 # version (os-plugin-devel-devel doesn't match obviously).
 
-if pkg query %n "${PREFIX}${PLUGIN}" > /dev/null; then
+#if pkg query %n "${PREFIX}${PLUGIN}" > /dev/null; then
+if [-e "/usr/local/etc/inc/plugins.inc.d/${PLUGIN}.inc"]; then
 	RETURN="1"
-elif pkg query %n "${PREFIX}${PLUGIN}${SUFFIX}" > /dev/null; then
-	RETURN="1"
+#elif pkg query %n "${PREFIX}${PLUGIN}${SUFFIX}" > /dev/null; then
+#	RETURN="1"
 fi
 
 echo ${RETURN}
