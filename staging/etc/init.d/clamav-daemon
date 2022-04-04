@@ -27,7 +27,7 @@ DESC="ClamAV daemon"
 CLAMAVCONF=/etc/clamav/clamd.conf
 SUPERVISOR=/usr/bin/daemon
 SUPERVISORNAME=daemon
-SUPERVISORPIDFILE="/var/run/clamav/daemon-clamd.pid"
+SUPERVISORPIDFILE="/var/run/clamav/clamd.pid"
 SUPERVISORARGS="--name=$NAME --respawn $DAEMON -F $SUPERVISORPIDFILE"
 DATABASEDIR="/var/lib/clamav"
 
@@ -333,7 +333,7 @@ fi
 if [ -z "$THEPIDFILE" ]
 then
   # Set the default PidFile.
-  THEPIDFILE='/run/clamav/clamd.pid'
+  THEPIDFILE='/var/run/clamav/clamd.pid'
 fi
 
 make_dir $(dirname "$THEPIDFILE")
