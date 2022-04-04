@@ -1,29 +1,39 @@
-#!/bin/sh
-
+#! /bin/sh
+#		Written by Miquel van Smoorenburg <miquels@cistron.nl>.
+#		Modified for Debian GNU/Linux
+#		by Ian Murdock <imurdock@gnu.ai.mit.edu>.
+#               Clamav version by Magnus Ekdahl <magnus@debian.org>
+#               Heavily reworked by Stephen Gran <sgran@debian.org>
+#
 ### BEGIN INIT INFO
-# Provides:          clamav-freshclam
+# Provides:          clamav-daemon
 # Required-Start:    $remote_fs $syslog
-# Should-Start:      clamav-daemon
+# Should-Start:      
 # Required-Stop:     $remote_fs $syslog
 # Should-Stop:       
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: ClamAV virus database updater
-# Description:       Clam AntiVirus virus database updater
+# Short-Description: ClamAV daemon
+# Description:       Clam AntiVirus userspace daemon
 ### END INIT INFO
 
 # The exit status codes should comply with LSB.
 # https://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/iniscrptact.html
 
-DAEMON=/usr/bin/freshclam
-NAME=freshclam
-DESC="ClamAV virus database updater"
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/clamd
+NAME="clamd"
+DESC="ClamAV daemon"
+CLAMAVCONF=/etc/clamav/clamd.conf
+SUPERVISOR=/usr/bin/daemon
+SUPERVISORNAME=daemon
+SUPERVISORPIDFILE="/var/run/clamav/daemon-clamd.pid"
+SUPERVISORARGS="--name=$NAME --respawn $DAEMON -F $SUPERVISORPIDFILE"
+DATABASEDIR="/var/lib/clamav"
 
 # required by Debian policy 9.3.2
-[ -x $DAEMON ] || exit 0
-
-CLAMAV_CONF_FILE=/etc/clamav/clamd.conf
-FRESHCLAM_CONF_FILE=/etc/clamav/freshclam.conf
+[ -x "$DAEMON" ] || exit 0
+[ -r /etc/default/clamav-daemon ] && . /etc/default/clamav-daemon
 
 to_lower()
 {
@@ -261,80 +271,142 @@ StateGenericDigit()
 
 . /lib/lsb/init-functions
 
-slurp_config "$FRESHCLAM_CONF_FILE"
-
-if [ -z "$PidFile" ]
-then
-  # Set the default PidFile.
-  PidFile='/run/clamav/freshclam.pid'
+if [ ! -f "$CLAMAVCONF" ]; then
+  log_failure_msg "There is no configuration file for Clamav."
+  log_failure_msg "Please either dpkg-reconfigure $DESC, or copy the example from"
+  log_failure_msg "/usr/share/doc/clamav-base/examples/ to $CLAMAVCONF and run"
+  log_failure_msg "'invoke-rc.d clamav-daemon start'"
+  if [ "$1" = "status" ]; then
+    # program or service status is unknown
+    exit 4;
+  else
+    # program is not configured
+    exit 6;
+  fi
 fi
+
+slurp_config "$CLAMAVCONF"
+
+if [ -n "$Example" ]; then
+  log_failure_msg "Clamav is not configured."
+  log_failure_msg "Please edit $CLAMAVCONF and run  'invoke-rc.d clamav-daemon start'"
+  if [ "$1" = "status" ]; then
+    # program or service status is unknown
+    exit 4;
+  else
+    # program is not configured
+    exit 6;
+  fi
+fi
+
+if is_true "$Foreground"; then
+  if [ ! -x "$SUPERVISOR" ] ; then
+     log_failure_msg "Foreground specified, but $SUPERVISORNAME not found"
+    if [ "$1" = "status" ]; then
+      # program or service status is unknown
+      exit 4;
+    else
+      # program is not configured correctly
+      exit 6;
+    fi
+  else
+     RUN_SUPERVISED=1
+  fi
+fi
+
+[ -n "$User" ] || User=clamav
 [ -n "$DataBaseDirectory" ] || DataBaseDirectory=/var/run/clamav
 
 make_dir "$DataBaseDirectory"
-make_dir $(dirname "$PidFile")
+make_dir $(dirname "$SUPERVISORPIDFILE")
 
-[ -z "$UpdateLogFile" ] && UpdateLogFile=/var/log/clamav/freshclam.log
-[ -z "$DatabaseDirectory" ] && DatabaseDirectory=/var/lib/clamav/
-[ -n "$DatabaseOwner" ] || DatabaseOwner=clamav
+if [ -z "$RUN_SUPERVISED" ]; then
+	THEPIDFILE="$PidFile"
+	THEDAEMON="$NAME"
+	RELOAD="1"
+else
+	THEPIDFILE="$SUPERVISORPIDFILE"
+	THEDAEMON="$SUPERVISORNAME"
+	RELOAD="0"
+fi
+
+if [ -z "$THEPIDFILE" ]
+then
+  # Set the default PidFile.
+  THEPIDFILE='/run/clamav/clamd.pid'
+fi
+
+make_dir $(dirname "$THEPIDFILE")
+chown $User $(dirname "$THEPIDFILE")
+
 
 case "$1" in
-  no-daemon)
-  su "$DatabaseOwner" -p -s /bin/sh -c "freshclam -l $UpdateLogFile --datadir $DatabaseDirectory"
-  ;;
   start)
-  if [ ! -f "$PidFile" ]; then
-    # If clamd is run under a different UID than freshclam then we need
-    # to make sure the PidFile can be written or else we won't be able to
-    # kill it.
-    touch $PidFile
-    chown $DatabaseOwner $PidFile
+  # Check for database existence (start will fail if it's missing)
+  for db in main daily; do
+    if [ ! -e "$DATABASEDIR"/"$db".cvd ] && [ ! -d "$DATABASEDIR"/"$db".inc ] && [ ! -e "$DATABASEDIR"/"$db".cld ]; then
+      log_failure_msg "Clamav signatures not found in $DATABASEDIR"
+      log_failure_msg "Please retrieve them using freshclam"
+      log_failure_msg "Then run 'invoke-rc.d clamav-daemon start'"
+      # this is expected on a fresh installation
+      exit 0
+    fi
+  done
+  if [ -z "$RUN_SUPERVISED" ] ; then
+    log_daemon_msg "Starting $DESC" "$NAME "
+    start-stop-daemon --start --oknodo -c $User --exec $DAEMON --pidfile $THEPIDFILE --quiet -- -c $CLAMAVCONF --pid=$THEPIDFILE
+    ret=$?
+  else 
+    log_daemon_msg "Starting $DESC" "$NAME (supervised) "
+    $SUPERVISOR $SUPERVISORARGS
+    ret=$?
   fi
-  # If user wants it run from cron, we only accept no-daemon and stop
-  if [ -f /etc/cron.d/clamav-freshclam ]; then
-    log_warning_msg "Not starting $NAME - cron option selected"
-    log_warning_msg "Run the init script with the 'no-daemon' option"
-    # this is similar to the daemon already running
-    exit 0
-  fi
-  log_daemon_msg "Starting $DESC" "$NAME"
-  start-stop-daemon --start --oknodo -c "$DatabaseOwner" --exec $DAEMON --pidfile $PidFile --quiet -- -d --quiet --config-file=$FRESHCLAM_CONF_FILE --pid=$PidFile
-  log_end_msg $?
+  log_end_msg $ret
   ;;
   stop)
   log_daemon_msg "Stopping $DESC" "$NAME"
-  start-stop-daemon --stop --oknodo --name $NAME --pidfile $PidFile --quiet --retry TERM/30/KILL/5
+  start-stop-daemon --stop --oknodo --name $THEDAEMON --pidfile $THEPIDFILE --quiet --retry TERM/30/KILL/5
   log_end_msg $?
+  ;;
+  status)
+  start-stop-daemon --status --name $THEDAEMON --pidfile $THEPIDFILE
+  # start-stop-daemon returns LSB compliant exit status codes
+  ret=$?
+  if [ "$ret" = 0 ]; then
+      log_success_msg "$NAME is running"
+  else
+      log_failure_msg "$NAME is not running"
+      exit "$ret"
+  fi
   ;;
   restart|force-reload)
   $0 stop
   $0 start
   ;;
-  reload-log)
-  # If user wants it run from cron, we only accept no-daemon and stop
-  if [ -f /etc/cron.d/clamav-freshclam ]; then
-    log_warning_msg "Not reloading log for $NAME - cron option selected"
-    # log-reloading is not needed, because freshclam is not run as daemon
-    exit 0
+  reload-database)
+  if [ "$RELOAD" = "1" ]; then
+    log_daemon_msg "Reloading database for $DESC" "$NAME"
+    pkill -USR2 -F $THEPIDFILE $THEDAEMON 2>/dev/null
+    log_end_msg $?
+  else
+    log_failure_msg "reload-database does not work in supervised mode."
+    # unimplemented feature
+    exit 3
   fi
-  log_daemon_msg "Reloading $DESC" "$NAME"
-  pkill -HUP -F $PidFile $NAME
+  ;;
+  reload-log)
+  if [ "$RELOAD" = "1" ]; then
+    log_daemon_msg "Reloading log file for $DESC" "$NAME"
+    pkill -HUP -F $THEPIDFILE $THEDAEMON 2>/dev/null
+  else
+    log_failure_msg "reload-log does not work in supervised mode."
+    # unimplemented feature
+    exit 3
+  fi
   log_end_msg $?
   ;;
-  skip)
-  ;;
-  status)
-  start-stop-daemon --status --name $NAME --pidfile $PidFile
-  ret="$?"
-   if [ "$ret" = 0 ]; then
-     log_success_msg "$NAME is running"
-     exit 0
-   else
-     log_failure_msg "$NAME is not running"
-     exit "$ret"
-  fi
-  ;;
   *)
-  log_action_msg "Usage: $0 {no-daemon|start|stop|restart|force-reload|reload-log|skip|status}" >&2
+  log_action_msg "Usage: $0 {start|stop|restart|force-reload|reload-log|reload-database|status}" >&2
   # invalid arguments
   exit 2
   ;;
