@@ -183,7 +183,9 @@ ln /selks/staging/etc/init.d/root /etc/init.d/root
 mv /etc/init.d/squid /etc/init.d/squid.bak || true
 ln /selks/staging/etc/init.d/squid /etc/init.d/squid
 ln /selks/staging/etc/init.d/c-icap /etc/init.d/c-icap
+mv /etc/init.d/clamav-daemon /etc/init.d/clamav-daemon.bak || true
 ln /selks/staging/etc/init.d/clamav-daemon /etc/init.d/clamav-daemon
+mv /etc/init.d/clamav-freshclam /etc/init.d/clamav-freshclam.bak || true
 ln /selks/staging/etc/init.d/clamav-freshclam /etc/init.d/clamav-freshclam
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
