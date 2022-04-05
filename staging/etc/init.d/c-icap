@@ -19,7 +19,7 @@ PIDFILE=/var/run/c-icap/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
 c_icap_conf="/usr/local/c-icap/etc/c-icap.conf"
-DAEMON_OPTS="-f ${c_icap_conf} -N -D -d 10"
+DAEMON_OPTS="-f ${c_icap_conf}"
 
 . /lib/lsb/init-functions
 
