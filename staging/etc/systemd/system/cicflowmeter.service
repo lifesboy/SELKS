@@ -1,6 +1,6 @@
 [Unit]
 Description=CIC Flow meter - Network Traffic feature extraction for AI
-Wants=cicflowmeter-timer.target
+Wants=cicflowmeter-timer.timer
 
 [Service]
 Type=oneshot
