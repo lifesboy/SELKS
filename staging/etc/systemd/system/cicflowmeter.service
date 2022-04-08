@@ -1,0 +1,15 @@
+[Unit]
+Description=CIC Flow meter - Network Traffic feature extraction for AI
+Wants=cicflowmeter-timer.target
+
+[Service]
+Type=oneshot
+ExecStartPre=-/bin/mkdir -p /var/log/cicflowmeter/
+ExecStart=/usr/local/bin/cicflowmeter -f '/cic/dataset/nsm/*.pcap' -c /cic/dataset/featured_extracted/nsm/ -b 1 -cpu 3
+RemainAfterExit=true
+StandardOutput=file:/var/log/cicflowmeter/service.log
+StandardError=file:/var/log/cicflowmeter/error.log
+User=root
+
+[Install]
+WantedBy=multi-user.target

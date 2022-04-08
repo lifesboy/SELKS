@@ -1,0 +1,13 @@
+[Unit]
+Description=CIC Flow meter Timer
+Requires=cicflowmeter.service
+#RefuseManualStart=no # Allow manual starts
+#RefuseManualStop=no # Allow manual stops
+
+[Timer]
+Unit=cicflowmeter.service
+#Every 3 hours
+OnCalendar=*-*-* */3:00:00
+
+[Install]
+WantedBy=timers.target

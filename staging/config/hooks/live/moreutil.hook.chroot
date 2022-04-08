@@ -304,6 +304,12 @@ systemctl enable ray
 mkdir -p /var/log/anomaly-testing
 ln -s /selks/staging/etc/systemd/system/anomaly-testing.service /etc/systemd/system/anomaly-testing.service
 systemctl enable anomaly-testing
+mkdir -p /var/log/cicflowmeter
+ln -s /selks/staging/etc/systemd/system/cicflowmeter.service /etc/systemd/system/cicflowmeter.service
+systemctl enable cicflowmeter
+mkdir -p /var/log/cicflowmeter-timer
+ln -s /selks/staging/etc/systemd/system/cicflowmeter-timer.service /etc/systemd/system/cicflowmeter-timer.service
+systemctl enable cicflowmeter-timer
 
 chmod 755 /usr/local/opnsense/scripts/ml/anomaly_model.py
 chmod 755 /usr/local/opnsense/scripts/ml/dataprocessor.py
