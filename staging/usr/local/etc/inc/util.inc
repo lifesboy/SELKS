@@ -192,6 +192,9 @@ function service_control_start($name, $extras)
     } elseif (isset($service['systemctl'])) {
         $cmd = sprintf(gettext("systemctl start %s"), htmlspecialchars($service['systemctl']));
         mwexec($cmd);
+    } elseif (isset($service['systemctl-timer'])) {
+        $cmd = sprintf(gettext("systemctl start %s.timer"), htmlspecialchars($service['systemctl-timer']));
+        mwexec($cmd);
     } else {
         return sprintf(gettext("Could not start service `%s'"), htmlspecialchars($name));
     }
@@ -228,6 +231,9 @@ function service_control_stop($name, $extras)
         killbypid($service['pidfile'], 'TERM', true);
     } elseif (isset($service['systemctl'])) {
         $cmd = sprintf(gettext("systemctl stop %s"), htmlspecialchars($service['systemctl']));
+        mwexec($cmd);
+    } elseif (isset($service['systemctl-timer'])) {
+        $cmd = sprintf(gettext("systemctl stop %s.timer"), htmlspecialchars($service['systemctl-timer']));
         mwexec($cmd);
     } else {
         /* last resort, but not very elegant */
@@ -270,6 +276,9 @@ function service_control_restart($name, $extras)
         }
     } elseif (isset($service['systemctl'])) {
         $cmd = sprintf(gettext("systemctl restart %s"), htmlspecialchars($service['systemctl']));
+        mwexec($cmd);
+    } elseif (isset($service['systemctl-timer'])) {
+        $cmd = sprintf(gettext("systemctl restart %s.timer"), htmlspecialchars($service['systemctl-timer']));
         mwexec($cmd);
     } else {
         return sprintf(gettext("Could not restart service `%s'"), htmlspecialchars($name));
