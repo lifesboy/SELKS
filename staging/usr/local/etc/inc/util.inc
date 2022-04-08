@@ -103,14 +103,6 @@ function is_systemctl_service_running($process)
     return (intval($retval) == 0) && strpos($output[2], 'Active: active') >= 0;
 }
 
-function is_systemctl_timer_running($process)
-{
-    #exec('systemctl show --property MainPID --value ' . escapeshellarg($process), $output, $retval);
-    exec('systemctl list-timers ' . escapeshellarg($process) . '.timer', $output, $retval);
-    syslog(LOG_DEBUG, "is_systemctl_timer_running ($process): output=$output, retval=$retval");
-    return (intval($retval) == 0) && strpos($output[1], $process.'.timer') >= 0;
-}
-
 function service_by_name($name, $filter = array())
 {
     $services = plugins_services();
@@ -145,10 +137,6 @@ function service_status($service)
 
     if (isset($service['systemctl'])) {
         return is_systemctl_service_running($service['systemctl']);
-    }
-
-    if (isset($service['systemctl-timer'])) {
-        return is_systemctl_timer_running($service['systemctl-timer']);
     }
 
     if (isset($service['php']) && isset($service['php']['status'])) {
