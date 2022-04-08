@@ -176,7 +176,7 @@ function core_services()
 
     $services[] = array(
         'description' => gettext('CIC Flow meter Timer'),
-        'systemctl' => 'cicflowmeter-timer',
+        'systemctl-timer' => 'cicflowmeter-timer',
         'name' => 'cicflowmeter-timer',
     );
 
