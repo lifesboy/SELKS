@@ -164,6 +164,10 @@ if [ ! -d /binaries/c-icap ]; then
   #git clone -b c_icap_0_5_x --single-branch https://github.com/lifesboy/c-icap-server.git /binaries/c-icap-server
   git clone https://github.com/lifesboy/c-icap.git /binaries/c-icap
 fi
+if [ ! -d /binaries/c-icap-modules ]; then
+  #git clone -b c_icap_0_5_x --single-branch https://github.com/lifesboy/c-icap-server.git /binaries/c-icap-server
+  git clone https://github.com/lifesboy/c-icap-modules.git /binaries/c-icap-modules
+fi
 if [ ! -d /binaries/squidclamav ]; then
   #git clone -b v7.1 --single-branch https://github.com/lifesboy/squidclamav.git /binaries/squidclamav
   git clone https://github.com/lifesboy/squidclamav.git /binaries/squidclamav
@@ -449,6 +453,7 @@ cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squid Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/c-icap Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/c-icap-modules Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/
 

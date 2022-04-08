@@ -39,10 +39,7 @@ apt-get -y install mtools
 
 cp -R /binaries/cicflowmeter /
 cd /cicflowmeter
-python3 -m pip install importlib-metadata==4.8.1
-python3 setup.py bdist_wheel
-python3 -m pip install dist/cicflowmeter-0.1.7-py3-none-any.whl
-#python3 setup.py install
+make install
 cd -
 
 ln -s /selks/staging/docker /docker
