@@ -168,14 +168,14 @@ function core_services()
         'name' => 'tensorboard',
     );
 
-    $services[] = array(
-        'description' => gettext('Network Traffic feature extraction for AI'),
-        'systemctl' => 'cicflowmeter',
-        'name' => 'cicflowmeter',
-    );
+//    $services[] = array(
+//        'description' => gettext('Network Traffic feature extraction for AI'),
+//        'systemctl' => 'cicflowmeter',
+//        'name' => 'cicflowmeter',
+//    );
 
     $services[] = array(
-        'description' => gettext('CIC Flow meter Timer'),
+        'description' => gettext('CIC Flow meter Timer Network Traffic feature extraction for AI'),
         'systemctl' => 'cicflowmeter-timer.timer',
         'name' => 'cicflowmeter-timer',
     );
