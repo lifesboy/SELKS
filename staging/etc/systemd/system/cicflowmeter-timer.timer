@@ -6,7 +6,7 @@ Requires=cicflowmeter.service
 
 [Timer]
 Unit=cicflowmeter.service
-#Every 3 hours
+#Every 8 hours
 OnCalendar=*-*-* 03:00:00
 
 [Install]
