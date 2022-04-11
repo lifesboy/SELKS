@@ -490,6 +490,21 @@ cd /binaries/c-icap
 make
 make install
 
+apt-get install -y libicapapi-dev
+cd /binaries/c-icap-modules
+#libtoolize --force
+#aclocal # Set up an m4 environment
+#autoheader
+#automake --force-missing --add-missing # Generate Makefile.in from Makefile.am
+#autoconf # Generate configure from configure.ac
+#./configure # Generate Makefile from Makefile.in
+#make distcheck # Use Makefile to build and test a tarball to distribute
+#./configure 'CFLAGS=-O3 -m64 -pipe' 'CPPFLAGS=-I/usr/local/clamav/include' 'LDFLAGS=-L/usr/local/lib -L/usr/local/clamav/lib/'
+#./configure --with-c-icap=/usr/local/c-icap --prefix=/usr/local/c-icap
+./configure --prefix=/usr/local --with-clamav=/etc/clamav --with-c-icap=/usr/local/c-icap
+make
+make install-strip
+
 cp -R /binaries/squidclamav /squidclamav
 cd /squidclamav
 git clean -df
