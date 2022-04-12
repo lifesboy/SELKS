@@ -474,6 +474,11 @@ function filter_core_rules_system($fw, $defaults)
     );
     $fw->registerFilterRule(
         1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '3310', 'descr' => 'Allow Connect to clamd'),
+        $defaults['pass']
+    );
+    $fw->registerFilterRule(
+        1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'out', 'to_port' => '3128', 'descr' => 'Allow icap server output dport'),
         $defaults['pass']
     );
