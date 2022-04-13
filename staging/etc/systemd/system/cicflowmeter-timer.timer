@@ -7,7 +7,7 @@ Requires=cicflowmeter.service
 [Timer]
 Unit=cicflowmeter.service
 #Every 8 hours
-OnCalendar=*-*-* 03:00:00
+OnCalendar=*-*-* 00,08,16:00:00
 
 [Install]
 WantedBy=timers.target
