@@ -751,15 +751,12 @@
       </general>
     </IDS>
     <clamav>
-      <url version="0.0.1">
-        <lists/>
-      </url>
-      <general version="1.0.0">
+      <general version="0.0.0">
         <enabled>1</enabled>
-        <fc_enabled>0</fc_enabled>
+        <fc_enabled>1</fc_enabled>
         <enabletcp>1</enabletcp>
-        <maxthreads>2</maxthreads>
-        <maxqueue>2</maxqueue>
+        <maxthreads>10</maxthreads>
+        <maxqueue>100</maxqueue>
         <idletimeout>30</idletimeout>
         <maxdirrecursion>20</maxdirrecursion>
         <followdirsym>0</followdirsym>
@@ -782,7 +779,7 @@
         <maxfilesize>25M</maxfilesize>
         <maxrecursion>16</maxrecursion>
         <maxfiles>10000</maxfiles>
-        <fc_logverbose>0</fc_logverbose>
+        <fc_logverbose>1</fc_logverbose>
         <fc_databasemirror>database.clamav.net</fc_databasemirror>
         <fc_timeout>60</fc_timeout>
         <fc_malwareexpert>0</fc_malwareexpert>
@@ -792,16 +789,16 @@
       </general>
     </clamav>
     <cicap>
-      <antivirus version="1.0.0">
+      <antivirus version="0.0.0">
         <enable_clamav>1</enable_clamav>
         <scanfiletypes>TEXT,DATA,EXECUTABLE,ARCHIVE,GIF,JPEG,MSOFFICE</scanfiletypes>
         <sendpercentdata>5</sendpercentdata>
         <startsendpercentdataafter>2M</startsendpercentdataafter>
         <allow204responses>1</allow204responses>
-        <passonerror>0</passonerror>
+        <passonerror>1</passonerror>
         <maxobjectsize>5M</maxobjectsize>
       </antivirus>
-      <general version="1.0.1">
+      <general version="0.0.0">
         <enabled>1</enabled>
         <timeout>300</timeout>
         <maxkeepaliverequests>100</maxkeepaliverequests>
@@ -907,8 +904,8 @@
         </acl>
         <icap>
           <enable>1</enable>
-          <RequestURL>icap://[::1]:1344/avscan</RequestURL>
-          <ResponseURL>icap://[::1]:1344/avscan</ResponseURL>
+          <RequestURL>icap://127.0.0.1:1344/avscan bypass=off</RequestURL>
+          <ResponseURL>icap://127.0.0.1:1344/avscan bypass=on</ResponseURL>
           <SendClientIP>1</SendClientIP>
           <SendUsername>0</SendUsername>
           <EncodeUsername>0</EncodeUsername>
@@ -931,19 +928,6 @@
         <template/>
       </error_pages>
     </proxy>
-    <Netflow version="1.0.1">
-      <capture>
-        <interfaces>lan,wan</interfaces>
-        <egress_only>wan</egress_only>
-        <version>v9</version>
-        <targets>127.0.0.1:2056</targets>
-      </capture>
-      <collect>
-        <enable>0</enable>
-      </collect>
-      <activeTimeout>1800</activeTimeout>
-      <inactiveTimeout>15</inactiveTimeout>
-    </Netflow>
   </OPNsense>
   <ca>
     <refid>600ee8bc64a2b</refid>
