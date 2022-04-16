@@ -271,7 +271,8 @@ chown -R www-data:www-data /var/log/scirius/elasticsearch.log
 ### END Scirius ###
 
 ### START Install php ###
-apt-get install apt php-dev php-fpm php php-cgi lighttpd -y
+apt-get install apt php-dev php-fpm php php-cgi -y
+NN | apt-get lighttpd -y
 
 apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev php-phpseclib \
 php-sqlite3 php-json php-xml php-sockets php-radius php-ldap php-gettext php-dom php-curl php-ctype
