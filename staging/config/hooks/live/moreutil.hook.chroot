@@ -317,6 +317,13 @@ chmod 755 /usr/local/opnsense/scripts/ml/dataprocessor.py
 
 systemctl daemon-reload
 
+#backup current info
+cat /etc/group
+cat /etc/passwd
+
+cp /etc/group /etc/group.bak
+cp /etc/passwd /etc/passwd.bak
+
 #/bin/selks-first-time-setup_stamus
 
 cat /dev/null > ~/.bash_history && history -c
