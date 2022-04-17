@@ -137,6 +137,7 @@ ln -s /selks/staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/phalc
 
 mv /etc/lighttpd/conf-available /etc/lighttpd/conf-available.bak
 mv /etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled.bak
+mv /etc/lighttpd/modules.conf /etc/lighttpd/modules.conf.bak || true
 ln -s /selks/staging/etc/lighttpd/conf-available /etc/lighttpd/conf-available
 ln -s /selks/staging/etc/lighttpd/conf-enabled /etc/lighttpd/conf-enabled
 ln -s /selks/staging/etc/lighttpd/conf.d /etc/lighttpd/conf.d
