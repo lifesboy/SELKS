@@ -17,7 +17,7 @@
     <field>
         <id>rule</id>
         <label>Rule</label>
-        <type>text</type>
+        <type>info</type>
         <help>Rule expression content</help>
     </field>
     <!-- template field, copied for every metadata record on dialog show -->
