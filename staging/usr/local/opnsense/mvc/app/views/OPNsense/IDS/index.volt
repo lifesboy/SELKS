@@ -829,6 +829,7 @@ POSSIBILITY OF SUCH DAMAGE.
                 <th data-column-id="source" data-type="string">{{ lang._('Source') }}</th>
                 <th data-column-id="classtype" data-type="string">{{ lang._('ClassType') }}</th>
                 <th data-column-id="msg" data-type="string">{{ lang._('Message') }}</th>
+                <th data-column-id="rule" data-type="string">{{ lang._('Rule') }}</th>
                 <th data-column-id="enabled" data-formatter="rowtoggle" data-sortable="false" data-width="10em">{{ lang._('Info / Enabled') }}</th>
             </tr>
             </thead>
