@@ -14,12 +14,6 @@
         <label>Message</label>
         <type>info</type>
     </field>
-    <field>
-        <id>rule</id>
-        <label>Rule</label>
-        <type>info</type>
-        <help>Rule expression content</help>
-    </field>
     <!-- template field, copied for every metadata record on dialog show -->
     <field>
       <id>__template__</id>
