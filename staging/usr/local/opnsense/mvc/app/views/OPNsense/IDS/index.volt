@@ -867,7 +867,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <thead>
                 <tr>
                     <th data-column-id="enabled" data-formatter="rowtoggle" data-sortable="false" data-width="10em">{{ lang._('Enabled') }}</th>
-                    <th data-column-id="content" data-type="string" data-sortable="false">{{ lang._('Content') }}</th>
+                    <th data-column-id="rule" data-type="string" data-sortable="false">{{ lang._('Rule') }}</th>
                     <th data-column-id="action" data-type="string" data-sortable="true">{{ lang._('Action') }}</th>
                     <th data-column-id="description" data-type="string" data-sortable="true">{{ lang._('Description') }}</th>
                     <th data-column-id="uuid" data-type="string" data-identifier="true" data-visible="false">{{ lang._('ID') }}</th>

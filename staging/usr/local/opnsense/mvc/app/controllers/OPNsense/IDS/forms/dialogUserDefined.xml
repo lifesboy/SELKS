@@ -24,8 +24,8 @@
         <help>The SSL fingerprint, for example "B5:E1:B3:70:5E:7C:FF:EB:92:C4:29:E5:5B:AC:2F:AE:70:17:E9:9E".</help>
     </field>
     <field>
-        <id>rule.content</id>
-        <label>Content</label>
+        <id>rule.rule</id>
+        <label>Rule</label>
         <type>text</type>
         <help>Rule expression content</help>
     </field>
