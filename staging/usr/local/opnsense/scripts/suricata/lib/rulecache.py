@@ -46,7 +46,7 @@ class RuleCache(object):
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
         self.cachefile = '%srules.sqlite' % rule_source_directory
-        self._rule_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
+        self._rule_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'rule', 'action']
 
     @staticmethod
     def list_local():
@@ -82,6 +82,7 @@ class RuleCache(object):
         with open(filename, 'r') as f_in:
             source_filename = filename.split('/')[-1]
             for rule in f_in:
+                stripped_rule = rule.strip()
                 rule_info_record = {'rule': rule.strip(), 'metadata': None}
                 msg_pos = rule.find('msg:')
                 if msg_pos != -1:
@@ -94,6 +95,7 @@ class RuleCache(object):
                         'gid': None,
                         'msg': None,
                         'reference': None,
+                        'rule': stripped_rule[stripped_rule.find(' ') + 1:],
                         'classtype': '##none##',
                         'action': rule[0:20].replace('#', '').strip().split()[0],
                         'metadata': dict()
@@ -165,7 +167,7 @@ class RuleCache(object):
 
         cur.execute("create table stats (timestamp number, files number)")
         cur.execute("""create table rules (sid INTEGER, msg TEXT,
-                                           rev INTEGER, gid INTEGER, reference TEXT,
+                                           rev INTEGER, gid INTEGER, reference TEXT, rule TEXT,
                                            enabled BOOLEAN, action text, source TEXT)""")
         cur.execute("create table rule_properties(sid INTEGER, property text, value text) ")
         cur.execute("create table local_rule_changes(sid number primary key, action text, last_mtime number)")
@@ -262,7 +264,7 @@ class RuleCache(object):
             sql_parameters = {}
             sql_filters = []
             prop_values = []
-            rule_search_fields = ['msg', 'sid', 'source', 'installed_action']
+            rule_search_fields = ['msg', 'sid', 'source', 'rule', 'installed_action']
             for filtertag in shlex.split(filter_txt):
                 fieldnames, searchcontent = filtertag.split('/', maxsplit=1)
                 sql_item = []
