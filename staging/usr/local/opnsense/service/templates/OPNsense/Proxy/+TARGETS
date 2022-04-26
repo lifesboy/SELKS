@@ -9,6 +9,7 @@ post-auth.conf:/etc/squid/post-auth/dummy.conf
 pre-auth.conf:/etc/squid/pre-auth/dummy.conf
 rc.conf.d:/etc/rc.conf.d/squid/squid
 snmp.conf:/etc/squid/pre-auth/40-snmp.conf
+hosts:/etc/squid/hosts
 squid.conf:/etc/squid/squid.conf
 squid.pam:/etc/pam.d/squid
 wpad.dat:/usr/local/www/wpad.dat
