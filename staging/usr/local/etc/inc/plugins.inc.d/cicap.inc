@@ -40,7 +40,8 @@ function cicap_services()
             'description' => gettext('C-ICAP server'),
             'configd' => array(
                 'restart' => array('cicap restart'),
-                'start' => array('cicap start'),
+                //'start' => array('cicap start'),
+                'start' => array('cicap restart'), // force restart when cicap is already running out of control
                 'stop' => array('cicap stop'),
             ),
             'name' => 'cicap',

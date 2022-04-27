@@ -40,7 +40,8 @@ function clamav_services()
             'description' => gettext('ClamAV Daemon'),
             'configd' => array(
                 'restart' => array('clamav restart'),
-                'start' => array('clamav start'),
+                //'start' => array('clamav start'),
+                'start' => array('clamav restart'), // force restart when clamav is already running out of control
                 'stop' => array('clamav stop'),
             ),
             'name' => 'clamd',
@@ -56,7 +57,8 @@ function clamav_services()
             'description' => gettext('freshclam daemon'),
             'configd' => array(
                 'restart' => array('clamav restart'),
-                'start' => array('clamav start'),
+                //'start' => array('clamav start'),
+                'start' => array('clamav restart'), // force restart when clamav is already running out of control
                 'stop' => array('clamav stop'),
             ),
             'name' => 'freshclam',
