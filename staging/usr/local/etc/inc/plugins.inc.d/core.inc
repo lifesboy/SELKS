@@ -110,7 +110,8 @@ function core_services()
             "start" => array('pg_ctlcluster 11 main start'),
             "restart" => array('pg_ctlcluster 11 main restart')
         ),
-        'pidfile' => '/var/lib/postgresql/11/main/postmaster.pid',
+        #'pidfile' => '/var/lib/postgresql/11/main/postmaster.pid',
+        'pidfile' => '/drl/postgresql/11/main/postmaster.pid',
         'name' => 'postgresql',
     );
 
