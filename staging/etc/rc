@@ -169,6 +169,11 @@ ln -s /drl/opnsense/conf/backup /conf/backup
 mkdir -p /drl/elasticsearch
 chown -R elasticsearch:elasticsearch /drl/elasticsearch
 
+#Init backup postgres
+mkdir -p /drl/postgresql/11/main
+chown -R postgres:postgres /drl/postgresql/11/main
+sed -i -E "s/data_directory = .*/data_directory = '\/drl\/postgresql\/11\/main'/g" /etc/postgresql/11/main/postgresql.conf
+
 # regenerate groups and users for base
 chmod 755 /usr/local/etc/rc.subr.d/recover
 /usr/local/etc/rc.subr.d/recover base > /dev/null
