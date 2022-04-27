@@ -162,6 +162,7 @@ case "$1" in
 			exit 1
 		fi
 		rm -f "$PID_FILE"
+		killall -u elasticsearch
 	else
 		log_progress_msg "(not running)"
 	fi
