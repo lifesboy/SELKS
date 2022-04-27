@@ -117,11 +117,12 @@ function core_services()
 
     $services[] = array(
         'description' => gettext('Elasticsearch Database'),
-        #'php' => array(
-        #    "stop" => array('system_elasticsearch_stop'),
-        #    "start" => array('system_elasticsearch_start'),
-        #    "restart" => array('system_elasticsearch_restart')
-        #),
+        'php' => array(
+            "stop" => array('system_elasticsearch_stop'),
+            #"start" => array('system_elasticsearch_restart'),
+            "start" => array('system_elasticsearch_restart'), // force restart when elasticsearch is already running out of control
+            "restart" => array('system_elasticsearch_restart')
+        ),
         #'pidfile' => '/var/run/elasticsearch/elasticsearch.pid',
         'systemctl' => 'elasticsearch',
         'name' => 'elasticsearch',
