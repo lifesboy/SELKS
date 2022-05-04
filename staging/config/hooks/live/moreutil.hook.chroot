@@ -319,7 +319,8 @@ systemctl daemon-reload
 
 #Install opnsense language
 cd /binaries/lang
-apt-get install -y gettext liblocale-maketext-lexicon-perl
+#apt-get install -y gettext liblocale-maketext-lexicon-perl
+sh install.sh
 sh make.sh all
 #End install opnsense language
 
