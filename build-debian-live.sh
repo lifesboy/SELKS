@@ -175,6 +175,9 @@ fi
 if [ ! -d /binaries/plugins ]; then
   git clone https://github.com/lifesboy/plugins.git /binaries/plugins
 fi
+if [ ! -d /binaries/lang ]; then
+  git clone https://github.com/lifesboy/lang.git /binaries/lang
+fi
 
 mkdir -p Stamus-Live-Build
 # Hook directory for the initramfs script to be copied to
@@ -456,6 +459,7 @@ cp -R /binaries/c-icap Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/c-icap-modules Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/
+cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/
 
 # Add core system packages to be installed
 echo "

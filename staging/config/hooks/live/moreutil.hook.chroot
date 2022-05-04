@@ -317,6 +317,12 @@ chmod 755 /usr/local/opnsense/scripts/ml/dataprocessor.py
 
 systemctl daemon-reload
 
+#Install opnsense language
+cd /binaries/lang
+apt-get install -y gettext liblocale-maketext-lexicon-perl
+sh make.sh all
+#End install opnsense language
+
 #backup current info
 cat /etc/group
 cat /etc/passwd
