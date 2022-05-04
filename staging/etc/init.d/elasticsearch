@@ -163,10 +163,11 @@ case "$1" in
 		fi
 		rm -f "$PID_FILE"
 		killall -u elasticsearch
-		rm -f /drl/elasticsearch/nodes/*/node.lock
 	else
 		log_progress_msg "(not running)"
 	fi
+  killall -u elasticsearch
+  rm -f /drl/elasticsearch/nodes/*/node.lock
 	log_end_msg 0
 	;;
   status)
