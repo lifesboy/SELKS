@@ -176,7 +176,7 @@ if [ ! -d /binaries/plugins ]; then
   git clone https://github.com/lifesboy/plugins.git /binaries/plugins
 fi
 if [ ! -d /binaries/lang ]; then
-  git clone https://github.com/lifesboy/lang.git /binaries/lang
+  git clone -b gpu https://github.com/lifesboy/lang.git /binaries/lang
 fi
 
 mkdir -p Stamus-Live-Build
