@@ -21,6 +21,7 @@ Group=elasticsearch
 #ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
 ExecStart=/etc/init.d/elasticsearch start
 ExecStop=/etc/init.d/elasticsearch stop
+ExecStopPost=rm -f /drl/elasticsearch/nodes/*/node.lock
 
 # StandardOutput is configured to redirect to journalctl since
 # some error messages may be logged in standard output before
