@@ -1,6 +1,7 @@
 [Unit]
 Description=Elasticsearch
 Documentation=http://www.elastic.co
+SourcePath=/etc/init.d/elasticsearch
 Wants=network-online.target
 After=network-online.target
 
