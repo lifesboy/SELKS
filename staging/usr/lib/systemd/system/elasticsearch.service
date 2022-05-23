@@ -1,7 +1,7 @@
 [Unit]
 Description=Elasticsearch
 Documentation=http://www.elastic.co
-SourcePath=/etc/init.d/elasticsearch
+#SourcePath=/etc/init.d/elasticsearch
 Wants=network-online.target
 After=network-online.target
 
@@ -15,12 +15,12 @@ EnvironmentFile=-/etc/default/elasticsearch
 
 WorkingDirectory=/usr/share/elasticsearch
 
-User=root
-Group=root
+User=elasticsearch
+Group=elasticsearch
 
-#ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
-ExecStart=/etc/init.d/elasticsearch start
-ExecStop=/etc/init.d/elasticsearch stop
+ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
+#ExecStart=/etc/init.d/elasticsearch start
+#ExecStop=/etc/init.d/elasticsearch stop
 ExecStopPost=rm -f /drl/elasticsearch/nodes/*/node.lock
 
 # StandardOutput is configured to redirect to journalctl since
