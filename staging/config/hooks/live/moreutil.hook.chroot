@@ -185,6 +185,8 @@ mv /etc/init.d/clamav-daemon /etc/init.d/clamav-daemon.bak || true
 ln /selks/staging/etc/init.d/clamav-daemon /etc/init.d/clamav-daemon
 mv /etc/init.d/clamav-freshclam /etc/init.d/clamav-freshclam.bak || true
 ln /selks/staging/etc/init.d/clamav-freshclam /etc/init.d/clamav-freshclam
+mv /etc/init.d/elasticsearch /etc/init.d/elasticsearch.bak || true
+ln /selks/staging/etc/init.d/elasticsearch /etc/init.d/elasticsearch
 chmod 755 /etc/rc
 chmod 755 /etc/rc.subr
 chmod 755 /etc/init.d/rcnetworking
@@ -204,6 +206,7 @@ chmod 755 /etc/init.d/squid
 chmod 755 /etc/init.d/c-icap
 chmod 755 /etc/init.d/clamav-daemon
 chmod 755 /etc/init.d/clamav-freshclam
+chmod 755 /etc/init.d/elasticsearch
 systemctl enable rc.service
 update-rc.d rcnetworking defaults
 update-rc.d rcfilesystems defaults
@@ -288,7 +291,7 @@ ln -s /selks/staging/etc/systemd/system/logstash.service /etc/systemd/system/log
 ln -s /selks/staging/etc/systemd/system/squid.service /etc/systemd/system/squid.service
 # Force to use /etc/init.d/elasticsearch
 mv /usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service.bak
-ln -s /selks/usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service
+ln -s /selks/staging/usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service
 
 mkdir -p /var/log/mlflow
 ln -s /selks/staging/etc/systemd/system/mlflow-tracking.service /etc/systemd/system/mlflow-tracking.service
