@@ -15,8 +15,8 @@ EnvironmentFile=-/etc/default/elasticsearch
 
 WorkingDirectory=/usr/share/elasticsearch
 
-User=elasticsearch
-Group=elasticsearch
+User=root
+Group=root
 
 #ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
 ExecStart=/etc/init.d/elasticsearch start

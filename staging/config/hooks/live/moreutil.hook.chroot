@@ -292,6 +292,7 @@ ln -s /selks/staging/etc/systemd/system/squid.service /etc/systemd/system/squid.
 # Force to use /etc/init.d/elasticsearch
 mv /usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service.bak
 ln -s /selks/staging/usr/lib/systemd/system/elasticsearch.service /usr/lib/systemd/system/elasticsearch.service
+systemctl enable elasticsearch
 
 mkdir -p /var/log/mlflow
 ln -s /selks/staging/etc/systemd/system/mlflow-tracking.service /etc/systemd/system/mlflow-tracking.service
