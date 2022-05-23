@@ -1,7 +1,7 @@
 [Unit]
 Description=Elasticsearch
 Documentation=http://www.elastic.co
-#SourcePath=/etc/init.d/elasticsearch
+SourcePath=/etc/init.d/elasticsearch
 Wants=network-online.target
 After=network-online.target
 
@@ -19,8 +19,8 @@ User=elasticsearch
 Group=elasticsearch
 
 #ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
-#ExecStart=/etc/init.d/elasticsearch start
-#ExecStop=/etc/init.d/elasticsearch stop
+ExecStart=/etc/init.d/elasticsearch start
+ExecStop=/etc/init.d/elasticsearch stop
 ExecStopPost=rm -f /drl/elasticsearch/nodes/*/node.lock
 
 # StandardOutput is configured to redirect to journalctl since
