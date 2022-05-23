@@ -466,6 +466,14 @@ function filter_core_rules_system($fw, $defaults)
 //        $defaults['pass']
 //    );
 
+    // Allow connect to moloch viewer
+    $fw->registerFilterRule(
+        1,
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => '8005', 'descr' => 'Allow connect to moloch viewer'),
+        $defaults['pass']
+    );
+
+
     // Allow Caching proxy squid - icap - clamav
     $fw->registerFilterRule(
         1,
