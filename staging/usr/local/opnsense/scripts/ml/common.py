@@ -27,6 +27,8 @@ MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
 MODEL_SERVE_ADDRESS = '0.0.0.0'
 MODEL_SERVE_PORT = 6789
 
+MODEL_SERVE_DETECTION_URL = 'http://selks.ddns.net:6789/anomaly'
+
 DATA_DIR = '/cic/2018/'
 TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'
 
