@@ -1,7 +1,7 @@
 import logging
 
-LOG_INFO_FILE = '/var/log/cicflowmeter/cicflowmeter.log'
-LOG_ERROR_FILE = '/var/log/cicflowmeter/error.log'
+LOG_INFO_FILE = '/var/log/ml/ml.log'
+LOG_ERROR_FILE = '/var/log/ml/error.log'
 
 _log_format = f"%(asctime)s[%(levelname)s][%(thread)d-%(threadName)s] %(filename)s:%(funcName)s(%(lineno)d) %(message)s"
 

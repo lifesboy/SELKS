@@ -1,10 +1,10 @@
-import uuid
-from itertools import islice, zip_longest
+import os
 from datetime import datetime
-from .util.logger import log
+
+import pandas as pd
+from pandas import DataFrame
 
 import hashlib
-import numpy
 
 
 def marked_done(files: []) -> bool:
@@ -15,47 +15,28 @@ def marked_done(files: []) -> bool:
     return True
 
 
-def get_output_file_of_batch(names: []) -> str:
-    return '%s_%s.csv' % ('_'.join(names), datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
+def get_output_file_of_batch(names: [], tag: str = '_', ext: str = '') -> str:
+    return '%s.%s_%s%s' % ('_'.join(names), tag, datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), ext)
 
 
-def get_marked_done_file_name(file: str) -> str:
-    return '.%s.done.cic' % hashlib.sha256(file.encode('utf-8')).hexdigest()
+def get_marked_done_file_name(file: str, tag: str = '_') -> str:
+    return '.%s.%s.done' % (hashlib.sha256(file.encode('utf-8')).hexdigest(), tag)
 
 
-def grouper(iterable, n, max_groups=0, fillvalue=None):
-    """Collect data into fixed-length chunks or blocks"""
+def get_processing_file_pattern(
+        input_files: [], output: str, ext: str = '', tag: str = '_', batch_size: int = 10) -> DataFrame:
+    file_df: DataFrame = pd.DataFrame(input_files, columns=['input_path'])
+    file_df['input_name'] = file_df.apply(lambda i: os.path.split(i.input_path)[-1], axis=1)
+    file_df['marked_done_name'] = file_df.apply(lambda i: get_marked_done_file_name(i.input_path, tag), axis=1)
+    file_df['marked_done_path'] = file_df.apply(lambda i: os.path.join(output, i.marked_done_name), axis=1)
+    file_df['marked_done_existed'] = file_df.apply(lambda i: os.path.exists(i.marked_done_path), axis=1)
 
-    if max_groups > 0:
-        iterable = islice(iterable, max_groups * n)
+    file_df = file_df.loc[file_df['marked_done_existed'] == False]
+    file_df = file_df.sort_values(by='input_name')
+    file_df = file_df.filter(['input_path', 'input_name', 'marked_done_path']).applymap(lambda i: [i])
+    file_df['batch'] = file_df.apply(lambda i: i.name // batch_size, axis=1)
 
-    args = [iter(iterable)] * n
-    return zip_longest(*args, fillvalue=fillvalue)
-
-
-def random_string():
-    return uuid.uuid4().hex[:6].upper().replace("0", "X").replace("O", "Y")
-
-
-def get_statistics(alist: list):
-    """Get summary statistics of a list"""
-    iat = dict()
-    try:
-        if len(alist) > 1:
-            iat["total"] = sum(alist)
-            iat["max"] = max(alist)
-            iat["min"] = min(alist)
-            alist_float = list(map(float, alist))
-            iat["mean"] = numpy.mean(alist_float)
-            iat["std"] = numpy.sqrt(numpy.var(alist_float))
-        else:
-            iat["total"] = 0
-            iat["max"] = 0
-            iat["min"] = 0
-            iat["mean"] = 0
-            iat["std"] = 0
-    except Exception as e:
-        log.error('statistics %s error: %s', alist, e)
-        raise e
-
-    return iat
+    batch_df: DataFrame = file_df.groupby('batch').sum()
+    batch_df['output_name'] = batch_df.apply(lambda i: get_output_file_of_batch(i.input_name, tag, ext), axis=1)
+    batch_df['output_path'] = batch_df.apply(lambda i: os.path.join(output, i.output_name), axis=1)
+    return batch_df
