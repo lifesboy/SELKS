@@ -344,6 +344,8 @@ include("fbegin.inc");?>
         <div class="col-xs-12 col-md-2 dashboard_grid_column hidden" id="dashboard_colx">
 
 <?php
+      $system_information_title = "Thông tin hệ thống";
+
       foreach ($widgetCollection as $widgetItem):
           $widgettitle = $widgetItem['name'] . "_title";
           $widgettitlelink = $widgetItem['name'] . "_title_link";
