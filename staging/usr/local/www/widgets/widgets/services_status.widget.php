@@ -68,9 +68,12 @@ if (isset($_POST['servicestatusfilter'])) {
 <table class="table table-striped table-condensed">
   <thead>
     <tr>
-      <th><?= gettext('Service') ?></th>
-      <th><?= gettext('Description') ?></th>
-      <th style="width:100px;"><?= gettext('Status') ?></th>
+      <!-- <th><?= gettext('Service') ?></th> -->
+      <!-- <th><?= gettext('Description') ?></th> -->
+      <!-- <th style="width:100px;"><?= gettext('Status') ?></th> -->
+      <th><?= gettext('Dịch vụ') ?></th>
+      <th><?= gettext('Mô tả') ?></th>
+      <th style="width:100px;"><?= gettext('Trạng thái') ?></th>
     </tr>
   </thead>
   <tbody>
