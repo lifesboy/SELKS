@@ -1,15 +1,15 @@
 <menu>
-    <Lobby order="10" cssClass="fa fa-laptop">
-        <Dashboard order="0" url="/index.php" cssClass="fa fa-dashboard fa-fw">
+    <Lobby VisibleName="Tổng quan" order="10" cssClass="fa fa-laptop">
+        <Dashboard VisibleName="Bảng điều khiển" order="0" url="/index.php" cssClass="fa fa-dashboard fa-fw">
             <Args url="/index.php*" visibility="hidden"/>
             <Root url="/" visibility="hidden"/>
             <RootArgs url="/?*" visibility="hidden"/>
         </Dashboard>
-        <License order="1" url="/ui/core/license" cssClass="fa fa-balance-scale fa-fw"/>
-        <Password order="2" url="/system_usermanager_passwordmg.php" cssClass="fa fa-key fa-fw">
+        <License VisibleName="Bản quyền" order="1" url="/ui/core/license" cssClass="fa fa-balance-scale fa-fw"/>
+        <Password VisibleName="Mật khẩu" order="2" url="/system_usermanager_passwordmg.php" cssClass="fa fa-key fa-fw">
             <Edit url="/system_usermanager_passwordmg.php*" visibility="hidden"/>
         </Password>
-        <Logout order="3" url="/index.php?logout" cssClass="fa fa-sign-out fa-fw"/>
+        <Logout VisibleName="Đăng xuất" order="3" url="/index.php?logout" cssClass="fa fa-sign-out fa-fw"/>
     </Lobby>
     <Reporting order="15" cssClass="fa fa-area-chart">
         <Settings url="/reporting_settings.php" cssClass="fa fa-cog fa-fw"/>
