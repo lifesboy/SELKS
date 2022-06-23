@@ -177,7 +177,8 @@ require_once("system.inc");
       <td id="system_information_widget_versions"></td>
     </tr>
     <tr>
-      <td><?= gettext('Updates') ?></td>
+      <!-- <td><?= gettext('Updates') ?></td> -->
+      <td><?= gettext('Cập nhật') ?></td>
       <td>
         <a href='/ui/core/firmware#checkupdate'><?= gettext('Click to check for updates.') ?></a>
       </td>
@@ -217,7 +218,8 @@ require_once("system.inc");
       <td id="system_information_widget_last_config_change"></td>
     </tr>
     <tr>
-      <td><?=gettext("State table size");?></td>
+      <!-- <td><?=gettext("State table size");?></td> -->
+      <td><?=gettext("Kích thước bảng trạng thái");?></td>
       <td id="system_information_widget_states">
         <div class="progress" style="text-align:center;">
           <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; z-index: 0;"></div>
@@ -226,7 +228,8 @@ require_once("system.inc");
       </td>
     </tr>
     <tr>
-      <td><?=gettext("MBUF Usage");?></td>
+      <!-- <td><?=gettext("MBUF Usage");?></td> -->
+      <td><?=gettext("MBUF sử dụng");?></td>
       <td id="system_information_widget_mbuf">
         <div class="progress" style="text-align:center;">
           <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; z-index: 0;"></div>
@@ -235,7 +238,8 @@ require_once("system.inc");
       </td>
     </tr>
     <tr>
-      <td><?=gettext("Memory usage");?></td>
+      <!-- <td><?=gettext("Memory usage");?></td> -->
+      <td><?=gettext("Bộ nhớ sử dụng");?></td>
       <td id="system_information_widget_memory">
         <div class="progress" style="text-align:center;">
           <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; z-index: 0;"></div>
@@ -244,7 +248,8 @@ require_once("system.inc");
       </td>
     </tr>
     <tr id="system_information_widget_swap_info">
-      <td><?=gettext("SWAP usage");?></td>
+      <!-- <td><?=gettext("SWAP usage");?></td> -->
+      <td><?=gettext("SWAP sử dụng");?></td>
       <td id="system_information_widget_swap">
           <div style="display:none" class="swap_template">
             <!-- template -->
@@ -261,7 +266,8 @@ require_once("system.inc");
       </td>
     </tr>
     <tr id="system_information_widget_disk_info">
-      <td><?=gettext("Disk usage");?></td>
+      <!-- <td><?=gettext("Disk usage");?></td> -->
+      <td><?=gettext("Ổ cứng sử dụng");?></td>
       <td id="system_information_widget_disk">
           <div style="display:none" class="disk_template">
             <!-- template -->
