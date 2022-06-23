@@ -167,12 +167,12 @@ require_once("system.inc");
 <table class="table table-striped table-condensed" data-plugin="system" data-callback="system_information_widget_update">
   <tbody>
     <tr>
-//       <td style="width:30%"><?=gettext("Name");?></td>
+      <!-- <td style="width:30%"><?=gettext("Name");?></td> -->
       <td style="width:30%"><?=gettext("Tên");?></td>
       <td><?=$config['system']['hostname'] . "." . $config['system']['domain']; ?></td>
     </tr>
     <tr>
-//       <td><?=gettext("Versions");?></td>
+      <!-- <td><?=gettext("Versions");?></td> -->
       <td><?=gettext("Phiên bản");?></td>
       <td id="system_information_widget_versions"></td>
     </tr>
@@ -183,12 +183,12 @@ require_once("system.inc");
       </td>
     </tr>
     <tr>
-//       <td><?=gettext("CPU Type");?></td>
+      <!-- <td><?=gettext("CPU Type");?></td> -->
       <td><?=gettext("Loại CPU");?></td>
       <td id="system_information_widget_cpu_type"></td>
     </tr>
     <tr>
-//       <td><?=gettext("CPU usage");?></td>
+      <!-- <td><?=gettext("CPU usage");?></td> -->
       <td><?=gettext("CPU sử dụng");?></td>
       <td>
         <div id="system_information_widget_chart_cpu_usage">
@@ -197,22 +197,22 @@ require_once("system.inc");
       </td>
     </tr>
     <tr>
-//       <td><?=gettext("Load average");?></td>
+      <!-- <td><?=gettext("Load average");?></td> -->
       <td><?=gettext("Tải trung bình");?></td>
       <td id="system_information_widget_load"></td>
     </tr>
     <tr>
-//       <td><?=gettext("Uptime");?></td>
+      <!-- <td><?=gettext("Uptime");?></td> -->
       <td><?=gettext("Thời gian hoạt động liên tục");?></td>
       <td id="system_information_widget_uptime"></td>
     </tr>
     <tr>
-//       <td><?=gettext("Current date/time");?></td>
+      <!-- <td><?=gettext("Current date/time");?></td> -->
       <td><?=gettext("Ngày giờ hiện tại");?></td>
       <td id="system_information_widget_datetime"></td>
     </tr>
     <tr>
-//       <td><?=gettext("Last config change");?></td>
+      <!-- <td><?=gettext("Last config change");?></td> -->
       <td><?=gettext("Lần thay đổi cấu hình cuối");?></td>
       <td id="system_information_widget_last_config_change"></td>
     </tr>
