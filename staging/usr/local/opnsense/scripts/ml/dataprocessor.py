@@ -5,8 +5,8 @@ import ray
 from ray.data.dataset_pipeline import DatasetPipeline
 from pandas import DataFrame
 
-from ml.lib import utils
-from ml.lib.logger import log
+import lib.utils as utils
+from lib.logger import log
 
 import common
 from aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
