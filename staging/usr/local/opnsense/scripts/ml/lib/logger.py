@@ -1,5 +1,7 @@
 import logging
+import os
 
+os.makedirs('/var/log/ml/', exist_ok=True)
 LOG_INFO_FILE = '/var/log/ml/ml.log'
 LOG_ERROR_FILE = '/var/log/ml/error.log'
 
