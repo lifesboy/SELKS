@@ -195,7 +195,8 @@ if($need_alert_display == true) {
               <?php endforeach; endif; ?>
 
               <?php if (isset($widgetCollection)): ?>
-                <a href="#" id="updatepref" style="display:none" onclick="return updatePref();" class="btn btn-primary"><?=gettext("Save Settings");?></a>
+                <!-- <a href="#" id="updatepref" style="display:none" onclick="return updatePref();" class="btn btn-primary"><?=gettext("Save Settings");?></a> -->
+                <a href="#" id="updatepref" style="display:none" onclick="return updatePref();" class="btn btn-primary"><?=gettext("Lưu lại thay đổi giao diện");?></a>
                 <button id="add_widget_btn" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_widgets"><i class="fa fa-plus-circle fa-fw"></i> <?= gettext('Add widget') ?></button>
                 <select class="selectpicker" data-width="120px" id="column_count">
                     <option value="1" <?=$pconfig['column_count'] == "1" ? 'selected="selected"' : '';?>><?= gettext('1 column');?></option>
