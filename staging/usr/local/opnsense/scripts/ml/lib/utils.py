@@ -26,6 +26,7 @@ def get_marked_done_file_name(file: str, tag: str = '_') -> str:
 def get_processing_file_pattern(
         input_files: [], output: str, ext: str = '', tag: str = '_', batch_size: int = 10) -> DataFrame:
     file_df: DataFrame = pd.DataFrame(input_files, columns=['input_path'])
+    file_df = file_df[os.stat(file_df['input_path']).st_size > 0]
     file_df['input_name'] = file_df.apply(lambda i: os.path.split(i.input_path)[-1], axis=1)
     file_df['marked_done_name'] = file_df.apply(lambda i: get_marked_done_file_name(i.input_path, tag), axis=1)
     file_df['marked_done_path'] = file_df.apply(lambda i: os.path.join(output, i.marked_done_name), axis=1)
