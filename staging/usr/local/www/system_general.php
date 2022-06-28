@@ -470,7 +470,8 @@ $( document ).ready(function() {
             <tr>
               <td style="width:22%"></td>
               <td>
-                <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
+                <!-- <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" /> -->
+                <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Lưu'));?>" />
               </td>
             </tr>
           </table>

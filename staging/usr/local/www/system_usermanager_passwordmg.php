@@ -126,32 +126,37 @@ include("head.inc");
               <div class="table-responsive">
                 <table class="table table-striped">
                   <tr>
-                    <td style="width:22%"><strong><?= gettext('User Settings') ?></strong></td>
+                    <!-- <td style="width:22%"><strong><?= gettext('User Settings') ?></strong></td> -->
+                    <td style="width:22%"><strong><?= gettext('Thiết lập người dùng') ?></strong></td>
                     <td style="width:78%; text-align:right">
                       <small><?=gettext("full help"); ?> </small>
                       <i class="fa fa-toggle-off text-danger"  style="cursor: pointer;" id="show_all_help_page"></i>
                     </td>
                   </tr>
                   <tr>
-                    <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Old password"); ?></td>
+                    <!-- <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Old password"); ?></td> -->
+                    <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Mật khẩu cũ"); ?></td>
                     <td>
                       <input name="passwordfld0" type="password" id="passwordfld0" size="20" />
                     </td>
                   </tr>
                   <tr>
-                    <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("New password"); ?></td>
+                    <!-- <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("New password"); ?></td> -->
+                    <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Mật khẩu mới"); ?></td>
                     <td>
                       <input name="passwordfld1" type="password" id="passwordfld1" size="20" />
                     </td>
                   </tr>
                   <tr>
-                    <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Confirmation");?></td>
+                    <!-- <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Confirmation");?></td> -->
+                    <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Xác nhận mật khẩu mới");?></td>
                     <td>
                       <input name="passwordfld2" type="password" id="passwordfld2" size="20" />
                     </td>
                   </tr>
                   <tr>
-                    <td><a id="help_for_language" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Language");?></td>
+                    <!-- <td><a id="help_for_language" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Language");?></td> -->
+                    <td><a id="help_for_language" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Ngôn ngữ");?></td>
                     <td>
                       <select name="language" class="selectpicker" data-style="btn-default">
                         <option value="" <?= empty($pconfig['language']) ? "selected='selected'" : '' ?>><?=gettext('System defaults') ?></option>
@@ -167,7 +172,8 @@ include("head.inc");
                   <tr>
                     <td>&nbsp;</td>
                     <td>
-                      <input name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
+                      <!-- <input name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" /> -->
+                      <input name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Lưu'));?>" />
                     </td>
                   </tr>
                 </table>
