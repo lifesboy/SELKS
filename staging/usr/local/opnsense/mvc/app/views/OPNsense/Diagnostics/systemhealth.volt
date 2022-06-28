@@ -560,7 +560,8 @@
         <div class="panel panel-primary">
             <div class="panel-heading panel-heading-sm">
               <i class="fa fa-chevron-down" style="cursor: pointer;" data-toggle="collapse" data-target="#options"></i>
-              <b>{{ lang._('Options') }}</b>
+              <!-- <b>{{ lang._('Options') }}</b> -->
+              <b>{{ lang._('Tùy chọn') }}</b>
             </div>
             <div class="panel-body collapse" id="options">
                 <div class="container-fluid">
