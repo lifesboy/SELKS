@@ -244,7 +244,8 @@ function get_locale_list()
     $locales['ru_RU'] = gettext('Russian');
     $locales['es_ES'] = gettext('Spanish');
     $locales['tr_TR'] = gettext('Turkish');
-    $locales['vi_VN'] = gettext('Vietnamese');
+    //$locales['vi_VN'] = gettext('Vietnamese');
+    $locales['vi_VN'] = gettext('Tiếng Việt');
 
     return $locales;
 }
