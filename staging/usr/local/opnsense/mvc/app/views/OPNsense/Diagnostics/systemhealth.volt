@@ -271,22 +271,26 @@
         ajaxGet("/api/diagnostics/systemhealth/getSystemHealth/" + rrd_name + "/" + String(from) + "/" + String(to) + "/" + String(maxitems) + "/" + String(inverse) + "/" + String(detail), {}, function (data, status) {
             if (status == "success") {
                 var stepsize = data["d3"]["stepSize"];
-                var scale = "{{ lang._('seconds') }}";
+                //var scale = "{{ lang._('seconds') }}";
+                var scale = "{{ lang._('giây') }}";
                 var dtformat = '%m/%d %H:%M';
                 var visable_time=to-from;
 
                 // set defaults based on stepsize
                 if (stepsize >= 86400) {
                     stepsize = stepsize / 86400;
-                    scale = "{{ lang._('days') }}";
+                    //scale = "{{ lang._('days') }}";
+                    scale = "{{ lang._('ngày') }}";
                     dtformat = '\'%y w%U%';
                 } else if (stepsize >= 3600) {
                     stepsize = stepsize / 3600;
-                    scale = "{{ lang._('hours') }}";
+                    //scale = "{{ lang._('hours') }}";
+                    scale = "{{ lang._('giờ') }}";
                     dtformat = '\'%y d%j%';
                 } else if (stepsize >= 60) {
                     stepsize = stepsize / 60;
-                    scale = "{{ lang._('minutes') }}";
+                    //scale = "{{ lang._('minutes') }}";
+                    scale = "{{ lang._('phút') }}";
                     dtformat = '%H:%M';
                 }
 
