@@ -306,17 +306,13 @@
                         let detail_text = '';
                         // Find out what text matches best
                         if (recordedtime >= 31536000) {
-                            //detail_text = Math.floor(recordedtime / 31536000).toString() + " {{ lang._('Year(s)') }}";
-                            detail_text = Math.floor(recordedtime / 31536000).toString() + " {{ lang._('năm') }}";
+                            detail_text = Math.floor(recordedtime / 31536000).toString() + " {{ lang._('Year(s)') }}";
                         } else if (recordedtime >= 259200) {
-                            //detail_text = Math.floor(recordedtime / 86400).toString() + " {{ lang._('Days') }}";
-                            detail_text = Math.floor(recordedtime / 86400).toString() + " {{ lang._('ngày') }}";
+                            detail_text = Math.floor(recordedtime / 86400).toString() + " {{ lang._('Days') }}";
                         } else if (recordedtime > 3600) {
-                            //detail_text = Math.floor(recordedtime / 3600).toString() + " {{ lang._('Hours') }}";
-                            detail_text = Math.floor(recordedtime / 3600).toString() + " {{ lang._('giờ') }}";
+                            detail_text = Math.floor(recordedtime / 3600).toString() + " {{ lang._('Hours') }}";
                         } else {
-                            //detail_text = Math.floor(recordedtime / 60).toString() + " {{ lang._('Minutes') }}";
-                            detail_text = Math.floor(recordedtime / 60).toString() + " {{ lang._('phút') }}";
+                            detail_text = Math.floor(recordedtime / 60).toString() + " {{ lang._('Minutes') }}";
                         }
                         if (setcount == 0) {
                             zoom_buttons += '<label class="btn btn-default active"> <input type="radio" id="d' + setcount.toString() + '" name="detail" checked="checked" value="' + setcount.toString() + '" /> ' + detail_text + ' </label>';
@@ -575,8 +571,7 @@
                     <div class="row">
                         <div class="col-md-12"></div>
                         <div class="col-md-4">
-                            <!-- <b>{{ lang._('Zoom level') }}:</b> -->
-                            <b>{{ lang._('Mức phóng to') }}:</b>
+                            <b>{{ lang._('Zoom level') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons" id="zoom">
                                     <!-- The zoom buttons are generated based upon the current dataset -->
@@ -584,47 +579,48 @@
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <!-- <b>{{ lang._('Inverse') }}:</b> -->
-                            <b>{{ lang._('Đảo') }}:</b>
+                            <b>{{ lang._('Inverse') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
-                                        <input type="radio" id="in0" name="inverse" checked="checked" value="0"/> {{ /* lang._('Off') */ lang._('Tắt') }}
+                                        <input type="radio" id="in0" name="inverse" checked="checked" value="0"/> {{
+                                        lang._('Off') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="in1" name="inverse" value="1"/> {{ /* lang._('On') */ lang._('Bật') }}
+                                        <input type="radio" id="in1" name="inverse" value="1"/> {{ lang._('On') }}
                                     </label>
                                 </div>
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <!-- <b>{{ lang._('Resolution') }}:</b> -->
-                            <b>{{ lang._('Độ phân giải') }}:</b>
+                            <b>{{ lang._('Resolution') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
                                         <input type="radio" id="res0" name="resolution" checked="checked" value="120"/>
-                                        {{ /* lang._('Standard') */ lang._('Tiêu chuẩn') }}
+                                        {{ lang._('Standard') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="res1" name="resolution" value="240"/> {{ /* lang._('Medium') */ lang._('Trung bình') }}
+                                        <input type="radio" id="res1" name="resolution" value="240"/> {{
+                                        lang._('Medium') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="res2" name="resolution" value="600"/> {{ /* lang._('High') */ lang._('Cao') }}
+                                        <input type="radio" id="res2" name="resolution" value="600"/> {{ lang._('High')
+                                        }}
                                     </label>
                                 </div>
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <!-- <b>{{ lang._('Show Tables') }}:</b> -->
-                            <b>{{ lang._('Hiển thị dạng bảng') }}:</b>
+                            <b>{{ lang._('Show Tables') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
-                                        <input type="radio" id="tab0" name="show_table" checked="checked" value="0"/> {{ /* lang._('Off') */ lang._('Tắt') }}
+                                        <input type="radio" id="tab0" name="show_table" checked="checked" value="0"/> {{
+                                        lang._('Off') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="tab1" name="show_table" value="1"/> {{ /* lang._('On') */ lang._('Bật') }}
+                                        <input type="radio" id="tab1" name="show_table" value="1"/> {{ lang._('On') }}
                                     </label>
                                 </div>
                             </form>
