@@ -646,7 +646,8 @@
                 <span id="chart_title"> </span>
                 <span id="averages">
                     <small>
-                    (<b>{{ lang._('Current detail is showing') }} <span id="stepsize"></span> {{ lang._('averages') }}.</b>)
+<!--                     (<b>{{ lang._('Current detail is showing') }} <span id="stepsize"></span> {{ lang._('averages') }}.</b>) -->
+                    (<b>{{ lang._('Đang hiển thị trung bình của') }} <span id="stepsize"></span>.</b>)
                     </small>
                 </span>
                 </h3>
