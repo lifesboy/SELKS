@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <systemhealth>
     <file-match>.*-traffic$</file-match>
-    <title>System Information - Traffic </title>
-    <y-axis_label>Bytes/Second</y-axis_label>
+<!--    <title>System Information - Traffic </title>-->
+<!--    <y-axis_label>Bytes/Second</y-axis_label>-->
+    <title>Thông tin hệ thống - Lưu lượng </title>
+    <y-axis_label>Bytes/Giây</y-axis_label>
 </systemhealth>

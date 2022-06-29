@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <systemhealth>
     <file-match>.*-packets$</file-match>
-    <title>System Information - Packets </title>
-    <y-axis_label>Packets/Second</y-axis_label>
+<!--    <title>System Information - Packets </title>-->
+<!--    <y-axis_label>Packets/Second</y-axis_label>-->
+    <title>Thông tin hệ thống - Gói tin </title>
+    <y-axis_label>Gói tin/Giây</y-axis_label>
 </systemhealth>

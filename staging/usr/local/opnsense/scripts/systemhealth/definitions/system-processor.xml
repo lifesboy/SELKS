@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <systemhealth>
     <file-match>system-processor</file-match>
-    <title> System Information - Utilization and Processes</title>
+<!--    <title> System Information - Utilization and Processes</title>-->
+    <title> Thông tin hệ thống - Utilization and Processes</title>
     <y-axis_label>[U]tilization ,  [#]Number</y-axis_label>
     <field_units>
         <user>[U]</user>

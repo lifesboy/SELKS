@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <systemhealth>
     <file-match>.*-quality$</file-match>
-    <title>System Information - Quality </title>
-    <y-axis_label>seconds/%</y-axis_label>
+<!--    <title>System Information - Quality </title>-->
+<!--    <y-axis_label>seconds/%</y-axis_label>-->
+    <title>Thông tin hệ thống - Chất lượng </title>
+    <y-axis_label>giây/%</y-axis_label>
 </systemhealth>
