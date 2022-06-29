@@ -306,13 +306,17 @@
                         let detail_text = '';
                         // Find out what text matches best
                         if (recordedtime >= 31536000) {
-                            detail_text = Math.floor(recordedtime / 31536000).toString() + " {{ lang._('Year(s)') }}";
+                            //detail_text = Math.floor(recordedtime / 31536000).toString() + " {{ lang._('Year(s)') }}";
+                            detail_text = Math.floor(recordedtime / 31536000).toString() + " {{ lang._('năm') }}";
                         } else if (recordedtime >= 259200) {
-                            detail_text = Math.floor(recordedtime / 86400).toString() + " {{ lang._('Days') }}";
+                            //detail_text = Math.floor(recordedtime / 86400).toString() + " {{ lang._('Days') }}";
+                            detail_text = Math.floor(recordedtime / 86400).toString() + " {{ lang._('ngày') }}";
                         } else if (recordedtime > 3600) {
-                            detail_text = Math.floor(recordedtime / 3600).toString() + " {{ lang._('Hours') }}";
+                            //detail_text = Math.floor(recordedtime / 3600).toString() + " {{ lang._('Hours') }}";
+                            detail_text = Math.floor(recordedtime / 3600).toString() + " {{ lang._('giờ') }}";
                         } else {
-                            detail_text = Math.floor(recordedtime / 60).toString() + " {{ lang._('Minutes') }}";
+                            //detail_text = Math.floor(recordedtime / 60).toString() + " {{ lang._('Minutes') }}";
+                            detail_text = Math.floor(recordedtime / 60).toString() + " {{ lang._('phút') }}";
                         }
                         if (setcount == 0) {
                             zoom_buttons += '<label class="btn btn-default active"> <input type="radio" id="d' + setcount.toString() + '" name="detail" checked="checked" value="' + setcount.toString() + '" /> ' + detail_text + ' </label>';
@@ -571,7 +575,8 @@
                     <div class="row">
                         <div class="col-md-12"></div>
                         <div class="col-md-4">
-                            <b>{{ lang._('Zoom level') }}:</b>
+                            <!-- <b>{{ lang._('Zoom level') }}:</b> -->
+                            <b>{{ lang._('Mức phóng to') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons" id="zoom">
                                     <!-- The zoom buttons are generated based upon the current dataset -->
@@ -579,7 +584,8 @@
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <b>{{ lang._('Inverse') }}:</b>
+                            <!-- <b>{{ lang._('Inverse') }}:</b> -->
+                            <b>{{ lang._('Đảo') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
@@ -593,7 +599,8 @@
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <b>{{ lang._('Resolution') }}:</b>
+                            <!-- <b>{{ lang._('Resolution') }}:</b> -->
+                            <b>{{ lang._('Độ phân giải') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
@@ -612,7 +619,8 @@
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <b>{{ lang._('Show Tables') }}:</b>
+                            <!-- <b>{{ lang._('Show Tables') }}:</b> -->
+                            <b>{{ lang._('Hiển thị dạng bảng') }}:</b>
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
