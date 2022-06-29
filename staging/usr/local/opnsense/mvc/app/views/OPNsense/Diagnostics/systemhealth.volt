@@ -589,11 +589,10 @@
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
-                                        <input type="radio" id="in0" name="inverse" checked="checked" value="0"/> {{
-                                        lang._('Off') }}
+                                        <input type="radio" id="in0" name="inverse" checked="checked" value="0"/> <!-- {{ lang._('Off') }} --> {{ lang._('Tắt') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="in1" name="inverse" value="1"/> {{ lang._('On') }}
+                                        <input type="radio" id="in1" name="inverse" value="1"/> <!-- {{ lang._('On') }} --> {{ lang._('Bật') }}
                                     </label>
                                 </div>
                             </form>
@@ -605,15 +604,14 @@
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
                                         <input type="radio" id="res0" name="resolution" checked="checked" value="120"/>
-                                        {{ lang._('Standard') }}
+                                        <!-- {{ lang._('Standard') }}  -->
+                                        {{ lang._('Tiêu chuẩn') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="res1" name="resolution" value="240"/> {{
-                                        lang._('Medium') }}
+                                        <input type="radio" id="res1" name="resolution" value="240"/> <!-- {{ lang._('Medium') }} --> {{ lang._('Trung bình') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="res2" name="resolution" value="600"/> {{ lang._('High')
-                                        }}
+                                        <input type="radio" id="res2" name="resolution" value="600"/> <!-- {{ lang._('High') }} --> {{ lang._('Cao') }}
                                     </label>
                                 </div>
                             </form>
@@ -624,11 +622,10 @@
                             <form onChange="UpdateOptions()">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
                                     <label class="btn btn-default active">
-                                        <input type="radio" id="tab0" name="show_table" checked="checked" value="0"/> {{
-                                        lang._('Off') }}
+                                        <input type="radio" id="tab0" name="show_table" checked="checked" value="0"/> <!-- {{ lang._('Off') }} --> {{ lang._('Tắt') }}
                                     </label>
                                     <label class="btn btn-default">
-                                        <input type="radio" id="tab1" name="show_table" value="1"/> {{ lang._('On') }}
+                                        <input type="radio" id="tab1" name="show_table" value="1"/> <!-- {{ lang._('On') }} --> {{ lang._('Bật') }}
                                     </label>
                                 </div>
                             </form>
