@@ -650,10 +650,14 @@ POSSIBILITY OF SUCH DAMAGE.
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
-    <li><a data-toggle="tab" id="info_tab" style="display:none;" href="#info">{{ lang._('Info') }}</a></li>
-    <li class="active"><a data-toggle="tab" id="totals_tab" href="#totals">{{ lang._('Totals') }}</a></li>
-    <li><a data-toggle="tab" id="details_tab" href="#details">{{ lang._('Details') }}</a></li>
-    <li><a data-toggle="tab" id="export_tab" href="#export">{{ lang._('Export') }}</a></li>
+    <!-- <li><a data-toggle="tab" id="info_tab" style="display:none;" href="#info">{{ lang._('Info') }}</a></li> -->
+    <!-- <li class="active"><a data-toggle="tab" id="totals_tab" href="#totals">{{ lang._('Totals') }}</a></li> -->
+    <!-- <li><a data-toggle="tab" id="details_tab" href="#details">{{ lang._('Details') }}</a></li> -->
+    <!-- <li><a data-toggle="tab" id="export_tab" href="#export">{{ lang._('Export') }}</a></li> -->
+    <li><a data-toggle="tab" id="info_tab" style="display:none;" href="#info">{{ lang._('Thông tin') }}</a></li>
+    <li class="active"><a data-toggle="tab" id="totals_tab" href="#totals">{{ lang._('Tổng') }}</a></li>
+    <li><a data-toggle="tab" id="details_tab" href="#details">{{ lang._('Chi tiết') }}</a></li>
+    <li><a data-toggle="tab" id="export_tab" href="#export">{{ lang._('Xuất') }}</a></li>
 </ul>
 <div class="tab-content content-box" style="padding: 10px;">
     <div id="info" class="tab-pane fade in">
