@@ -330,7 +330,8 @@
 
                     }
                     if (zoom_buttons === "") {
-                        zoom_buttons = "<b>No data available</b>";
+                        //zoom_buttons = "<b>No data available</b>";
+                        zoom_buttons = "<b>Không có dữ liệu</b>";
                     }
                     // insert zoom buttons html code
                     $('#zoom').html(zoom_buttons);
