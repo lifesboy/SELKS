@@ -763,13 +763,21 @@ POSSIBILITY OF SUCH DAMAGE.
     <div id="details" class="tab-pane fade in">
       <table class="table table-condensed">
         <thead>
+<!--           <tr> -->
+<!--             <th>{{ lang._('Date from') }}</th> -->
+<!--             <th>{{ lang._('Date to') }}</th> -->
+<!--             <th>{{ lang._('Interface') }}</th> -->
+<!--             <th>{{ lang._('(dst) Port') }}</th> -->
+<!--             <th>{{ lang._('(dst) Address') }}</th> -->
+<!--             <th>{{ lang._('(src) Address') }}</th> -->
+<!--           </tr> -->
           <tr>
-            <th>{{ lang._('Date from') }}</th>
-            <th>{{ lang._('Date to') }}</th>
-            <th>{{ lang._('Interface') }}</th>
-            <th>{{ lang._('(dst) Port') }}</th>
-            <th>{{ lang._('(dst) Address') }}</th>
-            <th>{{ lang._('(src) Address') }}</th>
+            <th>{{ lang._('Từ ngày') }}</th>
+            <th>{{ lang._('Đến ngày') }}</th>
+            <th>{{ lang._('Cổng mạng') }}</th>
+            <th>{{ lang._('Cổng (đích)') }}</th>
+            <th>{{ lang._('Địa chỉ (đích)') }}</th>
+            <th>{{ lang._('Địa chỉ (nguồn)') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -793,12 +801,20 @@ POSSIBILITY OF SUCH DAMAGE.
       <br/>
       <table class="table table-condensed table-striped" id="netflow_details">
         <thead>
+<!--           <tr> -->
+<!--             <th>{{ lang._('Service') }}</th> -->
+<!--             <th>{{ lang._('Source') }}</th> -->
+<!--             <th>{{ lang._('Destination') }}</th> -->
+<!--             <th>{{ lang._('Bytes') }}</th> -->
+<!--             <th>{{ lang._('Last seen') }}</th> -->
+<!--             <th>%</th> -->
+<!--           </tr> -->
           <tr>
-            <th>{{ lang._('Service') }}</th>
-            <th>{{ lang._('Source') }}</th>
-            <th>{{ lang._('Destination') }}</th>
-            <th>{{ lang._('Bytes') }}</th>
-            <th>{{ lang._('Last seen') }}</th>
+            <th>{{ lang._('Dịch vụ') }}</th>
+            <th>{{ lang._('Nguồn') }}</th>
+            <th>{{ lang._('Đích') }}</th>
+            <th>{{ lang._('Số byte') }}</th>
+            <th>{{ lang._('Xuất hiện lần cuối') }}</th>
             <th>%</th>
           </tr>
         </thead>
@@ -806,7 +822,8 @@ POSSIBILITY OF SUCH DAMAGE.
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">{{ lang._('Total (selection)') }}</td>
+<!--             <td colspan="3">{{ lang._('Total (selection)') }}</td> -->
+            <td colspan="3">{{ lang._('Tổng (đã chọn)') }}</td>
             <td id="netflow_details_total"></td>
           </tr>
         </tfoot>
