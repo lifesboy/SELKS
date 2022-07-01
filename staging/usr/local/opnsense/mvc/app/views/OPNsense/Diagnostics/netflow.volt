@@ -80,8 +80,10 @@
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
-    <li class="active"><a data-toggle="tab" id="capture_tab" href="#capture">{{ lang._('Capture') }}</a></li>
-    <li><a data-toggle="tab" id="cache_tab" href="#cache">{{ lang._('Cache') }}</a></li>
+    <!-- <li class="active"><a data-toggle="tab" id="capture_tab" href="#capture">{{ lang._('Capture') }}</a></li> -->
+    <!-- <li><a data-toggle="tab" id="cache_tab" href="#cache">{{ lang._('Cache') }}</a></li> -->
+    <li class="active"><a data-toggle="tab" id="capture_tab" href="#capture">{{ lang._('Chụp lại') }}</a></li>
+    <li><a data-toggle="tab" id="cache_tab" href="#cache">{{ lang._('Bộ đệm') }}</a></li>
 </ul>
 <div class="tab-content content-box">
     <div id="capture" class="tab-pane fade in active">
@@ -92,12 +94,19 @@
         <!-- tab page netfow cache -->
         <table class="table table-striped" id="cache_stats">
           <thead>
-            <tr>
+            <!-- <tr>
               <th>{{ lang._('Flow') }}</th>
               <th>{{ lang._('Interface') }}</th>
               <th>{{ lang._('Destinations') }}</th>
               <th>{{ lang._('Sources') }}</th>
               <th>{{ lang._('Pkts') }}</th>
+            </tr> -->
+            <tr>
+              <th>{{ lang._('Luồng') }}</th>
+              <th>{{ lang._('Cổng mạng') }}</th>
+              <th>{{ lang._('Đích') }}</th>
+              <th>{{ lang._('Nguồn') }}</th>
+              <th>{{ lang._('Gói tin') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -106,7 +115,8 @@
             <tr>
               <td colspan="5">
                 <button id="act_refresh_cache_stats" type="button" class="btn btn-default">
-                  <span>{{ lang._('Refresh') }}</span>
+                  <!-- <span>{{ lang._('Refresh') }}</span> -->
+                  <span>{{ lang._('Làm mới') }}</span>
                   <span class="fa fa-refresh"></span>
                 </button>
               </td>

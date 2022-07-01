@@ -833,14 +833,19 @@ POSSIBILITY OF SUCH DAMAGE.
       <br/>
       <table class="table table-condensed table-striped">
         <thead>
+<!--           <tr> -->
+<!--             <th>{{ lang._('Attribute') }}</th> -->
+<!--             <th>{{ lang._('Value') }}</th> -->
+<!--           </tr> -->
           <tr>
-            <th>{{ lang._('Attribute') }}</th>
-            <th>{{ lang._('Value') }}</th>
+            <th>{{ lang._('Thuộc tính') }}</th>
+            <th>{{ lang._('Giá trị') }}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{{ lang._('Collection') }}</td>
+<!--             <td>{{ lang._('Collection') }}</td> -->
+            <td>{{ lang._('Tập') }}</td>
             <td>
               <select class="selectpicker" id="export_collection">
               </select>
@@ -854,13 +859,15 @@ POSSIBILITY OF SUCH DAMAGE.
             </td>
           </tr>
           <tr>
-            <td>{{ lang._('From date') }}</td>
+<!--             <td>{{ lang._('From date') }}</td> -->
+            <td>{{ lang._('Từ ngày') }}</td>
             <td>
               <select class="selectpicker" id="export_date_from"  data-live-search="true" data-size="10"></select>
             </td>
           </tr>
           <tr>
-            <td>{{ lang._('To date') }}</td>
+<!--             <td>{{ lang._('To date') }}</td> -->
+            <td>{{ lang._('Đến ngày') }}</td>
             <td>
               <select class="selectpicker" id="export_date_to"  data-live-search="true" data-size="10"></select>
             </td>
@@ -868,7 +875,8 @@ POSSIBILITY OF SUCH DAMAGE.
           <tr>
             <td></td>
             <td>
-              <button id="export_btn" class="btn btn-default btn-xs"><i class="fa fa-cloud-download"></i> {{ lang._('Export')}}</button>
+<!--               <button id="export_btn" class="btn btn-default btn-xs"><i class="fa fa-cloud-download"></i> {{ lang._('Export')}}</button> -->
+              <button id="export_btn" class="btn btn-default btn-xs"><i class="fa fa-cloud-download"></i> {{ lang._('Xuất file')}}</button>
             </td>
           </tr>
         </tbody>
