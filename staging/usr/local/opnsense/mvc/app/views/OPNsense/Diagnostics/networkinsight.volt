@@ -852,7 +852,8 @@ POSSIBILITY OF SUCH DAMAGE.
             </td>
           </tr>
           <tr>
-            <td>{{ lang._('Resolution (seconds)') }}</td>
+<!--             <td>{{ lang._('Resolution (seconds)') }}</td> -->
+            <td>{{ lang._('Độ phân giải (theo giây)') }}</td>
             <td>
               <select class="selectpicker" id="export_resolution">
               </select>
