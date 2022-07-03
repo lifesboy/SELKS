@@ -1,6 +1,6 @@
 <menu>
     <NextGenerationIDPS>
         <Anomaly order="0" VisibleName="AI Training" url="/ui/anomaly" cssClass="fa fa-users fa-fw" />
-        <TrainingBenchmark order="1" isExternal="Y" VisibleName="Training benchmark" url="https://selks.ddns.net:444/tensorboard/" cssClass="fa fa-line-chart fa-fw" />
+        <TrainingBenchmark order="1" isExternal="Y" VisibleName="Training benchmark" url="/ui/anomaly/tensorboard" cssClass="fa fa-line-chart fa-fw" />
     </NextGenerationIDPS>
 </menu>
