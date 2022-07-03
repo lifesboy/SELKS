@@ -118,7 +118,7 @@ function webgui_configure_do($verbose = false, $interface = '')
         }
 
         if (!$config['system']['webgui']['port']) {
-            $portarg = '444';
+            $portarg = '443';
         }
 
         $ca = ca_chain($cert);
@@ -462,14 +462,14 @@ EOD;
         $config['system']['webgui']['protocol'] == 'https' &&
         !isset($config['system']['webgui']['disablehttpredirect'])
     ) {
-        $redirectport = $lighty_port != "444" ? ":{$lighty_port}" : '';
+        $redirectport = $lighty_port != "443" ? ":{$lighty_port}" : '';
         foreach ($listeners as $listener) {
             if (is_ipaddrv6($listener)) {
                 $listener = "[{$listener}]";
             }
             $lighty_config .= <<<EOD
 
-\$SERVER["socket"] == "{$listener}:81" {
+\$SERVER["socket"] == "{$listener}:80" {
     \$HTTP["host"] =~ "(.*)" {
         url.redirect = ( "^/(.*)" => "https://%1{$redirectport}/$1" )
     }
