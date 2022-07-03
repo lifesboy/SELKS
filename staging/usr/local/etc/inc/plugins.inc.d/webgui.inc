@@ -77,7 +77,7 @@ function webgui_configure_do($verbose = false, $interface = '')
     chdir('/usr/local/www');
 
     /* defaults */
-    $portarg = '81';
+    $portarg = '80';
     $crt = '';
     $key = '';
     $ca = '';

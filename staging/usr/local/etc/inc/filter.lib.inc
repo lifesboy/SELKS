@@ -316,7 +316,7 @@ function filter_core_rules_system($fw, $defaults)
     if (!empty($config['system']['webgui']['port'])) {
         $webport = $config['system']['webgui']['port'];
     } elseif ($config['system']['webgui']['protocol'] == 'http') {
-        $webport = '81';
+        $webport = '80';
     }
     $fw->registerFilterRule(
         1,
