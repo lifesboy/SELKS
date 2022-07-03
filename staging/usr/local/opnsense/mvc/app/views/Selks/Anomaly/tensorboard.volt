@@ -1,3 +1,3 @@
-<div class="tab-content content-box">
-    <iframe src="/ui/anomaly/redirect?url=https://selks.ddns.net:444/tensorboard/" title="TensorBoard"></iframe>
-</div>
+<iframe src="https://selks.ddns.net:444/tensorboard/" title="TensorBoard"
+    width="100%" height="100%"
+    frameborder="0" allowfullscreen></iframe>
