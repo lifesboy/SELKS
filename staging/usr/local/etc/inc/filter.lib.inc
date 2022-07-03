@@ -331,15 +331,15 @@ function filter_core_rules_system($fw, $defaults)
         $defaults['block']
     );
 
-    // Anti-lockout for http, https, ssh
+    // Anti-lockout for http, https, ssh, 81, 444
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh', 'descr' => 'anti-lockout rule'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh,81,444', 'descr' => 'anti-lockout rule'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh', 'descr' => 'anti-lockout rule'),
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh,81,444', 'descr' => 'anti-lockout rule'),
         $defaults['pass']
     );
 
