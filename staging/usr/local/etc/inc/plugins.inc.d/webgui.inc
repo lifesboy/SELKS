@@ -405,7 +405,8 @@ EOD;
         }
         if (!empty($config['system']['webgui']['ssl-hsts'])) {
             $lighty_config .= "setenv.add-response-header  = (\n";
-            $lighty_config .= "    \"Strict-Transport-Security\" => \"max-age=15768000;\"\n";
+            $lighty_config .= "    \"Strict-Transport-Security\" => \"max-age=15768000;\",\n";
+            $lighty_config .= "    \"Content-Security-Policy\" => \"frame-src https://selks.ddns.net:444 'self';\"\n";
             $lighty_config .= ")\n";
         }
 
