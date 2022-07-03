@@ -3,6 +3,7 @@
         position: absolute;
         top: 50px;
         left: 0;
+        z-index: 99;
     }
 </style>
 <script>
