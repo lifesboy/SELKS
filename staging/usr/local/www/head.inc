@@ -36,8 +36,6 @@ $pagetitle .= html_safe(sprintf(' | %s.%s', $config['system']['hostname'], $conf
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta http-equiv="Content-Security-Policy" content="frame-src https://selks.ddns.net:444; child-src 'none'; object-src 'none'">
-
     <meta name="robots" content="noindex, nofollow, noodp, noydir" />
     <meta name="keywords" content="" />
     <meta name="description" content="" />
