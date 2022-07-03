@@ -1,6 +1,8 @@
 <style>
     #ref-frame {
         position: absolute;
+        top: 50px;
+        left: 0;
     }
 </style>
 <script>
