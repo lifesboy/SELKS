@@ -6,10 +6,10 @@
 <!--        </SIDS>-->
 <!--    </Services>-->
     <Reporting>
-        <Kibana order="1" isExternal="Y" VisibleName="Thống kê dấu hiệu mã độc có trong lưu lượng mạng" url="http://selks.ddns.net/app/dashboards#/view/SN-ALL?_g=(filters:!())" cssClass="fa fa-line-chart fa-fw" />
-        <Hunt order="2" isExternal="Y" VisibleName="Thống kê luồng mạng có dấu hiệu mã độc" url="http://selks.ddns.net/rules/hunt" cssClass="fa fa-line-chart fa-fw" />
-        <Evebox order="3" isExternal="Y" VisibleName="Thống kê các cảnh báo đã đưa ra" url="http://selks.ddns.net/evebox/#/reports/alerts" cssClass="fa fa-line-chart fa-fw" />
-        <RuleStats order="4" isExternal="Y" VisibleName="Thống kê điểm các luật so khớp" url="http://selks.ddns.net/rules" cssClass="fa fa-line-chart fa-fw" />
+        <Kibana order="1" isExternal="Y" VisibleName="Thống kê dấu hiệu mã độc có trong lưu lượng mạng" url="https://selks.ddns.net:444/app/dashboards#/view/SN-ALL?_g=(filters:!())" cssClass="fa fa-line-chart fa-fw" />
+        <Hunt order="2" isExternal="Y" VisibleName="Thống kê luồng mạng có dấu hiệu mã độc" url="https://selks.ddns.net:444/rules/hunt" cssClass="fa fa-line-chart fa-fw" />
+        <Evebox order="3" isExternal="Y" VisibleName="Thống kê các cảnh báo đã đưa ra" url="https://selks.ddns.net:444/evebox/#/reports/alerts" cssClass="fa fa-line-chart fa-fw" />
+        <RuleStats order="4" isExternal="Y" VisibleName="Thống kê điểm các luật so khớp" url="https://selks.ddns.net:444/rules" cssClass="fa fa-line-chart fa-fw" />
     </Reporting>
     <NextGenerationIDPS order="40" VisibleName="Tường lửa thế hệ mới" cssClass="glyphicon glyphicon-fire">
         <AIModelManagement order="3" isExternal="Y" VisibleName="AI Model Management" url="http://selks.ddns.net:5000/#/models" cssClass="fa fa-exchange fa-fw" />
