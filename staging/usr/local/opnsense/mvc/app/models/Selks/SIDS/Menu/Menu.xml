@@ -12,7 +12,7 @@
         <RuleStats order="4" isExternal="Y" VisibleName="Thống kê điểm các luật so khớp" url="https://selks.ddns.net:444/rules" cssClass="fa fa-line-chart fa-fw" />
     </Reporting>
     <NextGenerationIDPS order="40" VisibleName="Tường lửa thế hệ mới" cssClass="glyphicon glyphicon-fire">
-        <AIModelManagement order="3" isExternal="Y" VisibleName="AI Model Management" url="https://selks.ddns.net:444/mlflow/#/models" cssClass="fa fa-exchange fa-fw" />
+        <AIModelManagement order="3" isExternal="Y" VisibleName="AI Model Management" url="/ui/anomaly/mlflow/#/models" cssClass="fa fa-exchange fa-fw" />
         <AIAgentTesting order="4" isExternal="Y" VisibleName="AI Agent Testing" url="https://selks.ddns.net:444/locust/" cssClass="fa fa-eye fa-fw" />
         <AIDeployment order="5" isExternal="Y" VisibleName="AI Deployment" url="https://selks.ddns.net:444/ray/" cssClass="fa fa-sitemap fa-fw" />
     </NextGenerationIDPS>
