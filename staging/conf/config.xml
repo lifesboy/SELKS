@@ -219,7 +219,7 @@
     <optimization>normal</optimization>
     <hostname>OPNsense</hostname>
     <domain>localdomain</domain>
-    <dnsallowoverride/>
+    <dnsallowoverride>1</dnsallowoverride>
     <group>
       <name>admins</name>
       <description>System Administrators</description>
@@ -235,15 +235,16 @@
       <groupname>admins</groupname>
       <password>$2y$10$dEQpsw9jFY3vKdn2RgKpu.c2NKhJWq1g/ZhMK7rBBJHqKkmEaIyTe</password>
       <uid>0</uid>
+      <language>vi_VN</language>
     </user>
     <nextuid>2000</nextuid>
     <nextgid>2000</nextgid>
     <timezone>Etc/UTC</timezone>
     <timeservers>0.opnsense.pool.ntp.org 1.opnsense.pool.ntp.org 2.opnsense.pool.ntp.org 3.opnsense.pool.ntp.org</timeservers>
     <webgui>
-      <protocol>http</protocol>
+      <protocol>https</protocol>
       <ssl-certref>5fa7f6d3712fa</ssl-certref>
-      <port/>
+      <port>443</port>
       <ssl-ciphers/>
       <interfaces/>
       <compression/>
@@ -297,6 +298,17 @@
     <firmware>
       <plugins>os-clamav,os-c-icap</plugins>
     </firmware>
+    <language>vi_VN</language>
+    <dnsallowoverride_exclude/>
+    <dnsserver/>
+    <dns1gw>none</dns1gw>
+    <dns2gw>none</dns2gw>
+    <dns3gw>none</dns3gw>
+    <dns4gw>none</dns4gw>
+    <dns5gw>none</dns5gw>
+    <dns6gw>none</dns6gw>
+    <dns7gw>none</dns7gw>
+    <dns8gw>none</dns8gw>
   </system>
   <interfaces>
     <wan>
