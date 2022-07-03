@@ -14,7 +14,7 @@
     <NextGenerationIDPS order="40" VisibleName="Tường lửa thế hệ mới" cssClass="glyphicon glyphicon-fire">
         <AIModelManagement order="3" isExternal="Y" VisibleName="AI Model Management" url="/ui/anomaly/mlflow/#/models" cssClass="fa fa-exchange fa-fw" />
         <AIAgentTesting order="4" isExternal="Y" VisibleName="AI Agent Testing" url="/ui/anomaly/locust/" cssClass="fa fa-eye fa-fw" />
-        <AIDeployment order="5" isExternal="Y" VisibleName="AI Deployment" url="https://selks.ddns.net:444/ray/" cssClass="fa fa-sitemap fa-fw" />
+        <AIDeployment order="5" isExternal="Y" VisibleName="AI Deployment" url="/ui/anomaly/ray/" cssClass="fa fa-sitemap fa-fw" />
     </NextGenerationIDPS>
 </menu>
 
