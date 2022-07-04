@@ -457,19 +457,19 @@ expire.url = ( "" => "access 50 hours" )
 
 
 \$HTTP["url"] =~ "^/proxy/mlflow/" {
-    proxy.header = ("map-urlpath" => ( "/proxy/mlflow" => "/" ))
+    proxy.header = ("map-urlpath" => ( "/proxy/mlflow/" => "/" ), "https-remap" => "enable")
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "5000" ) ) )
 }
 \$HTTP["url"] =~ "^/proxy/tensorboard/" {
-    proxy.header = ("map-urlpath" => ( "/proxy/tensorboard" => "/" ))
+    proxy.header = ("map-urlpath" => ( "/proxy/tensorboard/" => "/" ), "https-remap" => "enable")
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "6006" ) ) )
 }
 \$HTTP["url"] =~ "^/proxy/locust/" {
-    proxy.header = ("map-urlpath" => ( "/proxy/locust" => "/" ))
+    proxy.header = ("map-urlpath" => ( "/proxy/locust/" => "/" ), "https-remap" => "enable")
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "8089" ) ) )
 }
 \$HTTP["url"] =~ "^/proxy/ray/" {
-    proxy.header = ("map-urlpath" => ( "/proxy/ray" => "/" ))
+    proxy.header = ("map-urlpath" => ( "/proxy/ray/" => "/" ), "https-remap" => "enable")
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "8265" ) ) )
 }
 
