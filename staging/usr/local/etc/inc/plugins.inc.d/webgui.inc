@@ -241,7 +241,7 @@ server.network-backend  = "writev"
 
 ## modules to load
 server.modules              =   (
-  "mod_access", "mod_expire", "mod_compress", "mod_redirect", "mod_setenv",
+  "mod_access", "mod_expire", "mod_compress", "mod_redirect", "mod_setenv", "mod_proxy",
   "mod_cgi", "mod_fastcgi","mod_alias", "mod_rewrite", "mod_openssl" {$lighty_modules}
 )
 
@@ -454,6 +454,20 @@ compress.filetype  = ("text/plain","text/css", "text/xml", "text/javascript" )
 {$cgi_config}
 
 expire.url = ( "" => "access 50 hours" )
+
+
+\$HTTP["url"] =~ "^/proxy/mlflow/" {
+    proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "5000" ) ) )
+}
+\$HTTP["url"] =~ "^/proxy/tensorboard/" {
+    proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "6006" ) ) )
+}
+\$HTTP["url"] =~ "^/proxy/locust/" {
+    proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "8089" ) ) )
+}
+\$HTTP["url"] =~ "^/proxy/ray/" {
+    proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "8265" ) ) )
+}
 
 EOD;
 
