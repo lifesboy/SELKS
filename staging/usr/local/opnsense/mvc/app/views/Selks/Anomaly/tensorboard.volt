@@ -11,6 +11,6 @@ $( document ).ready(function() {
     $('#ref-frame').detach().appendTo($('.page-content'))
 });
 </script>
-<iframe id="ref-frame" src="https://selks.ddns.net:444/tensorboard/" title="TensorBoard"
+<iframe id="ref-frame" src="/proxy/tensorboard/" title="TensorBoard"
     width="100%" height="100%"
     frameborder="0" allowfullscreen></iframe>

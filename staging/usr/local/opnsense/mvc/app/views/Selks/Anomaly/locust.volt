@@ -11,6 +11,6 @@ $( document ).ready(function() {
     $('#ref-frame').detach().appendTo($('.page-content'))
 });
 </script>
-<iframe id="ref-frame" src="https://selks.ddns.net:444/locust/" title="Locust"
+<iframe id="ref-frame" src="/proxy/locust/" title="Locust"
     width="100%" height="100%"
     frameborder="0" allowfullscreen></iframe>
