@@ -1057,11 +1057,11 @@
       </general>
       <dataProcessor>
         <enabled>1</enabled>
-        <DataSource>cic2018/Friday-02-03-2018*.csv</DataSource>
-        <BatchSize>102400</BatchSize>
+        <DataSource>nsm/*.csv</DataSource>
+        <BatchSize>500</BatchSize>
         <NumGpus>0.1</NumGpus>
-        <NumCpus>0</NumCpus>
-        <DataDestination>cic2018_Friday-02-03-2018</DataDestination>
+        <NumCpus>0.1</NumCpus>
+        <DataDestination>nsm</DataDestination>
         <UpdateCron/>
       </dataProcessor>
     </Anomaly>
