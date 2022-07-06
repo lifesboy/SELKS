@@ -78,12 +78,12 @@ def norm_n_int(v: int, n: int = sys.maxsize) -> float:
 
 @tf_function(tf)
 def norm_size_1mb(v: float) -> float:
-    return tf.min(v, SIZE_1MB) / SIZE_1MB
+    return tf.math.minimum(v, SIZE_1MB) / SIZE_1MB
 
 
 @tf_function(tf)
 def norm_time_1h(v: int) -> float:
-    return tf.min(v, TIME_1H) / TIME_1H
+    return tf.math.minimum(v, TIME_1H) / TIME_1H
 
 
 def norm_ip(ip: str) -> int:
