@@ -25,6 +25,7 @@ import sys
 # "Bwd Byts/b Avg", "Bwd Pkts/b Avg", "Bwd Blk Rate Avg", "Subflow Fwd Pkts", "Subflow Fwd Byts", "Subflow Bwd Pkts",
 # "Subflow Bwd Byts", "Init Fwd Win Byts", "Init Bwd Win Byts", "Fwd Act Data Pkts", "Fwd Seg Size Min",
 # "Active Mean", "Active Std", "Active Max", "Active Min", "Idle Mean", "Idle Std", "Idle Max", "Idle Min", "Label"
+import numpy as np
 from ray.rllib.utils.framework import tf_function
 from ray.util.client import ray
 
@@ -40,11 +41,11 @@ TOT_BWD_PKTS = 'tot_bwd_pkts'
 LABEL = 'label'
 LABEL_VALUE_BENIGN = 'Benign'
 
-SIZE_1KB = float(1024)
+SIZE_1KB = 1024
 SIZE_1MB = 1024 * SIZE_1KB
 SIZE_1GB = 1024 * SIZE_1MB
 
-TIME_1S = float(1000)
+TIME_1S = 1000
 TIME_1M = 60 * TIME_1S
 TIME_1H = 60 * TIME_1M
 TIME_1D = 24 * TIME_1H
@@ -78,12 +79,12 @@ def norm_n_int(v: int, n: int = sys.maxsize) -> float:
 
 @tf_function(tf)
 def norm_size_1mb(v: float) -> float:
-    return (v if v < SIZE_1MB else SIZE_1MB) / SIZE_1MB
+    return (v / SIZE_1MB) if v < SIZE_1MB else np.float64(1.0)
 
 
 @tf_function(tf)
 def norm_time_1h(v: int) -> float:
-    return (v if v < TIME_1H else TIME_1H) / SIZE_1MB
+    return (v / TIME_1H) if v < TIME_1H else np.float64(1.0)
 
 
 def norm_ip(ip: str) -> int:
