@@ -67,7 +67,6 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         flow_duration = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FLOW_DURATION])).map(norm.norm_time_1h)
         tot_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_FWD_PKTS])).map(norm.norm_size_1mb)
         tot_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_BWD_PKTS])).map(norm.norm_size_1mb)
-        label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[LABEL])).map(norm.norm_label) if LABEL in df.columns else None
 
         data = DataFrame(data={
             DST_PORT: list(dst_port.as_numpy_iterator()),
@@ -75,6 +74,12 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             FLOW_DURATION: list(flow_duration.as_numpy_iterator()),
             TOT_FWD_PKTS: list(tot_fwd_pkts.as_numpy_iterator()),
             TOT_BWD_PKTS: list(tot_bwd_pkts.as_numpy_iterator()),
-            LABEL: list(label.as_numpy_iterator()) if LABEL in df.columns else list(),
         }, index=df[TIMESTAMP])
+
+        if LABEL in df.columns:
+            label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[LABEL])).map(norm.norm_label)
+            data[LABEL] = list(label.as_numpy_iterator())
+        else:
+            data[LABEL] = ['' for i in range(len(data.index))]
+
         return data
