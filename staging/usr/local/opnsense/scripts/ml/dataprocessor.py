@@ -74,10 +74,11 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: int, num_cp
     return pipe
 
 
-def process_data(df: DataFrame) -> bool:
+def process_data(df: DataFrame, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     try:
+        df['pipe'] = create_processor_pipe(df['input_path'], batch_size, num_gpus, num_cpus)
         df['pipe'].write_csv(path=common.DATA_NORMALIZED_DIR + data_destination + '/', try_create_dir=True)
 
         utils.marked_done(df['marked_done_path'])
@@ -117,14 +118,14 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
     client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
 
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
-    batch_df['pipe'] = batch_df.apply(
-        lambda i: create_processor_pipe(i.input_path, batch_size, num_gpus, num_cpus),
-        axis=1)
+    # client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
+    # batch_df['pipe'] = batch_df.apply(
+    #    lambda i: create_processor_pipe(i.input_path, batch_size, num_gpus, num_cpus),
+    #    axis=1)
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
     log.info('start process_data: pipe=%s', batch_df.count())
-    batch_df.apply(process_data, axis=1)
+    batch_df.apply(lambda i: process_data(i, batch_size, num_gpus, num_cpus), axis=1)
     log.info('finish process_data.')
 
     data_destination_file = glob.glob(destination_dir + '*')
