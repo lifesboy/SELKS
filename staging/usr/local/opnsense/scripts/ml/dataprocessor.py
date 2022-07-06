@@ -9,7 +9,7 @@ import lib.utils as utils
 from lib.logger import log
 
 import common
-from aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 import mlflow
 
 run, client = common.init_experiment('data-processor')
@@ -67,7 +67,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: int, num_cp
         return None
 
     pipe: DatasetPipeline = ray.data.read_csv(data_files).window(blocks_per_window=batch_size)
-    pipe = pipe.map_batches(Cic2018NormModel, batch_format="pandas", compute="actors",
+    pipe = pipe.map_batches(CicFlowmeterNormModel, batch_format="pandas", compute="actors",
                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
     # tf.keras.layers.BatchNormalization
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     data_destination_file = glob.glob(destination_dir + '*')
     client.log_param(run_id=run.info.run_id, key='data_destination_file', value=data_destination_file)
 
-    model_meta = Cic2018NormModel.get_model_meta()
+    model_meta = CicFlowmeterNormModel.get_model_meta()
     mlflow.pyfunc.log_model(artifact_path=model_meta.artifact_path,
                             python_model=model_meta.python_model,
                             registered_model_name=model_meta.registered_model_name,

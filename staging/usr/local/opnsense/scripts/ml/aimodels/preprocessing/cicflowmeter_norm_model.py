@@ -11,6 +11,10 @@ from pyarrow import Table
 from ray.tune.integration.mlflow import mlflow_mixin
 
 from pandas import DataFrame
+from ray.rllib.utils.framework import try_import_tf
+tf1, tf, tfv = try_import_tf()
+tf1.enable_eager_execution()
+
 import common
 from anomaly_normalization import F1, F2, F3, F4, F5, F6
 from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
@@ -58,12 +62,24 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
     @mlflow_mixin
     def preprocess(self, df: DataFrame) -> DataFrame:
+        dst_port = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[DST_PORT])).map(norm.norm_port)
+        protocol = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PROTOCOL])).map(norm.norm_protocol)
+        flow_duration = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FLOW_DURATION])).map(norm.norm_time_1h)
+        tot_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_FWD_PKTS])).map(norm.norm_size_1mb)
+        tot_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_BWD_PKTS])).map(norm.norm_size_1mb)
+
         data = DataFrame(data={
-            DST_PORT: df[DST_PORT].apply(norm.norm_port).values,
-            PROTOCOL: df[PROTOCOL].apply(norm.norm_protocol).values,
-            FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h).values,
-            TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb).values,
-            TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb).values,
-            LABEL: df[LABEL].apply(norm.norm_label).values,
+            DST_PORT: list(dst_port.as_numpy_iterator()),
+            PROTOCOL: list(protocol.as_numpy_iterator()),
+            FLOW_DURATION: list(flow_duration.as_numpy_iterator()),
+            TOT_FWD_PKTS: list(tot_fwd_pkts.as_numpy_iterator()),
+            TOT_BWD_PKTS: list(tot_bwd_pkts.as_numpy_iterator()),
         }, index=df[TIMESTAMP])
+
+        if LABEL in df.columns:
+            label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[LABEL])).map(norm.norm_label)
+            data[LABEL] = list(label.as_numpy_iterator())
+        else:
+            data[LABEL] = ['' for i in range(len(data.index))]
+
         return data
