@@ -11,6 +11,10 @@ from pyarrow import Table
 from ray.tune.integration.mlflow import mlflow_mixin
 
 from pandas import DataFrame
+from ray.rllib.utils.framework import try_import_tf
+tf1, tf, tfv = try_import_tf()
+tf1.enable_eager_execution()
+
 import common
 from anomaly_normalization import F1, F2, F3, F4, F5, F6
 from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
@@ -58,8 +62,12 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
 
     @mlflow_mixin
     def preprocess(self, df: DataFrame) -> DataFrame:
+        ts_dst_port = tf.convert_to_tensor(df[DST_PORT])
+        dt_dst_port = tf.data.Dataset.from_tensor_slices(ts_dst_port)
+        dt_dst_port = dt_dst_port.map(norm.norm_port)
+
         data = DataFrame(data={
-            DST_PORT: df[DST_PORT].apply(norm.norm_port).values,
+            DST_PORT: list(dt_dst_port.as_numpy_iterator()),
             PROTOCOL: df[PROTOCOL].apply(norm.norm_protocol).values,
             FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h).values,
             TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb).values,
