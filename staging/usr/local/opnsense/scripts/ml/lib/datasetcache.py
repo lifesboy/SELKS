@@ -108,7 +108,6 @@ class DatasetCache(object):
         """
         with open(filename, 'r') as f_in:
             source_filename = filename.split('/')[-1]
-            self.init_experiment()
             dt = ray.data.read_csv(filename)
             dataset_info_record = {'dataset': filename, 'metadata': None}
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
@@ -231,7 +230,11 @@ class DatasetCache(object):
 
         last_mtime = 0
         all_rule_files = self.list_local()
+        self.init_experiment()
+        processed_file = 0
         for filename in all_rule_files:
+            processed_file += 1
+            self._client.set_tag(run_id=self._run.info.run_id, key='processed', value=processed_file/len(all_rule_files))
             try:
                 file_mtime = os.stat(filename).st_mtime
                 if file_mtime > last_mtime:
