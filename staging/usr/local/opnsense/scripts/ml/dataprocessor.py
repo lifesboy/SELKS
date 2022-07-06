@@ -78,9 +78,7 @@ def process_data(df: DataFrame) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     try:
-        df['pipe'].apply(lambda i: i.write_csv(
-            path=common.DATA_NORMALIZED_DIR + data_destination + '/',
-            try_create_dir=True))
+        df['pipe'].write_csv(path=common.DATA_NORMALIZED_DIR + data_destination + '/', try_create_dir=True)
 
         utils.marked_done(df['marked_done_path'])
         log.info('sniffing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
