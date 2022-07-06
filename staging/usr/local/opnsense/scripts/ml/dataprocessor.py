@@ -136,7 +136,7 @@ if __name__ == "__main__":
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
     log.info('start process_data: pipe=%s', batch_df.count())
-    batch_df.apply(process_data)
+    batch_df.apply(process_data, axis=1)
     log.info('finish process_data.')
 
     data_destination_file = glob.glob(destination_dir + '*')
