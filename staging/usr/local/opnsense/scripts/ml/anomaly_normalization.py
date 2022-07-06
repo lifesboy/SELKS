@@ -25,7 +25,11 @@ import sys
 # "Bwd Byts/b Avg", "Bwd Pkts/b Avg", "Bwd Blk Rate Avg", "Subflow Fwd Pkts", "Subflow Fwd Byts", "Subflow Bwd Pkts",
 # "Subflow Bwd Byts", "Init Fwd Win Byts", "Init Bwd Win Byts", "Fwd Act Data Pkts", "Fwd Seg Size Min",
 # "Active Mean", "Active Std", "Active Max", "Active Min", "Idle Mean", "Idle Std", "Idle Max", "Idle Min", "Label"
+from ray.rllib.utils.framework import tf_function
 from ray.util.client import ray
+
+from ray.rllib.utils.framework import try_import_tf
+tf1, tf, tfv = try_import_tf()
 
 DST_PORT = 'dst_port'
 PROTOCOL = 'protocol'
@@ -72,10 +76,12 @@ def norm_n_int(v: int, n: int = sys.maxsize) -> float:
     return v / n if v < n else n
 
 
+@tf_function(tf)
 def norm_size_1mb(v: float) -> float:
     return min(v, SIZE_1MB) / SIZE_1MB
 
 
+@tf_function(tf)
 def norm_time_1h(v: int) -> float:
     return min(v, TIME_1H) / TIME_1H
 
@@ -84,5 +90,6 @@ def norm_ip(ip: str) -> int:
     return struct.unpack('!I', socket.inet_aton(ip))[0]
 
 
+@tf_function(tf)
 def norm_label(v: str) -> int:
     return 0 if (not v) or (v == LABEL_VALUE_BENIGN) else 1
