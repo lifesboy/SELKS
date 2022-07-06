@@ -72,7 +72,7 @@ def norm_n_int(v: int, n: int = sys.maxsize) -> float:
     return v / n if v < n else n
 
 
-def norm_size_1mb(v: int) -> float:
+def norm_size_1mb(v: float) -> float:
     return min(v, SIZE_1MB) / SIZE_1MB
 
 
