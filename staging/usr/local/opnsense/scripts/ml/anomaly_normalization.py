@@ -27,13 +27,13 @@ import sys
 # "Active Mean", "Active Std", "Active Max", "Active Min", "Idle Mean", "Idle Std", "Idle Max", "Idle Min", "Label"
 from ray.util.client import ray
 
-DST_PORT = 'Dst Port'
-PROTOCOL = 'Protocol'
-TIMESTAMP = 'Timestamp'
-FLOW_DURATION = 'Flow Duration'
-TOT_FWD_PKTS = 'Tot Fwd Pkts'
-TOT_BWD_PKTS = 'Tot Bwd Pkts'
-LABEL = 'Label'
+DST_PORT = 'dst_port'
+PROTOCOL = 'protocol'
+TIMESTAMP = 'timestamp'
+FLOW_DURATION = 'flow_duration'
+TOT_FWD_PKTS = 'tot_fwd_pkts'
+TOT_BWD_PKTS = 'tot_bwd_pkts'
+LABEL = 'label'
 LABEL_VALUE_BENIGN = 'Benign'
 
 SIZE_1KB = 1024
