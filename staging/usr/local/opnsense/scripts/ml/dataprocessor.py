@@ -75,31 +75,21 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: int, num_cp
 
 
 def process_data(df: DataFrame) -> bool:
-    log.info('process_data start %s to %s, marked at %s',
-             df['input_path'].values,
-             df['output_path'].values,
-             df['marked_done_path'].values)
+    log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     try:
         df['pipe'].apply(lambda i: i.write_csv(
             path=common.DATA_NORMALIZED_DIR + data_destination + '/',
             try_create_dir=True))
 
-        df['marked_done_path'].apply(lambda i: utils.marked_done(i))
-        log.info('sniffing done %s to %s, marked at %s',
-                 df['input_path'].values,
-                 df['output_path'].values,
-                 df['marked_done_path'].values)
-    except KeyboardInterrupt as e:
+        utils.marked_done(df['marked_done_path'])
+        log.info('sniffing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+    except Exception as e:
         log.error('process_data tasks interrupted: %s', e)
-        df['sniffer'].apply(lambda i: i.stop())
     finally:
-        df['sniffer'].apply(lambda i: i.join())
+        pass
 
-    log.info('process_data end %s to %s, marked at %s',
-             df['input_path'].values,
-             df['output_path'].values,
-             df['marked_done_path'].values)
+    log.info('process_data end %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
 
 if __name__ == "__main__":
