@@ -62,16 +62,19 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
 
     @mlflow_mixin
     def preprocess(self, df: DataFrame) -> DataFrame:
-        ts_dst_port = tf.convert_to_tensor(df[DST_PORT])
-        dt_dst_port = tf.data.Dataset.from_tensor_slices(ts_dst_port)
-        dt_dst_port = dt_dst_port.map(norm.norm_port)
+        dst_port = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[DST_PORT])).map(norm.norm_port)
+        protocol = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PROTOCOL])).map(norm.norm_protocol)
+        flow_duration = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FLOW_DURATION])).map(norm.norm_time_1h)
+        tot_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_FWD_PKTS])).map(norm.norm_size_1mb)
+        tot_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_BWD_PKTS])).map(norm.norm_size_1mb)
+        label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[LABEL])).map(norm.norm_label) if LABEL in df.columns else None
 
         data = DataFrame(data={
-            DST_PORT: list(dt_dst_port.as_numpy_iterator()),
-            PROTOCOL: df[PROTOCOL].apply(norm.norm_protocol).values,
-            FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h).values,
-            TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb).values,
-            TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb).values,
-            LABEL: df[LABEL].apply(norm.norm_label).values if LABEL in df.columns else '',
+            DST_PORT: list(dst_port.as_numpy_iterator()),
+            PROTOCOL: list(protocol.as_numpy_iterator()),
+            FLOW_DURATION: list(flow_duration.as_numpy_iterator()),
+            TOT_FWD_PKTS: list(tot_fwd_pkts.as_numpy_iterator()),
+            TOT_BWD_PKTS: list(tot_bwd_pkts.as_numpy_iterator()),
+            LABEL: list(label.as_numpy_iterator()) if LABEL in df.columns else list(),
         }, index=df[TIMESTAMP])
         return data
