@@ -64,6 +64,6 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             FLOW_DURATION: df[FLOW_DURATION].apply(norm.norm_time_1h).values,
             TOT_FWD_PKTS: df[TOT_FWD_PKTS].apply(norm.norm_size_1mb).values,
             TOT_BWD_PKTS: df[TOT_BWD_PKTS].apply(norm.norm_size_1mb).values,
-            LABEL: df[LABEL].apply(norm.norm_label).values,
+            LABEL: df[LABEL].apply(norm.norm_label).values if LABEL in df.columns else '',
         }, index=df[TIMESTAMP])
         return data

@@ -85,4 +85,4 @@ def norm_ip(ip: str) -> int:
 
 
 def norm_label(v: str) -> int:
-    return 0 if v == LABEL_VALUE_BENIGN else 1
+    return 0 if (not v) or (v == LABEL_VALUE_BENIGN) else 1
