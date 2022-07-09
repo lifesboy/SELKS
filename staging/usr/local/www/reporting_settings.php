@@ -181,28 +181,40 @@ $(document).ready(function() {
               <div class="table-responsive">
                 <table class="table table-striped opnsense_standard_table_form">
                   <tr>
-                    <td colspan="2"><strong><?=gettext('Reporting Database Options');?></strong></td>
+<!--                    <td colspan="2"><strong>--><?//=gettext('Reporting Database Options');?><!--</strong></td>-->
+                    <td colspan="2"><strong><?=gettext('Tùy chọn Cơ sở dữ liệu tạo Báo cáo');?></strong></td>
                   </tr>
                   <tr>
-                    <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> <?=gettext("Round-Robin-Database");?></td>
+<!--                    <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> --><?//=gettext("Round-Robin-Database");?><!--</td>-->
+                    <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> <?=gettext("Cơ sở dữ liệu kiểu Round Robin");?></td>
                     <td>
                       <input name="rrdenable" type="checkbox" id="rrdenable" value="yes" <?=!empty($pconfig['rrdenable']) ? "checked=\"checked\"" : ""?> />
-                      &nbsp;<strong><?=gettext("Enables the RRD graphing backend.");?></strong>
+<!--                      &nbsp;<strong>--><?//=gettext("Enables the RRD graphing backend.");?><!--</strong>-->
+                        <strong><?=gettext("Bật phụ trợ vẽ đồ thị RRD");?></strong>
                     </td>
                   </tr>
                   <tr>
                     <td>&nbsp;</td>
+<!--                    <td>-->
+<!--                      <button name="Submit" type="submit" class="btn btn-primary" value="yes">--><?//= gettext('Save') ?><!--</button>-->
+<!--                      <input type="button" name="ResetRRD" id="ResetRRD" class="btn btn-default" value="--><?//= html_safe(gettext("Reset RRD Data")) ?><!--" />-->
+<!--                      <input type="button" id="flush_netflow" class="btn btn-default" value="--><?//= html_safe(gettext("Reset Netflow Data")) ?><!--" />-->
+<!--                      <input type="button" id="repair_netflow" class="btn btn-default" value="--><?//= html_safe(gettext("Repair Netflow Data")) ?><!--" />-->
+<!--                    </td>-->
                     <td>
-                      <button name="Submit" type="submit" class="btn btn-primary" value="yes"><?= gettext('Save') ?></button>
-                      <input type="button" name="ResetRRD" id="ResetRRD" class="btn btn-default" value="<?= html_safe(gettext("Reset RRD Data")) ?>" />
-                      <input type="button" id="flush_netflow" class="btn btn-default" value="<?= html_safe(gettext("Reset Netflow Data")) ?>" />
-                      <input type="button" id="repair_netflow" class="btn btn-default" value="<?= html_safe(gettext("Repair Netflow Data")) ?>" />
+                      <button name="Submit" type="submit" class="btn btn-primary" value="yes"><?= gettext('Lưu') ?></button>
+                      <input type="button" name="ResetRRD" id="ResetRRD" class="btn btn-default" value="<?= html_safe(gettext("Khởi tạo lại dữ liệu RRD")) ?>" />
+                      <input type="button" id="flush_netflow" class="btn btn-default" value="<?= html_safe(gettext("Khởi tạo lại dữ liệu Netflow")) ?>" />
+                      <input type="button" id="repair_netflow" class="btn btn-default" value="<?= html_safe(gettext("Sửa chữa dữ liệu Netflow")) ?>" />
                     </td>
                   </tr>
                   <tr>
+<!--                    <td colspan="2">-->
+<!--                      --><?//=gettext("Graphs will not be allowed to be recreated within a 1 minute interval, please " .
+//                        "take this into account after changing the style.");?>
+<!--                    </td>-->
                     <td colspan="2">
-                      <?=gettext("Graphs will not be allowed to be recreated within a 1 minute interval, please " .
-                        "take this into account after changing the style.");?>
+                      <?=gettext("Đồ thị sẽ không được phép tạo lại trong khoảng thời gian 1 phút, hãy tính đến điều này sau khi thay đổi kiểu.");?>
                     </td>
                   </tr>
                 </table>
@@ -214,10 +226,12 @@ $(document).ready(function() {
               <div class="table-responsive">
                 <table class="table table-striped opnsense_standard_table_form">
                   <tr>
-                    <td colspan="2"><strong><?=gettext('Collected reports');?></strong></td>
+<!--                    <td colspan="2"><strong>--><?//=gettext('Collected reports');?><!--</strong></td>-->
+                    <td colspan="2"><strong><?=gettext('Các báo cáo đã thu thập');?></strong></td>
                   </tr>
                   <tr>
-                    <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> <?=gettext("Reports");?> </td>
+<!--                    <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> --><?//=gettext("Reports");?><!-- </td>-->
+                    <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> <?=gettext("Các báo cáo");?> </td>
                     <td>
                       <table class="table table-condensed">
 <?php
