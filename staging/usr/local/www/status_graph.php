@@ -300,12 +300,19 @@ include("head.inc");
             <div class="table-responsive" >
               <table class="table table-striped">
                 <thead>
+<!--                  <tr>-->
+<!--                    <th>--><?//=gettext("Interface"); ?><!--</th>-->
+<!--                    <th>--><?//= gettext('Sort by') ?><!--</th>-->
+<!--                    <th>--><?//= gettext('Filter') ?><!--</th>-->
+<!--                    <th>--><?//= gettext('Display') ?><!--</th>-->
+<!--                    <th>--><?//= gettext('Top') ?><!--</th>-->
+<!--                  </tr>-->
                   <tr>
-                    <th><?=gettext("Interface"); ?></th>
-                    <th><?= gettext('Sort by') ?></th>
-                    <th><?= gettext('Filter') ?></th>
-                    <th><?= gettext('Display') ?></th>
-                    <th><?= gettext('Top') ?></th>
+                    <th><?=gettext("Cổng mạng"); ?></th>
+                    <th><?= gettext('Sắp xếp theo') ?></th>
+                    <th><?= gettext('Lọc') ?></th>
+                    <th><?= gettext('Hiển thị') ?></th>
+                    <th><?= gettext('Cao nhất') ?></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -324,40 +331,50 @@ include("head.inc");
                     <td>
                       <select id="sort" name="sort">
                         <option value="in">
-                          <?= gettext('Bw In') ?>
+<!--                          --><?//= gettext('Bw In') ?>
+                          <?= gettext('Băng thông vào') ?>
                         </option>
                         <option value="out"<?= $pconfig['sort'] == "out" ? " selected=\"selected\"" : "";?>>
-                          <?= gettext('Bw Out') ?>
+<!--                          --><?//= gettext('Bw Out') ?>
+                          <?= gettext('Băng thông ra') ?>
                         </option>
                         <option value="avgin">
-                          <?= gettext('Bw In Avg') ?>
+<!--                          --><?//= gettext('Bw In Avg') ?>
+                          <?= gettext('Băng thông vào trung bình') ?>
                         </option>
                         <option value="avgout">
-                          <?= gettext('Bw Out Avg') ?>
+<!--                          --><?//= gettext('Bw Out Avg') ?>
+                          <?= gettext('Băng thông ra trung bình') ?>
                         </option>
                          <option value="totalin">
-                          <?= gettext('Total In') ?>
+<!--                          --><?//= gettext('Total In') ?>
+                          <?= gettext('Tổng vào') ?>
                         </option>
                          <option value="totalout">
-                          <?= gettext('Total Out') ?>
+<!--                          --><?//= gettext('Total Out') ?>
+                          <?= gettext('Tổng ra') ?>
                         </option>
                       </select>
                     </td>
                     <td>
                       <select id="filter" name="filter">
                         <option value="local" <?=$pconfig['filter'] == "local" ? " selected=\"selected\"" : "";?>>
-                          <?= gettext('Local') ?>
+<!--                          --><?//= gettext('Local') ?>
+                          <?= gettext('Nội bộ') ?>
                         </option>
                         <option value="all" <?=$pconfig['filter'] == "all" ? " selected=\"selected\"" : "";?>>
-                          <?= gettext('All') ?>
+<!--                          --><?//= gettext('All') ?>
+                          <?= gettext('Tất cả') ?>
                         </option>
                       </select>
                     </td>
                     <td>
                       <select id="hostipformat" name="hostipformat">
-                        <option value=""><?= gettext('IP Address') ?></option>
+<!--                        <option value="">--><?//= gettext('IP Address') ?><!--</option>-->
+                        <option value=""><?= gettext('Địa chỉ IP') ?></option>
                         <option value="hostname" <?=$pconfig['hostipformat'] == "hostname" ? " selected" : "";?>>
-                          <?= gettext('Host Name') ?>
+<!--                          --><?//= gettext('Host Name') ?>
+                          <?= gettext('Tên host name') ?>
                         </option>
                         <option value="fqdn" <?=$pconfig['hostipformat'] == "fqdn" ? " selected=\"selected\"" : "";?>>
                           <?= gettext('FQDN') ?>
@@ -398,12 +415,19 @@ include("head.inc");
             <div class="table-responsive" >
               <table class="table table-condensed">
                 <thead>
+<!--                  <tr>-->
+<!--                      <td>--><?//=empty($pconfig['hostipformat']) ? gettext("Host IP") : gettext("Host Name or IP"); ?><!--</td>-->
+<!--                      <td colspan="2">--><?//=gettext("Bandwidth In"); ?><!--</td>-->
+<!--                      <td colspan="2">--><?//=gettext("Bandwidth Out"); ?><!--</td>-->
+<!--                      <td>--><?//=gettext("Total In"); ?><!--</td>-->
+<!--                      <td>--><?//=gettext("Total Out"); ?><!--</td>-->
+<!--                 </tr>-->
                   <tr>
-                      <td><?=empty($pconfig['hostipformat']) ? gettext("Host IP") : gettext("Host Name or IP"); ?></td>
-                      <td colspan="2"><?=gettext("Bandwidth In"); ?></td>
-                      <td colspan="2"><?=gettext("Bandwidth Out"); ?></td>
-                      <td><?=gettext("Total In"); ?></td>
-                      <td><?=gettext("Total Out"); ?></td>
+                      <td><?=empty($pconfig['hostipformat']) ? gettext("IP của máy") : gettext("Tên Host hoặc IP của máy"); ?></td>
+                      <td colspan="2"><?=gettext("Băng thông vào"); ?></td>
+                      <td colspan="2"><?=gettext("Băng thông ra"); ?></td>
+                      <td><?=gettext("Tổng vào"); ?></td>
+                      <td><?=gettext("Tổng ra"); ?></td>
                  </tr>
                 </thead>
                 <tbody id="bandwidth_details">
