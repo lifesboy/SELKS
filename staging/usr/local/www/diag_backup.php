@@ -347,22 +347,27 @@ $( document ).ready(function() {
           <div class="content-box tab-content table-responsive __mb">
             <table class="table table-striped">
                 <tr>
-                  <td><strong><?= gettext('Download') ?></strong></td>
+<!--                  <td><strong>--><?//= gettext('Download') ?><!--</strong></td>-->
+                  <td><strong><?= gettext('Tải về') ?></strong></td>
                 </tr>
                 <tr>
                   <td>
                     <input name="donotbackuprrd" type="checkbox" id="dotnotbackuprrd" checked="checked" />
-                    <?=gettext("Do not backup RRD data."); ?><br/>
+<!--                    --><?//=gettext("Do not backup RRD data."); ?><!--<br/>-->
+                    <?=gettext("Không sao lưu dữ liệu RRD."); ?><br/>
                     <input name="encrypt" type="checkbox" id="encryptconf" />
-                    <?=gettext("Encrypt this configuration file."); ?><br/>
+<!--                    --><?//=gettext("Encrypt this configuration file."); ?><!--<br/>-->
+                    <?=gettext("Mã hóa file cấu hình này."); ?><br/>
                     <div class="hidden table-responsive __mt" id="encrypt_opts">
                       <table class="table table-condensed">
                         <tr>
-                          <td><?= gettext('Password') ?></td>
+<!--                          <td>--><?//= gettext('Password') ?><!--</td>-->
+                          <td><?= gettext('Mật khẩu') ?></td>
                           <td><input name="encrypt_password" type="password"/></td>
                         </tr>
                         <tr>
-                          <td><?= gettext('Confirmation') ?></td>
+<!--                          <td>--><?//= gettext('Confirmation') ?><!--</td>-->
+                          <td><?= gettext('Xác nhận mật khẩu mới') ?></td>
                           <td><input name="encrypt_passconf" type="password"/> </td>
                         </tr>
                       </table>
@@ -371,12 +376,14 @@ $( document ).ready(function() {
                 </tr>
                 <tr>
                   <td>
-                    <input name="download" type="submit" class="btn btn-primary" value="<?= html_safe(gettext('Download configuration')) ?>" />
+<!--                    <input name="download" type="submit" class="btn btn-primary" value="--><?//= html_safe(gettext('Download configuration')) ?><!--" />-->
+                    <input name="download" type="submit" class="btn btn-primary" value="<?= html_safe(gettext('Tải về cấu hình')) ?>" />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <?=gettext("Click this button to download the system configuration in XML format."); ?>
+<!--                    --><?//=gettext("Click this button to download the system configuration in XML format."); ?>
+                    <?=gettext("Bấm vào đây để tải về cấu hình hệ thống định dạng XML."); ?>
                   </td>
                 </tr>
             </table>
@@ -384,11 +391,13 @@ $( document ).ready(function() {
           <div class="content-box tab-content table-responsive __mb">
             <table class="table table-striped">
                 <tr>
-                  <td><strong><?= gettext('Restore') ?></strong></td>
+<!--                  <td><strong>--><?//= gettext('Restore') ?><!--</strong></td>-->
+                  <td><strong><?= gettext('Khôi phục') ?></strong></td>
                 </tr>
                 <tr>
                   <td>
-                    <?=gettext("Restore area:"); ?>
+<!--                    --><?//=gettext("Restore area:"); ?>
+                    <?=gettext("Phạm vi khôi phục:"); ?>
                     <div>
                       <select name="restorearea" id="restorearea" class="selectpicker">
                         <option value=""><?=gettext("ALL");?></option>
@@ -401,13 +410,16 @@ $( document ).ready(function() {
                     </div>
                     <input name="conffile" type="file" id="conffile" /><br/>
                     <input name="rebootafterrestore" type="checkbox" id="rebootafterrestore" checked="checked" />
-                    <?=gettext("Reboot after a successful restore."); ?><br/>
+<!--                    --><?//=gettext("Reboot after a successful restore."); ?><!--<br/>-->
+                    <?=gettext("Khởi động lại sau khi khôi phục thành công."); ?><br/>
                     <input name="decrypt" type="checkbox" id="decryptconf"/>
-                    <?=gettext("Configuration file is encrypted."); ?>
+<!--                    --><?//=gettext("Configuration file is encrypted."); ?>
+                    <?=gettext("File cấu hình này đã được mã hóa."); ?>
                     <div class="hidden table-responsive __mt" id="decrypt_opts">
                       <table class="table table-condensed">
                         <tr>
-                          <td><?= gettext('Password') ?></td>
+<!--                          <td>--><?//= gettext('Password') ?><!--</td>-->
+                          <td><?= gettext('Mật khẩu') ?></td>
                           <td><input name="decrypt_password" type="password"/></td>
                         </tr>
                       </table>
@@ -416,12 +428,14 @@ $( document ).ready(function() {
                 </tr>
                 <tr>
                   <td>
-                    <input name="restore" type="submit" class="btn btn-primary" id="restore" value="<?= html_safe(gettext('Restore configuration')) ?>" />
+<!--                    <input name="restore" type="submit" class="btn btn-primary" id="restore" value="--><?//= html_safe(gettext('Restore configuration')) ?><!--" />-->
+                    <input name="restore" type="submit" class="btn btn-primary" id="restore" value="<?= html_safe(gettext('Khôi phục cấu hình')) ?>" />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <?=gettext("Open a configuration XML file and click the button below to restore the configuration."); ?><br/>
+<!--                    --><?//=gettext("Open a configuration XML file and click the button below to restore the configuration."); ?><!--<br/>-->
+                    <?=gettext("Mở một file cấu hình có định dạng XML và bấm vào nút bên dưới để khôi phục cấu hình."); ?><br/>
                   </td>
                 </tr>
             </table>
