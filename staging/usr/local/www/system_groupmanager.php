@@ -80,7 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit;
     } elseif (isset($pconfig['save'])) {
         $reqdfields = explode(" ", "name");
-        $reqdfieldsn = array(gettext("Group Name"));
+//        $reqdfieldsn = array(gettext("Group Name"));
+        $reqdfieldsn = array(gettext("Tên nhóm người dùng"));
 
         do_input_validation($pconfig, $reqdfields, $reqdfieldsn, $input_errors);
 
@@ -358,8 +359,10 @@ $( document ).ready(function() {
               <tr>
                 <td></td>
                 <td>
-                  <input name="save" id="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
-                  <input type="button" class="btn btn-default" value="<?=html_safe(gettext("Cancel"));?>" onclick="window.location.href='/system_groupmanager.php'" />
+<!--                  <input name="save" id="save" type="submit" class="btn btn-primary" value="--><?//=html_safe(gettext('Save'));?><!--" />-->
+<!--                  <input type="button" class="btn btn-default" value="--><?//=html_safe(gettext("Cancel"));?><!--" onclick="window.location.href='/system_groupmanager.php'" />-->
+                  <input name="save" id="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Lưu lại'));?>" />
+                  <input type="button" class="btn btn-default" value="<?=html_safe(gettext("Huỷ bỏ"));?>" onclick="window.location.href='/system_groupmanager.php'" />
 <?php
                   if (isset($id)) :?>
                   <input name="id" type="hidden" value="<?=htmlspecialchars($id);?>" />
@@ -378,10 +381,16 @@ $( document ).ready(function() {
             <input type="hidden" id="groupname" name="groupname" value="" />
             <table class="table table-striped">
               <thead>
+<!--                <tr>-->
+<!--                  <th>--><?//=gettext("Group name");?><!--</th>-->
+<!--                  <th>--><?//=gettext("Member Count");?><!--</th>-->
+<!--                  <th>--><?//=gettext("Description");?><!--</th>-->
+<!--                  <th class="text-nowrap"></th>-->
+<!--                </tr>-->
                 <tr>
-                  <th><?=gettext("Group name");?></th>
-                  <th><?=gettext("Member Count");?></th>
-                  <th><?=gettext("Description");?></th>
+                  <th><?=gettext("Tên nhóm người dùng");?></th>
+                  <th><?=gettext("Số lượng thành viên");?></th>
+                  <th><?=gettext("Mô tả");?></th>
                   <th class="text-nowrap"></th>
                 </tr>
               </thead>
@@ -401,14 +410,23 @@ $( document ).ready(function() {
                   <td><?=!empty($group['member']) ? count($group['member']) : 0; ?></td>
                   <td><?=$group['description'];?></td>
                   <td class="text-nowrap">
+<!--                    <a href="system_groupmanager.php?act=edit&groupid=--><?//=$i?><!--"-->
+<!--                       class="btn btn-default btn-xs" data-toggle="tooltip" title="--><?//= html_safe(gettext('Edit')) ?><!--">-->
+<!--                        <span class="fa fa-pencil fa-fw"></span>-->
+<!--                    </a>-->
                     <a href="system_groupmanager.php?act=edit&groupid=<?=$i?>"
-                       class="btn btn-default btn-xs" data-toggle="tooltip" title="<?= html_safe(gettext('Edit')) ?>">
+                       class="btn btn-default btn-xs" data-toggle="tooltip" title="<?= html_safe(gettext('Sửa')) ?>">
                         <span class="fa fa-pencil fa-fw"></span>
                     </a>
 <?php if ($group['scope'] != 'system'): ?>
+<!--                    <button type="button" class="btn btn-default btn-xs act-del-group"-->
+<!--                        data-groupname="--><?//=$group['name'];?><!--"-->
+<!--                        data-groupid="--><?//=$i?><!--" title="--><?//= html_safe(gettext('Delete')) ?><!--" data-toggle="tooltip">-->
+<!--                      <span class="fa fa-trash fa-fw"></span>-->
+<!--                    </button>-->
                     <button type="button" class="btn btn-default btn-xs act-del-group"
                         data-groupname="<?=$group['name'];?>"
-                        data-groupid="<?=$i?>" title="<?= html_safe(gettext('Delete')) ?>" data-toggle="tooltip">
+                        data-groupid="<?=$i?>" title="<?= html_safe(gettext('Xoá')) ?>" data-toggle="tooltip">
                       <span class="fa fa-trash fa-fw"></span>
                     </button>
 <?php endif ?>
@@ -422,9 +440,11 @@ $( document ).ready(function() {
                         <td></td>
                         <td style="width:20px"></td>
                         <td style="width:20px"><span class="fa fa-user text-danger"></span></td>
-                        <td style="width:200px"><?= gettext('Superuser group') ?></td>
+<!--                        <td style="width:200px">--><?//= gettext('Superuser group') ?><!--</td>-->
+                        <td style="width:200px"><?= gettext('Nhóm quản trị superuser') ?></td>
                         <td style="width:20px"><span class="fa fa-user text-info"></span></td>
-                        <td style="width:200px"><?= gettext('Normal group') ?></td>
+<!--                        <td style="width:200px">--><?//= gettext('Normal group') ?><!--</td>-->
+                        <td style="width:200px"><?= gettext('Nhóm thông thường') ?></td>
                         <td></td>
                       </tr>
                     </table>
