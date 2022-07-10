@@ -217,21 +217,25 @@ include("fbegin.inc");
               <table class="table table-striped">
                 <tbody>
                   <tr>
-                    <td colspan="2"><strong><?= gettext('Backup Count') ?></strong></td>
+<!--                    <td colspan="2"><strong>--><?//= gettext('Backup Count') ?><!--</strong></td>-->
+                    <td colspan="2"><strong><?= gettext('Số lần sao lưu') ?></strong></td>
                   </tr>
                   <tr>
                     <td>
                       <input name="backupcount" type="text" class="formfld unknown" size="5"
                         value="<?= html_safe($pconfig['backupcount']) ?>"/>
                     </td>
-                    <td><?= gettext("Enter the number of older configurations to keep in the local backup cache."); ?></td>
+<!--                    <td>--><?//= gettext("Enter the number of older configurations to keep in the local backup cache."); ?><!--</td>-->
+                    <td><?= gettext("Nhập số lượng cấu hình sao lưu cũ hơn được lưu trong bộ đệm sao lưu cục bộ."); ?></td>
                   </tr>
                   <tr>
                     <td>
-                      <input name="save" type="submit" class="btn btn-primary" value="<?= html_safe(gettext('Save')) ?>"/>
+<!--                      <input name="save" type="submit" class="btn btn-primary" value="--><?//= html_safe(gettext('Save')) ?><!--"/>-->
+                      <input name="save" type="submit" class="btn btn-primary" value="<?= html_safe(gettext('Lưu lại')) ?>"/>
                     </td>
                     <td>
-                      <?= gettext('Be aware of how much space is consumed by backups before adjusting this value.'); ?>
+<!--                      --><?//= gettext('Be aware of how much space is consumed by backups before adjusting this value.'); ?>
+                      <?= gettext('Lưu ý về lượng dung lượng được sử dụng bởi các bản sao lưu trước khi điều chỉnh giá trị này. Không gian hiện tại được sử dụng:'); ?>
 <?php if (isset($confvers) && count($confvers) > 0): ?>
                       <?= gettext('Current space used:') . ' ' . exec("/usr/bin/du -sh /conf/backup | /usr/bin/awk '{print $1;}'") ?>
 <?php endif ?>
@@ -286,27 +290,37 @@ include("fbegin.inc");
               <table class="table table-striped">
                 <tbody>
                   <tr>
-                    <td colspan="2"><strong><?= gettext('History') ?></strong></td>
+<!--                    <td colspan="2"><strong>--><?//= gettext('History') ?><!--</strong></td>-->
+                    <td colspan="2"><strong><?= gettext('Lịch sử') ?></strong></td>
                   </tr>
                   <tr>
                     <td>
                         <button type="submit" name="diff" class="btn btn-primary pull-left" value="Diff">
-                        <?= gettext('View differences'); ?>
+<!--                        --><?//= gettext('View differences'); ?>
+                        <?= gettext('Xem khác biệt'); ?>
                         </button>
                     </td>
                     <td>
-                      <?= gettext("To view the differences between an older configuration and a newer configuration, select the older configuration using the left column of radio options and select the newer configuration in the right column, then press the button."); ?>
+<!--                      --><?//= gettext("To view the differences between an older configuration and a newer configuration, select the older configuration using the left column of radio options and select the newer configuration in the right column, then press the button."); ?>
+                      <?= gettext("Để xem sự khác biệt giữa cấu hình cũ hơn và cấu hình mới hơn, hãy chọn cấu hình cũ hơn bằng cách sử dụng cột tùy chọn radio bên trái và chọn cấu hình mới hơn ở cột bên phải, sau đó nhấn nút."); ?>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <table class="table table-striped">
                 <tbody>
+<!--                  <tr>-->
+<!--                    <th colspan="2">--><?//= gettext("Diff"); ?><!--</th>-->
+<!--                    <th>--><?//= gettext("Date"); ?><!--</th>-->
+<!--                    <th>--><?//= gettext("Size"); ?><!--</th>-->
+<!--                    <th>--><?//= gettext("Configuration Change"); ?><!--</th>-->
+<!--                    <th class="text-nowrap"></th>-->
+<!--                  </tr>-->
                   <tr>
-                    <th colspan="2"><?= gettext("Diff"); ?></th>
-                    <th><?= gettext("Date"); ?></th>
-                    <th><?= gettext("Size"); ?></th>
-                    <th><?= gettext("Configuration Change"); ?></th>
+                    <th colspan="2"><?= gettext("Khác biệt"); ?></th>
+                    <th><?= gettext("Ngày"); ?></th>
+                    <th><?= gettext("Kích thước"); ?></th>
+                    <th><?= gettext("Thay đổi cấu hình"); ?></th>
                     <th class="text-nowrap"></th>
                   </tr>
                   <tr>
@@ -317,7 +331,8 @@ include("fbegin.inc");
                     <td><?= date(gettext("n/j/y H:i:s"), $config['revision']['time']) ?></td>
                     <td><?= format_bytes(filesize("/conf/config.xml")) ?></td>
                     <td><?= html_safe($config['revision']['username'])?>: <?=html_safe($config['revision']['description']); ?></td>
-                    <td class="text-nowrap"><strong><?= gettext("Current"); ?></strong></td>
+<!--                    <td class="text-nowrap"><strong>--><?//= gettext("Current"); ?><!--</strong></td>-->
+                    <td class="text-nowrap"><strong><?= gettext("Hiện tại"); ?></strong></td>
                   </tr>
 <?php $last = count($confvers); $curr = 1; foreach ($confvers as $version): ?>
                   <tr>
