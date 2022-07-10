@@ -16,24 +16,24 @@
         <Traffic VisibleName="Lưu lượng mạng" url="/status_graph.php" cssClass="fa fa-line-chart fa-fw"/>
     </Reporting>
     <System VisibleName="Hệ thống" order="20" cssClass="fa fa-server">
-        <Access cssClass="fa fa-users fa-fw">
-            <Users order="10" url="/system_usermanager.php">
+        <Access VisibleName="Truy  cập" cssClass="fa fa-users fa-fw">
+            <Users VisibleName="Người dùng" order="10" url="/system_usermanager.php">
                 <All url="/system_usermanager.php*" visibility="hidden"/>
                 <Privileges url="/system_usermanager_addprivs.php?user*" visibility="hidden"/>
             </Users>
-            <Groups order="20" url="/system_groupmanager.php">
+            <Groups VisibleName="Nhóm người dùng" order="20" url="/system_groupmanager.php">
                 <All url="/system_groupmanager.php*" visibility="hidden"/>
                 <Privileges url="/system_usermanager_addprivs.php?group*" visibility="hidden"/>
             </Groups>
-            <Servers order="30" url="/system_authservers.php">
+            <Servers VisibleName="Máy chủ" order="30" url="/system_authservers.php">
                 <Edit url="/system_authservers.php*" visibility="hidden"/>
             </Servers>
-            <Tester order="40" url="/diag_authentication.php"/>
+            <Tester VisibleName="Người kiểm thử" order="40" url="/diag_authentication.php"/>
         </Access>
-        <Configuration cssClass="fa fa-history fa-fw">
-            <Backups url="/diag_backup.php"/>
-            <Defaults url="/diag_defaults.php"/>
-            <History url="/diag_confbak.php">
+        <Configuration VisibleName="Cấu hình" cssClass="fa fa-history fa-fw">
+            <Backups VisibleName="Sao lưu" url="/diag_backup.php"/>
+            <Defaults VisibleName="Đặt hệ thống về mặc định" url="/diag_defaults.php"/>
+            <History VisibleName="Lịch sử" url="/diag_confbak.php">
                 <none url="/diag_confbak.php*" visibility="hidden"/>
             </History>
         </Configuration>
