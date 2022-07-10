@@ -409,7 +409,8 @@ include("head.inc");
 
 $main_buttons = array();
 if (!isset($_GET['act'])) {
-    $main_buttons[] = array('label' => gettext('Add'), 'href' => 'system_usermanager.php?act=new');
+//    $main_buttons[] = array('label' => gettext('Add'), 'href' => 'system_usermanager.php?act=new');
+    $main_buttons[] = array('label' => gettext('Thêm'), 'href' => 'system_usermanager.php?act=new');
 }
 
 ?>
@@ -964,9 +965,12 @@ $( document ).ready(function() {
                   <tr>
                     <td>&nbsp;</td>
                     <td>
-                      <button name="save" id="save" type="submit" class="btn btn-primary" value="save" /><?= gettext('Save') ?></button>
-                      <button name="save_close" id="save_close" type="submit" class="btn btn-primary" value="save_close" /><?= gettext('Save and go back') ?></button>
-                      <button name="cancel" id="cancel" type="submit" class="btn btn-default" value="cancel" /><?= gettext('Cancel') ?></button>
+<!--                      <button name="save" id="save" type="submit" class="btn btn-primary" value="save" />--><?//= gettext('Save') ?><!--</button>-->
+<!--                      <button name="save_close" id="save_close" type="submit" class="btn btn-primary" value="save_close" />--><?//= gettext('Save and go back') ?><!--</button>-->
+<!--                      <button name="cancel" id="cancel" type="submit" class="btn btn-default" value="cancel" />--><?//= gettext('Cancel') ?><!--</button>-->
+                      <button name="save" id="save" type="submit" class="btn btn-primary" value="save" /><?= gettext('Lưu lại') ?></button>
+                      <button name="save_close" id="save_close" type="submit" class="btn btn-primary" value="save_close" /><?= gettext('Lưu và trở lại') ?></button>
+                      <button name="cancel" id="cancel" type="submit" class="btn btn-default" value="cancel" /><?= gettext('Huỷ') ?></button>
 <?php
                       if (isset($id) && !empty($a_user[$id])) :?>
                       <input name="id" type="hidden" value="<?=htmlspecialchars($id);?>" />
@@ -984,10 +988,16 @@ $( document ).ready(function() {
                 <input type="hidden" id="username" name="username" value="" />
                 <table class="table table-striped">
                   <thead>
+<!--                    <tr>-->
+<!--                      <th>--><?//=gettext("Username"); ?><!--</th>-->
+<!--                      <th>--><?//=gettext("Full name"); ?><!--</th>-->
+<!--                      <th>--><?//=gettext("Groups"); ?><!--</th>-->
+<!--                      <th></th>-->
+<!--                    </tr>-->
                     <tr>
-                      <th><?=gettext("Username"); ?></th>
-                      <th><?=gettext("Full name"); ?></th>
-                      <th><?=gettext("Groups"); ?></th>
+                      <th><?=gettext("Tên đăng nhập"); ?></th>
+                      <th><?=gettext("Họ tên"); ?></th>
+                      <th><?=gettext("Nhóm người dùng"); ?></th>
                       <th></th>
                     </tr>
                   </thead>
@@ -1014,14 +1024,23 @@ $( document ).ready(function() {
                       <td><?= $userent['descr'] ?></td>
                       <td><?= implode(', ', local_user_get_groups($userent)) ?></td>
                       <td class="text-nowrap">
+<!--                        <a href="system_usermanager.php?act=edit&userid=--><?//=$i?><!--"-->
+<!--                            class="btn btn-default btn-xs" data-toggle="tooltip" title="--><?//= html_safe(gettext('Edit')) ?><!--">-->
+<!--                          <span class="fa fa-pencil fa-fw"></span>-->
+<!--                        </a>-->
                         <a href="system_usermanager.php?act=edit&userid=<?=$i?>"
-                            class="btn btn-default btn-xs" data-toggle="tooltip" title="<?= html_safe(gettext('Edit')) ?>">
+                            class="btn btn-default btn-xs" data-toggle="tooltip" title="<?= html_safe(gettext('Sửa')) ?>">
                           <span class="fa fa-pencil fa-fw"></span>
                         </a>
 <?php if ($userent['scope'] != 'system'): ?>
+<!--                        <button type="button" class="btn btn-default btn-xs act-del-user"-->
+<!--                            data-username="--><?//=$userent['name'];?><!--"-->
+<!--                            data-userid="--><?//=$i?><!--" title="--><?//= html_safe(gettext('Delete')) ?><!--" data-toggle="tooltip">-->
+<!--                          <span class="fa fa-trash fa-fw"></span>-->
+<!--                        </button>-->
                         <button type="button" class="btn btn-default btn-xs act-del-user"
                             data-username="<?=$userent['name'];?>"
-                            data-userid="<?=$i?>" title="<?= html_safe(gettext('Delete')) ?>" data-toggle="tooltip">
+                            data-userid="<?=$i?>" title="<?= html_safe(gettext('Xoá')) ?>" data-toggle="tooltip">
                           <span class="fa fa-trash fa-fw"></span>
                         </button>
 <?php endif ?>
@@ -1035,11 +1054,14 @@ $( document ).ready(function() {
                             <td></td>
                             <td style="width:20px"></td>
                             <td style="width:20px"><span class="fa fa-user text-danger"></span></td>
-                            <td style="width:200px"><?= gettext('System Administrator') ?></td>
+<!--                            <td style="width:200px">--><?//= gettext('System Administrator') ?><!--</td>-->
+                            <td style="width:200px"><?= gettext('Quản trị viên') ?></td>
                             <td style="width:20px"><span class="fa fa-user text-muted"></span></td>
-                            <td style="width:200px"><?= gettext('Disabled User') ?></td>
+<!--                            <td style="width:200px">--><?//= gettext('Disabled User') ?><!--</td>-->
+                            <td style="width:200px"><?= gettext('Người dùng không được hoạt động') ?></td>
                             <td style="width:20px"><span class="fa fa-user text-info"></span></td>
-                            <td style="width:200px"><?= gettext('Normal User') ?></td>
+<!--                            <td style="width:200px">--><?//= gettext('Normal User') ?><!--</td>-->
+                            <td style="width:200px"><?= gettext('Người dùng đang hoạt động') ?></td>
                             <td></td>
                           </tr>
                         </table>
