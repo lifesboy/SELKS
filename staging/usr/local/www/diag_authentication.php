@@ -94,7 +94,8 @@ include("head.inc");
             <table class="table table-striped opnsense_standard_table_form">
               <tbody>
                 <tr>
-                  <td style="width:22%"><?=gettext("Authentication Server"); ?></td>
+<!--                  <td style="width:22%">--><?//=gettext("Authentication Server"); ?><!--</td>-->
+                  <td style="width:22%"><?=gettext("Máy chủ xác thực"); ?></td>
                   <td style="width:78%">
                     <select class="selectpicker" name="authmode" id="authmode" >
 <?php
@@ -108,16 +109,19 @@ include("head.inc");
                   </td>
                 </tr>
                 <tr>
-                  <td style="width:22%"><?=gettext("Username"); ?></td>
+<!--                  <td style="width:22%">--><?//=gettext("Username"); ?><!--</td>-->
+                  <td style="width:22%"><?=gettext("Tài khoản username"); ?></td>
                   <td style="width:78%"><input type="text" name="username" value="<?=htmlspecialchars($pconfig['username']);?>"></td>
                 </tr>
                 <tr>
-                  <td style="width:22%"><?=gettext("Password"); ?></td>
+<!--                  <td style="width:22%">--><?//=gettext("Password"); ?><!--</td>-->
+                  <td style="width:22%"><?=gettext("Mật khẩu"); ?></td>
                   <td style="width:78%"><input type="password" name="password" value="<?=htmlspecialchars($pconfig['password']);?>"></td>
                 </tr>
                 <tr>
                   <td style="width:22%">&nbsp;</td>
-                  <td style="width:78%"><input id="save" name="save" type="submit" class="btn btn-primary" value="<?= html_safe(gettext('Test')) ?>" /></td>
+<!--                  <td style="width:78%"><input id="save" name="save" type="submit" class="btn btn-primary" value="--><?//= html_safe(gettext('Test')) ?><!--" /></td>-->
+                  <td style="width:78%"><input id="save" name="save" type="submit" class="btn btn-primary" value="<?= html_safe(gettext('Kiểm tra')) ?>" /></td>
                 </tr>
               </tbody>
             </table>
