@@ -866,7 +866,8 @@ endif; ?>
                 <tr>
                   <td>&nbsp;</td>
                   <td>
-                    <input id="submit" name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
+<!--                    <input id="submit" name="save" type="submit" class="btn btn-primary" value="--><?//=html_safe(gettext('Save'));?><!--" />-->
+                    <input id="submit" name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Lưu lại'));?>" />
 <?php if (isset($id)) :
 ?>
                     <input name="id" type="hidden" value="<?=htmlspecialchars($id);?>" />
@@ -884,10 +885,16 @@ else :
             <input type="hidden" id="overview_act" name="act">
             <table class="table table-striped">
               <thead>
+<!--                <tr>-->
+<!--                  <th>--><?//=gettext("Server Name");?><!--</th>-->
+<!--                  <th style="width:25%">--><?//=gettext("Type");?><!--</th>-->
+<!--                  <th style="width:35%">--><?//=gettext("Host Name");?><!--</th>-->
+<!--                  <th style="width:10%" class="text-nowrap"></th>-->
+<!--                </tr>-->
                 <tr>
-                  <th><?=gettext("Server Name");?></th>
-                  <th style="width:25%"><?=gettext("Type");?></th>
-                  <th style="width:35%"><?=gettext("Host Name");?></th>
+                  <th><?=gettext("Tên máy chủ");?></th>
+                  <th style="width:25%"><?=gettext("Kiểu");?></th>
+                  <th style="width:35%"><?=gettext("Tên host name");?></th>
                   <th style="width:10%" class="text-nowrap"></th>
                 </tr>
               </thead>
@@ -900,12 +907,18 @@ else :
                   <td><?= !empty($authCNFOptions[$server['type']]) ? $authCNFOptions[$server['type']]['description'] : $server['name'] ?></td>
                   <td><?= !empty($server['host']) ? $server['host'] : $config['system']['hostname'] ?></td>
                   <td class="text-nowrap">
-                    <a href="system_authservers.php?act=edit&amp;id=<?=$i;?>" title="<?= html_safe(gettext('Edit')) ?>" data-toggle="tooltip" class="btn btn-default btn-xs">
+<!--                    <a href="system_authservers.php?act=edit&amp;id=--><?//=$i;?><!--" title="--><?//= html_safe(gettext('Edit')) ?><!--" data-toggle="tooltip" class="btn btn-default btn-xs">-->
+<!--                      <i class="fa fa-pencil fa-fw"></i>-->
+<!--                    </a>-->
+                    <a href="system_authservers.php?act=edit&amp;id=<?=$i;?>" title="<?= html_safe(gettext('Sửa')) ?>" data-toggle="tooltip" class="btn btn-default btn-xs">
                       <i class="fa fa-pencil fa-fw"></i>
                     </a>
                     <?php if ($i < (count($a_server) - 1)):
 ?>
-                    <a id="del_<?=$i;?>" title="<?= html_safe(gettext('Delete')) ?>" data-toggle="tooltip" class="act_delete btn btn-default btn-xs">
+<!--                    <a id="del_--><?//=$i;?><!--" title="--><?//= html_safe(gettext('Delete')) ?><!--" data-toggle="tooltip" class="act_delete btn btn-default btn-xs">-->
+<!--                      <i class="fa fa-trash fa-fw"></i>-->
+<!--                    </a>-->
+                    <a id="del_<?=$i;?>" title="<?= html_safe(gettext('Xoá')) ?>" data-toggle="tooltip" class="act_delete btn btn-default btn-xs">
                       <i class="fa fa-trash fa-fw"></i>
                     </a>
                   </td>
