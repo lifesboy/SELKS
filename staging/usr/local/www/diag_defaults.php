@@ -74,19 +74,31 @@ $(document).ready(function() {
       <?php if (count($input_errors)) print_input_errors($input_errors); ?>
       <section class="col-xs-12">
         <form method="post">
-          <p><strong> <?=gettext('If you click "Yes", the system will:')?></strong></p>
+<!--          <p><strong> --><?//=gettext('If you click "Yes", the system will:')?><!--</strong></p>-->
+<!--          <ul>-->
+<!--            <li>--><?//= gettext('Reset to factory defaults') ?><!--</li>-->
+<!--            <li>--><?//= gettext('LAN IP address will be reset to 192.168.1.1') ?><!--</li>-->
+<!--            <li>--><?//= gettext('System will be configured as a DHCP server on the default LAN interface') ?><!--</li>-->
+<!--            <li>--><?//= gettext('WAN interface will be set to obtain an address automatically from a DHCP server') ?><!--</li>-->
+<!--            <li>--><?//= gettext('Admin user name and password will be reset') ?><!--</li>-->
+<!--            <li>--><?//= gettext('Shut down after changes are complete') ?><!--</li>-->
+<!--          </ul>-->
+          <p><strong> <?=gettext('Nếu bạn bấm chữ "Có" hệ thống sẽ:')?></strong></p>
           <ul>
-            <li><?= gettext('Reset to factory defaults') ?></li>
-            <li><?= gettext('LAN IP address will be reset to 192.168.1.1') ?></li>
-            <li><?= gettext('System will be configured as a DHCP server on the default LAN interface') ?></li>
-            <li><?= gettext('WAN interface will be set to obtain an address automatically from a DHCP server') ?></li>
-            <li><?= gettext('Admin user name and password will be reset') ?></li>
-            <li><?= gettext('Shut down after changes are complete') ?></li>
+            <li><?= gettext('Đặt lại về mặc định ban đầu') ?></li>
+            <li><?= gettext('Địa chỉ IP LAN sẽ được đặt lại thành 192.168.1.1') ?></li>
+            <li><?= gettext('Hệ thống sẽ được định cấu hình làm máy chủ DHCP trên giao diện LAN mặc định') ?></li>
+            <li><?= gettext('Giao diện WAN sẽ được thiết lập để lấy địa chỉ tự động từ máy chủ DHCP') ?></li>
+            <li><?= gettext('Tên người dùng và mật khẩu quản trị viên sẽ được đặt lại') ?></li>
+            <li><?= gettext('Tắt hệ thống sau khi thay đổi hoàn tất') ?></li>
           </ul>
-          <p><strong><?=gettext("Are you sure you want to proceed?");?></strong></p>
+<!--          <p><strong>--><?//=gettext("Are you sure you want to proceed?");?><!--</strong></p>-->
+          <p><strong><?=gettext("Bạn có chắc muốn tiếp tục?");?></strong></p>
           <div class="btn-group">
-            <input type="submit" name="Submit" class="btn btn-primary" value="<?= html_safe(gettext('Yes')) ?>" />
-            <a href="/" class="btn btn-default"><?=gettext("No");?></a>
+<!--            <input type="submit" name="Submit" class="btn btn-primary" value="--><?//= html_safe(gettext('Yes')) ?><!--" />-->
+<!--            <a href="/" class="btn btn-default">--><?//=gettext("No");?><!--</a>-->
+            <input type="submit" name="Submit" class="btn btn-primary" value="<?= html_safe(gettext('Có')) ?>" />
+            <a href="/" class="btn btn-default"><?=gettext("Không");?></a>
           </div>
         </form>
       </section>
