@@ -61,7 +61,7 @@ OPTIONS:
 EOF
 }
 
-GUI=
+GUI=no-desktop
 KERNEL_VER=
 
 while getopts “hg:k:p:” OPTION
