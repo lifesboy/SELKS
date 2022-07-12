@@ -28,7 +28,7 @@
     shared module for suricata scripts, handles the installed datasets cache for easy access
 """
 
-import fcntl
+# import fcntl
 import glob
 import os
 import os.path
@@ -40,6 +40,7 @@ from decimal import Decimal
 from hashlib import md5
 from itertools import starmap, chain, groupby
 
+import pandas as pd
 import ray
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import transaction
@@ -47,8 +48,10 @@ from django.db.models import Max, Value, F, Q
 from mlflow import ActiveRun
 from mlflow.tracking import MlflowClient
 from ray.rllib.utils.framework import try_import_tf
+from pandas import DataFrame, Series
 
 from ml.lib import dataset_source_directory
+from ml.lib import utils
 from ml.models import MetadataHistogram
 from ml.models.dataset import Dataset
 from ml.models.dataset_properties import DatasetProperties
@@ -66,6 +69,7 @@ class DatasetCache(object):
     """
     _run: ActiveRun = None
     _client: MlflowClient = None
+    processed_num: int = 0
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
@@ -77,12 +81,15 @@ class DatasetCache(object):
             self._run, self._client = common.init_experiment('dataset-cache')
 
     @staticmethod
-    def list_local():
-        all_rule_files = []
-        for filename in glob.glob('%s*/**/*.csv' % dataset_source_directory):
-            all_rule_files.append(filename)
+    def list_local() -> DataFrame:
+        input_files = common.get_data_files_by_pattern('%s*/**/*.csv' % dataset_source_directory)
+        batch_df: DataFrame = utils.get_processing_file_pattern(
+            input_files=input_files,
+            output='dataset_cache',
+            tag='dataset_cache',
+            batch_size=5)
 
-        return all_rule_files
+        return batch_df
 
     @staticmethod
     def list_local_changes():
@@ -206,6 +213,49 @@ class DatasetCache(object):
         return True
 
     # @transaction.atomic
+    def analyze(self, s: Series):
+        self.processed_num += len(s.index)
+        self._client.set_tag(run_id=self._run.info.run_id, key='processed', value=self.processed_num)
+
+        df = DataFrame(s['input_path'], columns=['input_path'])
+        df['dataset'] = df.apply(lambda i: DataFrame.from_records(self.list_datasets(i['input_path'])), axis=1)
+        try:
+            datasets = list()
+            dataset_properties = list()
+            for dataset_info_record in self.list_datasets(filename=filename):
+                if dataset_info_record['metadata'] is not None:
+                    metadata = dataset_info_record['metadata']
+                    datasets.append(Dataset(sid=metadata['sid'],
+                                            msg=metadata['msg'],
+                                            rev=metadata['rev'],
+                                            gid=metadata['gid'],
+                                            reference=metadata['reference'],
+                                            enabled=metadata['enabled'],
+                                            action=metadata['action'],
+                                            source=metadata['source'],
+                                            updated_at=metadata['metadata']['updated_at'],
+                                            created_at=metadata['metadata']['created_at']))
+                    for prop in ['classtype']:
+                        dataset_properties.append(DatasetProperties(
+                            sid=dataset_info_record['metadata']['sid'],
+                            property=prop,
+                            value=dataset_info_record['metadata'][prop]
+                        ))
+                    for prop in dataset_info_record['metadata']['metadata']:
+                        dataset_properties.append(DatasetProperties(
+                            sid=dataset_info_record['metadata']['sid'],
+                            property=prop,
+                            value=dataset_info_record['metadata']['metadata'][prop]
+                        ))
+
+            Dataset.objects.bulk_create(datasets)
+            DatasetProperties.objects.bulk_create(dataset_properties)
+        except Exception as ex:
+            print('loading fail filename=%s, %s' % (filename, ex))
+            pass
+        return None
+
+    # @transaction.atomic
     def create(self):
         """ create new cache
         :return: None
@@ -228,53 +278,16 @@ class DatasetCache(object):
         if os.path.exists(self.cachefile):
             os.remove(self.cachefile)
 
-        last_mtime = 0
-        all_rule_files = self.list_local()
+        df = self.list_local()
+        if df.index.size <= 0:
+            return
+
         self.init_experiment()
-        processed_file = 0
-        for filename in all_rule_files:
-            processed_file += 1
-            self._client.set_tag(run_id=self._run.info.run_id, key='processed', value=processed_file/len(all_rule_files))
-            try:
-                file_mtime = os.stat(filename).st_mtime
-                if file_mtime > last_mtime:
-                    last_mtime = file_mtime
-                datasets = list()
-                dataset_properties = list()
-                for dataset_info_record in self.list_datasets(filename=filename):
-                    if dataset_info_record['metadata'] is not None:
-                        metadata = dataset_info_record['metadata']
-                        datasets.append(Dataset(sid=metadata['sid'],
-                                                msg=metadata['msg'],
-                                                rev=metadata['rev'],
-                                                gid=metadata['gid'],
-                                                reference=metadata['reference'],
-                                                enabled=metadata['enabled'],
-                                                action=metadata['action'],
-                                                source=metadata['source'],
-                                                updated_at=metadata['metadata']['updated_at'],
-                                                created_at=metadata['metadata']['created_at']))
-                        for prop in ['classtype']:
-                            dataset_properties.append(DatasetProperties(
-                                sid=dataset_info_record['metadata']['sid'],
-                                property=prop,
-                                value=dataset_info_record['metadata'][prop]
-                            ))
-                        for prop in dataset_info_record['metadata']['metadata']:
-                            dataset_properties.append(DatasetProperties(
-                                sid=dataset_info_record['metadata']['sid'],
-                                property=prop,
-                                value=dataset_info_record['metadata']['metadata'][prop]
-                            ))
+        df.apply(self.analyze)
 
-                Dataset.objects.bulk_create(datasets)
-                DatasetProperties.objects.bulk_create(dataset_properties)
-            except Exception as ex:
-                print('loading fail filename=%s, %s' % (filename, ex))
-                pass
-
-        Stats(timestamp=last_mtime, files=len(all_rule_files)).save()
+        Stats(timestamp=df['st_mtime'].explode().max(), files=df.index.size).save()
         os.system('touch {}'.format(self.cachefile))
+
         # release lock
         fcntl.flock(lock, fcntl.LOCK_UN)
         # import local changes (if changed)
