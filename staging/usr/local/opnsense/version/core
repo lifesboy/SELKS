@@ -1,14 +1,14 @@
 {
-    "product_abi": "20.7",
+    "product_abi": "1.0",
     "product_arch": "amd64",
-    "product_copyright_owner": "Deciso B.V.",
-    "product_copyright_url": "https://www.deciso.com/",
-    "product_copyright_years": "2014-2020",
-    "product_email": "project@opnsense.org",
+    "product_copyright_owner": "",
+    "product_copyright_url": "https://selks.ddns.net/",
+    "product_copyright_years": "2020-2022",
+    "product_email": "project@selks.ddns.net",
     "product_flavour": "OpenSSL",
     "product_hash": "3526fcaac",
-    "product_id": "opnsense",
-    "product_name": "OPNsense",
-    "product_version": "20.7",
-    "product_website": "https://opnsense.org/"
+    "product_id": "ngfwips",
+    "product_name": "NGFWIps",
+    "product_version": "1.0",
+    "product_website": "https://selks.ddns.net/"
 }
