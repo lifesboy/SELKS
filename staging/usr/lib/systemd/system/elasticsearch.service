@@ -17,6 +17,7 @@ WorkingDirectory=/usr/share/elasticsearch
 
 User=elasticsearch
 Group=elasticsearch
+PermissionsStartOnly=true 
 
 ExecStartPre=/bin/sh -c 'mkdir -p /var/run/elasticsearch && chown elasticsearch:elasticsearch /var/run/elasticsearch'
 ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
