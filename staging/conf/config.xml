@@ -217,7 +217,7 @@
   </sysctl>
   <system>
     <optimization>normal</optimization>
-    <hostname>OPNsense</hostname>
+    <hostname>NGFWIps</hostname>
     <domain>localdomain</domain>
     <dnsallowoverride>1</dnsallowoverride>
     <group>
