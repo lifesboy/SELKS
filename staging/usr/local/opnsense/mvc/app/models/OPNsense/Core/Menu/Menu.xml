@@ -37,15 +37,15 @@
                 <none url="/diag_confbak.php*" visibility="hidden"/>
             </History>
         </Configuration>
-        <Firmware cssClass="fa fa-building-o fa-fw">
-            <Updates order="10" url="/ui/core/firmware#updates"/>
-            <Plugins order="20" url="/ui/core/firmware#plugins"/>
-            <Packages order="30" url="/ui/core/firmware#packages"/>
-            <Changelog order="40" url="/ui/core/firmware#changelog"/>
-            <Settings order="50" url="/ui/core/firmware#settings"/>
-            <Reporter order="60" url="/crash_reporter.php"/>
-            <LogFile order="100" VisibleName="Log File" url="/ui/diagnostics/log/core/pkg"/>
-        </Firmware>
+<!--        <Firmware cssClass="fa fa-building-o fa-fw">-->
+<!--            <Updates order="10" url="/ui/core/firmware#updates"/>-->
+<!--            <Plugins order="20" url="/ui/core/firmware#plugins"/>-->
+<!--            <Packages order="30" url="/ui/core/firmware#packages"/>-->
+<!--            <Changelog order="40" url="/ui/core/firmware#changelog"/>-->
+<!--            <Settings order="50" url="/ui/core/firmware#settings"/>-->
+<!--            <Reporter order="60" url="/crash_reporter.php"/>-->
+<!--            <LogFile order="100" VisibleName="Log File" url="/ui/diagnostics/log/core/pkg"/>-->
+<!--        </Firmware>-->
         <Gateways cssClass="fa fa-location-arrow fa-fw">
             <Single order="10" url="/system_gateways.php">
                 <List url="/system_gateways.php*" visibility="hidden"/>
