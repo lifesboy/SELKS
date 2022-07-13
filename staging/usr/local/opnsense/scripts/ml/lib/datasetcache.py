@@ -218,40 +218,40 @@ class DatasetCache(object):
         self._client.set_tag(run_id=self._run.info.run_id, key='processed', value=self.processed_num)
 
         df = DataFrame(s['input_path'], columns=['input_path'])
-        df['dataset'] = df.apply(lambda i: DataFrame.from_records(self.list_datasets(i['input_path'])), axis=1)
-        try:
-            datasets = list()
-            dataset_properties = list()
-            for dataset_info_record in self.list_datasets(filename=filename):
-                if dataset_info_record['metadata'] is not None:
-                    metadata = dataset_info_record['metadata']
-                    datasets.append(Dataset(sid=metadata['sid'],
-                                            msg=metadata['msg'],
-                                            rev=metadata['rev'],
-                                            gid=metadata['gid'],
-                                            reference=metadata['reference'],
-                                            enabled=metadata['enabled'],
-                                            action=metadata['action'],
-                                            source=metadata['source'],
-                                            updated_at=metadata['metadata']['updated_at'],
-                                            created_at=metadata['metadata']['created_at']))
-                    for prop in ['classtype']:
-                        dataset_properties.append(DatasetProperties(
-                            sid=dataset_info_record['metadata']['sid'],
-                            property=prop,
-                            value=dataset_info_record['metadata'][prop]
-                        ))
-                    for prop in dataset_info_record['metadata']['metadata']:
-                        dataset_properties.append(DatasetProperties(
-                            sid=dataset_info_record['metadata']['sid'],
-                            property=prop,
-                            value=dataset_info_record['metadata']['metadata'][prop]
-                        ))
 
-            Dataset.objects.bulk_create(datasets)
-            DatasetProperties.objects.bulk_create(dataset_properties)
+        try:
+            df['dataset'] = df.apply(lambda i: DataFrame.from_records(self.list_datasets(i['input_path'])), axis=1)
+            datasets = df.explode('dataset')
+            datasets = datasets[datasets['metadata'] is not None]
+            datasets['entity'] = datasets['metadata'].apply(lambda i: Dataset(
+                sid=i['sid'],
+                msg=i['msg'],
+                rev=i['rev'],
+                gid=i['gid'],
+                reference=i['reference'],
+                enabled=i['enabled'],
+                action=i['action'],
+                source=i['source'],
+                updated_at=i['metadata']['updated_at'],
+                created_at=i['metadata']['created_at']
+            ))
+
+            classtype_properties = datasets['metadata'].apply(lambda i: DatasetProperties(
+                sid=i['sid'],
+                property='classtype',
+                value=i['classtype']
+            ))
+            dataset_properties = datasets['metadata'].apply(lambda i: DatasetProperties(
+                sid=i['sid'],
+                property=i,
+                value=i['metadata'][i]
+            ))
+
+            Dataset.objects.bulk_create(datasets['entity'].values)
+            DatasetProperties.objects.bulk_create(classtype_properties.values)
+            DatasetProperties.objects.bulk_create(dataset_properties.values)
         except Exception as ex:
-            print('loading fail filename=%s, %s' % (filename, ex))
+            print('loading fail filename=%s, %s' % (df['input_path'], ex))
             pass
         return None
 
