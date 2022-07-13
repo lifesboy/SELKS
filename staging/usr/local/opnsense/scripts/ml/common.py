@@ -88,3 +88,7 @@ def get_data_featured_extracted_files_by_pattern(pattern: str):
 
 def get_data_normalized_labeled_files_by_pattern(pattern: str):
     return glob.glob(DATA_NORMALIZED_LABELED_DIR + pattern)
+
+
+def get_data_files_by_pattern(pattern: str):
+    return glob.glob(pattern)
