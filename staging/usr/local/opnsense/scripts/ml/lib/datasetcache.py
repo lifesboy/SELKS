@@ -189,12 +189,8 @@ class DatasetCache(object):
         :return: boolean
         """
         if os.path.exists(self.cachefile):
-            last_mtime = 0
-            all_rule_files = self.list_local()
-            for filename in all_rule_files:
-                file_mtime = os.stat(filename).st_mtime
-                if file_mtime > last_mtime:
-                    last_mtime = file_mtime
+            df = self.list_local()
+            # last_mtime = df['st_mtime'].explode().max()
 
             try:
                 # guarantee table is created in db
@@ -203,10 +199,11 @@ class DatasetCache(object):
                 LocalDatasetChanges.objects.exists()
                 Stats.objects.exists()
 
-                stats = Stats.objects.aggregate(Max('timestamp'), Max('files'))
+                # stats = Stats.objects.aggregate(Max('timestamp'), Max('files'))
 
-                return (Decimal(last_mtime).quantize(0) != stats['timestamp__max'].quantize(0)
-                        or len(all_rule_files) != stats['files__max'])
+                # return (Decimal(last_mtime).quantize(0) != stats['timestamp__max'].quantize(0)
+                #         or len(all_rule_files) != stats['files__max'])
+                return df.index.size > 0
             except Exception:
                 # if some reason the cache is unreadble, continue and report changed
                 pass
