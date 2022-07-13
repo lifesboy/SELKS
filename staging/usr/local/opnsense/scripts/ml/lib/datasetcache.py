@@ -241,11 +241,15 @@ class DatasetCache(object):
                 property='classtype',
                 value=i['classtype']
             ))
-            dataset_properties = datasets['metadata'].apply(lambda i: DatasetProperties(
+            dataset_properties = datasets['metadata'].apply(lambda i: list(map(lambda p: DatasetProperties(
                 sid=i['sid'],
-                property=i,
-                value=i['metadata'][i]
-            ))
+                property=p,
+                value=i['metadata'][p]
+            ), i['metadata']))).explode()
+
+            print('entities: %s' % datasets['entity'].values)
+            print('classtype_properties: %s' % classtype_properties.values)
+            print('dataset_properties: %s' % dataset_properties.values)
 
             Dataset.objects.bulk_create(datasets['entity'].values)
             DatasetProperties.objects.bulk_create(classtype_properties.values)
