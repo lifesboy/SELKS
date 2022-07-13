@@ -190,7 +190,7 @@ class DatasetCache(object):
         """
         if os.path.exists(self.cachefile):
             df = self.list_local()
-            # last_mtime = df['st_mtime'].explode().max()
+            last_mtime = df['st_mtime'].explode().max()
 
             try:
                 # guarantee table is created in db
@@ -199,11 +199,10 @@ class DatasetCache(object):
                 LocalDatasetChanges.objects.exists()
                 Stats.objects.exists()
 
-                # stats = Stats.objects.aggregate(Max('timestamp'), Max('files'))
+                stats = Stats.objects.aggregate(Max('timestamp'), Max('files'))
 
-                # return (Decimal(last_mtime).quantize(0) != stats['timestamp__max'].quantize(0)
-                #         or len(all_rule_files) != stats['files__max'])
-                return df.index.size > 0
+                return (Decimal(last_mtime).quantize(0) != stats['timestamp__max'].quantize(0)
+                        or len(all_rule_files) != stats['files__max'])
             except Exception:
                 # if some reason the cache is unreadble, continue and report changed
                 pass
