@@ -28,7 +28,7 @@
     shared module for suricata scripts, handles the installed datasets cache for easy access
 """
 
-# import fcntl
+import fcntl
 import glob
 import os
 import os.path
