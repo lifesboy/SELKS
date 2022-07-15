@@ -283,7 +283,7 @@ class DatasetCache(object):
             return
 
         self.init_experiment()
-        df.apply(self.analyze)
+        df.apply(self.analyze, axis=1)
 
         Stats(timestamp=df['st_mtime'].explode().max(), files=df.index.size).save()
         os.system('touch {}'.format(self.cachefile))
