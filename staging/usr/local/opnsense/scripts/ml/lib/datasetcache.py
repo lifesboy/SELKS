@@ -73,7 +73,7 @@ class DatasetCache(object):
     batches_processed: int = 0
     batches_success: int = 0
 
-    data_sources: str = '%s*/**/*.csv'
+    data_sources: str = '*/**/*.csv'
     sources_success: int = 0
     sources_fail: [] = []
 
@@ -88,7 +88,7 @@ class DatasetCache(object):
 
     @staticmethod
     def list_local(data_sources: str, batch_size: int = 100) -> DataFrame:
-        input_files = common.get_data_files_by_pattern(data_sources % dataset_source_directory)
+        input_files = common.get_data_files_by_pattern('%s%s' % (dataset_source_directory, data_sources))
         batch_df: DataFrame = utils.get_processing_file_pattern(
             input_files=input_files,
             output='dataset_cache',
