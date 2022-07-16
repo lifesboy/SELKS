@@ -91,7 +91,7 @@ class DatasetCache(object):
         input_files = common.get_data_files_by_pattern('%s%s' % (dataset_source_directory, data_sources))
         batch_df: DataFrame = utils.get_processing_file_pattern(
             input_files=input_files,
-            output='dataset_cache',
+            output='%sdataset_cache' % dataset_source_directory,
             tag='dataset_cache',
             batch_size=batch_size)
 
