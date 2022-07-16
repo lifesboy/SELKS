@@ -98,7 +98,7 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
         utils.marked_done(df['marked_done_path'])
         log.info('sniffing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
         batches_success += 1
-        sources_success += df['input_path'].index.size
+        sources_success += len(df['input_path'])
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
     except Exception as e:
