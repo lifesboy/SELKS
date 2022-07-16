@@ -225,7 +225,7 @@ class DatasetCache(object):
         return True
 
     # @transaction.atomic
-    def analyze(self, s: Series):
+    def analyze(self, s: DataFrame):
         self.batches_processed += 1
         self._client.log_metric(run_id=self._run.info.run_id, key='batches_processed', value=self.batches_processed)
 
@@ -275,7 +275,7 @@ class DatasetCache(object):
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_entities', value=len(entities))
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_properties', value=len(classtype_properties) + len(dataset_properties))
 
-            utils.marked_done(df['marked_done_path'])
+            utils.marked_done(s['marked_done_path'])
         except Exception as ex:
             print('loading fail filename=%s, %s' % (df['input_path'].values, ex))
             pass
