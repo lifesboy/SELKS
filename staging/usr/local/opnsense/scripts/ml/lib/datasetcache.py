@@ -87,7 +87,7 @@ class DatasetCache(object):
             input_files=input_files,
             output='dataset_cache',
             tag='dataset_cache',
-            batch_size=5)
+            batch_size=100)
 
         return batch_df
 
