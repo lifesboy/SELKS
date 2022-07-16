@@ -56,13 +56,23 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         parent_run_id = ''  # run.info.run_id
 
         self.processed_num = 0
+        self.row_normed_num = 0
         self.run, self.client = common.init_tracking('data-processor')
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=parent_run_id)
 
     def __call__(self, batch: DataFrame) -> DataFrame:
         self.processed_num += len(batch.index)
         self.client.log_metric(run_id=self.run.info.run_id, key="row", value=self.processed_num)
-        return self.preprocess(batch)
+        self.client.log_metric(run_id=self.run.info.run_id, key='features_num', value=len(batch.columns))
+        self.client.set_tag(run_id=self.run.info.run_id, key='features', value=batch.columns.tolist())
+
+        preprocessed = self.preprocess(batch)
+
+        self.row_normed_num += len(preprocessed.index)
+        self.client.log_metric(run_id=self.run.info.run_id, key='row_normed_num', value=len(self.row_normed_num))
+        self.client.log_metric(run_id=self.run.info.run_id, key='features_normed_num', value=len(preprocessed.columns))
+        self.client.set_tag(run_id=self.run.info.run_id, key='features_normed', value=preprocessed.columns.tolist())
+        return preprocessed
 
     @mlflow_mixin
     def preprocess(self, df: DataFrame) -> DataFrame:
