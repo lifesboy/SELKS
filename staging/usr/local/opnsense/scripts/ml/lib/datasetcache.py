@@ -186,7 +186,7 @@ class DatasetCache(object):
         except Exception as e:
             self.fail_sources = self.fail_sources + [filename]
             self._client.set_tag(run_id=self._run.info.run_id, key='fail_sources_num', value=len(self.fail_sources))
-            self._client.log_param(run_id=self._run.info.run_id, key='fail_sources', value=self.fail_sources)
+            self._client.set_tag(run_id=self._run.info.run_id, key='fail_sources', value=self.fail_sources)
             pass
 
         # yield dataset_info_record
