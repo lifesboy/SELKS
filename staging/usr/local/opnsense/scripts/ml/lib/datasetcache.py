@@ -226,7 +226,7 @@ class DatasetCache(object):
 
     # @transaction.atomic
     def analyze(self, s: Series):
-        self.batches_processed += len(s.index)
+        self.batches_processed += 1
         self._client.log_metric(run_id=self._run.info.run_id, key='batches_processed', value=self.batches_processed)
 
         df = DataFrame(s['input_path'], columns=['input_path'])
@@ -270,7 +270,7 @@ class DatasetCache(object):
             DatasetProperties.objects.bulk_create(classtype_properties)
             DatasetProperties.objects.bulk_create(dataset_properties)
 
-            self.batches_success += len(s.index)
+            self.batches_success += 1
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_success', value=self.batches_success)
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_entities', value=len(entities))
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_properties', value=len(classtype_properties) + len(dataset_properties))
