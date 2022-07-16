@@ -298,17 +298,18 @@ class DatasetCache(object):
             fcntl.flock(lock, fcntl.LOCK_UN)
             return
 
-        # remove existing data
-        Dataset.objects.all().delete()
-        DatasetProperties.objects.all().delete()
-        Stats.objects.all().delete()
-        LocalDatasetChanges.objects.all().delete()
-        if os.path.exists(self.cachefile):
-            os.remove(self.cachefile)
 
         df = self.list_local(self.data_sources, self.batch_size)
         if df.index.size <= 0:
             return
+
+        # remove existing data
+        # os.remove(self.cachefile)
+        if not os.path.exists(self.cachefile):
+            Dataset.objects.all().delete()
+            DatasetProperties.objects.all().delete()
+            Stats.objects.all().delete()
+            LocalDatasetChanges.objects.all().delete()
 
         data_source_files = [i for j in df['input_path'].values for i in j]
 
@@ -322,7 +323,8 @@ class DatasetCache(object):
         df.apply(self.analyze, axis=1)
 
         Stats(timestamp=df['st_mtime'].explode().max(), files=df.index.size).save()
-        os.system('touch {}'.format(self.cachefile))
+        if not os.path.exists(self.cachefile):
+            os.system('touch {}'.format(self.cachefile))
 
         # release lock
         fcntl.flock(lock, fcntl.LOCK_UN)
