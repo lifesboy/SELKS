@@ -182,7 +182,8 @@ class DatasetCache(object):
 
             dataset_info_record['metadata'] = record
 
-        yield dataset_info_record
+        # yield dataset_info_record
+        return dataset_info_record
 
     def is_changed(self):
         """ check if datasets on disk are probably different from datasets in cache
