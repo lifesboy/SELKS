@@ -73,7 +73,7 @@ class DatasetCache(object):
     batches_processed: int = 0
     batches_success: int = 0
 
-    data_sources: str = '%s*/**/*.csv'
+    data_sources: str = '*/**/*.csv'
     sources_success: int = 0
     sources_fail: [] = []
 
@@ -88,7 +88,7 @@ class DatasetCache(object):
 
     @staticmethod
     def list_local(data_sources: str, batch_size: int = 100) -> DataFrame:
-        input_files = common.get_data_files_by_pattern(data_sources % dataset_source_directory)
+        input_files = common.get_data_files_by_pattern('%s%s' % (dataset_source_directory, data_sources))
         batch_df: DataFrame = utils.get_processing_file_pattern(
             input_files=input_files,
             output='dataset_cache',
@@ -226,10 +226,10 @@ class DatasetCache(object):
 
     # @transaction.atomic
     def analyze(self, s: Series):
-        self.batches_processed += len(s.index)
+        self.batches_processed += 1
         self._client.log_metric(run_id=self._run.info.run_id, key='batches_processed', value=self.batches_processed)
 
-        df = DataFrame(s['input_path'], columns=['input_path'])
+        df = DataFrame(s['input_path', 'marked_done_path'], columns=['input_path', 'marked_done_path'])
 
         try:
             df['dataset'] = df.apply(lambda i: self.list_datasets(i['input_path']), axis=1)
@@ -270,10 +270,12 @@ class DatasetCache(object):
             DatasetProperties.objects.bulk_create(classtype_properties)
             DatasetProperties.objects.bulk_create(dataset_properties)
 
-            self.batches_success += len(s.index)
+            self.batches_success += 1
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_success', value=self.batches_success)
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_entities', value=len(entities))
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_properties', value=len(classtype_properties) + len(dataset_properties))
+
+            utils.marked_done(df['marked_done_path'])
         except Exception as ex:
             print('loading fail filename=%s, %s' % (df['input_path'].values, ex))
             pass
