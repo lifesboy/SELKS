@@ -293,7 +293,12 @@ class DatasetCache(object):
         if df.index.size <= 0:
             return
 
+        data_source_files = [i for j in df['input_path'].values for i in j]
+
         self.init_experiment()
+        self._client.log_param(run_id=self._run.info.run_id, key='data_sources', value=data_source_files)
+        self._client.log_param(run_id=self._run.info.run_id, key='data_sources_num', value=len(data_source_files))
+
         df.apply(self.analyze, axis=1)
 
         Stats(timestamp=df['st_mtime'].explode().max(), files=df.index.size).save()
