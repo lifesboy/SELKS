@@ -229,7 +229,7 @@ class DatasetCache(object):
         self.batches_processed += 1
         self._client.log_metric(run_id=self._run.info.run_id, key='batches_processed', value=self.batches_processed)
 
-        df = DataFrame(s['input_path', 'marked_done_path'], columns=['input_path', 'marked_done_path'])
+        df = DataFrame(s['input_path'], columns=['input_path'])
 
         try:
             df['dataset'] = df.apply(lambda i: self.list_datasets(i['input_path']), axis=1)
