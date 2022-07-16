@@ -3,7 +3,7 @@ import argparse
 import glob
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 import lib.utils as utils
 from lib.logger import log
@@ -83,7 +83,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
     return pipe
 
 
-def process_data(df: DataFrame, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
+def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     global batches_processed, batches_success, sources_success, sources_fail
@@ -103,14 +103,14 @@ def process_data(df: DataFrame, batch_size: int, num_gpus: float, num_cpus: floa
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
     except Exception as e:
         log.error('process_data tasks interrupted: %s', e)
-        sources_fail += df['input_path'].values
-        sources_fail += df['input_path'].values
+        sources_fail += df['input_path']
         client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
         client.set_tag(run_id=run.info.run_id, key='sources_fail', value=sources_fail)
     finally:
         pass
 
     log.info('process_data end %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+    return True
 
 
 if __name__ == "__main__":

@@ -69,7 +69,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         preprocessed = self.preprocess(batch)
 
         self.row_normed_num += len(preprocessed.index)
-        self.client.log_metric(run_id=self.run.info.run_id, key='row_normed_num', value=len(self.row_normed_num))
+        self.client.log_metric(run_id=self.run.info.run_id, key='row_normed_num', value=self.row_normed_num)
         self.client.log_metric(run_id=self.run.info.run_id, key='features_normed_num', value=len(preprocessed.columns))
         self.client.set_tag(run_id=self.run.info.run_id, key='features_normed', value=preprocessed.columns.tolist())
         return preprocessed
