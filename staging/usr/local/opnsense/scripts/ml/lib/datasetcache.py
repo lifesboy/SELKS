@@ -218,41 +218,33 @@ class DatasetCache(object):
 
         try:
             df['dataset'] = df.apply(lambda i: self.list_datasets(i['input_path']), axis=1)
-            datasets = df['dataset']
+            datasets = DataFrame.from_records(df['dataset'].values)
             datasets = datasets[datasets['metadata'].notnull()]
-            datasets['entity'] = datasets['metadata'].apply(lambda i: Dataset(
-                sid=i['sid'],
-                msg=i['msg'],
-                rev=i['rev'],
-                gid=i['gid'],
-                reference=i['reference'],
-                enabled=i['enabled'],
-                action=i['action'],
-                source=i['source'],
-                updated_at=i['metadata']['updated_at'],
-                created_at=i['metadata']['created_at']
-            ), axis=1)
+            metadata = DataFrame.from_records(datasets['metadata'].values)
+            metadata['updated_at'] = metadata.apply(lambda i: i['metadata']['updated_at'], axis=1)
+            metadata['created_at'] = metadata.apply(lambda i: i['metadata']['created_at'], axis=1)
+            entities = metadata[self._dataset_fields + ['updated_at', 'created_at']].to_dict('records')
 
-            classtype_properties = datasets['metadata'].apply(lambda i: DatasetProperties(
+            classtype_properties = metadata.apply(lambda i: DatasetProperties(
                 sid=i['sid'],
                 property='classtype',
                 value=i['classtype']
-            ), axis=1)
-            dataset_properties = datasets['metadata'].apply(lambda i: list(map(lambda p: DatasetProperties(
+            ), axis=1).values
+            dataset_properties = metadata.apply(lambda i: list(map(lambda p: DatasetProperties(
                 sid=i['sid'],
                 property=p,
                 value=i['metadata'][p]
-            ), i['metadata'])), axis=1).explode()
+            ), i['metadata'].keys())), axis=1).explode().values
 
-            print('entities: %s' % datasets['entity'].values)
-            print('classtype_properties: %s' % classtype_properties.values)
-            print('dataset_properties: %s' % dataset_properties.values)
+            print('entities: %s' % entities)
+            print('classtype_properties: %s' % classtype_properties)
+            print('dataset_properties: %s' % dataset_properties)
 
-            Dataset.objects.bulk_create(datasets['entity'].values)
-            DatasetProperties.objects.bulk_create(classtype_properties.values)
-            DatasetProperties.objects.bulk_create(dataset_properties.values)
+            Dataset.objects.bulk_create(entities)
+            DatasetProperties.objects.bulk_create(classtype_properties)
+            DatasetProperties.objects.bulk_create(dataset_properties)
         except Exception as ex:
-            print('loading fail filename=%s, %s' % (df['input_path'], ex))
+            print('loading fail filename=%s, %s' % (df['input_path'].values, ex))
             pass
         return None
 
