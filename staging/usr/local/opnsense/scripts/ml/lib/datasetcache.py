@@ -182,7 +182,8 @@ class DatasetCache(object):
 
             dataset_info_record['metadata'] = record
 
-        yield dataset_info_record
+        # yield dataset_info_record
+        return dataset_info_record
 
     def is_changed(self):
         """ check if datasets on disk are probably different from datasets in cache
@@ -216,9 +217,9 @@ class DatasetCache(object):
         df = DataFrame(s['input_path'], columns=['input_path'])
 
         try:
-            df['dataset'] = df.apply(lambda i: DataFrame.from_records(self.list_datasets(i['input_path'])), axis=1)
-            datasets = df.explode('dataset')
-            datasets = datasets[datasets['metadata'] is not None]
+            df['dataset'] = df.apply(lambda i: self.list_datasets(i['input_path']), axis=1)
+            datasets = df['dataset']
+            datasets = datasets[datasets['metadata'].notnull()]
             datasets['entity'] = datasets['metadata'].apply(lambda i: Dataset(
                 sid=i['sid'],
                 msg=i['msg'],
@@ -230,18 +231,18 @@ class DatasetCache(object):
                 source=i['source'],
                 updated_at=i['metadata']['updated_at'],
                 created_at=i['metadata']['created_at']
-            ))
+            ), axis=1)
 
             classtype_properties = datasets['metadata'].apply(lambda i: DatasetProperties(
                 sid=i['sid'],
                 property='classtype',
                 value=i['classtype']
-            ))
+            ), axis=1)
             dataset_properties = datasets['metadata'].apply(lambda i: list(map(lambda p: DatasetProperties(
                 sid=i['sid'],
                 property=p,
                 value=i['metadata'][p]
-            ), i['metadata']))).explode()
+            ), i['metadata'])), axis=1).explode()
 
             print('entities: %s' % datasets['entity'].values)
             print('classtype_properties: %s' % classtype_properties.values)
