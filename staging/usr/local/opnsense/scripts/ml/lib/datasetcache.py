@@ -69,8 +69,13 @@ class DatasetCache(object):
     """
     _run: ActiveRun = None
     _client: MlflowClient = None
-    processed_num: int = 0
-    fail_sources: [] = []
+    batch_size: int = 100
+    batches_processed: int = 0
+    batches_success: int = 0
+
+    data_sources: str = '%s*/**/*.csv'
+    sources_success: int = 0
+    sources_fail: [] = []
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
@@ -83,12 +88,12 @@ class DatasetCache(object):
 
     @staticmethod
     def list_local() -> DataFrame:
-        input_files = common.get_data_files_by_pattern('%s*/**/*.csv' % dataset_source_directory)
+        input_files = common.get_data_files_by_pattern(self.data_sources % dataset_source_directory)
         batch_df: DataFrame = utils.get_processing_file_pattern(
             input_files=input_files,
             output='dataset_cache',
             tag='dataset_cache',
-            batch_size=100)
+            batch_size=self.batch_size)
 
         return batch_df
 
@@ -183,10 +188,13 @@ class DatasetCache(object):
                 record['reference'] = 'url,selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
 
                 dataset_info_record['metadata'] = record
+
+                self.sources_success += 1
+                self._client.log_metric(run_id=self._run.info.run_id, key='sources_success', value=self.sources_success)
         except Exception as e:
-            self.fail_sources = self.fail_sources + [filename]
-            self._client.set_tag(run_id=self._run.info.run_id, key='fail_sources_num', value=len(self.fail_sources))
-            self._client.set_tag(run_id=self._run.info.run_id, key='fail_sources', value=self.fail_sources)
+            self.sources_fail = self.sources_fail + [filename]
+            self._client.log_metric(run_id=self._run.info.run_id, key='sources_fail_num', value=len(self.sources_fail))
+            self._client.set_tag(run_id=self._run.info.run_id, key='sources_fail', value=self.sources_fail)
             pass
 
         # yield dataset_info_record
@@ -218,8 +226,8 @@ class DatasetCache(object):
 
     # @transaction.atomic
     def analyze(self, s: Series):
-        self.processed_num += len(s.index)
-        self._client.set_tag(run_id=self._run.info.run_id, key='processed', value=self.processed_num)
+        self.batches_processed += len(s.index)
+        self._client.log_metric(run_id=self._run.info.run_id, key='batches_processed', value=self.batches_processed)
 
         df = DataFrame(s['input_path'], columns=['input_path'])
 
@@ -254,13 +262,18 @@ class DatasetCache(object):
                 value=i['metadata'][p]
             ), i['metadata'].keys())), axis=1).explode().to_list()
 
-            print('entities: %s' % len(entities))
-            print('classtype_properties: %s' % len(classtype_properties))
-            print('dataset_properties: %s' % len(dataset_properties))
+            # print('entities: %s' % len(entities))
+            # print('classtype_properties: %s' % len(classtype_properties))
+            # print('dataset_properties: %s' % len(dataset_properties))
 
             Dataset.objects.bulk_create(entities)
             DatasetProperties.objects.bulk_create(classtype_properties)
             DatasetProperties.objects.bulk_create(dataset_properties)
+
+            self.batches_success += len(s.index)
+            self._client.log_metric(run_id=self._run.info.run_id, key='batches_success', value=self.batches_success)
+            self._client.log_metric(run_id=self._run.info.run_id, key='batches_entities', value=len(entities))
+            self._client.log_metric(run_id=self._run.info.run_id, key='batches_properties', value=len(classtype_properties) + len(dataset_properties))
         except Exception as ex:
             print('loading fail filename=%s, %s' % (df['input_path'].values, ex))
             pass
@@ -296,8 +309,11 @@ class DatasetCache(object):
         data_source_files = [i for j in df['input_path'].values for i in j]
 
         self.init_experiment()
-        self._client.log_param(run_id=self._run.info.run_id, key='data_sources', value=data_source_files)
-        self._client.log_param(run_id=self._run.info.run_id, key='data_sources_num', value=len(data_source_files))
+        self._client.log_param(run_id=self._run.info.run_id, key='data_sources', value=self.data_sources)
+        self._client.log_param(run_id=self._run.info.run_id, key='data_source_files', value=data_source_files)
+        self._client.log_param(run_id=self._run.info.run_id, key='data_source_files_num', value=len(data_source_files))
+        self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
+        self._client.log_param(run_id=self._run.info.run_id, key='batches', value=df.index.size)
 
         df.apply(self.analyze, axis=1)
 
