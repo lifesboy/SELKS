@@ -15,6 +15,8 @@ import mlflow
 run, client = common.init_experiment('data-processor')
 batches_processed: int = 0
 batches_success: int = 0
+sources_fail: [] = []
+sources_success: int = 0
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -79,7 +81,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 def process_data(df: DataFrame, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global batches_processed, batches_success
+    global batches_processed, batches_success, sources_success, sources_fail
 
     try:
         batches_processed += 1
@@ -91,9 +93,15 @@ def process_data(df: DataFrame, batch_size: int, num_gpus: float, num_cpus: floa
         utils.marked_done(df['marked_done_path'])
         log.info('sniffing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
         batches_success += 1
+        sources_success += df['input_path'].index.size
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
+        client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
     except Exception as e:
         log.error('process_data tasks interrupted: %s', e)
+        sources_fail += df['input_path'].values
+        sources_fail += df['input_path'].values
+        client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
+        client.set_tag(run_id=run.info.run_id, key='sources_fail', value=sources_fail)
     finally:
         pass
 
