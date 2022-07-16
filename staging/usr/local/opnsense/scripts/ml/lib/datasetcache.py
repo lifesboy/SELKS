@@ -87,8 +87,8 @@ class DatasetCache(object):
             self._run, self._client = common.init_experiment('dataset-cache')
 
     @staticmethod
-    def list_local() -> DataFrame:
-        input_files = common.get_data_files_by_pattern(self.data_sources % dataset_source_directory)
+    def list_local(data_sources) -> DataFrame:
+        input_files = common.get_data_files_by_pattern(data_sources % dataset_source_directory)
         batch_df: DataFrame = utils.get_processing_file_pattern(
             input_files=input_files,
             output='dataset_cache',
@@ -205,7 +205,7 @@ class DatasetCache(object):
         :return: boolean
         """
         if os.path.exists(self.cachefile):
-            df = self.list_local()
+            df = self.list_local(self.data_sources)
             last_mtime = df['st_mtime'].explode().max()
 
             try:
@@ -302,7 +302,7 @@ class DatasetCache(object):
         if os.path.exists(self.cachefile):
             os.remove(self.cachefile)
 
-        df = self.list_local()
+        df = self.list_local(self.data_sources)
         if df.index.size <= 0:
             return
 
