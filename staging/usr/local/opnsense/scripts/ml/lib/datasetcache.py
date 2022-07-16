@@ -229,7 +229,7 @@ class DatasetCache(object):
         self.batches_processed += 1
         self._client.log_metric(run_id=self._run.info.run_id, key='batches_processed', value=self.batches_processed)
 
-        df = DataFrame(s['input_path'], columns=['input_path'])
+        df = DataFrame(s['input_path', 'marked_done_path'], columns=['input_path', 'marked_done_path'])
 
         try:
             df['dataset'] = df.apply(lambda i: self.list_datasets(i['input_path']), axis=1)
@@ -274,6 +274,8 @@ class DatasetCache(object):
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_success', value=self.batches_success)
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_entities', value=len(entities))
             self._client.log_metric(run_id=self._run.info.run_id, key='batches_properties', value=len(classtype_properties) + len(dataset_properties))
+
+            utils.marked_done(df['marked_done_path'])
         except Exception as ex:
             print('loading fail filename=%s, %s' % (df['input_path'].values, ex))
             pass
