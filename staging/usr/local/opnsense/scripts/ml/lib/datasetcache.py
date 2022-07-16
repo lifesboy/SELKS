@@ -221,10 +221,21 @@ class DatasetCache(object):
             datasets = DataFrame.from_records(df['dataset'].values)
             datasets = datasets[datasets['metadata'].notnull()]
             metadata = DataFrame.from_records(datasets['metadata'].values)
-            metadata['updated_at'] = metadata.apply(lambda i: i['metadata']['updated_at'], axis=1)
-            metadata['created_at'] = metadata.apply(lambda i: i['metadata']['created_at'], axis=1)
-            entities = metadata[self._dataset_fields + ['updated_at', 'created_at']].to_dict('records')
+            # metadata['updated_at'] = metadata.apply(lambda i: i['metadata']['updated_at'], axis=1)
+            # metadata['created_at'] = metadata.apply(lambda i: i['metadata']['created_at'], axis=1)
 
+            entities = metadata.apply(lambda i: Dataset(
+                sid=i['sid'],
+                msg=i['msg'],
+                rev=i['rev'],
+                gid=i['gid'],
+                reference=i['reference'],
+                enabled=i['enabled'],
+                action=i['action'],
+                source=i['source'],
+                updated_at=i['metadata']['updated_at'],
+                created_at=i['metadata']['created_at']
+            ), axis=1).values
             classtype_properties = metadata.apply(lambda i: DatasetProperties(
                 sid=i['sid'],
                 property='classtype',
@@ -236,9 +247,9 @@ class DatasetCache(object):
                 value=i['metadata'][p]
             ), i['metadata'].keys())), axis=1).explode().values
 
-            print('entities: %s' % entities)
-            print('classtype_properties: %s' % classtype_properties)
-            print('dataset_properties: %s' % dataset_properties)
+            print('entities: %s' % len(entities))
+            print('classtype_properties: %s' % len(classtype_properties))
+            print('dataset_properties: %s' % len(dataset_properties))
 
             Dataset.objects.bulk_create(entities)
             DatasetProperties.objects.bulk_create(classtype_properties)
