@@ -35,6 +35,11 @@ parser.add_argument(
     default=1,
     help="Number of batch size to process.")
 parser.add_argument(
+    "--batch-size-source",
+    type=int,
+    default=5,
+    help="Number of batch size source to process.")
+parser.add_argument(
     "--num-gpus",
     type=float,
     default=0.1,
@@ -113,6 +118,7 @@ if __name__ == "__main__":
     data_source = args.data_source
     tag = args.tag
     batch_size = args.batch_size
+    batch_size_source = args.batch_size_source
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_destination = args.data_destination
@@ -124,7 +130,7 @@ if __name__ == "__main__":
         input_files=input_files,
         output=destination_dir,
         tag=tag,
-        batch_size=5)
+        batch_size=batch_size_source)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j]
 
@@ -132,6 +138,7 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_param(run_id=run.info.run_id, key='data_destination', value=data_destination)
+    client.log_param(run_id=run.info.run_id, key='batch_size_source', value=batch_size_source)
     client.log_param(run_id=run.info.run_id, key='batch_size', value=batch_size)
     client.log_param(run_id=run.info.run_id, key='batches', value=batch_df.index.size)
     client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
