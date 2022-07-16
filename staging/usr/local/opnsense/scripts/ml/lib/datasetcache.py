@@ -235,17 +235,17 @@ class DatasetCache(object):
                 source=i['source'],
                 updated_at=i['metadata']['updated_at'],
                 created_at=i['metadata']['created_at']
-            ), axis=1).values
+            ), axis=1).to_list()
             classtype_properties = metadata.apply(lambda i: DatasetProperties(
                 sid=i['sid'],
                 property='classtype',
                 value=i['classtype']
-            ), axis=1).values
+            ), axis=1).to_list()
             dataset_properties = metadata.apply(lambda i: list(map(lambda p: DatasetProperties(
                 sid=i['sid'],
                 property=p,
                 value=i['metadata'][p]
-            ), i['metadata'].keys())), axis=1).explode().values
+            ), i['metadata'].keys())), axis=1).explode().to_list()
 
             print('entities: %s' % len(entities))
             print('classtype_properties: %s' % len(classtype_properties))
