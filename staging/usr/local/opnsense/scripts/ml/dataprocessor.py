@@ -13,6 +13,8 @@ from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 import mlflow
 
 run, client = common.init_experiment('data-processor')
+batches_processed: int = 0
+batches_success: int = 0
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -62,7 +64,7 @@ parser.add_argument(
 # ]
 
 
-def create_processor_pipe(data_files: [], batch_size: int, num_gpus: int, num_cpus: int):
+def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
     if not data_files or len(data_files) <= 0:
         return None
 
@@ -77,12 +79,19 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: int, num_cp
 def process_data(df: DataFrame, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
+    global batches_processed, batches_success
+
     try:
+        batches_processed += 1
+        client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
+
         df['pipe'] = create_processor_pipe(df['input_path'], batch_size, num_gpus, num_cpus)
         df['pipe'].write_csv(path=common.DATA_NORMALIZED_DIR + data_destination + '/', try_create_dir=True)
 
         utils.marked_done(df['marked_done_path'])
         log.info('sniffing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+        batches_success += 1
+        client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
     except Exception as e:
         log.error('process_data tasks interrupted: %s', e)
     finally:
@@ -113,8 +122,10 @@ if __name__ == "__main__":
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
+    client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_param(run_id=run.info.run_id, key='data_destination', value=data_destination)
     client.log_param(run_id=run.info.run_id, key='batch_size', value=batch_size)
+    client.log_param(run_id=run.info.run_id, key='batches', value=batch_df.index.size)
     client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
     client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
 
