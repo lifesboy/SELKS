@@ -88,10 +88,12 @@ class DatasetCache(object):
 
     @staticmethod
     def list_local(data_sources: str, batch_size: int = 100) -> DataFrame:
+        output = '%sdataset_cache' % dataset_source_directory
+        os.makedirs(output, exist_ok=True)
         input_files = common.get_data_files_by_pattern('%s%s' % (dataset_source_directory, data_sources))
         batch_df: DataFrame = utils.get_processing_file_pattern(
             input_files=input_files,
-            output='%sdataset_cache' % dataset_source_directory,
+            output=output,
             tag='dataset_cache',
             batch_size=batch_size)
 
