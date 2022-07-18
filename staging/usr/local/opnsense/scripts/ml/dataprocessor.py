@@ -146,6 +146,8 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
     client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
 
+    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
+
     # client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
     # batch_df['pipe'] = batch_df.apply(
     #    lambda i: create_processor_pipe(i.input_path, batch_size, num_gpus, num_cpus),

@@ -49,6 +49,7 @@ TAG_RUN_UUID = 'run.uuid'
 TAG_PARENT_RUN_UUID = 'run.parent.uuid'
 TAG_RUN_TYPE = 'run.type'
 TAG_RUN_STATUS = 'run.status'
+TAG_RUN_TAG = 'run.tag'
 
 TAG_DEPLOYMENT_STATUS = 'deployment.status'
 
