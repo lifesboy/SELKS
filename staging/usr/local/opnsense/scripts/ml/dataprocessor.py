@@ -114,7 +114,7 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
 
 
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --num-gpus=0.1 --num-cpus=0.1 --data-destination=nsm
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=cic2018/*.csv --batch-size=500 --num-gpus=0.1 --num-cpus=0.1 --data-destination=cic2018
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=cic2018/*.csv --batch-size=500 --num-gpus=0.1 --num-cpus=0.1 --data-destination=cic2018 --tag=cic2018
 if __name__ == "__main__":
     args = parser.parse_args()
     data_source = args.data_source
