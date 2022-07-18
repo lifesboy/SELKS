@@ -130,9 +130,8 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             FWD_ACT_DATA_PKTS: list(fwd_act_data_pkts.as_numpy_iterator()),
         }, index=df[TIMESTAMP])
 
-        label_col = next((i for i in df.columns if i.lower() == LABEL), None)
-        if label_col:
-            label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[label_col])).map(norm.norm_label)
+        if LABEL in df.columns:
+            label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[LABEL])).map(norm.norm_label)
             data[LABEL] = list(label.as_numpy_iterator())
         else:
             data[LABEL] = ['' for i in range(len(data.index))]
