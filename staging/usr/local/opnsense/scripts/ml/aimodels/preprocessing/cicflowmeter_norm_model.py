@@ -76,6 +76,8 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
     @mlflow_mixin
     def preprocess(self, df: DataFrame) -> DataFrame:
+        df.columns = df.columns.str.lower().replace(' ', '_')
+
         dst_port = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[DST_PORT])).map(norm.norm_port)
         protocol = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PROTOCOL])).map(norm.norm_protocol)
         flow_duration = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FLOW_DURATION])).map(norm.norm_time_1h)
