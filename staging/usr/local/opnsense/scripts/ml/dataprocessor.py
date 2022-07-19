@@ -76,9 +76,6 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
         return None
 
     schema = CicFlowmeterNormModel.get_input_schema()
-    for i in schema.keys():
-        schema[i.replace('_', ' ').capitalize()] = schema[i]
-
     pipe: DatasetPipeline = ray.data.read_csv(data_files, schema=schema).window(blocks_per_window=batch_size)
     pipe = pipe.map_batches(CicFlowmeterNormModel, batch_format="pandas", compute="actors",
                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)

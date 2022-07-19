@@ -52,7 +52,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
     @staticmethod
     def get_input_schema() -> dict:
-        return {
+        schema = {
             DST_PORT: 'int64',
             PROTOCOL: 'int',
             FLOW_DURATION: 'int64',
@@ -81,6 +81,11 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
             LABEL: 'str',
         }
+
+        for i in schema.keys():
+            schema[i.replace('_', ' ').capitalize()] = schema[i]
+
+        return schema
 
     def __init__(self):
         super().__init__()
