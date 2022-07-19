@@ -82,7 +82,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             LABEL: 'str',
         }
 
-        for i in schema.keys():
+        for i in list(schema.keys()):
             schema[i.replace('_', ' ').capitalize()] = schema[i]
 
         return schema
