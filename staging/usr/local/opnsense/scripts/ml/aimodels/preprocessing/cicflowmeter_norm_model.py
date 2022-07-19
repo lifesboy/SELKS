@@ -21,6 +21,7 @@ from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, 
     TOTLEN_FWD_PKTS, TOTLEN_BWD_PKTS, FWD_PKT_LEN_MAX, FWD_PKT_LEN_MIN, FWD_PKT_LEN_MEAN, FWD_PKT_LEN_STD,\
     BWD_PKT_LEN_MAX, BWD_PKT_LEN_MIN, BWD_PKT_LEN_MEAN, BWD_PKT_LEN_STD, PKT_LEN_MAX, PKT_LEN_MIN, PKT_LEN_MEAN,\
     PKT_LEN_STD, PKT_LEN_VAR, FWD_HEADER_LEN, BWD_HEADER_LEN, FWD_SEG_SIZE_MIN, FWD_ACT_DATA_PKTS,\
+    ACTIVE_MEAN,\
     LABEL
 import anomaly_normalization as norm
 
@@ -79,13 +80,14 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             FWD_SEG_SIZE_MIN: 'float64',
             FWD_ACT_DATA_PKTS: 'float64',
 
+            ACTIVE_MEAN: 'float64',
+
             LABEL: 'str',
         }
 
-        for i in list(schema.keys()):
-            schema[i.replace('_', ' ').capitalize()] = schema[i]
+        schema_non_normed = {i.replace('_', ' ').capitalize(): schema[i] for i in list(schema.keys())}
 
-        return schema
+        return {**schema, **schema_non_normed}
 
     def __init__(self):
         super().__init__()
