@@ -50,6 +50,38 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
                              'name': 'mlflow-env'
                          })
 
+    @staticmethod
+    def get_input_schema() -> dict:
+        return {
+            DST_PORT: 'int64',
+            PROTOCOL: 'int',
+            FLOW_DURATION: 'int64',
+            TOT_FWD_PKTS: 'float64',
+            TOT_BWD_PKTS: 'float64',
+
+            TOTLEN_FWD_PKTS: 'float64',
+            TOTLEN_BWD_PKTS: 'float64',
+            FWD_PKT_LEN_MAX: 'float64',
+            FWD_PKT_LEN_MIN: 'float64',
+            FWD_PKT_LEN_MEAN: 'float64',
+            FWD_PKT_LEN_STD: 'float64',
+            BWD_PKT_LEN_MAX: 'float64',
+            BWD_PKT_LEN_MIN: 'float64',
+            BWD_PKT_LEN_MEAN: 'float64',
+            BWD_PKT_LEN_STD: 'float64',
+            PKT_LEN_MAX: 'float64',
+            PKT_LEN_MIN: 'float64',
+            PKT_LEN_MEAN: 'float64',
+            PKT_LEN_STD: 'float64',
+            PKT_LEN_VAR: 'float64',
+            FWD_HEADER_LEN: 'float64',
+            BWD_HEADER_LEN: 'float64',
+            FWD_SEG_SIZE_MIN: 'float64',
+            FWD_ACT_DATA_PKTS: 'float64',
+
+            LABEL: 'str',
+        }
+
     def __init__(self):
         super().__init__()
         # global run

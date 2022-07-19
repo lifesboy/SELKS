@@ -75,7 +75,8 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
     if not data_files or len(data_files) <= 0:
         return None
 
-    pipe: DatasetPipeline = ray.data.read_csv(data_files).window(blocks_per_window=batch_size)
+    schema = CicFlowmeterNormModel.get_input_schema()
+    pipe: DatasetPipeline = ray.data.read_csv(data_files, schema=schema).window(blocks_per_window=batch_size)
     pipe = pipe.map_batches(CicFlowmeterNormModel, batch_format="pandas", compute="actors",
                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
     # tf.keras.layers.BatchNormalization
@@ -114,7 +115,7 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
 
 
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --num-gpus=0.1 --num-cpus=0.1 --data-destination=nsm
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=cic2018/*.csv --batch-size=500 --num-gpus=0.1 --num-cpus=0.1 --data-destination=cic2018 --tag=cic2018
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=cic2018/*.csv --batch-size=500 --batch-size-source=1 --num-gpus=0.1 --num-cpus=0.1 --data-destination=cic2018 --tag=cic2018
 if __name__ == "__main__":
     args = parser.parse_args()
     data_source = args.data_source
