@@ -77,9 +77,9 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
         return None
 
     schema = CicFlowmeterNormModel.get_input_schema()
-    parse_options = csv.ConvertOptions(column_types=schema)
+    convert_options = csv.ConvertOptions(column_types=schema)
 
-    pipe: DatasetPipeline = ray.data.read_csv(data_files, parse_options=parse_options).window(blocks_per_window=batch_size)
+    pipe: DatasetPipeline = ray.data.read_csv(data_files, convert_options=convert_options).window(blocks_per_window=batch_size)
     pipe = pipe.map_batches(CicFlowmeterNormModel, batch_format="pandas", compute="actors",
                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
     # tf.keras.layers.BatchNormalization
