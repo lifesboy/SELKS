@@ -13,16 +13,17 @@ import pyarrow as pa
 
 from pandas import DataFrame
 from ray.rllib.utils.framework import try_import_tf
+
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
 
 import common
 from anomaly_normalization import F1, F2, F3, F4, F5, F6
-from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS,\
-    TOTLEN_FWD_PKTS, TOTLEN_BWD_PKTS, FWD_PKT_LEN_MAX, FWD_PKT_LEN_MIN, FWD_PKT_LEN_MEAN, FWD_PKT_LEN_STD,\
-    BWD_PKT_LEN_MAX, BWD_PKT_LEN_MIN, BWD_PKT_LEN_MEAN, BWD_PKT_LEN_STD, PKT_LEN_MAX, PKT_LEN_MIN, PKT_LEN_MEAN,\
-    PKT_LEN_STD, PKT_LEN_VAR, FWD_HEADER_LEN, BWD_HEADER_LEN, FWD_SEG_SIZE_MIN, FWD_ACT_DATA_PKTS,\
-    ACTIVE_MEAN,\
+from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, \
+    TOTLEN_FWD_PKTS, TOTLEN_BWD_PKTS, FWD_PKT_LEN_MAX, FWD_PKT_LEN_MIN, FWD_PKT_LEN_MEAN, FWD_PKT_LEN_STD, \
+    BWD_PKT_LEN_MAX, BWD_PKT_LEN_MIN, BWD_PKT_LEN_MEAN, BWD_PKT_LEN_STD, PKT_LEN_MAX, PKT_LEN_MIN, PKT_LEN_MEAN, \
+    PKT_LEN_STD, PKT_LEN_VAR, FWD_HEADER_LEN, BWD_HEADER_LEN, FWD_SEG_SIZE_MIN, FWD_ACT_DATA_PKTS, \
+    ACTIVE_MEAN, \
     LABEL
 import anomaly_normalization as norm
 
@@ -55,9 +56,9 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
     @staticmethod
     def get_input_schema() -> dict:
         schema = {
-            DST_PORT: pa.int64(),
-            PROTOCOL: pa.int32(),
-            FLOW_DURATION: pa.int64(),
+            DST_PORT: pa.float64(),  # pa.int64(),
+            PROTOCOL: pa.float64(),  # pa.int32(),
+            FLOW_DURATION: pa.float64(),  # pa.int64(),
             TOT_FWD_PKTS: pa.float64(),
             TOT_BWD_PKTS: pa.float64(),
 
@@ -121,29 +122,47 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
         dst_port = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[DST_PORT])).map(norm.norm_port)
         protocol = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PROTOCOL])).map(norm.norm_protocol)
-        flow_duration = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FLOW_DURATION])).map(norm.norm_time_1h)
-        tot_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_FWD_PKTS])).map(norm.norm_size_1mb)
-        tot_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_BWD_PKTS])).map(norm.norm_size_1mb)
+        flow_duration = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FLOW_DURATION])).map(
+            norm.norm_time_1h)
+        tot_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_FWD_PKTS])).map(
+            norm.norm_size_1mb)
+        tot_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_BWD_PKTS])).map(
+            norm.norm_size_1mb)
 
-        totlen_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOTLEN_FWD_PKTS])).map(norm.norm_size_1mb)
-        totlen_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOTLEN_BWD_PKTS])).map(norm.norm_size_1mb)
-        fwd_pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MAX])).map(norm.norm_size_1mb)
-        fwd_pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MIN])).map(norm.norm_size_1mb)
-        fwd_pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MEAN])).map(norm.norm_size_1mb)
-        fwd_pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_STD])).map(norm.norm_size_1mb)
-        bwd_pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MAX])).map(norm.norm_size_1mb)
-        bwd_pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MIN])).map(norm.norm_size_1mb)
-        bwd_pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MEAN])).map(norm.norm_size_1mb)
-        bwd_pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_STD])).map(norm.norm_size_1mb)
+        totlen_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOTLEN_FWD_PKTS])).map(
+            norm.norm_size_1mb)
+        totlen_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOTLEN_BWD_PKTS])).map(
+            norm.norm_size_1mb)
+        fwd_pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MAX])).map(
+            norm.norm_size_1mb)
+        fwd_pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MIN])).map(
+            norm.norm_size_1mb)
+        fwd_pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MEAN])).map(
+            norm.norm_size_1mb)
+        fwd_pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_STD])).map(
+            norm.norm_size_1mb)
+        bwd_pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MAX])).map(
+            norm.norm_size_1mb)
+        bwd_pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MIN])).map(
+            norm.norm_size_1mb)
+        bwd_pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MEAN])).map(
+            norm.norm_size_1mb)
+        bwd_pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_STD])).map(
+            norm.norm_size_1mb)
         pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_MAX])).map(norm.norm_size_1mb)
         pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_MIN])).map(norm.norm_size_1mb)
-        pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_MEAN])).map(norm.norm_size_1mb)
+        pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_MEAN])).map(
+            norm.norm_size_1mb)
         pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_STD])).map(norm.norm_size_1mb)
         pkt_len_var = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_VAR])).map(norm.norm_size_1mb)
-        fwd_header_len = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_HEADER_LEN])).map(norm.norm_size_1mb)
-        bwd_header_len = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_HEADER_LEN])).map(norm.norm_size_1mb)
-        fwd_seg_size_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_SEG_SIZE_MIN])).map(norm.norm_size_1mb)
-        fwd_act_data_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_ACT_DATA_PKTS])).map(norm.norm_size_1mb)
+        fwd_header_len = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_HEADER_LEN])).map(
+            norm.norm_size_1mb)
+        bwd_header_len = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_HEADER_LEN])).map(
+            norm.norm_size_1mb)
+        fwd_seg_size_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_SEG_SIZE_MIN])).map(
+            norm.norm_size_1mb)
+        fwd_act_data_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_ACT_DATA_PKTS])).map(
+            norm.norm_size_1mb)
 
         data = DataFrame(data={
             DST_PORT: list(dst_port.as_numpy_iterator()),
