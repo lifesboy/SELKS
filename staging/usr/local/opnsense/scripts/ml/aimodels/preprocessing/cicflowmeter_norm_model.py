@@ -9,6 +9,7 @@ from ray.data.dataset_pipeline import DatasetPipeline
 from ray.data.impl.arrow_block import ArrowRow
 from pyarrow import Table
 from ray.tune.integration.mlflow import mlflow_mixin
+import pyarrow as pa
 
 from pandas import DataFrame
 from ray.rllib.utils.framework import try_import_tf
@@ -54,35 +55,35 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
     @staticmethod
     def get_input_schema() -> dict:
         schema = {
-            DST_PORT: 'int64',
-            PROTOCOL: 'int',
-            FLOW_DURATION: 'int64',
-            TOT_FWD_PKTS: 'float64',
-            TOT_BWD_PKTS: 'float64',
+            DST_PORT: pa.int64(),
+            PROTOCOL: pa.int32(),
+            FLOW_DURATION: pa.int64(),
+            TOT_FWD_PKTS: pa.float64(),
+            TOT_BWD_PKTS: pa.float64(),
 
-            TOTLEN_FWD_PKTS: 'float64',
-            TOTLEN_BWD_PKTS: 'float64',
-            FWD_PKT_LEN_MAX: 'float64',
-            FWD_PKT_LEN_MIN: 'float64',
-            FWD_PKT_LEN_MEAN: 'float64',
-            FWD_PKT_LEN_STD: 'float64',
-            BWD_PKT_LEN_MAX: 'float64',
-            BWD_PKT_LEN_MIN: 'float64',
-            BWD_PKT_LEN_MEAN: 'float64',
-            BWD_PKT_LEN_STD: 'float64',
-            PKT_LEN_MAX: 'float64',
-            PKT_LEN_MIN: 'float64',
-            PKT_LEN_MEAN: 'float64',
-            PKT_LEN_STD: 'float64',
-            PKT_LEN_VAR: 'float64',
-            FWD_HEADER_LEN: 'float64',
-            BWD_HEADER_LEN: 'float64',
-            FWD_SEG_SIZE_MIN: 'float64',
-            FWD_ACT_DATA_PKTS: 'float64',
+            TOTLEN_FWD_PKTS: pa.float64(),
+            TOTLEN_BWD_PKTS: pa.float64(),
+            FWD_PKT_LEN_MAX: pa.float64(),
+            FWD_PKT_LEN_MIN: pa.float64(),
+            FWD_PKT_LEN_MEAN: pa.float64(),
+            FWD_PKT_LEN_STD: pa.float64(),
+            BWD_PKT_LEN_MAX: pa.float64(),
+            BWD_PKT_LEN_MIN: pa.float64(),
+            BWD_PKT_LEN_MEAN: pa.float64(),
+            BWD_PKT_LEN_STD: pa.float64(),
+            PKT_LEN_MAX: pa.float64(),
+            PKT_LEN_MIN: pa.float64(),
+            PKT_LEN_MEAN: pa.float64(),
+            PKT_LEN_STD: pa.float64(),
+            PKT_LEN_VAR: pa.float64(),
+            FWD_HEADER_LEN: pa.float64(),
+            BWD_HEADER_LEN: pa.float64(),
+            FWD_SEG_SIZE_MIN: pa.float64(),
+            FWD_ACT_DATA_PKTS: pa.float64(),
 
-            ACTIVE_MEAN: 'float64',
+            ACTIVE_MEAN: pa.float64(),
 
-            LABEL: 'str',
+            LABEL: pa.string(),
         }
 
         schema_non_normed = {i.replace('_', ' ').capitalize(): schema[i] for i in list(schema.keys())}
