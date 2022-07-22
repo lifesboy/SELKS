@@ -86,9 +86,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             LABEL: pa.string(),
         }
 
-        schema_non_normed = {i.replace('_', ' ').capitalize(): schema[i] for i in list(schema.keys())}
-
-        return {**schema, **schema_non_normed}
+        return schema
 
     def __init__(self):
         super().__init__()
