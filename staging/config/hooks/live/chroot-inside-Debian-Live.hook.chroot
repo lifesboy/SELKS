@@ -65,6 +65,8 @@ dpkg -i /binaries/parted_3.4-1_amd64.deb
 dpkg -i /binaries/libfdisk1_2.36.1-8+deb11u1_amd64.deb
 dpkg -i /binaries/fdisk_2.36.1-8+deb11u1_amd64.deb
 
+dpkg -i /binaries/libext2fs2_1.46.2-2_amd64.deb
+
 ### START JAVA for ELK ###
 
 apt-get update && \
