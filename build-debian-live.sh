@@ -136,6 +136,14 @@ if [ ! -f /binaries/parted_3.4-1_amd64.deb ]; then
   wget http://ftp.de.debian.org/debian/pool/main/p/parted/parted_3.4-1_amd64.deb --output-document=/binaries/parted_3.4-1_amd64.deb
 fi
 
+if [ ! -f /binaries/libfdisk1_2.36.1-8+deb11u1_amd64.deb ]; then
+  wget http://ftp.de.debian.org/debian/pool/main/u/util-linux/libfdisk1_2.36.1-8+deb11u1_amd64.deb --output-document=/binaries/libfdisk1_2.36.1-8+deb11u1_amd64.deb
+fi
+
+if [ ! -f /binaries/fdisk_2.36.1-8+deb11u1_amd64.deb ]; then
+  wget http://ftp.de.debian.org/debian/pool/main/u/util-linux/fdisk_2.36.1-8+deb11u1_amd64.deb --output-document=/binaries/fdisk_2.36.1-8+deb11u1_amd64.deb
+fi
+
 if [ ! -f /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
   wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb -o /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
 fi

@@ -62,6 +62,9 @@ dpkg -i /binaries/readline-common_8.1-1_all.deb
 dpkg -i /binaries/libparted2_3.4-1_amd64.deb
 dpkg -i /binaries/parted_3.4-1_amd64.deb
 
+dpkg -i /binaries/libfdisk1_2.36.1-8+deb11u1_amd64.deb
+dpkg -i /binaries/fdisk_2.36.1-8+deb11u1_amd64.deb
+
 ### START JAVA for ELK ###
 
 apt-get update && \
