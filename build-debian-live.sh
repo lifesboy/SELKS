@@ -198,8 +198,7 @@ then
   ### START Kernel Version choice ###
   
   cd Stamus-Live-Build && mkdir -p kernel-misc && cd kernel-misc
-  if [ ! -f /binaries/linux-${KERNEL_VER}.tar.xz ];
-  then
+  if [ ! -f /binaries/linux-${KERNEL_VER}.tar.xz ]; then
     if [[ ${KERNEL_VER} == 3* ]];
     then
       wget https://www.kernel.org/pub/linux/kernel/v3.x/linux-${KERNEL_VER}.tar.xz --output-document=/binaries/linux-${KERNEL_VER}.tar.xz
@@ -213,9 +212,8 @@ then
       echo "Unsupported kernel version! Only kernel >3.0 are supported"
       exit 1;
     fi
-  else
-    cp /binaries/linux-${KERNEL_VER}.tar.xz ./
   fi
+  cp /binaries/linux-${KERNEL_VER}.tar.xz ./
 
   if [ $? -eq 0 ];
   then
