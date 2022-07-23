@@ -124,6 +124,10 @@ if [ ! -f /binaries/libreadline8_8.1-1_amd64.deb ]; then
   wget http://ftp.de.debian.org/debian/pool/main/r/readline/libreadline8_8.1-1_amd64.deb --output-document=/binaries/libreadline8_8.1-1_amd64.deb
 fi
 
+if [ ! -f /binaries/readline-common_8.1-1_all.deb ]; then
+  wget http://ftp.de.debian.org/debian/pool/main/r/readline/readline-common_8.1-1_all.deb --output-document=/binaries/readline-common_8.1-1_all.deb
+fi
+
 if [ ! -f /binaries/libparted2_3.4-1_amd64.deb ]; then
   wget http://ftp.de.debian.org/debian/pool/main/p/parted/libparted2_3.4-1_amd64.deb --output-document=/binaries/libparted2_3.4-1_amd64.deb
 fi

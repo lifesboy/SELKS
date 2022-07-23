@@ -58,6 +58,7 @@ cp -R /binaries/selks /
 apt-get update && apt-get upgrade -y
 apt-get install -y mdadm
 dpkg -i /binaries/libreadline8_8.1-1_amd64.deb
+dpkg -i /binaries/readline-common_8.1-1_all.deb
 dpkg -i /binaries/libparted2_3.4-1_amd64.deb
 dpkg -i /binaries/parted_3.4-1_amd64.deb
 
