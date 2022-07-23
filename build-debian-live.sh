@@ -4,7 +4,7 @@
 # All rights reserved
 # Debian Live/Install ISO script - oss@stamus-networks.com
 #
-# Please RUN ON Debian Buster only !!!
+# Please RUN ON Debian Bullseye only !!!
 
 set -e
 
@@ -14,9 +14,9 @@ cat << EOF
 
 usage: $0 options
 
-########################################
-#!!! RUN on Debian Buster (10) ONLY !!!#
-########################################
+###################################
+#!!! RUN on Debian Bullseye ONLY !!!#
+###################################
 
 SELKS build your own ISO options
 
@@ -41,15 +41,15 @@ OPTIONS:
    
    EXAMPLE (customizations): 
    
-   ./build-debian-live.sh -k 4.10 
-   The example above will build a SELKS Debian Stretch 64 bit distro with kernel ver 4.10
+   ./build-debian-live.sh -k 5.10
+   The example above will build a SELKS Debian Stretch 64 bit distro with kernel ver 5.10
    
-   ./build-debian-live.sh -k 3.18.11 -p one-package
-   The example above will build a SELKS Debian Stretch 64 bit distro with kernel ver 3.18.11
+   ./build-debian-live.sh -k 4.18.11 -p one-package
+   The example above will build a SELKS Debian Stretch 64 bit distro with kernel ver 4.18.11
    and add the extra package named  "one-package" to the build.
    
-   ./build-debian-live.sh -k 3.18.11 -g no-desktop -p one-package
-   The example above will build a SELKS Debian Stretch 64 bit distro, no desktop with kernel ver 3.18.11
+   ./build-debian-live.sh -k 4.18.11 -g no-desktop -p one-package
+   The example above will build a SELKS Debian Stretch 64 bit distro, no desktop with kernel ver 4.18.11
    and add the extra package named  "one-package" to the build.
    
    ./build-debian-live.sh -k 4.16 -g no-desktop -p "package1 package2 package3"
@@ -278,7 +278,7 @@ then
   ### END Kernel Version choice ### 
   
   lb config \
-  -a amd64 -d buster  \
+  -a amd64 -d bullseye  \
   --archive-areas "main contrib" \
   --swap-file-size 2048 \
   --bootloader syslinux \
@@ -296,7 +296,7 @@ then
 else
 
   cd Stamus-Live-Build && lb config \
-  -a amd64 -d buster \
+  -a amd64 -d bullseye \
   --archive-areas "main contrib" \
   --swap-file-size 2048 \
   --debian-installer live \
@@ -503,18 +503,17 @@ libyaml-0-2 libyaml-dev zlib1g zlib1g-dev libcap-ng-dev libcap-ng0
 make flex bison git git-core libmagic-dev libnuma-dev pkg-config
 libnetfilter-queue-dev libnetfilter-queue1 libnfnetlink-dev libnfnetlink0 
 libjansson-dev libjansson4 libnss3-dev libnspr4-dev libgeoip1 libgeoip-dev 
-rsync mc python-daemon libnss3-tools curl net-tools
-python-crypto libgmp10 libyaml-0-2 python-simplejson python-pygments
-python-yaml ssh sudo tcpdump nginx openssl jq patch  
-python-pip debian-installer-launcher live-build apt-transport-https
-gnupg2
+rsync mc python3-daemon libnss3-tools curl net-tools
+python3-cryptography libgmp10 libyaml-0-2 python3-simplejson python3-pygments
+python3-yaml ssh sudo tcpdump nginx openssl jq patch
+python3-pip debian-installer-launcher live-build apt-transport-https
  " \
 >> Stamus-Live-Build/config/package-lists/StamusNetworks-CoreSystem.list.chroot
 
 # Add system tools packages to be installed
 echo "
 ethtool bwm-ng iptraf htop rsync tcpreplay sysstat hping3 screen ngrep 
-tcpflow dsniff mc python-daemon wget curl vim bootlogd lsof libpolkit-agent-1-0 libpolkit-backend-1-0 libpolkit-gobject-1-0 policykit-1 policykit-1-gnome" \
+tcpflow dsniff mc python3-daemon wget curl vim bootlogd lsof libpolkit-agent-1-0  libpolkit-gobject-1-0 policykit-1 policykit-1-gnome" \
 >> Stamus-Live-Build/config/package-lists/StamusNetworks-Tools.list.chroot
 
 # Unless otherwise specified the ISO will be with a Desktop Environment
@@ -523,7 +522,7 @@ if [[ -z "$GUI" ]]; then
   #>> Stamus-Live-Build/config/package-lists/StamusNetworks-Gui.list.chroot
   echo "task-xfce-desktop xfce4-goodies fonts-lyx wireshark terminator" \
   >> Stamus-Live-Build/config/package-lists/StamusNetworks-Gui.list.chroot
-  echo "wireshark terminator open-vm-tools open-vm-tools lxpolkit" \
+  echo "wireshark terminator open-vm-tools open-vm-tools-desktop lxpolkit" \
   >> Stamus-Live-Build/config/package-lists/StamusNetworks-Gui.list.chroot
   
   #echo "task-xfce-desktop" >> Stamus-Live-Build/config/package-lists/desktop.list.chroot
