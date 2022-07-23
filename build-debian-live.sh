@@ -219,19 +219,24 @@ then
   
   ### START Kernel Version choice ###
   
-  cd Stamus-Live-Build && mkdir -p kernel-misc && cd kernel-misc 
-  if [[ ${KERNEL_VER} == 3* ]];
-  then 
-    wget https://www.kernel.org/pub/linux/kernel/v3.x/linux-${KERNEL_VER}.tar.xz
-  elif [[ ${KERNEL_VER} == 4* ]];
+  cd Stamus-Live-Build && mkdir -p kernel-misc && cd kernel-misc
+  if [ ! -f /binaries/linux-${KERNEL_VER}.tar.xz ];
   then
-     wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-${KERNEL_VER}.tar.xz
-  elif [[ ${KERNEL_VER} == 5* ]];
-  then
-     wget https://www.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL_VER}.tar.xz
+    if [[ ${KERNEL_VER} == 3* ]];
+    then
+      wget https://www.kernel.org/pub/linux/kernel/v3.x/linux-${KERNEL_VER}.tar.xz --output-document=/binaries/linux-${KERNEL_VER}.tar.xz
+    elif [[ ${KERNEL_VER} == 4* ]];
+    then
+       wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-${KERNEL_VER}.tar.xz --output-document=/binaries/linux-${KERNEL_VER}.tar.xz
+    elif [[ ${KERNEL_VER} == 5* ]];
+    then
+       wget https://www.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL_VER}.tar.xz --output-document=/binaries/linux-${KERNEL_VER}.tar.xz
+    else
+      echo "Unsupported kernel version! Only kernel >3.0 are supported"
+      exit 1;
+    fi
   else
-    echo "Unsupported kernel version! Only kernel >3.0 are supported"
-    exit 1;
+    cp /binaries/linux-${KERNEL_VER}.tar.xz ./
   fi
 
   if [ $? -eq 0 ];
