@@ -114,7 +114,7 @@ apt-get -y install libtcmalloc-minimal4 libjansson-dev
 
 apt-get install -y -o Dpkg::Options::="--force-confdef" suricata
 
-apt-get install -y flow-tools
+#apt-get install -y flow-tools
 #make sure Suricata can write in /cic/dataset/nsm
 mkdir -p /cic/dataset/nsm/
 chown logstash -R /cic/dataset/nsm/
