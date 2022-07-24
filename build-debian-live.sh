@@ -315,7 +315,7 @@ else
 #  --linux-packages linux-image-4.9.20-stamus \
 # echo "deb http://packages.stamus-networks.com/selks5/debian-kernel/ stretch main" > config/archives/stamus-kernel.list.chroot
 
-sed -i 's/bullseye\/updates/bullseye-security/g' /etc/apt/sources.list
+sed -i 's/bullseye\/updates/bullseye-security/g' chroot/etc/apt/sources.list
 
 wget -O config/archives/packages-stamus-networks-gpg.key.chroot http://packages.stamus-networks.com/packages.selks5.stamus-networks.com.gpg.key
 
