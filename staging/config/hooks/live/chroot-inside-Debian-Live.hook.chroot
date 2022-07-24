@@ -104,7 +104,7 @@ apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-de
                 libnet1-dev libyaml-0-2 libyaml-dev pkg-config zlib1g zlib1g-dev \
                 libcap-ng-dev libcap-ng0 make libmagic-dev         \
                 libnss3-dev libgeoip-dev liblua5.1-dev libhiredis-dev libevent-dev \
-                python-yaml
+                python3-yaml
 apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
 apt-get install -y python3-pip
 pip3 install --upgrade suricata-update
