@@ -280,6 +280,7 @@ then
   lb config \
   -a amd64 -d bullseye  \
   --archive-areas "main contrib" \
+  --security=false \
   --swap-file-size 2048 \
   --bootloader syslinux \
   --debian-installer live \
@@ -298,6 +299,7 @@ else
   cd Stamus-Live-Build && lb config \
   -a amd64 -d bullseye \
   --archive-areas "main contrib" \
+  --security=false \
   --swap-file-size 2048 \
   --debian-installer live \
   --bootappend-live "boot=live swap config username=selks-user live-config.hostname=SELKS live-config.user-default-groups=audio,cdrom,floppy,video,dip,plugdev,scanner,bluetooth,netdev,sudo" \
@@ -315,9 +317,9 @@ else
 #  --linux-packages linux-image-4.9.20-stamus \
 # echo "deb http://packages.stamus-networks.com/selks5/debian-kernel/ stretch main" > config/archives/stamus-kernel.list.chroot
 
-cat chroot/etc/apt/sources.list
-sed -i 's/bullseye\/updates/bullseye-security/g' chroot/etc/apt/sources.list
-cat chroot/etc/apt/sources.list
+#cat chroot/etc/apt/sources.list
+#sed -i 's/bullseye\/updates/bullseye-security/g' chroot/etc/apt/sources.list
+#cat chroot/etc/apt/sources.list
 
 wget -O config/archives/packages-stamus-networks-gpg.key.chroot http://packages.stamus-networks.com/packages.selks5.stamus-networks.com.gpg.key
 
