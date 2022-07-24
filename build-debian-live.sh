@@ -476,6 +476,15 @@ cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes
 
 # copy nvidia binaries
 mkdir -p Stamus-Live-Build/chroot/binaries/
+
+cp /binaries/libreadline8_8.1-1_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/readline-common_8.1-1_all.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/libparted2_3.4-1_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/parted_3.4-1_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/libfdisk1_2.36.1-8+deb11u1_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/fdisk_2.36.1-8+deb11u1_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/libext2fs2_1.46.2-2_amd64.deb Stamus-Live-Build/chroot/binaries/
+
 cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
