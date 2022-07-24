@@ -62,7 +62,7 @@ EOF
 }
 
 GUI=no-desktop
-KERNEL_VER=5.10
+KERNEL_VER=5.10.0
 
 while getopts “hg:k:p:” OPTION
 do
