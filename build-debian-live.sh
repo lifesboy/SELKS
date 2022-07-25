@@ -257,7 +257,7 @@ then
   
   make defconfig && \
   make clean && \
-  make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=+deb11u1_amd64_ngfwips KDEB_PKGVERSION=${KERNEL_VER}
+  make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-1+deb11u1_amd64_ngfwips KDEB_PKGVERSION=${KERNEL_VER}
   cd ../../
   
   # Directory where the kernel image and headers are copied to
