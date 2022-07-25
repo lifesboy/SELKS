@@ -51,7 +51,7 @@ OPTIONS:
    ./build-debian-live.sh -k 4.18.11 -g no-desktop -p one-package
    The example above will build a SELKS Debian Stretch 64 bit distro, no desktop with kernel ver 4.18.11
    and add the extra package named  "one-package" to the build.
-   
+
    ./build-debian-live.sh -k 4.16 -g no-desktop -p "package1 package2 package3"
    The example above will build a SELKS Debian Stretch 64 bit distro, no desktop with kernel ver 4.16
    and add the extra packages named  "package1", "package2", "package3" to the build.
@@ -257,7 +257,7 @@ then
   
   make defconfig && \
   make clean && \
-  make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-stamus-amd64 KDEB_PKGVERSION=${KERNEL_VER}
+  make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-amd64 KDEB_PKGVERSION=${KERNEL_VER}
   cd ../../
   
   # Directory where the kernel image and headers are copied to
