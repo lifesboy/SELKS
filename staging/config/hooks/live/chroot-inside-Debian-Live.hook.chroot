@@ -238,7 +238,7 @@ EOF
 
 cd /scirius
 #python3 setup.py install
-apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
+apt-get install -y libsasl2-dev python3-dev libldap2-dev libssl-dev
 python3 -m pip install -r requirements.txt
 
 #python3 -m pip install gitpython==0.3.1-beta2
