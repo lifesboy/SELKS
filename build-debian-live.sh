@@ -420,6 +420,7 @@ mkdir -p Stamus-Live-Build/chroot/usr/local/etc
 mkdir -p Stamus-Live-Build/chroot/usr/share
 mkdir -p Stamus-Live-Build/chroot/usr/lib/php/20180731/build
 mkdir -p Stamus-Live-Build/conf
+mkdir -p Stamus-Live-Build/chroot/etc/php/7.3/cli
 
 cp -R staging/usr/local/opnsense Stamus-Live-Build/chroot/usr/local
 cp -R staging/usr/local/wizard Stamus-Live-Build/chroot/usr/local
@@ -430,12 +431,12 @@ cp -R staging/usr/local/etc/config.xml Stamus-Live-Build/chroot/usr/local/etc/
 cp -R staging/conf Stamus-Live-Build/chroot/
 
 cp -R staging/usr/share/google-api-php-client Stamus-Live-Build/chroot/usr/share
-cp -f staging/etc/php/7.3/cli/php.ini /etc/php/7.3/cli/php.ini
+cp -f staging/etc/php/7.3/cli/php.ini Stamus-Live-Build/chroot/etc/php/7.3/cli/php.ini
 #cp -R staging/etc/php/7.3/cli/conf.d /etc/php/7.3/cli/
 
 #cp -R staging/usr/lib/php /usr/lib/
 rm -f /usr/lib/php/20180731/phalcon.so
-cp -f staging/usr/lib/php/20180731/phalcon.so /usr/lib/php/20180731/
+cp -f staging/usr/lib/php/20180731/phalcon.so Stamus-Live-Build/chroot/usr/lib/php/20180731/
 
 cp -R staging/etc/lighttpd Stamus-Live-Build/chroot/etc/
 
