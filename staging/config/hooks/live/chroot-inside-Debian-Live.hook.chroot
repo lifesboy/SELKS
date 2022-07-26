@@ -71,8 +71,10 @@ dpkg -i /binaries/e2fsprogs_1.46.2-2_amd64.deb
 ### START JAVA for ELK ###
 
 apt-get update && \
-apt-get install -y ca-certificates-java openjdk-11-jre-headless \
-openjdk-11-jdk openjdk-11-jre openjdk-11-jre-headless
+apt-get install -y ca-certificates-java \
+ java-common libasound2 libpcsclite1 libgif7 \
+ openjdk-11-jre-headless \
+ openjdk-11-jdk openjdk-11-jre openjdk-11-jre-headless
 
 ### END JAVA for ELK ###
 
