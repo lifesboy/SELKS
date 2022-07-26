@@ -16,6 +16,7 @@ echo " export LS_OPTIONS='--color=auto'" >> /root/.bashrc
 echo " alias ll='ls $LS_OPTIONS -l'" >> /root/.bashrc
 
 ###  Set up repos ###
+apt-get install -y wget
 
 wget -qO - http://packages.stamus-networks.com/packages.selks6.stamus-networks.com.gpg.key | apt-key add -
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
