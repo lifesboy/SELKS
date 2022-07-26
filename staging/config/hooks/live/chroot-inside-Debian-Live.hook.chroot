@@ -252,7 +252,8 @@ sudo npm install
 cd hunt
 
 #npm install -g npm@latest
-npm install -g webpack@3.11
+#npm install -g webpack@3.11
+npm install -g webpack@4.0.0-beta.1
 #npm uninstall -g npm
 sudo npm install
 
