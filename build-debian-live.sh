@@ -148,6 +148,10 @@ if [ ! -f /binaries/libext2fs2_1.46.2-2_amd64.deb ]; then
   wget http://ftp.de.debian.org/debian/pool/main/e/e2fsprogs/libext2fs2_1.46.2-2_amd64.deb --output-document=/binaries/libext2fs2_1.46.2-2_amd64.deb
 fi
 
+if [ ! -f /binaries/e2fsprogs_1.46.2-2_amd64.deb ]; then
+  wget 	http://ftp.de.debian.org/debian/pool/main/e/e2fsprogs/e2fsprogs_1.46.2-2_amd64.deb --output-document=/binaries/e2fsprogs_1.46.2-2_amd64.deb
+fi
+
 
 if [ ! -f /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
   wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb -o /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
@@ -485,6 +489,7 @@ cp /binaries/parted_3.4-1_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libfdisk1_2.36.1-8+deb11u1_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/fdisk_2.36.1-8+deb11u1_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libext2fs2_1.46.2-2_amd64.deb Stamus-Live-Build/chroot/binaries/
+cp /binaries/e2fsprogs_1.46.2-2_amd64.deb Stamus-Live-Build/chroot/binaries/
 
 cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
