@@ -21,6 +21,11 @@ sources_success: int = 0
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
+    "--run-model",
+    type=str,
+    default="",
+    help="model to run")
+parser.add_argument(
     "--data-source",
     type=str,
     default="",
@@ -128,6 +133,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     data_source = args.data_source
     tag = args.tag
+    run_model = args.run_model
     batch_size = args.batch_size
     batch_size_source = args.batch_size_source
     num_gpus = args.num_gpus
@@ -145,6 +151,7 @@ if __name__ == "__main__":
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j]
 
+    client.log_param(run_id=run.info.run_id, key='run_model', value=run_model)
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
