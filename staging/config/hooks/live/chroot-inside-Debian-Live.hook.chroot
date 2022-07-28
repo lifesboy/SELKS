@@ -67,6 +67,7 @@ dpkg -i /binaries/fdisk_2.36.1-8+deb11u1_amd64.deb
 
 dpkg -i /binaries/libext2fs2_1.46.2-2_amd64.deb
 dpkg -i /binaries/libblkid1_2.36.1-8+deb11u1_amd64.deb
+dpkg -i /binaries/logsave_1.46.2-2_amd64.deb
 dpkg -i /binaries/e2fsprogs_1.46.2-2_amd64.deb
 
 ### START JAVA for ELK ###
