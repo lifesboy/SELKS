@@ -724,8 +724,8 @@ function filter_generate_aliases()
 
     $aliases .= "\n";
     $aliases .= "# set interface names\n";
-    $aliases .= "define wan = ".$config['interfaces']['wan']."\n";
-    $aliases .= "define lan = ".$config['interfaces']['lan']."\n";
+    $aliases .= "define wan = ".$config['interfaces']['wan']['if']."\n";
+    $aliases .= "define lan = ".$config['interfaces']['lan']['if']."\n";
     $aliases .= "# set interface names\n";
     $aliases .= "define all_interfaces= {\$wan, \$lan}\n";
     $aliases .= "\n";
