@@ -297,8 +297,8 @@ apt-get install syslog-ng clog unbound resolvconf isc-dhcp-server radvd rrdtool 
 cat > /etc/resolv.conf <<EOF
 domain localdomain
 nameserver 127.0.0.1
-nameserver 123.23.23.23
-nameserver 123.26.26.26
+nameserver 8.8.8.8
+nameserver 1.1.1.1
 
 EOF
 

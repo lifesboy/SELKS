@@ -190,8 +190,8 @@ function system_resolvconf_generate($verbose = false)
     }
 
     //Add default nameserver
-    $resolvconf .= "nameserver 123.23.23.23\n";
-    $resolvconf .= "nameserver 123.26.26.26\n";
+    $resolvconf .= "nameserver 8.8.8.8\n";
+    $resolvconf .= "nameserver 1.1.1.1\n";
 
     $tempfile = tempnam('/tmp', 'resolv.conf');
     file_put_contents($tempfile, $resolvconf);
