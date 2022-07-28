@@ -1193,7 +1193,7 @@ host-os-policy:
   bsd-right: []
   old-linux: []
   #todo
-  linux: [10.0.2.15/24, 192.168.1.18]
+  linux: [10.0.2.15/24, 192.168.66.180]
   old-solaris: []
   solaris: []
   hpux10: []

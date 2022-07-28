@@ -403,7 +403,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $natrules .= "# no nat proto carp all\n";
     $natrules .= "# no rdr proto carp all\n";
     $natrules .= "add rule ip ip_filter_table forward ct status dnat accept\n";
-    $natrules .= "add rule ip_nat prerouting ip daddr 192.168.1.18 tcp dport { 82} dnat to 10.0.2.10:80\n";
+    $natrules .= "add rule ip_nat prerouting ip daddr ".$config['interfaces']['wan']['ipaddr']." tcp dport { 82} dnat to 10.0.2.10:80\n";
     $natrules .= "add rule ip_nat postrouting masquerade\n";
 
     // caching proxy squid - icap - clamav
@@ -708,16 +708,16 @@ function filter_generate_aliases()
     global $config;
 
     $aliases = "\n# Defining variables is easy in nftables scripts.\n";
-    $aliases .= "define lan_net_ip = {10.0.2.15/24} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24\n";
+    $aliases .= "define lan_net_ip = {".$config['interfaces']['lan']['ipaddr']."/".$config['interfaces']['lan']['subnet']."} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24\n";
     $aliases .= "define lan_net_ip6 = {fe80::260:97ff:fe5b:732d} # la dia chi mang cua card LAN enp2s0: fe80::260:97ff:fe5b:732d\n";
     $aliases .= "\n# => nen lay dia chi ip tu cau hinh - ifconfig - thi tot, ko nen hard code\n";
-    $aliases .= "define lan_address_ip = {10.0.2.15} # dia chi cua card lan enp2s0\n";
+    $aliases .= "define lan_address_ip = {".$config['interfaces']['lan']['ipaddr']."} # dia chi cua card lan enp2s0\n";
     $aliases .= "define lan_address_ip6 = {fe80::260:97ff:fe5b:732d} # dia chi cua card lan enp2s0\n";
-    $aliases .= "define this_firewall_ip = {10.0.2.15, 192.168.1.18} # dia chi cua 2 card mang cua firewall\n";
+    $aliases .= "define this_firewall_ip = {".$config['interfaces']['lan']['ipaddr'].", ".$config['interfaces']['wan']['ipaddr']."} # dia chi cua 2 card mang cua firewall\n";
     $aliases .= "define this_firewall_ip6 = {fe80::8a88:88ff:fe88:8788, fe80::260:97ff:fe5b:732d} # dia chi cua 2 card mang cua firewall\n";
-    $aliases .= "define wan_net_ip = {192.168.1.18/24} # la dia chi mang cua card WAN\n";
+    $aliases .= "define wan_net_ip = {".$config['interfaces']['wan']['ipaddr']."/".$config['interfaces']['wan']['subnet']."} # la dia chi mang cua card WAN\n";
     $aliases .= "define wan_net_ip6 = {fe80::8a88:88ff:fe88:8788} # la dia chi mang cua card WAN\n";
-    $aliases .= "define wan_address_ip = {192.168.1.18} # dia chi ip cua card WAN\n";
+    $aliases .= "define wan_address_ip = {".$config['interfaces']['wan']['ipaddr']."} # dia chi ip cua card WAN\n";
     $aliases .= "define wan_address_ip6 = {fe80::8a88:88ff:fe88:8788} # dia chi ip cua card WAN\n";
     $aliases .= "define lo_net_ip = {127.0.0.1/8} # dia chi ipv4 loopback\n";
     $aliases .= "define lo_net_ip6 = {::1} # dia chi ipv4 loopback\n";
