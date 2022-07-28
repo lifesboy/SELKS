@@ -158,6 +158,7 @@ ln -s /selks/staging/etc/scirius /etc/scirius
 if [ -z "$(ls -A /drl/postgresql/11/main)" ]; then
 #   su - postgres -c "/usr/lib/postgresql/11/bin/initdb -D /drl/postgresql/11/main"
   cp -R /var/lib/postgresql/11/main/* /drl/postgresql/11/main
+  chown -R postgres:postgres /drl/postgresql/11/main
   pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
 #
 ## su - postgres -c "/usr/lib/postgresql/11/bin/pg_ctl start -D /usr/share/postgresql/11/data"
