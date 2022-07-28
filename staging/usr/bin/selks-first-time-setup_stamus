@@ -156,8 +156,9 @@ ln -s /selks/staging/etc/scirius /etc/scirius
 #ls -la /usr/share/python3/scirius/datadump.json
 
 if [ -z "$(ls -A /drl/postgresql/11/main)" ]; then
-   su - postgres -c "/usr/lib/postgresql/11/bin/initdb -D /drl/postgresql/11/main"
-   pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
+#   su - postgres -c "/usr/lib/postgresql/11/bin/initdb -D /drl/postgresql/11/main"
+  cp -R /var/lib/postgresql/11/main/* /drl/postgresql/11/main
+  pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
 #
 ## su - postgres -c "/usr/lib/postgresql/11/bin/pg_ctl start -D /usr/share/postgresql/11/data"
 ## service postgresql start
@@ -166,11 +167,11 @@ if [ -z "$(ls -A /drl/postgresql/11/main)" ]; then
 #pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
 ##/run/postgresql/.s.PGSQL.5432
 ##/var/run/postgresql/.s.PGSQL.5432
-  sudo -u postgres psql -h /var/run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
-  sudo -u postgres psql -h /var/run/postgresql -c "DROP SCHEMA public CASCADE;"
-  sudo -u postgres psql -h /var/run/postgresql -c "CREATE SCHEMA public;"
-  sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
-  sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
+#  sudo -u postgres psql -h /var/run/postgresql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+#  sudo -u postgres psql -h /var/run/postgresql -c "DROP SCHEMA public CASCADE;"
+#  sudo -u postgres psql -h /var/run/postgresql -c "CREATE SCHEMA public;"
+#  sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
+#  sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
 fi
 
 #/usr/bin/supervisorctl restart scirius
