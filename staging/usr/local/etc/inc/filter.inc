@@ -705,6 +705,8 @@ function filter_generate_scrubing(&$FilterIflist)
 
 function filter_generate_aliases()
 {
+    global $config;
+
     $aliases = "\n# Defining variables is easy in nftables scripts.\n";
     $aliases .= "define lan_net_ip = {10.0.2.15/24} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24\n";
     $aliases .= "define lan_net_ip6 = {fe80::260:97ff:fe5b:732d} # la dia chi mang cua card LAN enp2s0: fe80::260:97ff:fe5b:732d\n";
@@ -722,8 +724,8 @@ function filter_generate_aliases()
 
     $aliases .= "\n";
     $aliases .= "# set interface names\n";
-    $aliases .= "define wan = eno1\n";
-    $aliases .= "define lan = enp2s0\n";
+    $aliases .= "define wan = ".$config['interfaces']['wan']."\n";
+    $aliases .= "define lan = ".$config['interfaces']['lan']."\n";
     $aliases .= "# set interface names\n";
     $aliases .= "define all_interfaces= {\$wan, \$lan}\n";
     $aliases .= "\n";
