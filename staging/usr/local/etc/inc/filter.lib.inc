@@ -299,17 +299,18 @@ function filter_core_rules_system($fw, $defaults)
 //        $defaults['pass']
 //    );
 
+    $sshport = !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22;
     // Lockout rules
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'from' => '$sshlockout_ip', 'to' => '$this_firewall_ip' , 'descr' => '$sshlockout', 'direction' => 'in',
-        'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
+        'to_port' => $sshport),
         $defaults['block']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'from' => '$sshlockout_ip6', 'to' => '$this_firewall_ip6' , 'descr' => '$sshlockout', 'direction' => 'in',
-        'to_port' => !empty($config['system']['ssh']['port']) ? $config['system']['ssh']['port'] : 22),
+        'to_port' => $sshport),
         $defaults['block']
     );
     $webport = '443';
@@ -334,12 +335,12 @@ function filter_core_rules_system($fw, $defaults)
     // Anti-lockout for http, https, ssh, 81, 444
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh,81,444', 'descr' => 'anti-lockout rule'),
+        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,'.$sshport.',81,444', 'descr' => 'anti-lockout rule'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
-        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,ssh,81,444', 'descr' => 'anti-lockout rule'),
+        array('ipprotocol' => 'inet6', 'protocol' => 'tcp', 'direction' => 'in', 'to_port' => 'http,https,'.$sshport.',81,444', 'descr' => 'anti-lockout rule'),
         $defaults['pass']
     );
 
