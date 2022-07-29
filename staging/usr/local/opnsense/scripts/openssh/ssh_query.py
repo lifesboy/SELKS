@@ -36,7 +36,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     result = list()
-    for l in subprocess.run(['/usr/local/bin/ssh', '-Q', args.option], capture_output=True).stdout.decode().split('\n'):
+    for l in subprocess.run(['/usr/bin/ssh', '-Q', args.option], capture_output=True).stdout.decode().split('\n'):
         if len(l.strip()) > 1:
             result.append(l.strip())
     sorted(result)
