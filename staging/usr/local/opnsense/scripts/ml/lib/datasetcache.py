@@ -49,6 +49,7 @@ from mlflow import ActiveRun
 from mlflow.tracking import MlflowClient
 from ray.rllib.utils.framework import try_import_tf
 from pandas import DataFrame, Series
+from pyarrow import csv
 
 from ml.lib import dataset_source_directory
 from ml.lib import utils
@@ -57,6 +58,7 @@ from ml.models.dataset import Dataset
 from ml.models.dataset_properties import DatasetProperties
 from ml.models.local_dataset_changes import LocalDatasetChanges
 from ml.models.stats import Stats
+from ml.aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
@@ -125,7 +127,10 @@ class DatasetCache(object):
         dataset_info_record = {'dataset': filename, 'metadata': None}
         try:
             source_filename = filename.split('/')[-1]
-            dt = ray.data.read_csv(filename)
+            schema = CicFlowmeterNormModel.get_input_schema()
+            read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
+            convert_options = csv.ConvertOptions(column_types=schema)
+            dt = ray.data.read_csv(filename, read_options=read_options, convert_options=convert_options)
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
