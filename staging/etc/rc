@@ -225,6 +225,7 @@ chmod 0755 /var/log/logstash
 chmod 0755 /var/log/elasticsearch
 chmod 0755 /var/log/tensorboard
 chmod 0755 /var/log/suricata
+chmod 0755 /usr/local/etc/rc.sshd
 
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
