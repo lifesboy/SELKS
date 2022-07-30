@@ -35,7 +35,7 @@ def get_processing_file_pattern(
     file_df['marked_done_existed'] = file_df.apply(lambda i: os.path.exists(i.marked_done_path), axis=1, result_type='reduce')
 
     file_df = file_df.loc[file_df['marked_done_existed'] == False]
-    file_df = file_df.sort_values(by='input_name')
+    file_df = file_df.sort_values(by='input_name').reset_index(drop=True)
     file_df = file_df.filter(['input_path', 'input_name', 'marked_done_path', 'st_mtime']).applymap(lambda i: [i])
     file_df['batch'] = file_df.apply(lambda i: i.name // batch_size, axis=1, result_type='reduce')
 
