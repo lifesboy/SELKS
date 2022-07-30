@@ -17,7 +17,7 @@ tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
 
 import common
-from anomaly_normalization import FLOW_ID, SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, TIMESTAMP,\
+from anomaly_normalization import FLOW_ID, SRC_IP, SRC_PORT, SRC_MAC, DST_IP, DST_PORT, DST_MAC, PROTOCOL, TIMESTAMP,\
  FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS, TOTLEN_BWD_PKTS, FWD_PKT_LEN_MAX,\
  FWD_PKT_LEN_MIN, FWD_PKT_LEN_MEAN, FWD_PKT_LEN_STD, BWD_PKT_LEN_MAX, BWD_PKT_LEN_MIN, BWD_PKT_LEN_MEAN,\
  BWD_PKT_LEN_STD, FLOW_BYTS_S, FLOW_PKTS_S, FLOW_IAT_MEAN, FLOW_IAT_STD, FLOW_IAT_MAX, FLOW_IAT_MIN,\
@@ -61,11 +61,13 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
     @staticmethod
     def get_input_schema() -> dict:
         schema = {
-            FLOW_ID: pa.float64(),
+            # FLOW_ID: pa.float64(),
             SRC_IP: pa.string(),
             SRC_PORT: pa.float64(),
+            SRC_MAC: pa.string(),
             DST_IP: pa.string(),
             DST_PORT: pa.int64(),
+            DST_MAC: pa.string(),
             PROTOCOL: pa.int32(),
             TIMESTAMP: pa.float64(),
             FLOW_DURATION: pa.int64(),

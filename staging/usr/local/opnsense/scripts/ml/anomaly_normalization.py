@@ -49,8 +49,10 @@ FEATURE_NAMES_NORMED = list(map(lambda i: i.lower().replace(' ', '_'), FEATURE_N
 FLOW_ID = 'flow_id'
 SRC_IP = 'src_ip'
 SRC_PORT = 'src_port'
+SRC_MAC = 'src_mac'
 DST_IP = 'dst_ip'
 DST_PORT = 'dst_port'
+DST_MAC = 'dst_mac'
 PROTOCOL = 'protocol'
 TIMESTAMP = 'timestamp'
 FLOW_DURATION = 'flow_duration'
@@ -187,3 +189,4 @@ def norm_ip(ip: str) -> int:
 @tf_function(tf)
 def norm_label(v: str) -> int:
     return 0 if (v == '') or (v == LABEL_VALUE_BENIGN) else 1
+
