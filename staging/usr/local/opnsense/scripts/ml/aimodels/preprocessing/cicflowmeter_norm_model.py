@@ -62,9 +62,9 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
     def get_input_schema() -> dict:
         schema = {
             FLOW_ID: pa.float64(),
-            SRC_IP: pa.float64(),
+            SRC_IP: pa.string(),
             SRC_PORT: pa.float64(),
-            DST_IP: pa.float64(),
+            DST_IP: pa.string(),
             DST_PORT: pa.int64(),
             PROTOCOL: pa.int32(),
             TIMESTAMP: pa.float64(),
