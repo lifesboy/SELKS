@@ -130,10 +130,8 @@ IDLE_MEAN = 'idle_mean'
 IDLE_STD = 'idle_std'
 IDLE_MAX = 'idle_max'
 IDLE_MIN = 'idle_min'
-
-ACTIVE_MEAN = 'active_mean'
-
 LABEL = 'label'
+
 LABEL_VALUE_BENIGN = 'Benign'
 
 SIZE_1KB = 1024
