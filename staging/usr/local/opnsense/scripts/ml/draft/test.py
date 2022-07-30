@@ -12,4 +12,5 @@ FEATURE_NAMES = 'Flow ID,Src IP,Src Port,Dst IP,Dst Port,Protocol,Timestamp,Flow
                 'Active Max,Active Min,Idle Mean,Idle Std,Idle Max,Idle Min,Label'.split(',')
 FEATURE_NAMES_NORMED = list(map(lambda i: i.lower().replace(' ', '_').replace('/', '_'), FEATURE_NAMES))
 # print ('\n'.join(list(map(lambda i: "%s = '%s'" % (i.upper(), i), FEATURE_NAMES_NORMED))))
-print (',\n'.join(list(map(lambda i: "%s: pa.float64()" % (i.upper()), FEATURE_NAMES_NORMED))))
+#print (',\n'.join(list(map(lambda i: "%s: pa.float64()" % (i.upper()), FEATURE_NAMES_NORMED))))
+print (', '.join(list(map(lambda i: "%s" % (i.upper()), FEATURE_NAMES_NORMED))))
