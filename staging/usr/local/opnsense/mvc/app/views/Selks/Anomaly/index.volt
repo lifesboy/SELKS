@@ -751,7 +751,6 @@ POSSIBILITY OF SUCH DAMAGE.
 <div class="tab-content content-box">
     <div id="testingSettings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formTestingSettings,'id':'frm_TestingSettings'])}}
-        {{ partial("layout_partials/dataset_form",['fields':formTestingSettings,'id':'frm_TestingSettings_Dataset','api':'/api/anomaly/testing-settings/'])}}
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureTestingAct"
@@ -764,10 +763,10 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
             <br/>
         </div>
+        {{ partial("layout_partials/dataset_form",['fields':formTestingSettings,'id':'frm_TestingSettings_Dataset','api':'/api/anomaly/testing-settings/'])}}
     </div>
     <div id="settings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings'])}}
-        {{ partial("layout_partials/dataset_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings_Dataset','api':'/api/anomaly/settings/'])}}
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureAct"
@@ -780,10 +779,10 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
             <br/>
         </div>
+        {{ partial("layout_partials/dataset_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings_Dataset','api':'/api/anomaly/settings/'])}}
     </div>
     <div id="dataProcessorSettings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings'])}}
-        {{ partial("layout_partials/dataset_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings_Dataset','api':'/api/anomaly/data-processor-settings/'])}}
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureDataProcessorAct"
@@ -796,6 +795,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
             <br/>
         </div>
+        {{ partial("layout_partials/dataset_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings_Dataset','api':'/api/anomaly/data-processor-settings/'])}}
     </div>
     <div id="training_histories" class="tab-pane fade in">
       <!-- add installable rule files -->
