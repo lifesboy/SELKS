@@ -315,19 +315,19 @@
             </tr>
             </tfoot>
         </table>
-        <div class="col-md-12">
-            <div id="ruleChangeMessage" class="alert alert-info" style="display: none" role="alert">
-                {{ lang._('After changing settings, please remember to apply them with the button below') }}
-            </div>
-            <hr/>
-            <button class="btn btn-primary act_update"
-                    data-endpoint='/api/ids/service/reloadRules'
-                    data-label="{{ lang._('Apply') }}"
-                    data-error-title="{{ lang._('Error reconfiguring IDS') }}"
-                    type="button"
-            ></button>
-            <br/>
-            <br/>
-        </div>
+<!--         <div class="col-md-12"> -->
+<!--             <div id="ruleChangeMessage" class="alert alert-info" style="display: none" role="alert"> -->
+<!--                 {{ lang._('After changing settings, please remember to apply them with the button below') }} -->
+<!--             </div> -->
+<!--             <hr/> -->
+<!--             <button class="btn btn-primary act_update" -->
+<!--                     data-endpoint='/api/ids/service/reloadRules' -->
+<!--                     data-label="{{ lang._('Apply') }}" -->
+<!--                     data-error-title="{{ lang._('Error reconfiguring IDS') }}" -->
+<!--                     type="button" -->
+<!--             ></button> -->
+<!--             <br/> -->
+<!--             <br/> -->
+<!--         </div> -->
     </div>
 </form>
