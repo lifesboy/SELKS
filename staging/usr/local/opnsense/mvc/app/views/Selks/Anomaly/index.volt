@@ -759,7 +759,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     data-service-widget="anomaly"
                     type="button"
             ></button>
-            &nbsp;<span><a href="" id="scheduled_updates_testing" style="display:none">{{ lang._('Schedule') }}</a></li>
+            &nbsp;&nbsp;<span class="btn btn-primary"><a href="" id="scheduled_updates_testing" style="color: #fff;display:none">{{ lang._('Schedule') }}</a></span>
             <br/>
             <br/>
         </div>
@@ -776,7 +776,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     data-service-widget="anomaly"
                     type="button"
             ></button>
-            &nbsp;<span><a href="" id="scheduled_updates_general" style="display:none">{{ lang._('Schedule') }}</a></li>
+            &nbsp;&nbsp;<span class="btn btn-primary"><a href="" id="scheduled_updates_general" style="color: #fff;display:none">{{ lang._('Schedule') }}</a></span>
             <br/>
             <br/>
         </div>
@@ -793,7 +793,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     data-service-widget="anomaly"
                     type="button"
             ></button>
-            &nbsp;<span><a href="" id="scheduled_updates_dataprocessor" style="display:none">{{ lang._('Schedule') }}</a></li>
+            &nbsp;&nbsp;<span class="btn btn-primary"><a href="" id="scheduled_updates_dataprocessor" style="color: #fff;display:none">{{ lang._('Schedule') }}</a></span>
             <br/>
             <br/>
         </div>
