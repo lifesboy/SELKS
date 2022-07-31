@@ -1134,6 +1134,12 @@
         <DataDestination>nsm</DataDestination>
         <UpdateCron/>
       </dataProcessor>
+      <testing>
+        <enabled>0</enabled>
+        <DataSource>nsm/*.csv</DataSource>
+        <ServingUrl>http://selks.ddns.net:6789/anomaly</ServingUrl>
+        <UpdateCron/>
+      </testing>
     </Anomaly>
   </Selks>
   <staticroutes/>

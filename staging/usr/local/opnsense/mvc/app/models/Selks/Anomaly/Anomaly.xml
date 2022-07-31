@@ -259,9 +259,11 @@
                 <Required>Y</Required>
             </enabled>
             <DataSource type="TextField">
+                <default>nsm/*.csv</default>
                 <Required>Y</Required>
             </DataSource>
             <ServingUrl type="TextField">
+                <default>http://selks.ddns.net:6789/anomaly</default>
                 <Required>Y</Required>
                 <ValidationMessage>Enter a valid serving url</ValidationMessage>
             </ServingUrl>
