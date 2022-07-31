@@ -1105,7 +1105,7 @@ function system_cron_configure($verbose = false, $defer = false)
         $crontab_contents .= "({$item['command']}) > /dev/null\n";
     }
 
-    file_put_contents('/var/cron/tabs/root', $crontab_contents);
+    file_put_contents('/var/spool/cron/crontabs/root', $crontab_contents);
 
     if (!$defer) {
         configd_run('cron restart');

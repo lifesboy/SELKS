@@ -414,7 +414,7 @@ function local_sync_accounts()
              * If a crontab was created to user, pw userdel will be interactive and
              * can cause issues. Just remove crontab before run it when necessary
              */
-            @unlink("/var/cron/tabs/{$line[0]}");
+            @unlink("/var/spool/cron/crontabs/{$line[0]}");
             mwexecf('/sbin/userdel %s', $line[0]);
         }
         pclose($fd);
