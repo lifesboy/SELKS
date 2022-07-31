@@ -782,9 +782,9 @@
           <months>*</months>
           <weekdays>*</weekdays>
           <who>root</who>
-          <command>anomaly list datasets</command>
+          <command>anomaly list datasetmetadata</command>
           <parameters/>
-          <description>request datasets updates</description>
+          <description>request dataset metadata updates</description>
         </job>
       </jobs>
     </cron>
