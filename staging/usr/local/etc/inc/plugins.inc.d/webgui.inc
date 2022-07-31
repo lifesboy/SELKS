@@ -214,7 +214,7 @@ fastcgi.server = ( ".php" =>
       "max-procs" => 2,
       "bin-environment" => (
         "PHP_FCGI_CHILDREN" => "3",
-        "PHP_FCGI_MAX_REQUESTS" => "100",
+        "PHP_FCGI_MAX_REQUESTS" => "1000",
         "LC_MESSAGES" => "$lang",
         "LANG" => "$lang_encoding"
       ),
@@ -245,8 +245,8 @@ server.modules              =   (
   "mod_cgi", "mod_fastcgi","mod_alias", "mod_rewrite", "mod_openssl" {$lighty_modules}
 )
 
-server.max-keep-alive-requests = 15
-server.max-keep-alive-idle = 30
+server.max-keep-alive-requests = 150
+server.max-keep-alive-idle = 300
 
 ## a static document-root, for virtual-hosting take look at the
 ## server.virtual-* options
