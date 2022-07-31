@@ -773,6 +773,19 @@
           <parameters>http://selks.ddns.net:6789/anomaly nsm/*.csv</parameters>
           <description>anomaly testing updates</description>
         </job>
+        <job uuid="5dae6f51-476f-4fb6-a8df-401e4f320082">
+          <origin>cron</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>*</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly list datasets</command>
+          <parameters/>
+          <description>request datasets updates</description>
+        </job>
       </jobs>
     </cron>
     <IDS version="1.0.5">
