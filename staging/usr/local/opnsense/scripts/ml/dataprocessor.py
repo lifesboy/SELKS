@@ -119,7 +119,8 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
         log.error('process_data tasks interrupted: %s', e)
         sources_fail += df['input_path']
         client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
-        client.set_tag(run_id=run.info.run_id, key='sources_fail_%' % i, value=s) for i, s in enumerate(sources_fail)
+        for i, s in enumerate(sources_fail):
+            client.set_tag(run_id=run.info.run_id, key='sources_fail_%' % i, value=s)
     finally:
         pass
 
