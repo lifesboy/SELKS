@@ -66,7 +66,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             SRC_PORT: pa.float64(),
             SRC_MAC: pa.string(),
             DST_IP: pa.string(),
-            DST_PORT: pa.int64(),
+            DST_PORT: pa.float64(),
             DST_MAC: pa.string(),
             PROTOCOL: pa.int32(),
             TIMESTAMP: pa.string(),
