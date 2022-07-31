@@ -81,7 +81,7 @@ class DatasetCache(object):
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
-        self.cachefile = '%sdatasets.sqlite' % dataset_source_directory
+        self.cachefile = '%sdatasets.cache' % dataset_source_directory
         self._dataset_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
 
     def init_experiment(self):
@@ -300,7 +300,6 @@ class DatasetCache(object):
             fcntl.flock(lock, fcntl.LOCK_EX)
             fcntl.flock(lock, fcntl.LOCK_UN)
             return
-
 
         df = self.list_local(self.data_sources, self.batch_size)
         if df.index.size <= 0:
