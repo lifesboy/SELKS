@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 import argparse
 import glob
+import os
+import signal
+
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
 from pandas import DataFrame, Series
@@ -128,8 +131,14 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
     return True
 
 
+def kill_exists_processing():
+    for pid in set(utils.get_process_ids(__file__)) - {os.getpid()}:
+        os.kill(pid, signal.SIGTERM)
+
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --num-gpus=0.1 --num-cpus=0.1 --data-destination=nsm
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=cic2018/*.csv --batch-size=500 --batch-size-source=1 --num-gpus=0.1 --num-cpus=0.1 --data-destination=cic2018 --tag=cic2018
+
+
 if __name__ == "__main__":
     args = parser.parse_args()
     data_source = args.data_source
@@ -143,6 +152,8 @@ if __name__ == "__main__":
     destination_dir = common.DATA_NORMALIZED_DIR + data_destination + '/'
     input_files = common.get_data_featured_extracted_files_by_pattern(data_source)
     # input_files = data_source.split(',')
+
+    kill_exists_processing()
 
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,

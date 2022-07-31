@@ -1,4 +1,5 @@
 import os
+import subprocess
 from datetime import datetime
 
 import pandas as pd
@@ -43,3 +44,9 @@ def get_processing_file_pattern(
     batch_df['output_name'] = batch_df.apply(lambda i: get_output_file_of_batch(i.input_name, tag, ext), axis=1, result_type='reduce')
     batch_df['output_path'] = batch_df.apply(lambda i: os.path.join(output, i.output_name), axis=1, result_type='reduce')
     return batch_df
+
+
+def get_process_ids(script: str) -> map:
+    script_command = "/bin/ps -ex | grep '%s' | grep -v 'grep' | /usr/bin/awk '{print $1;}'" % script
+    p_ids = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
+    return map(lambda i: int(i), set(p_ids) - set(['']))
