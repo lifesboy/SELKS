@@ -62,9 +62,10 @@ class DataProcessorServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly dataprocessor start %s %s %s %s %s",
+            $runCommand = sprintf("anomaly dataprocessor start %s %s %s %s %s %s",
                 $mdlAnomaly->dataProcessor->DataSource,
                 $mdlAnomaly->dataProcessor->BatchSize,
+                $mdlAnomaly->dataProcessor->BatchSizeSource,
                 $mdlAnomaly->dataProcessor->NumGpus,
                 $mdlAnomaly->dataProcessor->NumCpus,
                 $mdlAnomaly->dataProcessor->DataDestination);

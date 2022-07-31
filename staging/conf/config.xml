@@ -1128,7 +1128,8 @@
         <enabled>1</enabled>
         <DataSource>nsm/*.csv</DataSource>
         <BatchSize>500</BatchSize>
-        <NumGpus>0.1</NumGpus>
+        <BatchSizeSource>10</BatchSizeSource>
+        <NumGpus>0.4</NumGpus>
         <NumCpus>0.1</NumCpus>
         <DataDestination>nsm</DataDestination>
         <UpdateCron/>
