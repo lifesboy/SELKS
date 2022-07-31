@@ -746,7 +746,7 @@ POSSIBILITY OF SUCH DAMAGE.
     <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training AI Model') }}</a></li>
     <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('Testing AI Model') }}</a></li>
     <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Histories') }}</a></li>
-    <li><a href="" id="scheduled_updates">{{ lang._('Schedule') }}</a></li>
+    <li><a href="" id="scheduled_updates" style="display:none">{{ lang._('Schedule') }}</a></li>
 </ul>
 <div class="tab-content content-box">
     <div id="testingSettings" class="tab-pane fade in">
