@@ -157,28 +157,28 @@ POSSIBILITY OF SUCH DAMAGE.
         // load initial data
         function loadDataProcessorSettings() {
             mapDataToFormUI(data_processor_settings_get_map).done(function(data){
-                //// set schedule updates link to cron
-                //$.each(data.frm_DataProcessorSettings.anomaly.dataProcessor.UpdateCron, function(key, value) {
-                //    if (value.selected == 1) {
-                //        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
-                //        $("#scheduled_updates").show();
-                //    }
-                //});
-                //formatTokenizersUI();
-                //$('.selectpicker').selectpicker('refresh');
+                // set schedule updates link to cron
+                $.each(data.frm_DataProcessorSettings.anomaly.dataProcessor.UpdateCron, function(key, value) {
+                    if (value.selected == 1) {
+                        $("#scheduled_updates_dataprocessor").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates_dataprocessor").show();
+                    }
+                });
+                formatTokenizersUI();
+                $('.selectpicker').selectpicker('refresh');
             });
         }
 
         // load initial data
         function loadTestingSettings() {
             mapDataToFormUI(testing_settings_get_map).done(function(data){
-                //// set schedule updates link to cron
-                //$.each(data.frm_TestingSettings.anomaly.testing.UpdateCron, function(key, value) {
-                //    if (value.selected == 1) {
-                //        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
-                //        $("#scheduled_updates").show();
-                //    }
-                //});
+                // set schedule updates link to cron
+                $.each(data.frm_TestingSettings.anomaly.testing.UpdateCron, function(key, value) {
+                    if (value.selected == 1) {
+                        $("#scheduled_updates_testing").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates_testing").show();
+                    }
+                });
             });
         }
 
@@ -188,8 +188,8 @@ POSSIBILITY OF SUCH DAMAGE.
                 // set schedule updates link to cron
                 $.each(data.frm_GeneralSettings.anomaly.general.UpdateCron, function(key, value) {
                     if (value.selected == 1) {
-                        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
-                        $("#scheduled_updates").show();
+                        $("#scheduled_updates_general").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates_general").show();
                     }
                 });
             });
@@ -746,7 +746,6 @@ POSSIBILITY OF SUCH DAMAGE.
     <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training AI Model') }}</a></li>
     <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('Testing AI Model') }}</a></li>
     <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Histories') }}</a></li>
-    <li><a href="" id="scheduled_updates" style="display:none">{{ lang._('Schedule') }}</a></li>
 </ul>
 <div class="tab-content content-box">
     <div id="testingSettings" class="tab-pane fade in">
@@ -760,6 +759,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     data-service-widget="anomaly"
                     type="button"
             ></button>
+            &nbsp;<span><a href="" id="scheduled_updates_testing" style="display:none">{{ lang._('Schedule') }}</a></li>
             <br/>
             <br/>
         </div>
@@ -776,6 +776,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     data-service-widget="anomaly"
                     type="button"
             ></button>
+            &nbsp;<span><a href="" id="scheduled_updates_general" style="display:none">{{ lang._('Schedule') }}</a></li>
             <br/>
             <br/>
         </div>
@@ -792,6 +793,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     data-service-widget="anomaly"
                     type="button"
             ></button>
+            &nbsp;<span><a href="" id="scheduled_updates_dataprocessor" style="display:none">{{ lang._('Schedule') }}</a></li>
             <br/>
             <br/>
         </div>
