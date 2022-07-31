@@ -294,6 +294,8 @@ class DatasetCache(object):
         # lock create process
         lock = open(self.cachefile + '.LCK', 'w')
         try:
+            lock.flush()
+            lock.write('%s' % os.getpid())
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except IOError:
             # other process is already creating the cache, wait, let the other process do it's work and return.
