@@ -31,7 +31,7 @@
     </field>
     <field>
         <id>anomaly.dataProcessor.NumCpus</id>
-        <label>--num-gpus</label>
+        <label>--num-cpus</label>
         <type>text</type>
         <help><![CDATA[Number of Cpus to preprocess.]]></help>
     </field>

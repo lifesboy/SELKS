@@ -63,8 +63,8 @@ class TestingServiceController extends ApiMutableServiceControllerBase
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
             $runCommand = sprintf("anomaly testing start %s %s",
-                $mdlAnomaly->testing->DataSource,
-                $mdlAnomaly->testing->ServingUrl);
+                $mdlAnomaly->testing->ServingUrl,
+                $mdlAnomaly->testing->DataSource);
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
             if ((string)$mdlAnomaly->testing->UpdateCron == "") {
