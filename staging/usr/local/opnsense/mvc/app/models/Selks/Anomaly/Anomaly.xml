@@ -155,27 +155,32 @@
                 <Required>Y</Required>
             </enabled>
             <DataSource type="TextField">
+                <default>cic2018/*.csv</default>
                 <Required>Y</Required>
             </DataSource>
             <StopIters type="IntegerField">
+                <default>1000</default>
                 <Required>N</Required>
                 <MinimumValue>1</MinimumValue>
                 <MaximumValue>9999999999</MaximumValue>
                 <ValidationMessage>Enter a valid iterator number</ValidationMessage>
             </StopIters>
             <StopEpisodeLen type="IntegerField">
+                <default>1000</default>
                 <Required>N</Required>
                 <MinimumValue>1</MinimumValue>
                 <MaximumValue>9999999999</MaximumValue>
                 <ValidationMessage>Enter a valid episode length</ValidationMessage>
             </StopEpisodeLen>
             <StopTimesteps type="IntegerField">
+                <default>1000</default>
                 <Required>N</Required>
                 <MinimumValue>1</MinimumValue>
                 <MaximumValue>9999999999</MaximumValue>
                 <ValidationMessage>Enter a valid time steps</ValidationMessage>
             </StopTimesteps>
             <StopReward type="IntegerField">
+                <default>100</default>
                 <Required>N</Required>
                 <MinimumValue>1</MinimumValue>
                 <MaximumValue>9999999999</MaximumValue>

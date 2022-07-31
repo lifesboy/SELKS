@@ -1117,7 +1117,7 @@
       <fileTags/>
       <general>
         <enabled>1</enabled>
-        <DataSource>cic2018_Friday-02-03-2018/*</DataSource>
+        <DataSource>cic2018/*.csv</DataSource>
         <StopIters>1000</StopIters>
         <StopEpisodeLen>1000</StopEpisodeLen>
         <StopTimesteps>1000</StopTimesteps>
