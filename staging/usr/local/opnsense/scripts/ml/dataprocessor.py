@@ -132,7 +132,7 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
 
 
 def kill_exists_processing():
-    for pid in set(utils.get_process_ids(__file__)) - {os.getppid(), os.getpid(), os.getpid() - 1}:
+    for pid in set(utils.get_process_ids(__file__)) - {os.getppid(), os.getpid()}:
         os.kill(pid, signal.SIGTERM)
 
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --num-gpus=0.1 --num-cpus=0.1 --data-destination=nsm
