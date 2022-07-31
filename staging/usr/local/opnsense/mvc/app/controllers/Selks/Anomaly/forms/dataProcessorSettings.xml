@@ -18,6 +18,12 @@
         <help><![CDATA[Batch size to preprocess.]]></help>
     </field>
     <field>
+        <id>anomaly.dataProcessor.BatchSizeSource</id>
+        <label>--batch-size-source</label>
+        <type>text</type>
+        <help><![CDATA[Batch size of source number to preprocess.]]></help>
+    </field>
+    <field>
         <id>anomaly.dataProcessor.NumGpus</id>
         <label>--num-gpus</label>
         <type>text</type>
