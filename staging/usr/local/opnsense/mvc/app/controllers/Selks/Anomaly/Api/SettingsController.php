@@ -99,7 +99,7 @@ class SettingsController extends ApiMutableModelControllerBase
             }
             if ($this->request->getPost('searchPhrase', 'string', '') != "") {
                 $searchTag = $filter->sanitize($this->request->getPost('searchPhrase'), "query");
-                $searchPhrase = 'msg,source,sid/"*' . $searchTag . '"';
+                $searchPhrase = 'msg,source,sid,artifact/"*' . $searchTag . '"';
             } else {
                 $searchPhrase = '';
             }
