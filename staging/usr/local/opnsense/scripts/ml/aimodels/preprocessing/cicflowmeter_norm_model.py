@@ -70,7 +70,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             DST_MAC: pa.string(),
             PROTOCOL: pa.int32(),
             TIMESTAMP: pa.string(),
-            FLOW_DURATION: pa.int64(),
+            FLOW_DURATION: pa.float64(),
             TOT_FWD_PKTS: pa.float64(),
             TOT_BWD_PKTS: pa.float64(),
             TOTLEN_FWD_PKTS: pa.float64(),
