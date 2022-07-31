@@ -157,28 +157,28 @@ POSSIBILITY OF SUCH DAMAGE.
         // load initial data
         function loadDataProcessorSettings() {
             mapDataToFormUI(data_processor_settings_get_map).done(function(data){
-                // set schedule updates link to cron
-                $.each(data.frm_DataProcessorSettings.anomaly.dataProcessor.UpdateCron, function(key, value) {
-                    if (value.selected == 1) {
-                        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
-                        $("#scheduled_updates").show();
-                    }
-                });
-                formatTokenizersUI();
-                $('.selectpicker').selectpicker('refresh');
+                //// set schedule updates link to cron
+                //$.each(data.frm_DataProcessorSettings.anomaly.dataProcessor.UpdateCron, function(key, value) {
+                //    if (value.selected == 1) {
+                //        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
+                //        $("#scheduled_updates").show();
+                //    }
+                //});
+                //formatTokenizersUI();
+                //$('.selectpicker').selectpicker('refresh');
             });
         }
 
         // load initial data
         function loadTestingSettings() {
             mapDataToFormUI(testing_settings_get_map).done(function(data){
-                // set schedule updates link to cron
-                $.each(data.frm_TestingSettings.anomaly.testing.UpdateCron, function(key, value) {
-                    if (value.selected == 1) {
-                        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
-                        $("#scheduled_updates").show();
-                    }
-                });
+                //// set schedule updates link to cron
+                //$.each(data.frm_TestingSettings.anomaly.testing.UpdateCron, function(key, value) {
+                //    if (value.selected == 1) {
+                //        $("#scheduled_updates").attr("href","/ui/cron/item/open/"+key);
+                //        $("#scheduled_updates").show();
+                //    }
+                //});
             });
         }
 
