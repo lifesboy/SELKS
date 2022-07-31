@@ -128,9 +128,9 @@ class DatasetCache(object):
         try:
             source_filename = filename.split('/')[-1]
             schema = CicFlowmeterNormModel.get_input_schema()
-            read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
+            #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
             convert_options = csv.ConvertOptions(column_types=schema)
-            dt = ray.data.read_csv(filename, read_options=read_options, convert_options=convert_options)
+            dt = ray.data.read_csv(filename, convert_options=convert_options)
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
