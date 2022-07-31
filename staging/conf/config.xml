@@ -734,6 +734,45 @@
           <parameters/>
           <description>sids rule updates</description>
         </job>
+        <job uuid="1866cc3f-86c7-4c69-9e81-ef6764f7b278">
+          <origin>AnomalyDataProcessor</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>0</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly dataprocessor start</command>
+          <parameters>nsm 500 10 0.4 0.1 nsm/*.csv</parameters>
+          <description>anomaly data processor updates</description>
+        </job>
+        <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
+          <origin>Anomaly</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>2</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly start</command>
+          <parameters>1000 1000 1000 100 cic2018/*.csv</parameters>
+          <description>anomaly training updates</description>
+        </job>
+        <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
+          <origin>AnomalyTesting</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>4</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly testing start</command>
+          <parameters>http://selks.ddns.net:6789/anomaly nsm/*.csv</parameters>
+          <description>anomaly testing updates</description>
+        </job>
       </jobs>
     </cron>
     <IDS version="1.0.5">
@@ -1122,7 +1161,7 @@
         <StopEpisodeLen>1000</StopEpisodeLen>
         <StopTimesteps>1000</StopTimesteps>
         <StopReward>100</StopReward>
-        <UpdateCron/>
+        <UpdateCron>2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b</UpdateCron>
       </general>
       <dataProcessor>
         <enabled>1</enabled>
@@ -1132,13 +1171,13 @@
         <NumGpus>0.4</NumGpus>
         <NumCpus>0.1</NumCpus>
         <DataDestination>nsm</DataDestination>
-        <UpdateCron/>
+        <UpdateCron>1866cc3f-86c7-4c69-9e81-ef6764f7b278</UpdateCron>
       </dataProcessor>
       <testing>
         <enabled>0</enabled>
         <DataSource>nsm/*.csv</DataSource>
         <ServingUrl>http://selks.ddns.net:6789/anomaly</ServingUrl>
-        <UpdateCron/>
+        <UpdateCron>c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb</UpdateCron>
       </testing>
     </Anomaly>
   </Selks>
