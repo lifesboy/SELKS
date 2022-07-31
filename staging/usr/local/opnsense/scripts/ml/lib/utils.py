@@ -47,6 +47,6 @@ def get_processing_file_pattern(
 
 
 def get_process_ids(script: str) -> map:
-    script_command = "/bin/ps -ex | grep '%s' | grep -v 'grep' | /usr/bin/awk '{print $1;}'" % script
+    script_command = "/bin/ps -ex | grep '%s' | grep -v 'grep' | grep -v '/bin/sh -c' | /usr/bin/awk '{print $1;}'" % script
     p_ids = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
     return map(lambda i: int(i), set(p_ids) - set(['']))
