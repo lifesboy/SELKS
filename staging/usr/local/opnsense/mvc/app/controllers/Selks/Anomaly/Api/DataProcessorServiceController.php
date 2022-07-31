@@ -74,7 +74,7 @@ class DataProcessorServiceController extends ApiMutableServiceControllerBase
             if ((string)$mdlAnomaly->dataProcessor->UpdateCron == "") {
                 $mdlCron = new Cron();
                 // update cron relation (if this doesn't break consistency)
-                $mdlAnomaly->dataProcessor->UpdateCron = $mdlCron->newDailyJob("Anomaly Data Processor", $runCommand, "anomaly data processor updates", "*", "0");
+                $mdlAnomaly->dataProcessor->UpdateCron = $mdlCron->newDailyJob("AnomalyDataProcessor", "anomaly dataprocessor start", "anomaly data processor updates", "*", "0");
 
                 if ($mdlCron->performValidation()->count() == 0) {
                     $mdlCron->serializeToConfig();

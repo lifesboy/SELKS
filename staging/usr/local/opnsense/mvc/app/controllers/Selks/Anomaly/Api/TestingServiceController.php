@@ -70,7 +70,7 @@ class TestingServiceController extends ApiMutableServiceControllerBase
             if ((string)$mdlAnomaly->testing->UpdateCron == "") {
                 $mdlCron = new Cron();
                 // update cron relation (if this doesn't break consistency)
-                $mdlAnomaly->testing->UpdateCron = $mdlCron->newDailyJob("Anomaly Testing", $runCommand, "anomaly testing updates", "*", "0");
+                $mdlAnomaly->testing->UpdateCron = $mdlCron->newDailyJob("Anomaly", "anomaly testing start", "anomaly testing updates", "*", "0");
 
                 if ($mdlCron->performValidation()->count() == 0) {
                     $mdlCron->serializeToConfig();
