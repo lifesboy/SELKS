@@ -401,7 +401,7 @@ class DatasetCache(object):
                         if searchcontent.find('*') == -1:
                             sql_item.append('cast(' + fieldname + " as text) like %(" + fieldname + ")s ")
                         else:
-                            sql_item.append('cast(' + fieldname + " as text) like '%%(" + fieldname + ")s%' ")
+                            sql_item.append('cast(' + fieldname + " as text) ~ %(" + fieldname + ")s ")
                         sql_parameters[fieldname] = searchcontent.replace('*', '')
                     else:
                         # property value combinations per rule are queried from the dataset_properties table
@@ -410,7 +410,7 @@ class DatasetCache(object):
                         if searchcontent.find('*') == -1:
                             prop_values.append("property = %({})s and value like %({})s ".format(pfieldnm, vfieldnm))
                         else:
-                            prop_values.append("property = %({})s and value like '%%({})s%'".format(pfieldnm, vfieldnm))
+                            prop_values.append("property = %({})s and value ~ %({})s".format(pfieldnm, vfieldnm))
                         sql_parameters[pfieldnm] = fieldname
                         sql_parameters[vfieldnm] = searchcontent.replace('*', '')
 
