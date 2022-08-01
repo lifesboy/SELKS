@@ -59,6 +59,7 @@ from ml.models.dataset_properties import DatasetProperties
 from ml.models.local_dataset_changes import LocalDatasetChanges
 from ml.models.stats import Stats
 from ml.aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
+from ml.aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
 
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
@@ -127,7 +128,7 @@ class DatasetCache(object):
         dataset_info_record = {'dataset': filename, 'metadata': None}
         try:
             source_filename = filename.split('/')[-1]
-            schema = CicFlowmeterNormModel.get_input_schema()
+            schema = {**CicFlowmeterNormModel.get_input_schema(), **Cic2018NormModel.get_input_schema()}
             #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
             convert_options = csv.ConvertOptions(column_types=schema)
             dt = ray.data.read_csv(filename, convert_options=convert_options)
