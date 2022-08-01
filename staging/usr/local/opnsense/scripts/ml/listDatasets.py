@@ -7,11 +7,17 @@
 import os
 import os.path
 import ujson
+from lib.datasetcache import DatasetCache
 from lib import metadata
 from lib import dataset_source_directory
 
 md = metadata.Metadata()
 if __name__ == '__main__':
+
+    rc = DatasetCache()
+    if rc.is_changed():
+        rc.create()
+
     # collect all installable rules indexed by (target) filename
     # (filenames should be unique)
     items = dict()

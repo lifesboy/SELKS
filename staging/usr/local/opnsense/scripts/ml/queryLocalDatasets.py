@@ -10,8 +10,8 @@ from params import update_params
 # to hold the last results (combined with creation date and number of files).
 if __name__ == '__main__':
     rc = DatasetCache()
-    if rc.is_changed():
-        rc.create()
+    # if rc.is_changed():
+    #     rc.create()
 
     # load parameters, ignore validation here the search method only processes valid input
     parameters = {'limit': '0', 'offset': '0', 'sort_by': '', 'filter': ''}
