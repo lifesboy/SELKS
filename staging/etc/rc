@@ -202,6 +202,8 @@ chmod 755 /usr/local/etc/rc.subr.d/recover
 #ln -s /run /var/run
 chmod 0755 /var/run
 
+chown -R root:crontab /var/spool/cron/crontabs
+
 chmod -R o+r /var/log/nginx
 chmod -R o+r /var/log/squid
 chmod -R o+r /var/log/clamav
