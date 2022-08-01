@@ -17,13 +17,19 @@ tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
 
 import common
-from anomaly_normalization import F1, F2, F3, F4, F5, F6
-from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS,\
-    TOTLEN_FWD_PKTS, TOTLEN_BWD_PKTS, FWD_PKT_LEN_MAX, FWD_PKT_LEN_MIN, FWD_PKT_LEN_MEAN, FWD_PKT_LEN_STD,\
-    BWD_PKT_LEN_MAX, BWD_PKT_LEN_MIN, BWD_PKT_LEN_MEAN, BWD_PKT_LEN_STD, PKT_LEN_MAX, PKT_LEN_MIN, PKT_LEN_MEAN,\
-    PKT_LEN_STD, PKT_LEN_VAR, FWD_HEADER_LEN, BWD_HEADER_LEN, FWD_SEG_SIZE_MIN, FWD_ACT_DATA_PKTS,\
-    ACTIVE_MEAN,\
-    LABEL
+from anomaly_normalization import FLOW_ID, SRC_IP, SRC_PORT, SRC_MAC, DST_IP, DST_PORT, DST_MAC, PROTOCOL, TIMESTAMP,\
+ FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS, TOTLEN_BWD_PKTS, FWD_PKT_LEN_MAX,\
+ FWD_PKT_LEN_MIN, FWD_PKT_LEN_MEAN, FWD_PKT_LEN_STD, BWD_PKT_LEN_MAX, BWD_PKT_LEN_MIN, BWD_PKT_LEN_MEAN,\
+ BWD_PKT_LEN_STD, FLOW_BYTS_S, FLOW_PKTS_S, FLOW_IAT_MEAN, FLOW_IAT_STD, FLOW_IAT_MAX, FLOW_IAT_MIN,\
+ FWD_IAT_TOT, FWD_IAT_MEAN, FWD_IAT_STD, FWD_IAT_MAX, FWD_IAT_MIN, BWD_IAT_TOT, BWD_IAT_MEAN, BWD_IAT_STD,\
+ BWD_IAT_MAX, BWD_IAT_MIN, FWD_PSH_FLAGS, BWD_PSH_FLAGS, FWD_URG_FLAGS, BWD_URG_FLAGS, FWD_HEADER_LEN,\
+ BWD_HEADER_LEN, FWD_PKTS_S, BWD_PKTS_S, PKT_LEN_MIN, PKT_LEN_MAX, PKT_LEN_MEAN, PKT_LEN_STD, PKT_LEN_VAR,\
+ FIN_FLAG_CNT, SYN_FLAG_CNT, RST_FLAG_CNT, PSH_FLAG_CNT, ACK_FLAG_CNT, URG_FLAG_CNT, CWE_FLAG_COUNT, ECE_FLAG_CNT,\
+ DOWN_UP_RATIO, PKT_SIZE_AVG, FWD_SEG_SIZE_AVG, BWD_SEG_SIZE_AVG, FWD_BYTS_B_AVG, FWD_PKTS_B_AVG, FWD_BLK_RATE_AVG,\
+ BWD_BYTS_B_AVG, BWD_PKTS_B_AVG, BWD_BLK_RATE_AVG, SUBFLOW_FWD_PKTS, SUBFLOW_FWD_BYTS, SUBFLOW_BWD_PKTS,\
+ SUBFLOW_BWD_BYTS, INIT_FWD_WIN_BYTS, INIT_BWD_WIN_BYTS, FWD_ACT_DATA_PKTS, FWD_SEG_SIZE_MIN, ACTIVE_MEAN,\
+ ACTIVE_STD, ACTIVE_MAX, ACTIVE_MIN, IDLE_MEAN, IDLE_STD, IDLE_MAX, IDLE_MIN, LABEL
+
 import anomaly_normalization as norm
 
 from datetime import date
@@ -55,12 +61,18 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
     @staticmethod
     def get_input_schema() -> dict:
         schema = {
-            DST_PORT: pa.int64(),
+            # FLOW_ID: pa.float64(),
+            SRC_IP: pa.string(),
+            SRC_PORT: pa.float64(),
+            SRC_MAC: pa.string(),
+            DST_IP: pa.string(),
+            DST_PORT: pa.float64(),
+            DST_MAC: pa.string(),
             PROTOCOL: pa.int32(),
-            FLOW_DURATION: pa.int64(),
+            TIMESTAMP: pa.string(),
+            FLOW_DURATION: pa.float64(),
             TOT_FWD_PKTS: pa.float64(),
             TOT_BWD_PKTS: pa.float64(),
-
             TOTLEN_FWD_PKTS: pa.float64(),
             TOTLEN_BWD_PKTS: pa.float64(),
             FWD_PKT_LEN_MAX: pa.float64(),
@@ -71,18 +83,69 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             BWD_PKT_LEN_MIN: pa.float64(),
             BWD_PKT_LEN_MEAN: pa.float64(),
             BWD_PKT_LEN_STD: pa.float64(),
-            PKT_LEN_MAX: pa.float64(),
+            FLOW_BYTS_S: pa.float64(),
+            FLOW_PKTS_S: pa.float64(),
+            FLOW_IAT_MEAN: pa.float64(),
+            FLOW_IAT_STD: pa.float64(),
+            FLOW_IAT_MAX: pa.float64(),
+            FLOW_IAT_MIN: pa.float64(),
+            FWD_IAT_TOT: pa.float64(),
+            FWD_IAT_MEAN: pa.float64(),
+            FWD_IAT_STD: pa.float64(),
+            FWD_IAT_MAX: pa.float64(),
+            FWD_IAT_MIN: pa.float64(),
+            BWD_IAT_TOT: pa.float64(),
+            BWD_IAT_MEAN: pa.float64(),
+            BWD_IAT_STD: pa.float64(),
+            BWD_IAT_MAX: pa.float64(),
+            BWD_IAT_MIN: pa.float64(),
+            FWD_PSH_FLAGS: pa.float64(),
+            BWD_PSH_FLAGS: pa.float64(),
+            FWD_URG_FLAGS: pa.float64(),
+            BWD_URG_FLAGS: pa.float64(),
+            FWD_HEADER_LEN: pa.float64(),
+            BWD_HEADER_LEN: pa.float64(),
+            FWD_PKTS_S: pa.float64(),
+            BWD_PKTS_S: pa.float64(),
             PKT_LEN_MIN: pa.float64(),
+            PKT_LEN_MAX: pa.float64(),
             PKT_LEN_MEAN: pa.float64(),
             PKT_LEN_STD: pa.float64(),
             PKT_LEN_VAR: pa.float64(),
-            FWD_HEADER_LEN: pa.float64(),
-            BWD_HEADER_LEN: pa.float64(),
-            FWD_SEG_SIZE_MIN: pa.float64(),
+            FIN_FLAG_CNT: pa.float64(),
+            SYN_FLAG_CNT: pa.float64(),
+            RST_FLAG_CNT: pa.float64(),
+            PSH_FLAG_CNT: pa.float64(),
+            ACK_FLAG_CNT: pa.float64(),
+            URG_FLAG_CNT: pa.float64(),
+            CWE_FLAG_COUNT: pa.float64(),
+            ECE_FLAG_CNT: pa.float64(),
+            DOWN_UP_RATIO: pa.float64(),
+            PKT_SIZE_AVG: pa.float64(),
+            FWD_SEG_SIZE_AVG: pa.float64(),
+            BWD_SEG_SIZE_AVG: pa.float64(),
+            FWD_BYTS_B_AVG: pa.float64(),
+            FWD_PKTS_B_AVG: pa.float64(),
+            FWD_BLK_RATE_AVG: pa.float64(),
+            BWD_BYTS_B_AVG: pa.float64(),
+            BWD_PKTS_B_AVG: pa.float64(),
+            BWD_BLK_RATE_AVG: pa.float64(),
+            SUBFLOW_FWD_PKTS: pa.float64(),
+            SUBFLOW_FWD_BYTS: pa.float64(),
+            SUBFLOW_BWD_PKTS: pa.float64(),
+            SUBFLOW_BWD_BYTS: pa.float64(),
+            INIT_FWD_WIN_BYTS: pa.float64(),
+            INIT_BWD_WIN_BYTS: pa.float64(),
             FWD_ACT_DATA_PKTS: pa.float64(),
-
+            FWD_SEG_SIZE_MIN: pa.float64(),
             ACTIVE_MEAN: pa.float64(),
-
+            ACTIVE_STD: pa.float64(),
+            ACTIVE_MAX: pa.float64(),
+            ACTIVE_MIN: pa.float64(),
+            IDLE_MEAN: pa.float64(),
+            IDLE_STD: pa.float64(),
+            IDLE_MAX: pa.float64(),
+            IDLE_MIN: pa.float64(),
             LABEL: pa.string(),
         }
 
