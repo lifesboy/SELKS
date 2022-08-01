@@ -7,6 +7,7 @@ import ujson
 import os.path
 from lib import metadata
 from lib import dataset_source_directory
+from lib.datasetcache import DatasetCache
 
 
 class Command(BaseCommand):
