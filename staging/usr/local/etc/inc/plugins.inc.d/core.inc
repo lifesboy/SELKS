@@ -220,12 +220,12 @@ function core_cron()
 
     $jobs = array();
 
-    $jobs[]['autocron'] = array('/usr/local/sbin/expiretable -v -t 3600 sshlockout', '1');
-    $jobs[]['autocron'] = array('/usr/local/sbin/expiretable -v -t 3600 virusprot', '2');
+//    $jobs[]['autocron'] = array('/usr/local/sbin/expiretable -v -t 3600 sshlockout', '1');
+//    $jobs[]['autocron'] = array('/usr/local/sbin/expiretable -v -t 3600 virusprot', '2');
     $jobs[]['autocron'] = array('/usr/local/etc/rc.expireaccounts', '3');
     $jobs[]['autocron'] = array('/usr/local/opnsense/scripts/syslog/log_archive ', '4');
 
-    $jobs[]['autocron'] = array('/usr/local/sbin/ping_hosts.sh', '*/4');
+    $jobs[]['autocron'] = array('/usr/sbin/ping_hosts.sh', '*/4');
 
     if (!empty($config['system']['rrdbackup']) && $config['system']['rrdbackup'] > 0) {
         $jobs[]['autocron'] = array(
