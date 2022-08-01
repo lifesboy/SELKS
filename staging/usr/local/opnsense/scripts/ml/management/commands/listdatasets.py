@@ -15,8 +15,12 @@ class Command(BaseCommand):
     def __init__(self, *args, **kw):
         BaseCommand.__init__(self, *args, **kw)
         self.md = metadata.Metadata()
+        self.rc = DatasetCache()
 
     def handle(self, *args, **options):
+        if self.rc.is_changed():
+            self.rc.create()
+
         # collect all installable rules indexed by (target) filename
         # (filenames should be unique)
         items = dict()

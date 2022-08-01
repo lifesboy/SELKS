@@ -23,8 +23,8 @@ class Command(BaseCommand):
         parser.add_argument('--filter', type=str, default='', help='filter')
 
     def handle(self, *args, **options):
-        if self.rc.is_changed():
-            self.rc.create()
+#         if self.rc.is_changed():
+#             self.rc.create()
 
         # load parameters, ignore validation here the search method only processes valid input
         parameters = dict(
