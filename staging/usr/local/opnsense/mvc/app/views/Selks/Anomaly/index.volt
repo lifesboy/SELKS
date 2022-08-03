@@ -57,6 +57,9 @@ POSSIBILITY OF SUCH DAMAGE.
         //
         var testing_settings_get_map = {'frm_TestingSettings':"/api/anomaly/testing-settings/get"};
 
+        //
+        var inferring_settings_get_map = {'frm_InferringSettings':"/api/anomaly/inferring-settings/get"};
+
         /**
          * update service status
          */
@@ -183,6 +186,19 @@ POSSIBILITY OF SUCH DAMAGE.
         }
 
         // load initial data
+        function loadInferringSettings() {
+            mapDataToFormUI(inferring_settings_get_map).done(function(data){
+                // set schedule updates link to cron
+                $.each(data.frm_InferringSettings.anomaly.inferring.UpdateCron, function(key, value) {
+                    if (value.selected == 1) {
+                        $("#scheduled_updates_inferring a").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates_inferring").show();
+                    }
+                });
+            });
+        }
+
+        // load initial data
         function loadGeneralSettings() {
             mapDataToFormUI(data_get_map).done(function(data){
                 // set schedule updates link to cron
@@ -261,6 +277,7 @@ POSSIBILITY OF SUCH DAMAGE.
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             loadGeneralSettings();
             loadTestingSettings();
+            loadInferringSettings();
             loadDataProcessorSettings();
 
             if (e.target.id == 'training_histories_tab') {
@@ -617,6 +634,15 @@ POSSIBILITY OF SUCH DAMAGE.
                 return dfObj;
             }
         });
+        $("#reconfigureInferringAct").SimpleActionButton({
+            onPreAction: function() {
+                const dfObj = new $.Deferred();
+                saveFormToEndpoint("/api/anomaly/inferring-settings/set", 'frm_InferringSettings', function(){
+                    dfObj.resolve();
+                });
+                return dfObj;
+            }
+        });
         $("#reconfigureAct").SimpleActionButton({
             onPreAction: function() {
                 const dfObj = new $.Deferred();
@@ -745,7 +771,8 @@ POSSIBILITY OF SUCH DAMAGE.
     <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('PreProcessing Training Data') }}</a></li>
     <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training AI Model') }}</a></li>
     <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('Testing AI Model') }}</a></li>
-    <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Histories') }}</a></li>
+    <li><a data-toggle="tab" href="#inferringSettings" id="inferringSettings_tab">{{ lang._('Inferring traffic') }}</a></li>
+    <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Extracted rules') }}</a></li>
 </ul>
 <div class="tab-content content-box">
     <div id="testingSettings" class="tab-pane fade in">
@@ -764,6 +791,23 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
         </div>
         {{ partial("layout_partials/dataset_form",['fields':formTestingSettings,'id':'frm_TestingSettings_Dataset','api':'/api/anomaly/testing-settings/'])}}
+    </div>
+    <div id="inferringSettings" class="tab-pane fade in">
+        {{ partial("layout_partials/base_form",['fields':formInferringSettings,'id':'frm_InferringSettings'])}}
+        <div class="col-md-12">
+            <hr/>
+            <button class="btn btn-primary" id="reconfigureInferringAct"
+                    data-endpoint='/api/anomaly/inferring-service/reconfigure'
+                    data-label="{{ lang._('Start testing') }}"
+                    data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
+                    data-service-widget="anomaly"
+                    type="button"
+            ></button>
+            &nbsp;&nbsp;<span id="scheduled_updates_inferring" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule') }}</a></span>
+            <br/>
+            <br/>
+        </div>
+        {{ partial("layout_partials/dataset_form",['fields':formInferringSettings,'id':'frm_InferringSettings_Dataset','api':'/api/anomaly/inferring-settings/'])}}
     </div>
     <div id="settings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings'])}}
