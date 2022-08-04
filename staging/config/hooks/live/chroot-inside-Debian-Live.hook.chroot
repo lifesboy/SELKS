@@ -56,7 +56,7 @@ cp -R /binaries/selks /
 
 #install raid support for DELL servers
 apt-get update && apt-get upgrade -y
-apt-get install -y mdadm
+apt-get install -y mdadm dkms
 dpkg -i /binaries/megaraid_sas-07.721.02.00-1dkms.noarch.deb
 
 ### START JAVA for ELK ###
