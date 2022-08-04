@@ -185,7 +185,8 @@ fi
 #&& deactivate && cd /opt/
 
 service elasticsearch restart
-sleep 10 # waiting 10s for elasticsearch ready
+echo -e "waiting 60s for elasticsearch ready"
+sleep 60 # waiting 10s for elasticsearch ready
 #cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py kibana_reset && deactivate && cd /opt/
 cd /scirius/ && python3 manage.py kibana_reset && cd /opt/
 
