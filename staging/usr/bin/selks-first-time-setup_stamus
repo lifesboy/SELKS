@@ -95,6 +95,10 @@ echo "FPC_Retain - Full Packet Capture with having Moloch's pcap retention/rotat
 #     esac
 #done
 
+service elasticsearch restart
+echo -e "waiting 60s for elasticsearch ready"
+sleep 60 # waiting 10s for elasticsearch ready
+
 echo "Enable Full Pcacket Capture with pcap retaining "
 EXIT_STATUS="SUCCESS"
 #/usr/bin/selks-enable-suri-capture_stamus && \
@@ -184,9 +188,6 @@ fi
 #&& python3 bin/manage.py loaddata datadump.json \
 #&& deactivate && cd /opt/
 
-service elasticsearch restart
-echo -e "waiting 60s for elasticsearch ready"
-sleep 60 # waiting 10s for elasticsearch ready
 #cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py kibana_reset && deactivate && cd /opt/
 cd /scirius/ && python3 manage.py kibana_reset && cd /opt/
 
