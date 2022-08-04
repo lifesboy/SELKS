@@ -117,9 +117,13 @@ fi
 # Begin
 # Pre staging
 #
+mkdir -p /binaries
+
+if [ ! -f /binaries/megaraid_sas-07.721.02.00-1dkms.noarch.deb ]; then
+  cp ./drivers/megaraid_sas-07.721.02.00-1dkms.noarch.deb /binaries
+fi
 
 if [ ! -f /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
-  mkdir -p /binaries
   wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb -o /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
 fi
 
@@ -447,6 +451,7 @@ cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes
 
 # copy nvidia binaries
 mkdir -p Stamus-Live-Build/chroot/binaries/
+cp /binaries/megaraid_sas-07.721.02.00-1dkms.noarch.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
