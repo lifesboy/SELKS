@@ -22,6 +22,11 @@ rsync -a -v --ignore-existing /var/cache/apt /binaries/cache/apt/
 mv /var/cache/apt /var/cache/apt.bak
 ln -s /binaries/cache/apt /var/cache/apt
 
+# Enable pip cache
+mkdir -p /binaries/cache/pip/
+mv -f ~/.cache/pip ~/.cache/pip.bak
+ln -s /binaries/cache/pip ~/.cache/pip
+
 ###  Set up repos ###
 
 wget -qO - http://packages.stamus-networks.com/packages.selks6.stamus-networks.com.gpg.key | apt-key add -
