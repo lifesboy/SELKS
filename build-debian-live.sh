@@ -454,30 +454,31 @@ chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroo
 # cp OPNSense desktop shortcuts
 cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
 
-# copy nvidia binaries
-mkdir -p Stamus-Live-Build/chroot/binaries/
-cp /binaries/megaraid_sas-07.721.02.00-1dkms.noarch.deb Stamus-Live-Build/chroot/binaries/
-cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/binaries/
-cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
-cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
-cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/
-cp /binaries/moloch_2.7.1-1_amd64.deb Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/scirius Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/squid Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/c-icap Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/c-icap-modules Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/
-cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/
-
-mkdir -p /binaries/cache/
-cp -R /binaries/cache Stamus-Live-Build/chroot/binaries/
-mkdir -p /binaries/cache/apt/
+# copy binaries
+mkdir -p /binaries/cache/apt
+mkdir -p /binaries/cache/pip
+mkdir -p /binaries/cache/npm
+mkdir -p Stamus-Live-Build/chroot/binaries/cache/
 mkdir -p Stamus-Live-Build/chroot/var/cache/
-rsync -a -v --ignore-existing /binaries/cache/apt Stamus-Live-Build/chroot/var/cache/
+cp /binaries/megaraid_sas-07.721.02.00-1dkms.noarch.deb Stamus-Live-Build/chroot/binaries/ && \
+cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
+cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
+cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
+cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/ && \
+cp /binaries/moloch_2.7.1-1_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/scirius Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/suricata Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/squid Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/c-icap Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/c-icap-modules Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/ && \
+cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/ && \
+rsync -a --ignore-existing /binaries/cache/apt Stamus-Live-Build/chroot/var/cache/ && \
+rsync -a --ignore-existing /binaries/cache/pip Stamus-Live-Build/chroot/binaries/ && \
+rsync -a --ignore-existing /binaries/cache/npm Stamus-Live-Build/chroot/binaries/
 
 # Add core system packages to be installed
 echo "
