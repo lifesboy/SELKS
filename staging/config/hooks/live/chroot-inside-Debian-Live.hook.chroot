@@ -15,6 +15,13 @@ echo "root:StamusNetworks" | chpasswd
 echo " export LS_OPTIONS='--color=auto'" >> /root/.bashrc
 echo " alias ll='ls $LS_OPTIONS -l'" >> /root/.bashrc
 
+# Enable apt cache
+echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' | tee -a /etc/apt/apt.conf.d/01-custom-local
+mkdir -p /binaries/cache/apt/
+rsync -a -v --ignore-existing /var/cache/apt /binaries/cache/apt/
+mv /var/cache/apt /var/cache/apt.bak
+ln -s /binaries/cache/apt /var/cache/apt
+
 ###  Set up repos ###
 
 wget -qO - http://packages.stamus-networks.com/packages.selks6.stamus-networks.com.gpg.key | apt-key add -

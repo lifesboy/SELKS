@@ -273,6 +273,7 @@ else
   cd Stamus-Live-Build && lb config \
   -a amd64 -d buster \
   --archive-areas "main contrib" \
+  --apt-options "-y -o APT::Keep-Downloaded-Packages=true"
   --swap-file-size 2048 \
   --debian-installer live \
   --bootappend-live "boot=live swap config username=selks-user live-config.hostname=SELKS live-config.user-default-groups=audio,cdrom,floppy,video,dip,plugdev,scanner,bluetooth,netdev,sudo" \
@@ -472,7 +473,7 @@ cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/
 
-mkdir -p /binaries/cache/apt
+mkdir -p /binaries/cache/
 cp -R /binaries/cache Stamus-Live-Build/chroot/binaries/
 
 # Add core system packages to be installed
