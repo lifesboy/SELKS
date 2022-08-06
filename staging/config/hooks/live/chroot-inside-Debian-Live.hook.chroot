@@ -299,7 +299,7 @@ pecl channel-update pecl.php.net
 #pecl install phalcon
 
 #pip3 install jinja2 netaddr ujson
-python3 -m pip install jinja2 netaddr ujson
+python3 -m pip install jinja2 netaddr ujson configparser
 apt-get install syslog-ng clog unbound resolvconf isc-dhcp-server radvd rrdtool vsftpd sendmail csh mtree-netbsd -y
 
 cat > /etc/resolv.conf <<EOF
