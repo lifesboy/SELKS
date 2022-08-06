@@ -63,7 +63,7 @@ openjdk-11-jdk openjdk-11-jre openjdk-11-jre-headless
 
 ### START ELK ###
 
-apt-get update
+#apt-get update
 yes | apt-get install -y elasticsearch logstash kibana elasticsearch-curator
 
 mkdir -p /var/cache/logstash/sincedbs/
@@ -85,7 +85,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
 cargo install --force cbindgen
 
-apt-get update && \
+#apt-get update && \
 apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-dev   \
                 libnet1-dev libyaml-0-2 libyaml-dev pkg-config zlib1g zlib1g-dev \
                 libcap-ng-dev libcap-ng0 make libmagic-dev         \
@@ -119,7 +119,7 @@ apt-get install -y kibana-dashboards-stamus
 
 ### START Evebox ###
 
-apt-get update && \
+#apt-get update && \
 apt-get install -y evebox
 /bin/systemctl enable evebox
 
@@ -1148,7 +1148,8 @@ chmod g+w /var/run/suricata/ -R
 
 mkdir -p /opt/molochtmp
 cd /opt/molochtmp/ && \
-apt-get update && apt-get install -y libjson-perl libyaml-dev libcrypto++6 libwww-perl
+#apt-get update && \
+apt-get install -y libjson-perl libyaml-dev libcrypto++6 libwww-perl
 #wget https://files.molo.ch/builds/ubuntu-18.04/moloch_1.8.0-1_amd64.deb
 #dpkg -i moloch_1.8.0-1_amd64.deb
 #wget https://files.molo.ch/builds/ubuntu-18.04/moloch_2.1.2-1_amd64.deb
