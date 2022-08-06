@@ -257,7 +257,7 @@ sudo npm install
 mkdir -p /var/lib/scirius/static/
 #apt-get update && \
 #yes | apt-get install -y scirius
-python3 setup.py install
+python3 setup.py install > install.log
 
 webpack
 mkdir -p /var/log/scirius/
