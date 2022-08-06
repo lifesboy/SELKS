@@ -475,6 +475,9 @@ cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/
 
 mkdir -p /binaries/cache/
 cp -R /binaries/cache Stamus-Live-Build/chroot/binaries/
+mkdir -p /binaries/cache/apt/
+mkdir -p Stamus-Live-Build/chroot/var/cache/
+rsync -a -v --ignore-existing /binaries/cache/apt Stamus-Live-Build/chroot/var/cache/
 
 # Add core system packages to be installed
 echo "
