@@ -163,6 +163,10 @@ sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO p
 
 cp -R /binaries/scirius /
 ln -s /selks/staging/usr/local/opnsense/scripts/ml /scirius/ml
+mkdir -p /binaries/cache/npm/scirius/node_modules
+mkdir -p /binaries/cache/npm/scirius/hunt/node_modules
+ln -s /binaries/cache/npm/scirius/node_modules /scirius/node_modules
+ln -s /binaries/cache/npm/scirius/hunt/node_modules /scirius/hunt/node_modules
 
 cat >> /scirius/scirius/settings.py <<EOF
 INSTALLED_APPS += ('ml',)
