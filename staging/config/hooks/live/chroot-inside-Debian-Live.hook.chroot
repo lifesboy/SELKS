@@ -24,6 +24,7 @@ ln -s /binaries/cache/apt /var/cache/apt
 
 # Enable pip cache
 mkdir -p /binaries/cache/pip/
+mkdir -p ~/.cache/pip
 mv -f ~/.cache/pip ~/.cache/pip.bak
 ln -s /binaries/cache/pip ~/.cache/pip
 
