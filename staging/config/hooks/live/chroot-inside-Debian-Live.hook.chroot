@@ -291,8 +291,8 @@ git clone https://github.com/jbboehr/php-psr.git
 cd php-psr
 phpize
 ./configure
-make
-make install
+make -j `getconf _NPROCESSORS_ONLN`
+make -j `getconf _NPROCESSORS_ONLN` install
 cd -
 
 pecl channel-update pecl.php.net
@@ -489,15 +489,15 @@ sh bootstrap.sh
 # LIBOPENSSL_CFLAGS=-I/usr/local/include \
 # LIBOPENSSL_LIBS=-lcrypto -lssl \
 
-make all
-make install
+make -j `getconf _NPROCESSORS_ONLN` all
+make -j `getconf _NPROCESSORS_ONLN` install
 
 apt-get install -y clamav clamav-daemon
 cd /binaries/c-icap
 #autoconf
 ./configure --prefix=/usr/local/c-icap --enable-large-files
-make
-make install
+make -j `getconf _NPROCESSORS_ONLN`
+make -j `getconf _NPROCESSORS_ONLN` install
 
 apt-get install -y libicapapi-dev
 cd /binaries/c-icap-modules
@@ -511,8 +511,8 @@ cd /binaries/c-icap-modules
 #./configure 'CFLAGS=-O3 -m64 -pipe' 'CPPFLAGS=-I/usr/local/clamav/include' 'LDFLAGS=-L/usr/local/lib -L/usr/local/clamav/lib/'
 #./configure --with-c-icap=/usr/local/c-icap --prefix=/usr/local/c-icap
 ./configure --prefix=/usr/local --with-clamav=/etc/clamav --with-c-icap=/usr/local/c-icap
-make
-make install-strip
+make -j `getconf _NPROCESSORS_ONLN`
+make -j `getconf _NPROCESSORS_ONLN` install-strip
 
 cp -R /binaries/squidclamav /squidclamav
 cd /squidclamav
@@ -522,10 +522,10 @@ sh bootstrap.sh
 ./configure --prefix=/usr/local/squidclamav --with-c-icap=/usr/local/c-icap
 #make -j $(($(grep ^cpu\ cores /proc/cpuinfo | uniq | sed s/[^0-9]//g)+1))
 automake --version
-make
+make -j `getconf _NPROCESSORS_ONLN`
 ls -la .
 ls -la .libs || true
-make install
+make -j `getconf _NPROCESSORS_ONLN` install
 
 ### END Install Caching proxy ###
 
@@ -973,8 +973,8 @@ cd /binaries/suricata
 #curl -L https://github.com/OISF/suricata-update/archive/master.tar.gz | tar zxvf - --strip-components=1
 sh autogen.sh
 ./configure --enable-nfqueue --sysconfdir=/etc --localstatedir=/var --prefix=/usr/ --enable-lua --enable-rust --enable-rules #--enable-suricata-update
-make
-make install-full
+make -j `getconf _NPROCESSORS_ONLN`
+make -j `getconf _NPROCESSORS_ONLN` install-full
 
 #fix symbol lookup error: /usr/bin/suricata: undefined symbol: htp_config_set_lzma_layers
 ldconfig /usr/local/lib
