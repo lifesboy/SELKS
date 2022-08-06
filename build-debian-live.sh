@@ -472,6 +472,9 @@ cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/
 
+mkdir -p /binaries/cache/apt
+cp -R /binaries/cache Stamus-Live-Build/chroot/binaries/
+
 # Add core system packages to be installed
 echo "
 
