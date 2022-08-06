@@ -200,6 +200,7 @@ setup(
 cmd = '''
     mkdir -p /usr/share/python3/scirius
     cp -R ./usr/share/python3/scirius/bin /usr/share/python3/scirius
+    cp ./usr/share/python3/scirius/bin/* /usr/bin
     cp ./usr/share/python3/scirius/requirements.txt /usr/share/python3/scirius
     cp ./usr/share/python3/scirius/get-pip.py /usr/share/python3/scirius
     cd /usr/share/python3/scirius
