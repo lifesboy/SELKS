@@ -273,7 +273,7 @@ else
   cd Stamus-Live-Build && lb config \
   -a amd64 -d buster \
   --archive-areas "main contrib" \
-  --apt-options "-y -o APT::Keep-Downloaded-Packages=true"
+  --apt-options "-y -o APT::Keep-Downloaded-Packages=true" \
   --swap-file-size 2048 \
   --debian-installer live \
   --bootappend-live "boot=live swap config username=selks-user live-config.hostname=SELKS live-config.user-default-groups=audio,cdrom,floppy,video,dip,plugdev,scanner,bluetooth,netdev,sudo" \
