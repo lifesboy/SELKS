@@ -139,6 +139,10 @@ if [ ! -f /binaries/unetbootin-linux64-702.bin ]; then
   wget https://jaist.dl.sourceforge.net/project/unetbootin/UNetbootin/702/unetbootin-linux64-702.bin -o /binaries/unetbootin-linux64-702.bin
 fi
 
+if [ ! -f /binaries/moloch_2.7.1-1_amd64.deb ]; then
+  wget https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/moloch_2.7.1-1_amd64.deb -o /binaries/moloch_2.7.1-1_amd64.deb
+fi
+
 if [ ! -d /binaries/cicflowmeter ]; then
   git clone https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
 fi
@@ -456,6 +460,7 @@ cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-L
 cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/
+cp /binaries/moloch_2.7.1-1_amd64.deb Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/scirius Stamus-Live-Build/chroot/binaries/
 cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/
