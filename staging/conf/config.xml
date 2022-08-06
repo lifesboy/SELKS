@@ -312,18 +312,18 @@
   </system>
   <interfaces>
     <wan>
-      <if>eno1</if>
+      <if>eno4</if>
       <descr>WAN</descr>
       <enable>1</enable>
       <spoofmac/>
       <blockpriv>1</blockpriv>
       <blockbogons>1</blockbogons>
-      <ipaddr>192.168.1.18</ipaddr>
+      <ipaddr>192.168.66.180</ipaddr>
       <subnet>24</subnet>
       <gateway>WAN_GWv4</gateway>
     </wan>
     <lan>
-      <if>enp2s0</if>
+      <if>eno3</if>
       <descr/>
       <enable>1</enable>
       <spoofmac/>
