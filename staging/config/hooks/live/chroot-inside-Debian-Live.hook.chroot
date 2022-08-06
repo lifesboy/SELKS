@@ -19,7 +19,7 @@ echo " alias ll='ls $LS_OPTIONS -l'" >> /root/.bashrc
 echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' | tee -a /etc/apt/apt.conf.d/01-custom-local
 mkdir -p /binaries/cache/apt/
 rsync -a -r --ignore-existing /var/cache/apt /binaries/cache/
-mv /var/cache/apt /var/cache/apt.bak
+mv /var/cache/apt /binaries/cache/
 ln -s /binaries/cache/apt /var/cache/apt
 
 # Enable pip cache
