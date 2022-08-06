@@ -28,6 +28,12 @@ mkdir -p ~/.cache/pip
 mv -f ~/.cache/pip ~/.cache/pip.bak
 ln -s /binaries/cache/pip ~/.cache/pip
 
+# Enable npm cache
+mkdir -p /binaries/cache/npm/.npm
+mkdir -p ~/.npm
+mv -f ~/.npm ~/.npm.bak
+ln -s /binaries/cache/npm/npm ~/.npm
+
 ###  Set up repos ###
 
 wget -qO - http://packages.stamus-networks.com/packages.selks6.stamus-networks.com.gpg.key | apt-key add -
