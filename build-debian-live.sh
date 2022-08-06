@@ -140,7 +140,7 @@ if [ ! -f /binaries/unetbootin-linux64-702.bin ]; then
 fi
 
 if [ ! -f /binaries/moloch_2.7.1-1_amd64.deb ]; then
-  wget https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/moloch_2.7.1-1_amd64.deb -o /binaries/moloch_2.7.1-1_amd64.deb
+  wget https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-18.04/moloch_2.7.1-1_amd64.deb --output-document=/binaries/moloch_2.7.1-1_amd64.deb
 fi
 
 if [ ! -d /binaries/cicflowmeter ]; then
