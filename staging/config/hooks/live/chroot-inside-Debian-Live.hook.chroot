@@ -35,8 +35,8 @@ mv -f /binaries/cache/pip ~/.cache/
 ln -s ~/.cache/pip /binaries/cache/pip
 
 # Enable npm cache
-mkdir -p /binaries/cache/npm/
-mv -f /binaries/cache/npm ~/
+mkdir -p /binaries/cache/npm/npm
+mv -f /binaries/cache/npm/npm ~/
 mv ~/npm ~/.npm
 ln -s ~/.npm /binaries/cache/npm/npm
 
