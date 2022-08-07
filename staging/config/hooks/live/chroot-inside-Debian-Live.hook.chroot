@@ -108,7 +108,7 @@ apt remove --purge rustc
 apt-get install curl
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
-cargo install --force cbindgen
+cargo install --force cbindgen > cargo.install.log
 
 #apt-get update && \
 apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-dev   \
@@ -118,9 +118,11 @@ apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-de
                 python-yaml
 apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
 apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
-python --version
 apt-get install -y python3-pip
 python --version
+python -m pip freeze
+python3 --version
+python3 -m pip freeze
 pip3 install --upgrade suricata-update
 whereis suricata-update
 ln -s /usr/local/bin/suricata-update /usr/bin/suricata-update
@@ -332,10 +334,12 @@ pecl channel-update pecl.php.net
 #pecl install phalcon
 
 #pip3 install jinja2 netaddr ujson
-python --version
-python3 --version
 python3 -m pip install jinja2 netaddr ujson configparser
 python -m pip install configparser
+python --version
+python -m pip freeze
+python3 --version
+python3 -m pip freeze
 apt-get install syslog-ng clog unbound resolvconf isc-dhcp-server radvd rrdtool vsftpd sendmail csh mtree-netbsd -y
 
 cat > /etc/resolv.conf <<EOF
