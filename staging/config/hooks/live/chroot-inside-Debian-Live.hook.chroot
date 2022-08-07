@@ -108,7 +108,7 @@ apt remove --purge rustc
 apt-get install curl
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
-cargo install --force cbindgen > cargo.install.log
+cargo install --quiet --force cbindgen > cargo.install.log
 
 #apt-get update && \
 apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-dev   \
