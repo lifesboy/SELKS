@@ -275,7 +275,7 @@ cd hunt
 #npm uninstall -g npm
 sudo npm install node-sass-chokidar@^1.3.4
 npm install > npm.install.log
-npm run build
+npm run build > npm.build.log
 cd ..
 
 #npm install -g npm@latest
