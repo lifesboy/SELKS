@@ -29,10 +29,10 @@ mv -f /binaries/cache/cargo ~/.cargo/
 ln -s ~/.cargo /binaries/cache/cargo
 
 # Enable pip cache
-mkdir -p /binaries/cache/pip/
-mkdir -p ~/.cache
-mv -f /binaries/cache/pip ~/.cache/
-ln -s ~/.cache/pip /binaries/cache/pip
+#mkdir -p /binaries/cache/pip/
+#mkdir -p ~/.cache
+#mv -f /binaries/cache/pip ~/.cache/
+#ln -s ~/.cache/pip /binaries/cache/pip
 
 # Enable npm cache
 mkdir -p /binaries/cache/npm/npm
