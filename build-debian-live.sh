@@ -581,7 +581,7 @@ pg_ctlcluster 11 main stop || true
 killall -9 postgres || true
 
 # Build the ISO
-cd Stamus-Live-Build && ( lb build 2>&1 | tee build.log )
+cd Stamus-Live-Build && ( lb build --quiet 2>&1 | tee build.log )
 #cd Stamus-Live-Build && ( lb build &> build.log )
 #mv binary.hybrid.iso SELKS.iso
 mv live-image-amd64.hybrid.iso SELKS.iso
