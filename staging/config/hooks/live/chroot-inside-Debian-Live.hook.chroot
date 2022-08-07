@@ -117,7 +117,10 @@ apt-get install -y libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-de
                 libnss3-dev libgeoip-dev liblua5.1-dev libhiredis-dev libevent-dev \
                 python-yaml
 apt-get install -y libnetfilter-queue-dev libnetfilter-queue1 libnetfilter-log-dev libnetfilter-log1 libnfnetlink-dev libnfnetlink0
+apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
+python --version
 apt-get install -y python3-pip
+python --version
 pip3 install --upgrade suricata-update
 whereis suricata-update
 ln -s /usr/local/bin/suricata-update /usr/bin/suricata-update
@@ -151,7 +154,7 @@ apt-get install -y evebox
 ### END Evebox ###
 
 ### START Install Scirius ###
-apt-get install python3-pip -y
+#apt-get install python3-pip -y
 #wget https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
 #tar xzf Python-3.8.2.tgz
 #cd Python-3.8.2
@@ -263,7 +266,6 @@ EOF
 
 cd /scirius
 #python3 setup.py install
-apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
 python3 -m pip install -r requirements.txt
 
 #python3 -m pip install gitpython==0.3.1-beta2
