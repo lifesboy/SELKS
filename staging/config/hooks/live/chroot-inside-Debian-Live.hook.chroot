@@ -35,10 +35,10 @@ mv -f /binaries/cache/pip ~/.cache/
 ln -s ~/.cache/pip /binaries/cache/pip
 
 # Enable npm cache
-mkdir -p /binaries/cache/npm/.npm
-mkdir -p ~/.npm
-mv -f ~/.npm ~/.npm.bak
-ln -s /binaries/cache/npm/npm ~/.npm
+mkdir -p /binaries/cache/npm/
+mv -f /binaries/cache/npm ~/
+mv ~/npm ~/.npm
+ln -s ~/.npm /binaries/cache/npm/npm
 
 ###  Set up repos ###
 
@@ -183,8 +183,10 @@ cp -R /binaries/scirius /
 ln -s /selks/staging/usr/local/opnsense/scripts/ml /scirius/ml
 mkdir -p /binaries/cache/npm/scirius/node_modules
 mkdir -p /binaries/cache/npm/scirius/hunt/node_modules
-ln -s /binaries/cache/npm/scirius/node_modules /scirius/node_modules
-ln -s /binaries/cache/npm/scirius/hunt/node_modules /scirius/hunt/node_modules
+mv -f /binaries/cache/npm/scirius/node_modules /scirius/
+mv -f /binaries/cache/npm/scirius/hunt/node_modules /scirius/hunt/
+ln -s /scirius/node_modules /binaries/cache/npm/scirius/node_modules
+ln -s /scirius/hunt/node_modules /binaries/cache/npm/scirius/hunt/node_modules
 
 cat >> /scirius/scirius/settings.py <<EOF
 INSTALLED_APPS += ('ml',)
