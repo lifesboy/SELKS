@@ -478,8 +478,8 @@ cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/cache/apt Stamus-Live-Build/chroot/binaries/cache/ && \
-rsync -a -r --ignore-existing /binaries/cache/cargo Stamus-Live-Build/chroot/binaries/cache/ && \
-rsync -a -r --ignore-existing /binaries/cache/pip Stamus-Live-Build/chroot/binaries/cache/ && \
+cp -R /binaries/cache/cargo Stamus-Live-Build/chroot/binaries/cache/ && \
+cp -R /binaries/cache/pip Stamus-Live-Build/chroot/binaries/cache/ && \
 cp -R /binaries/cache/npm Stamus-Live-Build/chroot/binaries/cache/
 
 # Add core system packages to be installed
