@@ -171,6 +171,7 @@ python3 -m pip install --upgrade pip
 apt-get -y install postgresql-11 postgresql-client-11
 apt-get -y build-dep python-psycopg2
 pip install psycopg2-binary
+python --version
 
 # fix conflict port 5432 when build env having service running on 5432
 sed -i -E "s/port = .*\# \(change requires restart\)/port = 5432 \# \(change requires restart\)/g" /etc/postgresql/11/main/postgresql.conf
@@ -293,6 +294,7 @@ mkdir -p /var/lib/scirius/static/
 #apt-get update && \
 #yes | apt-get install -y scirius
 python3 setup.py install > install.log
+python --version
 
 webpack > webpack.log
 mkdir -p /var/log/scirius/
@@ -320,7 +322,9 @@ yes | apt-get install lighttpd -y
 apt-get install -y libpcre3-dev curl php-pear libcurl3-openssl-dev php-dev php-phpseclib \
 php-sqlite3 php-json php-xml php-sockets php-radius php-ldap php-gettext php-dom php-curl php-ctype
 
+python --version
 apt-get install -y locales locales-all
+python --version
 
 git clone https://github.com/jbboehr/php-psr.git
 cd php-psr
