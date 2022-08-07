@@ -18,9 +18,9 @@ echo " alias ll='ls $LS_OPTIONS -l'" >> /root/.bashrc
 # Enable apt cache
 echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' | tee -a /etc/apt/apt.conf.d/01-custom-local
 mkdir -p /binaries/cache/apt/
-rsync -a -r /var/cache/apt /binaries/cache/
-rm -rf /var/cache/apt
-ln -s /binaries/cache/apt /var/cache/apt
+rsync -a -r --ignore-existing /binaries/cache/apt /var/cache/
+rm -rf /binaries/cache/apt
+ln -s /var/cache/apt /binaries/cache/apt
 
 # Enable cargo cache
 mkdir -p /binaries/cache/cargo/
