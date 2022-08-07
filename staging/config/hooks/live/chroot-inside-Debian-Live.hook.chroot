@@ -25,8 +25,8 @@ ln -s /var/cache/apt /binaries/cache/apt
 # Enable cargo cache
 mkdir -p /binaries/cache/cargo/
 mkdir -p ~/.cargo
-mv -f ~/.cargo ~/.cargo.bak
-ln -s /binaries/cache/cargo ~/.cargo
+mv -f /binaries/cache/cargo ~/.cargo/
+ln -s ~/.cargo /binaries/cache/cargo
 
 # Enable pip cache
 mkdir -p /binaries/cache/pip/
