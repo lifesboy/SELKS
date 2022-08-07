@@ -22,6 +22,12 @@ rsync -a -r /var/cache/apt /binaries/cache/
 rm -rf /var/cache/apt
 ln -s /binaries/cache/apt /var/cache/apt
 
+# Enable cargo cache
+mkdir -p /binaries/cache/cargo/
+mkdir -p ~/.cargo
+mv -f ~/.cargop ~/.cargo.bak
+ln -s /binaries/cache/cargo ~/.cargo
+
 # Enable pip cache
 mkdir -p /binaries/cache/pip/
 mkdir -p ~/.cache/pip

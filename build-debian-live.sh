@@ -456,6 +456,7 @@ cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes
 
 # copy binaries
 mkdir -p /binaries/cache/apt
+mkdir -p /binaries/cache/cargo
 mkdir -p /binaries/cache/pip
 mkdir -p /binaries/cache/npm
 mkdir -p Stamus-Live-Build/chroot/binaries/cache/
@@ -477,6 +478,7 @@ cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/ && \
 rsync -a -r --ignore-existing /binaries/cache/apt Stamus-Live-Build/chroot/binaries/cache/ && \
+rsync -a -r --ignore-existing /binaries/cache/cargo Stamus-Live-Build/chroot/binaries/cache/ && \
 rsync -a -r --ignore-existing /binaries/cache/pip Stamus-Live-Build/chroot/binaries/cache/ && \
 rsync -a -r --ignore-existing /binaries/cache/npm Stamus-Live-Build/chroot/binaries/cache/
 
