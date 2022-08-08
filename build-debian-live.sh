@@ -574,6 +574,8 @@ else
   
 fi
 
+cp staging/config/hooks/live/drivers.hook.binary Stamus-Live-Build/config/hooks/live/
+
 # Debian installer preseed.cfg
 echo "
 d-i netcfg/hostname string SELKS
