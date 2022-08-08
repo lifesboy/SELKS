@@ -455,12 +455,22 @@ chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroo
 cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
 
 # copy binaries
-mkdir -p /binaries/cache/apt
-mkdir -p /binaries/cache/cargo
-mkdir -p /binaries/cache/pip
-mkdir -p /binaries/cache/npm
-mkdir -p Stamus-Live-Build/chroot/binaries/cache/
-mkdir -p Stamus-Live-Build/chroot/var/cache/
+mkdir -p /binaries/cache/npm && \
+ln -sf /var/cache/apt /binaries/cache/apt && \
+ln -sf ~/.cargo /binaries/cache/cargo && \
+ln -sf ~/.cache/pip /binaries/cache/pip && \
+ln -sf ~/.npm /binaries/cache/npm/npm && \
+ln -sf /scirius/node_modules /binaries/cache/npm/scirius/node_modules && \
+ln -sf /scirius/hunt/node_modules /binaries/cache/npm/scirius/hunt/node_modules
+
+mkdir -p Stamus-Live-Build/chroot/binaries/cache/apt && \
+mkdir -p Stamus-Live-Build/chroot/binaries/cache/cargo && \
+mkdir -p Stamus-Live-Build/chroot/binaries/cache/pip && \
+mkdir -p Stamus-Live-Build/chroot/binaries/cache/npm/npm && \
+mkdir -p Stamus-Live-Build/chroot/binaries/cache/npm/scirius/node_modules && \
+mkdir -p Stamus-Live-Build/chroot/binaries/cache/npm/scirius/hunt/node_modules && \
+# mkdir -p Stamus-Live-Build/chroot/var/cache/
+
 cp /binaries/megaraid_sas-07.721.02.00-1dkms.noarch.deb Stamus-Live-Build/chroot/binaries/ && \
 cp /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
 cp /binaries/libcudnn8_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
@@ -477,10 +487,12 @@ cp -R /binaries/c-icap-modules Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/squidclamav Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/plugins Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/lang Stamus-Live-Build/chroot/binaries/ && \
-cp -R /binaries/cache/apt Stamus-Live-Build/chroot/binaries/cache/ && \
-cp -R /binaries/cache/cargo Stamus-Live-Build/chroot/binaries/cache/ && \
-cp -R /binaries/cache/pip Stamus-Live-Build/chroot/binaries/cache/ && \
-cp -R /binaries/cache/npm Stamus-Live-Build/chroot/binaries/cache/
+cp -R /binaries/cache/apt/* Stamus-Live-Build/chroot/binaries/cache/apt/ && \
+cp -R /binaries/cache/cargo/* Stamus-Live-Build/chroot/binaries/cache/cargo/ && \
+cp -R /binaries/cache/pip/* Stamus-Live-Build/chroot/binaries/cache/pip/ && \
+cp -R /binaries/cache/npm/npm/* Stamus-Live-Build/chroot/binaries/cache/npm/npm/ && \
+cp -R /binaries/cache/npm/scirius/node_modules/* Stamus-Live-Build/chroot/binaries/cache/npm/scirius/node_modules/ && \
+cp -R /binaries/cache/npm/scirius/hunt/node_modules/* Stamus-Live-Build/chroot/binaries/cache/npm/scirius/hunt/node_modules/
 
 # Add core system packages to be installed
 echo "
