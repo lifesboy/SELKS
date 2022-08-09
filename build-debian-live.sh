@@ -455,7 +455,7 @@ chown -R www-data:www-data Stamus-Live-Build/chroot/conf Stamus-Live-Build/chroo
 cp staging/usr/share/applications/NGFW.desktop Stamus-Live-Build/config/includes.chroot/etc/skel/Desktop/
 
 # copy binaries
-mkdir -p /binaries/cache/npm && \
+mkdir -p /binaries/cache/npm/scirius/hunt && \
 ln -sf /var/cache/apt /binaries/cache/apt && \
 ln -sf ~/.cargo /binaries/cache/cargo && \
 ln -sf ~/.cache/pip /binaries/cache/pip && \
