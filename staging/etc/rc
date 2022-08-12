@@ -175,6 +175,9 @@ chown -R elasticsearch:elasticsearch /drl/elasticsearch
 mkdir -p /drl/postgresql/11/main
 if [ -z "$(ls -A /drl/postgresql/11/main)" ]; then
   cp -R /var/lib/postgresql/11/main/* /drl/postgresql/11/main
+  chown -R postgres:postgres /drl/postgresql
+  chmod -R 0750 /drl/postgresql
+  sed -i -E "s/data_directory = .*/data_directory = '\/drl\/postgresql\/11\/main'/g" /etc/postgresql/11/main/postgresql.conf
   pg_ctlcluster 11 main restart -f -- -l /var/log/postgresql/postgresql-11-main.log
 fi
 chown -R postgres:postgres /drl/postgresql
