@@ -80,7 +80,7 @@ function getpids($scriptfile) {
 function isrunningscript($scriptfile)
 {
     $pids = getpids($scriptfile);
-    return !empty($pids) && $pids[0] > 0;
+    return is_array($pids) && $pids[0] > 0;
 }
 
 function waitforpid($pidfile, $timeout = -1)
