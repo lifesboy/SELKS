@@ -71,11 +71,16 @@ function isvalidpid($pidfile)
     return false;
 }
 
-function isrunningscript($scriptfile)
-{
+function getpids($scriptfile) {
     $pids = array();
     exec("/bin/ps -ex | grep '".$scriptfile."' | grep -v 'grep' | grep -v '/bin/sh -c' | /usr/bin/awk '{print $1;}' 2>&1", $pids, $ret);
-    return empty($ret) && !empty($pids) && $pids[0] > 0;
+    return empty($ret) && $pids;
+}
+
+function isrunningscript($scriptfile)
+{
+    $pids = getpids($scriptfile);
+    return !empty($pids) && $pids[0] > 0;
 }
 
 function waitforpid($pidfile, $timeout = -1)

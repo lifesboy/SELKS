@@ -84,7 +84,11 @@ function cicap_configure_defer($verbose = false)
 function cicap_configure_do($verbose = false, $start_cicap = true)
 {
     if ($start_cicap) {
-        killbypid('/var/run/c-icap/c-icap.pid', 'TERM', true);
+        // killbypid('/var/run/c-icap/c-icap.pid', 'TERM', true);
+        $pids = getpids('/usr/local/c-icap/bin/c-icap');
+        array_map(function ($pid) {
+            killbypid($pid, 'TERM', true);
+        }, is_array($pids) ? $pids : []);
     }
 
     if (!cicap_enabled()) {
