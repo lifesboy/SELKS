@@ -178,8 +178,18 @@ function legacy_interfaces_details($intf = null)
 
     return $result;
 }
-legacy_interfaces_details();
-$ip = "255.255.255.0";
-echo mask2cidr($ip);
+
+function getpids($scriptfile) {
+    $pids = array();
+    exec("/bin/ps -ex | grep '".$scriptfile."' | grep -v 'grep' | grep -v '/bin/sh -c' | /usr/bin/awk '{print $1;}' 2>&1", $pids, $ret);
+    return empty($ret) && $pids;
+}
+//
+//legacy_interfaces_details();
+//$ip = "255.255.255.0";
+//echo mask2cidr($ip);
+
+$pids = getpids('/usr/local/c-icap/bin/c-icap');
+var_dump($pids);
 
 ?>
