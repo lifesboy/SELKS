@@ -61,14 +61,14 @@ function cicap_services()
     return $services;
 }
 
-function cicap_configure()
-{
-    return array(
-        'bootup' => array('cicap_configure_defer'),
-        'local' => array('cicap_configure_start'),
-        'newwanip' => array('cicap_configure_defer'),
-    );
-}
+//function cicap_configure()
+//{
+//    return array(
+//        'bootup' => array('cicap_configure_defer'),
+//        'local' => array('cicap_configure_start'),
+//        'newwanip' => array('cicap_configure_defer'),
+//    );
+//}
 
 
 function cicap_configure_start($verbose = false)

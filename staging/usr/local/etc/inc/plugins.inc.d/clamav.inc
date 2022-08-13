@@ -78,3 +78,55 @@ function clamav_services()
 
     return $services;
 }
+
+
+//function clamav_configure()
+//{
+//    return array(
+//        'bootup' => array('clamav_configure_defer'),
+//        'local' => array('clamav_configure_start'),
+//        'newwanip' => array('clamav_configure_defer'),
+//    );
+//}
+
+
+function clamav_configure_start($verbose = false)
+{
+    clamav_configure_do($verbose, true);
+}
+
+function clamav_configure_defer($verbose = false)
+{
+    clamav_configure_do($verbose, false);
+}
+
+function clamav_configure_do($verbose = false, $start_clamav = true)
+{
+    if ($start_clamav) {
+        // killbypid('/var/run/c-icap/c-icap.pid', 'TERM', true);
+        $pids = getpids('/usr/sbin/clamd');
+        array_map(function ($pid) {
+            killbypid($pid, 'TERM', true);
+        }, is_array($pids) ? $pids : []);
+
+        $pids = getpids('/usr/bin/freshclam');
+        array_map(function ($pid) {
+            killbypid($pid, 'TERM', true);
+        }, is_array($pids) ? $pids : []);
+    }
+
+    if (!clamav_enabled()) {
+        return;
+    }
+
+    if ($verbose) {
+        echo 'Starting clamav service...';
+        flush();
+    }
+
+    configd_run('clamav restart');
+
+    if ($verbose) {
+        echo "done.\n";
+    }
+}
