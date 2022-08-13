@@ -26,6 +26,14 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
+function clamav_enabled()
+{
+    global $config;
+
+    return isset($config['OPNsense']['clamav']['general']['enabled'])
+        && $config['OPNsense']['clamav']['general']['enabled'] == 1;
+}
+
 function clamav_services()
 {
     global $config;
@@ -45,7 +53,8 @@ function clamav_services()
                 'stop' => array('clamav stop'),
             ),
             'name' => 'clamd',
-            'pidfile' => '/var/run/clamav/clamd.pid'
+            // 'pidfile' => '/var/run/clamav/clamd.pid',
+            'script' => '/usr/sbin/clamd'
         );
     }
 
@@ -62,7 +71,8 @@ function clamav_services()
                 'stop' => array('clamav stop'),
             ),
             'name' => 'freshclam',
-            'pidfile' => '/var/run/clamav/freshclam.pid'
+            // 'pidfile' => '/var/run/clamav/freshclam.pid',
+            'script' => '/usr/bin/freshclam'
         );
     }
 
