@@ -75,7 +75,7 @@ function isrunningscript($scriptfile)
 {
     $pids = array();
     exec("/bin/ps -ex | grep '".$scriptfile."' | grep -v 'grep' | grep -v '/bin/sh -c' | /usr/bin/awk '{print $1;}' 2>&1", $pids, $ret);
-    return !empty($ret) && !empty($pids) && $pids[0] > 0;
+    return empty($ret) && !empty($pids) && $pids[0] > 0;
 }
 
 function waitforpid($pidfile, $timeout = -1)
