@@ -53,7 +53,8 @@ function cicap_services()
                 'stop' => array('cicap stop'),
             ),
             'name' => 'cicap',
-            'pidfile' => '/var/run/c-icap/c-icap.pid'
+            // 'pidfile' => '/var/run/c-icap/c-icap.pid'
+            'script' => '/usr/local/c-icap/bin/c-icap'
         );
     }
 

@@ -71,6 +71,13 @@ function isvalidpid($pidfile)
     return false;
 }
 
+function isrunningscript($scriptfile)
+{
+    $pids = array();
+    exec("/bin/ps -ex | grep '".$scriptfile."' | grep -v 'grep' | grep -v '/bin/sh -c' | /usr/bin/awk '{print $1;}' 2>&1", $pids, $ret);
+    return !empty($ret) && !empty($pids) && $pids[0] > 0;
+}
+
 function waitforpid($pidfile, $timeout = -1)
 {
     $msec = $timeout * 1000;
@@ -133,6 +140,10 @@ function service_status($service)
 
     if (isset($service['pidfile'])) {
         return isvalidpid($service['pidfile']);
+    }
+
+    if (isset($service['script'])) {
+        return isrunningscript($service['script']);
     }
 
     if (isset($service['systemctl'])) {
