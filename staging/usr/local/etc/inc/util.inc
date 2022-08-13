@@ -74,7 +74,7 @@ function isvalidpid($pidfile)
 function getpids($scriptfile) {
     $pids = array();
     exec("/bin/ps -ex | grep '".$scriptfile."' | grep -v 'grep' | grep -v '/bin/sh -c' | /usr/bin/awk '{print $1;}' 2>&1", $pids, $ret);
-    return empty($ret) && $pids;
+    return empty($ret) ? $pids : $ret;
 }
 
 function isrunningscript($scriptfile)
