@@ -26,6 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+function squid_enabled()
+{
+    global $config;
+
+    return isset($config['OPNsense']['proxy']['general']['enabled'])
+        && $config['OPNsense']['proxy']['general']['enabled'] == 1;
+}
+
 function squid_services()
 {
     global $config;
@@ -75,4 +83,46 @@ function squid_syslog()
         'facility' => array('(squid-1)')
     );
     return $logfacilities;
+}
+
+function squid_configure()
+{
+    return array(
+        'bootup' => array('squid_configure_defer'),
+        'local' => array('squid_configure_start'),
+        'newwanip' => array('squid_configure_defer'),
+    );
+}
+
+
+function squid_configure_start($verbose = false)
+{
+    squid_configure_do($verbose, true);
+}
+
+function squid_configure_defer($verbose = false)
+{
+    squid_configure_do($verbose, false);
+}
+
+function squid_configure_do($verbose = false, $start_squid = true)
+{
+    if ($start_squid) {
+        killbypid('/var/run/squid.pid', 'TERM', true);
+    }
+
+    if (!squid_enabled()) {
+        return;
+    }
+
+    if ($verbose) {
+        echo 'Starting squid service...';
+        flush();
+    }
+
+    configd_run('proxy start');
+
+    if ($verbose) {
+        echo "done.\n";
+    }
 }
