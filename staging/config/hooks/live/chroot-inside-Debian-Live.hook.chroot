@@ -1264,7 +1264,8 @@ python3 -m pip install locust --ignore-installed numpy --ignore-installed psutil
 
 ### START Install SELKS/StamusN scripts ###
 
-apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" selks-scripts-stamus
+#apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" selks-scripts-stamus
+dpkg -i /binaries/selks-scripts-stamus_2020121401_amd64.deb
 
 ### END Install SELKS/StamusN scripts ###
 

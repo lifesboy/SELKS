@@ -147,6 +147,10 @@ if [ ! -f /binaries/kibana-dashboards-stamus_2020122001_amd64.deb ]; then
   wget http://packages.stamus-networks.com/selks6/debian/pool/main/k/kibana-dashboards-stamus/kibana-dashboards-stamus_2020122001_amd64.deb --output-document=/binaries/kibana-dashboards-stamus_2020122001_amd64.deb
 fi
 
+if [ ! -f /binaries/selks-scripts-stamus_2020121401_amd64.deb ]; then
+  wget http://packages.stamus-networks.com/selks6/debian/pool/main/s/selks-scripts-stamus/selks-scripts-stamus_2020121401_amd64.deb --output-document=/binaries/selks-scripts-stamus_2020121401_amd64.deb
+fi
+
 if [ ! -d /binaries/cicflowmeter ]; then
   git clone https://github.com/lifesboy/cicflowmeter-1.git /binaries/cicflowmeter
 fi
@@ -485,6 +489,7 @@ cp /binaries/libcudnn8-dev_8.2.4.15-1+cuda11.4_amd64.deb Stamus-Live-Build/chroo
 cp /binaries/unetbootin-linux64-702.bin Stamus-Live-Build/chroot/binaries/ && \
 cp /binaries/moloch_2.7.1-1_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
 cp /binaries/kibana-dashboards-stamus_2020122001_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
+cp /binaries/selks-scripts-stamus_2020121401_amd64.deb Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/cicflowmeter Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/scirius Stamus-Live-Build/chroot/binaries/ && \
 cp -R /binaries/selks Stamus-Live-Build/chroot/binaries/ && \
