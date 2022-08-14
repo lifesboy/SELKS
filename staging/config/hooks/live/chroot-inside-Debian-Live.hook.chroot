@@ -190,7 +190,8 @@ cp -R /binaries/scirius /
 ln -s /selks/staging/usr/local/opnsense/scripts/ml /scirius/ml
 mkdir -p /binaries/cache/npm/scirius/node_modules
 mkdir -p /binaries/cache/npm/scirius/hunt/node_modules
-mv -f /binaries/cache/npm/scirius/node_modules /scirius/
+#mv -f /binaries/cache/npm/scirius/node_modules /scirius/
+rm -rf /binaries/cache/npm/scirius/node_modules
 mv -f /binaries/cache/npm/scirius/hunt/node_modules /scirius/hunt/
 ln -s /scirius/node_modules /binaries/cache/npm/scirius/node_modules
 ln -s /scirius/hunt/node_modules /binaries/cache/npm/scirius/hunt/node_modules
