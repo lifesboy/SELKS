@@ -143,7 +143,8 @@ systemctl enable nftables.service
 
 ### START Install kibana dashboards ###
 
-apt-get install -y kibana-dashboards-stamus
+#apt-get install -y kibana-dashboards-stamus
+dpkg -i /binaries/kibana-dashboards-stamus_2020122001_amd64.deb
 
 ### END Install kibana dashboards ###
 
