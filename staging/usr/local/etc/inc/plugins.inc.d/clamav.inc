@@ -80,14 +80,14 @@ function clamav_services()
 }
 
 
-//function clamav_configure()
-//{
-//    return array(
-//        'bootup' => array('clamav_configure_defer'),
-//        'local' => array('clamav_configure_start'),
-//        'newwanip' => array('clamav_configure_defer'),
-//    );
-//}
+function clamav_configure()
+{
+    return array(
+        'bootup' => array('clamav_configure_defer'),
+        'local' => array('clamav_configure_start'),
+        'newwanip' => array('clamav_configure_defer'),
+    );
+}
 
 
 function clamav_configure_start($verbose = false)
