@@ -115,7 +115,7 @@ while : ; do
 # Failure to exit at that moment would lead to an infinite loop.
 set -e
 
-${CMD_BANNER}
+${CMD_BANNER} || true
 
 echo
 echo "  0) Logout                              7) Ping host"
