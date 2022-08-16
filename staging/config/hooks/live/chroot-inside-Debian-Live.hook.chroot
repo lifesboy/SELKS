@@ -281,7 +281,7 @@ sudo npm install --silent > npm.install.log
 
 cd hunt
 #npm uninstall -g npm
-sudo npm install node-sass-chokidar@^1.3.4 --silent
+sudo npm install node-sass-chokidar@^1.3.4 # --silent
 npm install --silent > npm.install.log
 npm run build --silent > npm.build.log
 cd ..
