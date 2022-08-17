@@ -170,6 +170,8 @@ ln -s /drl/opnsense/conf/backup /conf/backup
 #Init backup elk
 mkdir -p /drl/elasticsearch
 chown -R elasticsearch:elasticsearch /drl/elasticsearch
+mkdir -p /drl/tmp
+chmod 1777 /drl/tmp
 
 #Init backup postgres
 mkdir -p /drl/postgresql/11/main
