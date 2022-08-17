@@ -26,6 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+function suricata_enabled()
+{
+    global $config;
+
+    return isset($config['OPNsense']['IDS']['general']['enabled'])
+        && $config['OPNsense']['IDS']['general']['enabled'] == 1;
+}
+
 function suricata_services()
 {
     global $config;
@@ -72,4 +80,48 @@ function suricata_xmlrpc_sync()
     );
 
     return $result;
+}
+
+
+function suricata_configure()
+{
+    return array(
+        'bootup' => array('suricata_configure_defer'),
+        'local' => array('suricata_configure_start'),
+        'newwanip' => array('suricata_configure_defer'),
+    );
+}
+
+
+function suricata_configure_start($verbose = false)
+{
+    suricata_configure_do($verbose, true);
+}
+
+function suricata_configure_defer($verbose = false)
+{
+    suricata_configure_do($verbose, false);
+}
+
+function suricata_configure_do($verbose = false, $start_suricata = true)
+{
+    if ($start_suricata) {
+        killbypid('/var/run/suricata.pid', 'TERM', true);
+    }
+
+    if (!suricata_enabled()) {
+        return;
+    }
+
+    if ($verbose) {
+        echo 'Starting suricata service...';
+        flush();
+    }
+
+    configd_run('template reload OPNsense/IDS');
+    configd_run('ids restart');
+
+    if ($verbose) {
+        echo "done.\n";
+    }
 }
