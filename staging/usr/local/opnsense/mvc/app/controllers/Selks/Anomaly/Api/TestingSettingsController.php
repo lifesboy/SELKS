@@ -138,7 +138,7 @@ class TestingSettingsController extends ApiMutableModelControllerBase
                 }
 
                 $result['rowCount'] = empty($result['rows']) || !is_array($result['rows']) ? 0 : count($result['rows']);
-                $result['total'] = $data['total_rows'];
+                $result['total'] = empty($data['total_rows']) ? 0 : $data['total_rows'];
                 $result['parameters'] = $data['parameters'];
                 $result['current'] = (int)$currentPage;
                 return $result;
