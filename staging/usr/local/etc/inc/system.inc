@@ -1106,6 +1106,7 @@ function system_cron_configure($verbose = false, $defer = false)
     }
 
     file_put_contents('/var/spool/cron/crontabs/root', $crontab_contents);
+    configd_run('template reload OPNsense/Cron');
 
     if (!$defer) {
         configd_run('cron restart');
