@@ -535,7 +535,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     exec('/usr/sbin/nft -f /tmp/rules.debug 2>&1', $rules_error, $rules_loading);
 
     foreach ($sched_kill_states as $label) {
-        mwexecf('/sbin/pfctl -k label -k %s', $label);
+        //mwexecf('/sbin/pfctl -k label -k %s', $label);
     }
 
     /*
@@ -557,11 +557,13 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 
         /* Brutal ugly hack but required -- PF is stuck, unwedge */
         if (strstr("$rules_error[0]", "busy")) {
-            exec('/sbin/pfctl -d; /sbin/pfctl -e; /sbin/pfctl -f /tmp/rules.debug');
-            log_error('PF was wedged/busy and has been reset.');
-            file_notice(gettext('PF was wedged/busy and has been reset.'));
+            // exec('/sbin/pfctl -d; /sbin/pfctl -e; /sbin/pfctl -f /tmp/rules.debug');
+            exec('service nftables stop; service nftables start; /usr/sbin/nft -f /tmp/rules.debug');
+            log_error('NFT was wedged/busy and has been reset.');
+            file_notice(gettext('NFT was wedged/busy and has been reset.'));
         } else {
-            exec('/sbin/pfctl -o basic -f /tmp/rules.debug.old 2>&1');
+            // exec('/sbin/pfctl -o basic -f /tmp/rules.debug.old 2>&1');
+            exec('/usr/sbin/nft -f /tmp/rules.debug.old 2>&1');
         }
 
         log_error(sprintf('There were error(s) loading the rules: %s%s', $rules_error[0], $config_line));
@@ -585,7 +587,8 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
      * not there, the kill is still fine).
      */
     if (!is_bogonsv6_used()) {
-        mwexec('/sbin/pfctl -t bogonsv6 -T kill');
+        // mwexec('/sbin/pfctl -t bogonsv6 -T kill');
+        // mwexec('/usr/sbin/nft delete table inet bogonsv6');
     }
 
     if ($verbose) {
@@ -599,7 +602,8 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     }
 
     if ($flush_states) {
-        mwexec('/sbin/pfctl -Fs');
+        // mwexec('/sbin/pfctl -Fs');
+        // mwexec('/usr/sbin/nft reset type inet table object');
     }
 
     if ($verbose) {
