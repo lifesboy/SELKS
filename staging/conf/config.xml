@@ -1010,18 +1010,17 @@
       <ipprotocol>inet</ipprotocol>
       <interval/>
       <descr>&#x1927;</descr>
-      <defaultgw>1</defaultgw>
       <fargw>1</fargw>
     </gateway_item>
     <gateway_item>
       <interface>wan</interface>
-      <gateway>192.168.1.1</gateway>
+      <gateway>192.168.66.1</gateway>
       <name>WAN_GWv4</name>
       <priority/>
-      <weight/>
+      <weight>1</weight>
       <ipprotocol>inet</ipprotocol>
-      <interval/>
-      <descr/>
+      <interval>1</interval>
+      <descr>Interface WAN Gateway</descr>
       <defaultgw>1</defaultgw>
     </gateway_item>
   </gateways>
