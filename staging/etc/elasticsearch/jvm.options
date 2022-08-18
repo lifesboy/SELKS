@@ -62,7 +62,8 @@
 14-:-XX:+UseG1GC
 
 ## JVM temporary directory
--Djava.io.tmpdir=${ES_TMPDIR}
+#-Djava.io.tmpdir=${ES_TMPDIR}
+-Djava.io.tmpdir=/drl/tmp
 
 ## heap dumps
 

@@ -161,6 +161,8 @@ mv /etc/default/elasticsearch /etc/default/elasticsearch.bak
 ln -s /selks/staging/etc/default/elasticsearch /etc/default/elasticsearch
 mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.bak
 ln -s /selks/staging/etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+mv /etc/elasticsearch/jvm.options /etc/elasticsearch/jvm.options.bak
+ln -s /selks/staging/etc/elasticsearch/jvm.options /etc/elasticsearch/jvm.options
 chmod -R 0755 /etc/elasticsearch/
 
 mkdir -p /etc/ray/
