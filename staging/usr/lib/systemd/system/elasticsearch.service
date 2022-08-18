@@ -8,6 +8,7 @@ After=network-online.target
 [Service]
 RuntimeDirectory=elasticsearch
 PrivateTmp=true
+Environment=ES_TMPDIR=/drl/tmp
 Environment=ES_HOME=/usr/share/elasticsearch
 Environment=ES_PATH_CONF=/etc/elasticsearch
 Environment=PID_DIR=/var/run/elasticsearch
@@ -19,7 +20,7 @@ User=elasticsearch
 Group=elasticsearch
 PermissionsStartOnly=true 
 
-ExecStartPre=/bin/sh -c 'mkdir -p /var/run/elasticsearch && chown elasticsearch:elasticsearch /var/run/elasticsearch'
+ExecStartPre=/bin/sh -c 'mkdir -p /drl/tmp && mkdir -p /var/run/elasticsearch && chown elasticsearch:elasticsearch /var/run/elasticsearch'
 ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
 #ExecStart=/etc/init.d/elasticsearch start
 #ExecStop=/etc/init.d/elasticsearch stop
