@@ -11,6 +11,7 @@ import ray
 from mlflow.entities import Experiment, Run
 from mlflow.tracking import MlflowClient
 from mlflow.tracking.fluent import ActiveRun
+import lib.utils as utils
 
 
 PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
@@ -61,6 +62,9 @@ TAG_DEPLOYMENT_TEST_STATUS = 'deployment.test.status'
 
 
 def init_node():
+    if not utils.is_ray_gpu_ready():
+        utils.restart_ray_service()
+
     ray.init(address=RAY_HEAD_NODE_ADDRESS)
 
 

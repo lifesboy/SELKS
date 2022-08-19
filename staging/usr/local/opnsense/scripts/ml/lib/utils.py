@@ -50,3 +50,14 @@ def get_process_ids(script: str) -> map:
     script_command = "/bin/ps -ex | grep '%s' | grep -v 'grep' | grep -v '/bin/sh -c' | /usr/bin/awk '{print $1;}'" % script
     p_ids = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
     return map(lambda i: int(i), set(p_ids) - set(['']))
+
+def is_ray_gpu_ready() -> bool:
+    script_command = "ray status | grep GPU"
+    out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()
+    values = out.split(' ')[0].split('/')
+    return len(values) > 1 and values[1].replace('.', '', 1).isdigit() and float(values[1]) > 0
+
+def restart_ray_service() -> str:
+    script_command = "service ray restart"
+    out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()
+    return out
