@@ -798,7 +798,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <hr/>
             <button class="btn btn-primary" id="reconfigureInferringAct"
                     data-endpoint='/api/anomaly/inferring-service/reconfigure'
-                    data-label="{{ lang._('Start testing') }}"
+                    data-label="{{ lang._('Start inferring') }}"
                     data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
                     data-service-widget="anomaly"
                     type="button"
