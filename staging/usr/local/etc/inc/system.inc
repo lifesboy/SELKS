@@ -795,6 +795,21 @@ function system_logstash_restart()
     mwexecf("/usr/sbin/service logstash restart");
 }
 
+function system_ray_stop()
+{
+    mwexecf("/usr/sbin/service ray stop");
+}
+
+function system_ray_start()
+{
+    mwexecf("/usr/sbin/service ray start");
+}
+
+function system_ray_restart()
+{
+    mwexecf("/usr/sbin/service ray restart");
+}
+
 function system_clear_log($logfile, $restart_syslogd = true)
 {
     if ($restart_syslogd) {

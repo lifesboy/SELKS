@@ -154,7 +154,13 @@ function core_services()
 
     $services[] = array(
         'description' => gettext('RLLib cluster for Machine learning'),
-        'systemctl' => 'ray',
+        'php' => array(
+            "stop" => array('system_ray_stop'),
+            "start" => array('system_ray_start'),
+            "restart" => array('system_ray_restart'),
+            "status" => '/usr/sbin/service ray restart && ray status'
+        ),
+        // 'systemctl' => 'ray',
         'name' => 'ray',
     );
 
