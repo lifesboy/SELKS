@@ -134,6 +134,26 @@ function system_routing_configure($verbose = false, $interface = '')
     }
 }
 
+function exec_safe($format, $args = array())
+{
+    if (!is_array($args)) {
+        /* just in case there's only one argument */
+        $args = array($args);
+    }
+
+    foreach ($args as $id => $arg) {
+        $args[$id] = escapeshellarg($arg);
+    }
+
+    return vsprintf($format, $args);
+}
+
+function mwexecf($format, $args = array(), $mute = false)
+{
+    return mwexec(exec_safe($format, $args), $mute);
+}
+
+
 
 //$res = system_routing_configure(true);
 //var_dump($res);
