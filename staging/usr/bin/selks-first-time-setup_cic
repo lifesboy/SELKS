@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if (( $EUID != 0 )); then
+     echo -e "Please run this script as root or with \"sudo\".\n"
+     exit 1
+fi
+
+mkdir -p /opt/selks/log/
+(
+echo "START of first time setup cic - $(date) "
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+/usr/local/bin/aws --version
+
+mkdir -p /cic/dataset/cic2018
+aws s3 sync --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/" /cic/dataset/cic2018
+
+echo "FINISH of first time setup cic - $(date) "
+
+) 2>&1 | tee -a /opt/selks/log/selks-first-time-setup_cic.log
+
+
+
+
