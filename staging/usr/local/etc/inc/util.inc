@@ -156,7 +156,8 @@ function service_status($service)
     }
 
     if (isset($service['php']) && isset($service['php']['status'])) {
-        return mwexecf('%s', $service['php']['status'], true) == 0;
+        // return mwexecf('%s', $service['php']['status'], true) == 0;
+        return mwexec($service['php']['status'], true) == 0;
     }
 
     return is_process_running($service['name']);
