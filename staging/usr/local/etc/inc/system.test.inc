@@ -134,6 +134,25 @@ function system_routing_configure($verbose = false, $interface = '')
     }
 }
 
+function mwexec($command, $mute = false)
+{
+    $oarr = array();
+    $retval = 0;
+
+    $garbage = exec("{$command} 2>&1", $oarr, $retval);
+    unset($garbage);
+
+    if ($retval != 0 && $mute == false) {
+        $output = implode(' ', $oarr);
+        log_error(sprintf("The command '%s' returned exit code '%d', the output was '%s'", $command, $retval, $output));
+        unset($output);
+    }
+
+    unset($oarr);
+
+    return $retval;
+}
+
 function exec_safe($format, $args = array())
 {
     if (!is_array($args)) {
