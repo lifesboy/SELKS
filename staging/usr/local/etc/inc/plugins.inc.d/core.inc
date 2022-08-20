@@ -158,7 +158,7 @@ function core_services()
             "stop" => array('system_ray_stop'),
             "start" => array('system_ray_start'),
             "restart" => array('system_ray_restart'),
-            "status" => '/usr/sbin/service ray restart && ray status'
+            "status" => 'ray status'
         ),
         // 'systemctl' => 'ray',
         'name' => 'ray',
