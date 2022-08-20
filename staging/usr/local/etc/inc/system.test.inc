@@ -135,5 +135,8 @@ function system_routing_configure($verbose = false, $interface = '')
 }
 
 
-$res = system_routing_configure(true);
+//$res = system_routing_configure(true);
+//var_dump($res);
+
+$res = mwexecf('%s', '/usr/sbin/service ray restart && ray status', true);
 var_dump($res);
