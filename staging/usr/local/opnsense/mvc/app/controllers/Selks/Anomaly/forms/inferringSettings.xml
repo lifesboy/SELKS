@@ -1,0 +1,20 @@
+<form>
+    <field>
+        <id>anomaly.inferring.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable inferring anomaly model.</help>
+    </field>
+    <field>
+        <id>anomaly.inferring.ServingUrl</id>
+        <label>--serving-url</label>
+        <type>text</type>
+        <help><![CDATA[Data destination to test.]]></help>
+    </field>
+    <field>
+        <id>anomaly.inferring.DataSource</id>
+        <label>--data-source</label>
+        <type>text</type>
+        <help><![CDATA[Data source to test.]]></help>
+    </field>
+</form>

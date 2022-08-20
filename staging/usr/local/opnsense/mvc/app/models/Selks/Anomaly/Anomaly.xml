@@ -287,5 +287,34 @@
                 <Required>N</Required>
             </UpdateCron>
         </testing>
+        <inferring>
+            <enabled type="BooleanField">
+                <default>0</default>
+                <Required>Y</Required>
+            </enabled>
+            <DataSource type="TextField">
+                <default>nsm/*.csv</default>
+                <Required>Y</Required>
+            </DataSource>
+            <ServingUrl type="TextField">
+                <default>http://selks.ddns.net:6789/anomaly</default>
+                <Required>Y</Required>
+                <ValidationMessage>Enter a valid inferring url</ValidationMessage>
+            </ServingUrl>
+            <UpdateCron type="ModelRelationField">
+                <Model>
+                    <queues>
+                        <source>OPNsense.Cron.Cron</source>
+                        <items>jobs.job</items>
+                        <display>description</display>
+                        <filters>
+                            <origin>/Anomaly/</origin>
+                        </filters>
+                    </queues>
+                </Model>
+                <ValidationMessage>Related cron not found.</ValidationMessage>
+                <Required>N</Required>
+            </UpdateCron>
+        </inferring>
     </items>
 </model>
