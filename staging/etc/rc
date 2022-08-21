@@ -212,15 +212,15 @@ chown -R postgres:postgres /drl/postgresql
 chmod -R 0750 /drl/postgresql
 sed -i -E "s/data_directory = .*/data_directory = '\/drl\/postgresql\/11\/main'/g" /etc/postgresql/11/main/postgresql.conf
 
-lsblk -fs >> /rclog.txt
-cat /etc/mtab >> /rclog.txt
+#lsblk -fs >> /rclog.txt
+#cat /etc/mtab >> /rclog.txt
 
 # regenerate groups and users for base
 chmod 755 /usr/local/etc/rc.subr.d/recover
 /usr/local/etc/rc.subr.d/recover base > /dev/null
 
-lsblk -fs >> /rclog.txt
-cat /etc/mtab >> /rclog.txt
+#lsblk -fs >> /rclog.txt
+#cat /etc/mtab >> /rclog.txt
 
 # generate hostid and save it permanently
 #/etc/init.d/hostid start
@@ -229,14 +229,14 @@ cat /etc/mtab >> /rclog.txt
 # set keyboard map if needed
 #/etc/rc.d/syscons onestart
 
-lsblk -fs >> /rclog.txt
-cat /etc/mtab >> /rclog.txt
+#lsblk -fs >> /rclog.txt
+#cat /etc/mtab >> /rclog.txt
 
 # run the config importer during early startup
 /usr/local/sbin/opnsense-importer -b
 
-lsblk -fs >> /rclog.txt
-cat /etc/mtab >> /rclog.txt
+#lsblk -fs >> /rclog.txt
+#cat /etc/mtab >> /rclog.txt
 
 # enable console output if it was muted
 #/sbin/conscontrol mute off > /dev/null
@@ -351,7 +351,7 @@ echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 #/usr/local/sbin/opnsense-shell banner
 #/usr/local/etc/rc.subr.d/livemode
 
-lsblk -fs >> /rclog.txt
-cat /etc/mtab >> /rclog.txt
+#lsblk -fs >> /rclog.txt
+#cat /etc/mtab >> /rclog.txt
 
 exit 0
