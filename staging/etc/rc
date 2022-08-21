@@ -219,6 +219,9 @@ cat /etc/mtab >> /rclog.txt
 chmod 755 /usr/local/etc/rc.subr.d/recover
 /usr/local/etc/rc.subr.d/recover base > /dev/null
 
+lsblk -fs >> /rclog.txt
+cat /etc/mtab >> /rclog.txt
+
 # generate hostid and save it permanently
 /etc/init.d/hostid start
 #/etc/rc.d/hostid_save start
