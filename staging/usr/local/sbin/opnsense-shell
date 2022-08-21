@@ -24,6 +24,10 @@ CMD_SETADDR="/usr/local/opnsense/scripts/shell/setaddr.php"
 CMD_SETPORTS="/usr/local/opnsense/scripts/shell/setports.php"
 CMD_SHELL="/bin/csh"
 
+CMD_SETUP_STAMUS="/usr/bin/selks-first-time-setup_stamus"
+CMD_SETUP_CUDA="/usr/bin/selks-first-time-setup_cuda"
+CMD_SETUP_CIC="/usr/bin/selks-first-time-setup_cic"
+
 # rc.d may call this while being root using `su -m user -c ...'
 # and it has arguments to pass through to the shell.  It creates
 # a problem for us as su(1) assumes a full root shell and has no
@@ -103,6 +107,18 @@ shell)
 	shift
 	exec ${CMD_SHELL} "${@}"
 	;;
+setup_stamus)
+	shift
+	exec ${CMD_SETUP_STAMUS} "${@}"
+	;;
+setup_cuda)
+	shift
+	exec ${CMD_SETUP_CUDA} "${@}"
+	;;
+setup_cic)
+	shift
+	exec ${CMD_SETUP_CIC} "${@}"
+	;;
 esac
 
 # endless loop
@@ -125,6 +141,10 @@ echo "  3) Reset the root password            10) Firewall log"
 echo "  4) Reset to factory defaults          11) Reload all services"
 echo "  5) Power off system                   12) Update from console"
 echo "  6) Reboot system                      13) Restore a backup"
+echo
+echo "First boot after installation should run: 14-stamus > 6-reboot > 15-cuda > 6-reboot  > 16-cic"
+echo "  14) Setup stamus                      15) Setup cuda"
+echo "  16) Setup cic                                       "
 echo
 read -p "Enter an option: " OPCODE
 echo
@@ -175,6 +195,15 @@ case ${OPCODE} in
 	;;
 13)
 	${CMD_RESTORE}
+	;;
+14)
+	${CMD_SETUP_STAMUS}
+	;;
+15)
+	${CMD_SETUP_CUDA}
+	;;
+16)
+	${CMD_SETUP_CIC}
 	;;
 *)
 	;;
