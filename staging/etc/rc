@@ -138,6 +138,7 @@ if [ -n "${DRL_DEV}" ]; then
   fi
 fi
 lsblk -fs >> /rclog.txt
+cat /etc/mtab >> /rclog.txt
 #end mount cic data for AI/ML
 
 attempts=0
@@ -337,5 +338,8 @@ echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 
 #/usr/local/sbin/opnsense-shell banner
 #/usr/local/etc/rc.subr.d/livemode
+
+lsblk -fs >> /rclog.txt
+cat /etc/mtab >> /rclog.txt
 
 exit 0
