@@ -134,6 +134,7 @@ else
 fi
 
 #mount cic data for AI/ML
+lsblk -fs >> /rclog.txt
 CIC_DEV=$(lsblk | awk 'match($0, /sda .+$/) { print "/dev/sda" }')
 if [ -n "${CIC_DEV}" ]; then
   CIC_DEV_FS=$(lsblk "${CIC_DEV}" -no FSTYPE)
@@ -146,10 +147,11 @@ if [ -n "${CIC_DEV}" ]; then
   CIC_UUID=$(lsblk "${CIC_DEV}" -no UUID)
   CIC_FSTAB=$(fgrep "${CIC_UUID}" /etc/fstab)
   if [ -z "${CIC_FSTAB}" ]; then
-    echo "UUID=${CIC_UUID} /cic               ext4    errors=remount-ro 0       1" >> /etc/fstab;
+    echo "UUID=${CIC_UUID} /cic            ext4    errors=remount-ro 0       1" >> /etc/fstab;
   fi
 fi
 
+lsblk -fs >> /rclog.txt
 DRL_DEV=$(lsblk | awk 'match($0, /sdb .+$/) { print "/dev/sdb" }')
 if [ -n "${DRL_DEV}" ]; then
   DRL_DEV_FS=$(lsblk "${DRL_DEV}" -no FSTYPE)
@@ -162,7 +164,7 @@ if [ -n "${DRL_DEV}" ]; then
   DRL_UUID=$(lsblk "${DRL_DEV}" -no UUID)
   DRL_FSTAB=$(fgrep "${DRL_UUID}" /etc/fstab)
   if [ -z "${DRL_FSTAB}" ]; then
-    echo "UUID=${DRL_UUID} /drl               ext4    errors=remount-ro 0       1" >> /etc/fstab;
+    echo "UUID=${DRL_UUID} /drl            ext4    errors=remount-ro 0       1" >> /etc/fstab;
   fi
 
   mkdir -p /drl/ray_results
@@ -170,6 +172,7 @@ if [ -n "${DRL_DEV}" ]; then
     ln -s /drl/ray_results /root/ray_results
   fi
 fi
+lsblk -fs >> /rclog.txt
 #end mount cic data for AI/ML
 
 #Init backup dataset
