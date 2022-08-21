@@ -172,6 +172,7 @@ if [ -n "${DRL_DEV}" ]; then
     ln -s /drl/ray_results /root/ray_results
   fi
 fi
+systemctl daemon-reload #workaround for auto unmount /cic vs /drl by kernel
 lsblk -fs >> /rclog.txt
 #end mount cic data for AI/ML
 
