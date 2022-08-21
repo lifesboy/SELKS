@@ -134,7 +134,7 @@ else
 fi
 
 #mount cic data for AI/ML
-CIC_DEV=$(lsblk | awk 'match($0, /sda.+893\.8G.+$/) { print "/dev/sda" }')
+CIC_DEV=$(lsblk | awk 'match($0, /sda .+$/) { print "/dev/sda" }')
 if [ -n "${CIC_DEV}" ]; then
   CIC_DEV_FS=$(lsblk -fs "${CIC_DEV}" | awk 'match($0, /ext4.+$/) { print "ext4" }')
   if [ "${CIC_DEV_FS}" != 'ext4' ]; then
@@ -144,7 +144,7 @@ if [ -n "${CIC_DEV}" ]; then
   mount -t auto ${CIC_DEV} /cic
 fi
 
-DRL_DEV=$(lsblk | awk 'match($0, /sdb.+893\.8G.+$/) { print "/dev/sdb" }')
+DRL_DEV=$(lsblk | awk 'match($0, /sdb .+$/) { print "/dev/sdb" }')
 if [ -n "${DRL_DEV}" ]; then
   DRL_DEV_FS=$(lsblk -fs "${DRL_DEV}" | awk 'match($0, /ext4.+$/) { print "ext4" }')
   if [ "${DRL_DEV_FS}" != 'ext4' ]; then
