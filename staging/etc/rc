@@ -239,6 +239,8 @@ chmod 0755 /var/log/suricata
 chmod 0755 /usr/local/etc/rc.sshd
 chmod 0755 /usr/local/etc/rc.*
 
+logrotate -f /etc/logrotate.d/*
+
 # write /var/run/dmesg.boot
 /etc/rc.d/dmesg onestart
 
