@@ -142,7 +142,7 @@ if [ -n "${CIC_DEV}" ]; then
     no | mkfs.ext4 /dev/sda
   fi
   mkdir -p /cic
-  mount -t auto ${CIC_DEV} /cic
+  mount -t ext4 ${CIC_DEV} /cic
 
   CIC_UUID=$(lsblk "${CIC_DEV}" -no UUID)
   CIC_FSTAB=$(fgrep "${CIC_UUID}" /etc/fstab)
@@ -159,7 +159,7 @@ if [ -n "${DRL_DEV}" ]; then
     no | mkfs.ext4 /dev/sdb
   fi
   mkdir -p /drl
-  mount -t auto ${DRL_DEV} /drl
+  mount -t ext4 ${DRL_DEV} /drl
 
   DRL_UUID=$(lsblk "${DRL_DEV}" -no UUID)
   DRL_FSTAB=$(fgrep "${DRL_UUID}" /etc/fstab)
