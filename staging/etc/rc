@@ -143,12 +143,12 @@ if [ -n "${CIC_DEV}" ]; then
     no | mkfs.ext4 /dev/sda
   fi
   mkdir -p /cic
-  mount -t ext4 ${CIC_DEV} /cic
 
   CIC_UUID=$(lsblk "${CIC_DEV}" -no UUID)
   CIC_FSTAB=$(fgrep "${CIC_UUID}" /etc/fstab)
   if [ -z "${CIC_FSTAB}" ]; then
     echo "UUID=${CIC_UUID} /cic            ext4    errors=remount-ro 0       1" >> /etc/fstab;
+    mount -t ext4 ${CIC_DEV} /cic
   fi
 fi
 
@@ -160,12 +160,12 @@ if [ -n "${DRL_DEV}" ]; then
     no | mkfs.ext4 /dev/sdb
   fi
   mkdir -p /drl
-  mount -t ext4 ${DRL_DEV} /drl
 
   DRL_UUID=$(lsblk "${DRL_DEV}" -no UUID)
   DRL_FSTAB=$(fgrep "${DRL_UUID}" /etc/fstab)
   if [ -z "${DRL_FSTAB}" ]; then
     echo "UUID=${DRL_UUID} /drl            ext4    errors=remount-ro 0       1" >> /etc/fstab;
+    mount -t ext4 ${DRL_DEV} /drl
   fi
 
   mkdir -p /drl/ray_results
@@ -173,7 +173,6 @@ if [ -n "${DRL_DEV}" ]; then
     ln -s /drl/ray_results /root/ray_results
   fi
 fi
-systemctl daemon-reload #workaround for auto unmount /cic vs /drl by kernel
 lsblk -fs >> /rclog.txt
 #end mount cic data for AI/ML
 
