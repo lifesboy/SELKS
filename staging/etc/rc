@@ -45,7 +45,7 @@ echo "Mounting filesystems..."
 # tunefs may refuse otherwise
 mount -fr / 2> /dev/null
 
-echo "$(date)" >> /rclog.txt
+echo "$(date)" > /rclog.txt
 
 GROWFS_MARKER=/.probe.for.growfs.nano
 ROOT_IS_UFS=
