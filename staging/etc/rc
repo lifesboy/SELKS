@@ -136,13 +136,20 @@ fi
 #mount cic data for AI/ML
 CIC_DEV=$(lsblk | awk 'match($0, /sda.+893\.8G.+$/) { print "/dev/sda" }')
 if [ -n "${CIC_DEV}" ]; then
-  no | mkfs.ext4 /dev/sda
+  CIC_DEV_FS=$(lsblk -fs "${CIC_DEV}" | awk 'match($0, /ext4.+$/) { print "ext4" }')
+  if [ "${CIC_DEV_FS}" != 'ext4' ]; then
+    no | mkfs.ext4 /dev/sda
+  fi
   mkdir -p /cic
   mount -t auto ${CIC_DEV} /cic
 fi
+
 DRL_DEV=$(lsblk | awk 'match($0, /sdb.+893\.8G.+$/) { print "/dev/sdb" }')
-if [ -n "${CIC_DEV}" ]; then
-  no | mkfs.ext4 /dev/sdb
+if [ -n "${DRL_DEV}" ]; then
+  DRL_DEV_FS=$(lsblk -fs "${DRL_DEV}" | awk 'match($0, /ext4.+$/) { print "ext4" }')
+  if [ "${DRL_DEV_FS}" != 'ext4' ]; then
+    no | mkfs.ext4 /dev/sdb
+  fi
   mkdir -p /drl
   mount -t auto ${DRL_DEV} /drl
   mkdir -p /drl/ray_results
