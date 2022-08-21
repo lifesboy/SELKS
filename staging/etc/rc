@@ -223,8 +223,15 @@ chmod 755 /usr/local/etc/rc.subr.d/recover
 # set keyboard map if needed
 #/etc/rc.d/syscons onestart
 
+
+lsblk -fs >> /rclog.txt
+cat /etc/mtab >> /rclog.txt
+
 # run the config importer during early startup
 /usr/local/sbin/opnsense-importer -b
+
+lsblk -fs >> /rclog.txt
+cat /etc/mtab >> /rclog.txt
 
 # enable console output if it was muted
 #/sbin/conscontrol mute off > /dev/null
