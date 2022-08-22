@@ -99,6 +99,16 @@ service elasticsearch restart
 echo -e "waiting 60s for elasticsearch ready"
 sleep 60 # waiting 10s for elasticsearch ready
 
+ES_STATUS=$(curl http://localhost:9200/_cluster/health?pretty | grep '"status" : "red"')
+if [ -n "${ES_STATUS}" ]; then
+  echo -e "Fail to restore old elasticsearch data"
+  echo -e "Start clean elasticsearch data then reboot and try again(y/N)? y"
+  service elasticsearch stop
+  rm -rf /drl/elasticsearch/
+  reboot
+  exit 1
+fi
+
 echo "Enable Full Pcacket Capture with pcap retaining "
 EXIT_STATUS="SUCCESS"
 #/usr/bin/selks-enable-suri-capture_stamus && \
