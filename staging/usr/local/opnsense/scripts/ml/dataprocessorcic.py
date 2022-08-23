@@ -90,7 +90,6 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 
     pipe: DatasetPipeline = ray.data.read_csv(
         data_files,
-        include_columns=schema.keys(),
         #read_options=read_options,
         convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
