@@ -61,7 +61,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
     @staticmethod
     def get_input_schema() -> dict:
         schema = {
-            # FLOW_ID: pa.float64(),
+            FLOW_ID: pa.string(),
             SRC_IP: pa.string(),
             SRC_PORT: pa.float64(),
             SRC_MAC: pa.string(),
