@@ -768,11 +768,11 @@ POSSIBILITY OF SUCH DAMAGE.
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
-    <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('PreProcessing Training Data') }}</a></li>
-    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('Training AI Model') }}</a></li>
-    <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('Testing AI Model') }}</a></li>
-    <li><a data-toggle="tab" href="#inferringSettings" id="inferringSettings_tab">{{ lang._('Inferring traffic') }}</a></li>
-    <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('Extracted rules') }}</a></li>
+    <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('1.PreProcessing Training Data') }}</a></li>
+    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('2.Training AI Model') }}</a></li>
+    <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('3.Testing AI Model') }}</a></li>
+    <li><a data-toggle="tab" href="#inferringSettings" id="inferringSettings_tab">{{ lang._('4.Inferring traffic') }}</a></li>
+    <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('5.Extracted rules') }}</a></li>
 </ul>
 <div class="tab-content content-box">
     <div id="testingSettings" class="tab-pane fade in">
