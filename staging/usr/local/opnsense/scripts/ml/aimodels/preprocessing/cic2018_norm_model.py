@@ -149,7 +149,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             LABEL: pa.string(),
         }
 
-        schema_non_normed = {i.replace('_', ' ').capitalize(): schema[i] for i in list(schema.keys())}
+        schema_non_normed = {i.replace('_', ' ').title(): schema[i] for i in list(schema.keys())}
 
         return schema_non_normed
 
