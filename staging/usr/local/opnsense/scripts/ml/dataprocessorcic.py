@@ -81,7 +81,7 @@ parser.add_argument(
 # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
 # ]
 
-def skip_invalid_row(row: csv.InvalidRow):
+def skip_invalid_row(row):
     return 'skip' if 'Dst Port' in row.text else 'error'
 
 def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
