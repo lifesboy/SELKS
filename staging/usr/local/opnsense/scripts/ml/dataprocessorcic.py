@@ -86,10 +86,11 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 
     schema = Cic2018NormModel.get_input_schema()
     #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
-    convert_options = csv.ConvertOptions(include_columns=schema.keys(), column_types=schema)
+    convert_options = csv.ConvertOptions(column_types=schema)
 
     pipe: DatasetPipeline = ray.data.read_csv(
         data_files,
+        include_columns=schema.keys(),
         #read_options=read_options,
         convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
