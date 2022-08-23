@@ -82,7 +82,7 @@ parser.add_argument(
 # ]
 
 def skip_invalid_row(row: csv.InvalidRow):
-    return 'skip' if 'Dst Port'.title() in row.text else 'error'
+    return 'skip' if 'Dst Port' in row.text else 'error'
 
 def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
     if not data_files or len(data_files) <= 0:
