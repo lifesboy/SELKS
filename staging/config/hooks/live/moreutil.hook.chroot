@@ -326,6 +326,7 @@ systemctl start cicflowmeter-timer.timer
 
 chmod 755 /usr/local/opnsense/scripts/ml/anomaly_model.py
 chmod 755 /usr/local/opnsense/scripts/ml/dataprocessor.py
+chmod 755 /usr/local/opnsense/scripts/ml/dataprocessorcic.py
 
 systemctl daemon-reload
 
