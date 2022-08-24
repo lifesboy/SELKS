@@ -161,7 +161,7 @@ if __name__ == "__main__":
         tag=tag,
         batch_size=batch_size_source)
 
-    data_source_files = [i for j in batch_df['input_path'].values for i in j]
+    data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
 
     client.log_param(run_id=run.info.run_id, key='run_model', value=run_model)
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
