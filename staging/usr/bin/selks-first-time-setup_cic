@@ -22,12 +22,13 @@ awk 'NR<=1000000' /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_Traf
 awk 'NR>1000000' /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter_2.csv
 mv /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv.bak
 
-awk 'NR<=414' /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv_1.csv
-awk 'NR>414' /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv_2.csv
+awk 'NR<=414' /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter_1.csv
+awk 'NR>414' /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter_2.csv
 mv /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv.bak
 
-awk 'NR<=21839' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv.csv_1.csv
-awk 'NR>21839' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv_2.csv
+awk 'NR<=21839' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter_1.csv
+awk 'NR>21839 && NR<=43118' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter_2.csv
+awk 'NR>43118' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter_3.csv
 mv /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv.bak
 
 echo "FINISH of first time setup cic - $(date) "
