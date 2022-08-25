@@ -143,8 +143,8 @@ def separate_csv_file(data_source: str):
     ldf = utils.lines_in_files_of(DST_PORT_CIC, data_source)
     ldf.apply(utils.separate_file_by_lines, axis=1)
 
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --num-gpus=0.4 --num-cpus=0.1 --data-destination=nsm --tag=nsm
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorcic.py --data-source=cic2018/*.csv --batch-size=500 --num-gpus=0.4 --num-cpus=0.1 --data-destination=cic2018 --tag=cic2018
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --batch-size-source=30 --num-gpus=0.4 --num-cpus=0.1 --data-destination=nsm --tag=nsm
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorcic.py --data-source=cic2018/*.csv --batch-size=500 --batch-size-source=30 --num-gpus=0.4 --num-cpus=0.1 --data-destination=cic2018 --tag=cic2018
 
 
 if __name__ == "__main__":
