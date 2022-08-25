@@ -159,7 +159,7 @@ if __name__ == "__main__":
     data_destination = args.data_destination
     destination_dir = common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/'
 
-    separate_csv_file(data_source)
+    separate_csv_file(common.DATA_FEATURED_EXTRACTED_DIR + data_source)
     input_files = common.get_data_featured_extracted_files_by_pattern(data_source)
     # input_files = data_source.split(',')
 
