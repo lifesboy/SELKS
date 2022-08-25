@@ -16,8 +16,6 @@ import common
 from aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
 import mlflow
 
-from anomaly_normalization import SRC_PORT
-
 run, client = common.init_experiment('data-processor')
 batches_processed: int = 0
 batches_success: int = 0
@@ -81,8 +79,6 @@ parser.add_argument(
 # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
 # ]
 
-def skip_invalid_row(row):
-    return 'skip' if 'Dst Port' in row.text else 'error'
 
 def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
     if not data_files or len(data_files) <= 0:
@@ -90,13 +86,11 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 
     schema = Cic2018NormModel.get_input_schema()
     #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
-    parse_options = csv.ParseOptions(invalid_row_handler=skip_invalid_row)
     convert_options = csv.ConvertOptions(column_types=schema)
 
     pipe: DatasetPipeline = ray.data.read_csv(
         data_files,
         #read_options=read_options,
-        parse_options=parse_options,
         convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
     pipe = pipe.map_batches(Cic2018NormModel, batch_format="pandas", compute="actors",
