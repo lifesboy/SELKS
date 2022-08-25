@@ -6,6 +6,7 @@ import signal
 
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
+from ray.data.datasource.file_meta_provider import FastFileMetadataProvider
 from pandas import DataFrame, Series
 from pyarrow import csv
 
@@ -90,6 +91,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 
     pipe: DatasetPipeline = ray.data.read_csv(
         data_files,
+        meta_provider=FastFileMetadataProvider(),
         #read_options=read_options,
         convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
