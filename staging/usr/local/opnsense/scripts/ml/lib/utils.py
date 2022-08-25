@@ -61,3 +61,26 @@ def restart_ray_service() -> str:
     script_command = "service ray restart"
     out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()
     return out
+
+def lines_in_files_of(filter: str, file_pattern: str) -> DataFrame:
+    # script_command = "fgrep -n '%s' %s" % ('Dst Port', '/cic/dataset/featured_extracted/cic2018/*')
+    script_command = "fgrep -n '%s' %s" % (filter, file_pattern)
+    lines = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
+    line_df = pd.DataFrame(map(lambda i: i.split(':'), lines), columns=['file', 'line', 'text'])
+    line_df = line_df[['file', 'line']]
+    lines_df = line_df.groupby('file')['line'].apply(list).reset_index(name='lines')
+    lines_df['size'] = lines_df.apply(lambda i: len(i['lines']), axis=1, result_type='reduce')
+    lines_df = lines_df.loc[lines_df['size'] > 1]
+    return lines_df
+
+def separate_file_by_lines(fd) -> str:
+    file = fd['file']
+    lines = fd['lines']
+    cp_commands = [
+        *["awk 'NR>=%s && NR<%s' > %s.%s.csv" % (lines[i], lines[i + 1], file, i + 1) for i in range(0, len(lines) - 1)],
+        "awk 'NR>=%s' > %s.%s.csv" % (lines[-1], file, len(lines)),
+        "mv %s %s.bak" % (file, file)
+    ]
+    return subprocess.run(' && '.join(cp_commands), shell=True, capture_output=True, text=True).stdout
+
+
