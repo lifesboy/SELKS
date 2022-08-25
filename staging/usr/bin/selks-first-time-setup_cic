@@ -18,20 +18,6 @@ mkdir -p /cic/dataset/featured_extracted/cic2018
 aws s3 sync --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms/" /cic/dataset/featured_extracted/cic2018
 #aws s3 sync --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/" /cic/dataset/cic2018
 
-awk 'NR<=1000000' /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter_1.csv
-awk 'NR>1000000' /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter_2.csv
-mv /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv /cic/dataset/featured_extracted/cic2018/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv.bak
-
-awk 'NR<=414' /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter_1.csv
-awk 'NR>414 && NR<=19762' /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter_2.csv
-awk 'NR>19762' /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter_3.csv
-mv /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv /cic/dataset/featured_extracted/cic2018/Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv.bak
-
-awk 'NR<=21839' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter_1.csv
-awk 'NR>21839 && NR<=43118' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter_2.csv
-awk 'NR>43118' /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv > /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter_3.csv
-mv /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv /cic/dataset/featured_extracted/cic2018/Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv.bak
-
 echo "FINISH of first time setup cic - $(date) "
 
 ) 2>&1 | tee -a /opt/selks/log/selks-first-time-setup_cic.log
