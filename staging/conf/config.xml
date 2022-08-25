@@ -748,17 +748,17 @@
           <description>anomaly data processor updates</description>
         </job>
         <job uuid="0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f">
-          <origin>cron</origin>
+          <origin>AnomalyDataProcessor</origin>
           <enabled>1</enabled>
           <minutes>0</minutes>
-          <hours>0</hours>
+          <hours>1</hours>
           <days>*</days>
           <months>*</months>
           <weekdays>*</weekdays>
           <who>root</who>
-          <command>anomaly dataprocessor start</command>
+          <command>anomaly dataprocessorcic start</command>
           <parameters>cic2018 500 10 0.4 0.1 cic2018/*.csv</parameters>
-          <description>anomaly label data processor updates</description>
+          <description>anomaly label data processor cic updates</description>
         </job>
         <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
           <origin>Anomaly</origin>
@@ -1197,6 +1197,7 @@
         <NumCpus>0.1</NumCpus>
         <DataDestination>nsm</DataDestination>
         <UpdateCron>1866cc3f-86c7-4c69-9e81-ef6764f7b278</UpdateCron>
+        <UpdateTrainCron>0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f</UpdateTrainCron>
       </dataProcessor>
       <testing>
         <enabled>0</enabled>

@@ -85,6 +85,20 @@ class DataProcessorServiceController extends ApiMutableServiceControllerBase
                 }
             }
 
+            if ((string)$mdlAnomaly->dataProcessor->UpdateTrainCron == "") {
+                $mdlCron = new Cron();
+                // update cron relation (if this doesn't break consistency)
+                $mdlAnomaly->dataProcessor->UpdateTrainCron = $mdlCron->newDailyJob("AnomalyDataProcessor", "anomaly dataprocessorcic start", "anomaly data processor cic updates", "*", "0");
+
+                if ($mdlCron->performValidation()->count() == 0) {
+                    $mdlCron->serializeToConfig();
+                    // save data to config, do not validate because the current in memory model doesn't know about the
+                    // cron item just created.
+                    $mdlAnomaly->serializeToConfig($validateFullModel = false, $disable_validation = true);
+                    Config::getInstance()->save();
+                }
+            }
+
 //             if ($runStatus['status'] == "running" && (string)$mdlAnomaly->dataProcessor->enabled == 0) {
 //                 $this->stopAction();
 //             }

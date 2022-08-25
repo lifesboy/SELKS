@@ -167,6 +167,13 @@ POSSIBILITY OF SUCH DAMAGE.
                         $("#scheduled_updates_dataprocessor").show();
                     }
                 });
+                // set schedule updates link to train cron
+                $.each(data.frm_DataProcessorSettings.anomaly.dataProcessor.UpdateTrainCron, function(key, value) {
+                    if (value.selected == 1) {
+                        $("#scheduled_updates_dataprocessorcic a").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates_dataprocessorcic").show();
+                    }
+                });
                 formatTokenizersUI();
                 $('.selectpicker').selectpicker('refresh');
             });
@@ -838,6 +845,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     type="button"
             ></button>
             &nbsp;&nbsp;<span id="scheduled_updates_dataprocessor" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule') }}</a></span>
+            &nbsp;&nbsp;<span id="scheduled_updates_dataprocessorcic" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule CIC') }}</a></span>
             <br/>
             <br/>
         </div>
