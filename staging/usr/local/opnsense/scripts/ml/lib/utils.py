@@ -42,7 +42,7 @@ def get_processing_file_pattern(
 
     batch_df: DataFrame = file_df.groupby('batch').sum()
     batch_df['output_name'] = batch_df.apply(lambda i: get_output_file_of_batch(i.input_name, tag, ext), axis=1, result_type='reduce')
-    batch_df['output_path'] = batch_df.apply(lambda i: os.path.join(output, i.output_name), axis=1, result_type='reduce')
+    batch_df['output_path'] = batch_df.apply(lambda i: output, axis=1, result_type='reduce')
     return batch_df
 
 
