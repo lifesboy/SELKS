@@ -77,8 +77,8 @@ def separate_file_by_lines(fd) -> str:
     file = fd['file']
     lines = fd['lines']
     cp_commands = [
-        *["awk 'NR>=%s && NR<%s' > %s.%s.csv" % (lines[i], lines[i + 1], file, i + 1) for i in range(0, len(lines) - 1)],
-        "awk 'NR>=%s' > %s.%s.csv" % (lines[-1], file, len(lines)),
+        *["awk 'NR>=%s && NR<%s' %s > %s.%s.csv" % (lines[i], lines[i + 1], file, file, i + 1) for i in range(0, len(lines) - 1)],
+        "awk 'NR>=%s' %s > %s.%s.csv" % (lines[-1], file, file, len(lines)),
         "mv %s %s.bak" % (file, file)
     ]
     return subprocess.run(' && '.join(cp_commands), shell=True, capture_output=True, text=True).stdout
