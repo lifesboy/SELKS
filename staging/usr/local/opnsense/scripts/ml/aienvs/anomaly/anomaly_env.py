@@ -2,16 +2,11 @@ import gym
 import ray
 from gym.spaces import Discrete, Box
 import numpy as np
-import random
-import pandas as pd
 
 
 # @ray.remote
 from ray.data import Dataset
-from ray.data.dataset_pipeline import DatasetPipeline
-
-import common
-from anomaly_normalization import DST_PORT, PROTOCOL, TIMESTAMP, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
+from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
 
 
 class AnomalyEnv(gym.Env):
