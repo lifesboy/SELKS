@@ -91,7 +91,7 @@ if __name__ == "__main__":
         tag=tag,
         batch_size=1)
 
-    data_source_files = batch_df['input_path'].tolist()
+    data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
 
     mlflow.tensorflow.autolog()
     run, client = common.init_experiment(name="anomaly-model", run_name=tag)
