@@ -3,12 +3,14 @@
 import argparse
 
 import mlflow
+from pandas import DataFrame
 
 from ray import tune
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 
 import common
+import lib.utils as utils
 from aienvs.anomaly.anomaly_env import AnomalyEnv
 from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
 from aimodels.anomaly.anomaly_model import AnomalyModel
@@ -58,19 +60,49 @@ parser.add_argument(
     type=float,
     default=90.0,
     help="Reward at which we stop training.")
+parser.add_argument(
+    "--num-gpus",
+    type=float,
+    default=0.1,
+    help="Number of GPUs to use.")
+parser.add_argument(
+    "--num-cpus",
+    type=float,
+    default=0,
+    help="Number of CPUs to use.")
+parser.add_argument(
+    "--tag",
+    type=str,
+    default="train",
+    help="run tag")
 
-# python3 trainanomaly.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000
+# python3 trainanomaly.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=cic2018
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    tag = args.tag
+    num_gpus = args.num_gpus
+    num_cpus = args.num_cpus
     data_source = args.data_source
-    data_source_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
+    input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
+    destination_dir = common.DATA_TRAINED_DIR
+    batch_df: DataFrame = utils.get_processing_file_pattern(
+        input_files=input_files,
+        output=destination_dir,
+        tag=tag,
+        batch_size=1)
+
+    data_source_files = batch_df['input_path'].tolist()
 
     mlflow.tensorflow.autolog()
-    run, client = common.init_experiment("anomaly-model")
+    run, client = common.init_experiment(name="anomaly-model", run_name=tag)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
+    client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
+    client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
+
+    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
 
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
@@ -87,7 +119,8 @@ if __name__ == "__main__":
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
-        "num_gpus": 0.1,  # int(os.environ.get("RLLIB_NUM_GPUS", "0")),
+        "num_cpus": num_cpus,
+        "num_gpus": num_gpus,  # int(os.environ.get("RLLIB_NUM_GPUS", "0")),
         "num_workers": 0,
         "num_envs_per_worker": 20,
         "entropy_coeff": 0.001,

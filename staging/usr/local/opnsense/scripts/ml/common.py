@@ -36,12 +36,14 @@ TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'
 DATA_FEATURED_EXTRACTED_DIR = '/cic/dataset/featured_extracted/'
 DATA_NORMALIZED_DIR = '/cic/dataset/normalized/'
 DATA_NORMALIZED_LABELED_DIR = '/cic/dataset/normalized_labeled/'
+DATA_TRAINED_DIR = '/cic/dataset/trained/'
 TMP_DIR = '/drl/tmp/'
 
 Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_FEATURED_EXTRACTED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_NORMALIZED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_NORMALIZED_LABELED_DIR).mkdir(parents=True, exist_ok=True)
+Path(DATA_TRAINED_DIR).mkdir(parents=True, exist_ok=True)
 
 TAG_DATASET_SIZE = 'dataset.size'
 TAG_DATASET_MIN = 'dataset.min'
@@ -68,19 +70,19 @@ def init_node():
     ray.init(address=RAY_HEAD_NODE_ADDRESS)
 
 
-def init_tracking(name: str) -> (ActiveRun, MlflowClient):
+def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, MlflowClient):
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(name)
-    run = mlflow.active_run() if mlflow.active_run() else mlflow.start_run()
+    run = mlflow.active_run() if mlflow.active_run() else mlflow.start_run(run_name=run_name)
     client = MlflowClient()
     client.set_tag(run_id=run.info.run_id, key=TAG_RUN_UUID, value=run.info.run_id)
     return run, client
 
 
-def init_experiment(name: str) -> (ActiveRun, MlflowClient):
+def init_experiment(name: str, run_name: Optional[str] = None) -> (ActiveRun, MlflowClient):
     init_node()
     exp = name  # + datetime.now().strftime("-%Y%m%dT%H%M%S")
-    return init_tracking(exp)
+    return init_tracking(exp, run_name)
 
 
 def get_train_id():
