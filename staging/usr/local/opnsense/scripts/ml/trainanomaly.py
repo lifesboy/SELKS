@@ -118,7 +118,7 @@ if __name__ == "__main__":
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
-        "num_cpus": num_cpus,
+        # "num_cpus": num_cpus,
         "num_gpus": num_gpus,  # int(os.environ.get("RLLIB_NUM_GPUS", "0")),
         "num_workers": 0,
         "num_envs_per_worker": 20,
