@@ -29,7 +29,6 @@ parser.add_argument(
     default="PPO",
     help="The RLlib-registered algorithm to use.")
 parser.add_argument("--env", type=str, default="AnomalyEnv")
-parser.add_argument("--num-cpus", type=int, default=0)
 parser.add_argument(
     "--data-source",
     type=str,
@@ -76,7 +75,7 @@ parser.add_argument(
     default="train",
     help="run tag")
 
-# python3 trainanomaly.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=cic2018
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=cic2018
 
 if __name__ == "__main__":
     args = parser.parse_args()
