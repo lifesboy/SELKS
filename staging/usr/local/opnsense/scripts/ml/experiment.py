@@ -4,13 +4,11 @@ from ray import tune
 from ray.rllib.agents.ppo import PPOTrainer
 from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
-from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 
 import common
-import anomaly_env
-from anomaly_env import AnomalyEnv
+from aienvs.anomaly.anomaly_env import AnomalyEnv
 
 parser = argparse.ArgumentParser()
 parser.add_argument(

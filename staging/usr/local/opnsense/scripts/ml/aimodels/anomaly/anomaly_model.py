@@ -1,31 +1,15 @@
 #!/usr/bin/python3
-"""Example of using a custom RNN keras model."""
-
-import argparse
-import os
 
 import numpy as np
 import mlflow
-import yaml
 
-import ray
 from gym import Space
 from keras import Model
-from ray import tune
 from ray.rllib.models.modelv2 import ModelV2
-from ray.rllib.models.preprocessors import get_preprocessor
 from ray.rllib.models.tf.recurrent_net import RecurrentNetwork
 from ray.rllib.utils.typing import ModelConfigDict
-from ray.tune.integration.mlflow import MLflowLoggerCallback
-from ray.tune.registry import register_env
 
-import common
-from anomaly_env import AnomalyEnv
-from anomaly_initial_obs_env import AnomalyInitialObsEnv
-from ray.rllib.examples.models.rnn_model import RNNModel
-from ray.rllib.models import ModelCatalog
-from ray.rllib.utils.test_utils import check_learning_achieved
-from ray.rllib.utils.framework import try_import_tf, try_import_torch
+from ray.rllib.utils.framework import try_import_tf
 
 tf1, tf, tfv = try_import_tf()
 from ray.rllib.utils.annotations import override
