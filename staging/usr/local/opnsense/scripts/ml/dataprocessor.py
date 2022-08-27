@@ -17,7 +17,6 @@ import common
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 import mlflow
 
-run, client = common.init_experiment('data-processor')
 batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
@@ -105,7 +104,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global batches_processed, batches_success, sources_success, sources_fail
+    global run, client, batches_processed, batches_success, sources_success, sources_fail
 
     try:
         batches_processed += 1
@@ -156,6 +155,7 @@ if __name__ == "__main__":
     # input_files = data_source.split(',')
 
     kill_exists_processing()
+    run, client = common.init_experiment(name='data-processor', run_name=tag)
 
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
