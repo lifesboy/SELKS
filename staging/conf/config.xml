@@ -770,7 +770,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly start</command>
-          <parameters>1000 1000 1000 100 cic2018/*.csv</parameters>
+          <parameters>1000 1000 1000 100 cic2018/*.csv auto-train</parameters>
           <description>anomaly training updates</description>
         </job>
         <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
