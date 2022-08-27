@@ -735,7 +735,7 @@
           <description>sids rule updates</description>
         </job>
         <job uuid="1866cc3f-86c7-4c69-9e81-ef6764f7b278">
-          <origin>AnomalyDataProcessor</origin>
+          <origin>cron</origin>
           <enabled>1</enabled>
           <minutes>0</minutes>
           <hours>0</hours>
@@ -748,7 +748,7 @@
           <description>anomaly data processor updates</description>
         </job>
         <job uuid="0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f">
-          <origin>AnomalyDataProcessor</origin>
+          <origin>cron</origin>
           <enabled>1</enabled>
           <minutes>0</minutes>
           <hours>1</hours>
@@ -761,7 +761,7 @@
           <description>anomaly label data processor cic updates</description>
         </job>
         <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
-          <origin>Anomaly</origin>
+          <origin>cron</origin>
           <enabled>1</enabled>
           <minutes>0</minutes>
           <hours>2</hours>
@@ -774,7 +774,7 @@
           <description>anomaly training updates</description>
         </job>
         <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
-          <origin>AnomalyTesting</origin>
+          <origin>cron</origin>
           <enabled>1</enabled>
           <minutes>0</minutes>
           <hours>4</hours>
