@@ -158,7 +158,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
         self.processed_num = 0
         self.row_normed_num = 0
-        self.run, self.client = common.init_tracking('data-processor')
+        self.run, self.client = common.init_tracking(name='data-processor', run_name='sub-processing')
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=parent_run_id)
 
     def __call__(self, batch: DataFrame) -> DataFrame:
