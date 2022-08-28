@@ -138,10 +138,6 @@ def kill_exists_processing():
     for pid in set(utils.get_process_ids(__file__)) - {os.getpid()}:
         os.kill(pid, signal.SIGTERM)
 
-def separate_csv_file(data_source: str):
-    ldf = utils.lines_in_files_of(DST_PORT_CIC, data_source)
-    ldf.apply(utils.separate_file_by_lines, axis=1)
-
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --batch-size-source=30 --num-gpus=0.4 --num-cpus=0.1 --data-destination=nsm --tag=nsm
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorcic.py --data-source=cic2018/*.csv --batch-size=500 --batch-size-source=30 --num-gpus=0.4 --num-cpus=0.1 --data-destination=cic2018 --tag=cic2018
 
@@ -158,7 +154,6 @@ if __name__ == "__main__":
     data_destination = args.data_destination
     destination_dir = common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/'
 
-    separate_csv_file(common.DATA_FEATURED_EXTRACTED_DIR + data_source)
     input_files = common.get_data_featured_extracted_files_by_pattern(data_source)
     # input_files = data_source.split(',')
 
