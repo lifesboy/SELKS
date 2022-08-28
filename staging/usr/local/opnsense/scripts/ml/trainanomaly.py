@@ -143,7 +143,11 @@ if __name__ == "__main__":
         "episode_reward_mean": args.stop_reward,
     }
 
-    config_df = pd.json_normalize([{'config': config}])
+    client.log_param(run_id=run.info.run_id, key='config.env_config.episode_len', value=args.stop_episode_len)
+    for i in range(0, len(data_source_files)):
+        client.log_param(run_id=run.info.run_id, key='config.env_config.data_source_files_%s' % i, value=data_source_files[i])
+
+    config_df = pd.json_normalize([{'config': { i: config[i] for i in config if i != 'env_config' }}])
     config_df.apply(lambda i: i.reset_index().apply(
         lambda k: client.log_param(run_id=run.info.run_id, key=(k['index']), value=k[0]), axis=1), axis=1)
 
