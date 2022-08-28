@@ -3,6 +3,7 @@
 import argparse
 
 import mlflow
+import pandas as pd
 from pandas import DataFrame
 
 from ray import tune
@@ -97,9 +98,8 @@ if __name__ == "__main__":
     run, client = common.init_experiment(name="anomaly-model", run_name=tag)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
-    client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
-    client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
-    client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
+    # client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
+    # client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
 
@@ -142,8 +142,13 @@ if __name__ == "__main__":
         "episode_reward_mean": args.stop_reward,
     }
 
-    client.log_param(run_id=run.info.run_id, key='config', value=config)
-    client.log_param(run_id=run.info.run_id, key='stop', value=stop)
+    config_df = pd.json_normalize([{'config': config}])
+    config_df.apply(lambda i: i.reset_index().apply(
+        lambda k: client.log_param(run_id=run.info.run_id, key=(k['index']), value=k[0]), axis=1), axis=1)
+
+    stop_df = pd.json_normalize([{'stop': stop}])
+    stop_df.apply(lambda i: i.reset_index().apply(
+        lambda k: client.log_param(run_id=run.info.run_id, key=(k['index']), value=k[0]), axis=1), axis=1)
 
     # To run the Trainer without tune.run, using our RNN model and
     # manual state-in handling, do the following:
