@@ -18,6 +18,8 @@ mkdir -p /cic/dataset/featured_extracted/cic2018
 aws s3 sync --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms/" /cic/dataset/featured_extracted/cic2018
 #aws s3 sync --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/" /cic/dataset/cic2018
 
+/usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorheaderscic.py --data-source=cic2018/*.csv
+
 echo "FINISH of first time setup cic - $(date) "
 
 ) 2>&1 | tee -a /opt/selks/log/selks-first-time-setup_cic.log
