@@ -75,7 +75,7 @@ parser.add_argument(
     default="train",
     help="run tag")
 
-# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=cic2018
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018
 
 if __name__ == "__main__":
     args = parser.parse_args()
