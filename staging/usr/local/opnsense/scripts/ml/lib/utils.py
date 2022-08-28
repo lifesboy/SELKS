@@ -68,17 +68,20 @@ def lines_in_files_of(filter: str, file_pattern: str) -> DataFrame:
     lines = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
     line_df = pd.DataFrame(map(lambda i: i.split(':'), lines), columns=['file', 'line', 'text'])
     line_df = line_df[['file', 'line']]
-    lines_df = line_df.groupby('file')['line'].apply(list).reset_index(name='lines')
-    lines_df['size'] = lines_df.apply(lambda i: len(i['lines']), axis=1, result_type='reduce')
+    lines_df = line_df.groupby('file').agg(pd.Series.tolist).reset_index()
+    lines_df['size'] = lines_df.apply(lambda i: len(i['line']), axis=1, result_type='reduce')
     lines_df = lines_df.loc[lines_df['size'] > 1]
     return lines_df
 
 def separate_file_by_lines(fd) -> str:
     file = fd['file']
-    lines = fd['lines']
+    size = fd['size']
+    lines = fd['line']
+    texts = list(map(lambda i: i.lower().replace(' ', '_').replace('/', '_'), fd['text']))
     cp_commands = [
-        *["awk 'NR>=%s && NR<%s' %s > %s.%s.csv" % (lines[i], lines[i + 1], file, file, i + 1) for i in range(0, len(lines) - 1)],
-        "awk 'NR>=%s' %s > %s.%s.csv" % (lines[-1], file, file, len(lines)),
+        *["cat %s > %s.%s.csv" % (texts[i], file, i + 1) for i in range(0, size)],
+        *["awk 'NR>%s && NR<%s' %s >> %s.%s.csv" % (lines[i], lines[i + 1], file, file, i + 1) for i in range(0, size - 1)],
+        "awk 'NR>%s' %s >> %s.%s.csv" % (lines[-1], file, file, size),
         "mv %s %s.bak" % (file, file)
     ]
     return subprocess.run(' && '.join(cp_commands), shell=True, capture_output=True, text=True).stdout
