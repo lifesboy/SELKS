@@ -144,11 +144,11 @@
          * Add classtype / action to rule filter
          */
         function addRuleFilters(request) {
-            // add loading overlay
-            $('#processing-dialog').modal('show');
-            $("#{{base_form_id}} #{{base_form_id}}-grid-datasets").bootgrid().on("loaded.rs.jquery.bootgrid", function (e){
-                $('#processing-dialog').modal('hide');
-            });
+            // // add loading overlay
+            // $('#processing-dialog').modal('show');
+            // $("#{{base_form_id}} #{{base_form_id}}-grid-datasets").bootgrid().on("loaded.rs.jquery.bootgrid", function (e){
+            //     $('#processing-dialog').modal('hide');
+            // });
 
             $('#{{base_form_id}} #datasetmetadata').find("option:selected").each(function(){
                 let filter_name = $(this).data('property');
