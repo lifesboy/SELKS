@@ -3,6 +3,7 @@
 import argparse
 import glob
 from sys import version_info
+import time
 import pandas
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
@@ -170,7 +171,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
 
         self.processed_num = 0
         self.row_normed_num = 0
-        self.run, self.client = common.init_tracking(name='data-processor', run_name='sub-processing-cic2018')
+        self.run, self.client = common.init_tracking(name='data-processor', run_name='sub-processing-cic2018-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=parent_run_id)
 
     def __call__(self, batch: DataFrame) -> DataFrame:
