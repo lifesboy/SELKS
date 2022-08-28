@@ -27,8 +27,8 @@ class AnomalyModel(RecurrentNetwork):
                  cell_size: int = 64):
         super(AnomalyModel, self).__init__(obs_space, action_space, num_outputs,
                                            model_config, name)
-        mlflow.tensorflow.autolog()
-        # mlflow.keras.autolog()
+        # mlflow.tensorflow.autolog()
+        mlflow.keras.autolog()
 
         self.cell_size = cell_size
 
