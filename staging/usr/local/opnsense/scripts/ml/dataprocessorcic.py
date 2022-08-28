@@ -163,7 +163,7 @@ if __name__ == "__main__":
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
-        tag=tag,
+        tag='preprocess',
         batch_size=batch_size_source)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
