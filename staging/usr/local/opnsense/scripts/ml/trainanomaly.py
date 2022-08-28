@@ -88,7 +88,7 @@ if __name__ == "__main__":
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
-        tag=tag,
+        tag='train',
         batch_size=1)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
@@ -141,6 +141,9 @@ if __name__ == "__main__":
         "timesteps_total": args.stop_timesteps,
         "episode_reward_mean": args.stop_reward,
     }
+
+    client.log_param(run_id=run.info.run_id, key='config', value=config)
+    client.log_param(run_id=run.info.run_id, key='stop', value=stop)
 
     # To run the Trainer without tune.run, using our RNN model and
     # manual state-in handling, do the following:
