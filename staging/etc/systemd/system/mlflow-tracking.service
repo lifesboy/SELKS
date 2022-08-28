@@ -13,7 +13,8 @@ User=root
 # mlflow server --host $MLFLOW_HOST --backend-store-uri elasticsearch://$USER:$PASSWORD@$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT --port $MLFLOW_PORT --default-artifact-root $ARTIFACT_LOCATION
 # mlflow server --host 0.0.0.0 --backend-store-uri elasticsearch://localhost:9200 --port 5000 --default-artifact-root /drl/artifacts
 
-ExecStart=/usr/local/bin/mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db --default-artifact-root /drl/artifacts
+# ExecStart=/usr/local/bin/mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db --default-artifact-root /drl/artifacts
+ExecStart=/usr/local/bin/mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri /drl/mlruns --default-artifact-root /drl/artifacts
 WorkingDirectory=/drl
 
 [Install]
