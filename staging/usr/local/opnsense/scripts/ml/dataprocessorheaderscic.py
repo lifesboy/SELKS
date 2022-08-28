@@ -25,7 +25,8 @@ def kill_exists_processing():
 
 def separate_csv_file(data_source: str):
     ldf = utils.lines_in_files_of(DST_PORT_CIC, data_source)
-    ldf.apply(utils.separate_file_by_lines, axis=1)
+    ldf['result'] = ldf.apply(utils.separate_file_by_lines, axis=1)
+    return ldf
 
 
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorheaderscic.py --data-source=cic2018/*.csv
@@ -37,4 +38,4 @@ if __name__ == "__main__":
     log.info('start dataprocessorheaderscic: %s', data_source)
     kill_exists_processing()
     res = separate_csv_file(common.DATA_FEATURED_EXTRACTED_DIR + data_source)
-    log.info('finish dataprocessorheaderscic: %s, %s', data_source, res)
+    log.info('finish dataprocessorheaderscic: %s, %s', data_source, res['result'].tolist())
