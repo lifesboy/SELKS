@@ -88,8 +88,8 @@ class DatasetCache(object):
 
     def init_experiment(self):
         if not self._run or not self._client:
-            self._run, self._client = common.init_experiment(name='dataset-cache', run_name='auto-cache-%' % time.time())
-            self._client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value='auto-cache')
+            self._run, self._client = common.init_experiment(name='dataset-cache', run_name='auto-cache-%s' % time.time())
+            self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='auto-cache')
 
     @staticmethod
     def list_local(data_sources: str, batch_size: int = 100) -> DataFrame:
