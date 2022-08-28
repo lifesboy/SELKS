@@ -1,5 +1,6 @@
 import gym
 import ray
+from ray.data.datasource.file_meta_provider import FastFileMetadataProvider
 from gym.spaces import Discrete, Box
 import numpy as np
 
@@ -15,7 +16,7 @@ class AnomalyEnv(gym.Env):
     def __init__(self, config=None):
         config = config or {}
         self.data_source_files = config.get("data_source_files", [])
-        self.data_set: Dataset = ray.data.read_csv(self.data_source_files)
+        self.data_set: Dataset = ray.data.read_csv(self.data_source_files, meta_provider=FastFileMetadataProvider())
 
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
 
