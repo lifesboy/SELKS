@@ -69,7 +69,7 @@ def lines_in_files_of(filter: str, file_pattern: str) -> DataFrame:
     line_df = pd.DataFrame(map(lambda i: i.split(':'), lines), columns=['file', 'line', 'text'])
     lines_df = line_df.groupby('file').agg(pd.Series.tolist).reset_index()
     lines_df['size'] = lines_df.apply(lambda i: len(i['line']), axis=1, result_type='reduce')
-    lines_df = lines_df.loc[lines_df['size'] > 1]
+    lines_df = lines_df.loc[lines_df['size'] > 0]
     return lines_df
 
 def separate_file_by_lines(fd) -> str:
