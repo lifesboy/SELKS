@@ -37,4 +37,4 @@ if __name__ == "__main__":
     log.info('start dataprocessorheaderscic: %s', data_source)
     kill_exists_processing()
     separate_csv_file(common.DATA_FEATURED_EXTRACTED_DIR + data_source)
-    log.info('finish dataprocessorheaderscic: %s, %s', data_source)
+    log.info('finish dataprocessorheaderscic: %s', data_source)
