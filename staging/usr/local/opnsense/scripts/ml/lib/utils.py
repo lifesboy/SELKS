@@ -78,7 +78,7 @@ def separate_file_by_lines(fd) -> str:
     lines = fd['line']
     texts = list(map(lambda i: i.lower().replace(' ', '_').replace('/', '_'), fd['text']))
     cp_commands = [
-        *["cat %s > %s.%s.csv" % (texts[i], file, i + 1) for i in range(0, size)],
+        *["cat '%s' > %s.%s.csv" % (texts[i], file, i + 1) for i in range(0, size)],
         *["awk 'NR>%s && NR<%s' %s >> %s.%s.csv" % (lines[i], lines[i + 1], file, file, i + 1) for i in range(0, size - 1)],
         "awk 'NR>%s' %s >> %s.%s.csv" % (lines[-1], file, file, size),
         "mv %s %s.bak" % (file, file)
