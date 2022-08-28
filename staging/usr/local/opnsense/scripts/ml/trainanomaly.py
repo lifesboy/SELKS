@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import time
 
 import mlflow
 import pandas as pd
@@ -95,7 +96,7 @@ if __name__ == "__main__":
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
 
     mlflow.tensorflow.autolog()
-    run, client = common.init_experiment(name="anomaly-model", run_name=tag)
+    run, client = common.init_experiment(name="anomaly-model", run_name='%s-%s' % (tag, time.time()))
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     # client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)

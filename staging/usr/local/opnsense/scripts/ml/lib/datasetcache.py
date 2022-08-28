@@ -34,6 +34,7 @@ import os
 import os.path
 import shlex
 import sqlite3
+import time
 from configparser import ConfigParser
 from datetime import datetime
 from decimal import Decimal
@@ -87,7 +88,8 @@ class DatasetCache(object):
 
     def init_experiment(self):
         if not self._run or not self._client:
-            self._run, self._client = common.init_experiment(name='dataset-cache', run_name='auto-cache')
+            self._run, self._client = common.init_experiment(name='dataset-cache', run_name='auto-cache-%' % time.time())
+            self._client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value='auto-cache')
 
     @staticmethod
     def list_local(data_sources: str, batch_size: int = 100) -> DataFrame:

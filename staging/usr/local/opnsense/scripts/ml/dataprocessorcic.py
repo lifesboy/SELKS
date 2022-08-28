@@ -3,6 +3,7 @@ import argparse
 import glob
 import os
 import signal
+import time
 
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
@@ -158,7 +159,7 @@ if __name__ == "__main__":
     # input_files = data_source.split(',')
 
     kill_exists_processing()
-    run, client = common.init_experiment(name='data-processor', run_name=tag)
+    run, client = common.init_experiment(name='data-processor', run_name='%s-%s' % (tag, time.time()))
 
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
