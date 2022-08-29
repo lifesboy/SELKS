@@ -1152,8 +1152,23 @@ server {
 }
 EOF
 
+cat >> /etc/nginx/sites-available/pgadmin.conf <<EOF
+server {
+    listen 127.0.1.1:5433;
+    server_name pgadmin;
+    access_log /var/log/nginx/pgadmin.access.log;
+    error_log /var/log/nginx/pgadmin.error.log;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/tmp/pgadmin4.sock;
+        # proxy_set_header X-Script-Name /pgadmin4;
+    }
+}
+EOF
+
 # enable sites
-ln -s /etc/nginx/sites-available/selks6.conf /etc/nginx/sites-enabled/selks6.conf
+ln -s /etc/nginx/sites-available/pgadmin.conf /etc/nginx/sites-enabled/pgadmin.conf
 
 #cd /usr/share/python3/scirius/ && \
 #source bin/activate
