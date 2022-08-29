@@ -1154,7 +1154,8 @@ EOF
 
 cat >> /etc/nginx/sites-available/pgadmin.conf <<EOF
 server {
-    listen 127.0.1.1:5433;
+    listen 127.0.0.1:5433;
+    listen 5433;
     server_name pgadmin;
     access_log /var/log/nginx/pgadmin.access.log;
     error_log /var/log/nginx/pgadmin.error.log;
