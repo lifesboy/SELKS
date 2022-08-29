@@ -11,6 +11,6 @@ $( document ).ready(function() {
     $('#ref-frame').detach().appendTo($('.page-content'))
 });
 </script>
-<iframe id="ref-frame" src="/proxy/pgadmin4/" title="PgAdmin4"
+<iframe id="ref-frame" src="/proxy/pgadmin/" title="AI DB Administration"
     width="100%" height="100%"
     frameborder="0" allowfullscreen></iframe>
