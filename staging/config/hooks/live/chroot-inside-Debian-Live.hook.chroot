@@ -186,6 +186,14 @@ sudo -u postgres psql -h /var/run/postgresql -c "CREATE SCHEMA public;"
 sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO postgres;"
 sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
 
+#curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | apt-key add
+#cat > /etc/apt/sources.list.d/pgdg.list <<EOF
+#  deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/buster pgadmin4 main
+#EOF
+#apt-get update
+#apt-get install -y pgadmin4
+#yes | /usr/pgadmin4/bin/setup-web.sh
+
 cp -R /binaries/scirius /
 ln -s /selks/staging/usr/local/opnsense/scripts/ml /scirius/ml
 #mkdir -p /binaries/cache/npm/scirius/node_modules
