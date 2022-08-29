@@ -472,6 +472,10 @@ expire.url = ( "" => "access 50 hours" )
     proxy.header = ("map-urlpath" => ( "/proxy/ray/" => "/" ), "https-remap" => "enable")
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "8265" ) ) )
 }
+\$HTTP["url"] =~ "^/proxy/pgadmin4/" {
+    proxy.header = ("map-urlpath" => ( "/proxy/pgadmin4/" => "/" ), "https-remap" => "enable")
+    proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "5433" ) ) )
+}
 
 EOD;
 
