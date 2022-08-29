@@ -67,7 +67,8 @@ def init_node():
     if not utils.is_ray_gpu_ready():
         utils.restart_ray_service()
 
-    ray.init(address=RAY_HEAD_NODE_ADDRESS)
+    if not ray.is_initialized():
+        ray.init(address=RAY_HEAD_NODE_ADDRESS)
 
 
 def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, MlflowClient):
