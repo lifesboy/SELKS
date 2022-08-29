@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
+import time
 import numpy as np
 import mlflow
+import common
 
 from gym import Space
 from keras import Model
@@ -29,6 +31,8 @@ class AnomalyModel(RecurrentNetwork):
                                            model_config, name)
         mlflow.tensorflow.autolog()
         # mlflow.keras.autolog()
+        self._run, self._client = common.init_experiment(name='anomaly-model', run_name='model-tuning-%s' % time.time())
+        self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
         self.cell_size = cell_size
 
