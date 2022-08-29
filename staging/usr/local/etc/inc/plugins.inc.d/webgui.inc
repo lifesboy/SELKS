@@ -473,6 +473,7 @@ expire.url = ( "" => "access 50 hours" )
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "8265" ) ) )
 }
 \$HTTP["url"] =~ "^/proxy/pgadmin/" {
+    setenv.set-request-header = ("X-Script-Name" => "/proxy/pgadmin")
     proxy.header = ("map-urlpath" => ( "/proxy/pgadmin/" => "/" ), "https-remap" => "enable")
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "5433" ) ) )
 }
