@@ -1041,6 +1041,7 @@ apt-get install -y supervisor
 mkdir -p /etc/supervisor/conf.d/
 #ln -s /usr/share/doc/scirius/examples/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
 ln -s /selks/staging/etc/supervisor/conf.d/scirius-supervisor.conf /etc/supervisor/conf.d/scirius-supervisor.conf
+ln -s /selks/staging/etc/supervisor/conf.d/pgadmin4-supervisor.conf /etc/supervisor/conf.d/pgadmin4-supervisor.conf
 
 # Set the right permissions for the logstash user to run suricata
 chown -R logstash:logstash /var/log/suricata
