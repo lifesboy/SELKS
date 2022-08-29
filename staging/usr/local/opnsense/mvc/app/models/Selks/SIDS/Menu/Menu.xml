@@ -15,7 +15,7 @@
         <AIModelManagement order="3" VisibleName="AI Model Management" url="/ui/anomaly/mlflow/#/models" cssClass="fa fa-exchange fa-fw" />
         <AIAgentTesting order="4" VisibleName="AI Agent Testing" url="/ui/anomaly/locust/" cssClass="fa fa-eye fa-fw" />
         <AIDeployment order="5" VisibleName="AI Deployment" url="/ui/anomaly/ray/" cssClass="fa fa-sitemap fa-fw" />
-        <PgAdmin4 order="6" VisibleName="PgAdmin4" url="/ui/anomaly/pgadmin4/" cssClass="fa fa-tasks fa-fw" />
+        <Pgadmin4 order="6" VisibleName="AI DB Administration" url="/ui/anomaly/pgadmin4/" cssClass="fa fa-tasks fa-fw" />
     </NextGenerationIDPS>
 </menu>
 
