@@ -192,6 +192,16 @@ chown -R www-data /var/lib/pgadmin
 chown -R www-data /var/log/pgadmin
 python3 -m pip install pgadmin4
 
+mkdir -p /etc/pgadmin/
+cat > /etc/pgadmin/config_system.py <<EOF
+DATA_DIR = '/var/lib/pgadmin'
+SERVER_MODE = True
+MASTER_PASSWORD = False
+MASTER_PASSWORD_REQUIRED = False
+PGADMIN_DEFAULT_EMAIL="root@ngfwips.localdomain"
+PGADMIN_DEFAULT_PASSWORD="opnsense"
+EOF
+
 cp -R /binaries/scirius /
 ln -s /selks/staging/usr/local/opnsense/scripts/ml /scirius/ml
 #mkdir -p /binaries/cache/npm/scirius/node_modules
