@@ -356,7 +356,7 @@ pecl channel-update pecl.php.net
 #pecl install phalcon
 
 #pip3 install jinja2 netaddr ujson
-python3 -m pip install jinja2 netaddr ujson configparser
+python3 -m pip install jinja2==3.0.3 netaddr ujson configparser
 python -m pip install configparser
 python --version
 python -m pip freeze
