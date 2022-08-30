@@ -1152,10 +1152,10 @@ server {
 }
 EOF
 
-cat >> /etc/nginx/sites-available/pgadmin.conf <<EOF
+cat > /etc/nginx/sites-available/pgadmin.conf <<EOF
 server {
     listen 127.0.0.1:5433;
-    listen 5433;
+    # listen 5433;
     server_name pgadmin;
     access_log /var/log/nginx/pgadmin.access.log;
     error_log /var/log/nginx/pgadmin.error.log;
@@ -1163,7 +1163,7 @@ server {
     location / {
         include proxy_params;
         proxy_pass http://unix:/tmp/pgadmin4.sock;
-        # proxy_set_header X-Script-Name /pgadmin4;
+        # proxy_set_header X-Script-Name /proxy/pgadmin;
     }
 }
 EOF
