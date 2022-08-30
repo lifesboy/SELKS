@@ -187,6 +187,7 @@ sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO p
 sudo -u postgres psql -h /var/run/postgresql -c "GRANT ALL ON SCHEMA public TO public;"
 
 mkdir -p /var/lib/pgadmin
+cp /selks/staging/var/lib/pgadmin/pgadmin4.db /var/lib/pgadmin
 mkdir -p /var/log/pgadmin
 chown -R www-data /var/lib/pgadmin
 chown -R www-data /var/log/pgadmin
