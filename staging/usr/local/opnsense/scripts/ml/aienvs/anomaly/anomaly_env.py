@@ -25,7 +25,7 @@ class AnomalyEnv(gym.Env):
 
         self.episode_len = config.get("episode_len", 100)
         self.current_obs = None
-        self.current_len = None
+        self.current_len = 0
 
     def reset(self):
         self.current_obs = None
