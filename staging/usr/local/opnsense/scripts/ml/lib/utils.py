@@ -51,16 +51,19 @@ def get_process_ids(script: str) -> map:
     p_ids = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
     return map(lambda i: int(i), set(p_ids) - set(['']))
 
+
 def is_ray_gpu_ready() -> bool:
     script_command = "ray status | grep GPU"
     out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()
     values = out.split(' ')[0].split('/')
     return len(values) > 1 and values[1].replace('.', '', 1).isdigit() and float(values[1]) > 0
 
+
 def restart_ray_service() -> str:
     script_command = "service ray restart"
     out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()
     return out
+
 
 def lines_in_files_of(filter: str, file_pattern: str) -> DataFrame:
     # script_command = "fgrep -n '%s' %s" % ('Dst Port', '/cic/dataset/featured_extracted/cic2018/*')
@@ -71,6 +74,7 @@ def lines_in_files_of(filter: str, file_pattern: str) -> DataFrame:
     lines_df['size'] = lines_df.apply(lambda i: len(i['line']), axis=1, result_type='reduce')
     lines_df = lines_df.loc[lines_df['size'] > 0]
     return lines_df
+
 
 def separate_file_by_lines(fd) -> str:
     file = fd['file']
