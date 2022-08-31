@@ -23,7 +23,6 @@ from ray.rllib.utils.framework import try_import_tf
 
 tf1, tf, tfv = try_import_tf()
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--run",
@@ -145,10 +144,11 @@ if __name__ == "__main__":
     }
 
     client.log_param(run_id=run.info.run_id, key='config.env_config.episode_len', value=args.stop_episode_len)
+    client.log_param(run_id=run.info.run_id, key='config.env_config.data_source_files_num', value=len(data_source_files))
     for i in range(0, len(data_source_files)):
-        client.log_param(run_id=run.info.run_id, key='config.env_config.data_source_files_%s' % i, value=data_source_files[i])
+        client.set_tag(run_id=run.info.run_id, key='data_source_files_%s' % i, value=data_source_files[i])
 
-    config_df = pd.json_normalize([{'config': { i: config[i] for i in config if i != 'env_config' }}])
+    config_df = pd.json_normalize([{'config': {i: config[i] for i in config if i != 'env_config'}}])
     config_df.apply(lambda i: i.reset_index().apply(
         lambda k: client.log_param(run_id=run.info.run_id, key=(k['index']), value=k[0]), axis=1), axis=1)
 

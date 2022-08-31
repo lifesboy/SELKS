@@ -323,10 +323,10 @@ class DatasetCache(object):
 
         self.init_experiment()
         self._client.log_param(run_id=self._run.info.run_id, key='data_sources', value=self.data_sources)
-        for i in range(0, len(data_source_files)):
-            self._client.log_param(run_id=self._run.info.run_id, key='data_source_files_%s' % i, value=data_source_files[i])
-
         self._client.log_param(run_id=self._run.info.run_id, key='data_source_files_num', value=len(data_source_files))
+        for i in range(0, len(data_source_files)):
+            self._client.set_tag(run_id=self._run.info.run_id, key='data_source_files_%s' % i, value=data_source_files[i])
+
         self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
         self._client.log_param(run_id=self._run.info.run_id, key='batches', value=df.index.size)
 
