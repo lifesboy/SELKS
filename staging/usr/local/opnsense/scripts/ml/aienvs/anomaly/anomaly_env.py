@@ -24,19 +24,21 @@ class AnomalyEnv(gym.Env):
         self.action_space = Discrete(2)
 
         self.episode_len = config.get("episode_len", 100)
-        self.history = []
+        self.current_obs = None
+        self.current_len = None
 
     def reset(self):
-        self.history = []
+        self.current_obs = None
+        self.current_len = 0
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
         return self._next_obs()
 
     def step(self, action):
-        if (self.history[-1] is None) or (action == self.history[-1][-1]):
+        if (self.current_obs is None) or (action == self.current_obs[-1]):
             reward = 1
         else:
             reward = -1
-        done = (len(self.history) > self.episode_len) or (self.history[-1] is None)
+        done = (self.current_len > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
@@ -49,5 +51,6 @@ class AnomalyEnv(gym.Env):
             i[TOT_BWD_PKTS].item(),
             i[LABEL].item()],
             np.float32) if i is not None else None
-        self.history.append(token)
+        self.current_obs = token
+        self.current_len += 1
         return token
