@@ -20,7 +20,7 @@ class AnomalyEnv(gym.Env):
 
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
 
-        self.observation_space = Box(low=0., high=1., shape=(6,), dtype=np.float32)
+        self.observation_space = Box(low=0., high=1., shape=(6,), dtype=np.float64)
         self.action_space = Discrete(2)
 
         self.episode_len = config.get("episode_len", 100)
