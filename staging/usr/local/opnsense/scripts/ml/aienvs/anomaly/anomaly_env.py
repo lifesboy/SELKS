@@ -50,7 +50,7 @@ class AnomalyEnv(gym.Env):
             i[TOT_FWD_PKTS].item(),
             i[TOT_BWD_PKTS].item(),
             i[LABEL].item()],
-            np.float32) if i is not None else None
+            np.float64) if i is not None else None
         self.current_obs = token
         self.current_len += 1
         return token
