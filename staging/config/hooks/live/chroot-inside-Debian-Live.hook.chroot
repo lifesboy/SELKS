@@ -1071,10 +1071,8 @@ server {
     listen 127.0.0.1:80;
     listen 127.0.1.1:80;
     listen 443 default_server ssl;
-    # ssl_certificate /etc/nginx/ssl/scirius.crt;
-    # ssl_certificate_key /etc/nginx/ssl/scirius.key;
-    ssl_certificate /var/etc/cert.cert.pem;
-    ssl_certificate_key /var/etc/key.cert.pem;
+    ssl_certificate /etc/nginx/ssl/scirius.crt;
+    ssl_certificate_key /etc/nginx/ssl/scirius.key;
     server_name SELKS;
     access_log /var/log/nginx/scirius.access.log;
     error_log /var/log/nginx/scirius.error.log;
