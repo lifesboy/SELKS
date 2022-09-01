@@ -85,6 +85,10 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
     if not data_files or len(data_files) <= 0:
         return None
 
+    if not utils.is_ray_gpu_ready():
+        log.warning('create_processor_pipe restart ray failing ray: %s', data_files)
+        utils.restart_ray_service()
+
     schema = CicFlowmeterNormModel.get_input_schema()
     #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
     convert_options = csv.ConvertOptions(column_types=schema)
