@@ -1181,6 +1181,7 @@ server {
 EOF
 
 # enable sites
+ln -s /etc/nginx/sites-available/selks6.conf /etc/nginx/sites-enabled/selks6.conf
 ln -s /etc/nginx/sites-available/pgadmin.conf /etc/nginx/sites-enabled/pgadmin.conf
 
 #cd /usr/share/python3/scirius/ && \
