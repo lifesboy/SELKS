@@ -1066,7 +1066,7 @@ openssl req -new -nodes -x509 -subj "/C=FR/ST=IDF/L=Paris/O=Stamus/CN=SELKS" -da
 
 rm -rf /etc/nginx/sites-enabled/default
 
-cat >> /etc/nginx/sites-available/selks6.conf <<EOF
+cat > /etc/nginx/sites-available/selks6.conf <<EOF
 server {
     listen 127.0.0.1:80;
     listen 127.0.1.1:80;
