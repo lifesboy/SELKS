@@ -1,8 +1,9 @@
+import time
 import gym
 import ray
-from ray.data.datasource.file_meta_provider import FastFileMetadataProvider
 from gym.spaces import Discrete, Box
 import numpy as np
+import common
 
 
 # @ray.remote
@@ -14,9 +15,11 @@ class AnomalyEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 
     def __init__(self, config=None):
+        self._run, self._client = common.init_experiment(name='anomaly-model', run_name='env-tuning-%s' % time.time())
+        self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
         config = config or {}
-        self.data_source_files = config.get("data_source_files", [])
-        self.data_set: Dataset = ray.data.read_csv(self.data_source_files, meta_provider=FastFileMetadataProvider())
+        self.data_source_sampling_dir = config.get("data_source_sampling_dir", [])
+        self.data_set: Dataset = ray.data.read_csv(self.data_source_sampling_dir)
 
         self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
 

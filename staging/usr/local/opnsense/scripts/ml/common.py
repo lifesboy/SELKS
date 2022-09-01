@@ -36,6 +36,7 @@ TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'
 DATA_FEATURED_EXTRACTED_DIR = '/cic/dataset/featured_extracted/'
 DATA_NORMALIZED_DIR = '/cic/dataset/normalized/'
 DATA_NORMALIZED_LABELED_DIR = '/cic/dataset/normalized_labeled/'
+DATA_SAMPLING_DIR = '/cic/dataset/sampling/'
 DATA_TRAINED_DIR = '/cic/dataset/trained/'
 TMP_DIR = '/drl/tmp/'
 
@@ -43,6 +44,7 @@ Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_FEATURED_EXTRACTED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_NORMALIZED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_NORMALIZED_LABELED_DIR).mkdir(parents=True, exist_ok=True)
+Path(DATA_SAMPLING_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_TRAINED_DIR).mkdir(parents=True, exist_ok=True)
 
 TAG_DATASET_SIZE = 'dataset.size'

@@ -91,12 +91,15 @@ if __name__ == "__main__":
         output=destination_dir,
         tag='train',
         batch_size=1)
+    sampling_id = '%s-%s' % (tag, time.time())
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
+    data_source_sampling_dir = '%s%s/' % (common.DATA_SAMPLING_DIR, sampling_id)
+    utils.create_sampling(data_source_sampling_dir, data_source_files)
 
     mlflow.tensorflow.autolog()
     # mlflow.keras.autolog()
-    run, client = common.init_experiment(name="anomaly-model", run_name='%s-%s' % (tag, time.time()))
+    run, client = common.init_experiment(name="anomaly-model", run_name=sampling_id)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     # client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
@@ -115,7 +118,7 @@ if __name__ == "__main__":
         "env": args.env,
         "env_config": {
             "episode_len": args.stop_episode_len,
-            "data_source_files": data_source_files,
+            "data_source_sampling_dir": data_source_sampling_dir,
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
@@ -143,12 +146,11 @@ if __name__ == "__main__":
         "episode_reward_mean": args.stop_reward,
     }
 
-    client.log_param(run_id=run.info.run_id, key='config.env_config.episode_len', value=args.stop_episode_len)
-    client.log_param(run_id=run.info.run_id, key='config.env_config.data_source_files_num', value=len(data_source_files))
+    client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     for i in range(0, len(data_source_files)):
         client.set_tag(run_id=run.info.run_id, key='data_source_files_%s' % i, value=data_source_files[i])
 
-    config_df = pd.json_normalize([{'config': {i: config[i] for i in config if i != 'env_config'}}])
+    config_df = pd.json_normalize([{'config': config}])
     config_df.apply(lambda i: i.reset_index().apply(
         lambda k: client.log_param(run_id=run.info.run_id, key=(k['index']), value=k[0]), axis=1), axis=1)
 

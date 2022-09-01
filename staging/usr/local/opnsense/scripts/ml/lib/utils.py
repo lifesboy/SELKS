@@ -90,3 +90,11 @@ def separate_file_by_lines(fd) -> str:
     return subprocess.run(' && '.join(cp_commands), shell=True, capture_output=True, text=True).stdout
 
 
+def create_sampling(directory: str, files: []) -> str:
+    commands = [
+        "mkdir -p %s" % directory,
+        *["ln -s '{}' '{}{:0d}.csv'".format(files[i], directory, i) for i in range(0, len(files))],
+    ]
+    return subprocess.run(' && '.join(commands), shell=True, capture_output=True, text=True).stdout
+
+
