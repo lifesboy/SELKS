@@ -43,6 +43,7 @@ class AnomalyEnv(gym.Env):
     def reset(self):
         self.current_obs = None
         self.current_len = 0
+        self.data_set.random_shuffle()
         self.iter = self.data_set.window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
