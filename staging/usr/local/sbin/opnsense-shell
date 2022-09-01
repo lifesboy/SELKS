@@ -22,7 +22,7 @@ CMD_RELOAD="/usr/local/etc/rc.reload_all"
 CMD_RESTORE="/usr/local/opnsense/scripts/shell/restore.sh"
 CMD_SETADDR="/usr/local/opnsense/scripts/shell/setaddr.php"
 CMD_SETPORTS="/usr/local/opnsense/scripts/shell/setports.php"
-CMD_SHELL="/bin/csh"
+CMD_SHELL="/bin/bash"
 
 CMD_SETUP_STAMUS="/usr/bin/selks-first-time-setup_stamus"
 CMD_SETUP_CUDA="/usr/bin/selks-first-time-setup_cuda"
