@@ -5,6 +5,8 @@ import glob
 from sys import version_info
 import time
 import pandas
+import pandas as pd
+import numpy as np
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
 from ray.data.impl.arrow_block import ArrowRow
@@ -220,36 +222,36 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         fwd_act_data_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_ACT_DATA_PKTS])).map(norm.norm_size_1mb)
 
         data = DataFrame(data={
-            DST_PORT: list(dst_port.as_numpy_iterator()),
-            PROTOCOL: list(protocol.as_numpy_iterator()),
-            FLOW_DURATION: list(flow_duration.as_numpy_iterator()),
-            TOT_FWD_PKTS: list(tot_fwd_pkts.as_numpy_iterator()),
-            TOT_BWD_PKTS: list(tot_bwd_pkts.as_numpy_iterator()),
+            DST_PORT: pd.Series(list(dst_port.as_numpy_iterator()), dtype=np.float64),
+            PROTOCOL: pd.Series(list(protocol.as_numpy_iterator()), dtype=np.float64),
+            FLOW_DURATION: pd.Series(list(flow_duration.as_numpy_iterator()), dtype=np.float64),
+            TOT_FWD_PKTS: pd.Series(list(tot_fwd_pkts.as_numpy_iterator()), dtype=np.float64),
+            TOT_BWD_PKTS: pd.Series(list(tot_bwd_pkts.as_numpy_iterator()), dtype=np.float64),
 
-            TOTLEN_FWD_PKTS: list(totlen_fwd_pkts.as_numpy_iterator()),
-            TOTLEN_BWD_PKTS: list(totlen_bwd_pkts.as_numpy_iterator()),
-            FWD_PKT_LEN_MAX: list(fwd_pkt_len_max.as_numpy_iterator()),
-            FWD_PKT_LEN_MIN: list(fwd_pkt_len_min.as_numpy_iterator()),
-            FWD_PKT_LEN_MEAN: list(fwd_pkt_len_mean.as_numpy_iterator()),
-            FWD_PKT_LEN_STD: list(fwd_pkt_len_std.as_numpy_iterator()),
-            BWD_PKT_LEN_MAX: list(bwd_pkt_len_max.as_numpy_iterator()),
-            BWD_PKT_LEN_MIN: list(bwd_pkt_len_min.as_numpy_iterator()),
-            BWD_PKT_LEN_MEAN: list(bwd_pkt_len_mean.as_numpy_iterator()),
-            BWD_PKT_LEN_STD: list(bwd_pkt_len_std.as_numpy_iterator()),
-            PKT_LEN_MAX: list(pkt_len_max.as_numpy_iterator()),
-            PKT_LEN_MIN: list(pkt_len_min.as_numpy_iterator()),
-            PKT_LEN_MEAN: list(pkt_len_mean.as_numpy_iterator()),
-            PKT_LEN_STD: list(pkt_len_std.as_numpy_iterator()),
-            PKT_LEN_VAR: list(pkt_len_var.as_numpy_iterator()),
-            FWD_HEADER_LEN: list(fwd_header_len.as_numpy_iterator()),
-            BWD_HEADER_LEN: list(bwd_header_len.as_numpy_iterator()),
-            FWD_SEG_SIZE_MIN: list(fwd_seg_size_min.as_numpy_iterator()),
-            FWD_ACT_DATA_PKTS: list(fwd_act_data_pkts.as_numpy_iterator()),
+            TOTLEN_FWD_PKTS: pd.Series(list(totlen_fwd_pkts.as_numpy_iterator()), dtype=np.float64),
+            TOTLEN_BWD_PKTS: pd.Series(list(totlen_bwd_pkts.as_numpy_iterator()), dtype=np.float64),
+            FWD_PKT_LEN_MAX: pd.Series(list(fwd_pkt_len_max.as_numpy_iterator()), dtype=np.float64),
+            FWD_PKT_LEN_MIN: pd.Series(list(fwd_pkt_len_min.as_numpy_iterator()), dtype=np.float64),
+            FWD_PKT_LEN_MEAN: pd.Series(list(fwd_pkt_len_mean.as_numpy_iterator()), dtype=np.float64),
+            FWD_PKT_LEN_STD: pd.Series(list(fwd_pkt_len_std.as_numpy_iterator()), dtype=np.float64),
+            BWD_PKT_LEN_MAX: pd.Series(list(bwd_pkt_len_max.as_numpy_iterator()), dtype=np.float64),
+            BWD_PKT_LEN_MIN: pd.Series(list(bwd_pkt_len_min.as_numpy_iterator()), dtype=np.float64),
+            BWD_PKT_LEN_MEAN: pd.Series(list(bwd_pkt_len_mean.as_numpy_iterator()), dtype=np.float64),
+            BWD_PKT_LEN_STD: pd.Series(list(bwd_pkt_len_std.as_numpy_iterator()), dtype=np.float64),
+            PKT_LEN_MAX: pd.Series(list(pkt_len_max.as_numpy_iterator()), dtype=np.float64),
+            PKT_LEN_MIN: pd.Series(list(pkt_len_min.as_numpy_iterator()), dtype=np.float64),
+            PKT_LEN_MEAN: pd.Series(list(pkt_len_mean.as_numpy_iterator()), dtype=np.float64),
+            PKT_LEN_STD: pd.Series(list(pkt_len_std.as_numpy_iterator()), dtype=np.float64),
+            PKT_LEN_VAR: pd.Series(list(pkt_len_var.as_numpy_iterator()), dtype=np.float64),
+            FWD_HEADER_LEN: pd.Series(list(fwd_header_len.as_numpy_iterator()), dtype=np.float64),
+            BWD_HEADER_LEN: pd.Series(list(bwd_header_len.as_numpy_iterator()), dtype=np.float64),
+            FWD_SEG_SIZE_MIN: pd.Series(list(fwd_seg_size_min.as_numpy_iterator()), dtype=np.float64),
+            FWD_ACT_DATA_PKTS: pd.Series(list(fwd_act_data_pkts.as_numpy_iterator()), dtype=np.float64),
         }, index=df[TIMESTAMP])
 
         if LABEL in df.columns:
             label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[LABEL])).map(norm.norm_label)
-            data[LABEL] = list(label.as_numpy_iterator())
+            data[LABEL] = pd.Series(list(label.as_numpy_iterator()), dtype=np.float64)
         else:
             data[LABEL] = ['' for i in range(len(data.index))]
 
