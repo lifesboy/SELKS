@@ -349,15 +349,23 @@ EOD;
 
     if (!empty($cert) && !empty($key)) {
         $fd = fopen("/var/etc/{$cert_location}", "w");
+        $fd_cert = fopen("/var/etc/cert.{$cert_location}", "w");
+        $fd_key = fopen("/var/etc/key.{$cert_location}", "w");
         if (!$fd) {
             log_error('Error: cannot open cert.pem');
             return 0;
         }
         chmod("/var/etc/{$cert_location}", 0600);
+        chmod("/var/etc/cert.{$cert_location}", 0600);
+        chmod("/var/etc/key.{$cert_location}", 0600);
         fwrite($fd, $cert);
+        fwrite($fd_cert, $cert);
         fwrite($fd, "\n");
         fwrite($fd, $key);
+        fwrite($fd_key, $key);
         fclose($fd);
+        fclose($fd_cert);
+        fclose($fd_key);
         if (!(empty($ca) || (strlen(trim($ca)) == 0))) {
             $fd = fopen("/var/etc/{$ca_location}", "w");
             if (!$fd) {
