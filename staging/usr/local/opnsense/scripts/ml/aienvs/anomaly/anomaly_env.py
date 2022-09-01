@@ -20,22 +20,33 @@ class AnomalyEnv(gym.Env):
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
         config = config or {}
-        self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", [])
-        self.data_set: Dataset = ray.data.read_csv(self.data_source_sampling_dir)
 
-        self.iter: Iterator[BatchType] = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
+        self.blocks_per_window: int = 1024
+        self.batch_size: int = 1
+        self.episode_len: int = config.get("episode_len", 100)
+        self.current_obs = None
+        self.current_len: int = 0
+        self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
+
+        self.data_set: Dataset = ray.data.read_csv(self.data_source_sampling_dir)
+        self.iter: Iterator[BatchType] = self.data_set.window(
+            blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
         self.observation_space: Box = Box(low=0., high=1., shape=(6,), dtype=np.float64)
         self.action_space: Discrete = Discrete(2)
 
-        self.episode_len: int = config.get("episode_len", 100)
-        self.current_obs = None
-        self.current_len: int = 0
+        self._client.log_param(run_id=self._run.info.run_id, key='blocks_per_window', value=self.blocks_per_window)
+        self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
+        self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)
+        self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
 
     def reset(self):
         self.current_obs = None
         self.current_len = 0
-        self.iter = self.data_set.window(blocks_per_window=1024).iter_batches(batch_size=1)
+        self.iter = self.data_set.window(
+            blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
+
+        self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
         return self._next_obs()
 
     def step(self, action: np.float64):
@@ -43,6 +54,10 @@ class AnomalyEnv(gym.Env):
             reward = 1
         else:
             reward = -1
+
+        self._client.log_metric(run_id=self._run.info.run_id, key='action', value=action)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward)
+
         done = (self.current_len > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
 
@@ -58,4 +73,7 @@ class AnomalyEnv(gym.Env):
             np.float64) if i is not None else None
         self.current_obs = token
         self.current_len += 1
+
+        self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
+
         return token
