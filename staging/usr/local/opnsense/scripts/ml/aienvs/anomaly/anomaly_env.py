@@ -41,7 +41,7 @@ class AnomalyEnv(gym.Env):
         convert_options = csv.ConvertOptions(column_types=schema)
         self.data_set: Dataset = ray.data.read_csv(self.data_source_sampling_dir, convert_options=convert_options)
 
-        self.anomaly_total: float = self.data_set.sum(LABEL)
+        self.anomaly_total: float = 0 # self.data_set.sum(LABEL)
         self.iter: Iterator[BatchType] = self.data_set.window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
@@ -74,7 +74,7 @@ class AnomalyEnv(gym.Env):
         self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward, step=self.current_step)
         self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total, step=self.current_step)
 
-        done = (self.anomaly_total == self.anomaly_detected) or (self.current_step > self.episode_len) or (self.current_obs is None)
+        done = (self.current_step > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
