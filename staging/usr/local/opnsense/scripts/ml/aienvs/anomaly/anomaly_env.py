@@ -26,6 +26,7 @@ class AnomalyEnv(gym.Env):
         self.episode_len: int = config.get("episode_len", 100)
         self.current_obs = None
         self.current_len: int = 0
+        self.reward: float = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
 
         if not utils.is_ray_gpu_ready():
@@ -52,6 +53,7 @@ class AnomalyEnv(gym.Env):
     def reset(self):
         self.current_obs = None
         self.current_len = 0
+        self.reward = 0
         self.data_set.random_shuffle()
         self.iter = self.data_set.window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
@@ -61,15 +63,15 @@ class AnomalyEnv(gym.Env):
 
     def step(self, action: np.float64):
         if (self.current_obs is None) or (action == self.current_obs[-1]):
-            reward = 1
+            self.reward += 1
         else:
-            reward = -1
+            self.reward -= 1
 
         self._client.log_metric(run_id=self._run.info.run_id, key='action', value=action)
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=self.reward)
 
         done = (self.current_len > self.episode_len) or (self.current_obs is None)
-        return self._next_obs(), reward, done, {}
+        return self._next_obs(), self.reward, done, {}
 
     def _next_obs(self):
         i = next(self.iter)
