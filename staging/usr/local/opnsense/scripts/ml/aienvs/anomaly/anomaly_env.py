@@ -25,7 +25,7 @@ class AnomalyEnv(gym.Env):
         self.batch_size: int = 1
         self.episode_len: int = config.get("episode_len", 100)
         self.current_obs = None
-        self.current_len: int = 0
+        self.current_step: int = 0
         self.reward_total: float = 0
         self.anomaly_detected: float = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
@@ -52,19 +52,17 @@ class AnomalyEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
         self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
-        self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
 
     def reset(self):
         self.current_obs = None
-        self.current_len = 0
+        self.current_step = 0
         self.reward_total = 0
         self.anomaly_detected = 0
         self.iter = self.data_set.random_shuffle().window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
-        self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total)
-        self._client.log_metric(run_id=self._run.info.run_id, key='anomaly_detected', value=self.anomaly_detected)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total, step=self.current_step)
+        self._client.log_metric(run_id=self._run.info.run_id, key='anomaly_detected', value=self.anomaly_detected, step=self.current_step)
 
         return self._next_obs()
 
@@ -72,11 +70,11 @@ class AnomalyEnv(gym.Env):
         reward = self._calculate_reward(action=action)
 
         self.reward_total += reward
-        self._client.log_metric(run_id=self._run.info.run_id, key='action', value=action)
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward)
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total)
+        self._client.log_metric(run_id=self._run.info.run_id, key='action', value=action, step=self.current_step)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward, step=self.current_step)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total, step=self.current_step)
 
-        done = (self.anomaly_total == self.anomaly_detected) or (self.current_len > self.episode_len) or (self.current_obs is None)
+        done = (self.anomaly_total == self.anomaly_detected) or (self.current_step > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
@@ -90,9 +88,7 @@ class AnomalyEnv(gym.Env):
             i[LABEL].item()],
             np.float64) if i is not None else None
         self.current_obs = token
-        self.current_len += 1
-
-        self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
+        self.current_step += 1
 
         return token
 
