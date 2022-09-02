@@ -132,9 +132,9 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
         sources_fail += df['input_path']
         sources_fail_reason += [e]
         client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
-        for i, s in enumerate(sources_fail):
-            client.set_tag(run_id=run.info.run_id, key='sources_fail_%s' % i, value=s)
-            client.set_tag(run_id=run.info.run_id, key='sources_fail_reason_%s' % i, value=sources_fail_reason[i])
+        client.log_dict(run_id=run.info.run_id,
+                        dictionary={'source': df['input_path'], 'reason': e},
+                        artifact_file='sources_fail.txt')
     finally:
         pass
 
