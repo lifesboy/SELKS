@@ -177,8 +177,7 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='run_model', value=run_model)
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
-    for i in range(0, len(data_source_files)):
-        client.set_tag(run_id=run.info.run_id, key='data_source_files_%s' % i, value=data_source_files[i])
+    client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
 
     client.log_param(run_id=run.info.run_id, key='data_destination', value=data_destination)
     client.log_param(run_id=run.info.run_id, key='batch_size_source', value=batch_size_source)
