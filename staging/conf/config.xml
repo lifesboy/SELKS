@@ -757,7 +757,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly dataprocessorcic start</command>
-          <parameters>cic2018 500 1 0.4 0.1 cic2018/*.csv auto-processing-cic2018</parameters>
+          <parameters>cic2018 10000 1 0.4 0.1 cic2018/*.csv auto-processing-cic2018</parameters>
           <description>anomaly label data processor cic updates</description>
         </job>
         <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
