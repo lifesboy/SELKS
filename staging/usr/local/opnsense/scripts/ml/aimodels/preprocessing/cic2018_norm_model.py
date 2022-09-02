@@ -81,7 +81,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             DST_IP: pa.string(),
             DST_PORT: pa.float64(),
             DST_MAC: pa.string(),
-            PROTOCOL: pa.int32(),
+            PROTOCOL: pa.float64(),
             TIMESTAMP: pa.string(),
             FLOW_DURATION: pa.float64(),
             TOT_FWD_PKTS: pa.float64(),
