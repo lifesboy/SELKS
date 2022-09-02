@@ -35,6 +35,7 @@ import os.path
 import shlex
 import sqlite3
 import time
+import traceback
 from configparser import ConfigParser
 from datetime import datetime
 from decimal import Decimal
@@ -207,7 +208,7 @@ class DatasetCache(object):
             self.sources_fail_reason = self.sources_fail_reason + [e]
             self._client.log_metric(run_id=self._run.info.run_id, key='sources_fail_num', value=len(self.sources_fail))
             self._client.log_dict(run_id=self._run.info.run_id,
-                                  dictionary={'source': filename, 'reason': e},
+                                  dictionary={'source': filename, 'reason': traceback.format_exc()},
                                   artifact_file='sources_fail.txt')
             pass
 

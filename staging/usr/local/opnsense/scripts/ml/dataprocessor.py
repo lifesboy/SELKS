@@ -4,6 +4,7 @@ import glob
 import os
 import signal
 import time
+import traceback
 
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
@@ -131,7 +132,7 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
         sources_fail_reason += [e]
         client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
         client.log_dict(run_id=run.info.run_id,
-                        dictionary={'source': df['input_path'], 'reason': e},
+                        dictionary={'source': df['input_path'], 'reason': traceback.format_exc()},
                         artifact_file='sources_fail.txt')
     finally:
         pass
