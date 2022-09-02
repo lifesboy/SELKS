@@ -149,13 +149,8 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
 
-    config_df = pd.json_normalize([{'config': config}])
-    config_df.apply(lambda i: i.reset_index().apply(
-        lambda k: client.log_param(run_id=run.info.run_id, key=(k['index']), value=k[0]), axis=1), axis=1)
-
-    stop_df = pd.json_normalize([{'stop': stop}])
-    stop_df.apply(lambda i: i.reset_index().apply(
-        lambda k: client.log_param(run_id=run.info.run_id, key=(k['index']), value=k[0]), axis=1), axis=1)
+    client.log_param(run_id=run.info.run_id, key='config', value=config)
+    client.log_param(run_id=run.info.run_id, key='stop', value=stop)
 
     # To run the Trainer without tune.run, using our RNN model and
     # manual state-in handling, do the following:
