@@ -90,6 +90,9 @@ class AnomalyEnv(gym.Env):
 
         return token
 
+    def close(self):
+        self._client.set_terminated(run_id=self._run.info.run_id)
+
     def _calculate_reward(self, action: np.float64) -> float:
         if self.current_obs is None:
             return 0
