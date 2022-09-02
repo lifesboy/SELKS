@@ -2,6 +2,7 @@
 
 import argparse
 import time
+import traceback
 
 import mlflow
 import pandas as pd
@@ -13,6 +14,7 @@ from ray.tune.registry import register_env
 
 import common
 import lib.utils as utils
+from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
 from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
 from aimodels.anomaly.anomaly_model import AnomalyModel
@@ -177,15 +179,18 @@ if __name__ == "__main__":
     # >>         state = init_state
     # >>     else:
     # >>         state = state_out
-    results = tune.run(args.run, config=config, stop=stop, verbose=1,
-                       name=sampling_id,
-                       checkpoint_at_end=True,
-                       callbacks=[MLflowLoggerCallback(
-                           tracking_uri=common.MLFLOW_TRACKING_URI,
-                           experiment_name="anomaly-model",
-                           save_artifact=True)])
-
-    if args.as_test:
-        check_learning_achieved(results, args.stop_reward)
+    try:
+        results = tune.run(args.run, config=config, stop=stop, verbose=1,
+                           name=sampling_id,
+                           checkpoint_at_end=True,
+                           callbacks=[MLflowLoggerCallback(
+                               tracking_uri=common.MLFLOW_TRACKING_URI,
+                               experiment_name="anomaly-model",
+                               save_artifact=True)])
+        if args.as_test:
+            check_learning_achieved(results, args.stop_reward)
+    except Exception as e:
+        log.error('tune run error: %s', e)
+        client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='train_error.txt')
 
     client.set_terminated(run_id=run.info.run_id)
