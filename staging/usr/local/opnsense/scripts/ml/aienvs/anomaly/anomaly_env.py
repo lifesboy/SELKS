@@ -73,6 +73,7 @@ class AnomalyEnv(gym.Env):
         self._client.log_metric(run_id=self._run.info.run_id, key='action', value=action, step=self.current_step)
         self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward, step=self.current_step)
         self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total, step=self.current_step)
+        self._client.log_metric(run_id=self._run.info.run_id, key='anomaly_detected', value=self.anomaly_detected, step=self.current_step)
 
         done = (self.current_step > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
