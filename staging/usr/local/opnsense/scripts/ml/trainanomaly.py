@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     mlflow.tensorflow.autolog()
     # mlflow.keras.autolog()
-    run, client = common.init_experiment(name="anomaly-trail", run_name=sampling_id)
+    run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     # client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
