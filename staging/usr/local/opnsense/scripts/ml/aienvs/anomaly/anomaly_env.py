@@ -27,6 +27,7 @@ class AnomalyEnv(gym.Env):
         self.current_obs = None
         self.current_len: int = 0
         self.reward_total: float = 0
+        self.anomaly_detected: float = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
 
         if not utils.is_ray_gpu_ready():
@@ -39,6 +40,8 @@ class AnomalyEnv(gym.Env):
         schema = CicFlowmeterNormModel.get_input_schema()
         convert_options = csv.ConvertOptions(column_types=schema)
         self.data_set: Dataset = ray.data.read_csv(self.data_source_sampling_dir, convert_options=convert_options)
+
+        self.anomaly_total: float = self.data_set.sum(LABEL)
         self.iter: Iterator[BatchType] = self.data_set.window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
@@ -48,17 +51,20 @@ class AnomalyEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='blocks_per_window', value=self.blocks_per_window)
         self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
         self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)
+        self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
         self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
 
     def reset(self):
         self.current_obs = None
         self.current_len = 0
         self.reward_total = 0
+        self.anomaly_detected = 0
         self.iter = self.data_set.random_shuffle().window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
         self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
         self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total)
+        self._client.log_metric(run_id=self._run.info.run_id, key='anomaly_detected', value=self.anomaly_detected)
 
         return self._next_obs()
 
@@ -70,7 +76,7 @@ class AnomalyEnv(gym.Env):
         self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward)
         self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total)
 
-        done = (self.current_len > self.episode_len) or (self.current_obs is None)
+        done = (self.anomaly_total == self.anomaly_detected) or (self.current_len > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
@@ -97,5 +103,6 @@ class AnomalyEnv(gym.Env):
         if self.current_obs is None:
             return 0
         if action == self.current_obs[-1]:
+            self.anomaly_detected += action
             return 1
         return -1
