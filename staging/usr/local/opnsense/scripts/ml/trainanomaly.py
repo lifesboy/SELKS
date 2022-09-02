@@ -186,6 +186,7 @@ if __name__ == "__main__":
                        name=sampling_id,
                        checkpoint_at_end=True,
                        callbacks=[MLflowLoggerCallback(
+                           tracking_uri=common.MLFLOW_TRACKING_URI,
                            experiment_name="anomaly-model",
                            save_artifact=True)])
 
