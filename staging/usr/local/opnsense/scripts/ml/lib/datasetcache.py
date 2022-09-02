@@ -81,7 +81,6 @@ class DatasetCache(object):
     data_sources: str = '*/**/*.csv'
     sources_success: int = 0
     sources_fail: [] = []
-    sources_fail_reason: [] = []
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
@@ -204,12 +203,11 @@ class DatasetCache(object):
                 self.sources_success += 1
                 self._client.log_metric(run_id=self._run.info.run_id, key='sources_success', value=self.sources_success)
         except Exception as e:
-            self.sources_fail = self.sources_fail + [filename]
-            self.sources_fail_reason = self.sources_fail_reason + [e]
+            self.sources_fail = self.sources_fail + [{'source': filename, 'reason': traceback.format_exc()}]
             self._client.log_metric(run_id=self._run.info.run_id, key='sources_fail_num', value=len(self.sources_fail))
             self._client.log_dict(run_id=self._run.info.run_id,
-                                  dictionary={'source': filename, 'reason': traceback.format_exc()},
-                                  artifact_file='sources_fail.txt')
+                                  dictionary=self.sources_fail,
+                                  artifact_file='sources_fail.json')
             pass
 
         # yield dataset_info_record

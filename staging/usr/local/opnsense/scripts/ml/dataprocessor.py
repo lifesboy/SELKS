@@ -22,7 +22,6 @@ import mlflow
 batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
-sources_fail_reason: [] = []
 sources_success: int = 0
 
 parser = argparse.ArgumentParser()
@@ -111,7 +110,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, batches_processed, batches_success, sources_success, sources_fail, sources_fail_reason
+    global run, client, batches_processed, batches_success, sources_success, sources_fail
 
     try:
         batches_processed += 1
@@ -128,12 +127,11 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
     except Exception as e:
         log.error('process_data tasks interrupted: %s', e)
-        sources_fail += df['input_path']
-        sources_fail_reason += [e]
+        sources_fail += [{'source': df['input_path'], 'reason': traceback.format_exc()}]
         client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
         client.log_dict(run_id=run.info.run_id,
-                        dictionary={'source': df['input_path'], 'reason': traceback.format_exc()},
-                        artifact_file='sources_fail.txt')
+                        dictionary=sources_fail,
+                        artifact_file='sources_fail.json')
     finally:
         pass
 
