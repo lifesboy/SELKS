@@ -4,18 +4,25 @@ import ray
 from gym.spaces import Discrete, Box
 import numpy as np
 import common
+import lib.utils as utils
+from lib.logger import log
 
-
+from pyarrow import csv
 from typing import Iterator
 # @ray.remote
 from ray.data.dataset import Dataset, BatchType
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 
 
 class AnomalyEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 
     def __init__(self, config: dict = None):
+        if not utils.is_ray_gpu_ready():
+            log.warning('init anomaly env restart ray failing ray: %s', data_files)
+            utils.restart_ray_service()
+
         self._run, self._client = common.init_experiment(name='anomaly-model', run_name='env-tuning-%s' % time.time())
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
@@ -28,7 +35,9 @@ class AnomalyEnv(gym.Env):
         self.current_len: int = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
 
-        self.data_set: Dataset = ray.data.read_csv(self.data_source_sampling_dir)
+        schema = CicFlowmeterNormModel.get_input_schema()
+        convert_options = csv.ConvertOptions(column_types=schema)
+        self.data_set: Dataset = ray.data.read_csv(self.data_source_sampling_dir, convert_options=convert_options)
         self.iter: Iterator[BatchType] = self.data_set.window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
