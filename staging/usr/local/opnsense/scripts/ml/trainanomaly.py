@@ -187,3 +187,5 @@ if __name__ == "__main__":
 
     if args.as_test:
         check_learning_achieved(results, args.stop_reward)
+
+    client.set_terminated(run_id=run.info.run_id)
