@@ -34,7 +34,7 @@ class AnomalyEnv(gym.Env):
             log.warning('init anomaly env restart ray failing ray: %s', self.data_source_sampling_dir)
             utils.restart_ray_service()
 
-        self._run, self._client = common.init_experiment(name='anomaly-model', run_name='env-tuning-%s' % time.time())
+        self._run, self._client = common.init_experiment(name='anomaly-env', run_name='env-tuning-%s' % time.time())
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
         schema = CicFlowmeterNormModel.get_input_schema()
