@@ -23,6 +23,7 @@ from anomaly_normalization import DST_PORT_CIC
 batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
+sources_fail_reason: [] = []
 sources_success: int = 0
 
 parser = argparse.ArgumentParser()
@@ -111,7 +112,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
 def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('process_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, batches_processed, batches_success, sources_success, sources_fail
+    global run, client, batches_processed, batches_success, sources_success, sources_fail, sources_fail_reason
 
     try:
         batches_processed += 1
@@ -129,9 +130,11 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
     except Exception as e:
         log.error('process_data tasks interrupted: %s', e)
         sources_fail += df['input_path']
+        sources_fail_reason += [e]
         client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
         for i, s in enumerate(sources_fail):
             client.set_tag(run_id=run.info.run_id, key='sources_fail_%s' % i, value=s)
+            client.set_tag(run_id=run.info.run_id, key='sources_fail_reason_%s' % i, value=sources_fail_reason[i])
     finally:
         pass
 
