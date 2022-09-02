@@ -10,7 +10,7 @@ StandardOutput=file:/var/log/tensorboard/tensorboard.log
 StandardError=file:/var/log/tensorboard/error.log
 User=root
 
-ExecStart=/usr/local/bin/tensorboard --logdir /drl/ray_results/PPO --host 0.0.0.0  --port 6006
+ExecStart=/usr/local/bin/tensorboard --logdir /drl/ray_results/ --host 0.0.0.0  --port 6006
 WorkingDirectory=/drl
 
 [Install]
