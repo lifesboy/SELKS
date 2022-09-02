@@ -189,8 +189,9 @@ if __name__ == "__main__":
                                save_artifact=True)])
         if args.as_test:
             check_learning_achieved(results, args.stop_reward)
+
+        client.set_terminated(run_id=run.info.run_id)
     except Exception as e:
         log.error('tune run error: %s', e)
         client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='train_error.txt')
-
-    client.set_terminated(run_id=run.info.run_id)
+        client.set_terminated(run_id=run.info.run_id, status='FAILED')
