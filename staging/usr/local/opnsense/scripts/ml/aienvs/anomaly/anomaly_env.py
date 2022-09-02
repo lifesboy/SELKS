@@ -26,7 +26,7 @@ class AnomalyEnv(gym.Env):
         self.episode_len: int = config.get("episode_len", 100)
         self.current_obs = None
         self.current_len: int = 0
-        self.reward: float = 0
+        self.reward_total: float = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
 
         if not utils.is_ray_gpu_ready():
@@ -53,24 +53,25 @@ class AnomalyEnv(gym.Env):
     def reset(self):
         self.current_obs = None
         self.current_len = 0
-        self.reward = 0
+        self.reward_total = 0
         self.iter = self.data_set.random_shuffle().window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
         self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total)
+
         return self._next_obs()
 
     def step(self, action: np.float64):
-        if (self.current_obs is None) or (action == self.current_obs[-1]):
-            self.reward += 1
-        else:
-            self.reward -= 1
+        reward = self._calculate_reward(action=action)
 
+        self.reward_total += reward
         self._client.log_metric(run_id=self._run.info.run_id, key='action', value=action)
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=self.reward)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward)
+        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total)
 
         done = (self.current_len > self.episode_len) or (self.current_obs is None)
-        return self._next_obs(), self.reward, done, {}
+        return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
         i = next(self.iter)
@@ -88,3 +89,10 @@ class AnomalyEnv(gym.Env):
         self._client.log_metric(run_id=self._run.info.run_id, key='current_len', value=self.current_len)
 
         return token
+
+    def _calculate_reward(self, action: np.float64) -> float:
+        if self.current_obs is None:
+            return 0
+        if action == self.current_obs[-1]:
+            return 1
+        return -1
