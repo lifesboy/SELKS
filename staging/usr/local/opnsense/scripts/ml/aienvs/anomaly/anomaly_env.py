@@ -19,13 +19,6 @@ class AnomalyEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 
     def __init__(self, config: dict = None):
-        if not utils.is_ray_gpu_ready():
-            log.warning('init anomaly env restart ray failing ray: %s', data_files)
-            utils.restart_ray_service()
-
-        self._run, self._client = common.init_experiment(name='anomaly-model', run_name='env-tuning-%s' % time.time())
-        self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
-
         config = config or {}
 
         self.blocks_per_window: int = 1024
@@ -34,6 +27,13 @@ class AnomalyEnv(gym.Env):
         self.current_obs = None
         self.current_len: int = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
+
+        if not utils.is_ray_gpu_ready():
+            log.warning('init anomaly env restart ray failing ray: %s', self.data_source_sampling_dir)
+            utils.restart_ray_service()
+
+        self._run, self._client = common.init_experiment(name='anomaly-model', run_name='env-tuning-%s' % time.time())
+        self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
         schema = CicFlowmeterNormModel.get_input_schema()
         convert_options = csv.ConvertOptions(column_types=schema)
