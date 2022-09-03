@@ -28,7 +28,7 @@ class AnomalyModel(RecurrentNetwork):
     def get_model_meta() -> ModelMeta:
         return ModelMeta(artifact_path='anomaly',
                          registered_model_name='AnomalyModel',
-                         python_model=AnomalyModel(),
+                         # python_model=AnomalyModel(),
                          conda_env={
                              'channels': ['defaults', 'conda-forge'],
                              'dependencies': [
