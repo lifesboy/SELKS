@@ -6,18 +6,9 @@ source = 'test.csv'
 with open(source, 'w') as f:
     f.write(invalid_content)
 
-invalid_rows = []
-
-
-def skip_invalid_row(row):
-    print(row)
-    global invalid_rows
-    invalid_rows += [{'row': row}]
-    return 'skip'
-
 import pyarrow as pa
 from pyarrow import csv, fs
-parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
+parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda i: 'skip')
 fields = 'src_ip,dst_ip,src_port,dst_port,src_mac,dst_mac,' \
 'protocol,timestamp,flow_duration,flow_byts_s,flow_pkts_s,' \
 'fwd_pkts_s,bwd_pkts_s,tot_fwd_pkts,tot_bwd_pkts,totlen_fwd_pkts,' \
@@ -36,17 +27,18 @@ fields = 'src_ip,dst_ip,src_port,dst_port,src_mac,dst_mac,' \
 'cwe_flag_count,subflow_fwd_pkts,subflow_bwd_pkts,subflow_fwd_byts,subflow_bwd_byts'\
     .split(',')
 
+# working well
 f = fs.LocalFileSystem().open_input_stream(source)
 schema = {i: pa.string() for i in fields}
 convert_options = csv.ConvertOptions(column_types=schema)
 read_options = csv.ReadOptions(use_threads=False)
-reader = csv.open_csv(f, read_options=read_options, parse_options=parse_options, convert_options=convert_options)
-print(reader)
-
+reader = csv.open_csv(f, read_options=read_options, **{'parse_options': parse_options, 'convert_options': convert_options})
 batch = reader.read_next_batch()
 table = pa.Table.from_batches([batch], schema=None)
 print(batch)
+# end working well
 
+# working fail with invalid row error
 import ray
 from ray.data.dataset_pipeline import DatasetPipeline
 from ray.data.datasource import FastFileMetadataProvider
@@ -54,7 +46,6 @@ from ray.runtime_env import RuntimeEnv
 
 import os
 os.environ["RAY_DATASET_FORCE_LOCAL_METADATA"] = "1"
-
 runtime_env = RuntimeEnv(pip={
             "packages": ["tensorflow==2.7.0", "numpy==1.21.4", "six==1.16.0", "numba==0.56.0", "pyarrow==9.0.0"],
             "pip_check": False,
@@ -70,4 +61,4 @@ pipe: DatasetPipeline = ray.data.read_csv(
 ).window(blocks_per_window=500)
 
 print(pipe.count())
-
+# end working fail with invalid row error
