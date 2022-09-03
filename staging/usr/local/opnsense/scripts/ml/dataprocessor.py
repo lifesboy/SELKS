@@ -22,6 +22,7 @@ import mlflow
 batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
+invalid_rows: [] = []
 sources_success: int = 0
 
 parser = argparse.ArgumentParser()
@@ -81,6 +82,16 @@ parser.add_argument(
 # common.TRAIN_DATA_DIR + 'Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv', # error value Dst Port
 # ]
 
+# source='/cic/dataset/featured_extracted/nsm/log.1.1661087596.pcap_log.1.1661088318.pcap_log.1.1661088612.pcap_log.1.1661093007.pcap_log.1.1661093559.pcap_log.3.1661087569.pcap_log.3.1661088179.pcap_log.3.1661088238.pcap_2022-08-21T17:00:02.csv'
+# def skip_invalid_row(row):
+#     print(row)
+#     return 'skip'
+#
+# parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
+# schema = Cic2018NormModel.get_input_schema()
+# #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
+# convert_options = csv.ConvertOptions(column_types=schema)
+# csv.read_csv(source, parse_options=parse_options, convert_options=convert_options)
 
 def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
     if not data_files or len(data_files) <= 0:
@@ -90,14 +101,23 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
         log.warning('create_processor_pipe restart ray failing ray: %s', data_files)
         utils.restart_ray_service()
 
+    def skip_invalid_row(row):
+        global run, client, invalid_rows
+        log.warning('skip_invalid_row %s on %s', row, data_files)
+        invalid_rows += [{'source': data_files, 'row': row}]
+        client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
+        return 'skip'
+
     schema = CicFlowmeterNormModel.get_input_schema()
     #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
+    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
     convert_options = csv.ConvertOptions(column_types=schema)
 
     pipe: DatasetPipeline = ray.data.read_csv(
         data_files,
         meta_provider=FastFileMetadataProvider(),
         #read_options=read_options,
+        parse_options=parse_options,
         convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
     pipe = pipe.map_batches(CicFlowmeterNormModel, batch_format="pandas", compute="actors",
