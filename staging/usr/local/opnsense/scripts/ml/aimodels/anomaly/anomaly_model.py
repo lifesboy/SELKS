@@ -3,6 +3,9 @@
 import time
 import numpy as np
 import mlflow
+import pandas
+import ray
+
 import common
 
 from gym import Space
@@ -13,11 +16,32 @@ from ray.rllib.utils.typing import ModelConfigDict
 
 from ray.rllib.utils.framework import try_import_tf
 
+from aimodels.model_meta import ModelMeta
+
 tf1, tf, tfv = try_import_tf()
 from ray.rllib.utils.annotations import override
 
 
 class AnomalyModel(RecurrentNetwork):
+
+    @staticmethod
+    def get_model_meta() -> ModelMeta:
+        return ModelMeta(artifact_path='anomaly',
+                         registered_model_name='AnomalyModel',
+                         python_model=AnomalyModel(),
+                         conda_env={
+                             'channels': ['defaults', 'conda-forge'],
+                             'dependencies': [
+                                 'python={}'.format(common.PYTHON_VERSION),
+                                 'pip'
+                             ],
+                             'pip': [
+                                 'mlflow=={}'.format(mlflow.__version__),
+                                 'pandas=={}'.format(pandas.__version__),
+                                 'ray=={}'.format(ray.__version__)
+                             ],
+                             'name': 'mlflow-env'
+                         })
 
     def __init__(self,
                  obs_space: Space,
@@ -80,7 +104,10 @@ class AnomalyModel(RecurrentNetwork):
         receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feat_specifications)
         # self.rnn_model.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
         # tf.keras.experimental.export_saved_model(self.rnn_model, "/tmp/anomaly_model/")
-        mlflow.keras.log_model(keras_model=self.rnn_model, artifact_path="anomaly-model")
+        model_meta = AnomalyModel.get_model_meta()
+        mlflow.keras.log_model(keras_model=self.rnn_model,
+                               artifact_path=model_meta.artifact_path,
+                               registered_model_name=model_meta.registered_model_name)
 
         return model_out, [h, c]
 
