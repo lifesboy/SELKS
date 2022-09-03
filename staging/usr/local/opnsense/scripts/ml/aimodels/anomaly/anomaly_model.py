@@ -68,8 +68,7 @@ class AnomalyModel(RecurrentNetwork):
 
     @override(RecurrentNetwork)
     def forward_rnn(self, inputs, state, seq_lens):
-        model_out, self._value_out, h, c = self.rnn_model([inputs, seq_lens] +
-                                                          state)
+        model_out, self._value_out, h, c = self.rnn_model([inputs, seq_lens] + state)
 
         # Creating output tf.Variables to specify the output of the saved model.
         feat_specifications = {
