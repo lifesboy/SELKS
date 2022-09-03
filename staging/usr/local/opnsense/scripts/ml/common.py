@@ -11,6 +11,8 @@ import ray
 from mlflow.entities import Experiment, Run
 from mlflow.tracking import MlflowClient
 from mlflow.tracking.fluent import ActiveRun
+from ray.runtime_env import RuntimeEnv
+
 import lib.utils as utils
 
 
@@ -70,7 +72,11 @@ def init_node():
         utils.restart_ray_service()
 
     if not ray.is_initialized():
-        ray.init(address=RAY_HEAD_NODE_ADDRESS)
+        runtime_env = RuntimeEnv(pip={
+            "packages": ["pyarrow==9.0.0"],
+            "pip_check": False,
+            "pip_version": "==22.2.2;python_version=='3.7.3'"})
+        ray.init(address=RAY_HEAD_NODE_ADDRESS, runtime_env=runtime_env)
 
 
 def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, MlflowClient):
