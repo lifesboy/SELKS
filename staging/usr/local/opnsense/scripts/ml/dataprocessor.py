@@ -186,24 +186,25 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
-
-    # client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='batching')
-    # batch_df['pipe'] = batch_df.apply(
-    #    lambda i: create_processor_pipe(i.input_path, batch_size, num_gpus, num_cpus),
-    #    axis=1)
-
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
-    log.info('start process_data: pipe=%s', batch_df.count())
-    batch_df.apply(lambda i: process_data(i, batch_size, num_gpus, num_cpus), axis=1)
-    log.info('finish process_data.')
 
-    data_destination_file = glob.glob(destination_dir + '*')
-    client.log_param(run_id=run.info.run_id, key='data_destination_file', value=data_destination_file)
+    try:
+        log.info('start process_data: pipe=%s', batch_df.count())
+        batch_df.apply(lambda i: process_data(i, batch_size, num_gpus, num_cpus), axis=1)
+        log.info('finish process_data.')
 
-    model_meta = CicFlowmeterNormModel.get_model_meta()
-    mlflow.pyfunc.log_model(artifact_path=model_meta.artifact_path,
-                            python_model=model_meta.python_model,
-                            registered_model_name=model_meta.registered_model_name,
-                            conda_env=model_meta.conda_env)
+        data_destination_files = glob.glob(destination_dir + '*')
+        client.log_text(run_id=run.info.run_id, text=f'{data_destination_files}', artifact_file='data_destination_files.json')
 
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
+        model_meta = CicFlowmeterNormModel.get_model_meta()
+        mlflow.pyfunc.log_model(artifact_path=model_meta.artifact_path,
+                                python_model=model_meta.python_model,
+                                registered_model_name=model_meta.registered_model_name,
+                                conda_env=model_meta.conda_env)
+
+        client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
+        client.set_terminated(run_id=run.info.run_id)
+    except Exception as e:
+        log.error('process_data run error: %s', e)
+        client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='run_error.txt')
+        client.set_terminated(run_id=run.info.run_id, status='FAILED')
