@@ -72,11 +72,12 @@ def init_node():
         utils.restart_ray_service()
 
     if not ray.is_initialized():
-        runtime_env = RuntimeEnv(pip={
-            "packages": ["tensorflow==2.7.0", "numpy==1.21.4", "six==1.16.0", "numba==0.56.0", "pyarrow==9.0.0"],
-            "pip_check": False,
-            "pip_version": "==22.2.2;python_version=='3.7.3'"})
-        ray.init(address=RAY_HEAD_NODE_ADDRESS, runtime_env=runtime_env)
+        # runtime_env = RuntimeEnv(pip={
+        #     "packages": ["tensorflow==2.7.0", "numpy==1.21.4", "six==1.16.0", "numba==0.56.0", "pyarrow==9.0.0"],
+        #     "pip_check": False,
+        #     "pip_version": "==22.2.2;python_version=='3.7.3'"})
+        # ray.init(address=RAY_HEAD_NODE_ADDRESS, runtime_env=runtime_env)
+        ray.init(address=RAY_HEAD_NODE_ADDRESS)
 
 
 def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, MlflowClient):
