@@ -9,7 +9,7 @@ from ray import serve
 
 import common
 
-run, client = common.init_experiment('anomaly_deployment')
+run, client = common.init_experiment(name='anomaly-deployment', run_name='deployment-tuning-%s' % time.time())
 client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
 
 serve.start(http_options={"host": common.MODEL_SERVE_ADDRESS, "port": common.MODEL_SERVE_PORT})
