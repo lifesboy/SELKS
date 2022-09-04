@@ -89,7 +89,7 @@ def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, Mlfl
 
     timeline_file = f'{TMP_DIR}{name}_{run_name}_timeline.json'
     ray.timeline(filename=timeline_file)
-    client.log_artifact(run_id=run.info.run_id, local_path=timeline_file, artifact_path=f'{run_name}_timeline.json')
+    client.log_artifact(run_id=run.info.run_id, local_path=timeline_file, artifact_path='profiling')
     return run, client
 
 
