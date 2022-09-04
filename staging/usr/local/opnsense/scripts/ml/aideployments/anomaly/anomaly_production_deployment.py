@@ -11,15 +11,15 @@ import common
 from aimodels.anomaly.anomaly_model import AnomalyModel
 
 
-@serve.deployment(name="AnomalyStagingDeployment",
-                  num_replicas=1,
+@serve.deployment(name="AnomalyProductionDeployment",
+                  num_replicas=2,
                   ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01})
-class AnomalyStagingDeployment:
+class AnomalyProductionDeployment:
 
     def __init__(self) -> None:
-        self.run, self.client = common.init_tracking(name='anomaly-staging-deployment', run_name='anomaly-staging-%s' % time.time())
+        self.run, self.client = common.init_tracking(name='anomaly-production-deployment', run_name='anomaly-production-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
-        self.model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
+        self.model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/production')
 
     async def __call__(self, request: Request):
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='CALLED')
