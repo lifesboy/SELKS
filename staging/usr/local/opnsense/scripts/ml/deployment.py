@@ -15,6 +15,15 @@ client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="
 serve.start(http_options={"host": common.MODEL_SERVE_ADDRESS, "port": common.MODEL_SERVE_PORT})
 
 
+# serve start --address=127.0.0.1:6379 --http-host=0.0.0.0 --http-port=6789
+# mlflow deployments list -t ray-serve
+# mlflow deployments create -t ray-serve -m models:/AnomalyModel/staging --name anomaly-staging -C num_replicas=1
+# mlflow deployments update -t ray-serve --name anomaly-staging -C num_replicas=2
+# mlflow deployments get -t ray-serve --name anomaly-staging
+# mlflow deployments delete -t ray-serve --name anomaly-staging
+# mlflow deployments predict -t ray-serve --name anomaly-staging --input-path <input file path> --output-path <output file path>
+
+
 # Our pipeline will be structured as follows:
 # - Input comes in, the composed model sends it to model_one
 # - model_one outputs a random number between 0 and 1, if the value is
