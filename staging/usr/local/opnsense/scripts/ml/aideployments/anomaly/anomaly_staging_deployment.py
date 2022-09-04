@@ -23,7 +23,6 @@ class AnomalyStagingDeployment:
 
     async def __call__(self, request: Request):
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='CALLED')
-        self.client.log_dict(run_id=self.run.info.run_id, dictionary=request.body(), artifact_file="last_request.json")
 
         obs = await self._process_request_data(request)
         action = self.model.predict(obs).to_json(orient="records")
@@ -36,5 +35,8 @@ class AnomalyStagingDeployment:
         return self.model.predict(df).to_json(orient="records")
 
     async def _process_request_data(self, request: Request):
-        data = await request.body()
+        body = await request.body()
+        self.client.log_text(run_id=self.run.info.run_id, dictionary=body, artifact_file="last_request.json")
+
+        data = json.loads(body)
         return data['obs']
