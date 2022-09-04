@@ -36,7 +36,7 @@ class AnomalyProductionDeployment:
 
     async def _process_request_data(self, request: Request):
         body = await request.body()
-        self.client.log_text(run_id=self.run.info.run_id, text=body, artifact_file="last_request.json")
+        self.client.log_text(run_id=self.run.info.run_id, text=body.decode("utf-8"), artifact_file="last_request.json")
 
         data = json.loads(body)
         return data['obs']
