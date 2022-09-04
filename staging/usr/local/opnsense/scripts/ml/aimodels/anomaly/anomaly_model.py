@@ -10,6 +10,7 @@ import common
 
 from gym import Space
 from keras import Model
+from mlflow.models.signature import infer_signature
 from ray.rllib.models.modelv2 import ModelV2
 from ray.rllib.models.tf.recurrent_net import RecurrentNetwork
 from ray.rllib.utils.typing import ModelConfigDict
@@ -105,7 +106,9 @@ class AnomalyModel(RecurrentNetwork):
         # self.rnn_model.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
         # tf.keras.experimental.export_saved_model(self.rnn_model, "/tmp/anomaly_model/")
         model_meta = AnomalyModel.get_model_meta()
+        signature = infer_signature(inputs, self._value_out)
         mlflow.keras.log_model(keras_model=self.rnn_model,
+                               signature=signature,
                                artifact_path=model_meta.artifact_path,
                                registered_model_name=model_meta.registered_model_name)
 
