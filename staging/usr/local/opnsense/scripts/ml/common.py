@@ -41,7 +41,6 @@ DATA_NORMALIZED_LABELED_DIR = '/cic/dataset/normalized_labeled/'
 DATA_SAMPLING_DIR = '/cic/dataset/sampling/'
 DATA_TRAINED_DIR = '/cic/dataset/trained/'
 TMP_DIR = '/drl/tmp/'
-PROFILING_DIR = '/drl/ray_profiling/'
 
 Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_FEATURED_EXTRACTED_DIR).mkdir(parents=True, exist_ok=True)
@@ -49,7 +48,6 @@ Path(DATA_NORMALIZED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_NORMALIZED_LABELED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_SAMPLING_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_TRAINED_DIR).mkdir(parents=True, exist_ok=True)
-Path(PROFILING_DIR).mkdir(parents=True, exist_ok=True)
 
 TAG_DATASET_SIZE = 'dataset.size'
 TAG_DATASET_MIN = 'dataset.min'
@@ -89,7 +87,7 @@ def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, Mlfl
     client = MlflowClient()
     client.set_tag(run_id=run.info.run_id, key=TAG_RUN_UUID, value=run.info.run_id)
 
-    timeline_file = f'{PROFILING_DIR}{name}/{run_name}_timeline.json'
+    timeline_file = f'{TMP_DIR}{name}_{run_name}_timeline.json'
     ray.timeline(filename=timeline_file)
     client.log_artifact(run_id=run.info.run_id, local_path=timeline_file, artifact_path=f'{run_name}_timeline.json')
     return run, client
