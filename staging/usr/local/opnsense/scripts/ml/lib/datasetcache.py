@@ -27,6 +27,7 @@
 
     shared module for suricata scripts, handles the installed datasets cache for easy access
 """
+import sys
 
 sys.path.insert(0, "/usr/local/opnsense/scripts/ml")
 
