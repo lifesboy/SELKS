@@ -64,8 +64,8 @@ from ml.models.stats import Stats
 from ml.aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from ml.aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
 
-from lib.CicCSVDatasource import CicCSVDatasource
-from lib.logger import log
+from ml.lib.CicCSVDatasource import CicCSVDatasource
+from ml.lib.logger import log
 
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
