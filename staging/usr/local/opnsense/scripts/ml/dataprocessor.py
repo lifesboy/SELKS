@@ -13,7 +13,7 @@ from pandas import DataFrame, Series
 from pyarrow import csv
 
 import lib.utils as utils
-from lib.CicCSVDatasource import CicCSVDatasource
+from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 
 import common

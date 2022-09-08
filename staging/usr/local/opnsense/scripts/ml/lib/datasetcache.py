@@ -28,6 +28,8 @@
     shared module for suricata scripts, handles the installed datasets cache for easy access
 """
 
+sys.path.insert(0, "/usr/local/opnsense/scripts/ml")
+
 import fcntl
 import glob
 import os
@@ -64,7 +66,7 @@ from ml.models.stats import Stats
 from ml.aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from ml.aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
 
-from ml.lib.CicCSVDatasource import CicCSVDatasource
+from ml.lib.ciccsvdatasource import CicCSVDatasource
 from ml.lib.logger import log
 
 tf1, tf, tfv = try_import_tf()
