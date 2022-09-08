@@ -13,6 +13,7 @@ from pandas import DataFrame, Series
 from pyarrow import csv
 
 import lib.utils as utils
+from lib.CicCSVDatasource import CicCSVDatasource
 from lib.logger import log
 
 import common
@@ -113,8 +114,9 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
     convert_options = csv.ConvertOptions(column_types=schema)
 
-    pipe: DatasetPipeline = ray.data.read_csv(
-        data_files,
+    pipe: DatasetPipeline = ray.data.read_datasource(
+        CicCSVDatasource(),
+        paths=data_files,
         meta_provider=FastFileMetadataProvider(),
         #read_options=read_options,
         parse_options=parse_options,
