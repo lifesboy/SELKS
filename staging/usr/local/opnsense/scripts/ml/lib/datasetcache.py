@@ -49,6 +49,7 @@ from django.db import transaction
 from django.db.models import Max, Value, F, Q
 from mlflow import ActiveRun
 from mlflow.tracking import MlflowClient
+from ray.data.datasource import FastFileMetadataProvider
 from ray.rllib.utils.framework import try_import_tf
 from pandas import DataFrame, Series
 from pyarrow import csv
@@ -62,6 +63,9 @@ from ml.models.local_dataset_changes import LocalDatasetChanges
 from ml.models.stats import Stats
 from ml.aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from ml.aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
+
+from lib.CicCSVDatasource import CicCSVDatasource
+from lib.logger import log
 
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
@@ -81,6 +85,7 @@ class DatasetCache(object):
     data_sources: str = '*/**/*.csv'
     sources_success: int = 0
     sources_fail: [] = []
+    invalid_rows: [] = []
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
@@ -128,13 +133,26 @@ class DatasetCache(object):
         :return:
         """
 
+        def skip_invalid_row(row):
+            global run, client
+            log.warning('skip_invalid_row %s on %s', row, filename)
+            self.invalid_rows += [{'source': filename, 'row': row}]
+            self._client.log_dict(run_id=self._run.info.run_id, dictionary=self.invalid_rows, artifact_file='invalid_rows.json')
+            return 'skip'
+
         dataset_info_record = {'dataset': filename, 'metadata': None}
         try:
             source_filename = filename.split('/')[-1]
             schema = {**CicFlowmeterNormModel.get_input_schema(), **Cic2018NormModel.get_input_schema()}
             #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
+            parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
             convert_options = csv.ConvertOptions(column_types=schema)
-            dt = ray.data.read_csv(filename, convert_options=convert_options)
+            dt = ray.data.read_datasource(
+                CicCSVDatasource(),
+                paths=[filename],
+                meta_provider=FastFileMetadataProvider(),
+                parse_options=parse_options,
+                convert_options=convert_options)
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
