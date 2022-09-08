@@ -316,16 +316,16 @@ class DatasetCache(object):
         :return: None
         """
         # lock create process
-        lock = open(self.cachefile + '.LCK', 'w')
-        try:
-            lock.flush()
-            lock.write('%s' % os.getpid())
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except IOError:
-            # other process is already creating the cache, wait, let the other process do it's work and return.
-            fcntl.flock(lock, fcntl.LOCK_EX)
-            fcntl.flock(lock, fcntl.LOCK_UN)
-            return
+        # lock = open(self.cachefile + '.LCK', 'w')
+        # try:
+        #     lock.flush()
+        #     lock.write('%s' % os.getpid())
+        #     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        # except IOError:
+        #     # other process is already creating the cache, wait, let the other process do it's work and return.
+        #     fcntl.flock(lock, fcntl.LOCK_EX)
+        #     fcntl.flock(lock, fcntl.LOCK_UN)
+        #     return
 
         df = self.list_local(self.data_sources, self.batch_size)
         if df.index.size <= 0:
@@ -356,7 +356,7 @@ class DatasetCache(object):
             os.system('touch {}'.format(self.cachefile))
 
         # release lock
-        fcntl.flock(lock, fcntl.LOCK_UN)
+        # fcntl.flock(lock, fcntl.LOCK_UN)
         # import local changes (if changed)
         self.update_local_changes()
 

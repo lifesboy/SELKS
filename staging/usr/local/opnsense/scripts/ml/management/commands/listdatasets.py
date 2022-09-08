@@ -1,3 +1,4 @@
+import signal
 import sys
 
 sys.path.insert(0, "/usr/local/opnsense/scripts/ml")
@@ -5,9 +6,14 @@ sys.path.insert(0, "/usr/local/opnsense/scripts/ml")
 from django.core.management.base import BaseCommand
 import ujson
 import os.path
-from lib import metadata
+from lib import metadata, utils
 from lib import dataset_source_directory
 from lib.datasetcache import DatasetCache
+
+
+def kill_exists_processing():
+    for pid in set(utils.get_process_ids(__file__)) - {os.getpid()}:
+        os.kill(pid, signal.SIGTERM)
 
 
 class Command(BaseCommand):
@@ -20,6 +26,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if self.rc.is_changed():
+            kill_exists_processing()
             self.rc.create()
 
         # collect all installable rules indexed by (target) filename
