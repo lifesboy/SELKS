@@ -12,7 +12,7 @@ from lib.datasetcache import DatasetCache
 
 
 def kill_exists_processing():
-    for pid in set(utils.get_process_ids(__file__)) - {os.getpid()}:
+    for pid in set(utils.get_process_ids('/scirius/manage.py listdatasets')) - {os.getpid()}:
         os.kill(pid, signal.SIGTERM)
 
 
