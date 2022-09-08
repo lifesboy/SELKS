@@ -135,12 +135,11 @@ class DatasetCache(object):
         :param filename:
         :return:
         """
+        invalid_rows = []
 
         def skip_invalid_row(row):
-            global run, client
-            log.warning('skip_invalid_row %s on %s', row, filename)
-            self.invalid_rows += [{'source': filename, 'row': row}]
-            self._client.log_dict(run_id=self._run.info.run_id, dictionary=self.invalid_rows, artifact_file='invalid_rows.json')
+            global invalid_rows
+            invalid_rows += [{'source': filename, 'row': row}]
             return 'skip'
 
         dataset_info_record = {'dataset': filename, 'metadata': None}
@@ -221,8 +220,10 @@ class DatasetCache(object):
 
                 dataset_info_record['metadata'] = record
 
+                self.invalid_rows += invalid_rows
                 self.sources_success += 1
                 self._client.log_metric(run_id=self._run.info.run_id, key='sources_success', value=self.sources_success)
+                self._client.log_dict(run_id=self._run.info.run_id, dictionary=self.invalid_rows, artifact_file='invalid_rows.json')
         except Exception as e:
             self.sources_fail = self.sources_fail + [{'source': filename, 'reason': traceback.format_exc()}]
             self._client.log_metric(run_id=self._run.info.run_id, key='sources_fail_num', value=len(self.sources_fail))
