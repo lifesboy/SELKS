@@ -1,14 +1,8 @@
 #!/usr/bin/python3
 
-import argparse
-import glob
-from sys import version_info
 import time
 import pandas
 import ray
-from ray.data.dataset_pipeline import DatasetPipeline
-from ray.data.impl.arrow_block import ArrowRow
-from pyarrow import Table
 from ray.tune.integration.mlflow import mlflow_mixin
 import pyarrow as pa
 
