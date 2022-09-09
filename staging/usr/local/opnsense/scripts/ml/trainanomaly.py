@@ -11,6 +11,7 @@ from pandas import DataFrame
 from ray import tune
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
+from ray.tune.utils.log import Verbosity
 
 import common
 import lib.utils as utils
@@ -180,7 +181,7 @@ if __name__ == "__main__":
     # >>     else:
     # >>         state = state_out
     try:
-        results = tune.run(args.run, config=config, stop=stop, verbose=1,
+        results = tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
                            name=sampling_id,
                            checkpoint_at_end=True,
                            callbacks=[MLflowLoggerCallback(
