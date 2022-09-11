@@ -174,13 +174,16 @@ if __name__ == "__main__":
         ]
 
         while True:
-            a, state_out, _ = trainer.compute_single_action(obs, state)
-            obs, reward, done, _ = env.step(a)
-            if done:
-                obs = env.reset()
-                state = init_state
-            else:
-                state = state_out
+            try:
+                a, state_out, _ = trainer.compute_single_action(obs, state)
+                obs, reward, done, _ = env.step(a)
+                if done:
+                    obs = env.reset()
+                    state = init_state
+                else:
+                    state = state_out
+            except Exception as ex:
+                log.error('trainer run error: %s', ex)
 
         # check_learning_achieved(results, args.stop_reward)
 
