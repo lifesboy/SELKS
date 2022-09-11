@@ -33,9 +33,10 @@ class AnomalyEnv(gym.Env):
         self.anomaly_detected: float = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
 
-        if not utils.is_ray_gpu_ready():
-            log.warning('init anomaly env restart ray failing ray: %s', self.data_source_sampling_dir)
-            utils.restart_ray_service()
+        # #restarting ray cause training process corrupted
+        # if not utils.is_ray_gpu_ready():
+        #     log.warning('init anomaly env restart ray failing ray: %s', self.data_source_sampling_dir)
+        #     utils.restart_ray_service()
 
         self._run, self._client = common.init_experiment(name='anomaly-env', run_name='env-tuning-%s' % time.time())
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
