@@ -140,7 +140,7 @@ if __name__ == "__main__":
                 "cell_size": 32,
             },
         },
-        "framework": 'tf',
+        "framework": 'tf2',
     }
 
     stop = {
