@@ -93,8 +93,11 @@ def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, Mlfl
     return run, client
 
 
-def init_experiment(name: str, run_name: Optional[str] = None) -> (ActiveRun, MlflowClient):
-    init_node()
+def init_experiment(name: str, run_name: Optional[str] = None,
+                    skip_init_node: Optional[bool] = False) -> (ActiveRun, MlflowClient):
+    if not skip_init_node:
+        init_node()
+
     exp = name  # + datetime.now().strftime("-%Y%m%dT%H%M%S")
     return init_tracking(exp, run_name)
 
