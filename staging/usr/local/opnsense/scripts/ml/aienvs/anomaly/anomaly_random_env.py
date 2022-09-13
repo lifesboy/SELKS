@@ -26,9 +26,7 @@ class AnomalyRandomEnv(gym.Env):
         self.current_step: int = 0
         self.reward_total: float = 0
 
-        self.action_metrics: [Metric] = []
-        self.reward_metrics: [Metric] = []
-        self.reward_total_metrics: [Metric] = []
+        self.metrics: [Metric] = []
 
         self._run, self._client = common.init_experiment(name='anomaly-random-env', run_name='env-tuning-%s' % time.time(),
                                                          skip_init_node=True)
@@ -39,7 +37,7 @@ class AnomalyRandomEnv(gym.Env):
         self.current_step = 0
         self.reward_total = 0
 
-        self.reward_total_metrics += [self.reward_total]
+        self.metrics += [Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step)]
 
         return self._next_obs()
 
@@ -48,14 +46,13 @@ class AnomalyRandomEnv(gym.Env):
         reward = self._calculate_reward(action=action)
         self.reward_total += reward
 
-        self.action_metrics += [Metric(key='action', value=action,
-                                       timestamp=int(time.time() * 1000), step=self.current_step)]
-        self.reward_metrics += [Metric(key='reward', value=reward,
-                                       timestamp=int(time.time() * 1000), step=self.current_step)]
-        self.reward_total_metrics += [Metric(key='reward_total', value=self.reward_total,
-                                             timestamp=int(time.time() * 1000), step=self.current_step)]
+        self.metrics += [
+            Metric(key='action', value=action, timestamp=int(time.time() * 1000), step=self.current_step),
+            Metric(key='reward', value=reward, timestamp=int(time.time() * 1000), step=self.current_step),
+            Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step)
+        ]
 
-        if len(self.action_metrics) > 1000:
+        if len(self.metrics) > 1000:
             self._log_metrics()
 
         done = self.current_step > self.episode_len
@@ -78,8 +75,5 @@ class AnomalyRandomEnv(gym.Env):
             return -1
 
     def _log_metrics(self):
-        self._client.log_batch(run_id=self._run.info.run_id,
-                               metrics=[*self.action_metrics, *self.reward_metrics, *self.reward_total_metrics])
-        self.action_metrics = []
-        self.reward_metrics = []
-        self.reward_total_metrics = []
+        self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
+        self.metrics = []
