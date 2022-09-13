@@ -18,6 +18,7 @@ import lib.utils as utils
 from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
 from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
+from aienvs.anomaly.anomaly_random_env import AnomalyRandomEnv
 from aimodels.anomaly.anomaly_model import AnomalyModel
 from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
@@ -116,6 +117,7 @@ if __name__ == "__main__":
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
+    register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
