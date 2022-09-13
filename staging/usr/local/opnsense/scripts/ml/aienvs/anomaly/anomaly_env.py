@@ -3,6 +3,8 @@ import gym
 import ray
 from gym.spaces import Discrete, Box
 import numpy as np
+from mlflow.entities import Metric
+
 import common
 import lib.utils as utils
 from lib.ciccsvdatasource import CicCSVDatasource
@@ -33,6 +35,8 @@ class AnomalyEnv(gym.Env):
         self.reward_total: float = 0
         self.anomaly_detected: float = 0
         self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
+
+        self.metrics: [Metric] = []
 
         # #restarting ray cause training process corrupted
         # if not utils.is_ray_gpu_ready():
@@ -80,28 +84,27 @@ class AnomalyEnv(gym.Env):
         self.iter = self.data_set.repartition(num_blocks=self.partition_num_blocks, shuffle=True).window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total,
-                                step=self.current_step)
-        self._client.log_metric(run_id=self._run.info.run_id, key='anomaly_detected', value=self.anomaly_detected,
-                                step=self.current_step)
-        self._client.log_dict(run_id=self._run.info.run_id, dictionary=invalid_rows,
-                              artifact_file='invalid_rows.json')
+        self.metrics += [
+            Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
+            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step)
+        ]
 
         return self._next_obs()
 
     def step(self, action: np.float64):
-        global invalid_rows
+        self.current_step += 1
         reward = self._calculate_reward(action=action)
-
         self.reward_total += reward
-        self._client.log_metric(run_id=self._run.info.run_id, key='action', value=action, step=self.current_step)
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward', value=reward, step=self.current_step)
-        self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total,
-                                step=self.current_step)
-        self._client.log_metric(run_id=self._run.info.run_id, key='anomaly_detected', value=self.anomaly_detected,
-                                step=self.current_step)
-        self._client.log_dict(run_id=self._run.info.run_id, dictionary=invalid_rows,
-                              artifact_file='invalid_rows.json')
+
+        self.metrics += [
+            Metric(key='action', value=action, timestamp=int(time.time() * 1000), step=self.current_step),
+            Metric(key='reward', value=reward, timestamp=int(time.time() * 1000), step=self.current_step),
+            Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
+            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step)
+        ]
+
+        if len(self.metrics) > 1000:
+            self._log_metrics()
 
         done = (self.current_step > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
@@ -117,11 +120,11 @@ class AnomalyEnv(gym.Env):
             i[LABEL].item()],
             np.float64) if i is not None else None
         self.current_obs = token
-        self.current_step += 1
 
         return token
 
     def close(self):
+        self._log_metrics()
         self._client.set_terminated(run_id=self._run.info.run_id)
 
     def _calculate_reward(self, action: np.float64) -> float:
@@ -131,3 +134,8 @@ class AnomalyEnv(gym.Env):
             self.anomaly_detected += action
             return 1
         return -1
+
+    def _log_metrics(self):
+        self._client.log_dict(run_id=self._run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
+        self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
+        self.metrics = []
