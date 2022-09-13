@@ -25,6 +25,7 @@ class AnomalyEnv(gym.Env):
         config = config or {}
 
         self.blocks_per_window: int = 1024
+        self.partition_num_blocks: int = 8
         self.batch_size: int = 1
         self.episode_len: int = config.get("episode_len", 100)
         self.current_obs = None
@@ -59,7 +60,7 @@ class AnomalyEnv(gym.Env):
             convert_options=convert_options)
 
         self.anomaly_total: float = 0  # self.data_set.sum(LABEL)
-        self.iter: Iterator[BatchType] = self.data_set.window(
+        self.iter: Iterator[BatchType] = self.data_set.repartition(num_blocks=self.partition_num_blocks).window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
         self.observation_space: Box = Box(low=0., high=1., shape=(6,), dtype=np.float64)
@@ -76,7 +77,7 @@ class AnomalyEnv(gym.Env):
         self.current_step = 0
         self.reward_total = 0
         self.anomaly_detected = 0
-        self.iter = self.data_set.random_shuffle().window(
+        self.iter = self.data_set.repartition(num_blocks=self.partition_num_blocks, shuffle=True).window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
         self._client.log_metric(run_id=self._run.info.run_id, key='reward_total', value=self.reward_total,
