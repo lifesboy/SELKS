@@ -7,6 +7,7 @@ import random
 from mlflow.entities import Metric
 
 import common
+from lib.logger import log
 
 
 class AnomalyRandomEnv(gym.Env):
@@ -75,5 +76,8 @@ class AnomalyRandomEnv(gym.Env):
             return -1
 
     def _log_metrics(self):
-        self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
-        self.metrics = []
+        try:
+            self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
+            self.metrics = []
+        except Exception as e:
+            log.error('_log_metrics error %s', e)

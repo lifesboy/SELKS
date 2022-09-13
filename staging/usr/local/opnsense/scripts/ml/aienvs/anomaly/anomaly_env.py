@@ -136,6 +136,9 @@ class AnomalyEnv(gym.Env):
         return -1
 
     def _log_metrics(self):
-        self._client.log_dict(run_id=self._run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
-        self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
-        self.metrics = []
+        try:
+            self._client.log_dict(run_id=self._run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
+            self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
+            self.metrics = []
+        except Exception as e:
+            log.error('_log_metrics error %s', e)
