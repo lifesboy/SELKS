@@ -10,11 +10,11 @@ class AnomalyInitialObsEnv(gym.Env):
     r=1 if action correct, -1 otherwise (max. R=100).
     """
 
-    def __init__(self, episode_len=100):
+    def __init__(self, config: dict = None):
         self.observation_space = Discrete(2)
         self.action_space = Discrete(2)
         self.token = None
-        self.episode_len = episode_len
+        self.episode_len: int = config.get("episode_len", 100)
         self.num_steps = 0
 
     def reset(self):

@@ -41,6 +41,7 @@ parser.add_argument(
 parser.add_argument(
     "--as-test",
     action="store_true",
+    default=False,
     help="Whether this script should be run as a test: --stop-reward must "
          "be achieved within --stop-timesteps AND --stop-iters.")
 parser.add_argument(
@@ -114,7 +115,7 @@ if __name__ == "__main__":
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
-    register_env("AnomalyInitialObsEnv", lambda _: AnomalyInitialObsEnv())
+    register_env("AnomalyInitialObsEnv", lambda _: AnomalyInitialObsEnv(c))
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
