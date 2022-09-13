@@ -48,9 +48,12 @@ class AnomalyRandomEnv(gym.Env):
         reward = self._calculate_reward(action=action)
         self.reward_total += reward
 
-        self.action_metrics += [Metric(key='action', value=action, step=self.current_step)]
-        self.reward_metrics += [Metric(key='reward', value=reward, step=self.current_step)]
-        self.reward_total_metrics += [Metric(key='reward_total', value=self.reward_total, step=self.current_step)]
+        self.action_metrics += [Metric(key='action', value=action,
+                                       timestamp=int(time.time() * 1000), step=self.current_step)]
+        self.reward_metrics += [Metric(key='reward', value=reward,
+                                       timestamp=int(time.time() * 1000), step=self.current_step)]
+        self.reward_total_metrics += [Metric(key='reward_total', value=self.reward_total,
+                                             timestamp=int(time.time() * 1000), step=self.current_step)]
 
         if len(self.action_metrics) > 1000:
             self._log_metrics()
