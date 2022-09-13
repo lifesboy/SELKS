@@ -115,7 +115,7 @@ if __name__ == "__main__":
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
-    register_env("AnomalyInitialObsEnv", lambda _: AnomalyInitialObsEnv(c))
+    register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
