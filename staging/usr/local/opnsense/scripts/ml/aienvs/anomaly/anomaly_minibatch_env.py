@@ -45,7 +45,7 @@ class AnomalyMinibatchEnv(gym.Env):
         #     log.warning('init anomaly env restart ray failing ray: %s', self.data_source_sampling_dir)
         #     utils.restart_ray_service()
 
-        self._run, self._client = common.init_experiment(name='anomaly-env', run_name='env-tuning-%s' % time.time(),
+        self._run, self._client = common.init_experiment(name='anomaly-minibatch-env', run_name='env-tuning-%s' % time.time(),
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
@@ -112,7 +112,7 @@ class AnomalyMinibatchEnv(gym.Env):
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
-        if self.current_batch.empty:
+        if not self.current_batch or self.current_batch.empty:
             self.current_batch = next(self.iter)
 
         if not self.current_batch or self.current_batch.empty:
