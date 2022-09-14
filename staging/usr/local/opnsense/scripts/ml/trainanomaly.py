@@ -77,6 +77,11 @@ parser.add_argument(
     default=0,
     help="Number of CPUs to use.")
 parser.add_argument(
+    "--batch-size",
+    type=int,
+    default=1000,
+    help="Number of batch size to process.")
+parser.add_argument(
     "--tag",
     type=str,
     default="train",
@@ -129,6 +134,7 @@ if __name__ == "__main__":
         "env": args.env,
         "env_config": {
             "episode_len": args.stop_episode_len,
+            "batch_size": args.batch_size,
             "data_source_sampling_dir": data_source_sampling_dir,
         },
         "gamma": 0.9,
