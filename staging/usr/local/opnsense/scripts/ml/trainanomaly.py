@@ -19,6 +19,7 @@ from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
 from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
 from aienvs.anomaly.anomaly_random_env import AnomalyRandomEnv
+from aienvs.anomaly.anomaly_minibatch_env import AnomalyMinibatchEnv
 from aimodels.anomaly.anomaly_model import AnomalyModel
 from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
@@ -84,6 +85,7 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train-cic2018 --env=AnomalyInitialObsEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train-cic2018 --env=AnomalyRandomEnv
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyMinibatchEnv
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -120,6 +122,7 @@ if __name__ == "__main__":
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
+    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(c))
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
