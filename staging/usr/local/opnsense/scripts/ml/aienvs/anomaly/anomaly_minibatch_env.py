@@ -112,10 +112,10 @@ class AnomalyMinibatchEnv(gym.Env):
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
-        if not self.current_batch or self.current_batch.empty:
+        if self.current_batch is None or self.current_batch.empty:
             self.current_batch = next(self.iter)
 
-        if not self.current_batch or self.current_batch.empty:
+        if self.current_batch is None or self.current_batch.empty:
             self.current_obs = None
             return None
 
