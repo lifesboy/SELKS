@@ -9,6 +9,7 @@ import common
 import lib.utils as utils
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
+from pandas import DataFrame
 
 from pyarrow import csv
 from typing import Iterator
@@ -30,6 +31,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.partition_num_blocks: int = 8
         self.batch_size: int = 1
         self.episode_len: int = config.get("episode_len", 100)
+        self.current_batch: DataFrame = None
         self.current_obs = None
         self.current_step: int = 0
         self.reward_total: float = 0
@@ -64,8 +66,10 @@ class AnomalyMinibatchEnv(gym.Env):
             convert_options=convert_options)
 
         self.anomaly_total: float = 0  # self.data_set.sum(LABEL)
-        self.iter: Iterator[BatchType] = self.data_set.repartition(num_blocks=self.partition_num_blocks).window(
-            blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
+        self.iter: Iterator[BatchType] = self.data_set\
+            .repartition(num_blocks=self.partition_num_blocks)\
+            .window(blocks_per_window=self.blocks_per_window)\
+            .iter_batches(batch_size=self.batch_size, batch_format='pandas')
 
         self.observation_space: Box = Box(low=0., high=1., shape=(6,), dtype=np.float64)
         self.action_space: Discrete = Discrete(2)
@@ -81,8 +85,6 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_step = 0
         self.reward_total = 0
         self.anomaly_detected = 0
-        self.iter = self.data_set.repartition(num_blocks=self.partition_num_blocks, shuffle=True).window(
-            blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
         self.metrics += [
             Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
@@ -110,7 +112,16 @@ class AnomalyMinibatchEnv(gym.Env):
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
-        i = next(self.iter)
+        if self.current_batch.empty:
+            self.current_batch = next(self.iter)
+
+        if not self.current_batch or self.current_batch.empty:
+            self.current_obs = None
+            return None
+
+        i = self.current_batch.sample(1)
+        self.current_batch = self.current_batch.drop(i.index)
+
         token = np.array([
             i[DST_PORT].item(),
             i[PROTOCOL].item(),
@@ -118,7 +129,7 @@ class AnomalyMinibatchEnv(gym.Env):
             i[TOT_FWD_PKTS].item(),
             i[TOT_BWD_PKTS].item(),
             i[LABEL].item()],
-            np.float64) if i is not None else None
+            np.float64)
         self.current_obs = token
 
         return token
