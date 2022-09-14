@@ -18,6 +18,8 @@ import lib.utils as utils
 from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
 from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
+from aienvs.anomaly.anomaly_random_env import AnomalyRandomEnv
+from aienvs.anomaly.anomaly_minibatch_env import AnomalyMinibatchEnv
 from aimodels.anomaly.anomaly_model import AnomalyModel
 from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
@@ -41,6 +43,7 @@ parser.add_argument(
 parser.add_argument(
     "--as-test",
     action="store_true",
+    default=False,
     help="Whether this script should be run as a test: --stop-reward must "
          "be achieved within --stop-timesteps AND --stop-iters.")
 parser.add_argument(
@@ -74,12 +77,20 @@ parser.add_argument(
     default=0,
     help="Number of CPUs to use.")
 parser.add_argument(
+    "--batch-size",
+    type=int,
+    default=1000,
+    help="Number of batch size to process.")
+parser.add_argument(
     "--tag",
     type=str,
     default="train",
     help="run tag")
 
-# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly2.py --stop-iters=100 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly2.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train-cic2018 --env=AnomalyInitialObsEnv
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly2.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train-cic2018 --env=AnomalyRandomEnv
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly2.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyMinibatchEnv
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -114,13 +125,16 @@ if __name__ == "__main__":
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
-    register_env("AnomalyInitialObsEnv", lambda _: AnomalyInitialObsEnv())
+    register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
+    register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
+    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(c))
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
         "env": args.env,
         "env_config": {
             "episode_len": args.stop_episode_len,
+            "batch_size": args.batch_size,
             "data_source_sampling_dir": data_source_sampling_dir,
         },
         "gamma": 0.9,
@@ -165,7 +179,7 @@ if __name__ == "__main__":
 
         trainer = PPOTrainer(config)
         lstm_cell_size = config["model"]["custom_model_config"]["cell_size"]
-        env = AnomalyEnv(config)
+        env = AnomalyMinibatchEnv(config)
         obs = env.reset()
 
         # range(2) b/c h- and c-states of the LSTM.
