@@ -29,7 +29,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
         self.blocks_per_window: int = 1024
         self.partition_num_blocks: int = 8
-        self.batch_size: int = 1
+        self.batch_size: int = 1000
         self.episode_len: int = config.get("episode_len", 100)
         self.current_batch: DataFrame = None
         self.current_obs = None
