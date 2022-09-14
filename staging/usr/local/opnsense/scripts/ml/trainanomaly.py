@@ -34,7 +34,7 @@ parser.add_argument(
     type=str,
     default="PPO",
     help="The RLlib-registered algorithm to use.")
-parser.add_argument("--env", type=str, default="AnomalyEnv")
+parser.add_argument("--env", type=str, default="AnomalyMinibatchEnv")
 parser.add_argument(
     "--data-source",
     type=str,
