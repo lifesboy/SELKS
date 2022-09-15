@@ -168,10 +168,12 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='config', value=config)
     client.log_param(run_id=run.info.run_id, key='stop', value=stop)
 
+
     def skip_invalid_row(row):
         global invalid_rows, data_source_sampling_dir
         invalid_rows += [{'source': data_source_sampling_dir, 'row': row}]
         return 'skip'
+
 
     schema = CicFlowmeterNormModel.get_input_schema()
     convert_options = csv.ConvertOptions(column_types=schema)
@@ -182,7 +184,7 @@ if __name__ == "__main__":
         parse_options=parse_options,
         convert_options=convert_options)
 
-    dataset = dataset.fully_executed()
+    dataset = dataset.fully_executed().repartition(num_blocks=dataset.count() // args.batch_size)
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))

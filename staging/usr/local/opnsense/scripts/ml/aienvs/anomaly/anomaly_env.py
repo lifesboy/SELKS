@@ -24,8 +24,7 @@ class AnomalyEnv(gym.Env):
     def __init__(self, dataset: Dataset, config: dict = None):
         config = config or {}
 
-        self.blocks_per_window: int = config.get("batch_size", 1000)
-        self.partition_num_blocks: int = 8
+        self.blocks_per_window: int = 1
         self.batch_size: int = 1
         self.episode_len: int = config.get("episode_len", 100)
         self.current_obs = None
@@ -41,7 +40,6 @@ class AnomalyEnv(gym.Env):
         self.dataset: Dataset = dataset
         self.anomaly_total: float = 0  # self.dataset.sum(LABEL)
         self.iter: Iterator[BatchType] = self.dataset\
-            .repartition(num_blocks=self.partition_num_blocks)\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size, batch_format='pandas')
 
@@ -58,8 +56,9 @@ class AnomalyEnv(gym.Env):
         self.current_step = 0
         self.reward_total = 0
         self.anomaly_detected = 0
-        self.iter = self.dataset.repartition(num_blocks=self.partition_num_blocks, shuffle=True).window(
-            blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
+        self.iter = self.dataset\
+            .window(blocks_per_window=self.blocks_per_window)\
+            .iter_batches(batch_size=self.batch_size)
 
         self.metrics += [
             Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
