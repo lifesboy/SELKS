@@ -1,21 +1,16 @@
 import time
 import gym
-import ray
 from gym.spaces import Discrete, Box
 import numpy as np
 from mlflow.entities import Metric
 
 import common
-import lib.utils as utils
-from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 
-from pyarrow import csv
 from typing import Iterator
 # @ray.remote
 from ray.data.dataset import Dataset, BatchType
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
-from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 
 
 class AnomalyEnv(gym.Env):
