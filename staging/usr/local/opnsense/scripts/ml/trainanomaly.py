@@ -184,7 +184,7 @@ if __name__ == "__main__":
         parse_options=parse_options,
         convert_options=convert_options)
 
-    dataset = dataset.fully_executed().repartition(num_blocks=dataset.count() // args.batch_size)
+    dataset = dataset.fully_executed().repartition(num_blocks=8)
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
