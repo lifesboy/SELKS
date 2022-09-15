@@ -126,14 +126,6 @@ if __name__ == "__main__":
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
 
-    ModelCatalog.register_custom_model("rnn", RNNModel)
-    ModelCatalog.register_custom_model("anomaly", AnomalyModel)
-
-    register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
-    register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
-    register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
-    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(c))
-
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
         "env": args.env,
@@ -188,7 +180,13 @@ if __name__ == "__main__":
         parse_options=parse_options,
         convert_options=convert_options)
 
-    config['env_config']['dataset'] = dataset
+    ModelCatalog.register_custom_model("rnn", RNNModel)
+    ModelCatalog.register_custom_model("anomaly", AnomalyModel)
+
+    register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
+    register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
+    register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
+    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, c))
 
     # To run the Trainer without tune.run, using our RNN model and
     # manual state-in handling, do the following:

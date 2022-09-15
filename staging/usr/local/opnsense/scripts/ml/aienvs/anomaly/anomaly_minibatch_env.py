@@ -19,7 +19,7 @@ invalid_rows = []
 class AnomalyMinibatchEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 
-    def __init__(self, config: dict = None):
+    def __init__(self, dataset: Dataset, config: dict = None):
         config = config or {}
 
         self.blocks_per_window: int = config.get("batch_size", 1000)
@@ -37,7 +37,7 @@ class AnomalyMinibatchEnv(gym.Env):
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
-        self.dataset: Dataset = config.get("dataset")
+        self.dataset: Dataset = dataset
         self.anomaly_total: float = 0  # self.dataset.sum(LABEL)
         self.iter: Iterator[BatchType] = self.dataset\
             .repartition(num_blocks=self.partition_num_blocks)\
