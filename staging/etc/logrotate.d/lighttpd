@@ -2,9 +2,10 @@
         weekly
         missingok
         rotate 12
+        olddir /cic/dataset/log/lighttpd/
         create 0644 www-data www-data
         compress
-	delaycompress
+        delaycompress
         notifempty
         sharedscripts
         postrotate

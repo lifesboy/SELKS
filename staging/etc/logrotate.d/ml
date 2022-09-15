@@ -2,6 +2,7 @@
 	hourly
 	rotate 7
 	copytruncate
+	olddir /cic/dataset/log/ml/
 	compress
 	delaycompress
 	missingok

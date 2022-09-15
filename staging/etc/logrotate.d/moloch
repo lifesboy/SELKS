@@ -2,6 +2,7 @@
 /data/moloch/logs/viewer.log {
     daily
     rotate 7
+    olddir /cic/dataset/log/moloch/
     notifempty
     copytruncate
 }

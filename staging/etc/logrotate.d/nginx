@@ -2,6 +2,7 @@
 	daily
 	missingok
 	rotate 14
+	olddir /cic/dataset/log/nginx/
 	compress
 	delaycompress
 	notifempty

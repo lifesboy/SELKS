@@ -3,6 +3,7 @@
        rotate 10
        create 0644 postgres adm
        copytruncate
+       olddir /cic/dataset/log/postgresql/
        delaycompress
        compress
        notifempty
