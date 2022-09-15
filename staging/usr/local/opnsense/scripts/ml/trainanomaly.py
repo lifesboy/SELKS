@@ -180,7 +180,7 @@ if __name__ == "__main__":
         parse_options=parse_options,
         convert_options=convert_options)
 
-    dataset.fully_executed()
+    dataset = dataset.fully_executed()
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
