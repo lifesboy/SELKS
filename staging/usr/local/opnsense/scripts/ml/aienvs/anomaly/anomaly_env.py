@@ -58,7 +58,7 @@ class AnomalyEnv(gym.Env):
         self.current_step = 0
         self.reward_total = 0
         self.anomaly_detected = 0
-        self.iter = self.data_set.repartition(num_blocks=self.partition_num_blocks, shuffle=True).window(
+        self.iter = self.dataset.repartition(num_blocks=self.partition_num_blocks, shuffle=True).window(
             blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
 
         self.metrics += [
