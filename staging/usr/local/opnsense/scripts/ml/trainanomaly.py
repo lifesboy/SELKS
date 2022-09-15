@@ -97,6 +97,7 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train-cic2018 --env=AnomalyInitialObsEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train-cic2018 --env=AnomalyRandomEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyMinibatchEnv
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyEnv
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -182,7 +183,7 @@ if __name__ == "__main__":
         convert_options=convert_options)
 
     dataset = dataset.fully_executed()
-    register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
+    register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
     register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, c))

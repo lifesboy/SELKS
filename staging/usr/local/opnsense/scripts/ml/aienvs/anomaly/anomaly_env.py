@@ -17,55 +17,33 @@ from ray.data.dataset import Dataset, BatchType
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 
-invalid_rows = []
-
 
 class AnomalyEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 
-    def __init__(self, config: dict = None):
+    def __init__(self, dataset: Dataset, config: dict = None):
         config = config or {}
 
-        self.blocks_per_window: int = 1024
+        self.blocks_per_window: int = config.get("batch_size", 1000)
         self.partition_num_blocks: int = 8
-        self.batch_size: int = 1
+        self.batch_size: int = config.get("batch_size", 1000)
         self.episode_len: int = config.get("episode_len", 100)
         self.current_obs = None
         self.current_step: int = 0
         self.reward_total: float = 0
         self.anomaly_detected: float = 0
-        self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
 
         self.metrics: [Metric] = []
-
-        # #restarting ray cause training process corrupted
-        # if not utils.is_ray_gpu_ready():
-        #     log.warning('init anomaly env restart ray failing ray: %s', self.data_source_sampling_dir)
-        #     utils.restart_ray_service()
-
         self._run, self._client = common.init_experiment(name='anomaly-env', run_name='env-tuning-%s' % time.time(),
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
-        data_source_sampling_dir = self.data_source_sampling_dir
-
-        def skip_invalid_row(row):
-            global invalid_rows, data_source_sampling_dir
-            invalid_rows += [{'source': data_source_sampling_dir, 'row': row}]
-            return 'skip'
-
-        schema = CicFlowmeterNormModel.get_input_schema()
-        convert_options = csv.ConvertOptions(column_types=schema)
-        parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
-        self.data_set: Dataset = ray.data.read_datasource(
-            CicCSVDatasource(),
-            paths=[self.data_source_sampling_dir],
-            parse_options=parse_options,
-            convert_options=convert_options)
-
-        self.anomaly_total: float = 0  # self.data_set.sum(LABEL)
-        self.iter: Iterator[BatchType] = self.data_set.repartition(num_blocks=self.partition_num_blocks).window(
-            blocks_per_window=self.blocks_per_window).iter_batches(batch_size=self.batch_size)
+        self.dataset: Dataset = dataset
+        self.anomaly_total: float = 0  # self.dataset.sum(LABEL)
+        self.iter: Iterator[BatchType] = self.dataset\
+            .repartition(num_blocks=self.partition_num_blocks)\
+            .window(blocks_per_window=self.blocks_per_window)\
+            .iter_batches(batch_size=self.batch_size, batch_format='pandas')
 
         self.observation_space: Box = Box(low=0., high=1., shape=(6,), dtype=np.float64)
         self.action_space: Discrete = Discrete(2)
@@ -76,7 +54,6 @@ class AnomalyEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
 
     def reset(self):
-        global invalid_rows
         self.current_obs = None
         self.current_step = 0
         self.reward_total = 0
@@ -137,7 +114,6 @@ class AnomalyEnv(gym.Env):
 
     def _log_metrics(self):
         try:
-            self._client.log_dict(run_id=self._run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
             self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
