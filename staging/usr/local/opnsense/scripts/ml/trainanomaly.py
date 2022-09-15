@@ -32,6 +32,7 @@ from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.rllib.utils.framework import try_import_tf
 
 tf1, tf, tfv = try_import_tf()
+invalid_rows = []
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -222,6 +223,9 @@ if __name__ == "__main__":
                                tracking_uri=common.MLFLOW_TRACKING_URI,
                                experiment_name="anomaly-model",
                                save_artifact=True)])
+
+        client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
+
         if args.as_test:
             check_learning_achieved(results, args.stop_reward)
 

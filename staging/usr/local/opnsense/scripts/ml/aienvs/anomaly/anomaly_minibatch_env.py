@@ -13,8 +13,6 @@ from typing import Iterator
 from ray.data.dataset import Dataset, BatchType
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
 
-invalid_rows = []
-
 
 class AnomalyMinibatchEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
@@ -53,7 +51,6 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
 
     def reset(self):
-        global invalid_rows
         self.current_obs = None
         self.current_step = 0
         self.reward_total = 0
@@ -121,7 +118,6 @@ class AnomalyMinibatchEnv(gym.Env):
 
     def _log_metrics(self):
         try:
-            self._client.log_dict(run_id=self._run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
             self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
