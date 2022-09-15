@@ -26,7 +26,7 @@ class AnomalyEnv(gym.Env):
 
         self.blocks_per_window: int = config.get("batch_size", 1000)
         self.partition_num_blocks: int = 8
-        self.batch_size: int = config.get("batch_size", 1000)
+        self.batch_size: 1
         self.episode_len: int = config.get("episode_len", 100)
         self.current_obs = None
         self.current_step: int = 0
