@@ -34,9 +34,7 @@ class AnomalyEnv(gym.Env):
 
         self.dataset: Dataset = dataset
         self.anomaly_total: float = 0  # self.dataset.sum(LABEL)
-        self.iter: Iterator[BatchType] = self.dataset\
-            .window(blocks_per_window=self.blocks_per_window)\
-            .iter_batches(batch_size=self.batch_size, batch_format='pandas')
+        self.iter: Iterator[BatchType] = None
 
         self.observation_space: Box = Box(low=0., high=1., shape=(6,), dtype=np.float64)
         self.action_space: Discrete = Discrete(2)
@@ -51,7 +49,7 @@ class AnomalyEnv(gym.Env):
         self.current_step = 0
         self.reward_total = 0
         self.anomaly_detected = 0
-        self.iter = self.dataset\
+        self.iter = self.dataset.random_shuffle()\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size)
 
