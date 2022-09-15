@@ -184,6 +184,11 @@ mkdir -p /cic/dataset/log/suricata/
 mkdir -p /cic/dataset/log/squid/
 mkdir -p /cic/dataset/log/syslog/
 mkdir -p /cic/dataset/log/kern/
+mkdir -p /cic/dataset/log/lighttpd/
+mkdir -p /cic/dataset/log/ml/
+mkdir -p /cic/dataset/log/moloch/
+mkdir -p /cic/dataset/log/nginx/
+mkdir -p /cic/dataset/log/postgresql/
 mkdir -p /cic/dataset/nsm/
 chown logstash -R /cic/dataset/nsm/
 
