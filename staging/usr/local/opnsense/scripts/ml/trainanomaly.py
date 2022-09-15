@@ -6,15 +6,20 @@ import traceback
 
 import mlflow
 import pandas as pd
+import ray
 from pandas import DataFrame
+from pyarrow import csv
 
 from ray import tune
+from ray.data import Dataset
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 from ray.tune.utils.log import Verbosity
 
 import common
 import lib.utils as utils
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
+from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
 from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
@@ -129,6 +134,20 @@ if __name__ == "__main__":
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
     register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(c))
 
+    def skip_invalid_row(row):
+        global invalid_rows, data_source_sampling_dir
+        invalid_rows += [{'source': data_source_sampling_dir, 'row': row}]
+        return 'skip'
+
+    schema = CicFlowmeterNormModel.get_input_schema()
+    convert_options = csv.ConvertOptions(column_types=schema)
+    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
+    dataset: Dataset = ray.data.read_datasource(
+        CicCSVDatasource(),
+        paths=[data_source_sampling_dir],
+        parse_options=parse_options,
+        convert_options=convert_options)
+
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
         "env": args.env,
@@ -136,6 +155,7 @@ if __name__ == "__main__":
             "episode_len": args.stop_episode_len,
             "batch_size": args.batch_size,
             "data_source_sampling_dir": data_source_sampling_dir,
+            "dataset": dataset,
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.

@@ -1,22 +1,17 @@
 import time
 import gym
-import ray
 from gym.spaces import Discrete, Box
 import numpy as np
 from mlflow.entities import Metric
 
 import common
-import lib.utils as utils
-from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from pandas import DataFrame
 
-from pyarrow import csv
 from typing import Iterator
 # @ray.remote
 from ray.data.dataset import Dataset, BatchType
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
-from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 
 invalid_rows = []
 
@@ -36,37 +31,15 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_step: int = 0
         self.reward_total: float = 0
         self.anomaly_detected: float = 0
-        self.data_source_sampling_dir: str = config.get("data_source_sampling_dir", '')
 
         self.metrics: [Metric] = []
-
-        # #restarting ray cause training process corrupted
-        # if not utils.is_ray_gpu_ready():
-        #     log.warning('init anomaly env restart ray failing ray: %s', self.data_source_sampling_dir)
-        #     utils.restart_ray_service()
-
         self._run, self._client = common.init_experiment(name='anomaly-minibatch-env', run_name='env-tuning-%s' % time.time(),
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
-        data_source_sampling_dir = self.data_source_sampling_dir
-
-        def skip_invalid_row(row):
-            global invalid_rows, data_source_sampling_dir
-            invalid_rows += [{'source': data_source_sampling_dir, 'row': row}]
-            return 'skip'
-
-        schema = CicFlowmeterNormModel.get_input_schema()
-        convert_options = csv.ConvertOptions(column_types=schema)
-        parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
-        self.data_set: Dataset = ray.data.read_datasource(
-            CicCSVDatasource(),
-            paths=[self.data_source_sampling_dir],
-            parse_options=parse_options,
-            convert_options=convert_options)
-
-        self.anomaly_total: float = 0  # self.data_set.sum(LABEL)
-        self.iter: Iterator[BatchType] = self.data_set\
+        self.dataset: Dataset = config.get("dataset")
+        self.anomaly_total: float = 0  # self.dataset.sum(LABEL)
+        self.iter: Iterator[BatchType] = self.dataset\
             .repartition(num_blocks=self.partition_num_blocks)\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size, batch_format='pandas')
