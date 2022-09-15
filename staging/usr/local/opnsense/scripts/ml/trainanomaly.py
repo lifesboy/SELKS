@@ -180,13 +180,14 @@ if __name__ == "__main__":
         parse_options=parse_options,
         convert_options=convert_options)
 
-    ModelCatalog.register_custom_model("rnn", RNNModel)
-    ModelCatalog.register_custom_model("anomaly", AnomalyModel)
-
+    dataset.fully_executed()
     register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
     register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, c))
+
+    ModelCatalog.register_custom_model("rnn", RNNModel)
+    ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
     # To run the Trainer without tune.run, using our RNN model and
     # manual state-in handling, do the following:
