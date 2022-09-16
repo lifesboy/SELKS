@@ -83,6 +83,11 @@ parser.add_argument(
     default=0,
     help="Number of CPUs to use.")
 parser.add_argument(
+    "--num-workers",
+    type=float,
+    default=1,
+    help="Number of workers to train.")
+parser.add_argument(
     "--batch-size",
     type=int,
     default=1000,
@@ -104,6 +109,7 @@ if __name__ == "__main__":
     tag = args.tag
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
+    num_workers = args.num_workers
     data_source = args.data_source
     input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
     destination_dir = common.DATA_TRAINED_DIR
@@ -140,7 +146,7 @@ if __name__ == "__main__":
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
         # "num_cpus": num_cpus,
         "num_gpus": num_gpus,  # int(os.environ.get("RLLIB_NUM_GPUS", "0")),
-        "num_workers": 1,  # https://github.com/ray-project/ray/issues/25012
+        "num_workers": num_workers,  # https://github.com/ray-project/ray/issues/25012
         "num_envs_per_worker": 20,
         "entropy_coeff": 0.001,
         "num_sgd_iter": 5,
