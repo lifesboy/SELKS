@@ -78,7 +78,7 @@ parser.add_argument(
     help="Number of CPUs to use.")
 parser.add_argument(
     "--num-workers",
-    type=float,
+    type=int,
     default=1,
     help="Number of workers to train.")
 parser.add_argument(
