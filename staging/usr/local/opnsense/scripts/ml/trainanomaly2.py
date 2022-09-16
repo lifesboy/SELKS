@@ -117,7 +117,8 @@ if __name__ == "__main__":
     data_source_sampling_dir = '%s%s/' % (common.DATA_SAMPLING_DIR, sampling_id)
     utils.create_sampling(data_source_sampling_dir, data_source_files)
 
-    mlflow.tensorflow.autolog()
+    mlflow.autolog(log_models=True, exclusive=True)
+    # mlflow.tensorflow.autolog()
     # mlflow.keras.autolog()
     run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
 
