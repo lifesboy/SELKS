@@ -65,6 +65,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_step += 1
         reward = self._calculate_reward(action=action)
         self.reward_total += reward
+        done = (self.current_step > self.episode_len) or (self.current_obs is None)
 
         self.metrics += [
             Metric(key='action', value=action, timestamp=int(time.time() * 1000), step=self.current_step),
@@ -73,10 +74,9 @@ class AnomalyMinibatchEnv(gym.Env):
             Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step)
         ]
 
-        if len(self.metrics) > 1000:
+        if done or len(self.metrics) > 1000:
             self._log_metrics()
 
-        done = (self.current_step > self.episode_len) or (self.current_obs is None)
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self):
