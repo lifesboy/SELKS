@@ -48,7 +48,6 @@ parser.add_argument(
     help="data source file path filter pattern")
 parser.add_argument(
     "--as-test",
-    action="store_true",
     type=bool,
     default=False,
     help="Whether this script should be run as a test: --stop-reward must "
