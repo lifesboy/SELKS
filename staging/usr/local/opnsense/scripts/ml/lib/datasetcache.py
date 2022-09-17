@@ -83,7 +83,7 @@ class DatasetCache(object):
     """
     _run: ActiveRun = None
     _client: MlflowClient = None
-    batch_size: int = 100
+    batch_size: int = 30  # 2 min/source * 30 = 60min = 1h; another run will kill this
     batches_processed: int = 0
     batches_success: int = 0
 
