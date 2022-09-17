@@ -771,6 +771,21 @@ POSSIBILITY OF SUCH DAMAGE.
         });
     });
 
+    $("#regenerate_cache_dataprocessor").click(function(){
+        $("#regenerate_cache_dataprocessor_progress").addClass("fa fa-spinner fa-pulse");
+        ajaxCall("/api/anomaly/data-processor-service/regenerate-local-datasets", {'cleanCache': 1}, function(data,status) {
+            $("#regenerate_cache_dataprocessor_progress").removeClass("fa fa-spinner fa-pulse");
+            if (status != "success" || data['status'] != 'ok' ) {
+                // fix error handling
+                BootstrapDialog.show({
+                    type:BootstrapDialog.TYPE_WARNING,
+                    title: 'Regenerate cache fail',
+                    message: JSON.stringify(data),
+                    draggable: true
+                });
+            }
+        });
+    });
 
 </script>
 
@@ -846,6 +861,7 @@ POSSIBILITY OF SUCH DAMAGE.
             ></button>
             &nbsp;&nbsp;<span id="scheduled_updates_dataprocessor" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule') }}</a></span>
             &nbsp;&nbsp;<span id="scheduled_updates_dataprocessorcic" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule CIC') }}</a></span>
+            &nbsp;&nbsp;<span id="regenerate_cache_dataprocessor" class="btn btn-primary"><a href="" style="color: #fff">{{ lang._('Regenerate cache') }}</a> <i id="regenerate_cache_dataprocessor_progress" class=""></i></span>
             <br/>
             <br/>
         </div>

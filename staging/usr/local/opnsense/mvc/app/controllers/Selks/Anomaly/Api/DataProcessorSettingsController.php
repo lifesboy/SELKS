@@ -150,6 +150,28 @@ class DataProcessorSettingsController extends ApiMutableModelControllerBase
         }
     }
 
+    public function regenerateLocalDatasetsAction() {
+        if ($this->request->isPost()) {
+            $this->sessionClose();
+
+            $cleanCache = $this->request->getPost('cleanCache', 'int', 0);
+
+            // request list of installed rules
+            $backend = new Backend();
+            $response = $backend->configdpRun("anomaly list datasets", array($cleanCache == 0 ? 'False' : 'True'));
+
+            $data = json_decode($response, true);
+
+            if ($data != null) {
+                return $data;
+            } else {
+                return array('error' => array('msg' => 'timeout'));
+            }
+        } else {
+            return array('error' => array('msg' => 'invalid format'));
+        }
+    }
+
     /**
      * Get rule information
      * @param string|null $sid rule identifier
