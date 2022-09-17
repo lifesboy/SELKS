@@ -160,8 +160,9 @@ class DatasetCache(object):
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
-            label_column = 'Label'
-            features_types = [i for i in dt.schema() if i.name != label_column]
+            label_fields = [i for i in dt.schema() if i.name.lower().strip() != 'label']
+            label_column = label_fields[0] if len(label_fields) > 0 else None
+            features_types = [i for i in dt.schema() if i.name.lower().strip() != 'label']
             features = [i.name for i in features_types]
             if count > 0:
                 # define basic record
@@ -186,22 +187,26 @@ class DatasetCache(object):
                 record['metadata']['features'] = ','.join(features)
                 # record['metadata']['top_data'] = top_data
 
-                if (label_column):
+                if label_column:
                     record['metadata']['label_column'] = label_column
                     features_float64 = [f.name for f in features_types if str(f.type) == 'double']
-                    if any(i for i in dt.schema() if i.name == label_column and str(i.type) == 'string') and len(
-                            features_float64) > 0:
+                    if len(features_float64) > 0:
                         output_signature = (
                             tf.TensorSpec(shape=(None, 1), dtype=tf.float64),
                             tf.TensorSpec(shape=(None), dtype=tf.string))
                         tfd = dt.to_tf(batch_size=1000000, label_column=label_column,
                                        feature_columns=[features_float64[0]], output_signature=output_signature)
-                        labels = tfd.map(lambda _, x: tf.unique(x)[0]).reduce([''], lambda x, y:
-                        tf.unique(tf.concat([x, y], 0))[0]).numpy().tolist()
+                        labels = tfd.map(lambda _, x: tf.unique(x)[0])\
+                            .reduce([''], lambda x, y: tf.unique(tf.concat([x, y], 0))[0])\
+                            .numpy().tolist()
                         del labels[0]
 
                         record['metadata']['labels'] = b','.join(labels).decode('utf-8')
                         record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
+                        record['metadata'][label_column] = True
+                        record['metadata']['label'] = True
+                        for f in labels:
+                            record['metadata'][f"label/{f.lower().strip().replace(' ', '_')}"] = True
 
                 for f in features:
                     f_name = f.replace(' ', '_').lower()
