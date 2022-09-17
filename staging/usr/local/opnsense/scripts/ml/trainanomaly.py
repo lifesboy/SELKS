@@ -169,6 +169,7 @@ if __name__ == "__main__":
 
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
+    client.log_param(run_id=run.info.run_id, key='config', value=config)
 
 
     def skip_invalid_row(row):
@@ -188,18 +189,18 @@ if __name__ == "__main__":
         convert_options=convert_options)
 
     dataset = dataset.fully_executed().repartition(num_blocks=8)
-    config['env_config']['anomaly_total'] = dataset.filter(lambda i: i[LABEL] != 0).count()
-    config['env_config']['dataset_size'] = dataset.count()
+    context_data: dict = {'anomaly_total': dataset.filter(lambda i: i[LABEL] != 0).count(),
+                          'dataset_size': dataset.count()}
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
-    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, c))
+    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, context_data, c))
 
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
-    client.log_param(run_id=run.info.run_id, key='config', value=config)
+    client.log_param(run_id=run.info.run_id, key='context_data', value=context_data)
     client.log_param(run_id=run.info.run_id, key='stop', value=stop)
     client.log_text(run_id=run.info.run_id, text=dataset.stats(), artifact_file='dataset_stats.txt')
 

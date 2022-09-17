@@ -17,7 +17,7 @@ from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKT
 class AnomalyMinibatchEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 
-    def __init__(self, dataset: Dataset, config: dict = None):
+    def __init__(self, dataset: Dataset, context_data: dict, config: dict = None):
         config = config or {}
 
         self.blocks_per_window: int = 1
@@ -35,8 +35,8 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
         self.dataset: Dataset = dataset
-        self.dataset_size: int = config.get("dataset_size")
-        self.anomaly_total: float = config.get("anomaly_total")
+        self.dataset_size: int = context_data.get("dataset_size")
+        self.anomaly_total: float = context_data.get("anomaly_total")
         self.iter: Iterator[BatchType] = self.dataset\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size, batch_format='pandas')
