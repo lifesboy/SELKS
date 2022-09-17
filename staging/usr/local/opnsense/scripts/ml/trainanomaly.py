@@ -178,7 +178,7 @@ if __name__ == "__main__":
         return 'skip'
 
 
-    dataset_parallelism = max(int(0.5 * num_cpus), 1),  # using 50% CPU for dataset operations
+    dataset_parallelism = max(int(0.5 * num_cpus), 1)  # using 50% CPU for dataset operations
     schema = CicFlowmeterNormModel.get_input_schema()
     convert_options = csv.ConvertOptions(column_types=schema)
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
