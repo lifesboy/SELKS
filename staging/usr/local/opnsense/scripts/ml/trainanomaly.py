@@ -190,8 +190,11 @@ if __name__ == "__main__":
         convert_options=convert_options)
 
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
-    context_data: dict = {'anomaly_total': dataset.filter(lambda i: i[LABEL] != 0).count(),
-                          'dataset_size': dataset.count()}
+    count_df: DataFrame = dataset.groupby(LABEL)\
+        .map_groups(lambda i: DataFrame.from_dict({LABEL: [i[LABEL][0]], 'size': [i.index.size]}))\
+        .to_pandas()
+    context_data: dict = {'anomaly_total': count_df.loc[count_df[LABEL] == 0]['size'][0],
+                          'dataset_size': count_df.sum()['size']}
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
