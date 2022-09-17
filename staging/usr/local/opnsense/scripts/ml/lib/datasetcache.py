@@ -162,8 +162,8 @@ class DatasetCache(object):
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
-            label_fields = [i for i in dt.schema() if i.name.lower().strip() != 'label']
-            label_column = label_fields[0] if len(label_fields) > 0 else None
+            label_fields = [i for i in dt.schema() if i.name.lower().strip() == 'label']
+            label_column = label_fields[0].name if len(label_fields) > 0 else None
             features_types = [i for i in dt.schema() if i.name.lower().strip() != 'label']
             features = [i.name for i in features_types]
             if count > 0:
