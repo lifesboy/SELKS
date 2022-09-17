@@ -24,10 +24,15 @@ class Command(BaseCommand):
         self.md = metadata.Metadata()
         self.rc = DatasetCache()
 
+    def add_arguments(self, parser):
+        parser.add_argument('--clean-cache', type=bool, default=False, help='clean old cache and recreate all')
+
     def handle(self, *args, **options):
-        if self.rc.is_changed():
+        clean_cache = options['clean_cache']
+
+        if self.rc.is_changed() or clean_cache:
             kill_exists_processing()
-            self.rc.create()
+            self.rc.create(clean_cache)
 
         # collect all installable rules indexed by (target) filename
         # (filenames should be unique)

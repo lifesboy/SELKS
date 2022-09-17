@@ -75,6 +75,8 @@ tf1.enable_eager_execution()
 
 from ml import common
 
+cache_dir = '%sdataset_cache' % dataset_source_directory
+
 
 class DatasetCache(object):
     """
@@ -102,7 +104,7 @@ class DatasetCache(object):
 
     @staticmethod
     def list_local(data_sources: str, batch_size: int = 100) -> DataFrame:
-        output = '%sdataset_cache' % dataset_source_directory
+        output = cache_dir
         os.makedirs(output, exist_ok=True)
         input_files = common.get_data_files_by_pattern('%s%s' % (dataset_source_directory, data_sources))
         batch_df: DataFrame = utils.get_processing_file_pattern(
@@ -315,7 +317,7 @@ class DatasetCache(object):
         return None
 
     # @transaction.atomic
-    def create(self):
+    def create(self, clean_cache: bool = False):
         """ create new cache
         :return: None
         """
@@ -331,17 +333,21 @@ class DatasetCache(object):
         #     fcntl.flock(lock, fcntl.LOCK_UN)
         #     return
 
+        if clean_cache:
+            # remove existing data
+            os.remove(self.cachefile)
+            os.system(f'rm -rf "{cache_dir}"')
+
         df = self.list_local(self.data_sources, self.batch_size)
         if df.index.size <= 0:
             return
 
-        # remove existing data
-        # os.remove(self.cachefile)
         if not os.path.exists(self.cachefile):
             Dataset.objects.all().delete()
             DatasetProperties.objects.all().delete()
             Stats.objects.all().delete()
             LocalDatasetChanges.objects.all().delete()
+            MetadataHistogram.all().delete()
 
         data_source_files = [i for j in df['input_path'].values for i in j]
 
@@ -374,23 +380,24 @@ class DatasetCache(object):
             # todo
             # rule_config_mtime = os.stat(('%s../datasets.config' % dataset_source_directory)).st_mtime
             if not last_mtime or last_mtime > 0:  # rule_config_mtime != last_mtime:
-                # make sure only one process is updating this table
-                lock = open(self.cachefile + '.LCK', 'w')
-                try:
-                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                except IOError:
-                    # other process is already creating the cache, wait, let the other process do it's work and return.
-                    fcntl.flock(lock, fcntl.LOCK_EX)
-                    fcntl.flock(lock, fcntl.LOCK_UN)
-                    return
+                # # make sure only one process is updating this table
+                # lock = open(self.cachefile + '.LCK', 'w')
+                # try:
+                #     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                # except IOError:
+                #     # other process is already creating the cache, wait, let the other process do it's work and return.
+                #     fcntl.flock(lock, fcntl.LOCK_EX)
+                #     fcntl.flock(lock, fcntl.LOCK_UN)
+                #     return
+
                 # delete and insert local changes
                 LocalDatasetChanges.objects.all().delete()
                 local_changes = self.list_local_changes()
                 for sid in local_changes:
                     LocalDatasetChanges(sid=sid, action=local_changes[sid]['action'],
                                         last_mtime=local_changes[sid]['mtime']).save()
-                # release lock
-                fcntl.flock(lock, fcntl.LOCK_UN)
+                # # release lock
+                # fcntl.flock(lock, fcntl.LOCK_UN)
 
     def search(self, limit, offset, filter_txt, sort_by):
         """ search installed datasets
