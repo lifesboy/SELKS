@@ -335,7 +335,7 @@ class DatasetCache(object):
 
         if clean_cache:
             # remove existing data
-            os.remove(self.cachefile)
+            os.system(f'rm -rf "{self.cachefile}"')
             os.system(f'rm -rf "{cache_dir}"')
 
         df = self.list_local(self.data_sources, self.batch_size)
