@@ -191,24 +191,20 @@ class DatasetCache(object):
 
                 if label_column:
                     record['metadata']['label_column'] = label_column
-                    features_float64 = [f.name for f in features_types if str(f.type) == 'double']
-                    if len(features_float64) > 0:
-                        output_signature = (
-                            tf.TensorSpec(shape=(None, 1), dtype=tf.float64),
-                            tf.TensorSpec(shape=(None), dtype=tf.string))
-                        tfd = dt.to_tf(batch_size=1000000, label_column=label_column,
-                                       feature_columns=[features_float64[0]], output_signature=output_signature)
-                        labels = tfd.map(lambda _, x: tf.unique(x)[0])\
-                            .reduce([''], lambda x, y: tf.unique(tf.concat([x, y], 0))[0])\
-                            .numpy().tolist()
-                        del labels[0]
+                    # features_float64 = [f.name for f in features_types if str(f.type) == 'double']
+                    output_signature = (tf.TensorSpec(shape=(None), dtype=tf.string))
+                    tfd = dt.to_tf(batch_size=1000000, feature_columns=[label_column], output_signature=output_signature)
+                    labels = tfd.map(lambda x: tf.unique(x)[0])\
+                        .reduce([''], lambda x, y: tf.unique(values=tf.concat([x, y], axis=0))[0])\
+                        .numpy().tolist()
+                    del labels[0]
 
-                        record['metadata']['labels'] = b','.join(labels).decode('utf-8')
-                        record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
-                        record['metadata'][label_column] = True
-                        record['metadata']['label'] = True
-                        for f in labels:
-                            record['metadata'][f"label/{f.lower().strip().replace(' ', '_')}"] = True
+                    record['metadata']['labels'] = b','.join(labels).decode('utf-8')
+                    record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
+                    record['metadata'][label_column] = True
+                    record['metadata']['label'] = True
+                    for f in labels:
+                        record['metadata'][f"label/{f.lower().strip().replace(' ', '_')}"] = True
 
                 for f in features:
                     f_name = f.replace(' ', '_').lower()
