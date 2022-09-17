@@ -143,7 +143,7 @@ class DataProcessorSettingsController extends ApiMutableModelControllerBase
                 $result['current'] = (int)$currentPage;
                 return $result;
             } else {
-                return array('error' => array('msg' => 'too long, still running in background'));
+                return array('error' => array('msg' => 'timeout'));
             }
         } else {
             return array('error' => array('msg' => 'invalid format'));
