@@ -316,7 +316,6 @@ class DatasetCache(object):
             pass
         return None
 
-    # @transaction.atomic
     def create(self, clean_cache: bool = False):
         """ create new cache
         :return: None
