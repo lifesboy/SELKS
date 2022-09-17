@@ -190,7 +190,7 @@ if __name__ == "__main__":
         convert_options=convert_options)
 
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
-    context_data: dict = {'anomaly_total': dataset.map_batches(lambda bat: [i for i in bat if i[LABEL] != 0]).count(),
+    context_data: dict = {'anomaly_total': dataset.filter(lambda i: i[LABEL] != 0).count(),
                           'dataset_size': dataset.count()}
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
