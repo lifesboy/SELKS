@@ -861,7 +861,7 @@ POSSIBILITY OF SUCH DAMAGE.
             ></button>
             &nbsp;&nbsp;<span id="scheduled_updates_dataprocessor" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule') }}</a></span>
             &nbsp;&nbsp;<span id="scheduled_updates_dataprocessorcic" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule CIC') }}</a></span>
-            &nbsp;&nbsp;<span id="regenerate_cache_dataprocessor" class="btn btn-primary"><a href="" style="color: #fff">{{ lang._('Regenerate cache') }}</a> <i id="regenerate_cache_dataprocessor_progress" class=""></i></span>
+            &nbsp;&nbsp;<button class="btn btn-primary" id="regenerate_cache_dataprocessor" type="button">{{ lang._('Regenerate cache') }}<i id="regenerate_cache_dataprocessor_progress" class=""></button>
             <br/>
             <br/>
         </div>
