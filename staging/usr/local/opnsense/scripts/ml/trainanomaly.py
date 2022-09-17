@@ -178,17 +178,18 @@ if __name__ == "__main__":
         return 'skip'
 
 
+    dataset_parallelism = max(int(0.5 * num_cpus), 1),  # using 50% CPU for dataset operations
     schema = CicFlowmeterNormModel.get_input_schema()
     convert_options = csv.ConvertOptions(column_types=schema)
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
     dataset: Dataset = ray.data.read_datasource(
         CicCSVDatasource(),
-        parallelism=max(int(0.5 * num_cpus), 1),  # using 50% CPU for dataset operations
+        parallelism=dataset_parallelism,  # using 50% CPU for dataset operations
         paths=[data_source_sampling_dir],
         parse_options=parse_options,
         convert_options=convert_options)
 
-    dataset = dataset.fully_executed().repartition(num_blocks=8)
+    dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
     context_data: dict = {'anomaly_total': dataset.filter(lambda i: i[LABEL] != 0).count(),
                           'dataset_size': dataset.count()}
 
