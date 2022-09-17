@@ -203,7 +203,7 @@ class DatasetCache(object):
                     record['metadata'][label_column] = True
                     record['metadata']['label'] = True
                     for f in labels:
-                        record['metadata'][f"label/{f.lower().strip().replace(' ', '_')}"] = True
+                        record['metadata'][f"label/{f.lower().strip().replace(b' ', b'_').decode('utf-8')}"] = True
 
                 for f in features:
                     f_name = f.replace(' ', '_').lower()
