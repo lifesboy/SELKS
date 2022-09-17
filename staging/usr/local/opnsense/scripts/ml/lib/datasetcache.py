@@ -153,10 +153,12 @@ class DatasetCache(object):
             convert_options = csv.ConvertOptions(column_types=schema)
             dt = ray.data.read_datasource(
                 CicCSVDatasource(),
+                parallelism=common.TOTAL_CPUS_CACHING_DATASET_OPERATION,
                 paths=[filename],
                 meta_provider=FastFileMetadataProvider(),
                 parse_options=parse_options,
-                convert_options=convert_options)
+                convert_options=convert_options)\
+                .repartition(num_blocks=common.TOTAL_CPUS_CACHING_DATASET_OPERATION)
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
