@@ -194,10 +194,9 @@ class DatasetCache(object):
                     # features_float64 = [f.name for f in features_types if str(f.type) == 'double']
                     output_signature = (tf.TensorSpec(shape=(None), dtype=tf.string))
                     tfd = dt.to_tf(batch_size=1000000, feature_columns=[label_column], output_signature=output_signature)
-                    labels = tfd.map(lambda x: tf.unique(x)[0])\
-                        .reduce([''], lambda x, y: tf.unique(tf.concat(values=[x, y], axis=0))[0])\
-                        .numpy().tolist()
-                    del labels[0]
+                    labels = list(tfd.flat_map(tf.data.Dataset.from_tensor_slices)
+                                  .flat_map(tf.data.Dataset.from_tensor_slices)
+                                  .unique().as_numpy_iterator())
 
                     record['metadata']['labels'] = b','.join(labels).decode('utf-8')
                     record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
