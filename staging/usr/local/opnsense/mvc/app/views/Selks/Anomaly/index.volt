@@ -769,21 +769,21 @@ POSSIBILITY OF SUCH DAMAGE.
             });
 
         });
-    });
 
-    $("#regenerate_cache_dataprocessor").click(function(){
-        $("#regenerate_cache_dataprocessor_progress").addClass("fa fa-spinner fa-pulse");
-        ajaxCall("/api/anomaly/data-processor-service/regenerate-local-datasets", {'cleanCache': 1}, function(data,status) {
-            $("#regenerate_cache_dataprocessor_progress").removeClass("fa fa-spinner fa-pulse");
-            if (status != "success" || data['status'] != 'ok' ) {
-                // fix error handling
-                BootstrapDialog.show({
-                    type:BootstrapDialog.TYPE_WARNING,
-                    title: 'Regenerate cache fail',
-                    message: JSON.stringify(data),
-                    draggable: true
-                });
-            }
+        $("#regenerate_cache_dataprocessor").click(function(){
+            $("#regenerate_cache_dataprocessor_progress").addClass("fa fa-spinner fa-pulse");
+            ajaxCall("/api/anomaly/data-processor-service/regenerate-local-datasets", {'cleanCache': 1}, function(data,status) {
+                $("#regenerate_cache_dataprocessor_progress").removeClass("fa fa-spinner fa-pulse");
+                if (status != "success" || data['status'] != 'ok' ) {
+                    // fix error handling
+                    BootstrapDialog.show({
+                        type:BootstrapDialog.TYPE_WARNING,
+                        title: 'Regenerate cache fail',
+                        message: JSON.stringify(data),
+                        draggable: true
+                    });
+                }
+            });
         });
     });
 
