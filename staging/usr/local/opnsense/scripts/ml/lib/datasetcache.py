@@ -347,7 +347,7 @@ class DatasetCache(object):
             DatasetProperties.objects.all().delete()
             Stats.objects.all().delete()
             LocalDatasetChanges.objects.all().delete()
-            MetadataHistogram.all().delete()
+            # MetadataHistogram.all().delete()
 
         data_source_files = [i for j in df['input_path'].values for i in j]
 
