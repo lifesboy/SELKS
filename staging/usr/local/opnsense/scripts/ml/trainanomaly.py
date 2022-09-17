@@ -192,7 +192,7 @@ if __name__ == "__main__":
 
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas()
-    context_data: dict = {'anomaly_total': count_df.loc[count_df[LABEL] == 0]['count()'][0],
+    context_data: dict = {'anomaly_total': count_df.loc[count_df[LABEL] == 0].sum()['count()'],
                           'dataset_size': count_df.sum()['count()']}
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
