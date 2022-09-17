@@ -81,7 +81,7 @@ parser.add_argument(
 parser.add_argument(
     "--num-cpus",
     type=float,
-    default=0,
+    default=20,
     help="Number of CPUs to use.")
 parser.add_argument(
     "--num-workers",
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
     dataset: Dataset = ray.data.read_datasource(
         CicCSVDatasource(),
-        parallelism=8,
+        parallelism=max(int(0.5 * num_cpus), 1),  # using 50% CPU for dataset operations
         paths=[data_source_sampling_dir],
         parse_options=parse_options,
         convert_options=convert_options)
