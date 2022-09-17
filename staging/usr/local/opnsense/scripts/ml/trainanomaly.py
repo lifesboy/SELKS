@@ -19,6 +19,7 @@ from ray.tune.utils.log import Verbosity
 import common
 import lib.utils as utils
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
+from anomaly_normalization import LABEL
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
@@ -130,9 +131,6 @@ if __name__ == "__main__":
     run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
-    # client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
-    # client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
-
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
@@ -172,9 +170,6 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
 
-    client.log_param(run_id=run.info.run_id, key='config', value=config)
-    client.log_param(run_id=run.info.run_id, key='stop', value=stop)
-
 
     def skip_invalid_row(row):
         global invalid_rows, data_source_sampling_dir
@@ -187,11 +182,15 @@ if __name__ == "__main__":
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
     dataset: Dataset = ray.data.read_datasource(
         CicCSVDatasource(),
+        parallelism=8,
         paths=[data_source_sampling_dir],
         parse_options=parse_options,
         convert_options=convert_options)
 
     dataset = dataset.fully_executed().repartition(num_blocks=8)
+    config['env_config']['anomaly_total'] = dataset.filter(lambda i: i[LABEL] != 0).count()
+    config['env_config']['dataset_size'] = dataset.count()
+
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
@@ -200,31 +199,10 @@ if __name__ == "__main__":
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
-    # To run the Trainer without tune.run, using our RNN model and
-    # manual state-in handling, do the following:
+    client.log_param(run_id=run.info.run_id, key='config', value=config)
+    client.log_param(run_id=run.info.run_id, key='stop', value=stop)
+    client.log_text(run_id=run.info.run_id, text=dataset.stats(), artifact_file='dataset_stats.txt')
 
-    # Example (use `config` from the above code):
-    # >> import numpy as np
-    # >> from ray.rllib.agents.ppo import PPOTrainer
-    # >>
-    # >> trainer = PPOTrainer(config)
-    # >> lstm_cell_size = config["model"]["custom_model_config"]["cell_size"]
-    # >> env = AnomalyEnv({})
-    # >> obs = env.reset()
-    # >>
-    # >> # range(2) b/c h- and c-states of the LSTM.
-    # >> init_state = state = [
-    # ..     np.zeros([lstm_cell_size], np.float32) for _ in range(2)
-    # .. ]
-    # >>
-    # >> while True:
-    # >>     a, state_out, _ = trainer.compute_single_action(obs, state)
-    # >>     obs, reward, done, _ = env.step(a)
-    # >>     if done:
-    # >>         obs = env.reset()
-    # >>         state = init_state
-    # >>     else:
-    # >>         state = state_out
     try:
         results = tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
                            name=sampling_id,

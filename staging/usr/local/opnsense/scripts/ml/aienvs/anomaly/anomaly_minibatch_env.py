@@ -35,7 +35,8 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
         self.dataset: Dataset = dataset
-        self.anomaly_total: float = 0  # self.dataset.sum(LABEL)
+        self.dataset_size: int = config.get("dataset_size")
+        self.anomaly_total: float = config.get("anomaly_total")
         self.iter: Iterator[BatchType] = self.dataset\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size, batch_format='pandas')
@@ -46,6 +47,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='blocks_per_window', value=self.blocks_per_window)
         self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
         self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)
+        self._client.log_param(run_id=self._run.info.run_id, key='dataset_size', value=self.dataset_size)
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
 
     def reset(self):
