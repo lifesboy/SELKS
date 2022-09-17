@@ -348,6 +348,9 @@ class DatasetCache(object):
             LocalDatasetChanges.objects.all().delete()
             # MetadataHistogram.all().delete()
 
+        if not os.path.exists(self.cachefile):
+            os.system('touch {}'.format(self.cachefile))
+
         data_source_files = [i for j in df['input_path'].values for i in j]
 
         self.init_experiment()
@@ -361,8 +364,8 @@ class DatasetCache(object):
         df.apply(self.analyze, axis=1)
 
         Stats(timestamp=df['st_mtime'].explode().max(), files=df.index.size).save()
-        if not os.path.exists(self.cachefile):
-            os.system('touch {}'.format(self.cachefile))
+        # if not os.path.exists(self.cachefile):
+        #     os.system('touch {}'.format(self.cachefile))
 
         # release lock
         # fcntl.flock(lock, fcntl.LOCK_UN)
