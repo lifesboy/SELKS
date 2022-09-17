@@ -195,7 +195,7 @@ class DatasetCache(object):
                     output_signature = (tf.TensorSpec(shape=(None), dtype=tf.string))
                     tfd = dt.to_tf(batch_size=1000000, feature_columns=[label_column], output_signature=output_signature)
                     labels = tfd.map(lambda x: tf.unique(x)[0])\
-                        .reduce([''], lambda x, y: tf.unique(values=tf.concat([x, y], axis=0))[0])\
+                        .reduce([''], lambda x, y: tf.unique(tf.concat(values=[x, y], axis=0))[0])\
                         .numpy().tolist()
                     del labels[0]
 
