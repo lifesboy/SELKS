@@ -165,7 +165,7 @@ class DataProcessorSettingsController extends ApiMutableModelControllerBase
             if ($data != null) {
                 return $data;
             } else {
-                return array('error' => array('msg' => 'timeout'));
+                return array('error' => array('msg' => 'too long, still running in background'));
             }
         } else {
             return array('error' => array('msg' => 'invalid format'));
