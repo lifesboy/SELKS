@@ -244,7 +244,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     sampling_id = '%s-%s' % (args.tag, time.time())
 
-    mlflow.autolog(log_models=True, exclusive=True)
+    mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
     # mlflow.tensorflow.autolog()
     # mlflow.keras.autolog()
     run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
