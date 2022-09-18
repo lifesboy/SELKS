@@ -166,7 +166,7 @@ def main(args, sampling_id):
 
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
-    client.log_dict(run_id=run.info.run_id, dictionary=config, artifact_file='config.json')
+    client.log_param(run_id=run.info.run_id, key='config', value=config)
 
     def skip_invalid_row(row):
         global invalid_rows, data_source_sampling_dir
