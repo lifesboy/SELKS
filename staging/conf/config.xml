@@ -870,16 +870,7 @@
       </general>
     </clamav>
     <cicap>
-      <antivirus version="0.0.0">
-        <enable_clamav>1</enable_clamav>
-        <scanfiletypes>TEXT,DATA,EXECUTABLE,ARCHIVE,GIF,JPEG,MSOFFICE</scanfiletypes>
-        <sendpercentdata>5</sendpercentdata>
-        <startsendpercentdataafter>2M</startsendpercentdataafter>
-        <allow204responses>1</allow204responses>
-        <passonerror>1</passonerror>
-        <maxobjectsize>5M</maxobjectsize>
-      </antivirus>
-      <general version="0.0.0">
+      <general version="1.0.1">
         <enabled>1</enabled>
         <timeout>300</timeout>
         <maxkeepaliverequests>100</maxkeepaliverequests>
@@ -896,6 +887,15 @@
         <enable_accesslog>1</enable_accesslog>
         <localSquid>1</localSquid>
       </general>
+      <antivirus version="1.0.0">
+        <enable_clamav>1</enable_clamav>
+        <scanfiletypes>TEXT,DATA,EXECUTABLE,ARCHIVE,GIF,JPEG,MSOFFICE</scanfiletypes>
+        <sendpercentdata>5</sendpercentdata>
+        <startsendpercentdataafter>2M</startsendpercentdataafter>
+        <allow204responses>1</allow204responses>
+        <passonerror>1</passonerror>
+        <maxobjectsize>5M</maxobjectsize>
+      </antivirus>
     </cicap>
     <proxy version="1.0.3">
       <general>
