@@ -1183,19 +1183,23 @@
       <userDefinedRules/>
       <files/>
       <fileTags/>
+      <preprocessingDatasets/>
+      <trainingDatasets/>
+      <testingDatasets/>
+      <inferringDatasets/>
       <general>
         <enabled>1</enabled>
         <DataSource>cic2018/*.csv</DataSource>
-        <StopIters>1000</StopIters>
-        <StopEpisodeLen>1000</StopEpisodeLen>
-        <StopTimesteps>1000</StopTimesteps>
-        <StopReward>100</StopReward>
+        <StopIters>1000000</StopIters>
+        <StopEpisodeLen>1000000</StopEpisodeLen>
+        <StopTimesteps>1000000</StopTimesteps>
+        <StopReward>1000000</StopReward>
         <UpdateCron>2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b</UpdateCron>
       </general>
       <dataProcessor>
         <enabled>1</enabled>
         <DataSource>nsm/*.csv</DataSource>
-        <BatchSize>500</BatchSize>
+        <BatchSize>10000</BatchSize>
         <BatchSizeSource>10</BatchSizeSource>
         <NumGpus>0.4</NumGpus>
         <NumCpus>0.1</NumCpus>
@@ -1209,6 +1213,12 @@
         <ServingUrl>http://selks.ddns.net:6789/anomaly</ServingUrl>
         <UpdateCron>c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb</UpdateCron>
       </testing>
+      <inferring>
+        <enabled>0</enabled>
+        <DataSource>nsm/*.csv</DataSource>
+        <ServingUrl>http://selks.ddns.net:6789/anomaly</ServingUrl>
+        <UpdateCron/>
+      </inferring>
     </Anomaly>
   </Selks>
   <staticroutes/>
