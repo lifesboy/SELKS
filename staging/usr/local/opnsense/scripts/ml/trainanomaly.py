@@ -139,6 +139,8 @@ if __name__ == "__main__":
         "env": args.env,
         "env_config": {
             "episode_len": args.stop_episode_len,
+            "max_episode_steps": args.stop_episode_len,
+            "num_samples": 10,
             "batch_size": args.batch_size,
             "data_source_sampling_dir": data_source_sampling_dir,
         },

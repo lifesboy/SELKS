@@ -20,7 +20,6 @@ class AnomalyMinibatchEnv(gym.Env):
 
     def __init__(self, dataset: Dataset, context_data: dict, config: dict = None):
         config = config or {}
-        self.spec: AnomalySpec = AnomalySpec(config)
 
         self.blocks_per_window: int = 1
         self.batch_size: int = config.get("batch_size", 1000)
@@ -35,6 +34,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._run, self._client = common.init_experiment(name='anomaly-minibatch-env', run_name='env-tuning-%s' % time.time(),
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
+        self.spec: AnomalySpec = AnomalySpec(self._run.info.run_id, config)
 
         self.dataset: Dataset = dataset
         self.dataset_size: int = context_data.get("dataset_size")
