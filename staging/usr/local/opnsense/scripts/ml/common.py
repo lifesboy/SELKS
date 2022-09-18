@@ -113,6 +113,10 @@ def get_train_id():
     return datetime.now().strftime("%Y%m%dT%H%M%S")
 
 
+def get_training_name():
+    return datetime.now().strftime("%Y%m")  # learn 1 experiment per month
+
+
 def get_data_featured_extracted_files_by_pattern(pattern: str):
     return glob.glob(DATA_FEATURED_EXTRACTED_DIR + pattern)
 

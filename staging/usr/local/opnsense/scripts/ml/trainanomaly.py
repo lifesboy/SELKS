@@ -205,7 +205,7 @@ def main(args, sampling_id):
 
     try:
         results = tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
-                           name=sampling_id,
+                           name=common.get_training_name(),
                            checkpoint_at_end=True,
                            callbacks=[MLflowLoggerCallback(
                                tracking_uri=common.MLFLOW_TRACKING_URI,
