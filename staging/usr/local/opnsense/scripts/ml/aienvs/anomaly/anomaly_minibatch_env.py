@@ -34,7 +34,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._run, self._client = common.init_experiment(name='anomaly-minibatch-env', run_name='env-tuning-%s' % time.time(),
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
-        self.spec: AnomalySpec = AnomalySpec(self._run.info.run_id, config)
+        self.spec: AnomalySpec = AnomalySpec(self._run.info.run_id, context_data)
 
         self.dataset: Dataset = dataset
         self.dataset_size: int = context_data.get("dataset_size")

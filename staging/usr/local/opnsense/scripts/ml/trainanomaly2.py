@@ -105,9 +105,8 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly2.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train2-cic2018 --env=AnomalyRandomEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly2.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train2-cic2018 --env=AnomalyMinibatchEnv
 
-if __name__ == "__main__":
-    args = parser.parse_args()
-    tag = args.tag
+
+def main(args, sampling_id):
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers
@@ -119,27 +118,19 @@ if __name__ == "__main__":
         output=destination_dir,
         tag='train',
         batch_size=1)
-    sampling_id = '%s-%s' % (tag, time.time())
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
     data_source_sampling_dir = '%s%s/' % (common.DATA_SAMPLING_DIR, sampling_id)
     utils.create_sampling(data_source_sampling_dir, data_source_files)
 
-    mlflow.autolog(log_models=True, exclusive=True)
-    # mlflow.tensorflow.autolog()
-    # mlflow.keras.autolog()
-    run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
-
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
-    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
+    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
         "env": args.env,
-        "env_config": {
+        "env_config": {  # mlflow cannot log too long param, saving to "context_data" instead
             "episode_len": args.stop_episode_len,
-            "max_episode_steps": args.stop_episode_len,
-            "num_samples": 10,
             "batch_size": args.batch_size,
             "data_source_sampling_dir": data_source_sampling_dir,
         },
@@ -171,14 +162,12 @@ if __name__ == "__main__":
 
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
-    client.log_param(run_id=run.info.run_id, key='config', value=config)
-
+    client.log_param(run_id=run.info.run_id, key='config', value=config)  # assert mlflow auto-log param too long error
 
     def skip_invalid_row(row):
         global invalid_rows, data_source_sampling_dir
         invalid_rows += [{'source': data_source_sampling_dir, 'row': row}]
         return 'skip'
-
 
     dataset_parallelism = max(int(0.5 * num_cpus), 1)  # using 50% CPU for dataset operations
     schema = CicFlowmeterNormModel.get_input_schema()
@@ -193,8 +182,12 @@ if __name__ == "__main__":
 
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas()
-    context_data: dict = {'anomaly_total': count_df.loc[count_df[LABEL] == 0].sum()['count()'],
-                          'dataset_size': count_df.sum()['count()']}
+    context_data: dict = {
+        'max_episode_steps': args.stop_episode_len,
+        'num_samples': 10,
+        'anomaly_total': count_df.loc[count_df[LABEL] == 0].sum()['count()'],
+        'dataset_size': count_df.sum()['count()'],
+    }
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
@@ -243,5 +236,22 @@ if __name__ == "__main__":
         client.set_terminated(run_id=run.info.run_id)
     except Exception as e:
         log.error('tune run error: %s', e)
+        client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='tune_error.txt')
+        client.set_terminated(run_id=run.info.run_id, status='FAILED')
+
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    sampling_id = '%s-%s' % (args.tag, time.time())
+
+    mlflow.autolog(log_models=True, exclusive=True)
+    # mlflow.tensorflow.autolog()
+    # mlflow.keras.autolog()
+    run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
+
+    try:
+        main(args, sampling_id)
+    except Exception as e:
+        log.error('train run error: %s', e)
         client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='train_error.txt')
         client.set_terminated(run_id=run.info.run_id, status='FAILED')
