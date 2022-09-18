@@ -209,13 +209,13 @@ def main(args, sampling_id):
     try:
         results = tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
                            name=training_name,
-                           trial_name_creator=lambda _: training_name,
                            keep_checkpoints_num=20,
                            checkpoint_freq=100,
                            checkpoint_at_end=True,
                            callbacks=[MLflowLoggerCallback(
                                tracking_uri=common.MLFLOW_TRACKING_URI,
                                tags={
+                                   'training_name': training_name,
                                    common.TAG_PARENT_RUN_UUID: run.info.run_id,
                                    common.TAG_RUN_TAG: args.tag,
                                },
