@@ -98,7 +98,7 @@ abstract class Rule
      */
     protected function parseBool($value, $valueTrue, $valueFalse = "")
     {
-        if (!empty($value)) {
+        if (!empty($value) && boolval($value)) {
             return !empty($valueTrue) ? $valueTrue . " " : "";
         } else {
             return !empty($valueFalse) ? $valueFalse . " " : "";
