@@ -195,7 +195,7 @@ if __name__ == "__main__":
     context_data: dict = {'anomaly_total': count_df.loc[count_df[LABEL] == 0].sum()['count()'],
                           'dataset_size': count_df.sum()['count()']}
 
-    register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, c))
+    register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
     register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, context_data, c))

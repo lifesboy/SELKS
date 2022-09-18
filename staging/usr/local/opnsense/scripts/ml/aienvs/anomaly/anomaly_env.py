@@ -5,7 +5,9 @@ import numpy as np
 from mlflow.entities import Metric
 
 import common
+from aienvs.anomaly_spec import AnomalySpec
 from lib.logger import log
+from pandas import DataFrame
 
 from typing import Iterator
 # @ray.remote
@@ -16,8 +18,9 @@ from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKT
 class AnomalyEnv(gym.Env):
     """Env in which the observation at timestep minus n must be repeated."""
 
-    def __init__(self, dataset: Dataset, config: dict = None):
+    def __init__(self, dataset: Dataset, context_data: dict, config: dict = None):
         config = config or {}
+        self.spec: AnomalySpec = AnomalySpec(config)
 
         self.blocks_per_window: int = 1
         self.batch_size: int = 1
@@ -33,7 +36,8 @@ class AnomalyEnv(gym.Env):
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
 
         self.dataset: Dataset = dataset
-        self.anomaly_total: float = 0  # self.dataset.sum(LABEL)
+        self.dataset_size: int = context_data.get("dataset_size")
+        self.anomaly_total: float = context_data.get("anomaly_total")
         self.iter: Iterator[BatchType] = None
 
         self.observation_space: Box = Box(low=0., high=1., shape=(6,), dtype=np.float64)
@@ -42,6 +46,7 @@ class AnomalyEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='blocks_per_window', value=self.blocks_per_window)
         self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
         self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)
+        self._client.log_param(run_id=self._run.info.run_id, key='dataset_size', value=self.dataset_size)
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
 
     def reset(self):
