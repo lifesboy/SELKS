@@ -5,6 +5,7 @@ import numpy as np
 from mlflow.entities import Metric
 
 import common
+from aienvs.anomaly_spec import AnomalySpec
 from lib.logger import log
 from pandas import DataFrame
 
@@ -19,6 +20,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
     def __init__(self, dataset: Dataset, context_data: dict, config: dict = None):
         config = config or {}
+        self.spec: AnomalySpec = AnomalySpec(config)
 
         self.blocks_per_window: int = 1
         self.batch_size: int = config.get("batch_size", 1000)
