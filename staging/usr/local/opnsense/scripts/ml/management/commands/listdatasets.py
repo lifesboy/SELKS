@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--clean-cache', type=bool, default=False, help='clean old cache and recreate all')
-        parser.add_argument('--parallelism', type=int, default=False, help='parallelism workers to processing')
+        parser.add_argument('--parallelism', type=int, default=None, help='parallelism workers to processing')
 
     def handle(self, *args, **options):
         clean_cache = options['clean_cache']
