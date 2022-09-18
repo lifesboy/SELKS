@@ -710,101 +710,6 @@
         <dotservers/>
       </miscellaneous>
     </unboundplus>
-    <cron version="1.0.1">
-      <jobs>
-        <job uuid="59cc6eb9-d535-4057-8131-6bf315d5982d">
-          <origin>IDS</origin>
-          <enabled>0</enabled>
-          <minutes>0</minutes>
-          <hours>0</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>ids update</command>
-          <parameters/>
-          <description>ids rule updates</description>
-        </job>
-        <job uuid="92c14099-7e2a-44e5-bdd1-7fcd0f22172b">
-          <origin>SIDS</origin>
-          <enabled>0</enabled>
-          <minutes>0</minutes>
-          <hours>0</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>sids update</command>
-          <parameters/>
-          <description>sids rule updates</description>
-        </job>
-        <job uuid="1866cc3f-86c7-4c69-9e81-ef6764f7b278">
-          <origin>AnomalyDataProcessor</origin>
-          <enabled>1</enabled>
-          <minutes>0</minutes>
-          <hours>0</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>anomaly dataprocessor start</command>
-          <parameters>nsm 500 10 0.4 0.1 nsm/*.csv auto-processing</parameters>
-          <description>anomaly data processor updates</description>
-        </job>
-        <job uuid="0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f">
-          <origin>AnomalyDataProcessor</origin>
-          <enabled>1</enabled>
-          <minutes>0</minutes>
-          <hours>1</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>anomaly dataprocessorcic start</command>
-          <parameters>cic2018 10000 1 0.4 0.1 cic2018/*.csv auto-processing-cic2018</parameters>
-          <description>anomaly label data processor cic updates</description>
-        </job>
-        <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
-          <origin>Anomaly</origin>
-          <enabled>1</enabled>
-          <minutes>0</minutes>
-          <hours>2</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>anomaly start</command>
-          <parameters>1000 1000 1000 100 cic2018/*.csv auto-train</parameters>
-          <description>anomaly training updates</description>
-        </job>
-        <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
-          <origin>AnomalyTesting</origin>
-          <enabled>1</enabled>
-          <minutes>0</minutes>
-          <hours>4</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>anomaly testing start</command>
-          <parameters>http://selks.ddns.net:6789/anomaly nsm/*.csv</parameters>
-          <description>anomaly testing updates</description>
-        </job>
-        <job uuid="5dae6f51-476f-4fb6-a8df-401e4f320082">
-          <origin>cron</origin>
-          <enabled>1</enabled>
-          <minutes>0</minutes>
-          <hours>*</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>anomaly list datasets</command>
-          <parameters/>
-          <description>request datasets updates</description>
-        </job>
-      </jobs>
-    </cron>
     <IDS version="1.0.5">
       <rules/>
       <userDefinedRules/>
@@ -1009,6 +914,114 @@
         <template/>
       </error_pages>
     </proxy>
+    <Netflow version="1.0.1">
+      <capture>
+        <interfaces/>
+        <egress_only/>
+        <version>v9</version>
+        <targets/>
+      </capture>
+      <collect>
+        <enable>0</enable>
+      </collect>
+      <activeTimeout>1800</activeTimeout>
+      <inactiveTimeout>15</inactiveTimeout>
+    </Netflow>
+    <cron version="1.0.1">
+      <jobs>
+        <job uuid="59cc6eb9-d535-4057-8131-6bf315d5982d">
+          <origin>IDS</origin>
+          <enabled>0</enabled>
+          <minutes>0</minutes>
+          <hours>0</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>ids update</command>
+          <parameters/>
+          <description>ids rule updates</description>
+        </job>
+        <job uuid="92c14099-7e2a-44e5-bdd1-7fcd0f22172b">
+          <origin>SIDS</origin>
+          <enabled>0</enabled>
+          <minutes>0</minutes>
+          <hours>0</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>sids update</command>
+          <parameters/>
+          <description>sids rule updates</description>
+        </job>
+        <job uuid="1866cc3f-86c7-4c69-9e81-ef6764f7b278">
+          <origin>AnomalyDataProcessor</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>0</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly dataprocessor start</command>
+          <parameters>nsm 500 10 0.4 0.1 nsm/*.csv auto-processing</parameters>
+          <description>anomaly data processor updates</description>
+        </job>
+        <job uuid="0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f">
+          <origin>AnomalyDataProcessor</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>1</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly dataprocessorcic start</command>
+          <parameters>cic2018 10000 1 0.4 0.1 cic2018/*.csv auto-processing-cic2018</parameters>
+          <description>anomaly label data processor cic updates</description>
+        </job>
+        <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
+          <origin>Anomaly</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>2</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly start</command>
+          <parameters>10000 10000 10000 10000 cic2018/*.csv auto-train</parameters>
+          <description>anomaly training updates</description>
+        </job>
+        <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
+          <origin>AnomalyTesting</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>4</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly testing start</command>
+          <parameters>http://selks.ddns.net:6789/anomaly nsm/*.csv</parameters>
+          <description>anomaly testing updates</description>
+        </job>
+        <job uuid="5dae6f51-476f-4fb6-a8df-401e4f320082">
+          <origin>cron</origin>
+          <enabled>1</enabled>
+          <minutes>0</minutes>
+          <hours>*</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly list datasets</command>
+          <parameters/>
+          <description>request datasets updates</description>
+        </job>
+      </jobs>
+    </cron>
   </OPNsense>
   <ca>
     <refid>600ee8bc64a2b</refid>
