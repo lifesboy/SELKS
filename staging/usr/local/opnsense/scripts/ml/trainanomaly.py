@@ -109,6 +109,8 @@ parser.add_argument(
 
 
 def main(args, sampling_id):
+    model = 'anomaly'
+    training_name = common.get_training_name(args.run, model, args.env)
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers
@@ -127,6 +129,7 @@ def main(args, sampling_id):
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
+    client.set_tag(run_id=run.info.run_id, key='training_name', value=training_name)
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
@@ -147,7 +150,7 @@ def main(args, sampling_id):
         "vf_loss_coeff": 1e-5,
         "vf_clip_param": 1000.0,
         "model": {
-            "custom_model": "anomaly",
+            "custom_model": model,
             "max_seq_len": 20,
             "custom_model_config": {
                 "cell_size": 32,
@@ -205,7 +208,7 @@ def main(args, sampling_id):
 
     try:
         results = tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
-                           name=common.get_training_name(),
+                           name=training_name,
                            checkpoint_at_end=True,
                            callbacks=[MLflowLoggerCallback(
                                tracking_uri=common.MLFLOW_TRACKING_URI,
