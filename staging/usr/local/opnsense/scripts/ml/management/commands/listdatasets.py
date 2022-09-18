@@ -25,11 +25,11 @@ class Command(BaseCommand):
         self.rc = DatasetCache()
 
     def add_arguments(self, parser):
-        parser.add_argument('--clean-cache', type=bool, default=False, help='clean old cache and recreate all')
+        parser.add_argument('--clean-cache', type=int, default=0, help='clean old cache and recreate all')
         parser.add_argument('--parallelism', type=int, default=None, help='parallelism workers to processing')
 
     def handle(self, *args, **options):
-        clean_cache = options['clean_cache']
+        clean_cache = options['clean_cache'] != 0
         parallelism = options['parallelism']
 
         if self.rc.is_changed() or clean_cache:

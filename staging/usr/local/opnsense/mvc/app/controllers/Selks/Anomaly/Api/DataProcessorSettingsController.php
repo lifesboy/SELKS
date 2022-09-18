@@ -158,7 +158,7 @@ class DataProcessorSettingsController extends ApiMutableModelControllerBase
 
             // request list of installed rules
             $backend = new Backend();
-            $response = $backend->configdpRun("anomaly list datasets", array($cleanCache == 0 ? 'False' : 'True'));
+            $response = $backend->configdpRun("anomaly list datasets", array($cleanCache));
 
             $data = json_decode($response, true);
 
