@@ -355,28 +355,28 @@ function filter_core_rules_system($fw, $defaults)
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'direction' => 'in', 'interface' => 'loopback',
-            'log' => true, 'log_prefix' => 'nft_ipv4_output_accept_loopback___',
+            'log' => false, 'log_prefix' => 'nft_ipv4_output_accept_loopback___',
             'descr' => 'Allow all internal services on this firewall'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'direction' => 'out', 'ointerface' => 'loopback',
-            'log' => true, 'log_prefix' => 'nft_ipv4_output_accept_loopback___',
+            'log' => false, 'log_prefix' => 'nft_ipv4_output_accept_loopback___',
             'descr' => 'Allow all internal services on this firewall'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'direction' => 'in', 'interface' => 'loopback',
-            'log' => true, 'log_prefix' => 'nft_ipv6_input_accept_loopback___',
+            'log' => false, 'log_prefix' => 'nft_ipv6_input_accept_loopback___',
             'descr' => 'Allow all internal services on this firewall'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'direction' => 'out', 'ointerface' => 'loopback',
-            'log' => true, 'log_prefix' => 'nft_ipv6_output_accept_loopback___',
+            'log' => false, 'log_prefix' => 'nft_ipv6_output_accept_loopback___',
             'descr' => 'Allow all internal services on this firewall'),
         $defaults['pass']
     );
@@ -595,13 +595,13 @@ function filter_core_rules_system($fw, $defaults)
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet', 'protocol' => 'udp', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'out','to_port' => '53', 'log' => true, 'log_prefix' => 'nft_ipv4_output_accept_dns_udp___'),
+            'direction' => 'out','to_port' => '53', 'log' => false, 'log_prefix' => 'nft_ipv4_output_accept_dns_udp___'),
         $defaults['pass']
     );
     $fw->registerFilterRule(
         1,
         array('ipprotocol' => 'inet6', 'protocol' => 'udp', 'descr' => 'Allow internet domain lookup',
-            'direction' => 'out','to_port' => '53', 'log' => true, 'log_prefix' => 'nft_ipv6_output_accept_dns_udp___'),
+            'direction' => 'out','to_port' => '53', 'log' => false, 'log_prefix' => 'nft_ipv6_output_accept_dns_udp___'),
         $defaults['pass']
     );
 //    $fw->registerFilterRule(
