@@ -94,6 +94,7 @@ class DatasetCache(object):
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
+        self.parallelism = common.TOTAL_CPUS_CACHING_DATASET_OPERATION
         self.cachefile = '%sdatasets.cache' % dataset_source_directory
         self._dataset_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
 
@@ -153,12 +154,12 @@ class DatasetCache(object):
             convert_options = csv.ConvertOptions(column_types=schema)
             dt = ray.data.read_datasource(
                 CicCSVDatasource(),
-                parallelism=common.TOTAL_CPUS_CACHING_DATASET_OPERATION,
+                parallelism=self.parallelism,
                 paths=[filename],
                 meta_provider=FastFileMetadataProvider(),
                 parse_options=parse_options,
                 convert_options=convert_options)\
-                .repartition(num_blocks=common.TOTAL_CPUS_CACHING_DATASET_OPERATION)
+                .repartition(num_blocks=self.parallelism)
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
@@ -318,7 +319,7 @@ class DatasetCache(object):
             pass
         return None
 
-    def create(self, clean_cache: bool = False):
+    def create(self, clean_cache: bool = False, parallelism: int = None):
         """ create new cache
         :return: None
         """
@@ -333,6 +334,9 @@ class DatasetCache(object):
         #     fcntl.flock(lock, fcntl.LOCK_EX)
         #     fcntl.flock(lock, fcntl.LOCK_UN)
         #     return
+
+        if parallelism is not None:
+            self.parallelism = parallelism
 
         if clean_cache:
             # remove existing data

@@ -26,13 +26,15 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--clean-cache', type=bool, default=False, help='clean old cache and recreate all')
+        parser.add_argument('--parallelism', type=bool, default=False, help='parallelism workers to processing')
 
     def handle(self, *args, **options):
         clean_cache = options['clean_cache']
+        parallelism = options['parallelism']
 
         if self.rc.is_changed() or clean_cache:
             kill_exists_processing()
-            self.rc.create(clean_cache)
+            self.rc.create(clean_cache, parallelism)
 
         # collect all installable rules indexed by (target) filename
         # (filenames should be unique)
