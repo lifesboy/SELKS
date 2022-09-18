@@ -29,6 +29,8 @@
 """
 import sys
 
+from ray.data.aggregate import Count
+
 sys.path.insert(0, "/usr/local/opnsense/scripts/ml")
 
 import fcntl
@@ -192,12 +194,14 @@ class DatasetCache(object):
 
                 if label_column:
                     record['metadata']['label_column'] = label_column
-                    # features_float64 = [f.name for f in features_types if str(f.type) == 'double']
-                    output_signature = (tf.TensorSpec(shape=(None), dtype=tf.string))
-                    tfd = dt.to_tf(batch_size=1000000, feature_columns=[label_column], output_signature=output_signature)
-                    labels = list(tfd.flat_map(tf.data.Dataset.from_tensor_slices)
-                                  .flat_map(tf.data.Dataset.from_tensor_slices)
-                                  .unique().as_numpy_iterator())
+                    # # features_float64 = [f.name for f in features_types if str(f.type) == 'double']
+                    # output_signature = (tf.TensorSpec(shape=(None), dtype=tf.string))
+                    # tfd = dt.to_tf(batch_size=1000000, feature_columns=[label_column], output_signature=output_signature)
+                    # labels = list(tfd.flat_map(tf.data.Dataset.from_tensor_slices)
+                    #               .flat_map(tf.data.Dataset.from_tensor_slices)
+                    #               .unique().as_numpy_iterator())
+                    label_df = dt.groupby(label_column).aggregate(Count()).to_pandas()
+                    labels = label_df[label_column].to_list()
 
                     record['metadata']['labels'] = b','.join(labels).decode('utf-8')
                     record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
@@ -205,6 +209,8 @@ class DatasetCache(object):
                     record['metadata']['label'] = True
                     for f in labels:
                         record['metadata'][f"label/{f.lower().strip().replace(b' ', b'_').decode('utf-8')}"] = True
+                        record['metadata'][f"label/{f.lower().strip().replace(b' ', b'_').decode('utf-8')}/count"] =\
+                            label_df[label_df[label_column] == f].sum()[0]
 
                 for f in features:
                     f_name = f.replace(' ', '_').lower()
