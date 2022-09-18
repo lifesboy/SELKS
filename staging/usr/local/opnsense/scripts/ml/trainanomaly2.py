@@ -6,15 +6,22 @@ import traceback
 
 import mlflow
 import pandas as pd
+import ray
 from pandas import DataFrame
+from pyarrow import csv
 
 from ray import tune
+from ray.data import Dataset
+from ray.data.aggregate import Count
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 from ray.tune.utils.log import Verbosity
 
 import common
 import lib.utils as utils
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
+from anomaly_normalization import LABEL
+from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
 from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
@@ -27,6 +34,7 @@ from ray.rllib.utils.test_utils import check_learning_achieved
 from ray.rllib.utils.framework import try_import_tf
 
 tf1, tf, tfv = try_import_tf()
+invalid_rows = []
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -69,12 +77,12 @@ parser.add_argument(
 parser.add_argument(
     "--num-gpus",
     type=float,
-    default=4,
+    default=2,
     help="Number of GPUs to use.")
 parser.add_argument(
     "--num-cpus",
     type=float,
-    default=0,
+    default=20,
     help="Number of CPUs to use.")
 parser.add_argument(
     "--num-workers",
@@ -123,18 +131,7 @@ if __name__ == "__main__":
     run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
-    # client.log_param(run_id=run.info.run_id, key='data_source_files', value=data_source_files)
-    # client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
-
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
-
-    ModelCatalog.register_custom_model("rnn", RNNModel)
-    ModelCatalog.register_custom_model("anomaly", AnomalyModel)
-
-    register_env("AnomalyEnv", lambda c: AnomalyEnv(c))
-    register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
-    register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
-    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(c))
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
@@ -172,9 +169,42 @@ if __name__ == "__main__":
 
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
-
     client.log_param(run_id=run.info.run_id, key='config', value=config)
+
+
+    def skip_invalid_row(row):
+        global invalid_rows, data_source_sampling_dir
+        invalid_rows += [{'source': data_source_sampling_dir, 'row': row}]
+        return 'skip'
+
+
+    dataset_parallelism = max(int(0.5 * num_cpus), 1)  # using 50% CPU for dataset operations
+    schema = CicFlowmeterNormModel.get_input_schema()
+    convert_options = csv.ConvertOptions(column_types=schema)
+    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
+    dataset: Dataset = ray.data.read_datasource(
+        CicCSVDatasource(),
+        parallelism=dataset_parallelism,  # using 50% CPU for dataset operations
+        paths=[data_source_sampling_dir],
+        parse_options=parse_options,
+        convert_options=convert_options)
+
+    dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
+    count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas()
+    context_data: dict = {'anomaly_total': count_df.loc[count_df[LABEL] == 0].sum()['count()'],
+                          'dataset_size': count_df.sum()['count()']}
+
+    register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
+    register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
+    register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
+    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, context_data, c))
+
+    ModelCatalog.register_custom_model("rnn", RNNModel)
+    ModelCatalog.register_custom_model("anomaly", AnomalyModel)
+
+    client.log_param(run_id=run.info.run_id, key='context_data', value=context_data)
     client.log_param(run_id=run.info.run_id, key='stop', value=stop)
+    client.log_text(run_id=run.info.run_id, text=dataset.stats(), artifact_file='dataset_stats.txt')
 
     # To run the Trainer without tune.run, using our RNN model and
     # manual state-in handling, do the following:
