@@ -94,7 +94,6 @@ class DatasetCache(object):
 
     def __init__(self):
         # suricata rule settings, source directory and cache json file to use
-        self.clean_cache: bool = False
         self.cachefile = '%sdatasets.cache' % dataset_source_directory
         self._dataset_fields = ['sid', 'msg', 'rev', 'gid', 'source', 'enabled', 'reference', 'action']
 
@@ -152,15 +151,14 @@ class DatasetCache(object):
             #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
             parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
             convert_options = csv.ConvertOptions(column_types=schema)
-            parallelism = common.TOTAL_CPUS if self.clean_cache else common.TOTAL_CPUS_CACHING_DATASET_OPERATION
             dt = ray.data.read_datasource(
                 CicCSVDatasource(),
-                parallelism=parallelism,
+                parallelism=common.TOTAL_CPUS_CACHING_DATASET_OPERATION,
                 paths=[filename],
                 meta_provider=FastFileMetadataProvider(),
                 parse_options=parse_options,
                 convert_options=convert_options)\
-                .repartition(num_blocks=parallelism)
+                .repartition(num_blocks=common.TOTAL_CPUS_CACHING_DATASET_OPERATION)
             # md5_sum = md5(open(filename, 'rb').read()).hexdigest()
             filename_md5_sum = md5(filename.encode('utf-8')).hexdigest()
             count = dt.count()
@@ -336,7 +334,6 @@ class DatasetCache(object):
         #     fcntl.flock(lock, fcntl.LOCK_UN)
         #     return
 
-        self.clean_cache = clean_cache
         if clean_cache:
             # remove existing data
             os.system(f'rm -rf "{self.cachefile}"')
