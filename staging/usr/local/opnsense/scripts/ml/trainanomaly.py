@@ -236,7 +236,7 @@ def main(args, sampling_id):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    sampling_id = '%s-%s' % (args.tag, time.time())
+    sampling_id = '%s-%s' % (args.tag, common.get_week())  # learning 1 sample per week
 
     mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
     # mlflow.tensorflow.autolog()

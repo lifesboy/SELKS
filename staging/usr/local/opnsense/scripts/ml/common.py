@@ -109,12 +109,20 @@ def init_experiment(name: str, run_name: Optional[str] = None,
     return init_tracking(exp, run_name)
 
 
+def get_week():
+    return datetime.now().strftime("%YW%V")
+
+
+def get_month():
+    return datetime.now().strftime("%Y%m")
+
+
 def get_train_id():
     return datetime.now().strftime("%Y%m%dT%H%M%S")
 
 
 def get_training_name(run: str, model: str, env: str):
-    return f"{run}_{model}_{env}_{datetime.now().strftime('%Y%m')}"  # learn 1 experiment per month
+    return f"{run}_{model}_{env}_{get_month()}"  # learn 1 experiment per month
 
 
 def get_data_featured_extracted_files_by_pattern(pattern: str):
