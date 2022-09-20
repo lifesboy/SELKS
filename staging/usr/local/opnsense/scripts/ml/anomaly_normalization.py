@@ -277,5 +277,5 @@ def norm_ip(ip: str) -> int:
 
 @tf_function(tf)
 def norm_label(v: str) -> int:
-    return 0 if (v == '') or (v == LABEL_VALUE_BENIGN) else 1
+    return 0 if tf.math.equal(v, '') or tf.math.equal(v, LABEL_VALUE_BENIGN) else 1
 
