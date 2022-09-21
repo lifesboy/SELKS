@@ -108,7 +108,7 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyEnv
 
 
-def main(args, course: str, lesson):
+def main(args, course: str, unit: str, lesson):
     model = 'anomaly'
     training_name = common.get_training_name(args.run, model, args.env)
     num_gpus = args.num_gpus
@@ -116,7 +116,7 @@ def main(args, course: str, lesson):
     num_workers = args.num_workers
     data_source = args.data_source
     input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
-    destination_dir = f"{common.DATA_TRAINED_DIR}{course}/{lesson}/"
+    destination_dir = f"{common.DATA_TRAINED_DIR}{course}/{unit}/"
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
@@ -124,7 +124,7 @@ def main(args, course: str, lesson):
         batch_size=1)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
-    data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{course}/{lesson}/"
+    data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{course}/{unit}/"
     utils.create_sampling(data_source_sampling_dir, data_source_files)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
@@ -247,7 +247,7 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key=common.TAG_TRAIN_UNIT, value=training_unit)
 
     try:
-        main(args, training_course, training_lesson)
+        main(args, training_course, training_unit, training_lesson)
     except Exception as e:
         log.error('train run error: %s', e)
         client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='train_error.txt')
