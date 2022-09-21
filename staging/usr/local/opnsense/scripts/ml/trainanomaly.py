@@ -116,7 +116,7 @@ def main(args, training_course: str, sampling_id):
     num_workers = args.num_workers
     data_source = args.data_source
     input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
-    destination_dir = common.DATA_TRAINED_DIR
+    destination_dir = f"{common.DATA_TRAINED_DIR}{training_course}/{sampling_id}"
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
