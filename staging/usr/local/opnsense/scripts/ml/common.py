@@ -57,6 +57,7 @@ TAG_PARENT_RUN_UUID = 'run.parent.uuid'
 TAG_RUN_TYPE = 'run.type'
 TAG_RUN_STATUS = 'run.status'
 TAG_RUN_TAG = 'run.tag'
+TAG_TRAIN_UNIT = 'unit'
 
 TAG_DEPLOYMENT_STATUS = 'deployment.status'
 
@@ -124,6 +125,10 @@ def get_course():
     start = year - year % TRAINING_COURSE_LENGTH
     end = start + TRAINING_COURSE_LENGTH
     return f"course-{start}-{end}"
+
+
+def get_course_unit():
+    return f"unit-{get_week()}"  # training 1 unit per week
 
 
 def get_training_name(run: str, model: str, env: str):

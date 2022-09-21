@@ -237,15 +237,17 @@ def main(args, training_course: str, sampling_id):
 if __name__ == "__main__":
     args = parser.parse_args()
     training_course = f"anomaly-{common.get_course()}"
-    sampling_id = '%s-%s' % (args.tag, common.get_week())  # learning 1 sample per week
+    training_unit = f"anomaly-{common.get_course_unit()}"
+    training_lesson = '%s-%s' % (args.tag, common.get_week())  # learning 1 sample per week
 
     mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
     # mlflow.tensorflow.autolog()
     # mlflow.keras.autolog()
-    run, client = common.init_experiment(name=training_course, run_name=sampling_id)
+    run, client = common.init_experiment(name=training_course, run_name=training_lesson)
+    client.log_param(run_id=run.info.run_id, key=common.TAG_TRAIN_UNIT, value=training_unit)
 
     try:
-        main(args, training_course, sampling_id)
+        main(args, training_course, training_lesson)
     except Exception as e:
         log.error('train run error: %s', e)
         client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='train_error.txt')
