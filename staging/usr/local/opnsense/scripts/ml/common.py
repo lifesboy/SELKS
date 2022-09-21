@@ -74,6 +74,8 @@ TOTAL_CPUS_PREPROCESSING_DATASET_OPERATION: int = 10
 
 TOTAL_GPUS = 4
 
+TRAINING_COURSE_LENGTH = 12  # 12 years per course, to archive same grade of best trained hackers
+
 def init_node():
     if not utils.is_ray_gpu_ready():
         utils.restart_ray_service()
@@ -117,8 +119,11 @@ def get_month():
     return datetime.now().strftime("%Y%m")
 
 
-def get_train_id():
-    return datetime.now().strftime("%Y%m%dT%H%M%S")
+def get_course():
+    year = datetime.now().year
+    start = year - year % TRAINING_COURSE_LENGTH
+    end = start + TRAINING_COURSE_LENGTH
+    return f"course-{start}-{end}"
 
 
 def get_training_name(run: str, model: str, env: str):

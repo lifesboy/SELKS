@@ -65,7 +65,7 @@ parser.add_argument(
 parser.add_argument(
     "--data-destination",
     type=str,
-    default='processed_data_' + common.get_train_id(),
+    default='processed_data_' + common.get_course(),
     help="Number of CPUs to use.")
 
 

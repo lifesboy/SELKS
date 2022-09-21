@@ -108,7 +108,7 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyEnv
 
 
-def main(args, sampling_id):
+def main(args, training_course: str, sampling_id):
     model = 'anomaly'
     training_name = common.get_training_name(args.run, model, args.env)
     num_gpus = args.num_gpus
@@ -124,7 +124,7 @@ def main(args, sampling_id):
         batch_size=1)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
-    data_source_sampling_dir = '%s%s/' % (common.DATA_SAMPLING_DIR, sampling_id)
+    data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{training_course}/{sampling_id}"
     utils.create_sampling(data_source_sampling_dir, data_source_files)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
@@ -236,15 +236,16 @@ def main(args, sampling_id):
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    training_course = f"anomaly-{common.get_course()}"
     sampling_id = '%s-%s' % (args.tag, common.get_week())  # learning 1 sample per week
 
     mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
     # mlflow.tensorflow.autolog()
     # mlflow.keras.autolog()
-    run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
+    run, client = common.init_experiment(name=training_course, run_name=sampling_id)
 
     try:
-        main(args, sampling_id)
+        main(args, training_course, sampling_id)
     except Exception as e:
         log.error('train run error: %s', e)
         client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='train_error.txt')
