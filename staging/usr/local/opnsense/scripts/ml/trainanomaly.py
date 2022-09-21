@@ -108,7 +108,7 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyEnv
 
 
-def main(args, training_course: str, sampling_id):
+def main(args, course: str, lesson):
     model = 'anomaly'
     training_name = common.get_training_name(args.run, model, args.env)
     num_gpus = args.num_gpus
@@ -116,7 +116,7 @@ def main(args, training_course: str, sampling_id):
     num_workers = args.num_workers
     data_source = args.data_source
     input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
-    destination_dir = f"{common.DATA_TRAINED_DIR}{training_course}/{sampling_id}"
+    destination_dir = f"{common.DATA_TRAINED_DIR}{course}/{lesson}/"
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
@@ -124,7 +124,7 @@ def main(args, training_course: str, sampling_id):
         batch_size=1)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
-    data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{training_course}/{sampling_id}"
+    data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{course}/{lesson}/"
     utils.create_sampling(data_source_sampling_dir, data_source_files)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
@@ -237,8 +237,8 @@ def main(args, training_course: str, sampling_id):
 if __name__ == "__main__":
     args = parser.parse_args()
     training_course = f"anomaly-{common.get_course()}"
-    training_unit = f"anomaly-{common.get_course_unit()}"
-    training_lesson = '%s-%s' % (args.tag, common.get_week())  # learning 1 sample per week
+    training_unit = f"{common.get_course_unit()}"
+    training_lesson = '%s-%s' % (args.tag, common.get_second())  # learning 1 sample per week
 
     mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
     # mlflow.tensorflow.autolog()

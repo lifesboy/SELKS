@@ -112,6 +112,10 @@ def init_experiment(name: str, run_name: Optional[str] = None,
     return init_tracking(exp, run_name)
 
 
+def get_second():
+    return datetime.now().strftime("%Y%m%dT%H%M%S")
+
+
 def get_week():
     return datetime.now().strftime("%YW%V")
 
@@ -128,7 +132,7 @@ def get_course():
 
 
 def get_course_unit():
-    return f"unit-{get_week()}"  # training 1 unit per week
+    return f"{get_week()}"  # training 1 unit per week
 
 
 def get_training_name(run: str, model: str, env: str):
