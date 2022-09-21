@@ -985,7 +985,7 @@
           <origin>Anomaly</origin>
           <enabled>1</enabled>
           <minutes>0</minutes>
-          <hours>*/3</hours>
+          <hours>*/2</hours>
           <days>*</days>
           <months>*</months>
           <weekdays>*</weekdays>
