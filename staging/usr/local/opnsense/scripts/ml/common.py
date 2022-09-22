@@ -75,7 +75,7 @@ TOTAL_CPUS_PREPROCESSING_DATASET_OPERATION: int = 10
 
 TOTAL_GPUS = 4
 
-TRAINING_COURSE_LENGTH = 12  # 12 years per course, to archive same grade of best trained hackers
+TRAINING_COURSE_LENGTH = 4  # 4 years per course, to archive same university grade of best trained hackers
 
 def init_node():
     if not utils.is_ray_gpu_ready():
