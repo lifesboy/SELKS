@@ -211,7 +211,6 @@ def main(args, course: str, unit: str, lesson):
                            name=course,
                            trial_name_creator=lambda _: unit,
                            trial_dirname_creator=lambda _: unit,
-                           log_to_file=True,
                            keep_checkpoints_num=20,
                            checkpoint_freq=100,
                            checkpoint_at_end=True,
