@@ -110,7 +110,7 @@ parser.add_argument(
 
 def main(args, course: str, unit: str, lesson):
     model = 'anomaly'
-    training_name = common.get_training_name(args.run, model, args.env)
+    training_name = common.get_training_name(args.run, model, args.env, unit)
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers

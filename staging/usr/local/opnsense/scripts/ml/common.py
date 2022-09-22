@@ -135,8 +135,8 @@ def get_course_unit():
     return f"{get_week()}"  # training 1 unit per week
 
 
-def get_training_name(run: str, model: str, env: str):
-    return f"{run}_{model}_{env}_{get_month()}"  # learn 1 experiment per month
+def get_training_name(run: str, model: str, env: str, unit: str):
+    return f"{run}_{model}_{env}_{unit}"  # learn by unit
 
 
 def get_data_featured_extracted_files_by_pattern(pattern: str):
