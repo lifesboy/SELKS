@@ -212,6 +212,7 @@ def main(args, course: str, unit: str, lesson):
                            keep_checkpoints_num=20,
                            checkpoint_freq=100,
                            checkpoint_at_end=True,
+                           restore='AUTO',
                            callbacks=[MLflowLoggerCallback(
                                tracking_uri=common.MLFLOW_TRACKING_URI,
                                tags={
