@@ -208,7 +208,8 @@ def main(args, course: str, unit: str, lesson):
 
     try:
         results = tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
-                           name=training_name,
+                           name=course,
+                           trial_name_creator=lambda _: unit,
                            keep_checkpoints_num=20,
                            checkpoint_freq=100,
                            checkpoint_at_end=True,
