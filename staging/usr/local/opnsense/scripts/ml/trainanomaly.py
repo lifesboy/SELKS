@@ -212,7 +212,7 @@ def main(args, course: str, unit: str, lesson):
                            local_dir='/drl/ray_results/',
                            trial_name_creator=lambda _: unit,
                            trial_dirname_creator=lambda _: unit,
-                           log_to_file=['stdout.txt', 'stderr.txt'],
+                           # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
                            keep_checkpoints_num=20,
                            checkpoint_freq=100,
                            checkpoint_at_end=True,
