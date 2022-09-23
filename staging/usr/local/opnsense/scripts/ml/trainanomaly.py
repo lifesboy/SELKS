@@ -221,7 +221,7 @@ def main(args, course: str, unit: str, lesson):
                            trial_dirname_creator=lambda _: unit,
                            # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
                            keep_checkpoints_num=20,
-                           checkpoint_freq=100,
+                           checkpoint_freq=1,
                            checkpoint_at_end=True,
                            resume='AUTO',
                            callbacks=[MLflowLoggerCallback(
