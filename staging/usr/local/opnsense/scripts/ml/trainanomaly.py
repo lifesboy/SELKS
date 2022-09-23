@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 import argparse
+import os
+import signal
 import time
 import traceback
 
@@ -106,6 +108,11 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000 --stop-episode-len=1000 --stop-timesteps=1000 --stop-reward=1000 --tag=manual-train-cic2018 --env=AnomalyRandomEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018 --env=AnomalyMinibatchEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyEnv
+
+
+def kill_exists_processing():
+    for pid in set(utils.get_process_ids(__file__)) - {os.getpid()}:
+        os.kill(pid, signal.SIGTERM)
 
 
 def main(args, course: str, unit: str, lesson):
@@ -245,6 +252,7 @@ if __name__ == "__main__":
     training_unit = f"{common.get_course_unit()}"
     training_lesson = '%s-%s' % (args.tag, common.get_second())  # learning 1 sample per week
 
+    kill_exists_processing()
     mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
     # mlflow.tensorflow.autolog()
     # mlflow.keras.autolog()
