@@ -15,6 +15,7 @@ from pyarrow import csv
 from ray import tune
 from ray.data import Dataset
 from ray.data.aggregate import Count
+from ray.tune.logger import TBXLoggerCallback
 from ray.tune.registry import register_env
 from ray.tune.utils.log import Verbosity
 
@@ -232,7 +233,7 @@ def main(args, course: str, unit: str, lesson):
                                    common.TAG_RUN_TAG: args.tag,
                                },
                                experiment_name="anomaly-model",
-                               save_artifact=True)])
+                               save_artifact=True), TBXLoggerCallback()])
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
 
