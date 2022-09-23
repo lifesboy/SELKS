@@ -185,7 +185,7 @@ def main(args, sampling_id):
     context_data: dict = {
         'max_episode_steps': args.stop_episode_len,
         'num_samples': 10,
-        'anomaly_total': count_df.loc[count_df[LABEL] == 0].sum()['count()'],
+        'anomaly_total': count_df.loc[count_df[LABEL] == 1].sum()['count()'],
         'dataset_size': count_df.sum()['count()'],
     }
 
