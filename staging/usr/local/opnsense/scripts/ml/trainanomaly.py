@@ -15,7 +15,6 @@ from pyarrow import csv
 from ray import tune
 from ray.data import Dataset
 from ray.data.aggregate import Count
-from ray.tune.integration.mlflow import MLflowLoggerCallback
 from ray.tune.registry import register_env
 from ray.tune.utils.log import Verbosity
 
@@ -23,6 +22,7 @@ import common
 import lib.utils as utils
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from anomaly_normalization import LABEL
+from lib.anomalyloggercallback import AnomalyLoggerCallback
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aienvs.anomaly.anomaly_env import AnomalyEnv
@@ -224,7 +224,7 @@ def main(args, course: str, unit: str, lesson):
                            checkpoint_freq=1,
                            checkpoint_at_end=True,
                            resume='AUTO',
-                           callbacks=[MLflowLoggerCallback(
+                           callbacks=[AnomalyLoggerCallback(
                                tracking_uri=common.MLFLOW_TRACKING_URI,
                                tags={
                                    'training_name': training_name,
