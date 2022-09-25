@@ -62,7 +62,7 @@ class AnomalyEnv(gym.Env):
 
         self.metrics += [
             Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step)
+            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step),
             Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=int(time.time() * 1000), step=self.current_step)
         ]
 
@@ -78,7 +78,7 @@ class AnomalyEnv(gym.Env):
             Metric(key='action', value=action, timestamp=int(time.time() * 1000), step=self.current_step),
             Metric(key='reward', value=reward, timestamp=int(time.time() * 1000), step=self.current_step),
             Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step)
+            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step),
             Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=int(time.time() * 1000), step=self.current_step)
         ]
 
