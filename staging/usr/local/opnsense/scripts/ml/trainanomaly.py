@@ -200,6 +200,7 @@ def main(args, course: str, unit: str, lesson):
         'num_samples': 10,
         'anomaly_total': count_df.loc[count_df[LABEL] == 1].sum()['count()'],
         'dataset_size': count_df.sum()['count()'],
+        'dataset_label_count': count_df.to_json(),
     }
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
