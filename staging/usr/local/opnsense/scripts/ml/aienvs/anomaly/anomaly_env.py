@@ -29,6 +29,8 @@ class AnomalyEnv(gym.Env):
         self.reward_total: float = 0
         self.anomaly_detected: float = 0
         self.anomaly_incorrect: float = 0
+        self.clean_detected: float = 0
+        self.clean_incorrect: float = 0
 
         self.metrics: [Metric] = []
         self._run, self._client = common.init_experiment(name='anomaly-env', run_name='env-tuning-%s' % time.time(),
@@ -56,14 +58,19 @@ class AnomalyEnv(gym.Env):
         self.reward_total = 0
         self.anomaly_detected = 0
         self.anomaly_incorrect = 0
+        self.clean_detected = 0
+        self.clean_incorrect = 0
         self.iter = self.dataset.random_shuffle()\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size)
 
+        timestamp = int(time.time() * 1000)
         self.metrics += [
-            Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=int(time.time() * 1000), step=self.current_step)
+            Metric(key='reward_total', value=self.reward_total, timestamp=timestamp, step=self.current_step),
+            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=timestamp, step=self.current_step),
+            Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=timestamp, step=self.current_step),
+            Metric(key='clean_detected', value=self.clean_detected, timestamp=timestamp, step=self.current_step),
+            Metric(key='clean_incorrect', value=self.clean_incorrect, timestamp=timestamp, step=self.current_step)
         ]
 
         return self._next_obs()
@@ -74,12 +81,15 @@ class AnomalyEnv(gym.Env):
         self.reward_total += reward
         done = (self.current_step > self.episode_len) or (self.current_obs is None)
 
+        timestamp = int(time.time() * 1000)
         self.metrics += [
-            Metric(key='action', value=action, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='reward', value=reward, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step),
-            Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=int(time.time() * 1000), step=self.current_step)
+            Metric(key='action', value=action, timestamp=timestamp, step=self.current_step),
+            Metric(key='reward', value=reward, timestamp=timestamp, step=self.current_step),
+            Metric(key='reward_total', value=self.reward_total, timestamp=timestamp, step=self.current_step),
+            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=timestamp, step=self.current_step),
+            Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=timestamp, step=self.current_step),
+            Metric(key='clean_detected', value=self.clean_detected, timestamp=timestamp, step=self.current_step),
+            Metric(key='clean_incorrect', value=self.clean_incorrect, timestamp=timestamp, step=self.current_step)
         ]
 
         if done or len(self.metrics) > 1000:
@@ -108,10 +118,18 @@ class AnomalyEnv(gym.Env):
     def _calculate_reward(self, action: np.float64) -> float:
         if self.current_obs is None:
             return 0
+
         if action == self.current_obs[-1]:
-            self.anomaly_detected += action
+            if action == 1:
+                self.anomaly_detected += 1
+            else:
+                self.clean_detected += 1
             return 1
-        self.anomaly_incorrect += action
+
+        if action == 1:
+            self.anomaly_incorrect += 1
+        else:
+            self.clean_incorrect += 1
         return -1
 
     def _log_metrics(self):
