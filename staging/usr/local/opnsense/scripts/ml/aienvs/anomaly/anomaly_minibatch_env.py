@@ -29,6 +29,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_step: int = 0
         self.reward_total: float = 0
         self.anomaly_detected: float = 0
+        self.anomaly_incorrect: float = 0
 
         self.metrics: [Metric] = []
         self._run, self._client = common.init_experiment(name='anomaly-minibatch-env', run_name='env-tuning-%s' % time.time(),
@@ -57,10 +58,12 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_step = 0
         self.reward_total = 0
         self.anomaly_detected = 0
+        self.anomaly_incorrect = 0
 
         self.metrics += [
             Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
             Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step)
+            Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=int(time.time() * 1000), step=self.current_step)
         ]
 
         return self._next_obs()
@@ -76,6 +79,7 @@ class AnomalyMinibatchEnv(gym.Env):
             Metric(key='reward', value=reward, timestamp=int(time.time() * 1000), step=self.current_step),
             Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step),
             Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=int(time.time() * 1000), step=self.current_step)
+            Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=int(time.time() * 1000), step=self.current_step)
         ]
 
         if done or len(self.metrics) > 1000:
@@ -116,6 +120,7 @@ class AnomalyMinibatchEnv(gym.Env):
         if action == self.current_obs[-1]:
             self.anomaly_detected += action
             return 1
+        self.anomaly_incorrect += action
         return -1
 
     def _log_metrics(self):
