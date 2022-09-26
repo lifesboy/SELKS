@@ -51,7 +51,6 @@ def kill_exists_processing():
 def main(args, course: str, unit: str, lesson):
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
-    num_workers = args.num_workers
     data_source = args.data_source
     input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
     destination_dir = f"{common.DATA_TESTED_DIR}{course}/{unit}/"
