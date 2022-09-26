@@ -69,6 +69,7 @@ def main(args, course: str, unit: str, lesson):
 
     client.log_param(run_id=run.info.run_id, key='host', value=common.MODEL_STAGING_ADDRESS)
     client.log_param(run_id=run.info.run_id, key='port', value=common.MODEL_STAGING_PORT)
+    client.log_param(run_id=run.info.run_id, key='endpoint', value=endpoint)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
     serve.start(http_options={'host': common.MODEL_STAGING_ADDRESS, 'port': common.MODEL_STAGING_PORT})
 
