@@ -160,7 +160,7 @@ def main(args, course: str, unit: str, lesson):
     serve.start(http_options={'host': common.MODEL_STAGING_ADDRESS, 'port': common.MODEL_STAGING_PORT})
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value='AnomalyStagingDeployment.deploy')
-    AnomalyStagingDeployment.options(name=endpoint).deploy()
+    AnomalyStagingDeployment.options(name=endpoint[1:]).deploy()
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value='Testing')
 
