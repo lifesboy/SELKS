@@ -1,4 +1,5 @@
 import argparse
+import glob
 import os
 import random
 import signal
@@ -6,14 +7,27 @@ import time
 import traceback
 
 import gym
+import ray
 import requests
-from pandas import DataFrame
+from pandas import DataFrame, Series
+from pyarrow import csv
 from ray import serve
+from ray.data import Dataset, DatasetPipeline
+from ray.data.datasource import FastFileMetadataProvider
 
 import common
 import lib.utils as utils
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
+from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_staging_deployment import AnomalyStagingDeployment
+
+batches_processed: int = 0
+batches_success: int = 0
+sources_fail: [] = []
+invalid_rows: [] = []
+sources_success: int = 0
+endpoint = 'anomaly-staging'
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -48,8 +62,85 @@ def kill_exists_processing():
         os.kill(pid, signal.SIGTERM)
 
 
+def create_test_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
+    if not data_files or len(data_files) <= 0:
+        return None
+
+    if not utils.is_ray_gpu_ready():
+        log.warning('create_test_pipe restart ray failing ray: %s', data_files)
+        utils.restart_ray_service()
+
+    def skip_invalid_row(row):
+        global run, client, invalid_rows
+        log.warning('skip_invalid_row %s on %s', row, data_files)
+        invalid_rows += [{'source': data_files, 'row': row}]
+        client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
+        return 'skip'
+
+    schema = CicFlowmeterNormModel.get_input_schema()
+    #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
+    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
+    convert_options = csv.ConvertOptions(column_types=schema)
+
+    pipe: DatasetPipeline = ray.data.read_datasource(
+        CicCSVDatasource(),
+        paths=data_files,
+        meta_provider=FastFileMetadataProvider(),
+        #read_options=read_options,
+        parse_options=parse_options,
+        convert_options=convert_options,
+    ).window(blocks_per_window=batch_size)
+
+    return pipe
+
+
+def predict(batch: DataFrame) -> DataFrame:
+    global endpoint
+    url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}/{endpoint}'
+    log.info(f'-> Sending /{endpoint} observation {batch}')
+    resp = requests.post(url, json={'obs': batch.to_json()})
+    log.info(f"<- Received /{endpoint} response {resp.json() if resp.ok else resp}")
+    return DataFrame.from_dict(resp)
+
+
+def test_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
+    log.info('test_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+
+    global run, client, batches_processed, batches_success, sources_success, sources_fail
+
+    try:
+        batches_processed += 1
+        client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
+
+        df['pipe'] = create_test_pipe(df['input_path'], batch_size, num_gpus, num_cpus)
+        df['pipe'].map_batches(predict, batch_format="pandas", compute="actors",
+                               batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
+        df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
+        utils.marked_done(df['marked_done_path'])
+
+        log.info('testing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+        batches_success += 1
+        sources_success += len(df['input_path'])
+        client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
+        client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
+    except Exception as e:
+        log.error('test_data tasks interrupted: %s', e)
+        sources_fail += [{'source': df['input_path'], 'reason': traceback.format_exc()}]
+        client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
+        client.log_dict(run_id=run.info.run_id,
+                        dictionary=sources_fail,
+                        artifact_file='sources_fail.json')
+    finally:
+        pass
+
+    log.info('test_data end %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+    return True
+
+
 def main(args, course: str, unit: str, lesson):
-    endpoint = 'anomaly-staging'
+    global endpoint
+    batch_size_source = 1
+    batch_size = 1000
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_source = args.data_source
@@ -59,7 +150,7 @@ def main(args, course: str, unit: str, lesson):
         input_files=input_files,
         output=destination_dir,
         tag='test',
-        batch_size=1)
+        batch_size=batch_size_source)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
 
@@ -70,6 +161,7 @@ def main(args, course: str, unit: str, lesson):
     client.log_param(run_id=run.info.run_id, key='host', value=common.MODEL_STAGING_ADDRESS)
     client.log_param(run_id=run.info.run_id, key='port', value=common.MODEL_STAGING_PORT)
     client.log_param(run_id=run.info.run_id, key='endpoint', value=endpoint)
+
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
     serve.start(http_options={'host': common.MODEL_STAGING_ADDRESS, 'port': common.MODEL_STAGING_PORT})
 
@@ -77,15 +169,21 @@ def main(args, course: str, unit: str, lesson):
     AnomalyStagingDeployment.options(name=endpoint).deploy()
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value='Testing')
-    url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}/{endpoint}'
 
-    for _ in range(100):
-        env = gym.make('CartPole-v0')
-        obs = env.reset()
-        print(f'-> Sending /{endpoint} observation {obs}')
-        resp = requests.post(url, json={'obs': obs.tolist()})
-        print(f"<- Received /{endpoint} response {resp.json() if resp.ok else resp}")
-        time.sleep(random.randint(1, 5))
+    try:
+        log.info('start test_data: pipe=%s', batch_df.count())
+        batch_df.apply(lambda i: test_data(i, batch_size, num_gpus, num_cpus), axis=1)
+        log.info('finish test_data.')
+
+        data_destination_files = glob.glob(destination_dir + '*')
+        client.log_text(run_id=run.info.run_id, text=f'{data_destination_files}', artifact_file='data_destination_files.json')
+
+        client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
+        client.set_terminated(run_id=run.info.run_id)
+    except Exception as e:
+        log.error('test_data run error: %s', e)
+        client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='run_error.txt')
+        client.set_terminated(run_id=run.info.run_id, status='FAILED')
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
 
