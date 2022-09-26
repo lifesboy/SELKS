@@ -77,18 +77,13 @@ def create_test_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus:
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         return 'skip'
 
-    schema = CicFlowmeterNormModel.get_input_schema()
-    #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
-    convert_options = csv.ConvertOptions(column_types=schema)
 
     pipe: DatasetPipeline = ray.data.read_datasource(
         CicCSVDatasource(),
         paths=data_files,
         meta_provider=FastFileMetadataProvider(),
-        #read_options=read_options,
         parse_options=parse_options,
-        convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
 
     return pipe
