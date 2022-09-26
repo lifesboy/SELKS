@@ -38,12 +38,12 @@ parser.add_argument(
 parser.add_argument(
     "--num-gpus",
     type=float,
-    default=2,
+    default=0.1,
     help="Number of GPUs to use.")
 parser.add_argument(
     "--num-cpus",
     type=float,
-    default=20,
+    default=0.1,
     help="Number of CPUs to use.")
 parser.add_argument(
     "--batch-size",
