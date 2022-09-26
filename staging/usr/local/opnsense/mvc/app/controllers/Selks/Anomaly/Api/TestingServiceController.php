@@ -62,7 +62,7 @@ class TestingServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly testing start %s %s",
+            $runCommand = sprintf("anomaly testing start %s %s 5 web-test",
                 $mdlAnomaly->testing->ServingUrl,
                 $mdlAnomaly->testing->DataSource);
 

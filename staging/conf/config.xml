@@ -1004,7 +1004,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly testing start</command>
-          <parameters>cic2018/*.csv cic2018 auto-test</parameters>
+          <parameters>/anomaly-staging cic2018/*.csv 5 auto-test</parameters>
           <description>anomaly testing updates</description>
         </job>
         <job uuid="5dae6f51-476f-4fb6-a8df-401e4f320082">

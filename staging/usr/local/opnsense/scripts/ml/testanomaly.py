@@ -1,12 +1,9 @@
 import argparse
 import glob
 import os
-import random
 import signal
-import time
 import traceback
 
-import gym
 import ray
 import requests
 from pandas import DataFrame, Series
@@ -17,7 +14,6 @@ from ray.data.datasource import FastFileMetadataProvider
 
 import common
 import lib.utils as utils
-from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_staging_deployment import AnomalyStagingDeployment
@@ -27,9 +23,13 @@ batches_success: int = 0
 sources_fail: [] = []
 invalid_rows: [] = []
 sources_success: int = 0
-endpoint = 'anomaly-staging'
 
 parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--endpoint",
+    type=str,
+    default="/anomaly-staging",
+    help="data source file path filter pattern")
 parser.add_argument(
     "--data-source",
     type=str,
@@ -48,7 +48,7 @@ parser.add_argument(
 parser.add_argument(
     "--batch-size",
     type=int,
-    default=1000,
+    default=5,
     help="Number of batch size to process.")
 parser.add_argument(
     "--tag",
@@ -89,16 +89,15 @@ def create_test_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus:
     return pipe
 
 
-def predict(batch: DataFrame) -> DataFrame:
-    global endpoint
-    url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}/{endpoint}'
-    log.info(f'-> Sending /{endpoint} observation {batch}')
+def predict(endpoint: str, batch: DataFrame) -> DataFrame:
+    url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}{endpoint}'
+    log.info(f'-> Sending {endpoint} observation {batch}')
     resp = requests.post(url, json={'obs': batch.to_json()})
-    log.info(f"<- Received /{endpoint} response {resp.json() if resp.ok else resp}")
+    log.info(f"<- Received {endpoint} response {resp.json() if resp.ok else resp}")
     return DataFrame.from_dict(resp)
 
 
-def test_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
+def test_data(df: Series, endpoint: str, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('test_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     global run, client, batches_processed, batches_success, sources_success, sources_fail
@@ -108,7 +107,7 @@ def test_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> 
         client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
         df['pipe'] = create_test_pipe(df['input_path'], batch_size, num_gpus, num_cpus)
-        df['pipe'] = df['pipe'].map_batches(predict, batch_format="pandas", compute="actors",
+        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i), batch_format="pandas", compute="actors",
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
         utils.marked_done(df['marked_done_path'])
@@ -133,9 +132,9 @@ def test_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> 
 
 
 def main(args, course: str, unit: str, lesson):
-    global endpoint
     batch_size_source = 1
-    batch_size = 5
+    endpoint = args.endpoint
+    batch_size = args.batch_size
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_source = args.data_source
@@ -167,7 +166,7 @@ def main(args, course: str, unit: str, lesson):
 
     try:
         log.info('start test_data: pipe=%s', batch_df.count())
-        batch_df.apply(lambda i: test_data(i, batch_size, num_gpus, num_cpus), axis=1)
+        batch_df.apply(lambda i: test_data(i, endpoint, batch_size, num_gpus, num_cpus), axis=1)
         log.info('finish test_data.')
 
         data_destination_files = glob.glob(destination_dir + '*')
