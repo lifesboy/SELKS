@@ -27,6 +27,9 @@ MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
 # RAY_HEAD_NODE_ADDRESS = '123.16.153.97:6379'
 # MLFLOW_TRACKING_URI = 'http://selks.ddns.net:5000'
 
+MODEL_STAGING_ADDRESS = '0.0.0.0'
+MODEL_STAGING_PORT = 6689
+
 MODEL_SERVE_ADDRESS = '0.0.0.0'
 MODEL_SERVE_PORT = 6789
 
@@ -40,6 +43,7 @@ DATA_NORMALIZED_DIR = '/cic/dataset/normalized/'
 DATA_NORMALIZED_LABELED_DIR = '/cic/dataset/normalized_labeled/'
 DATA_SAMPLING_DIR = '/cic/dataset/sampling/'
 DATA_TRAINED_DIR = '/cic/dataset/trained/'
+DATA_TESTED_DIR = '/cic/dataset/tested/'
 TMP_DIR = '/drl/tmp/'
 
 Path(TMP_DIR).mkdir(parents=True, exist_ok=True)

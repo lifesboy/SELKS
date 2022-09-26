@@ -325,6 +325,7 @@ ln -s /selks/staging/etc/systemd/system/cicflowmeter-timer.timer /etc/systemd/sy
 systemctl start cicflowmeter-timer.timer
 
 chmod 755 /usr/local/opnsense/scripts/ml/trainanomaly.py
+chmod 755 /usr/local/opnsense/scripts/ml/testanomaly.py
 chmod 755 /usr/local/opnsense/scripts/ml/dataprocessor.py
 chmod 755 /usr/local/opnsense/scripts/ml/dataprocessorcic.py
 chmod 755 /usr/local/opnsense/scripts/ml/dataprocessorheaderscic.py
