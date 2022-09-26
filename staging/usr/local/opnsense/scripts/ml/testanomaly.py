@@ -135,7 +135,7 @@ def test_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> 
 def main(args, course: str, unit: str, lesson):
     global endpoint
     batch_size_source = 1
-    batch_size = 1000
+    batch_size = 5
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_source = args.data_source
