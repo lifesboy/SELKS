@@ -113,8 +113,8 @@ def test_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) -> 
         client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
         df['pipe'] = create_test_pipe(df['input_path'], batch_size, num_gpus, num_cpus)
-        df['pipe'].map_batches(predict, batch_format="pandas", compute="actors",
-                               batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
+        df['pipe'] = df['pipe'].map_batches(predict, batch_format="pandas", compute="actors",
+                                            batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
         utils.marked_done(df['marked_done_path'])
 
