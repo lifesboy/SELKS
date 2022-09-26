@@ -49,6 +49,7 @@ def kill_exists_processing():
 
 
 def main(args, course: str, unit: str, lesson):
+    endpoint = 'anomaly-staging'
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_source = args.data_source
@@ -72,18 +73,18 @@ def main(args, course: str, unit: str, lesson):
     serve.start(http_options={'host': common.MODEL_STAGING_ADDRESS, 'port': common.MODEL_STAGING_PORT})
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value='AnomalyStagingDeployment.deploy')
-    AnomalyStagingDeployment.options(name='anomaly-staging').deploy()
+    AnomalyStagingDeployment.options(name=endpoint).deploy()
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value='Testing')
+    url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}/{endpoint}'
 
-    for endpoint in ['anomaly-staging']:
-        for _ in range(100):
-            env = gym.make('CartPole-v0')
-            obs = env.reset()
-            print(f'-> Sending /{endpoint} observation {obs}')
-            resp = requests.post(f'http://selks.ddns.net:6789/{endpoint}', json={'obs': obs.tolist()})
-            print(f"<- Received /{endpoint} response {resp.json() if resp.ok else resp}")
-            time.sleep(random.randint(1, 5))
+    for _ in range(100):
+        env = gym.make('CartPole-v0')
+        obs = env.reset()
+        print(f'-> Sending /{endpoint} observation {obs}')
+        resp = requests.post(url, json={'obs': obs.tolist()})
+        print(f"<- Received /{endpoint} response {resp.json() if resp.ok else resp}")
+        time.sleep(random.randint(1, 5))
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="Done")
 
