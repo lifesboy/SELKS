@@ -52,6 +52,7 @@ Path(DATA_NORMALIZED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_NORMALIZED_LABELED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_SAMPLING_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_TRAINED_DIR).mkdir(parents=True, exist_ok=True)
+Path(DATA_TESTED_DIR).mkdir(parents=True, exist_ok=True)
 
 TAG_DATASET_SIZE = 'dataset.size'
 TAG_DATASET_MIN = 'dataset.min'

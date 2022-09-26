@@ -49,8 +49,6 @@ def kill_exists_processing():
 
 
 def main(args, course: str, unit: str, lesson):
-    model = 'anomaly'
-    training_name = common.get_training_name(args.run, model, args.env, unit)
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers
@@ -60,17 +58,17 @@ def main(args, course: str, unit: str, lesson):
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
-        tag='train',
+        tag='test',
         batch_size=1)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
-    data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{course}/{unit}/"
-    utils.create_sampling(data_source_sampling_dir, data_source_files)
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
+    client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
-    client.set_tag(run_id=run.info.run_id, key='training_name', value=training_name)
 
+    client.log_param(run_id=run.info.run_id, key='host', value=common.MODEL_STAGING_ADDRESS)
+    client.log_param(run_id=run.info.run_id, key='port', value=common.MODEL_STAGING_PORT)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
     serve.start(http_options={'host': common.MODEL_STAGING_ADDRESS, 'port': common.MODEL_STAGING_PORT})
 
@@ -93,6 +91,7 @@ def main(args, course: str, unit: str, lesson):
 
 # command:locust
 # parameters: --web-host * --web-port 8089 -f /usr/local/opnsense/scripts/ml/deployment_test.py --serving-url=%s --data-source=%s
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/testanomaly.py --data-source=cic2018/*.csv --tag=manual-test
 
 if __name__ == "__main__":
     args = parser.parse_args()
