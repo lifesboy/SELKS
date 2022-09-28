@@ -36,7 +36,7 @@ class AnomalyStagingDeployment:
         return {'action': res}
 
     async def predict(self, df: DataFrame) -> DataFrame:
-        actions = self.model.predict(df).to_json(orient="records")
+        actions = self.model.predict(df)
         df[LABEL] = df.apply(lambda i: 1)
         return df
 
@@ -49,4 +49,4 @@ class AnomalyStagingDeployment:
         return df
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
-        return labeled_data.to_json(orient="records")
+        return labeled_data.to_json(orient="list")
