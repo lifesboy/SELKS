@@ -3,6 +3,8 @@ import json
 import mlflow
 import time
 import pandas as pd
+from keras.models import Model
+from pandas import DataFrame
 
 from ray import serve
 from starlette.requests import Request
@@ -19,13 +21,13 @@ class AnomalyStagingDeployment:
     def __init__(self) -> None:
         self.run, self.client = common.init_tracking(name='anomaly-staging-deployment', run_name='anomaly-staging-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
-        self.model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
+        self.model: Model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
 
     async def __call__(self, request: Request):
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='CALLED')
 
         obs = await self._process_request_data(request)
-        action = self.model.predict(obs).to_json(orient="records")
+        action = self.model.predict(x=obs).to_json(orient="records")
 
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": action}, artifact_file="last_action.json")
 
@@ -34,9 +36,13 @@ class AnomalyStagingDeployment:
     async def predict(self, df):
         return self.model.predict(df).to_json(orient="records")
 
-    async def _process_request_data(self, request: Request):
+    async def _process_request_data(self, request: Request) -> DataFrame:
         body = await request.body()
         self.client.log_text(run_id=self.run.info.run_id, text=body.decode("utf-8"), artifact_file="last_request.json")
 
         data = json.loads(body)
-        return data['obs']
+        df = DataFrame.from_dict(data['obs'])
+        return df
+
+    async def _process_action_data(self, action: DataFrame) -> dict:
+        return action.to_json(orient="records")
