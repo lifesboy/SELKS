@@ -94,7 +94,7 @@ def create_test_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus:
 def predict(endpoint: str, batch: DataFrame) -> DataFrame:
     url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}{endpoint}'
     log.info(f'-> Sending {endpoint} observation {batch}')
-    resp = requests.post(url, json={'obs': batch.to_json()})
+    resp = requests.post(url, json={'obs': batch.to_json(orient="records")})
     log.info(f"<- Received {endpoint} response {resp.json() if resp.ok else resp}")
     return DataFrame.from_dict(resp)
 
