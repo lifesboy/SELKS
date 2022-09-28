@@ -11,6 +11,7 @@ from starlette.requests import Request
 
 import common
 from aimodels.anomaly.anomaly_model import AnomalyModel
+from anomaly_normalization import LABEL
 
 
 @serve.deployment(name="AnomalyStagingDeployment",
@@ -27,14 +28,17 @@ class AnomalyStagingDeployment:
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='CALLED')
 
         obs = await self._process_request_data(request)
-        action = self.model.predict(x=obs).to_json(orient="records")
+        obs_labeled = self.model.predict(x=obs)
+        res = await self._process_request_data(obs_labeled)
 
-        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": action}, artifact_file="last_action.json")
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
 
-        return {'action': action}
+        return {'action': res}
 
-    async def predict(self, df):
-        return self.model.predict(df).to_json(orient="records")
+    async def predict(self, df: DataFrame) -> DataFrame:
+        actions = self.model.predict(df).to_json(orient="records")
+        df[LABEL] = df.apply(lambda i: 1)
+        return df
 
     async def _process_request_data(self, request: Request) -> DataFrame:
         body = await request.body()
@@ -44,5 +48,5 @@ class AnomalyStagingDeployment:
         df = DataFrame.from_dict(data['obs'])
         return df
 
-    async def _process_action_data(self, action: DataFrame) -> dict:
-        return action.to_json(orient="records")
+    async def _process_response_data(self, labeled_data: DataFrame) -> dict:
+        return labeled_data.to_json(orient="records")
