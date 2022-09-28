@@ -49,4 +49,4 @@ class AnomalyStagingDeployment:
         return df
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
-        return labeled_data.to_json(orient="list")
+        return labeled_data.to_dict(orient="list")
