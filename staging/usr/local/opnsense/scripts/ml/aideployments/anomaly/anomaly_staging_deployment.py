@@ -27,9 +27,9 @@ class AnomalyStagingDeployment:
     async def __call__(self, request: Request):
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='CALLED')
 
-        obs = await self._process_request_data(request)
-        obs_labeled = self.model.predict(x=obs)
-        res = await self._process_request_data(obs_labeled)
+        obs: DataFrame = await self._process_request_data(request)
+        obs_labeled = await self.predict(obs)
+        res = await self._process_response_data(obs_labeled)
 
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
 
