@@ -20,17 +20,21 @@ from anomaly_normalization import LABEL
 class AnomalyStagingDeployment:
 
     def __init__(self) -> None:
+        self.called = 0
         self.run, self.client = common.init_tracking(name='anomaly-staging-deployment', run_name='anomaly-staging-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
         self.model: Model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary=self.model.to_json(), artifact_file="model.json")
 
     async def __call__(self, request: Request):
-        self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_RUN_MODEL, value='CALLED')
+        self.called += 1
+        self.client.log_metric(run_id=self.run.info.run_id, key="called", value=self.called)
 
         obs: DataFrame = await self._process_request_data(request)
         obs_labeled = await self.predict(obs)
         res = await self._process_response_data(obs_labeled)
 
+        # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
 
         return {'action': res}
