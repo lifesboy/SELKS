@@ -488,16 +488,6 @@ function filter_core_rules_system($fw, $defaults)
         array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'out', 'from' => '$this_firewall_ip', 'to' => '$this_firewall_ip', 'from_port' => '8077,8265,6379,10002:19999', 'descr' => 'Accept ray workers traffic to increase performance by avoid IDS matching'),
         $defaults['pass']
     );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'forward', 'from' => '$this_firewall_ip', 'to' => '$this_firewall_ip', 'to_port' => '8077,8265,6379,10002:19999', 'descr' => 'Accept ray workers traffic to increase performance by avoid IDS matching'),
-        $defaults['pass']
-    );
-    $fw->registerFilterRule(
-        1,
-        array('ipprotocol' => 'inet', 'protocol' => 'tcp', 'direction' => 'forward', 'from' => '$this_firewall_ip', 'to' => '$this_firewall_ip', 'from_port' => '8077,8265,6379,10002:19999', 'descr' => 'Accept ray workers traffic to increase performance by avoid IDS matching'),
-        $defaults['pass']
-    );
 
     // Allow connect to moloch viewer
     $fw->registerFilterRule(
