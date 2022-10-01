@@ -2,8 +2,8 @@ import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
 
-max_features = 20000  # Only consider the top 20k words
-maxlen = 200  # Only consider the first 200 words of each movie review
+max_features = 200  # Only consider the top 20k words
+maxlen = 10  # Only consider the first 200 words of each movie review
 
 # Input for variable-length sequences of integers
 inputs = keras.Input(shape=(None,), dtype="int32")
