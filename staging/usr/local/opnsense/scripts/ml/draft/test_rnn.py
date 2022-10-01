@@ -3,14 +3,16 @@ import numpy as np
 from gym import Space
 from keras import Model
 from ray.rllib.utils.framework import try_import_tf
+from tensorflow.keras import layers
 
 tf1, tf, tfv = try_import_tf()
 cell_size = 32
 hiddens_size = 256
 num_outputs = 5
-obs_space: Space = Space(shape=(5, 10), dtype=np.float32)
+num_feature = 20
+obs_space: Space = Space(shape=(num_feature, 10), dtype=np.float32)
 
-input_layer = tf.keras.layers.Input(shape=(None, obs_space.shape[0]), name="inputs")
+input_layer = tf.keras.layers.Input(shape=(None, num_feature), name="inputs")
 seq_in = tf.keras.layers.Input(shape=(), name="seq_in", dtype=tf.int32)
 state_in_h = tf.keras.layers.Input(shape=(cell_size,), name="h")
 state_in_c = tf.keras.layers.Input(shape=(cell_size,), name="c")
@@ -30,12 +32,15 @@ rnn_model.summary()
 rnn_model.compile(loss='mse', optimizer='adam')
 
 
-batch = 5
-x = np.random.sample(25).reshape(batch, 1, 5)
-s = np.ones((batch, 1), dtype=np.int32)
+batch = 10
+batch_size = 5
+x = np.random.sample(batch * batch_size * num_feature) .reshape(batch, batch_size, num_feature)
+#x = tf.keras.preprocessing.sequence.pad_sequences(x, padding="post")
+#x = layers.Embedding(input_dim=5000, output_dim=num_feature, mask_zero=True)(x)
+s = np.full((batch, 1), fill_value=num_feature, dtype=np.int32)
 h = np.zeros((batch, cell_size), dtype=np.float32)
 c = np.zeros((batch, cell_size), dtype=np.float32)
 
-a = rnn_model.predict(x=[x, s, h, c])
-print(a)
+l, y, h1, c1 = rnn_model.predict(x=[x, s, h, c])
+print(y)
 print(rnn_model.to_json())
