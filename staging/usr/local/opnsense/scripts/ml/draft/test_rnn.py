@@ -30,11 +30,12 @@ rnn_model.summary()
 rnn_model.compile(loss='mse', optimizer='adam')
 
 
-x = np.random.sample(50).reshape(5, 10)
-s = np.random.sample(64).reshape(2, 32)
-h = np.zeros(cell_size, np.float32)
-c = np.zeros(cell_size, np.float32)
+batch = 5
+x = np.random.sample(25).reshape(batch, 1, 5)
+s = np.ones((batch, 1), dtype=np.int32)
+h = np.zeros((batch, cell_size), dtype=np.float32)
+c = np.zeros((batch, cell_size), dtype=np.float32)
 
-rnn_model.predict(x=[x, s, h, c])
-
+a = rnn_model.predict(x=[x, s, h, c])
+print(a)
 print(rnn_model.to_json())
