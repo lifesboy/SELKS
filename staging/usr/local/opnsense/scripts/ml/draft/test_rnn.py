@@ -9,10 +9,11 @@ cell_size = 32
 hiddens_size = 256
 num_outputs = 5
 obs_space: Space = Space(shape=(5, 10), dtype=np.float32)
+
 input_layer = tf.keras.layers.Input(shape=(None, obs_space.shape[0]), name="inputs")
+seq_in = tf.keras.layers.Input(shape=(), name="seq_in", dtype=tf.int32)
 state_in_h = tf.keras.layers.Input(shape=(cell_size,), name="h")
 state_in_c = tf.keras.layers.Input(shape=(cell_size,), name="c")
-seq_in = tf.keras.layers.Input(shape=(), name="seq_in", dtype=tf.int32)
 
 # Preprocess observation with a hidden layer and send to LSTM cell
 dense1 = tf.keras.layers.Dense(hiddens_size, activation=tf.nn.relu, name="dense1")(input_layer)
@@ -28,8 +29,12 @@ rnn_model: Model = Model(inputs=[input_layer, seq_in, state_in_h, state_in_c], o
 rnn_model.summary()
 rnn_model.compile(loss='mse', optimizer='adam')
 
+
 x = np.random.sample(50).reshape(5, 10)
-e = np.random.sample(64).reshape(2, 32)
-rnn_model.predict(x=[x, e])
+s = np.random.sample(64).reshape(2, 32)
+h = np.zeros(cell_size, np.float32)
+c = np.zeros(cell_size, np.float32)
+
+rnn_model.predict(x=[x, s, h, c])
 
 print(rnn_model.to_json())
