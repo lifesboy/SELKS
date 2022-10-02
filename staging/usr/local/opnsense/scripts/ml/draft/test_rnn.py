@@ -42,6 +42,9 @@ batch_size = 5
 s = np.full((batch, 1), fill_value=num_feature, dtype=np.int32)
 h = np.random.sample((batch, cell_size))
 c = np.random.sample((batch, cell_size))
+print('init-----------------')
+print('h=%s' % h)
+print('c=%s' % c)
 
 for _ in range(0, 2):
     x = np.random.sample(batch * batch_size * num_feature).reshape(batch, batch_size, num_feature)
