@@ -48,6 +48,11 @@ parser.add_argument(
     default=0.1,
     help="Number of CPUs to use.")
 parser.add_argument(
+    "--num-step",
+    type=float,
+    default=10,
+    help="Number of time steps per batch.")
+parser.add_argument(
     "--batch-size",
     type=int,
     default=5,
@@ -91,15 +96,19 @@ def create_test_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus:
     return pipe
 
 
-def predict(endpoint: str, batch: DataFrame) -> DataFrame:
+def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> DataFrame:
     url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}{endpoint}'
     log.info(f'-> Sending {endpoint} observation {batch}')
-    resp = requests.post(url, json={'obs': batch.to_dict(orient="list")})
+    resp = requests.post(url, json={
+        'obs': batch.to_dict(orient="list"),
+        'num_step': num_step,
+        'batch_size': batch_size,
+    })
     log.info(f"<- Received {endpoint} response {resp.json() if resp.ok else resp}")
     return DataFrame.from_dict(resp)
 
 
-def test_data(df: Series, endpoint: str, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
+def test_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('test_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     global run, client, batches_processed, batches_success, sources_success, sources_fail
@@ -108,8 +117,8 @@ def test_data(df: Series, endpoint: str, batch_size: int, num_gpus: float, num_c
         batches_processed += 1
         client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
-        df['pipe'] = create_test_pipe(df['input_path'], batch_size, num_gpus, num_cpus)
-        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i), batch_format="pandas", compute="actors",
+        df['pipe'] = create_test_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
+        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size), batch_format="pandas", compute="actors",
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
         utils.marked_done(df['marked_done_path'])
@@ -139,7 +148,18 @@ def main(args, course: str, unit: str, lesson):
     batch_size = args.batch_size
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
+    num_step = args.num_step
     data_source = args.data_source
+
+    client.log_param(run_id=run.info.run_id, key='host', value=common.MODEL_STAGING_ADDRESS)
+    client.log_param(run_id=run.info.run_id, key='port', value=common.MODEL_STAGING_PORT)
+    client.log_param(run_id=run.info.run_id, key='endpoint', value=endpoint)
+    client.log_param(run_id=run.info.run_id, key='batch_size_source', value=batch_size_source)
+    client.log_param(run_id=run.info.run_id, key='batch_size', value=batch_size)
+    client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
+    client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
+    client.log_param(run_id=run.info.run_id, key='num_step', value=num_step)
+
     input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
     destination_dir = f"{common.DATA_TESTED_DIR}{course}/{unit}/"
     batch_df: DataFrame = utils.get_processing_file_pattern(
@@ -154,10 +174,6 @@ def main(args, course: str, unit: str, lesson):
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
 
-    client.log_param(run_id=run.info.run_id, key='host', value=common.MODEL_STAGING_ADDRESS)
-    client.log_param(run_id=run.info.run_id, key='port', value=common.MODEL_STAGING_PORT)
-    client.log_param(run_id=run.info.run_id, key='endpoint', value=endpoint)
-
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="serve.start")
     serve.start(http_options={'host': common.MODEL_STAGING_ADDRESS, 'port': common.MODEL_STAGING_PORT})
 
@@ -168,7 +184,7 @@ def main(args, course: str, unit: str, lesson):
 
     try:
         log.info('start test_data: pipe=%s', batch_df.count())
-        batch_df.apply(lambda i: test_data(i, endpoint, batch_size, num_gpus, num_cpus), axis=1)
+        batch_df.apply(lambda i: test_data(i, endpoint, num_step, batch_size, num_gpus, num_cpus), axis=1)
         log.info('finish test_data.')
 
         data_destination_files = glob.glob(destination_dir + '*')
