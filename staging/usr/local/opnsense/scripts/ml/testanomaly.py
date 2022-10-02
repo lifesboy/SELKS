@@ -104,8 +104,13 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
         'num_step': num_step,
         'batch_size': batch_size,
     })
-    log.info(f"<- Received {endpoint} response {resp.json() if resp.ok else resp}")
-    return DataFrame.from_dict(resp)
+
+    if not resp.ok:
+        raise Exception('predict fail {}'.format(resp))
+
+    data = resp.json()
+    log.info(f"<- Received {endpoint} response {data}")
+    return DataFrame.from_dict(data['action'])
 
 
 def test_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
