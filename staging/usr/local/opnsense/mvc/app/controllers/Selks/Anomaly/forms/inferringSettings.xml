@@ -6,10 +6,16 @@
         <help>Enable inferring anomaly model.</help>
     </field>
     <field>
-        <id>anomaly.inferring.ServingUrl</id>
-        <label>--serving-url</label>
+        <id>anomaly.dataProcessor.DataDestination</id>
+        <label>--data-destination</label>
         <type>text</type>
-        <help><![CDATA[Data destination to test.]]></help>
+        <help><![CDATA[Data destination to preprocess.]]></help>
+    </field>
+    <field>
+        <id>anomaly.inferring.BatchSize</id>
+        <label>--batch-size</label>
+        <type>text</type>
+        <help><![CDATA[Batch size to process.]]></help>
     </field>
     <field>
         <id>anomaly.inferring.DataSource</id>
@@ -18,9 +24,9 @@
         <help><![CDATA[Data source to test.]]></help>
     </field>
     <field>
-        <id>anomaly.inferring.BatchSize</id>
-        <label>--batch-size</label>
+        <id>anomaly.inferring.ServingUrl</id>
+        <label>--serving-url</label>
         <type>text</type>
-        <help><![CDATA[Batch size to process.]]></help>
+        <help><![CDATA[Data destination to test.]]></help>
     </field>
 </form>

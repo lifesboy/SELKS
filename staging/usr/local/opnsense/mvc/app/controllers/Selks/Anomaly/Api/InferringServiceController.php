@@ -62,10 +62,11 @@ class InferringServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly inferring start %s %s %s web-infer",
-                $mdlAnomaly->inferring->ServingUrl,
+            $runCommand = sprintf("anomaly inferring start %s %s %s %s web-infer",
+                $mdlAnomaly->inferring->DataDestination,
                 $mdlAnomaly->inferring->DataSource,
-                $mdlAnomaly->inferring->BatchSize);
+                $mdlAnomaly->inferring->BatchSize,
+                $mdlAnomaly->inferring->ServingUrl);
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
             if ((string)$mdlAnomaly->inferring->UpdateCron == "") {

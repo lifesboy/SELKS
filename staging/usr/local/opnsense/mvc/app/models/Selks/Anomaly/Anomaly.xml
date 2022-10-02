@@ -332,6 +332,11 @@
                 <default>0</default>
                 <Required>Y</Required>
             </enabled>
+            <DataDestination type="TextField">
+                <default>nsm</default>
+                <Required>Y</Required>
+                <ValidationMessage>Enter a valid data destination name</ValidationMessage>
+            </DataDestination>
             <DataSource type="TextField">
                 <default>nsm/*.csv</default>
                 <Required>Y</Required>

@@ -60,6 +60,11 @@ parser.add_argument(
     default=500,
     help="Number of batch size to process.")
 parser.add_argument(
+    "--data-destination",
+    type=str,
+    default='inferred_data_' + common.get_course(),
+    help="Number of CPUs to use.")
+parser.add_argument(
     "--tag",
     type=str,
     default="train",
@@ -164,6 +169,7 @@ def main(args, course: str, unit: str, lesson):
     num_cpus = args.num_cpus
     num_step = args.num_step
     data_source = args.data_source
+    data_destination = args.data_destination
 
     client.log_param(run_id=run.info.run_id, key='host', value=common.MODEL_SERVE_ADDRESS)
     client.log_param(run_id=run.info.run_id, key='port', value=common.MODEL_SERVE_PORT)
@@ -175,7 +181,7 @@ def main(args, course: str, unit: str, lesson):
     client.log_param(run_id=run.info.run_id, key='num_step', value=num_step)
 
     input_files = common.get_data_normalized_files_by_pattern(data_source)
-    destination_dir = f"{common.DATA_INFERRED_DIR}{course}/{unit}/"
+    destination_dir = f"{common.DATA_INFERRED_DIR}{data_destination}/"
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
