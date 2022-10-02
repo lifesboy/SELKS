@@ -1,4 +1,5 @@
 import json
+import traceback
 
 import mlflow
 import time
@@ -40,18 +41,23 @@ class AnomalyProductionDeployment:
 
     async def __call__(self, request: Request):
         self.batches_processed += 1
-        obs, batch_size = await self._process_request_data(request)
-        obs_labeled = await self.predict(obs, batch_size)
-        res = await self._process_response_data(obs_labeled)
-        self.batches_success += 1
-
-        self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=batch_size)
         self.client.log_metric(run_id=self.run.info.run_id, key="batches_processed", value=self.batches_processed)
-        self.client.log_metric(run_id=self.run.info.run_id, key="batches_success", value=self.batches_success)
-        # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
-        self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
+        try:
+            obs, batch_size = await self._process_request_data(request)
+            obs_labeled = await self.predict(obs, batch_size)
+            res = await self._process_response_data(obs_labeled)
+            self.batches_success += 1
 
-        return {'action': res}
+            self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=batch_size)
+            self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
+            # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
+            self.client.log_metric(run_id=self.run.info.run_id, key="batches_success", value=self.batches_success)
+            return {'action': res}
+        except Exception as e:
+            self.client.log_text(run_id=self.run.info.run_id,
+                                 text=traceback.format_exc(),
+                                 artifact_file=f"predict_error{time.time() * 1000}.txt")
+            raise e
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
         x = df.to_numpy().reshape(self.num_step, batch_size, self.feature_num)
