@@ -2,6 +2,7 @@ import json
 
 import mlflow
 import time
+import numpy as np
 import pandas as pd
 from keras.models import Model
 from pandas import DataFrame
@@ -21,6 +22,14 @@ class AnomalyStagingDeployment:
 
     def __init__(self) -> None:
         self.called = 0
+        self.feature_num: int = 5
+        self.batch_num: int = 1
+        self.batch_size: int = 1
+        self.cell_size: int = 32
+        self.l = None
+        self.h = np.zeros((self.batch_num, self.cell_size), dtype=np.float32)
+        self.c = np.zeros((self.batch_num, self.cell_size), dtype=np.float32)
+
         self.run, self.client = common.init_tracking(name='anomaly-staging-deployment', run_name='anomaly-staging-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
         self.model: Model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
@@ -40,8 +49,10 @@ class AnomalyStagingDeployment:
         return {'action': res}
 
     async def predict(self, df: DataFrame) -> DataFrame:
-        actions = self.model.predict(df)
-        df[LABEL] = df.apply(lambda i: 1)
+        x = df.to_numpy().reshape(self.batch_num, self.batch_size, self.feature_num)
+        s = np.full((self.batch_num, 1), fill_value=self.feature_num, dtype=np.int32)
+        self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
+        df[LABEL] = pd.DataFrame(y.flatten('C'))
         return df
 
     async def _process_request_data(self, request: Request) -> DataFrame:

@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 from gym import Space
 from keras import Model
@@ -34,7 +35,7 @@ rnn_model.compile(loss='mse', optimizer='adam')
 
 batch = 10
 batch_size = 5
-x = np.random.sample(batch * batch_size * num_feature) .reshape(batch, batch_size, num_feature)
+x = np.random.sample(batch * batch_size * num_feature).reshape(batch, batch_size, num_feature)
 #x = tf.keras.preprocessing.sequence.pad_sequences(x, padding="post")
 #x = layers.Embedding(input_dim=5000, output_dim=num_feature, mask_zero=True)(x)
 s = np.full((batch, 1), fill_value=num_feature, dtype=np.int32)
@@ -43,4 +44,8 @@ c = np.zeros((batch, cell_size), dtype=np.float32)
 
 l, y, h1, c1 = rnn_model.predict(x=[x, s, h, c])
 print(y)
+ydf = pd.DataFrame(x.reshape(batch * batch_size, num_feature)[:, 0].flatten('C'), columns=["f1"])
+ydf['label'] = pd.DataFrame(y.flatten('C'))
+print(ydf)
+
 print(rnn_model.to_json())
