@@ -30,22 +30,24 @@ values = tf.keras.layers.Dense(1, activation=None, name="values")(lstm_out)
 # Create the RNN model
 rnn_model: Model = Model(inputs=[input_layer, seq_in, state_in_h, state_in_c], outputs=[logits, values, state_h, state_c])
 rnn_model.summary()
-rnn_model.compile(loss='mse', optimizer='adam')
+#rnn_model.compile(loss='mse', optimizer='adam')
 
 
 batch = 10
 batch_size = 5
-x = np.random.sample(batch * batch_size * num_feature).reshape(batch, batch_size, num_feature)
 #x = tf.keras.preprocessing.sequence.pad_sequences(x, padding="post")
 #x = layers.Embedding(input_dim=5000, output_dim=num_feature, mask_zero=True)(x)
 s = np.full((batch, 1), fill_value=num_feature, dtype=np.int32)
 h = np.zeros((batch, cell_size), dtype=np.float32)
 c = np.zeros((batch, cell_size), dtype=np.float32)
 
-l, y, h1, c1 = rnn_model.predict(x=[x, s, h, c])
-print(y)
-ydf = pd.DataFrame(x.reshape(batch * batch_size, num_feature)[:, 0].flatten('C'), columns=["f1"])
-ydf['label'] = pd.DataFrame(y.flatten('C'))
-print(ydf)
+for _ in range(0, 2):
+    x = np.random.sample(batch * batch_size * num_feature).reshape(batch, batch_size, num_feature)
+    l, y, h, c = rnn_model.predict(x=[x, s, h, c])
+
+    print(y)
+    ydf = pd.DataFrame(x.reshape(batch * batch_size, num_feature)[:, 0].flatten('C'), columns=["f1"])
+    ydf['label'] = pd.DataFrame(y.flatten('C'))
+    print(ydf)
 
 print(rnn_model.to_json())
