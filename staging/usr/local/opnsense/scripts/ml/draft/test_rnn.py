@@ -47,7 +47,7 @@ batch = 1
 batch_size = 5
 #x = tf.keras.preprocessing.sequence.pad_sequences(x, padding="post")
 #x = layers.Embedding(input_dim=5000, output_dim=num_feature, mask_zero=True)(x)
-s = np.full((batch, 1), fill_value=num_feature, dtype=np.int32)
+s = np.full(batch, fill_value=num_feature - 1, dtype=np.int32)
 h = np.random.sample((batch, cell_size))
 c = np.random.sample((batch, cell_size))
 print('init-----------------')
