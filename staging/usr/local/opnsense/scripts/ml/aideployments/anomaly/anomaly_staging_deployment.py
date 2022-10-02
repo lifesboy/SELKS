@@ -39,8 +39,6 @@ class AnomalyStagingDeployment:
 
     async def __call__(self, request: Request):
         self.called += 1
-        self.client.log_metric(run_id=self.run.info.run_id, key="called", value=self.called)
-
         obs, batch_size = await self._process_request_data(request)
         obs_labeled = await self.predict(obs, batch_size)
         res = await self._process_response_data(obs_labeled)
