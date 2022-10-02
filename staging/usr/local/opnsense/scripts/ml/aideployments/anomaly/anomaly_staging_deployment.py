@@ -56,7 +56,7 @@ class AnomalyStagingDeployment:
         except Exception as e:
             self.client.log_text(run_id=self.run.info.run_id,
                                  text=traceback.format_exc(),
-                                 artifact_file=f"predict_error{time.time() * 1000}.txt")
+                                 artifact_file=f"predict_error_{time.time() * 1000}.txt")
             raise e
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
