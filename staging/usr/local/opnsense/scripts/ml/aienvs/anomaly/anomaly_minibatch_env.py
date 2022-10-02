@@ -12,7 +12,7 @@ from pandas import DataFrame
 from typing import Iterator
 # @ray.remote
 from ray.data.dataset import Dataset, BatchType
-from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
+from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS, LABEL
 
 
 class AnomalyMinibatchEnv(gym.Env):
@@ -26,6 +26,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.episode_len: int = config.get("episode_len", 100)
         self.current_batch: DataFrame = None
         self.current_obs = None
+        self.current_action = None
         self.current_step: int = 0
         self.reward_total: float = 0
         self.anomaly_detected: float = 0
@@ -42,6 +43,9 @@ class AnomalyMinibatchEnv(gym.Env):
         self.dataset: Dataset = dataset
         self.dataset_size: int = context_data.get("dataset_size")
         self.anomaly_total: float = context_data.get("anomaly_total")
+        self.features: float = context_data.get("features", [
+            DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS
+        ])
         self.iter: Iterator[BatchType] = self.dataset\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size, batch_format='pandas')
@@ -54,6 +58,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)
         self._client.log_param(run_id=self._run.info.run_id, key='dataset_size', value=self.dataset_size)
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
+        self._client.log_param(run_id=self._run.info.run_id, key='features', value=self.features)
 
     def reset(self):
         self.current_obs = None
@@ -107,16 +112,9 @@ class AnomalyMinibatchEnv(gym.Env):
 
         i = self.current_batch.sample(1)
         self.current_batch = self.current_batch.drop(i.index)
-
-        token = np.array([
-            i[DST_PORT].item(),
-            i[PROTOCOL].item(),
-            i[FLOW_DURATION].item(),
-            i[TOT_FWD_PKTS].item(),
-            i[TOT_BWD_PKTS].item(),
-            i[LABEL].item()],
-            np.float64)
+        token = i[self.features].to_numpy(dtype=np.float64)
         self.current_obs = token
+        self.current_action = i[LABEL].items()
 
         return token
 
@@ -128,7 +126,7 @@ class AnomalyMinibatchEnv(gym.Env):
         if self.current_obs is None:
             return 0
 
-        if action == self.current_obs[-1]:
+        if action == self.current_action:
             if action == 1:
                 self.anomaly_detected += 1
             else:
