@@ -7,6 +7,8 @@ from ray.rllib.utils.framework import try_import_tf
 from tensorflow.keras import layers
 
 tf1, tf, tfv = try_import_tf()
+print(f"tf={tf.__version__}")
+
 cell_size = 32
 hiddens_size = 256
 num_outputs = 5
