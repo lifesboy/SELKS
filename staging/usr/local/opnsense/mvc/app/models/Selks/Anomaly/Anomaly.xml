@@ -297,11 +297,18 @@
                 <Required>Y</Required>
             </enabled>
             <DataSource type="TextField">
-                <default>nsm/*.csv</default>
+                <default>cic2018/*.csv</default>
                 <Required>Y</Required>
             </DataSource>
+            <BatchSize type="IntegerField">
+                <default>500</default>
+                <Required>N</Required>
+                <MinimumValue>1</MinimumValue>
+                <MaximumValue>9999999999</MaximumValue>
+                <ValidationMessage>Enter a valid batch size</ValidationMessage>
+            </BatchSize>
             <ServingUrl type="TextField">
-                <default>http://selks.ddns.net:6789/anomaly</default>
+                <default>/anomaly-staging</default>
                 <Required>Y</Required>
                 <ValidationMessage>Enter a valid serving url</ValidationMessage>
             </ServingUrl>
@@ -329,8 +336,15 @@
                 <default>nsm/*.csv</default>
                 <Required>Y</Required>
             </DataSource>
+            <BatchSize type="IntegerField">
+                <default>500</default>
+                <Required>N</Required>
+                <MinimumValue>1</MinimumValue>
+                <MaximumValue>9999999999</MaximumValue>
+                <ValidationMessage>Enter a valid batch size</ValidationMessage>
+            </BatchSize>
             <ServingUrl type="TextField">
-                <default>http://selks.ddns.net:6789/anomaly</default>
+                <default>/anomaly-production</default>
                 <Required>Y</Required>
                 <ValidationMessage>Enter a valid inferring url</ValidationMessage>
             </ServingUrl>
