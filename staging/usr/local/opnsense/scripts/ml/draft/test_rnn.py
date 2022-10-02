@@ -43,8 +43,10 @@ c = np.random.sample((batch, cell_size))
 
 for _ in range(0, 2):
     x = np.random.sample(batch * batch_size * num_feature).reshape(batch, batch_size, num_feature)
-    l, y, h, c = rnn_model.predict(x=[x, s, h, c])
+    print('predict-----------------')
+    print(x)
 
+    l, y, h, c = rnn_model.predict(x=[x, s, h, c])
     print(y)
     ydf = pd.DataFrame(x.reshape(batch * batch_size, num_feature)[:, 0].flatten('C'), columns=["f1"])
     ydf['label'] = pd.DataFrame(y.flatten('C'))
