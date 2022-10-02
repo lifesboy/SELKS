@@ -1020,6 +1020,19 @@
           <parameters/>
           <description>request datasets updates</description>
         </job>
+        <job uuid="3ead654e-7944-406b-b7bd-fefb80d83a24">
+          <origin>AnomalyInferring</origin>
+          <enabled>1</enabled>
+          <minutes>*</minutes>
+          <hours>*/3</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly inferring start</command>
+          <parameters>/anomaly-production nsm/*.csv 500 auto-infer</parameters>
+          <description>anomaly inferring updates</description>
+        </job>
       </jobs>
     </cron>
   </OPNsense>
@@ -1221,16 +1234,18 @@
         <UpdateTrainCron>0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f</UpdateTrainCron>
       </dataProcessor>
       <testing>
-        <enabled>0</enabled>
-        <DataSource>nsm/*.csv</DataSource>
-        <ServingUrl>http://selks.ddns.net:6789/anomaly</ServingUrl>
+        <enabled>1</enabled>
+        <DataSource>cic2018/*.csv</DataSource>
+        <BatchSize>500</BatchSize>
+        <ServingUrl>/anomaly-staging</ServingUrl>
         <UpdateCron>c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb</UpdateCron>
       </testing>
       <inferring>
         <enabled>0</enabled>
         <DataSource>nsm/*.csv</DataSource>
-        <ServingUrl>http://selks.ddns.net:6789/anomaly</ServingUrl>
-        <UpdateCron/>
+        <BatchSize>500</BatchSize>
+        <ServingUrl>/anomaly-production</ServingUrl>
+        <UpdateCron>3ead654e-7944-406b-b7bd-fefb80d83a24</UpdateCron>
       </inferring>
     </Anomaly>
   </Selks>
