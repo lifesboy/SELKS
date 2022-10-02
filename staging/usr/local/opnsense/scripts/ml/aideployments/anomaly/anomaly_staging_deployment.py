@@ -45,7 +45,7 @@ class AnomalyStagingDeployment:
         obs_labeled = await self.predict(obs, batch_size)
         res = await self._process_response_data(obs_labeled)
 
-        self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=self.batch_size)
+        self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=batch_size)
         # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
 
