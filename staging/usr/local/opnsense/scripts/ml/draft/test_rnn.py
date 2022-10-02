@@ -10,7 +10,7 @@ tf1, tf, tfv = try_import_tf()
 cell_size = 32
 hiddens_size = 256
 num_outputs = 5
-num_feature = 20
+num_feature = 6
 obs_space: Space = Space(shape=(num_feature, 10), dtype=np.float32)
 
 input_layer = tf.keras.layers.Input(shape=(None, num_feature), name="inputs")
@@ -33,7 +33,7 @@ rnn_model.summary()
 #rnn_model.compile(loss='mse', optimizer='adam')
 
 
-batch = 10
+batch = 1
 batch_size = 5
 #x = tf.keras.preprocessing.sequence.pad_sequences(x, padding="post")
 #x = layers.Embedding(input_dim=5000, output_dim=num_feature, mask_zero=True)(x)
