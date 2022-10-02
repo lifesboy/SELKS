@@ -252,7 +252,7 @@ def main(args, course: str, unit: str, lesson):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    training_course = f"anomaly-{common.get_course()}"
+    training_course = f"{common.get_course()}-train"
     training_unit = f"{common.get_course_unit()}"
     training_lesson = '%s-%s' % (args.tag, common.get_second())  # learning 1 sample per week
 

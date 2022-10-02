@@ -217,7 +217,7 @@ def main(args, course: str, unit: str, lesson):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    testing_course = f"test-{common.get_course()}"
+    testing_course = f"{common.get_course()}-test"
     testing_unit = f"{common.get_course_unit()}"
     testing_lesson = '%s-%s' % (args.tag, common.get_second())  # testing 1 sample per week
 

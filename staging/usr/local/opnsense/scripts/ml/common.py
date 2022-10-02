@@ -135,7 +135,7 @@ def get_course():
     year = datetime.now().year
     start = year - year % TRAINING_COURSE_LENGTH
     end = start + TRAINING_COURSE_LENGTH
-    return f"course-{start}-{end}"
+    return f"{start}T{end}"
 
 
 def get_course_unit():

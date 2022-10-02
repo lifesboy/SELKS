@@ -227,7 +227,7 @@ def main(args, course: str, unit: str, lesson):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    inferring_course = f"infer-{common.get_course()}"
+    inferring_course = f"{common.get_course()}-infer"
     inferring_unit = f"{common.get_course_unit()}"
     inferring_lesson = '%s-%s' % (args.tag, common.get_second())  # inferring 1 sample per week
 
