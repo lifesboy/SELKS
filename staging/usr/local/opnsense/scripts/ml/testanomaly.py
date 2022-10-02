@@ -24,6 +24,7 @@ batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
 invalid_rows: [] = []
+sources_processed: int = 0
 sources_success: int = 0
 
 parser = argparse.ArgumentParser()
@@ -69,12 +70,12 @@ def kill_exists_processing():
         os.kill(pid, signal.SIGTERM)
 
 
-def create_test_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
+def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus: float):
     if not data_files or len(data_files) <= 0:
         return None
 
     if not utils.is_ray_gpu_ready():
-        log.warning('create_test_pipe restart ray failing ray: %s', data_files)
+        log.warning('create_predict_pipe restart ray failing ray: %s', data_files)
         utils.restart_ray_service()
 
     def skip_invalid_row(row):
@@ -97,6 +98,10 @@ def create_test_pipe(data_files: [], batch_size: int, num_gpus: float, num_cpus:
 
 
 def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> DataFrame:
+    global batches_processed
+    batches_processed += num_step
+    client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
+
     url = f'http://{common.MODEL_STAGING_ADDRESS}:{common.MODEL_STAGING_PORT}{endpoint}'
     log.info(f'-> Sending {endpoint} observation {batch}')
     resp = requests.post(url, json={
@@ -113,28 +118,28 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
     return DataFrame.from_dict(data['action'])
 
 
-def test_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
-    log.info('test_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
+    log.info('infer_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, batches_processed, batches_success, sources_success, sources_fail
+    global run, client, sources_processed, batches_success, sources_success, sources_fail
 
     try:
-        batches_processed += 1
-        client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
+        sources_processed += 1
+        client.log_metric(run_id=run.info.run_id, key='sources_processed', value=sources_processed)
 
-        df['pipe'] = create_test_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
+        df['pipe'] = create_predict_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
         df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size), batch_format="pandas", compute="actors",
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
         utils.marked_done(df['marked_done_path'])
 
-        log.info('testing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
-        batches_success += 1
+        log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+        batches_success += num_step
         sources_success += len(df['input_path'])
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
     except Exception as e:
-        log.error('test_data tasks interrupted: %s', e)
+        log.error('infer_data tasks interrupted: %s', e)
         sources_fail += [{'source': df['input_path'], 'reason': traceback.format_exc()}]
         client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
         client.log_dict(run_id=run.info.run_id,
@@ -143,7 +148,7 @@ def test_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpu
     finally:
         pass
 
-    log.info('test_data end %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+    log.info('infer_data end %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
     return True
 
 
@@ -188,9 +193,9 @@ def main(args, course: str, unit: str, lesson):
     client.set_tag(run_id=run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value='Testing')
 
     try:
-        log.info('start test_data: pipe=%s', batch_df.count())
-        batch_df.apply(lambda i: test_data(i, endpoint, num_step, batch_size, num_gpus, num_cpus), axis=1)
-        log.info('finish test_data.')
+        log.info('start infer_data: pipe=%s', batch_df.count())
+        batch_df.apply(lambda i: infer_data(i, endpoint, num_step, batch_size, num_gpus, num_cpus), axis=1)
+        log.info('finish infer_data.')
 
         data_destination_files = glob.glob(destination_dir + '*')
         client.log_text(run_id=run.info.run_id, text=f'{data_destination_files}', artifact_file='data_destination_files.json')
@@ -198,7 +203,7 @@ def main(args, course: str, unit: str, lesson):
         client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
         client.set_terminated(run_id=run.info.run_id)
     except Exception as e:
-        log.error('test_data run error: %s', e)
+        log.error('infer_data run error: %s', e)
         client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='run_error.txt')
         client.set_terminated(run_id=run.info.run_id, status='FAILED')
 

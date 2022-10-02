@@ -24,6 +24,7 @@ batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
 invalid_rows: [] = []
+sources_processed: int = 0
 sources_success: int = 0
 
 parser = argparse.ArgumentParser()
@@ -97,6 +98,10 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
 
 
 def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> DataFrame:
+    global batches_processed
+    batches_processed += num_step
+    client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
+
     url = f'http://{common.MODEL_SERVE_ADDRESS}:{common.MODEL_SERVE_PORT}{endpoint}'
     log.info(f'-> Sending {endpoint} observation {batch}')
     resp = requests.post(url, json={
@@ -116,11 +121,11 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
 def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
     log.info('infer_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, batches_processed, batches_success, sources_success, sources_fail
+    global run, client, sources_processed, batches_success, sources_success, sources_fail
 
     try:
-        batches_processed += 1
-        client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
+        sources_processed += 1
+        client.log_metric(run_id=run.info.run_id, key='sources_processed', value=sources_processed)
 
         df['pipe'] = create_predict_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
         df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size), batch_format="pandas", compute="actors",
@@ -129,7 +134,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gp
         utils.marked_done(df['marked_done_path'])
 
         log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
-        batches_success += 1
+        batches_success += num_step
         sources_success += len(df['input_path'])
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
