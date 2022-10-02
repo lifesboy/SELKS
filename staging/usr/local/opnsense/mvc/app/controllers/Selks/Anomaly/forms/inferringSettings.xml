@@ -6,7 +6,7 @@
         <help>Enable inferring anomaly model.</help>
     </field>
     <field>
-        <id>anomaly.dataProcessor.DataDestination</id>
+        <id>anomaly.inferring.DataDestination</id>
         <label>--data-destination</label>
         <type>text</type>
         <help><![CDATA[Data destination to preprocess.]]></help>
