@@ -50,7 +50,7 @@ class AnomalyStagingDeployment:
 
     async def predict(self, df: DataFrame) -> DataFrame:
         x = df.to_numpy().reshape(self.batch_num, self.batch_size, self.feature_num)
-        s = np.full((self.batch_num, 1), fill_value=self.feature_num, dtype=np.int32)
+        s = np.full(self.batch_num, fill_value=self.feature_num - 1, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
         df[LABEL] = pd.DataFrame(y.flatten('C'))
         return df
