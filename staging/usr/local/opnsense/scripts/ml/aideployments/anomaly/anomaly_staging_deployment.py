@@ -12,7 +12,7 @@ from starlette.requests import Request
 
 import common
 from aimodels.anomaly.anomaly_model import AnomalyModel
-from anomaly_normalization import LABEL
+from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
 
 
 @serve.deployment(name="AnomalyStagingDeployment",
@@ -61,6 +61,7 @@ class AnomalyStagingDeployment:
 
         data = json.loads(body)
         df = DataFrame.from_dict(data['obs'])
+        df = df[[DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL]]
         return df
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
