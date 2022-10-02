@@ -181,6 +181,7 @@ def main(args, course: str, unit: str, lesson):
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
+    client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
 
