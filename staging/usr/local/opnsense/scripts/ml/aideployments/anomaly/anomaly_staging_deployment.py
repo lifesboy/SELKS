@@ -71,9 +71,10 @@ class AnomalyStagingDeployment:
         self.client.log_text(run_id=self.run.info.run_id, text=body.decode("utf-8"), artifact_file="last_request.json")
 
         data = json.loads(body)
-        batch_size = int(data['batch_size'])
         df = DataFrame.from_dict(data['obs'])
-        df = df[[DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL]]
+        # batch_size = int(data['batch_size'])
+        batch_size = df.index.size
+        df = df[[DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS]]
         return df, batch_size
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
