@@ -50,12 +50,12 @@ parser.add_argument(
 parser.add_argument(
     "--num-step",
     type=float,
-    default=10,
+    default=1,
     help="Number of time steps per batch.")
 parser.add_argument(
     "--batch-size",
     type=int,
-    default=5,
+    default=500,
     help="Number of batch size to process.")
 parser.add_argument(
     "--tag",
