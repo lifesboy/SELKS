@@ -1241,7 +1241,7 @@
         <UpdateCron>c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb</UpdateCron>
       </testing>
       <inferring>
-        <enabled>0</enabled>
+        <enabled>1</enabled>
         <DataSource>nsm/*.csv</DataSource>
         <BatchSize>500</BatchSize>
         <ServingUrl>/anomaly-production</ServingUrl>
