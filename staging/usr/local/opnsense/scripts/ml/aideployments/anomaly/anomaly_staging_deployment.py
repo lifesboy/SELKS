@@ -23,8 +23,8 @@ class AnomalyStagingDeployment:
     def __init__(self) -> None:
         self.called = 0
         self.feature_num: int = 6
-        self.batch_num: int = 5
-        self.batch_size: int = 1
+        self.batch_num: int = 1
+        self.batch_size: int = 5
         self.cell_size: int = 32
         self.l = None
         self.h = np.zeros((self.batch_num, self.cell_size), dtype=np.float32)
