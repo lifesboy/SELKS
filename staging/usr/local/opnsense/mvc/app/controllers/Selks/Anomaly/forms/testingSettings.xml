@@ -17,4 +17,10 @@
         <type>text</type>
         <help><![CDATA[Data source to test.]]></help>
     </field>
+    <field>
+        <id>anomaly.testing.BatchSize</id>
+        <label>--batch-size</label>
+        <type>text</type>
+        <help><![CDATA[Batch size to process.]]></help>
+    </field>
 </form>
