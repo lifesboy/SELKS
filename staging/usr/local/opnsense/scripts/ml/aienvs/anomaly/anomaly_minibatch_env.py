@@ -114,7 +114,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_batch = self.current_batch.drop(i.index)
         token = i[self.features].to_numpy(dtype=np.float64).flatten()
         self.current_obs = token
-        self.current_action = i[LABEL].items()
+        self.current_action = i[LABEL].to_numpy(dtype=np.float64).flatten()
 
         return token
 
@@ -126,7 +126,7 @@ class AnomalyMinibatchEnv(gym.Env):
         if self.current_obs is None:
             return 0
 
-        if action == self.current_action:
+        if action == self.current_action[0]:
             if action == 1:
                 self.anomaly_detected += 1
             else:
