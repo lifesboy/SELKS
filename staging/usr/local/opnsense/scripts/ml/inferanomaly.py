@@ -170,7 +170,7 @@ def main(args, course: str, unit: str, lesson):
     client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
     client.log_param(run_id=run.info.run_id, key='num_step', value=num_step)
 
-    input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
+    input_files = common.get_data_normalized_files_by_pattern(data_source)
     destination_dir = f"{common.DATA_INFERRED_DIR}{course}/{unit}/"
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,

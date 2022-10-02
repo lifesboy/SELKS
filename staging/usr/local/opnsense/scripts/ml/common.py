@@ -15,7 +15,6 @@ from ray.runtime_env import RuntimeEnv
 
 import lib.utils as utils
 
-
 PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
                                                   minor=version_info.minor,
                                                   micro=version_info.micro)
@@ -84,6 +83,7 @@ TOTAL_GPUS = 4
 
 TRAINING_COURSE_LENGTH = 4  # 4 years per course, to archive same university grade of best trained hackers
 
+
 def init_node():
     if not utils.is_ray_gpu_ready():
         utils.restart_ray_service()
@@ -148,6 +148,10 @@ def get_training_name(run: str, model: str, env: str, unit: str):
 
 def get_data_featured_extracted_files_by_pattern(pattern: str):
     return glob.glob(DATA_FEATURED_EXTRACTED_DIR + pattern)
+
+
+def get_data_normalized_files_by_pattern(pattern: str):
+    return glob.glob(DATA_NORMALIZED_DIR + pattern)
 
 
 def get_data_normalized_labeled_files_by_pattern(pattern: str):
