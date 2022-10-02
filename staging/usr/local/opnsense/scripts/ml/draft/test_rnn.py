@@ -9,6 +9,14 @@ from tensorflow.keras import layers
 tf1, tf, tfv = try_import_tf()
 print(f"tf={tf.__version__}")
 
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        tf.config.experimental.set_virtual_device_configuration(
+            gpus[0], [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=5120)])
+    except RuntimeError as e:
+        print(e)
+
 cell_size = 32
 hiddens_size = 256
 num_outputs = 5
