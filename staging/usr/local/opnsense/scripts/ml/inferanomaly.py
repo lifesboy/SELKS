@@ -16,6 +16,7 @@ from ray.data.datasource import FastFileMetadataProvider
 
 import common
 import lib.utils as utils
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_production_deployment import AnomalyProductionDeployment
@@ -85,13 +86,16 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         return 'skip'
 
+    schema = CicFlowmeterNormModel.get_input_schema()
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
+    convert_options = csv.ConvertOptions(column_types=schema)
 
     pipe: DatasetPipeline = ray.data.read_datasource(
         CicCSVDatasource(),
         paths=data_files,
         meta_provider=FastFileMetadataProvider(),
         parse_options=parse_options,
+        convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
 
     return pipe
