@@ -17,11 +17,12 @@ from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKT
 
 @serve.deployment(name="AnomalyStagingDeployment",
                   num_replicas=1,
-                  ray_actor_options={"num_cpus": 0.01, "num_gpus": 0.01})
+                  ray_actor_options={"num_cpus": 1, "num_gpus": 1})
 class AnomalyStagingDeployment:
 
     def __init__(self) -> None:
-        self.called = 0
+        self.batches_processed: int = 0
+        self.batches_success: int = 0
         self.feature_num: int = 6
         self.num_step: int = 1
         self.cell_size: int = 32
@@ -38,12 +39,15 @@ class AnomalyStagingDeployment:
         self.client.log_param(run_id=self.run.info.run_id, key='cell_size', value=self.cell_size)
 
     async def __call__(self, request: Request):
-        self.called += 1
+        self.batches_processed += 1
         obs, batch_size = await self._process_request_data(request)
         obs_labeled = await self.predict(obs, batch_size)
         res = await self._process_response_data(obs_labeled)
+        self.batches_success += 1
 
         self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=batch_size)
+        self.client.log_metric(run_id=self.run.info.run_id, key="batches_processed", value=self.batches_processed)
+        self.client.log_metric(run_id=self.run.info.run_id, key="batches_success", value=self.batches_success)
         # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
         self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
 
