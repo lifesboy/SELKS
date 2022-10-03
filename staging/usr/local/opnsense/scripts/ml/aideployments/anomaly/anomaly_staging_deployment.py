@@ -13,7 +13,7 @@ from starlette.requests import Request
 
 import common
 from aimodels.anomaly.anomaly_model import AnomalyModel
-from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, LABEL
+from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS, LABEL
 
 
 @serve.deployment(name="AnomalyStagingDeployment",
