@@ -68,7 +68,7 @@ class AnomalyProductionDeployment:
         batch_size_padding = max(5 - batch_size, 0)  # batch size should greater than or equal 5 to avoid error on GPU
         x_padding = np.full(batch_size_padding * features_num, fill_value=0).reshape((batch_size_padding, features_num))
 
-        x = np.concatenate(df.to_numpy(), x_padding).reshape((self.num_step, batch_size + batch_size_padding, features_num))
+        x = np.concatenate((df.to_numpy(), x_padding)).reshape((self.num_step, batch_size + batch_size_padding, features_num))
         s = np.full(self.num_step, fill_value=len(self.features) - 1, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
 
