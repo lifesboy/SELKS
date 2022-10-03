@@ -41,7 +41,7 @@ parser.add_argument(
 parser.add_argument(
     "--num-gpus",
     type=float,
-    default=0.1,
+    default=0.01,
     help="Number of GPUs to use.")
 parser.add_argument(
     "--num-cpus",
@@ -213,7 +213,7 @@ def main(args, course: str, unit: str, lesson):
 
 # command:locust
 # parameters: --web-host * --web-port 8089 -f /usr/local/opnsense/scripts/ml/deployment_test.py --serving-url=%s --data-source=%s
-# /usr/bin/python3 /usr/local/opnsense/scripts/ml/testanomaly.py --data-source=cic2018/*.csv --tag=manual-test
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/testanomaly.py --batch-size=500 --data-source=cic2018/*.csv --tag=manual-test
 
 if __name__ == "__main__":
     args = parser.parse_args()

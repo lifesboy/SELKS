@@ -42,7 +42,7 @@ parser.add_argument(
 parser.add_argument(
     "--num-gpus",
     type=float,
-    default=0.1,
+    default=0.01,
     help="Number of GPUs to use.")
 parser.add_argument(
     "--num-cpus",
