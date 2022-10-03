@@ -114,7 +114,7 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
     url = f'http://{common.MODEL_SERVE_ADDRESS}:{common.MODEL_SERVE_PORT}{endpoint}'
     log.info(f'-> Sending {endpoint} observation {batch}')
     resp = requests.post(url, json={
-        'obs': batch.to_dict(orient="list"),
+        'obs': batch.fillna('').to_dict(orient="list"),
         'num_step': num_step,
         'batch_size': batch_size,
     })
