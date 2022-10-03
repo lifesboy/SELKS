@@ -44,7 +44,7 @@ rnn_model.summary()
 
 
 batch = 1
-batch_size = 5
+batch_size = 5  # batch size should greater than or equal 5 to avoid error on GPU
 #x = tf.keras.preprocessing.sequence.pad_sequences(x, padding="post")
 #x = layers.Embedding(input_dim=5000, output_dim=num_feature, mask_zero=True)(x)
 s = np.full(batch, fill_value=num_feature - 1, dtype=np.int32)

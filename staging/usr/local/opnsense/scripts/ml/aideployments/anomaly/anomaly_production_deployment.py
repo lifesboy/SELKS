@@ -64,6 +64,10 @@ class AnomalyProductionDeployment:
             raise e
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
+        # batch_size_padding = max(5 - batch_size, 0)  # batch size should greater than or equal 5 to avoid error on GPU
+        # x_padding = np.full(batch_size_padding * len(self.features), fill_value=1)\
+        #     .reshape((batch_size_padding, len(self.features)))
+        # x = np.concatenate(df.to_numpy(), x_padding).reshape((self.num_step, batch_size, len(self.features)))
         x = df.to_numpy().reshape((self.num_step, batch_size, len(self.features)))
         s = np.full(self.num_step, fill_value=len(self.features) - 1, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
