@@ -223,7 +223,7 @@ def main(args, course: str, unit: str, lesson):
 
 # command:locust
 # parameters: --web-host * --web-port 8089 -f /usr/local/opnsense/scripts/ml/deployment_test.py --serving-url=%s --data-source=%s
-# /usr/bin/python3 /usr/local/opnsense/scripts/ml/inferanomaly.py --data-destination=nsm --data-source=nsm/*.csv --tag=manual-infer
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/inferanomaly.py --data-destination=nsm --batch-size=500 --data-source=nsm/*.csv --tag=manual-infer
 
 if __name__ == "__main__":
     args = parser.parse_args()
