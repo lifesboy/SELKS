@@ -43,7 +43,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.dataset: Dataset = dataset
         self.dataset_size: int = context_data.get("dataset_size")
         self.anomaly_total: float = context_data.get("anomaly_total")
-        self.features: float = context_data.get("features", [
+        self.features: [] = context_data.get("features", [
             DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS
         ])
         self.iter: Iterator[BatchType] = self.dataset\
@@ -58,6 +58,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)
         self._client.log_param(run_id=self._run.info.run_id, key='dataset_size', value=self.dataset_size)
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
+        self._client.log_param(run_id=self._run.info.run_id, key='features_num', value=len(self.features))
         self._client.log_param(run_id=self._run.info.run_id, key='features', value=self.features)
 
     def reset(self):

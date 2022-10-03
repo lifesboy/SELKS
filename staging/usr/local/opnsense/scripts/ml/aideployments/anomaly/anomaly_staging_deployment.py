@@ -25,6 +25,9 @@ class AnomalyStagingDeployment:
         self.batches_processed: int = 0
         self.batches_success: int = 0
         self.feature_num: int = 6
+        self.features: [] = [
+            DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS
+        ]
         self.num_step: int = 1
         self.cell_size: int = 32
         self.l = None
@@ -35,7 +38,8 @@ class AnomalyStagingDeployment:
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
         self.model: Model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
         self.client.log_dict(run_id=self.run.info.run_id, dictionary=self.model.to_json(), artifact_file="model.json")
-        self.client.log_param(run_id=self.run.info.run_id, key='feature_num', value=self.feature_num)
+        self.client.log_param(run_id=self.run.info.run_id, key='features_num', value=len(self.features))
+        self.client.log_param(run_id=self.run.info.run_id, key='features', value=self.features)
         self.client.log_param(run_id=self.run.info.run_id, key='num_step', value=self.num_step)
         self.client.log_param(run_id=self.run.info.run_id, key='cell_size', value=self.cell_size)
 
@@ -60,8 +64,8 @@ class AnomalyStagingDeployment:
             raise e
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
-        x = df.to_numpy().reshape(self.num_step, batch_size, self.feature_num)
-        s = np.full(self.num_step, fill_value=self.feature_num - 1, dtype=np.int32)
+        x = df.to_numpy().reshape((self.num_step, batch_size, len(self.features)))
+        s = np.full(self.num_step, fill_value=len(self.features) - 1, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
         df[LABEL] = pd.DataFrame(y.flatten('C'))
         return df
@@ -74,7 +78,7 @@ class AnomalyStagingDeployment:
         df = DataFrame.from_dict(data['obs'])
         # batch_size = int(data['batch_size'])
         batch_size = df.index.size
-        df = df[[DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS]]
+        df = df[self.features]
         return df, batch_size
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
