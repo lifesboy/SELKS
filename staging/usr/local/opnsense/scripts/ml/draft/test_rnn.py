@@ -44,9 +44,12 @@ rnn_model.summary()
 
 
 batch = 1
-batch_size = 5  # batch size should greater than or equal 5 to avoid error on GPU
+batch_size = 3  # batch size should greater than or equal 5 to avoid error on GPU
 #x = tf.keras.preprocessing.sequence.pad_sequences(x, padding="post")
 #x = layers.Embedding(input_dim=5000, output_dim=num_feature, mask_zero=True)(x)
+
+batch_size_padding = max(5 - batch_size, 0)  # batch size should greater than or equal 5 to avoid error on GPU
+x_padding = np.full(batch_size_padding * num_feature, fill_value=0).reshape((batch_size_padding, num_feature))
 s = np.full(batch, fill_value=num_feature - 1, dtype=np.int32)
 h = np.random.sample((batch, cell_size))
 c = np.random.sample((batch, cell_size))
@@ -55,14 +58,15 @@ print('h=%s' % h)
 print('c=%s' % c)
 
 for _ in range(0, 2):
-    x = np.random.sample(batch * batch_size * num_feature).reshape(batch, batch_size, num_feature)
+    x_raw = np.random.sample(batch * batch_size * num_feature).reshape((batch_size, num_feature))
+    x = np.concatenate((x_raw, x_padding)).reshape(batch, (batch_size + batch_size_padding), num_feature)
     print('predict-----------------')
     print(x)
 
     l, y, h, c = rnn_model.predict(x=[x, s, h, c])
     print(y)
-    ydf = pd.DataFrame(x.reshape(batch * batch_size, num_feature)[:, 0].flatten('C'), columns=["f1"])
-    ydf['label'] = pd.DataFrame(y.flatten('C'))
+    ydf = pd.DataFrame(x_raw.reshape(batch * batch_size, num_feature)[:, 0].flatten('C'), columns=["f1"])
+    ydf['label'] = pd.DataFrame(y[0:batch_size].flatten('C'))
     print(ydf)
 
 print(rnn_model.to_json())
