@@ -36,7 +36,7 @@ class AnomalyProductionDeployment:
 
         self.run, self.client = common.init_tracking(name='anomaly-production-deployment', run_name='anomaly-production-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
-        self.model: Model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
+        self.model: Model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/production')
         self.client.log_dict(run_id=self.run.info.run_id, dictionary=self.model.to_json(), artifact_file="model.json")
         self.client.log_param(run_id=self.run.info.run_id, key='features_num', value=len(self.features))
         self.client.log_param(run_id=self.run.info.run_id, key='features', value=self.features)
