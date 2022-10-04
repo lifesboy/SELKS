@@ -57,7 +57,7 @@ parser.add_argument(
 parser.add_argument(
     "--batch-size",
     type=int,
-    default=500,
+    default=5000,
     help="Number of batch size to process.")
 parser.add_argument(
     "--data-destination",
