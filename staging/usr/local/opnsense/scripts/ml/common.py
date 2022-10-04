@@ -8,6 +8,7 @@ from typing import Optional
 
 import mlflow
 import ray
+from ray.rllib import _register_all
 from mlflow.entities import Experiment, Run
 from mlflow.tracking import MlflowClient
 from mlflow.tracking.fluent import ActiveRun
@@ -95,6 +96,9 @@ def init_node():
         #     "pip_version": "==22.2.2;python_version=='3.7.3'"})
         # ray.init(address=RAY_HEAD_NODE_ADDRESS, runtime_env=runtime_env)
         ray.init(address=RAY_HEAD_NODE_ADDRESS)
+
+    # https://github.com/ray-project/ray/issues/8205
+    _register_all()
 
 
 def init_tracking(name: str, run_name: Optional[str] = None) -> (ActiveRun, MlflowClient):
