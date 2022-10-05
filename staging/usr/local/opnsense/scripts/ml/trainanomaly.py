@@ -215,10 +215,10 @@ def main(args, course: str, unit: str, lesson):
     client.log_param(run_id=run.info.run_id, key='stop', value=stop)
     client.log_text(run_id=run.info.run_id, text=dataset.stats(), artifact_file='dataset_stats.txt')
 
-    try:
+    def resume_tune(resume: str = 'AUTO'):
         # in case of error, sometime we're unable to recover an experiment
         # It should be switch to another unit, and assume agent is fail at error unit
-        results = tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
+        return tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
                            name=unit,
                            local_dir=f"/drl/ray_results/{course}",
                            trial_name_creator=lambda _: lesson,
@@ -227,7 +227,7 @@ def main(args, course: str, unit: str, lesson):
                            keep_checkpoints_num=20,
                            checkpoint_freq=1,
                            checkpoint_at_end=True,
-                           resume='AUTO',
+                           resume=resume,
                            callbacks=[AnomalyLoggerCallback(
                                tracking_uri=common.MLFLOW_TRACKING_URI,
                                tags={
@@ -237,6 +237,15 @@ def main(args, course: str, unit: str, lesson):
                                },
                                experiment_name="anomaly-model",
                                save_artifact=True), TBXLoggerCallback()])
+
+    try:
+
+        try:
+            results = resume_tune(resume='AUTO')
+        except Exception as e1:
+            log.error('tune run error1: %s', e1)
+            # https://github.com/ray-project/ray/issues/12389
+            results = resume_tune(resume='ERRORED_ONLY')
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
 
