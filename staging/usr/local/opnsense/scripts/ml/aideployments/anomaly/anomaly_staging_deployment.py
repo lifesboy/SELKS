@@ -36,7 +36,16 @@ class AnomalyStagingDeployment:
 
         self.run, self.client = common.init_tracking(name='anomaly-staging-deployment', run_name='anomaly-staging-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
-        self.model: Model = mlflow.keras.load_model(f'models:/{AnomalyModel.get_model_meta().registered_model_name}/staging')
+        model_name = AnomalyModel.get_model_meta().registered_model_name
+        stage = 'staging'
+        model_versions = self.client.get_latest_versions(name=model_name, stages=[stage])
+        if len(model_versions) > 0:
+            self.model: Model = mlflow.keras.load_model(f'models:/{model_name}/{stage}')
+            self.client.log_param(run_id=self.run.info.run_id, key='model_name', value=model_versions.name)
+            self.client.log_param(run_id=self.run.info.run_id, key='model_version', value=model_versions.version)
+        else:
+            raise RuntimeError(f'model not found: {model_name}/{stage}')
+
         self.client.log_dict(run_id=self.run.info.run_id, dictionary=self.model.to_json(), artifact_file="model.json")
         self.client.log_param(run_id=self.run.info.run_id, key='features_num', value=len(self.features))
         self.client.log_param(run_id=self.run.info.run_id, key='features', value=self.features)
