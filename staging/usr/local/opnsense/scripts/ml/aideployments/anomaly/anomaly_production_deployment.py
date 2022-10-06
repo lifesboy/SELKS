@@ -39,12 +39,12 @@ class AnomalyProductionDeployment:
         model_name = AnomalyModel.get_model_meta().registered_model_name
         stage = 'production'
         model_versions = self.client.get_latest_versions(name=model_name, stages=[stage])
-        if len(model_versions) > 0:
-            self.model: Model = mlflow.keras.load_model(f'models:/{model_name}/{stage}')
-            self.client.log_param(run_id=self.run.info.run_id, key='model_name', value=model_versions.name)
-            self.client.log_param(run_id=self.run.info.run_id, key='model_version', value=model_versions.version)
-        else:
+        if len(model_versions) < 1:
             raise RuntimeError(f'model not found: {model_name}/{stage}')
+
+        self.model: Model = mlflow.keras.load_model(f'models:/{model_name}/{stage}')
+        self.client.log_param(run_id=self.run.info.run_id, key='model_name', value=model_versions[0].name)
+        self.client.log_param(run_id=self.run.info.run_id, key='model_version', value=model_versions[0].version)
 
         self.client.log_dict(run_id=self.run.info.run_id, dictionary=self.model.to_json(), artifact_file="model.json")
         self.client.log_param(run_id=self.run.info.run_id, key='features_num', value=len(self.features))
