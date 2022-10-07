@@ -220,7 +220,7 @@ def main(args, course: str, unit: str, lesson):
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
-    client.log_param(run_id=run.info.run_id, key='max_episode_steps', value=context_data['stop_episode_len'])
+    client.log_param(run_id=run.info.run_id, key='max_episode_steps', value=context_data['max_episode_steps'])
     client.log_param(run_id=run.info.run_id, key='num_samples', value=context_data['num_samples'])
     client.log_param(run_id=run.info.run_id, key='anomaly_total', value=context_data['anomaly_total'])
     client.log_param(run_id=run.info.run_id, key='dataset_size', value=context_data['dataset_size'])
