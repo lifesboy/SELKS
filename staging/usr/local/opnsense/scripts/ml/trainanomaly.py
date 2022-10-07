@@ -127,7 +127,7 @@ def main(args, course: str, unit: str, lesson):
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers
-    features = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
+    features_request = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
     data_source = args.data_source
     input_files = common.get_data_normalized_labeled_files_by_pattern(data_source)
     destination_dir = f"{common.DATA_TRAINED_DIR}{course}/{unit}/"
@@ -179,8 +179,8 @@ def main(args, course: str, unit: str, lesson):
         "episode_reward_mean": args.stop_reward,
     }
 
-    client.log_param(run_id=run.info.run_id, key='features_num', value=len(features))
-    client.log_text(run_id=run.info.run_id, text=f'{features}', artifact_file='features.json')
+    client.log_param(run_id=run.info.run_id, key='features_request_num', value=len(features_request))
+    client.log_text(run_id=run.info.run_id, text=f'{features_request}', artifact_file='features_request.json')
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
     client.log_param(run_id=run.info.run_id, key='config', value=config)  # assert mlflow auto-log param too long error
@@ -203,6 +203,7 @@ def main(args, course: str, unit: str, lesson):
 
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas()
+    features = set(features_request) - set(dataset.schema(fetch_if_missing=True).names)
     context_data: dict = {
         'features': features,
         'max_episode_steps': args.stop_episode_len,
@@ -220,6 +221,8 @@ def main(args, course: str, unit: str, lesson):
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
+    client.log_param(run_id=run.info.run_id, key='features_num', value=len(context_data['features']))
+    client.log_text(run_id=run.info.run_id, text=f"{context_data['features']}", artifact_file='features.json')
     client.log_param(run_id=run.info.run_id, key='max_episode_steps', value=context_data['max_episode_steps'])
     client.log_param(run_id=run.info.run_id, key='num_samples', value=context_data['num_samples'])
     client.log_param(run_id=run.info.run_id, key='anomaly_total', value=context_data['anomaly_total'])
@@ -232,24 +235,24 @@ def main(args, course: str, unit: str, lesson):
         # in case of error, sometime we're unable to recover an experiment
         # It should be switch to another unit, and assume agent is fail at error unit
         return tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
-                           name=unit,
-                           local_dir=f"/drl/ray_results/{course}",
-                           trial_name_creator=lambda _: lesson,
-                           trial_dirname_creator=lambda _: lesson,
-                           # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
-                           keep_checkpoints_num=20,
-                           checkpoint_freq=1,
-                           checkpoint_at_end=True,
-                           resume=resume,
-                           callbacks=[AnomalyLoggerCallback(
-                               tracking_uri=common.MLFLOW_TRACKING_URI,
-                               tags={
-                                   'training_name': training_name,
-                                   common.TAG_PARENT_RUN_UUID: run.info.run_id,
-                                   common.TAG_RUN_TAG: args.tag,
-                               },
-                               experiment_name="anomaly-model",
-                               save_artifact=True), TBXLoggerCallback()])
+                        name=unit,
+                        local_dir=f"/drl/ray_results/{course}",
+                        trial_name_creator=lambda _: lesson,
+                        trial_dirname_creator=lambda _: lesson,
+                        # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
+                        keep_checkpoints_num=20,
+                        checkpoint_freq=1,
+                        checkpoint_at_end=True,
+                        resume=resume,
+                        callbacks=[AnomalyLoggerCallback(
+                            tracking_uri=common.MLFLOW_TRACKING_URI,
+                            tags={
+                                'training_name': training_name,
+                                common.TAG_PARENT_RUN_UUID: run.info.run_id,
+                                common.TAG_RUN_TAG: args.tag,
+                            },
+                            experiment_name="anomaly-model",
+                            save_artifact=True), TBXLoggerCallback()])
 
     try:
 
