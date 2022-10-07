@@ -59,7 +59,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='dataset_size', value=self.dataset_size)
         self._client.log_param(run_id=self._run.info.run_id, key='anomaly_total', value=self.anomaly_total)
         self._client.log_param(run_id=self._run.info.run_id, key='features_num', value=len(self.features))
-        self._client.log_param(run_id=self._run.info.run_id, key='features', value=self.features)
+        self._client.log_text(run_id=self._run.info.run_id, text=f'{self.features}', artifact_file='features.json')
 
     def reset(self):
         self.current_obs = None

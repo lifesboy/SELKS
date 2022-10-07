@@ -180,7 +180,7 @@ def main(args, course: str, unit: str, lesson):
     }
 
     client.log_param(run_id=run.info.run_id, key='features_num', value=len(features))
-    client.log_param(run_id=run.info.run_id, key='features', value=features)
+    client.log_text(run_id=run.info.run_id, text=f'{features}', artifact_file='features.json')
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
     client.log_param(run_id=run.info.run_id, key='config', value=config)  # assert mlflow auto-log param too long error
