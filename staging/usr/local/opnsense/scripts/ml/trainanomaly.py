@@ -203,7 +203,7 @@ def main(args, course: str, unit: str, lesson):
 
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas()
-    features = set(features_request) - set(dataset.schema(fetch_if_missing=True).names)
+    features = set(features_request).intersection(dataset.schema(fetch_if_missing=True).names)
     context_data: dict = {
         'features': features,
         'max_episode_steps': args.stop_episode_len,
