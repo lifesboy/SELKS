@@ -59,6 +59,11 @@ parser.add_argument(
     default=5000,
     help="Number of batch size to process.")
 parser.add_argument(
+    "--action",
+    type=str,
+    default="start",
+    help="run action")
+parser.add_argument(
     "--tag",
     type=str,
     default="train",
@@ -224,6 +229,10 @@ if __name__ == "__main__":
     kill_exists_processing()
     run, client = common.init_experiment(name=testing_course, run_name=testing_lesson)
     client.log_param(run_id=run.info.run_id, key=common.TAG_TRAIN_UNIT, value=testing_unit)
+
+    client.log_param(run_id=run.info.run_id, key='action', value=args.action)
+    if args.action == 'stop':
+        return
 
     try:
         main(args, testing_course, testing_unit, testing_lesson)

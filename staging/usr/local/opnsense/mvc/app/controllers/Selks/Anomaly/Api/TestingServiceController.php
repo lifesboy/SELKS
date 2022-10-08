@@ -62,10 +62,12 @@ class TestingServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly testing start %s %s %s web-test",
+            $runCommand = sprintf("anomaly testing start %s %s %s web-test %s",
                 $mdlAnomaly->testing->ServingUrl,
                 $mdlAnomaly->testing->DataSource,
-                $mdlAnomaly->testing->BatchSize);
+                $mdlAnomaly->testing->BatchSize,
+                isset($mdlAnomaly->testing->enabled) ? 'start' : 'stop'
+            );
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
             if ((string)$mdlAnomaly->testing->UpdateCron == "") {

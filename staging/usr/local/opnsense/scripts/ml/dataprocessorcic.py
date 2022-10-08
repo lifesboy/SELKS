@@ -40,11 +40,6 @@ parser.add_argument(
     default="",
     help="data source file paths")
 parser.add_argument(
-    "--tag",
-    type=str,
-    default="dataprocessing",
-    help="run tag")
-parser.add_argument(
     "--batch-size",
     type=int,
     default=1,
@@ -69,6 +64,16 @@ parser.add_argument(
     type=str,
     default='processed_data_' + common.get_course(),
     help="Number of CPUs to use.")
+parser.add_argument(
+    "--action",
+    type=str,
+    default="start",
+    help="run action")
+parser.add_argument(
+    "--tag",
+    type=str,
+    default="dataprocessing",
+    help="run tag")
 
 
 # data_source = [
@@ -168,7 +173,7 @@ def kill_exists_processing():
         os.kill(pid, signal.SIGTERM)
 
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor.py --data-source=nsm/*.csv --batch-size=500 --batch-size-source=1 --num-gpus=0.4 --num-cpus=0.1 --data-destination=nsm --tag=manual-processing
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorcic.py --data-source=cic2018/*.csv --batch-size=500 --batch-size-source=1 --num-gpus=0.4 --num-cpus=0.1 --data-destination=cic2018 --tag=manual-processing-cic2018
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorcic.py --data-source=cic2018/*.csv --batch-size=10000 --batch-size-source=1 --num-gpus=0.4 --num-cpus=0 --data-destination=cic2018 --tag=manual-processing-cic2018
 
 
 if __name__ == "__main__":
@@ -188,6 +193,10 @@ if __name__ == "__main__":
 
     kill_exists_processing()
     run, client = common.init_experiment(name='data-processor', run_name='%s-%s' % (tag, time.time()))
+
+    client.log_param(run_id=run.info.run_id, key='action', value=args.action)
+    if args.action == 'stop':
+        return
 
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,

@@ -65,6 +65,11 @@ parser.add_argument(
     default='inferred_data_' + common.get_course(),
     help="Number of CPUs to use.")
 parser.add_argument(
+    "--action",
+    type=str,
+    default="start",
+    help="run action")
+parser.add_argument(
     "--tag",
     type=str,
     default="train",
@@ -234,6 +239,10 @@ if __name__ == "__main__":
     kill_exists_processing()
     run, client = common.init_experiment(name=inferring_course, run_name=inferring_lesson)
     client.log_param(run_id=run.info.run_id, key=common.TAG_TRAIN_UNIT, value=inferring_unit)
+
+    client.log_param(run_id=run.info.run_id, key='action', value=args.action)
+    if args.action == 'stop':
+        return
 
     try:
         main(args, inferring_course, inferring_unit, inferring_lesson)

@@ -103,6 +103,11 @@ parser.add_argument(
     default=1000,
     help="Number of batch size to process.")
 parser.add_argument(
+    "--action",
+    type=str,
+    default="start",
+    help="run action")
+parser.add_argument(
     "--tag",
     type=str,
     default="train",
@@ -287,6 +292,10 @@ if __name__ == "__main__":
     # mlflow.keras.autolog()
     run, client = common.init_experiment(name=training_course, run_name=training_lesson)
     client.log_param(run_id=run.info.run_id, key=common.TAG_TRAIN_UNIT, value=training_unit)
+
+    client.log_param(run_id=run.info.run_id, key='action', value=args.action)
+    if args.action == 'stop':
+        return
 
     try:
         main(args, training_course, training_unit, training_lesson)

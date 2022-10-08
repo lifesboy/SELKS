@@ -965,7 +965,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly dataprocessor start</command>
-          <parameters>nsm 500 10 0.4 0.1 nsm/*.csv auto-processing</parameters>
+          <parameters>nsm 500 10 0.4 0.1 nsm/*.csv auto-processing start</parameters>
           <description>anomaly data processor updates</description>
         </job>
         <job uuid="0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f">
@@ -978,7 +978,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly dataprocessorcic start</command>
-          <parameters>cic2018 10000 1 0.4 0 cic2018/*.csv auto-processing-cic2018</parameters>
+          <parameters>cic2018 10000 1 0.4 0 cic2018/*.csv auto-processing-cic2018 start</parameters>
           <description>anomaly label data processor cic updates</description>
         </job>
         <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
@@ -991,7 +991,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly start</command>
-          <parameters>10000 10000 10000 10000 cic2018/*.csv auto-train</parameters>
+          <parameters>10000 10000 10000 10000 cic2018/*.csv auto-train start</parameters>
           <description>anomaly training updates</description>
         </job>
         <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
@@ -1004,7 +1004,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly testing start</command>
-          <parameters>/anomaly-staging cic2018/*.csv 500 auto-test</parameters>
+          <parameters>/anomaly-staging cic2018/*.csv 500 auto-test start</parameters>
           <description>anomaly testing updates</description>
         </job>
         <job uuid="5dae6f51-476f-4fb6-a8df-401e4f320082">
@@ -1030,7 +1030,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly inferring start</command>
-          <parameters>nsm 500 nsm/*.csv /anomaly-production auto-infer</parameters>
+          <parameters>nsm 500 nsm/*.csv /anomaly-production auto-infer start</parameters>
           <description>anomaly inferring updates</description>
         </job>
       </jobs>

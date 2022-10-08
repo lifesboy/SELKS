@@ -62,14 +62,16 @@ class DataProcessorServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly dataprocessor start %s %s %s %s %s %s %s",
+            $runCommand = sprintf("anomaly dataprocessor start %s %s %s %s %s %s %s %s",
                 $mdlAnomaly->dataProcessor->DataDestination,
                 $mdlAnomaly->dataProcessor->BatchSize,
                 $mdlAnomaly->dataProcessor->BatchSizeSource,
                 $mdlAnomaly->dataProcessor->NumGpus,
                 $mdlAnomaly->dataProcessor->NumCpus,
                 $mdlAnomaly->dataProcessor->DataSource,
-                'web-processing');
+                'web-processing',
+                isset($mdlAnomaly->dataProcessor->enabled) ? 'start' : 'stop'
+            );
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
             if ((string)$mdlAnomaly->dataProcessor->UpdateCron == "") {
