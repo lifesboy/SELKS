@@ -188,6 +188,12 @@ function core_services()
         'name' => 'cicflowmeter-timer',
     );
 
+    $services[] = array(
+        'description' => gettext('AI DB Administration service'),
+        'systemctl' => 'supervisor',
+        'name' => 'supervisor',
+    );
+
     return $services;
 }
 
