@@ -26,6 +26,9 @@ df = DataFrame.from_dict({
     'f1': [5, 3, 2, 1, 0],
     'label': ['', 'Benign', 'Benign', 'Brute Force -Web', 'Benign']
 })
+
+print(set(df.columns))
+
 dst_port = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df['f1'])).map(norm_port)
 label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df['label'])).map(norm_label)
 

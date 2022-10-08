@@ -340,6 +340,10 @@ def norm_protocol(p: int) -> float:
     return p / 100
 
 
+def norm_flag(f: float) -> float:
+    return f / 0xFF
+
+
 # "Flow Duration"
 def norm_max_int(v: int) -> float:
     return v / sys.maxsize

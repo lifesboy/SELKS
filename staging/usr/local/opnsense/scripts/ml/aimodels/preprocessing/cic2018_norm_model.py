@@ -158,6 +158,99 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
 
         return schema
 
+    @staticmethod
+    def get_feature_norm() -> dict:
+        feature_norm = {
+            # FLOW_ID: None,
+            # SRC_IP: None,
+            SRC_PORT: norm.norm_port,
+            # SRC_MAC: None,
+            # DST_IP: None,
+            DST_PORT: norm.norm_port,
+            # DST_MAC: None,
+            PROTOCOL: norm.norm_protocol,
+            # TIMESTAMP: None,
+            FLOW_DURATION: norm.norm_time_1h,
+            TOT_FWD_PKTS: norm.norm_size_1mb,
+            TOT_BWD_PKTS: norm.norm_size_1mb,
+            TOTLEN_FWD_PKTS: norm.norm_size_1mb,
+            TOTLEN_BWD_PKTS: norm.norm_size_1mb,
+            FWD_PKT_LEN_MAX: norm.norm_size_1mb,
+            FWD_PKT_LEN_MIN: norm.norm_size_1mb,
+            FWD_PKT_LEN_MEAN: norm.norm_size_1mb,
+            FWD_PKT_LEN_STD: norm.norm_size_1mb,
+            BWD_PKT_LEN_MAX: norm.norm_size_1mb,
+            BWD_PKT_LEN_MIN: norm.norm_size_1mb,
+            BWD_PKT_LEN_MEAN: norm.norm_size_1mb,
+            BWD_PKT_LEN_STD: norm.norm_size_1mb,
+            FLOW_BYTS_S: norm.norm_size_1mb,
+            FLOW_PKTS_S: norm.norm_size_1mb,
+            FLOW_IAT_MEAN: norm.norm_size_1mb,
+            FLOW_IAT_STD: norm.norm_size_1mb,
+            FLOW_IAT_MAX: norm.norm_size_1mb,
+            FLOW_IAT_MIN: norm.norm_size_1mb,
+            FWD_IAT_TOT: norm.norm_size_1mb,
+            FWD_IAT_MEAN: norm.norm_size_1mb,
+            FWD_IAT_STD: norm.norm_size_1mb,
+            FWD_IAT_MAX: norm.norm_size_1mb,
+            FWD_IAT_MIN: norm.norm_size_1mb,
+            BWD_IAT_TOT: norm.norm_size_1mb,
+            BWD_IAT_MEAN: norm.norm_size_1mb,
+            BWD_IAT_STD: norm.norm_size_1mb,
+            BWD_IAT_MAX: norm.norm_size_1mb,
+            BWD_IAT_MIN: norm.norm_size_1mb,
+            FWD_PSH_FLAGS: norm.norm_flag,
+            BWD_PSH_FLAGS: norm.norm_flag,
+            FWD_URG_FLAGS: norm.norm_flag,
+            BWD_URG_FLAGS: norm.norm_flag,
+            FWD_HEADER_LEN: norm.norm_size_1mb,
+            BWD_HEADER_LEN: norm.norm_size_1mb,
+            FWD_PKTS_S: norm.norm_size_1mb,
+            BWD_PKTS_S: norm.norm_size_1mb,
+            PKT_LEN_MIN: norm.norm_size_1mb,
+            PKT_LEN_MAX: norm.norm_size_1mb,
+            PKT_LEN_MEAN: norm.norm_size_1mb,
+            PKT_LEN_STD: norm.norm_size_1mb,
+            PKT_LEN_VAR: norm.norm_size_1mb,
+            FIN_FLAG_CNT: norm.norm_flag,
+            SYN_FLAG_CNT: norm.norm_flag,
+            RST_FLAG_CNT: norm.norm_flag,
+            PSH_FLAG_CNT: norm.norm_flag,
+            ACK_FLAG_CNT: norm.norm_flag,
+            URG_FLAG_CNT: norm.norm_flag,
+            CWE_FLAG_COUNT: norm.norm_flag,
+            ECE_FLAG_CNT: norm.norm_flag,
+            DOWN_UP_RATIO: lambda i: min(i, 1),
+            PKT_SIZE_AVG: norm.norm_size_1mb,
+            FWD_SEG_SIZE_AVG: norm.norm_size_1mb,
+            BWD_SEG_SIZE_AVG: norm.norm_size_1mb,
+            FWD_BYTS_B_AVG: norm.norm_size_1mb,
+            FWD_PKTS_B_AVG: norm.norm_size_1mb,
+            FWD_BLK_RATE_AVG: norm.norm_size_1mb,
+            BWD_BYTS_B_AVG: norm.norm_size_1mb,
+            BWD_PKTS_B_AVG: norm.norm_size_1mb,
+            BWD_BLK_RATE_AVG: norm.norm_size_1mb,
+            SUBFLOW_FWD_PKTS: norm.norm_size_1mb,
+            SUBFLOW_FWD_BYTS: norm.norm_size_1mb,
+            SUBFLOW_BWD_PKTS: norm.norm_size_1mb,
+            SUBFLOW_BWD_BYTS: norm.norm_size_1mb,
+            INIT_FWD_WIN_BYTS: norm.norm_size_1mb,
+            INIT_BWD_WIN_BYTS: norm.norm_size_1mb,
+            FWD_ACT_DATA_PKTS: norm.norm_size_1mb,
+            FWD_SEG_SIZE_MIN: norm.norm_size_1mb,
+            ACTIVE_MEAN: norm.norm_time_1h,
+            ACTIVE_STD: norm.norm_time_1h,
+            ACTIVE_MAX: norm.norm_time_1h,
+            ACTIVE_MIN: norm.norm_time_1h,
+            IDLE_MEAN: norm.norm_time_1h,
+            IDLE_STD: norm.norm_time_1h,
+            IDLE_MAX: norm.norm_time_1h,
+            IDLE_MIN: norm.norm_time_1h,
+            LABEL: norm.norm_label,
+        }
+
+        return feature_norm
+
     def __init__(self):
         super().__init__()
         # global run
@@ -191,64 +284,18 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         df.columns = df.columns.str.lower()
         df.columns = df.columns.str.replace(' ', '_')
 
-        dst_port = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[DST_PORT])).map(norm.norm_port)
-        protocol = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PROTOCOL])).map(norm.norm_protocol)
-        flow_duration = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FLOW_DURATION])).map(norm.norm_time_1h)
-        tot_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_FWD_PKTS])).map(norm.norm_size_1mb)
-        tot_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOT_BWD_PKTS])).map(norm.norm_size_1mb)
+        feature_norm = Cic2018NormModel.get_feature_norm()
+        features = set(df.columns).intersection(feature_norm.keys())
+        df_norm = df[features]
 
-        totlen_fwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOTLEN_FWD_PKTS])).map(norm.norm_size_1mb)
-        totlen_bwd_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[TOTLEN_BWD_PKTS])).map(norm.norm_size_1mb)
-        fwd_pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MAX])).map(norm.norm_size_1mb)
-        fwd_pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MIN])).map(norm.norm_size_1mb)
-        fwd_pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_MEAN])).map(norm.norm_size_1mb)
-        fwd_pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_PKT_LEN_STD])).map(norm.norm_size_1mb)
-        bwd_pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MAX])).map(norm.norm_size_1mb)
-        bwd_pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MIN])).map(norm.norm_size_1mb)
-        bwd_pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_MEAN])).map(norm.norm_size_1mb)
-        bwd_pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_PKT_LEN_STD])).map(norm.norm_size_1mb)
-        pkt_len_max = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_MAX])).map(norm.norm_size_1mb)
-        pkt_len_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_MIN])).map(norm.norm_size_1mb)
-        pkt_len_mean = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_MEAN])).map(norm.norm_size_1mb)
-        pkt_len_std = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_STD])).map(norm.norm_size_1mb)
-        pkt_len_var = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[PKT_LEN_VAR])).map(norm.norm_size_1mb)
-        fwd_header_len = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_HEADER_LEN])).map(norm.norm_size_1mb)
-        bwd_header_len = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[BWD_HEADER_LEN])).map(norm.norm_size_1mb)
-        fwd_seg_size_min = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_SEG_SIZE_MIN])).map(norm.norm_size_1mb)
-        fwd_act_data_pkts = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[FWD_ACT_DATA_PKTS])).map(norm.norm_size_1mb)
+        if LABEL not in features:
+            df_norm[LABEL] = ''
 
         data = DataFrame(data={
-            DST_PORT: list(dst_port.as_numpy_iterator()),
-            PROTOCOL: list(protocol.as_numpy_iterator()),
-            FLOW_DURATION: list(flow_duration.as_numpy_iterator()),
-            TOT_FWD_PKTS: list(tot_fwd_pkts.as_numpy_iterator()),
-            TOT_BWD_PKTS: list(tot_bwd_pkts.as_numpy_iterator()),
-
-            TOTLEN_FWD_PKTS: list(totlen_fwd_pkts.as_numpy_iterator()),
-            TOTLEN_BWD_PKTS: list(totlen_bwd_pkts.as_numpy_iterator()),
-            FWD_PKT_LEN_MAX: list(fwd_pkt_len_max.as_numpy_iterator()),
-            FWD_PKT_LEN_MIN: list(fwd_pkt_len_min.as_numpy_iterator()),
-            FWD_PKT_LEN_MEAN: list(fwd_pkt_len_mean.as_numpy_iterator()),
-            FWD_PKT_LEN_STD: list(fwd_pkt_len_std.as_numpy_iterator()),
-            BWD_PKT_LEN_MAX: list(bwd_pkt_len_max.as_numpy_iterator()),
-            BWD_PKT_LEN_MIN: list(bwd_pkt_len_min.as_numpy_iterator()),
-            BWD_PKT_LEN_MEAN: list(bwd_pkt_len_mean.as_numpy_iterator()),
-            BWD_PKT_LEN_STD: list(bwd_pkt_len_std.as_numpy_iterator()),
-            PKT_LEN_MAX: list(pkt_len_max.as_numpy_iterator()),
-            PKT_LEN_MIN: list(pkt_len_min.as_numpy_iterator()),
-            PKT_LEN_MEAN: list(pkt_len_mean.as_numpy_iterator()),
-            PKT_LEN_STD: list(pkt_len_std.as_numpy_iterator()),
-            PKT_LEN_VAR: list(pkt_len_var.as_numpy_iterator()),
-            FWD_HEADER_LEN: list(fwd_header_len.as_numpy_iterator()),
-            BWD_HEADER_LEN: list(bwd_header_len.as_numpy_iterator()),
-            FWD_SEG_SIZE_MIN: list(fwd_seg_size_min.as_numpy_iterator()),
-            FWD_ACT_DATA_PKTS: list(fwd_act_data_pkts.as_numpy_iterator()),
+            i: list(tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df_norm[i]))
+                    .map(feature_norm[i])
+                    .as_numpy_iterator())
+            for i in features
         }, index=df[TIMESTAMP])
-
-        if LABEL in df.columns:
-            label = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df[LABEL])).map(norm.norm_label)
-            data[LABEL] = list(label.as_numpy_iterator())
-        else:
-            data[LABEL] = ['' for i in range(len(data.index))]
 
         return data
