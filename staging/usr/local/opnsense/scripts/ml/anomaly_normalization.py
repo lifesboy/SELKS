@@ -354,8 +354,8 @@ def norm_n_int(v: int, n: int = sys.maxsize) -> float:
 
 
 @tf_function(tf)
-def norm_min(x: float, y: float) -> float:
-    return x if x <= y else y
+def norm_min_1(x: float) -> float:
+    return x if x <= 1 else np.float64(1.0)
 
 
 @tf_function(tf)
