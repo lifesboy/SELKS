@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
     client.log_param(run_id=run.info.run_id, key='action', value=args.action)
     if args.action == 'stop':
-        return
+        exit(0)
 
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
