@@ -208,7 +208,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             URG_FLAG_CNT: norm.norm_flag,
             CWE_FLAG_COUNT: norm.norm_flag,
             ECE_FLAG_CNT: norm.norm_flag,
-            DOWN_UP_RATIO: lambda i: min(i, 1),
+            DOWN_UP_RATIO: lambda i: norm.norm_min(i, 1),
             PKT_SIZE_AVG: norm.norm_size_1mb,
             FWD_SEG_SIZE_AVG: norm.norm_size_1mb,
             BWD_SEG_SIZE_AVG: norm.norm_size_1mb,
