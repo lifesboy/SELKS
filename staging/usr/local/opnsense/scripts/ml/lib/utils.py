@@ -53,6 +53,10 @@ def get_process_ids(script: str) -> map:
     return map(lambda i: int(i), set(p_ids) - set(['']))
 
 
+def is_float(val: str) -> bool:
+    return len(val) > 0 and val.replace('.', '', 1).isdigit()
+
+
 def is_ray_gpu_ready() -> bool:
     script_command = "ray status | grep GPU"
     out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()

@@ -199,12 +199,14 @@ class DatasetCache(object):
                                   .flat_map(tf.data.Dataset.from_tensor_slices)
                                   .unique().as_numpy_iterator())
 
-                    record['metadata']['labels'] = b','.join(labels).decode('utf-8')
-                    record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
                     record['metadata'][label_column] = True
                     record['metadata']['label'] = True
-                    for f in labels:
-                        record['metadata'][f"label/{f.lower().strip().replace(b' ', b'_').decode('utf-8')}"] = True
+                    # avoid too much values on normalized_label data
+                    if not any(utils.is_float(i) and float(i) != 0 and float(i) for i in labels):
+                        record['metadata']['labels'] = b','.join(labels).decode('utf-8')
+                        record['metadata']['tag'] = b'_'.join(labels).replace(b' ', b'_').decode('utf-8')
+                        for f in labels:
+                            record['metadata'][f"label/{f.lower().strip().replace(b' ', b'_').decode('utf-8')}"] = True
 
                 for f in features:
                     f_name = f.replace(' ', '_').lower()
