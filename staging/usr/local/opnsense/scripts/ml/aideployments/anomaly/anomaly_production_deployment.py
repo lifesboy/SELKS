@@ -13,6 +13,7 @@ from starlette.requests import Request
 
 import common
 from aimodels.anomaly.anomaly_model import AnomalyModel
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS, LABEL
 
 
@@ -42,6 +43,7 @@ class AnomalyProductionDeployment:
         if len(model_versions) < 1:
             raise RuntimeError(f'model not found: {model_name}/{stage}')
 
+        self.norm_model = CicFlowmeterNormModel()
         self.model: Model = mlflow.keras.load_model(f'models:/{model_name}/{stage}')
         self.client.log_param(run_id=self.run.info.run_id, key='model_name', value=model_versions[0].name)
         self.client.log_param(run_id=self.run.info.run_id, key='model_version', value=model_versions[0].version)
@@ -73,11 +75,13 @@ class AnomalyProductionDeployment:
             raise e
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
+        df_norm = self.norm_model(df)
+
         features_num = len(self.features)
         batch_size_padding = max(5 - batch_size, 0)  # batch size should greater than or equal 5 to avoid error on GPU
         x_padding = np.full(batch_size_padding * features_num, fill_value=0).reshape((batch_size_padding, features_num))
 
-        x = np.concatenate((df.to_numpy(), x_padding)).reshape((self.num_step, batch_size + batch_size_padding, features_num))
+        x = np.concatenate((df_norm.to_numpy(), x_padding)).reshape((self.num_step, batch_size + batch_size_padding, features_num))
         s = np.full(self.num_step, fill_value=len(self.features) - 1, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
 
