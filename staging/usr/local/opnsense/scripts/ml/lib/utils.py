@@ -71,7 +71,7 @@ def lines_of_files(file_pattern: str) -> DataFrame:
     script_command = "wc -l %s" % file_pattern
     lines = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
     df = pd.DataFrame(map(lambda i: i.strip().split(' '), lines[:-1]), columns=['line_num', 'file'])
-    df['line_num'] = df['line_num'].apply(lambda i: int(i), axis=1)
+    df['line_num'] = df['line_num'].apply(lambda i: int(i))
     df = df.loc[df['line_num'] > 0]
     return df
 
