@@ -67,7 +67,7 @@ class ServiceController extends ApiMutableServiceControllerBase
                 $mdlAnomaly->general->StopTimesteps, $mdlAnomaly->general->StopReward,
                 $mdlAnomaly->general->DataSource,
                 'web-train',
-                isset($mdlAnomaly->general->enabled) ? 'start' : 'stop'
+                $mdlAnomaly->general->enabled == '1' ? 'start' : 'stop'
             );
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.

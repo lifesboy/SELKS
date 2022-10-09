@@ -70,7 +70,7 @@ class DataProcessorServiceController extends ApiMutableServiceControllerBase
                 $mdlAnomaly->dataProcessor->NumCpus,
                 $mdlAnomaly->dataProcessor->DataSource,
                 'web-processing',
-                isset($mdlAnomaly->dataProcessor->enabled) ? 'start' : 'stop'
+                $mdlAnomaly->dataProcessor->enabled == '1' ? 'start' : 'stop'
             );
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.

@@ -66,7 +66,7 @@ class TestingServiceController extends ApiMutableServiceControllerBase
                 $mdlAnomaly->testing->ServingUrl,
                 $mdlAnomaly->testing->DataSource,
                 $mdlAnomaly->testing->BatchSize,
-                isset($mdlAnomaly->testing->enabled) ? 'start' : 'stop'
+                $mdlAnomaly->testing->enabled == '1' ? 'start' : 'stop'
             );
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.

@@ -67,7 +67,7 @@ class InferringServiceController extends ApiMutableServiceControllerBase
                 $mdlAnomaly->inferring->BatchSize,
                 $mdlAnomaly->inferring->DataSource,
                 $mdlAnomaly->inferring->ServingUrl,
-                isset($mdlAnomaly->inferring->enabled) ? 'start' : 'stop'
+                $mdlAnomaly->inferring->enabled  == '1' ? 'start' : 'stop'
             );
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
