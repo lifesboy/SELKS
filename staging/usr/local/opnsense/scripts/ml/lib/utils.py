@@ -83,7 +83,8 @@ def split_to_blocks(total: int, block: int) -> [int]:
 def split_cmd_of_blocks(file: str, blocks: [(int, int)]) -> [str]:
     return [
         *[f"head -n 1 '{file}' > '{file}.{i:05}.csv'" for i in range(0, len(blocks))],
-        *[f"awk 'NR>{blocks[i][0] + 1} && NR<={blocks[i][1] + 1}' '{file}' >> '{file}.{i:05}.csv'" for i in range(0, len(blocks))]
+        *[f"awk 'NR>{blocks[i][0] + 1} && NR<={blocks[i][1] + 1}' '{file}' >> '{file}.{i:05}.csv'" for i in range(0, len(blocks))],
+        f"mv '{file}' '{file}'.bak"
     ]
 
 
