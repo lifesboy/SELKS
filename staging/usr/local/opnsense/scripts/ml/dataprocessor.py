@@ -184,7 +184,7 @@ if __name__ == "__main__":
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     data_destination = args.data_destination
-    destination_dir = common.DATA_NORMALIZED_DIR + data_destination + '/'
+    destination_dir = common.DATA_NORMALIZED_LABELED_DIR + data_destination + '/'
 
     input_files = common.get_data_featured_extracted_files_by_pattern(data_source)
     # input_files = data_source.split(',')

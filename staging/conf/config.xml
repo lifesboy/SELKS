@@ -965,7 +965,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly dataprocessor start</command>
-          <parameters>nsm 500 10 0.4 0.1 nsm/*.csv auto-processing start</parameters>
+          <parameters>nsm_anomaly 500 10 0.4 0.1 nsm_anomaly/*.csv auto-processing start</parameters>
           <description>anomaly data processor updates</description>
         </job>
         <job uuid="0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f">
@@ -1030,7 +1030,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly inferring start</command>
-          <parameters>nsm 500 nsm/*.csv /anomaly-production auto-infer start</parameters>
+          <parameters>nsm_anomaly 500 nsm/*.csv /anomaly-production auto-infer start</parameters>
           <description>anomaly inferring updates</description>
         </job>
       </jobs>
@@ -1224,12 +1224,12 @@
       </general>
       <dataProcessor>
         <enabled>1</enabled>
-        <DataSource>nsm/*.csv</DataSource>
+        <DataSource>nsm_anomaly/*.csv</DataSource>
         <BatchSize>10000</BatchSize>
         <BatchSizeSource>10</BatchSizeSource>
         <NumGpus>0.4</NumGpus>
         <NumCpus>0.1</NumCpus>
-        <DataDestination>nsm</DataDestination>
+        <DataDestination>nsm_anomaly</DataDestination>
         <UpdateCron>1866cc3f-86c7-4c69-9e81-ef6764f7b278</UpdateCron>
         <UpdateTrainCron>0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f</UpdateTrainCron>
       </dataProcessor>
@@ -1242,7 +1242,7 @@
       </testing>
       <inferring>
         <enabled>1</enabled>
-        <DataDestination>nsm</DataDestination>
+        <DataDestination>nsm_anomaly</DataDestination>
         <BatchSize>500</BatchSize>
         <DataSource>nsm/*.csv</DataSource>
         <ServingUrl>/anomaly-production</ServingUrl>

@@ -39,22 +39,22 @@ DATA_DIR = '/cic/2018/'
 TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'
 
 DATA_FEATURED_EXTRACTED_DIR = '/cic/dataset/featured_extracted/'
-DATA_NORMALIZED_DIR = '/cic/dataset/normalized/'
+# DATA_NORMALIZED_DIR = '/cic/dataset/normalized/'
 DATA_NORMALIZED_LABELED_DIR = '/cic/dataset/normalized_labeled/'
 DATA_SAMPLING_DIR = '/cic/dataset/sampling/'
 DATA_TRAINED_DIR = '/cic/dataset/trained/'
 DATA_TESTED_DIR = '/cic/dataset/tested/'
-DATA_INFERRED_DIR = '/cic/dataset/inferred/'
+# DATA_INFERRED_DIR = '/cic/dataset/inferred/'
 TMP_DIR = '/drl/tmp/'
 
 Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_FEATURED_EXTRACTED_DIR).mkdir(parents=True, exist_ok=True)
-Path(DATA_NORMALIZED_DIR).mkdir(parents=True, exist_ok=True)
+# Path(DATA_NORMALIZED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_NORMALIZED_LABELED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_SAMPLING_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_TRAINED_DIR).mkdir(parents=True, exist_ok=True)
 Path(DATA_TESTED_DIR).mkdir(parents=True, exist_ok=True)
-Path(DATA_INFERRED_DIR).mkdir(parents=True, exist_ok=True)
+# Path(DATA_INFERRED_DIR).mkdir(parents=True, exist_ok=True)
 
 TAG_DATASET_SIZE = 'dataset.size'
 TAG_DATASET_MIN = 'dataset.min'
@@ -154,8 +154,8 @@ def get_data_featured_extracted_files_by_pattern(pattern: str):
     return glob.glob(DATA_FEATURED_EXTRACTED_DIR + pattern)
 
 
-def get_data_normalized_files_by_pattern(pattern: str):
-    return glob.glob(DATA_NORMALIZED_DIR + pattern)
+# def get_data_normalized_files_by_pattern(pattern: str):
+#     return glob.glob(DATA_NORMALIZED_DIR + pattern)
 
 
 def get_data_normalized_labeled_files_by_pattern(pattern: str):
