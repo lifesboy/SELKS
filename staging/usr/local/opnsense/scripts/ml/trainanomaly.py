@@ -146,7 +146,7 @@ def main(args, course: str, unit: str, lesson):
     data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{course}/{unit}/"
     utils.create_sampling(data_source_sampling_dir, data_source_files)
 
-    client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
+    client.log_param(run_id=run.info.run_id, key='data_source', value=args.data_source)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
     client.set_tag(run_id=run.info.run_id, key='training_name', value=training_name)
 
