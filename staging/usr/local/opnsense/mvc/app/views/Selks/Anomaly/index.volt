@@ -828,7 +828,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
             <br/>
         </div>
-        {{ partial("layout_partials/dataset_form",['fields':formTestingSettings,'id':'frm_TestingSettings_Dataset','api':'/api/anomaly/testing-settings/'])}}
+        {# { partial("layout_partials/dataset_form",['fields':formTestingSettings,'id':'frm_TestingSettings_Dataset','api':'/api/anomaly/testing-settings/'])} #}
     </div>
     <div id="inferringSettings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formInferringSettings,'id':'frm_InferringSettings'])}}
@@ -845,7 +845,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
             <br/>
         </div>
-        {{ partial("layout_partials/dataset_form",['fields':formInferringSettings,'id':'frm_InferringSettings_Dataset','api':'/api/anomaly/inferring-settings/'])}}
+        {# { partial("layout_partials/dataset_form",['fields':formInferringSettings,'id':'frm_InferringSettings_Dataset','api':'/api/anomaly/inferring-settings/'])} #}
     </div>
     <div id="settings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings'])}}
@@ -862,7 +862,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
             <br/>
         </div>
-        {{ partial("layout_partials/dataset_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings_Dataset','api':'/api/anomaly/settings/'])}}
+        {# { partial("layout_partials/dataset_form",['fields':formGeneralSettings,'id':'frm_GeneralSettings_Dataset','api':'/api/anomaly/settings/'])} #}
     </div>
     <div id="dataProcessorSettings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings'])}}
@@ -882,7 +882,7 @@ POSSIBILITY OF SUCH DAMAGE.
             <br/>
             <br/>
         </div>
-        {{ partial("layout_partials/dataset_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings_Dataset','api':'/api/anomaly/data-processor-settings/'])}}
+        {# { partial("layout_partials/dataset_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings_Dataset','api':'/api/anomaly/data-processor-settings/'])} #}
     </div>
     <div id="training_histories" class="tab-pane fade in">
       <!-- add installable rule files -->
@@ -972,6 +972,8 @@ POSSIBILITY OF SUCH DAMAGE.
           <br/><br/>
       </div>
     </div>
+
+    {{ partial("layout_partials/dataset_form",['fields':formDataProcessorSettings,'id':'frm_DataProcessorSettings_Dataset','api':'/api/anomaly/data-processor-settings/'])}}
 </div>
 
 {{ partial("layout_partials/base_dialog_processing") }}
