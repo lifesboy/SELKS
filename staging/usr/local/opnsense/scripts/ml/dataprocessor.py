@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import argparse
 import glob
-import math
 import os
 import signal
 import time
@@ -119,7 +118,6 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
     #read_options = csv.ReadOptions(column_names=list(schema.keys()), use_threads=False)
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
     convert_options = csv.ConvertOptions(column_types=schema)
-    parallelism = math.ceil(num_cpus)
 
     pipe: DatasetPipeline = ray.data.read_datasource(
         CicCSVDatasource(),
@@ -128,8 +126,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
         #read_options=read_options,
         parse_options=parse_options,
         convert_options=convert_options,
-        parallelism=parallelism
-    ).repartition(num_blocks=parallelism).window(blocks_per_window=batch_size)
+    ).window(blocks_per_window=batch_size)
     pipe = pipe.map_batches(CicFlowmeterNormModel, batch_format="pandas", compute="actors",
                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
     # tf.keras.layers.BatchNormalization
