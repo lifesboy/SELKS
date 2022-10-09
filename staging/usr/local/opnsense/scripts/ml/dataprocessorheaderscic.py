@@ -35,6 +35,17 @@ def split_csv_file(data_source: str):
     return ldf
 
 
+# mv Friday-02-03-2018_TrafficForML_CICFlowMeter.csv.bak Friday-02-03-2018_TrafficForML_CICFlowMeter.csv
+# mv Friday-16-02-2018_TrafficForML_CICFlowMeter.csv.bak Friday-16-02-2018_TrafficForML_CICFlowMeter.csv
+# mv Friday-23-02-2018_TrafficForML_CICFlowMeter.csv.bak Friday-23-02-2018_TrafficForML_CICFlowMeter.csv
+# mv Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv.bak Thuesday-20-02-2018_TrafficForML_CICFlowMeter.csv
+# mv Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv.bak Thursday-01-03-2018_TrafficForML_CICFlowMeter.csv
+# mv Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv.bak Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv
+# mv Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv.bak Thursday-22-02-2018_TrafficForML_CICFlowMeter.csv
+# mv Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv.bak Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv
+# mv Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv.bak Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv
+# mv Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv.bak Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv
+
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorheaderscic.py --data-source=cic2018/*.csv
 
 if __name__ == "__main__":
