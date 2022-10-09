@@ -31,7 +31,7 @@ def separate_csv_file(data_source: str):
 
 def split_csv_file(data_source: str):
     ldf = utils.lines_of_files(data_source)
-    ldf['result'] = ldf.apply(lambda i: utils.split_file_by_line_num(i, 1000000), axis=1)
+    ldf['result'] = ldf.apply(lambda i: utils.split_file_by_line_num(i, 500000), axis=1)
     return ldf
 
 
