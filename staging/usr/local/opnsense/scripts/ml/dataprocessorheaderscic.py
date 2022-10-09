@@ -29,6 +29,12 @@ def separate_csv_file(data_source: str):
     return ldf
 
 
+def split_csv_file():
+    ldf = utils.lines_of_files(data_source)
+    ldf['result'] = ldf.apply(lambda i: utils.split_file_by_line_num(i, 1000000), axis=1)
+    return ldf
+
+
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorheaderscic.py --data-source=cic2018/*.csv
 
 if __name__ == "__main__":
@@ -39,3 +45,7 @@ if __name__ == "__main__":
     kill_exists_processing()
     res = separate_csv_file(common.DATA_FEATURED_EXTRACTED_DIR + data_source)
     log.info('finish dataprocessorheaderscic: %s, %s', data_source, res['result'].tolist())
+
+    log.info('start splitting: %s', data_source)
+    res_split = split_csv_file(common.DATA_FEATURED_EXTRACTED_DIR + data_source)
+    log.info('finish splitting: %s, %s', data_source, res_split['result'].tolist())

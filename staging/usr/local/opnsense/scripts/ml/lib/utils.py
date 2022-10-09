@@ -1,3 +1,4 @@
+import math
 import os
 import subprocess
 from datetime import datetime
@@ -65,6 +66,34 @@ def restart_ray_service() -> str:
     return out
 
 
+def lines_of_files(file_pattern: str) -> DataFrame:
+    # script_command = "fgrep -n '%s' %s" % ('Dst Port', '/cic/dataset/featured_extracted/cic2018/*')
+    script_command = "wc -l %s" % file_pattern
+    lines = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.split('\n')
+    df = pd.DataFrame(map(lambda i: i.strip().split(' '), lines[:-1]), columns=['line_num', 'file'])
+    df['line_num'] = df['line_num'].apply(lambda i: int(i), axis=1)
+    df = df.loc[df['line_num'] > 0]
+    return df
+
+
+def split_to_blocks(total: int, block: int) -> [int]:
+    return [(i * block, min((i + 1) * block, total)) for i in range(0,  math.ceil(total / block))]
+
+
+def split_cmd_of_blocks(file: str, blocks: [(int, int)]) -> [str]:
+    return [
+        *[f"head -n 1 '{file}' > '{file}.{i:05}.csv'" for i in range(0, len(blocks))],
+        *[f"awk 'NR>{blocks[i][0] + 1} && NR<={blocks[i][1] + 1}' '{file}' >> '{file}.{i:05}.csv'" for i in range(0, len(blocks))]
+    ]
+
+
+def split_file_by_line_num(fd: DataFrame, line_per_file: int) -> str:
+    file = fd['file']
+    blocks = split_to_blocks(fd['line_num'] - 1, line_per_file)
+    split_commands = split_cmd_of_blocks(file, blocks)
+    return subprocess.run(' && '.join(split_commands), shell=True, capture_output=True, text=True).stdout
+
+
 def lines_in_files_of(filter: str, file_pattern: str) -> DataFrame:
     # script_command = "fgrep -n '%s' %s" % ('Dst Port', '/cic/dataset/featured_extracted/cic2018/*')
     script_command = "fgrep -n '%s' %s" % (filter, file_pattern)
@@ -82,9 +111,9 @@ def separate_file_by_lines(fd) -> str:
     lines = fd['line']
     texts = list(map(lambda i: i.lower().replace(' ', '_').replace('/', '_'), fd['text']))
     cp_commands = [
-        *["echo '%s' > %s.%s.csv" % (texts[i], file, i + 1) for i in range(0, size)],
-        *["awk 'NR>%s && NR<%s' %s >> %s.%s.csv" % (lines[i], lines[i + 1], file, file, i + 1) for i in range(0, size - 1)],
-        "awk 'NR>%s' %s >> %s.%s.csv" % (lines[-1], file, file, size),
+        *["echo '%s' > %s.%05d.csv" % (texts[i], file, i + 1) for i in range(0, size)],
+        *["awk 'NR>%s && NR<%s' %s >> %s.%05d.csv" % (lines[i], lines[i + 1], file, file, i + 1) for i in range(0, size - 1)],
+        "awk 'NR>%s' %s >> %s.%05d.csv" % (lines[-1], file, file, size),
         "mv %s %s.bak" % (file, file)
     ]
     return subprocess.run(' && '.join(cp_commands), shell=True, capture_output=True, text=True).stdout
