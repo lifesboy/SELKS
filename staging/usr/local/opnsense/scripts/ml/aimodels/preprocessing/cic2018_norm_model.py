@@ -296,6 +296,6 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
                     .map(feature_norm[i])
                     .as_numpy_iterator())
             for i in features
-        }, index=df[TIMESTAMP])
+        })
 
         return data
