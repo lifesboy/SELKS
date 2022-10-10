@@ -76,6 +76,11 @@ class AnomalyProductionDeployment:
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
         df_norm = self.norm_model(df)
+        padding_features = set(self.features) - set(df_norm.columns)
+        for f in padding_features:
+            df_norm[f] = 0.
+
+        df_norm = df_norm[self.features]
 
         features_num = len(self.features)
         batch_size_padding = max(5 - batch_size, 0)  # batch size should greater than or equal 5 to avoid error on GPU
