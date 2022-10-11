@@ -374,12 +374,12 @@ def norm_min_1(x: float) -> float:
 # SubflowFwdPackets     DS	−0.8473	                   PktSizeAvg	    DS	−0.9627
 @tf_function(tf)
 def norm_size_1mb(v: float) -> float:
-    return tf.math.minimum(tf.math.abs(v), SIZE_1MB) / SIZE_1MB * tf.math.sign(v)
+    return tf.math.sign(v) * tf.math.minimum(tf.math.abs(v), SIZE_1MB) / SIZE_1MB
 
 
 @tf_function(tf)
 def norm_time_1h(v: int) -> float:
-    return tf.math.minimum(tf.math.abs(v), TIME_1H) / TIME_1H * tf.math.sign(v)
+    return tf.math.sign(v) * tf.math.minimum(tf.math.abs(v), TIME_1H) / TIME_1H
 
 
 def norm_ip(ip: str) -> int:

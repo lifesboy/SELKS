@@ -286,4 +286,4 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             for i in features
         })
 
-        return data
+        return data.fillna(0.)
