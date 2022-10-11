@@ -374,7 +374,7 @@ def norm_min_1(x: float) -> float:
 # SubflowFwdPackets     DS	−0.8473	                   PktSizeAvg	    DS	−0.9627
 @tf_function(tf)
 def norm_size_1mb(v: float) -> float:
-    return (v / SIZE_1MB) if -SIZE_1MB < v and v < SIZE_1MB else np.float64(1.) if v >= SIZE_1MB else np.float64(-1.)
+    return (v / SIZE_1MB) if tf.math.abs(v) < SIZE_1MB else np.float64(1.) if v >= SIZE_1MB else np.float64(-1.)
 
 
 @tf_function(tf)
