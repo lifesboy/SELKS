@@ -358,9 +358,23 @@ def norm_min_1(x: float) -> float:
     return x if x <= 1 else np.float64(1.0)
 
 
+# https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8576553/
+# Selected features for signal categorization, CIC-IDS2017 and CSE-CIC-IDS2018 datasets.
+# CIC-IDS2017	                                            CSE-CIC-IDS2018
+# Feature               Signal category FC (Fi)       Feature	        Signal category	FC (Fi)
+# FwdPacketLengthMin    SS	0.6787	                   PktLenMax	    SS	0.6618
+# FlowBytess            SS	0.3624	                   PktLenStd	    SS	0.0547
+# FwdPacketLengthMax    SS	0.3296	                   FwdActDataPkts	SS	0.0118
+# FwdURGFlags           SS	0.1520	                   BwdPSHFlags	    SS	0
+# CWEFlagCount          SS	0.1520                     BwdURGFlags	    SS	0
+# TotalBackwardPackets  DS	−1.6132	                   InitBwdWinByts	DS	−2.0298
+# SubflowBwdPackets     DS	−1.6132	                   InitFwdWinByts	DS	−1.6018
+# BwdHeaderLength       DS	−1.1659	                   FwdPktLenMax	    DS	−1.4341
+# TotalFwdPackets       DS	−0.8473                    BwdHeaderLen	    DS	−1.1041
+# SubflowFwdPackets     DS	−0.8473	                   PktSizeAvg	    DS	−0.9627
 @tf_function(tf)
 def norm_size_1mb(v: float) -> float:
-    return (v / SIZE_1MB) if v < SIZE_1MB else np.float64(1.0)
+    return (v / SIZE_1MB) if -SIZE_1MB < v < SIZE_1MB else np.float64(1.) if v >= SIZE_1MB else np.float64(-1.)
 
 
 @tf_function(tf)
