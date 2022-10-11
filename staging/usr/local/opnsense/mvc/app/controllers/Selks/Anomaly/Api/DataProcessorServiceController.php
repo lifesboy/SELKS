@@ -110,16 +110,16 @@ class DataProcessorServiceController extends ApiMutableServiceControllerBase
             $bckresult = trim($backend->configdRun('template reload Selks/Anomaly'));
 
             if ($bckresult == "OK") {
-                if ((string)$mdlAnomaly->dataProcessor->enabled == 1) {
+                #if ((string)$mdlAnomaly->dataProcessor->enabled == 1) {
                     $bckresult = trim($backend->configdRun($runCommand, true));
                     if ($bckresult != null) {
                         $status ="ok";
                     } else {
                         $status = "error running data processor anomaly model (" . $bckresult . ")";
                     }
-                } else {
-                    $status = "OK";
-                }
+                #} else {
+                #    $status = "OK";
+                #}
             } else {
                 $status = "error generating anomaly data processor template (" . $bckresult . ")";
             }
