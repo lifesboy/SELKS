@@ -61,7 +61,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._client.log_param(run_id=self._run.info.run_id, key='features_num', value=len(self.features))
         self._client.log_text(run_id=self._run.info.run_id, text=f'{self.features}', artifact_file='features.json')
 
-    def reset(self):
+    def reset(self) -> [np.float64]:
         self.current_obs = None
         self.current_step = 0
         self.reward_total = 0
@@ -81,7 +81,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
         return self._next_obs()
 
-    def step(self, action: np.float64):
+    def step(self, action: np.int32):
         self.current_step += 1
         reward = self._calculate_reward(action=action)
         self.reward_total += reward
@@ -103,7 +103,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
         return self._next_obs(), reward, done, {}
 
-    def _next_obs(self):
+    def _next_obs(self) -> [np.float64]:
         if self.current_batch is None or self.current_batch.empty:
             self.current_batch = next(self.iter)
 
@@ -115,7 +115,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_batch = self.current_batch.drop(i.index)
         token = i[self.features].to_numpy(dtype=np.float64).flatten()
         self.current_obs = token
-        self.current_action = i[LABEL].to_numpy(dtype=np.float64).flatten()
+        self.current_action = i[LABEL].to_numpy(dtype=np.int32).flatten()
 
         return token
 
@@ -123,7 +123,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self._log_metrics()
         self._client.set_terminated(run_id=self._run.info.run_id)
 
-    def _calculate_reward(self, action: np.float64) -> float:
+    def _calculate_reward(self, action: np.int32) -> float:
         if self.current_obs is None:
             return 0
 
