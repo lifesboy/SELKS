@@ -156,7 +156,7 @@ function core_services()
         'description' => gettext('RLLib cluster for Machine learning'),
         'php' => array(
             "stop" => array('system_ray_stop'),
-            "start" => array('system_ray_start'),
+            "start" => array('system_ray_restart'),
             "restart" => array('system_ray_restart'),
             "status" => '/usr/local/bin/ray status'
         ),
