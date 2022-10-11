@@ -355,7 +355,7 @@ def norm_n_int(v: int, n: int = sys.maxsize) -> float:
 
 @tf_function(tf)
 def norm_min_1(x: float) -> float:
-    return x if x <= 1 else np.float64(1.0)
+    return tf.math.minimum(x, 1.)
 
 
 # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8576553/
@@ -374,12 +374,12 @@ def norm_min_1(x: float) -> float:
 # SubflowFwdPackets     DS	−0.8473	                   PktSizeAvg	    DS	−0.9627
 @tf_function(tf)
 def norm_size_1mb(v: float) -> float:
-    return (v / SIZE_1MB) if tf.math.abs(v) < SIZE_1MB else tf.math.sign(v)
+    return tf.math.minimum(tf.math.abs(v), SIZE_1MB) * tf.math.sign(v)
 
 
 @tf_function(tf)
 def norm_time_1h(v: int) -> float:
-    return (v / TIME_1H) if v < TIME_1H else np.float64(1.0)
+    return tf.math.minimum(v, TIME_1H) / TIME_1H
 
 
 def norm_ip(ip: str) -> int:
