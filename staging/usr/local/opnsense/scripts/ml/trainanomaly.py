@@ -145,15 +145,7 @@ def main(args, course: str, unit: str, lesson):
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
     data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{course}/{unit}/"
     utils.create_sampling(data_source_sampling_dir, data_source_files)
-
-    sampling_files = common.get_data_normalized_labeled_files_by_pattern(data_source_sampling_dir)
-    sampling_df: DataFrame = utils.get_processing_file_pattern(
-        input_files=sampling_files,
-        output=destination_dir,
-        tag='train',
-        batch_size=1)
-
-    data_sampling_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in sampling_df else []
+    data_sampling_files = common.get_data_files_by_pattern(f"{data_source_sampling_dir}*")
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=args.data_source)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)

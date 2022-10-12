@@ -123,34 +123,34 @@ def init_experiment(name: str, run_name: Optional[str] = None,
     return init_tracking(exp, run_name)
 
 
-def get_second():
+def get_second() -> str:
     return datetime.now().strftime("%Y%m%dT%H%M%S")
 
 
-def get_week():
+def get_week() -> str:
     return datetime.now().strftime("%YW%V")
 
 
-def get_month():
+def get_month() -> str:
     return datetime.now().strftime("%Y%m")
 
 
-def get_course():
+def get_course() -> str:
     year = datetime.now().year
     start = year - year % TRAINING_COURSE_LENGTH
     end = start + TRAINING_COURSE_LENGTH
     return f"{start}T{end}"
 
 
-def get_course_unit():
+def get_course_unit() -> str:
     return f"{get_week()}"  # training 1 unit per week
 
 
-def get_training_name(run: str, model: str, env: str, unit: str):
+def get_training_name(run: str, model: str, env: str, unit: str) -> str:
     return f"{run}_{model}_{env}_{unit}"  # learn by unit
 
 
-def get_data_featured_extracted_files_by_pattern(pattern: str):
+def get_data_featured_extracted_files_by_pattern(pattern: str) -> [str]:
     return glob.glob(DATA_FEATURED_EXTRACTED_DIR + pattern)
 
 
@@ -158,9 +158,9 @@ def get_data_featured_extracted_files_by_pattern(pattern: str):
 #     return glob.glob(DATA_NORMALIZED_DIR + pattern)
 
 
-def get_data_normalized_labeled_files_by_pattern(pattern: str):
+def get_data_normalized_labeled_files_by_pattern(pattern: str) -> [str]:
     return glob.glob(DATA_NORMALIZED_LABELED_DIR + pattern)
 
 
-def get_data_files_by_pattern(pattern: str):
+def get_data_files_by_pattern(pattern: str) -> [str]:
     return glob.glob(pattern)
