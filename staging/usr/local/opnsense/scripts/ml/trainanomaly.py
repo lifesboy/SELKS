@@ -146,6 +146,15 @@ def main(args, course: str, unit: str, lesson):
     data_source_sampling_dir = f"{common.DATA_SAMPLING_DIR}{course}/{unit}/"
     utils.create_sampling(data_source_sampling_dir, data_source_files)
 
+    sampling_files = common.get_data_normalized_labeled_files_by_pattern(data_source_sampling_dir)
+    sampling_df: DataFrame = utils.get_processing_file_pattern(
+        input_files=sampling_files,
+        output=destination_dir,
+        tag='train',
+        batch_size=1)
+
+    data_sampling_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in sampling_df else []
+
     client.log_param(run_id=run.info.run_id, key='data_source', value=args.data_source)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
     client.set_tag(run_id=run.info.run_id, key='training_name', value=training_name)
@@ -188,6 +197,8 @@ def main(args, course: str, unit: str, lesson):
     client.log_text(run_id=run.info.run_id, text=f'{features_request}', artifact_file='features_request.json')
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
+    client.log_param(run_id=run.info.run_id, key='data_sampling_files_num', value=len(data_sampling_files))
+    client.log_text(run_id=run.info.run_id, text=f'{data_sampling_files}', artifact_file='data_sampling_files.json')
     client.log_param(run_id=run.info.run_id, key='config', value=config)  # assert mlflow auto-log param too long error
 
     def skip_invalid_row(row):
