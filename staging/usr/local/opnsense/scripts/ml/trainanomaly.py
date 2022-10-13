@@ -175,6 +175,7 @@ def main(args, course: str, unit: str, lesson):
             "custom_model_config": {
                 "cell_size": 32,
             },
+            "kwargs": {}
         },
         "framework": 'tf',
     }
@@ -212,7 +213,7 @@ def main(args, course: str, unit: str, lesson):
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas()
     features = list(set(features_request).intersection(dataset.schema(fetch_if_missing=True).names))
-    config['model']['custom_model_config']['features'] = features
+    config['model']['kwargs']['features'] = features
     context_data: dict = {
         'features': features,
         'max_episode_steps': args.stop_episode_len,

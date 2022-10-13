@@ -52,8 +52,7 @@ class AnomalyModel(RecurrentNetwork):
                  num_outputs: int,
                  model_config: ModelConfigDict,
                  name: str,
-                 hiddens_size: int = 256,
-                 cell_size: int = 64):
+                 **kwargs):
         super(AnomalyModel, self).__init__(obs_space, action_space, num_outputs,
                                            model_config, name)
         # we have to pass features list to save model dynamic signature for each version,
@@ -68,21 +67,20 @@ class AnomalyModel(RecurrentNetwork):
         self._run, self._client = common.init_experiment(name='anomaly-model', run_name='model-tuning-%s' % time.time())
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
-        self.cell_size = cell_size
-        self.features: [str] = model_config['features']
+        self.hidden_size: int = kwargs.get('hidden_size', 256)
+        self.cell_size: int = kwargs.get('cell_size', 64)
+        self.features: [str] = kwargs.get('features', [])
 
         # Define input layers
-        input_layer = tf.keras.layers.Input(
-            shape=(None, obs_space.shape[0]), name="inputs")
-        state_in_h = tf.keras.layers.Input(shape=(cell_size,), name="h")
-        state_in_c = tf.keras.layers.Input(shape=(cell_size,), name="c")
+        input_layer = tf.keras.layers.Input(shape=(None, obs_space.shape[0]), name="inputs")
+        state_in_h = tf.keras.layers.Input(shape=(self.cell_size,), name="h")
+        state_in_c = tf.keras.layers.Input(shape=(self.cell_size,), name="c")
         seq_in = tf.keras.layers.Input(shape=(), name="seq_in", dtype=tf.int32)
 
         # Preprocess observation with a hidden layer and send to LSTM cell
-        dense1 = tf.keras.layers.Dense(
-            hiddens_size, activation=tf.nn.relu, name="dense1")(input_layer)
+        dense1 = tf.keras.layers.Dense(self.hiddens_size, activation=tf.nn.relu, name="dense1")(input_layer)
         lstm_out, state_h, state_c = tf.keras.layers.LSTM(
-            cell_size, return_sequences=True, return_state=True, name="lstm")(
+            self.cell_size, return_sequences=True, return_state=True, name="lstm")(
             inputs=dense1,
             mask=tf.sequence_mask(seq_in),
             initial_state=[state_in_h, state_in_c])
