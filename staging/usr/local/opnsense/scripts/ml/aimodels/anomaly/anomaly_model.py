@@ -5,13 +5,13 @@ import numpy as np
 import mlflow
 import pandas
 import ray
-from mlflow.types import Schema, ColSpec
+from mlflow.types import Schema, ColSpec, DataType
 
 import common
 
 from gym import Space
 from keras import Model
-from mlflow.models.signature import infer_signature, ModelSignature
+from mlflow.models.signature import ModelSignature
 from ray.rllib.models.modelv2 import ModelV2
 from ray.rllib.models.tf.recurrent_net import RecurrentNetwork
 from ray.rllib.utils.typing import ModelConfigDict
@@ -19,6 +19,7 @@ from ray.rllib.utils.typing import ModelConfigDict
 from ray.rllib.utils.framework import try_import_tf
 
 from aimodels.model_meta import ModelMeta
+from anomaly_normalization import LABEL
 
 tf1, tf, tfv = try_import_tf()
 from ray.rllib.utils.annotations import override
@@ -68,6 +69,7 @@ class AnomalyModel(RecurrentNetwork):
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
         self.cell_size = cell_size
+        self.features: [str] = model_config['features']
 
         # Define input layers
         input_layer = tf.keras.layers.Input(
@@ -114,9 +116,12 @@ class AnomalyModel(RecurrentNetwork):
         # # self.rnn_model.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
         # # tf.keras.experimental.export_saved_model(self.rnn_model, "/tmp/anomaly_model/")
         model_meta = AnomalyModel.get_model_meta()
-        # # signature = infer_signature(inputs, self._value_out)
+        input_schema = Schema([ColSpec(type=DataType.double, name=i) for i in self.features])
+        output_schema = Schema([ColSpec(type=DataType.integer, name=LABEL)])
+        signature = ModelSignature(inputs=input_schema, outputs=output_schema)
+
         mlflow.keras.log_model(keras_model=self.rnn_model,
-                               # signature=signature,
+                               signature=signature,
                                artifact_path=model_meta.artifact_path,
                                registered_model_name=model_meta.registered_model_name)
 
