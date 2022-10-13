@@ -43,9 +43,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.dataset: Dataset = dataset
         self.dataset_size: int = context_data.get("dataset_size")
         self.anomaly_total: float = context_data.get("anomaly_total")
-        self.features: [] = context_data.get("features", [
-            DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS
-        ])
+        self.features: [] = context_data.get("features")
         self.iter: Iterator[BatchType] = self.dataset\
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size, batch_format='pandas')
