@@ -244,9 +244,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
     sampling_id = '%s-%s' % (args.tag, time.time())
 
-    mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
-    # mlflow.tensorflow.autolog()
-    # mlflow.keras.autolog()
+    # we have to pass features list to save model dynamic signature for each version,
+    # so that we can detect to preprocess and infer data dynamically
+    # Unfortunately, mlflow limit length of param to 5000 character,
+    # it causes training process fail with mlflow.autolog
+    # which unable to log model custom params inside training param in a single json
+    # in order to go forward in this time, we have to disable mlflow.autolog
+    #
+    # mlflow.autolog(log_models=True, log_model_signatures=True, exclusive=True, log_input_examples=True)
+    # # mlflow.tensorflow.autolog()
+    # # mlflow.keras.autolog()
     run, client = common.init_experiment(name="anomaly-train", run_name=sampling_id)
 
     try:

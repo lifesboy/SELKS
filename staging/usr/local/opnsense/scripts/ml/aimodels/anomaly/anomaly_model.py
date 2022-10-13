@@ -5,12 +5,13 @@ import numpy as np
 import mlflow
 import pandas
 import ray
+from mlflow.types import Schema, ColSpec
 
 import common
 
 from gym import Space
 from keras import Model
-from mlflow.models.signature import infer_signature
+from mlflow.models.signature import infer_signature, ModelSignature
 from ray.rllib.models.modelv2 import ModelV2
 from ray.rllib.models.tf.recurrent_net import RecurrentNetwork
 from ray.rllib.utils.typing import ModelConfigDict
@@ -54,8 +55,15 @@ class AnomalyModel(RecurrentNetwork):
                  cell_size: int = 64):
         super(AnomalyModel, self).__init__(obs_space, action_space, num_outputs,
                                            model_config, name)
-        mlflow.tensorflow.autolog()
-        # mlflow.keras.autolog()
+        # we have to pass features list to save model dynamic signature for each version,
+        # so that we can detect to preprocess and infer data dynamically
+        # Unfortunately, mlflow limit length of param to 5000 character,
+        # it causes training process fail with mlflow.autolog
+        # which unable to log model custom params inside training param in a single json
+        # in order to go forward in this time, we have to disable mlflow.autolog
+        #
+        # mlflow.tensorflow.autolog()
+        # # mlflow.keras.autolog()
         self._run, self._client = common.init_experiment(name='anomaly-model', run_name='model-tuning-%s' % time.time())
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
