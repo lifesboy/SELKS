@@ -90,7 +90,7 @@ class AnomalyProductionDeployment:
         s = np.full(self.num_step, fill_value=len(self.features) - 1, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
 
-        df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C'))
+        df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: round(max(0, i)))
         return df
 
     async def _process_request_data(self, request: Request) -> (DataFrame, int):
