@@ -6,6 +6,7 @@ import time
 import numpy as np
 import pandas as pd
 from keras.models import Model
+from mlflow.types import Schema
 from pandas import DataFrame
 
 from ray import serve
@@ -25,10 +26,6 @@ class AnomalyProductionDeployment:
     def __init__(self) -> None:
         self.batches_processed: int = 0
         self.batches_success: int = 0
-        self.feature_num: int = 6
-        self.features: [] = [
-            DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS
-        ]
         self.num_step: int = 1
         self.cell_size: int = 32
         self.l = None
@@ -45,12 +42,17 @@ class AnomalyProductionDeployment:
 
         self.norm_model = CicFlowmeterNormModel()
         self.model: Model = mlflow.keras.load_model(f'models:/{model_name}/{stage}')
+        input_schema: Schema = self.model.get_input_schema()
+        output_schema: Schema = self.model.get_output_schema()
+        self.features: [str] = input_schema.input_names()
         self.client.log_param(run_id=self.run.info.run_id, key='model_name', value=model_versions[0].name)
         self.client.log_param(run_id=self.run.info.run_id, key='model_version', value=model_versions[0].version)
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary=input_schema.to_dict(), artifact_file="input_schema.json")
+        self.client.log_dict(run_id=self.run.info.run_id, dictionary=output_schema.to_dict(), artifact_file="output_schema.json")
 
         self.client.log_dict(run_id=self.run.info.run_id, dictionary=self.model.to_json(), artifact_file="model.json")
         self.client.log_param(run_id=self.run.info.run_id, key='features_num', value=len(self.features))
-        self.client.log_param(run_id=self.run.info.run_id, key='features', value=self.features)
+        self.client.log_text(run_id=self.run.info.run_id, text=f'{self.features}', artifact_file='features.json')
         self.client.log_param(run_id=self.run.info.run_id, key='num_step', value=self.num_step)
         self.client.log_param(run_id=self.run.info.run_id, key='cell_size', value=self.cell_size)
 

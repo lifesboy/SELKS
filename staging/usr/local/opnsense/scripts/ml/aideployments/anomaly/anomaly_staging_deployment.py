@@ -6,7 +6,7 @@ import time
 import numpy as np
 import pandas as pd
 from keras.models import Model
-from mlflow.types import ColSpec, Schema
+from mlflow.types import Schema
 from pandas import DataFrame
 
 from ray import serve
