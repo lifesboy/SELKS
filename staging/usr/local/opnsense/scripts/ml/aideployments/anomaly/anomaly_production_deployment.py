@@ -25,6 +25,7 @@ from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKT
 class AnomalyProductionDeployment:
 
     def __init__(self) -> None:
+        self.anomaly_detected: int = 0
         self.batches_processed: int = 0
         self.batches_success: int = 0
         self.num_step: int = 1
@@ -66,8 +67,10 @@ class AnomalyProductionDeployment:
             obs_labeled = await self.predict(obs, batch_size)
             res = await self._process_response_data(obs_labeled)
             self.batches_success += 1
+            self.anomaly_detected += obs_labeled[LABEL].sum()
 
             self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=batch_size)
+            self.client.log_metric(run_id=self.run.info.run_id, key="self.anomaly_detected", value=self.self.anomaly_detected)
             self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
             # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
             self.client.log_metric(run_id=self.run.info.run_id, key="batches_success", value=self.batches_success)
