@@ -6,6 +6,7 @@ import time
 import numpy as np
 import pandas as pd
 from keras.models import Model
+from mlflow.pyfunc import PyFuncModel
 from mlflow.types import Schema
 from pandas import DataFrame
 
@@ -40,13 +41,14 @@ class AnomalyStagingDeployment:
             raise RuntimeError(f'model not found: {model_name}/{stage}')
 
         self.model: Model = mlflow.keras.load_model(f'models:/{model_name}/{stage}')
-        input_schema: Schema = self.model.get_input_schema()
-        output_schema: Schema = self.model.get_output_schema()
+        model: PyFuncModel = mlflow.pyfunc.load_model(f'models:/{model_name}/{stage}')
+        input_schema: Schema = model.metadata.signature.inputs
+        output_schema: Schema = model.metadata.signature.outputs
         self.features: [str] = input_schema.input_names()
         self.client.log_param(run_id=self.run.info.run_id, key='model_name', value=model_versions[0].name)
         self.client.log_param(run_id=self.run.info.run_id, key='model_version', value=model_versions[0].version)
-        self.client.log_dict(run_id=self.run.info.run_id, dictionary=input_schema.to_dict(), artifact_file="input_schema.json")
-        self.client.log_dict(run_id=self.run.info.run_id, dictionary=output_schema.to_dict(), artifact_file="output_schema.json")
+        self.client.log_text(run_id=self.run.info.run_id, text=f"{input_schema}", artifact_file="input_schema.json")
+        self.client.log_text(run_id=self.run.info.run_id, text=f"{output_schema}", artifact_file="output_schema.json")
 
         self.client.log_dict(run_id=self.run.info.run_id, dictionary=self.model.to_json(), artifact_file="model.json")
         self.client.log_param(run_id=self.run.info.run_id, key='features_num', value=len(self.features))
