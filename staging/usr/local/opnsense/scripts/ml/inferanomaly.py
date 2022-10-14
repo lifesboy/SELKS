@@ -85,9 +85,9 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
     if not data_files or len(data_files) <= 0:
         return None
 
-    if not utils.is_ray_gpu_ready():
-        log.warning('create_predict_pipe restart ray failing ray: %s', data_files)
-        utils.restart_ray_service()
+    # if not utils.is_ray_gpu_ready():
+    #     log.warning('create_predict_pipe restart ray failing ray: %s', data_files)
+    #     utils.restart_ray_service()
 
     def skip_invalid_row(row):
         global run, client, invalid_rows
