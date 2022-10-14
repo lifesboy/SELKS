@@ -22,6 +22,7 @@ from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_production_deployment import AnomalyProductionDeployment
 
+parallelism = common.TOTAL_CPUS_INFERRING_DATASET_OPERATION
 batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
@@ -230,7 +231,7 @@ def main(args, course: str, unit: str, lesson):
 
 # command:locust
 # parameters: --web-host * --web-port 8089 -f /usr/local/opnsense/scripts/ml/deployment_test.py --serving-url=%s --data-source=%s
-# /usr/bin/python3 /usr/local/opnsense/scripts/ml/inferanomaly.py --data-destination=nsm_anomaly --batch-size=500 --data-source=nsm/*.csv --tag=manual-infer
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/inferanomaly.py --data-destination=nsm_anomaly --batch-size=500 --data-source=nsm/*.csv --num-cpus=2 --num-gpus=0 --tag=manual-infer
 
 if __name__ == "__main__":
     args = parser.parse_args()
