@@ -70,7 +70,7 @@ class AnomalyProductionDeployment:
             self.anomaly_detected += obs_labeled[LABEL].sum()
 
             self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=batch_size)
-            self.client.log_metric(run_id=self.run.info.run_id, key="self.anomaly_detected", value=self.self.anomaly_detected)
+            self.client.log_metric(run_id=self.run.info.run_id, key="self.anomaly_detected", value=self.anomaly_detected)
             self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
             # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
             self.client.log_metric(run_id=self.run.info.run_id, key="batches_success", value=self.batches_success)
