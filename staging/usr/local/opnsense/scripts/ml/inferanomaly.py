@@ -17,6 +17,7 @@ from ray.data.datasource import FastFileMetadataProvider
 import common
 import lib.utils as utils
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
+from anomaly_normalization import LABEL
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_production_deployment import AnomalyProductionDeployment
@@ -129,7 +130,8 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
 
     data = resp.json()
     log.info(f"<- Received {endpoint} response {data}")
-    return DataFrame.from_dict(data['action'])
+    batch[LABEL] = DataFrame.from_dict(data['action'])[LABEL]
+    return batch
 
 
 def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
