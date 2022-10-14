@@ -20,8 +20,8 @@ from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKT
 
 
 @serve.deployment(name="AnomalyProductionDeployment",
-                  num_replicas=2,
-                  ray_actor_options={"num_cpus": 1, "num_gpus": 0.9})
+                  num_replicas=1,
+                  ray_actor_options={"num_cpus": 2, "num_gpus": 2})
 class AnomalyProductionDeployment:
 
     def __init__(self) -> None:
