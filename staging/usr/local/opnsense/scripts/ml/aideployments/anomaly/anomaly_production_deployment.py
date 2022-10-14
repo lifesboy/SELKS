@@ -91,10 +91,12 @@ class AnomalyProductionDeployment:
         x_padding = np.full(batch_size_padding * features_num, fill_value=0).reshape((batch_size_padding, features_num))
 
         x = np.concatenate((df_norm.to_numpy(), x_padding)).reshape((self.num_step, batch_size + batch_size_padding, features_num))
-        s = np.full(self.num_step, fill_value=len(self.features) - 1, dtype=np.int32)
+
+        # BLAST gpu errors, or invalid access element at [index] errors might occur for invalid seq_len shape
+        s = np.full(self.num_step, fill_value=batch_size + batch_size_padding, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
 
-        df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: round(max(0, i)))
+        df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: round(max(0, i.item())), axis=1)
         return df
 
     async def _process_request_data(self, request: Request) -> (DataFrame, int):

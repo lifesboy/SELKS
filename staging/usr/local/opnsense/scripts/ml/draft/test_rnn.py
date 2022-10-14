@@ -66,7 +66,7 @@ for _ in range(0, 2):
     l, y, h, c = rnn_model.predict(x=[x, s, h, c])
     print(y)
     ydf = pd.DataFrame(x_raw.reshape(batch * batch_size, num_feature)[:, 0].flatten('C'), columns=["f1"])
-    ydf['label'] = pd.DataFrame(y[0:batch_size].flatten('C'))
+    ydf['label'] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: round(max(0, i.item())), axis=1)
     print(ydf)
 
 print(rnn_model.to_json())
