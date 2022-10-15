@@ -262,6 +262,9 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         super(CicFlowmeterNormModel, self).__del__()
 
     def __call__(self, batch: DataFrame) -> DataFrame:
+        return self.predict({}, batch)
+
+    def predict(self, context, batch: DataFrame) -> DataFrame:
         self.current_step += 1
         self.processed_num += len(batch.index)
         self.client.set_tag(run_id=self.run.info.run_id, key='features', value=batch.columns.tolist())
@@ -283,9 +286,6 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             self._log_metrics()
 
         return preprocessed
-
-    def predict(self, context, model_input):
-        return self.__call__(model_input)
 
     @mlflow_mixin
     def preprocess(self, df: DataFrame) -> DataFrame:
