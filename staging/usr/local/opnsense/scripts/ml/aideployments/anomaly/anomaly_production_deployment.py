@@ -102,7 +102,7 @@ class AnomalyProductionDeployment:
             raise e
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
-        df_norm = self.norm_model.predict(df)
+        df_norm = self.norm_model(df)
         padding_features = set(self.features) - set(df_norm.columns)
         for f in padding_features:
             df_norm[f] = 0.
