@@ -3,11 +3,15 @@
 import time
 import pandas
 import ray
+from mlflow.entities import Metric
 from ray.tune.integration.mlflow import mlflow_mixin
 import pyarrow as pa
 
 from pandas import DataFrame
 from ray.rllib.utils.framework import try_import_tf
+
+from lib.logger import log
+
 tf1, tf, tfv = try_import_tf()
 tf1.enable_eager_execution()
 
@@ -258,6 +262,10 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
 
         self.processed_num = 0
         self.row_normed_num = 0
+
+        self.current_step: int = 0
+        self.metrics: [Metric] = []
+
         self.run, self.client = common.init_tracking(name='data-processor', run_name='sub-processing-cic2018-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=parent_run_id)
 
@@ -266,17 +274,29 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         super(Cic2018NormModel, self).__del__()
 
     def __call__(self, batch: DataFrame) -> DataFrame:
+        return self.predict({}, batch)
+
+    def predict(self, context, batch: DataFrame) -> DataFrame:
+        self.current_step += 1
         self.processed_num += len(batch.index)
-        self.client.log_metric(run_id=self.run.info.run_id, key="row", value=self.processed_num)
-        self.client.log_metric(run_id=self.run.info.run_id, key='features_num', value=len(batch.columns))
         self.client.set_tag(run_id=self.run.info.run_id, key='features', value=batch.columns.tolist())
 
         preprocessed = self.preprocess(batch)
 
         self.row_normed_num += len(preprocessed.index)
-        self.client.log_metric(run_id=self.run.info.run_id, key='row_normed_num', value=self.row_normed_num)
-        self.client.log_metric(run_id=self.run.info.run_id, key='features_normed_num', value=len(preprocessed.columns))
+
         self.client.set_tag(run_id=self.run.info.run_id, key='features_normed', value=preprocessed.columns.tolist())
+        timestamp = int(time.time() * 1000)
+        self.metrics += [
+            Metric(key='row', value=self.processed_num, timestamp=timestamp, step=self.current_step),
+            Metric(key='features_num', value=len(batch.columns), timestamp=timestamp, step=self.current_step),
+            Metric(key='row_normed_num', value=self.row_normed_num, timestamp=timestamp, step=self.current_step),
+            Metric(key='features_normed_num', value=len(preprocessed.columns), timestamp=timestamp, step=self.current_step),
+        ]
+
+        if len(self.metrics) > 0:
+            self._log_metrics()
+
         return preprocessed
 
     @mlflow_mixin
@@ -298,4 +318,11 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             for i in features
         })
 
-        return data
+        return data.fillna(0.)
+
+    def _log_metrics(self):
+        try:
+            self.client.log_batch(run_id=self.run.info.run_id, metrics=self.metrics)
+            self.metrics = []
+        except Exception as e:
+            log.error('_log_metrics error %s', e)
