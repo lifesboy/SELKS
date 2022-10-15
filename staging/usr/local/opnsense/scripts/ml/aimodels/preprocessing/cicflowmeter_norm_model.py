@@ -284,6 +284,9 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
         return preprocessed
 
+    def predict(self, context, model_input):
+        return self.__call__(model_input)
+
     @mlflow_mixin
     def preprocess(self, df: DataFrame) -> DataFrame:
         df.columns = df.columns.str.lower()
