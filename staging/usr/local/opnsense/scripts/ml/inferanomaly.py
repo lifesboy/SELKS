@@ -17,7 +17,7 @@ from ray.data.datasource import FastFileMetadataProvider
 import common
 import lib.utils as utils
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
-from anomaly_normalization import LABEL
+from anomaly_normalization import LABEL, LABEL_VALUE_BENIGN, LABEL_VALUE_ANOMALY
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_production_deployment import AnomalyProductionDeployment
@@ -132,8 +132,9 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
 
     data = resp.json()
     log.info(f"<- Received {endpoint} response {data}")
-    batch[LABEL] = DataFrame.from_dict(data['action'])[LABEL]
-    anomaly_detected += batch[LABEL].sum()
+    action_label = DataFrame.from_dict(data['action'])[LABEL]
+    batch[LABEL] = action_label.map({0: LABEL_VALUE_BENIGN, 1: LABEL_VALUE_ANOMALY}).fillna(LABEL_VALUE_BENIGN)
+    anomaly_detected += action_label.sum()
     client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=anomaly_detected)
 
     return batch
