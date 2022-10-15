@@ -87,6 +87,7 @@ class AnomalyProductionDeployment:
             self.metrics += [
                 Metric(key='batches_processed', value=self.batches_processed, timestamp=timestamp, step=self.current_step),
                 Metric(key='batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
+                Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=timestamp, step=self.current_step),
                 Metric(key='batches_success', value=self.batches_success, timestamp=timestamp, step=self.current_step),
             ]
 
