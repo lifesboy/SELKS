@@ -42,18 +42,26 @@ class AnomalyProductionDeployment:
         self.run, self.client = common.init_tracking(name='anomaly-production-deployment',
                                                      run_name='anomaly-production-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
+        norm_model_name = CicFlowmeterNormModel.get_model_meta().registered_model_name
         model_name = AnomalyModel.get_model_meta().registered_model_name
         stage = 'production'
+        norm_model_versions = self.client.get_latest_versions(name=norm_model_name, stages=[stage])
         model_versions = self.client.get_latest_versions(name=model_name, stages=[stage])
+        if len(norm_model_versions) < 1:
+            raise RuntimeError(f'model not found: {norm_model_name}/{stage}')
         if len(model_versions) < 1:
             raise RuntimeError(f'model not found: {model_name}/{stage}')
 
-        self.norm_model = CicFlowmeterNormModel()
+        self.norm_model: PyFuncModel = mlflow.pyfunc.load_model(f'models:/{norm_model_name}/{stage}')
         self.model: Model = mlflow.keras.load_model(f'models:/{model_name}/{stage}')
         model: PyFuncModel = mlflow.pyfunc.load_model(f'models:/{model_name}/{stage}')
         input_schema: Schema = model.metadata.signature.inputs
         output_schema: Schema = model.metadata.signature.outputs
         self.features: [str] = input_schema.input_names()
+
+        self.client.log_param(run_id=self.run.info.run_id, key='norm_model_name', value=norm_model_versions[0].name)
+        self.client.log_param(run_id=self.run.info.run_id, key='norm_model_version', value=norm_model_versions[0].version)
+
         self.client.log_param(run_id=self.run.info.run_id, key='model_name', value=model_versions[0].name)
         self.client.log_param(run_id=self.run.info.run_id, key='model_version', value=model_versions[0].version)
         self.client.log_text(run_id=self.run.info.run_id, text=f"{input_schema}", artifact_file="input_schema.json")
@@ -94,7 +102,7 @@ class AnomalyProductionDeployment:
             raise e
 
     async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
-        df_norm = self.norm_model(df)
+        df_norm = self.norm_model.predict(df)
         padding_features = set(self.features) - set(df_norm.columns)
         for f in padding_features:
             df_norm[f] = 0.
