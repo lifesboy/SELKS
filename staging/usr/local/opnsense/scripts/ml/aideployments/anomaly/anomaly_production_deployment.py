@@ -6,6 +6,7 @@ import time
 import numpy as np
 import pandas as pd
 from keras.models import Model
+from mlflow.entities import Metric
 from mlflow.pyfunc import PyFuncModel
 from mlflow.types import Schema
 from pandas import DataFrame
@@ -17,6 +18,7 @@ import common
 from aimodels.anomaly.anomaly_model import AnomalyModel
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS, LABEL
+from lib.logger import log
 
 
 @serve.deployment(name="AnomalyProductionDeployment",
@@ -34,7 +36,11 @@ class AnomalyProductionDeployment:
         self.h = np.zeros((self.num_step, self.cell_size), dtype=np.float32)
         self.c = np.zeros((self.num_step, self.cell_size), dtype=np.float32)
 
-        self.run, self.client = common.init_tracking(name='anomaly-production-deployment', run_name='anomaly-production-%s' % time.time())
+        self.current_step: int = 0
+        self.metrics: [Metric] = []
+
+        self.run, self.client = common.init_tracking(name='anomaly-production-deployment',
+                                                     run_name='anomaly-production-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_DEPLOYMENT_STATUS, value="STARTED")
         model_name = AnomalyModel.get_model_meta().registered_model_name
         stage = 'production'
@@ -60,8 +66,8 @@ class AnomalyProductionDeployment:
         self.client.log_param(run_id=self.run.info.run_id, key='cell_size', value=self.cell_size)
 
     async def __call__(self, request: Request):
+        self.current_step += 1
         self.batches_processed += 1
-        self.client.log_metric(run_id=self.run.info.run_id, key="batches_processed", value=self.batches_processed)
         try:
             obs, batch_size = await self._process_request_data(request)
             obs_labeled = await self.predict(obs, batch_size)
@@ -69,11 +75,17 @@ class AnomalyProductionDeployment:
             self.batches_success += 1
             self.anomaly_detected += obs_labeled[LABEL].sum()
 
-            self.client.log_metric(run_id=self.run.info.run_id, key="batch_size", value=batch_size)
-            self.client.log_metric(run_id=self.run.info.run_id, key="anomaly_detected", value=self.anomaly_detected)
+            timestamp = int(time.time() * 1000)
+            self.metrics += [
+                Metric(key='batches_processed', value=self.batches_processed, timestamp=timestamp, step=self.current_step),
+                Metric(key='batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
+                Metric(key='batches_success', value=self.batches_success, timestamp=timestamp, step=self.current_step),
+            ]
+
             self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
-            # self.client.log_metric(run_id=self.run.info.run_id, key="predict_counter", value=float(self.model._predict_counter))
-            self.client.log_metric(run_id=self.run.info.run_id, key="batches_success", value=self.batches_success)
+            if len(self.metrics) > 0:
+                self._log_metrics()
+
             return {'action': res}
         except Exception as e:
             self.client.log_text(run_id=self.run.info.run_id,
@@ -115,3 +127,10 @@ class AnomalyProductionDeployment:
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
         return labeled_data[[LABEL]].to_dict(orient="list")
+
+    def _log_metrics(self):
+        try:
+            self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
+            self.metrics = []
+        except Exception as e:
+            log.error('_log_metrics error %s', e)
