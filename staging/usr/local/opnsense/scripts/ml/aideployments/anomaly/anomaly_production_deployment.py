@@ -130,7 +130,7 @@ class AnomalyProductionDeployment:
 
     def _log_metrics(self):
         try:
-            self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
+            self.client.log_batch(run_id=self.run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
             log.error('_log_metrics error %s', e)
