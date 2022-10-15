@@ -23,6 +23,7 @@ from lib.logger import log
 from aideployments.anomaly.anomaly_production_deployment import AnomalyProductionDeployment
 
 parallelism = common.TOTAL_CPUS_INFERRING_DATASET_OPERATION
+anomaly_detected: int = 0
 batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
@@ -114,7 +115,7 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
 
 
 def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> DataFrame:
-    global batches_processed
+    global batches_processed, anomaly_detected
     batches_processed += num_step
     client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
@@ -132,6 +133,9 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
     data = resp.json()
     log.info(f"<- Received {endpoint} response {data}")
     batch[LABEL] = DataFrame.from_dict(data['action'])[LABEL]
+    anomaly_detected += batch[LABEL].sum()
+    client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=anomaly_detected)
+
     return batch
 
 
@@ -155,6 +159,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gp
         sources_success += len(df['input_path'])
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
+        client.log_text(run_id=run.info.run_id, text=f"{df['input_path']}", artifact_file='sources_success.txt')
     except Exception as e:
         log.error('infer_data tasks interrupted: %s', e)
         sources_fail += [{'source': df['input_path'], 'reason': traceback.format_exc()}]
