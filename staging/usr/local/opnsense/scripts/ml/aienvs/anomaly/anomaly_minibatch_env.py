@@ -103,7 +103,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
     def _next_obs(self) -> [np.float64]:
         if self.current_batch is None or self.current_batch.empty:
-            self.current_batch = next(self.iter)
+            self.current_batch: DataFrame = next(self.iter).fillna(0.)
 
         if self.current_batch is None or self.current_batch.empty:
             self.current_obs = None
