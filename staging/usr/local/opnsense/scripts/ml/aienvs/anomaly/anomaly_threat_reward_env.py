@@ -17,7 +17,7 @@ class AnomalyThreatRewardEnv(AnomalyMinibatchEnv):
 
         if action == 1:
             self.clean_incorrect += 1
-            return -1
+            return 0
         else:
             self.anomaly_incorrect += 1
-            return 0
+            return -1
