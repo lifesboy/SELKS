@@ -87,6 +87,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
         timestamp = int(time.time() * 1000)
         self.metrics += [
+            Metric(key='action_expected', value=self.current_action[0], timestamp=timestamp, step=self.current_step),
             Metric(key='action', value=action, timestamp=timestamp, step=self.current_step),
             Metric(key='reward', value=reward, timestamp=timestamp, step=self.current_step),
             Metric(key='reward_total', value=self.reward_total, timestamp=timestamp, step=self.current_step),

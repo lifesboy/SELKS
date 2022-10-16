@@ -22,6 +22,7 @@ from ray.tune.utils.log import Verbosity
 import common
 import lib.utils as utils
 from aienvs.anomaly.anomaly_protected_reward_env import AnomalyProtectedRewardEnv
+from aienvs.anomaly.anomaly_threat_reward_env import AnomalyThreatRewardEnv
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from anomaly_normalization import ALL_FEATURES, LABEL
 from lib.anomalyloggercallback import AnomalyLoggerCallback
@@ -46,7 +47,7 @@ parser.add_argument(
     type=str,
     default="PPO",
     help="The RLlib-registered algorithm to use.")
-parser.add_argument("--env", type=str, default="AnomalyProtectedRewardEnv")
+parser.add_argument("--env", type=str, default="AnomalyThreatRewardEnv")
 parser.add_argument(
     "--data-source",
     type=str,
@@ -231,6 +232,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
     register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, context_data, c))
     register_env("AnomalyProtectedRewardEnv", lambda c: AnomalyProtectedRewardEnv(dataset, context_data, c))
+    register_env("AnomalyThreatRewardEnv", lambda c: AnomalyThreatRewardEnv(dataset, context_data, c))
 
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
