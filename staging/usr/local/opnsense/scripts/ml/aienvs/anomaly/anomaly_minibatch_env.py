@@ -134,9 +134,9 @@ class AnomalyMinibatchEnv(gym.Env):
             return 1
 
         if action == 1:
-            self.anomaly_incorrect += 1
-        else:
             self.clean_incorrect += 1
+        else:
+            self.anomaly_incorrect += 1
         return -1
 
     def _log_metrics(self):
