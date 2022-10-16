@@ -251,8 +251,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         # in case of error, sometime we're unable to recover an experiment
         # It should be switch to another unit, and assume agent is fail at error unit
         return tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
-                        name=unit,
-                        local_dir=f"/drl/ray_results/{course}/{lab}",
+                        name=lab,
+                        local_dir=f"/drl/ray_results/{course}/{unit}",
                         trial_name_creator=lambda _: lesson,
                         trial_dirname_creator=lambda _: lesson,
                         # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
