@@ -13,11 +13,11 @@ class AnomalyProtectedRewardEnv(AnomalyMinibatchEnv):
                 return max(self.clean_detected, 1)
             else:
                 self.clean_detected += 1
-                return 1
+                return 0
 
         if action == 1:
             self.anomaly_incorrect += 1
             return -max(self.clean_detected, 1)
         else:
             self.clean_incorrect += 1
-            return -1
+            return 0
