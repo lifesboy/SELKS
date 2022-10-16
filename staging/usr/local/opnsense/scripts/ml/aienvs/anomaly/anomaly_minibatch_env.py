@@ -35,7 +35,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.clean_incorrect: int = 0
 
         self.metrics: [Metric] = []
-        self._run, self._client = common.init_experiment(name='anomaly-env', run_name='env-tuning-%s' % time.time(),
+        self._run, self._client = common.init_experiment(name='anomaly-env', run_name=f"{common.get_second()}",
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
         self.spec: AnomalySpec = AnomalySpec(self._run.info.run_id, context_data)
@@ -51,6 +51,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.observation_space: Box = Box(low=-1., high=1., shape=(len(self.features),), dtype=np.float64)
         self.action_space: Discrete = Discrete(2)
 
+        self._client.log_param(run_id=self._run.info.run_id, key='name', value=type(self).__name__)
         self._client.log_param(run_id=self._run.info.run_id, key='blocks_per_window', value=self.blocks_per_window)
         self._client.log_param(run_id=self._run.info.run_id, key='batch_size', value=self.batch_size)
         self._client.log_param(run_id=self._run.info.run_id, key='episode_len', value=self.episode_len)

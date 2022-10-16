@@ -28,10 +28,10 @@ class AnomalyRandomEnv(gym.Env):
         self.reward_total: float = 0
 
         self.metrics: [Metric] = []
-
-        self._run, self._client = common.init_experiment(name='anomaly-random-env', run_name='env-tuning-%s' % time.time(),
+        self._run, self._client = common.init_experiment(name='anomaly-env', run_name=f"{common.get_second()}",
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
+        self._client.log_param(run_id=self._run.info.run_id, key='name', value=type(self).__name__)
 
     def reset(self):
         self.current_obs = None
