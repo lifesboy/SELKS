@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import glob
 import sys
+import time
 from sys import version_info
 from datetime import datetime
 from pathlib import Path
@@ -89,6 +90,7 @@ TRAINING_COURSE_LENGTH = 4  # 4 years per course, to archive same university gra
 def init_node():
     if not utils.is_ray_gpu_ready():
         utils.restart_ray_service()
+        time.sleep(60)
 
     if not ray.is_initialized():
         # runtime_env = RuntimeEnv(pip={
