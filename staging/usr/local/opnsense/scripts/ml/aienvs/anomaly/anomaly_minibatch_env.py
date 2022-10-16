@@ -29,13 +29,13 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_action = None
         self.current_step: int = 0
         self.reward_total: float = 0
-        self.anomaly_detected: float = 0
-        self.anomaly_incorrect: float = 0
-        self.clean_detected: float = 0
-        self.clean_incorrect: float = 0
+        self.anomaly_detected: int = 0
+        self.anomaly_incorrect: int = 0
+        self.clean_detected: int = 0
+        self.clean_incorrect: int = 0
 
         self.metrics: [Metric] = []
-        self._run, self._client = common.init_experiment(name='anomaly-minibatch-env', run_name='env-tuning-%s' % time.time(),
+        self._run, self._client = common.init_experiment(name='anomaly-env', run_name='env-tuning-%s' % time.time(),
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
         self.spec: AnomalySpec = AnomalySpec(self._run.info.run_id, context_data)
