@@ -127,16 +127,16 @@ def kill_exists_processing():
         os.kill(pid, signal.SIGTERM)
 
 
-def main(args, course: str, unit: str, lesson):
+def main(args, course: str, unit: str, lesson: str, lab: str):
     model = 'anomaly'
-    training_name = common.get_training_name(args.run, model, args.env, unit)
+    training_name = common.get_training_name(args.run, model, lab, unit)
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers
     features_request = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
     data_sources = args.data_source.strip().split(';')
     input_files = sum([common.get_data_normalized_labeled_files_by_pattern(i) for i in data_sources], [])
-    destination_dir = f"{common.DATA_TRAINED_DIR}{course}/{unit}/"
+    destination_dir = f"{common.DATA_TRAINED_DIR}{course}/{unit}/{lab}"
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
@@ -154,7 +154,7 @@ def main(args, course: str, unit: str, lesson):
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
     config = {
-        "env": args.env,
+        "env": lab,
         "env_config": {  # mlflow cannot log too long param, saving to "context_data" instead
             "episode_len": args.stop_episode_len,
             "batch_size": args.batch_size,
@@ -249,7 +249,7 @@ def main(args, course: str, unit: str, lesson):
         # It should be switch to another unit, and assume agent is fail at error unit
         return tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
                         name=unit,
-                        local_dir=f"/drl/ray_results/{course}",
+                        local_dir=f"/drl/ray_results/{course}/{lab}",
                         trial_name_creator=lambda _: lesson,
                         trial_dirname_creator=lambda _: lesson,
                         # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
@@ -293,6 +293,7 @@ if __name__ == "__main__":
     training_course = f"{common.get_course()}-train"
     training_unit = f"{common.get_course_unit()}"
     training_lesson = '%s-%s' % (args.tag, common.get_second())  # learning 1 sample per week
+    training_lab = args.env
 
     kill_exists_processing()
     # we have to pass features list to save model dynamic signature for each version,
@@ -313,7 +314,7 @@ if __name__ == "__main__":
         exit(0)
 
     try:
-        main(args, training_course, training_unit, training_lesson)
+        main(args, training_course, training_unit, training_lesson, training_lab)
     except Exception as e:
         log.error('train run error: %s', e)
         client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='train_error.txt')
