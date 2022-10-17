@@ -126,8 +126,11 @@ class AnomalyMinibatchGlobalShuffleEnv(gym.Env):
         if self.current_obs is None:
             return 0
 
-        self.anomaly_detected += np.sum(np.prod([action, self.current_action], axis=0))
-        reward = np.sum(np.logical_xor([action, self.current_action], axis=0))
+        anomaly_detected = np.sum(np.prod([self.current_action, action], axis=0))
+        self.anomaly_incorrect += np.sum(self.current_action) - self.anomaly_detected
+        reward = np.sum(np.logical_not(np.logical_xor([action, self.current_action], axis=0)))
+
+        self.anomaly_detected += anomaly_detected
 
         if action == self.current_action[0]:
             if action == 1:
