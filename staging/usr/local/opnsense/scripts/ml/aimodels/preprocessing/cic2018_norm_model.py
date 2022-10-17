@@ -262,6 +262,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
 
         self.processed_num = 0
         self.row_normed_num = 0
+        self.anomaly_total = 0
 
         self.current_step: int = 0
         self.metrics: [Metric] = []
@@ -284,6 +285,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         preprocessed = self.preprocess(batch)
 
         self.row_normed_num += len(preprocessed.index)
+        self.anomaly_total += preprocessed[LABEL].sum()
 
         self.client.set_tag(run_id=self.run.info.run_id, key='features_normed', value=preprocessed.columns.tolist())
         timestamp = int(time.time() * 1000)
@@ -292,6 +294,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             Metric(key='features_num', value=len(batch.columns), timestamp=timestamp, step=self.current_step),
             Metric(key='row_normed_num', value=self.row_normed_num, timestamp=timestamp, step=self.current_step),
             Metric(key='features_normed_num', value=len(preprocessed.columns), timestamp=timestamp, step=self.current_step),
+            Metric(key='anomaly_total', value=self.anomaly_total, timestamp=timestamp, step=self.current_step),
         ]
 
         if len(self.metrics) > 0:
