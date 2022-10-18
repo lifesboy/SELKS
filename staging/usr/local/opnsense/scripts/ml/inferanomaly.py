@@ -63,6 +63,11 @@ parser.add_argument(
     default=5000,
     help="Number of batch size to process.")
 parser.add_argument(
+    "--anomaly-threshold",
+    type=float,
+    default=0.5,
+    help="Number of batch size to process.")
+parser.add_argument(
     "--data-destination",
     type=str,
     default='inferred_data_' + common.get_course(),
@@ -114,7 +119,7 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
     return pipe
 
 
-def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> DataFrame:
+def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, anomaly_threshold: float) -> DataFrame:
     global batches_processed, anomaly_detected
     batches_processed += num_step
     client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
@@ -125,6 +130,7 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
         'obs': batch.fillna(0).to_dict(orient="list"),
         'num_step': num_step,
         'batch_size': batch_size,
+        'anomaly_threshold': anomaly_threshold,
     })
 
     if not resp.ok:
@@ -140,7 +146,7 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int) -> 
     return batch
 
 
-def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gpus: float, num_cpus: float) -> bool:
+def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomaly_threshold: float, num_gpus: float, num_cpus: float) -> bool:
     log.info('infer_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     global run, client, sources_processed, batches_success, sources_success, sources_fail
@@ -150,7 +156,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, num_gp
         client.log_metric(run_id=run.info.run_id, key='sources_processed', value=sources_processed)
 
         df['pipe'] = create_predict_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
-        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size), batch_format="pandas", compute="actors",
+        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size, anomaly_threshold), batch_format="pandas", compute="actors",
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
         utils.marked_done(df['marked_done_path'])
@@ -179,6 +185,7 @@ def main(args, course: str, unit: str, lesson):
     batch_size_source = 1
     endpoint = args.endpoint
     batch_size = args.batch_size
+    anomaly_threshold = args.anomaly_threshold
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_step = args.num_step
@@ -190,6 +197,7 @@ def main(args, course: str, unit: str, lesson):
     client.log_param(run_id=run.info.run_id, key='endpoint', value=endpoint)
     client.log_param(run_id=run.info.run_id, key='batch_size_source', value=batch_size_source)
     client.log_param(run_id=run.info.run_id, key='batch_size', value=batch_size)
+    client.log_param(run_id=run.info.run_id, key='anomaly_threshold', value=anomaly_threshold)
     client.log_param(run_id=run.info.run_id, key='num_gpus', value=num_gpus)
     client.log_param(run_id=run.info.run_id, key='num_cpus', value=num_cpus)
     client.log_param(run_id=run.info.run_id, key='num_step', value=num_step)
@@ -219,7 +227,7 @@ def main(args, course: str, unit: str, lesson):
 
     try:
         log.info('start infer_data: pipe=%s', batch_df.count())
-        batch_df.apply(lambda i: infer_data(i, endpoint, num_step, batch_size, num_gpus, num_cpus), axis=1)
+        batch_df.apply(lambda i: infer_data(i, endpoint, num_step, batch_size, anomaly_threshold, num_gpus, num_cpus), axis=1)
         log.info('finish infer_data.')
 
         data_destination_files = glob.glob(destination_dir + '*')

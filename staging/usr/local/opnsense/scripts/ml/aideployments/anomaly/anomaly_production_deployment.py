@@ -77,8 +77,8 @@ class AnomalyProductionDeployment:
         self.current_step += 1
         self.batches_processed += 1
         try:
-            obs, batch_size = await self._process_request_data(request)
-            obs_labeled = await self.predict(obs, batch_size)
+            obs, batch_size, anomaly_threshold = await self._process_request_data(request)
+            obs_labeled = await self.predict(obs, batch_size, anomaly_threshold)
             res = await self._process_response_data(obs_labeled)
             self.batches_success += 1
             self.anomaly_detected += obs_labeled[LABEL].sum()
@@ -87,6 +87,7 @@ class AnomalyProductionDeployment:
             self.metrics += [
                 Metric(key='batches_processed', value=self.batches_processed, timestamp=timestamp, step=self.current_step),
                 Metric(key='batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
+                Metric(key='anomaly_threshold', value=anomaly_threshold, timestamp=timestamp, step=self.current_step),
                 Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=timestamp, step=self.current_step),
                 Metric(key='batches_success', value=self.batches_success, timestamp=timestamp, step=self.current_step),
             ]
@@ -102,7 +103,7 @@ class AnomalyProductionDeployment:
                                  artifact_file=f"predict_error_{time.time() * 1000}.txt")
             raise e
 
-    async def predict(self, df: DataFrame, batch_size: int) -> DataFrame:
+    async def predict(self, df: DataFrame, batch_size: int, anomaly_threshold: float = 0.5) -> DataFrame:
         df_norm = self.norm_model.predict(df)
         padding_features = set(self.features) - set(df_norm.columns)
         for f in padding_features:
@@ -120,19 +121,20 @@ class AnomalyProductionDeployment:
         s = np.full(self.num_step, fill_value=batch_size + batch_size_padding, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
 
-        df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: round(max(0, i.item())), axis=1)
+        df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: max(0, i.item()) // anomaly_threshold, axis=1)
         return df
 
-    async def _process_request_data(self, request: Request) -> (DataFrame, int):
+    async def _process_request_data(self, request: Request) -> (DataFrame, int, float):
         body = await request.body()
         self.client.log_text(run_id=self.run.info.run_id, text=body.decode("utf-8"), artifact_file="last_request.json")
 
         data = json.loads(body)
+        anomaly_threshold = float(data['anomaly_threshold']) if data['anomaly_threshold'] else 0.5
         df = DataFrame.from_dict(data['obs'])
         # batch_size = int(data['batch_size'])
         batch_size = df.index.size
         df = df[self.features]
-        return df, batch_size
+        return df, batch_size, anomaly_threshold
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
         return labeled_data[[LABEL]].to_dict(orient="list")
