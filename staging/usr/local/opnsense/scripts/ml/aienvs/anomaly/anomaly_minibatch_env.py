@@ -113,6 +113,11 @@ class AnomalyMinibatchEnv(gym.Env):
 
         i = self.current_batch.sample(1)
         self.current_batch = self.current_batch.drop(i.index)
+
+        padding_features = set(self.features) - set(i.columns)
+        for f in padding_features:
+            i[f] = 0.
+
         token = i[self.features].to_numpy(dtype=np.float64).flatten()
         self.current_obs = token
         self.current_action = i[LABEL].to_numpy(dtype=np.int32).flatten()
