@@ -1030,7 +1030,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly inferring start</command>
-          <parameters>nsm_anomaly 500 nsm/*.csv /anomaly-production auto-infer start</parameters>
+          <parameters>nsm_anomaly 500 0.5 nsm/*.csv /anomaly-production auto-infer start</parameters>
           <description>anomaly inferring updates</description>
         </job>
       </jobs>
@@ -1244,6 +1244,7 @@
         <enabled>1</enabled>
         <DataDestination>nsm_anomaly</DataDestination>
         <BatchSize>500</BatchSize>
+        <AnomalyThreshold>0.5</AnomalyThreshold>
         <DataSource>nsm/*.csv</DataSource>
         <ServingUrl>/anomaly-production</ServingUrl>
         <UpdateCron>3ead654e-7944-406b-b7bd-fefb80d83a24</UpdateCron>

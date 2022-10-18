@@ -62,9 +62,10 @@ class InferringServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly inferring start %s %s %s %s web-infer %s",
+            $runCommand = sprintf("anomaly inferring start %s %s %s %s %s web-infer %s",
                 $mdlAnomaly->inferring->DataDestination,
                 $mdlAnomaly->inferring->BatchSize,
+                $mdlAnomaly->inferring->AnomalyThreshold,
                 $mdlAnomaly->inferring->DataSource,
                 $mdlAnomaly->inferring->ServingUrl,
                 $mdlAnomaly->inferring->enabled  == '1' ? 'start' : 'stop'

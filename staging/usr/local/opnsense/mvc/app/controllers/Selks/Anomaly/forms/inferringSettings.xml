@@ -18,6 +18,12 @@
         <help><![CDATA[Batch size to process.]]></help>
     </field>
     <field>
+        <id>anomaly.inferring.AnomalyThreshold</id>
+        <label>--anomaly-threshold</label>
+        <type>text</type>
+        <help><![CDATA[anomaly threshold to decide]]></help>
+    </field>
+    <field>
         <id>anomaly.inferring.DataSource</id>
         <label>--data-source</label>
         <type>text</type>
