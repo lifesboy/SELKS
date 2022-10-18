@@ -248,9 +248,9 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         # global run
         parent_run_id = ''  # run.info.run_id
 
-        self.processed_num = 0
-        self.row_normed_num = 0
-        self.anomaly_total = 0
+        self.processed_num: int = 0
+        self.row_normed_num: int = 0
+        self.anomaly_total: float = 0
 
         self.current_step: int = 0
         self.metrics: [Metric] = []
@@ -273,7 +273,8 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         preprocessed = self.preprocess(batch)
 
         self.row_normed_num += len(preprocessed.index)
-        self.anomaly_total += preprocessed[LABEL].sum()
+        if LABEL in preprocessed.columns.tolist():
+            self.anomaly_total += preprocessed[LABEL].sum()
 
         self.client.set_tag(run_id=self.run.info.run_id, key='features_normed', value=preprocessed.columns.tolist())
         timestamp = int(time.time() * 1000)
