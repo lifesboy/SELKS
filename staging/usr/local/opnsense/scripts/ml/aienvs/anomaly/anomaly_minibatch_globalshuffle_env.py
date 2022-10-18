@@ -127,23 +127,17 @@ class AnomalyMinibatchGlobalShuffleEnv(gym.Env):
             return 0
 
         anomaly_detected = np.sum(np.prod([self.current_action, action], axis=0))
-        self.anomaly_incorrect += np.sum(self.current_action) - self.anomaly_detected
-        reward = np.sum(np.logical_not(np.logical_xor([action, self.current_action], axis=0)))
+        anomaly_incorrect = np.sum(self.current_action) - anomaly_detected
+        detected = np.sum(np.logical_not(np.logical_xor(self.current_action, action)))
+        clean_detected = detected - anomaly_detected
+        clean_incorrect = self.current_action.size - detected - anomaly_incorrect
 
         self.anomaly_detected += anomaly_detected
+        self.anomaly_incorrect += anomaly_incorrect
+        self.clean_detected += clean_detected
+        self.clean_incorrect += clean_incorrect
 
-        if action == self.current_action[0]:
-            if action == 1:
-                self.anomaly_detected += 1
-            else:
-                self.clean_detected += 1
-            return 1
-
-        if action == 1:
-            self.clean_incorrect += 1
-        else:
-            self.anomaly_incorrect += 1
-        return -1
+        return float(detected)
 
     def _log_metrics(self):
         try:

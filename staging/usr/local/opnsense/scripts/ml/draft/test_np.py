@@ -26,7 +26,7 @@ x4 = x3 - x1
 print(f"x4 = {x4}")
 
 # expected 0 is mis-detected
-x5 = np.sum(a3) - x2
+x5 = a1.size - x3 - x2
 print(f"x5 = {x5}")
 
 
