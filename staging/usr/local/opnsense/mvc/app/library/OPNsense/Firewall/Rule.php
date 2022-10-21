@@ -319,7 +319,7 @@ abstract class Rule
                     } elseif (Util::isIpAddress($rule[$tag]['network']) || Util::isSubnet($rule[$tag]['network'])) {
                         $rule[$target] = $rule[$tag]['network'];
                     } elseif (Util::isAlias($rule[$tag]['network'])) {
-                        $rule[$target] = '$' . $rule[$tag]['network'];
+                        $rule[$target] = '@' . $rule[$tag]['network'];
                     } elseif ($rule[$tag]['network'] == 'any') {
                         $rule[$target] = $rule[$tag]['network'];
                     }
@@ -330,7 +330,7 @@ abstract class Rule
                     ) {
                         $rule[$target] = $rule[$tag]['address'];
                     } elseif (Util::isAlias($rule[$tag]['address'])) {
-                        $rule[$target] = '$' . $rule[$tag]['address'];
+                        $rule[$target] = '@' . $rule[$tag]['address'];
                     }
                 }
                 if (!empty($rule[$target]) && $rule[$target] != 'any' && isset($rule[$tag]['not'])) {
@@ -341,7 +341,7 @@ abstract class Rule
                     if (Util::isPort($port)) {
                         $rule[$target . "_port"] = $port;
                     } elseif (Util::isAlias($port)) {
-                        $rule[$target . "_port"] = '$' . $port;
+                        $rule[$target . "_port"] = '@' . $port;
                         if (!Util::isAlias($port, true)) {
                             // unable to map port
                             $rule['disabled'] = true;
