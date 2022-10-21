@@ -163,6 +163,7 @@ if __name__ == '__main__':
                 # flush when target is empty
                 # nft flush set ip ip_filter_table facebook
                 # subprocess.run(['/usr/sbin/nft', 'flush set ip ip_filter_table', alias_name], capture_output=True)
+                None
             else:
                 elements = open('/var/db/aliastables/%s.txt' % alias_name, 'r').read().strip().split('\n')
                 # replace table contents with collected alias
