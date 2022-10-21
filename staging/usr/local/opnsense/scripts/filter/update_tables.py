@@ -167,7 +167,7 @@ if __name__ == '__main__':
         for line in sp.stdout.strip().split('\n'):
             line = line.strip()
             if line:
-                elements = filter(is_ipv4, map(lambda i: i.strip(), line.split('{')[1].split['}'][0].split(',')))
+                elements = map(lambda i: i.strip(), line.split('{')[1].split['}'][0].split(','))
                 alias_pf_content.append(list(elements))
 
         if (len(alias_content) != len(alias_pf_content) or alias_changed_or_expired) and alias.get_parser():
@@ -180,7 +180,8 @@ if __name__ == '__main__':
                 # subprocess.run(['/usr/sbin/nft', 'flush set ip ip_filter_table', alias_name], capture_output=True)
                 None
             else:
-                elements = open('/var/db/aliastables/%s.txt' % alias_name, 'r').read().strip().split('\n')
+                lines = open('/var/db/aliastables/%s.txt' % alias_name, 'r').read().strip().split('\n')
+                elements = list(filter(is_ipv4, lines))
                 # replace table contents with collected alias
                 # nft add element ip ip_filter_table facebook { 192.0.2.0 }
                 sp = subprocess.run(['/usr/sbin/nft', 'add element ip ip_filter_table', alias_name,
