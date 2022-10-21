@@ -130,7 +130,7 @@ abstract class Rule
      */
     protected function parsePlainCurly($value, $prefix = "", $suffix = "")
     {
-        if (strpos($value, '$') === false) {
+        if (strpos($value, '$') === false && strpos($value, '@') === false) {
             // don't wrap aliases in curly brackets
             $prefix = $prefix . "{";
             $suffix = "}" . $suffix;
@@ -381,7 +381,7 @@ abstract class Rule
     {
         $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip protocol|inet4:ip protocol|inet6:ip6 nexthdr|:ip protocol|ip:ip protocol|ip6:ip6 nexthdr');
         $protocol = trim($this->parseReplaceSimple($protocol, 'inet:|inet4:|inet6:|ip:|ip6:|tcp:|udp:|tcp/udp:|ipv6-icmp:|icmpv6:'));
-        if (!empty($protocol) && strpos($protocol, '$') === false) {
+        if (!empty($protocol) && strpos($protocol, '$') === false && strpos($protocol, '@') === false) {
             // don't wrap aliases in curly brackets
             $protocol = "{" . $protocol . "}";
         }
@@ -399,13 +399,13 @@ abstract class Rule
     {
         $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet4:ip|inet6:ip6|:ip');
         $from = trim($this->parseReplaceSimple($from, 'any:'));
-        if (!empty($from) && strpos($from, '$') === false) {
+        if (!empty($from) && strpos($from, '$') === false && strpos($from, '@') === false) {
             // don't wrap aliases in curly brackets
             $from = "{" . $from . "}";
         }
         $from_port = trim($this->parseReplaceSimpleAllowZero($from_port, 'any:'));
         $from_port = str_replace(':', '-', $from_port);
-        if ($from_port != '' && strpos($from_port, '$') === false) {
+        if ($from_port != '' && strpos($from_port, '$') === false && strpos($from_port, '@') === false) {
             // don't wrap aliases in curly brackets
             $from_port = "{" . implode(',', explode(' ', $from_port)) . "}";
         }
@@ -419,13 +419,13 @@ abstract class Rule
     {
         $ipprotocol = $this->parseReplaceSimple($ipprotocol, 'inet:ip|inet4:ip|inet6:ip6|:ip');
         $to = trim($this->parseReplaceSimple($to, 'any:'));
-        if (!empty($to) && strpos($to, '$') === false) {
+        if (!empty($to) && strpos($to, '$') === false && strpos($to, '@') === false) {
             // don't wrap aliases in curly brackets
             $to = "{" . $to . "}";
         }
         $to_port = trim($this->parseReplaceSimpleAllowZero($to_port, 'any:'));
         $to_port = str_replace(':', '-', $to_port);
-        if ($to_port != '' && strpos($to_port, '$') === false) {
+        if ($to_port != '' && strpos($to_port, '$') === false && strpos($to_port, '@') === false) {
             // don't wrap aliases in curly brackets
             $to_port = "{" . implode(',', explode(' ', $to_port)) . "}";
         }
