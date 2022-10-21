@@ -38,10 +38,25 @@ import xml.etree.cElementTree as ET
 import syslog
 import subprocess
 import glob
+import ipaddress
 from lib.alias import Alias
 import lib.geoip as geoip
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
+def is_ipv4(s: str):
+        try:
+            ipaddress.IPv4Network(s)
+            return True
+        except ValueError:
+            return False
+
+def is_ipv6(s: str):
+        try:
+            ipaddress.IPv6Network(s)
+            return True
+        except ValueError:
+            return False
 
 class AliasParser(object):
     """ Alias Parser class, encapsulates all aliases
@@ -152,7 +167,7 @@ if __name__ == '__main__':
         for line in sp.stdout.strip().split('\n'):
             line = line.strip()
             if line:
-                elements = map(lambda i: i.strip(), line.split('{')[1].split['}'][0].split(','))
+                elements = filter(is_ipv4, map(lambda i: i.strip(), line.split('{')[1].split['}'][0].split(',')))
                 alias_pf_content.append(list(elements))
 
         if (len(alias_content) != len(alias_pf_content) or alias_changed_or_expired) and alias.get_parser():
