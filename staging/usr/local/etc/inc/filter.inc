@@ -758,12 +758,12 @@ function filter_generate_aliases()
     $aliases .= "define lo_net_ip = {127.0.0.1/8} # dia chi ipv4 loopback\n";
     $aliases .= "define lo_net_ip6 = {::1} # dia chi ipv4 loopback\n";
 
-    $aliases .= "add set ip ip_filter_table lan_net_ip {type ipv4_addr; elements=\$lan_net_ip;}\n";
+    $aliases .= "add set ip ip_filter_table lan_net_ip {type ipv4_addr; elements={$config['interfaces']['lan']['ipaddr']};}\n";
     $aliases .= "add set ip ip_filter_table lan_address_ip {type ipv4_addr; elements=\$lan_address_ip;}\n";
     $aliases .= "add set ip ip_filter_table this_firewall_ip {type ipv4_addr; elements=\$this_firewall_ip;}\n";
-    $aliases .= "add set ip ip_filter_table wan_net_ip {type ipv4_addr; elements=\$wan_net_ip;}\n";
+    $aliases .= "add set ip ip_filter_table wan_net_ip {type ipv4_addr; elements={$config['interfaces']['wan']['ipaddr']};}\n";
     $aliases .= "add set ip ip_filter_table wan_address_ip {type ipv4_addr; elements=\$wan_address_ip;}\n";
-    $aliases .= "add set ip ip_filter_table lo_net_ip {type ipv4_addr; elements=\$lo_net_ip;}\n";
+    $aliases .= "add set ip ip_filter_table lo_net_ip {type ipv4_addr; elements={127.0.0.1};}\n";
     $aliases .= "add set ip6 ip6_filter_table lan_net_ip6 {type ipv6_addr; elements=\$lan_net_ip6;}\n";
     $aliases .= "add set ip6 ip6_filter_table lan_address_ip6 {type ipv6_addr; elements=\$lan_address_ip6;}\n";
     $aliases .= "add set ip6 ip6_filter_table this_firewall_ip6 {type ipv6_addr; elements=\$this_firewall_ip6;}\n";
