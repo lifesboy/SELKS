@@ -169,7 +169,7 @@ if __name__ == '__main__':
                 # replace table contents with collected alias
                 # nft add element ip ip_filter_table facebook { 192.0.2.0 }
                 sp = subprocess.run(['/usr/sbin/nft', 'add element ip ip_filter_table', alias_name,
-                                     '{%s}' % elements.join(',')], capture_output=True, text=True)
+                                     '{%s}' % ','.join(elements)], capture_output=True, text=True)
 
                 error_output = sp.stdout.strip()
                 if error_output.find('nft: ') > -1:
