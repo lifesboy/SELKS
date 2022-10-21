@@ -864,7 +864,12 @@ function filter_generate_aliases()
                 break;
             default:
                 //$tblopt = (!empty($aliased['counters']) ? 'counters' : '') . " persist ";
-                $aliases .= "define {$aliased['name']} = {}\n"; //.{$tblopt}
+                // $aliases .= "define {$aliased['name']} = {}\n"; //.{$tblopt}
+
+                //nft add set ip ip_filter_table facebook {type ether_addr \;}
+                //nft add set ip ip6_filter_table facebook {type ether_addr \;}
+                $aliases .= "add set ip ip_filter_table {$aliased['name']} {type ether_addr \;}\n"; //.{$tblopt}
+                $aliases .= "add set ip6 ip6_filter_table {$aliased['name']} {type ether_addr \;}\n"; //.{$tblopt}
                 break;
         }
     }
