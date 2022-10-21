@@ -194,6 +194,40 @@ if __name__ == '__main__':
                         result['messages'] = list()
                     if error_output not in result['messages']:
                         result['messages'].append(error_output.replace('nft: ', ''))
+
+        alias_pf_content = list()
+        sp = subprocess.run(['/usr/sbin/nft', 'list set ip6 ip6_filter_table', alias_name, '| grep elements'], capture_output=True, text=True)
+        for line in sp.stdout.strip().split('\n'):
+            line = line.strip()
+            if line:
+                elements = map(lambda i: i.strip(), line.split('{')[1].split['}'][0].split(','))
+                alias_pf_content.append(list(elements))
+
+        if (len(alias_content) != len(alias_pf_content) or alias_changed_or_expired) and alias.get_parser():
+            # if the alias is changed, expired or the one in memory has a different number of items, load table
+            # (but only if we know how to handle this alias type)
+            subprocess.run(['/usr/sbin/nft', 'flush set ip6 ip6_filter_table', alias_name], capture_output=True)
+            if len(alias_content) == 0:
+                # flush when target is empty
+                # nft flush set ip ip_filter_table facebook
+                # subprocess.run(['/usr/sbin/nft', 'flush set ip ip_filter_table', alias_name], capture_output=True)
+                None
+            else:
+                lines = open('/var/db/aliastables/%s.txt' % alias_name, 'r').read().strip().split('\n')
+                elements = list(filter(is_ipv6, lines))
+                # replace table contents with collected alias
+                # nft add element ip ip_filter_table facebook { 192.0.2.0 }
+                sp = subprocess.run(['/usr/sbin/nft', 'add element ip6 ip6_filter_table', alias_name,
+                                     '{%s}' % ','.join(elements)], capture_output=True, text=True)
+
+                error_output = sp.stdout.strip()
+                if error_output.find('nft: ') > -1:
+                    result['status'] = 'error'
+                    if 'messages' not in result:
+                        result['messages'] = list()
+                    if error_output not in result['messages']:
+                        result['messages'].append(error_output.replace('nft: ', ''))
+
     # cleanup removed aliases
     to_remove = dict()
     for filename in glob.glob('/var/db/aliastables/*.txt'):
@@ -206,6 +240,7 @@ if __name__ == '__main__':
         syslog.syslog(syslog.LOG_NOTICE, 'remove old alias %s' % aliasname)
         # nft delete set ip ip_filter_table facebook
         subprocess.run(['/usr/sbin/nft', 'delete set ip ip_filter_table', aliasname], capture_output=True)
+        subprocess.run(['/usr/sbin/nft', 'delete set ip6 ip6_filter_table', aliasname], capture_output=True)
         for filename in to_remove[aliasname]:
             os.remove(filename)
 
