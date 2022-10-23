@@ -234,6 +234,16 @@ function legacy_interface_stats($ifs = null)
 //            HW offload capabilities: 0x0
 //            uptime at attach or stat reset: 19
         }
+        elseif (strpos($line, 'TX packets') > 0) {
+            $tx = explode(' ', explode('TX packets ', $line)[1]);
+            $stats[$current_interface]['packets received'] = trim($tx[0]);
+            $stats[$current_interface]['bytes received'] = trim($tx[3]);
+        }
+        elseif (strpos($line, 'RX packets') > 0) {
+            $rx = explode(' ', explode('RX packets ', $line)[1]);
+            $stats[$current_interface]['packets transmitted'] = trim($rx[0]);
+            $stats[$current_interface]['bytes transmitted'] = trim($rx[3]);
+        }
         elseif (strpos($line, 'TX errors') > 0) {
             $output_errors = explode(' ', explode('TX errors ', $line)[1])[0];
             $collisions = explode('collisions ', $line)[1];
