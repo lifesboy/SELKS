@@ -395,7 +395,7 @@ apt-get install daemonize -y
 ### END Install daemonize ###
 
 ### START Install vpn ###
-apt-get install openvpn -y
+apt-get install openvpn zip -y
 ### END Install vpn ###
 
 ### START Install Caching proxy ###
