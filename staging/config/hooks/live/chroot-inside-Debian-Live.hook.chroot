@@ -135,7 +135,7 @@ apt-get install -y flow-tools
 mkdir -p /cic/dataset/nsm/
 chown logstash -R /cic/dataset/nsm/
 
-apt-get install -y nftables
+apt-get install -y nftables conntrack
 systemctl enable nftables.service
 
 ### END Suricata ###
