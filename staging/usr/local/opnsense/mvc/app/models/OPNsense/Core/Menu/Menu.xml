@@ -12,7 +12,7 @@
         <Logout VisibleName="Đăng xuất" order="3" url="/index.php?logout" cssClass="fa fa-sign-out fa-fw"/>
     </Lobby>
     <Reporting VisibleName="Thống kê, báo cáo" order="15" cssClass="fa fa-area-chart">
-        <Settings VisibleName="Cài đặt" url="/reporting_settings.php" cssClass="fa fa-cog fa-fw"/>
+<!--        <Settings VisibleName="Cài đặt" url="/reporting_settings.php" cssClass="fa fa-cog fa-fw"/>-->
         <Traffic VisibleName="Lưu lượng mạng" url="/status_graph.php" cssClass="fa fa-line-chart fa-fw"/>
     </Reporting>
     <System VisibleName="Hệ thống" order="20" cssClass="fa fa-server">
