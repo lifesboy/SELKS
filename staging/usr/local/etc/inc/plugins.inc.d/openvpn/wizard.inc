@@ -772,8 +772,13 @@ function step12_submitphpaction()
         $rule['protocol'] = strtolower($server['protocol']);
         $rule['type'] = "pass";
         $rule['enabled'] = "on";
+        $rule['ipprotocol'] = "inet";
         $rule['created'] = make_config_revision_entry();
         $config['filter']['rule'][] = $rule;
+
+        $rule6 = $rule;
+        $rule6['ipprotocol'] = "inet6";
+        $config['filter']['rule'][] = $rule6;
     }
     if (isset($pconfig['step11']['ovpnallow'])) {
         $rule = array();
@@ -787,8 +792,13 @@ function step12_submitphpaction()
         $rule['interface'] = "ovpn{$server['dev_mode'][0]}{$server['vpnid']}";
         $rule['type'] = "pass";
         $rule['enabled'] = "on";
+        $rule['ipprotocol'] = "inet";
         $rule['created'] = make_config_revision_entry();
         $config['filter']['rule'][] = $rule;
+
+        $rule6 = $rule;
+        $rule6['ipprotocol'] = "inet6";
+        $config['filter']['rule'][] = $rule6;
     }
 
     $a_server = &config_read_array('openvpn', 'openvpn-server');
