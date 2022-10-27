@@ -766,7 +766,8 @@ function step12_submitphpaction()
         }
         $rule['direction'] = "in";
         $rule['source']['any'] = true;
-        $rule['destination']['network'] = $server['interface'] . "ip";
+        // TODO specify interface ip address
+        //$rule['destination']['network'] = $server['interface'] . "ip";
         $rule['destination']['port'] = $server['local_port'];
         $rule['interface'] = $server['interface'];
         $rule['protocol'] = strtolower($server['protocol']);
