@@ -59,6 +59,10 @@ ln -s /selks/staging/docker /docker
 #mv /etc/init.d/suricata /etc/init.d/suricata.bak
 #ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
 
+mkdir -p /opt/logstash/vendor/geoip/
+#mv -f /opt/logstash/vendor/geoip/GeoLiteCity.dat  /opt/logstash/vendor/geoip/GeoLiteCity.dat.bak
+ln -s /selks/staging/opt/logstash/vendor/geoip/GeoLiteCity.dat /opt/logstash/vendor/geoip/GeoLiteCity.dat
+
 mv /usr/bin/selks-db-logs-cleanup_stamus  /usr/bin/selks-db-logs-cleanup_stamus.bak
 mv /usr/bin/selks-disable-interface-offloading_stamus  /usr/bin/selks-disable-interface-offloading_stamus.bak
 mv /usr/bin/selks-disable-suri-capture_stamus  /usr/bin/selks-disable-suri-capture_stamus.bak
