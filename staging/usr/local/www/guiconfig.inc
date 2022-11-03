@@ -37,7 +37,7 @@ require_once("config.inc");
 /* CSRF BEGIN: CHECK MUST BE EXECUTED FIRST; NO EXCEPTIONS */
 require_once('csrf.inc');
 // hardening
-header("Content-Security-Policy: default-src 'self'; frame-src https://selks.ddns.net:444 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' 'unsafe-eval';");
+header("Content-Security-Policy: default-src 'self'; frame-src https://ngfw.h05:444 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' 'unsafe-eval';");
 header('X-Frame-Options: SAMEORIGIN');
 header('X-Content-Type-Options: nosniff');
 header('X-XSS-Protection: 1; mode=block');

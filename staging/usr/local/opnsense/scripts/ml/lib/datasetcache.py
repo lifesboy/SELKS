@@ -223,7 +223,7 @@ class DatasetCache(object):
                 # record['metadata']['cve'] = None
 
                 # record['distance'] = 0
-                record['reference'] = 'url,selks.ddns.net/archive/%s/threaded/' % record['metadata']['updated_at']
+                record['reference'] = 'url,ngfw.h05/archive/%s/threaded/' % record['metadata']['updated_at']
 
                 dataset_info_record['metadata'] = record
 

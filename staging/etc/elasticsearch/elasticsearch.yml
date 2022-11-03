@@ -100,4 +100,4 @@ path.logs: /drl/elasticsearch
 xpack.ml.enabled: false
 xpack.security.enabled: false
 
-#server.publicBaseUrl: selks.ddns.net
+#server.publicBaseUrl: ngfw.h05

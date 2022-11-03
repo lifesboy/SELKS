@@ -26,7 +26,7 @@ PATH_ML = '/usr/local/opnsense/scripts/ml'
 RAY_HEAD_NODE_ADDRESS = '127.0.0.1:6379'
 MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
 # RAY_HEAD_NODE_ADDRESS = '123.16.153.97:6379'
-# MLFLOW_TRACKING_URI = 'http://selks.ddns.net:5000'
+# MLFLOW_TRACKING_URI = 'http://ngfw.h05:5000'
 
 MODEL_STAGING_ADDRESS = '0.0.0.0'
 MODEL_STAGING_PORT = 6689
@@ -34,7 +34,7 @@ MODEL_STAGING_PORT = 6689
 MODEL_SERVE_ADDRESS = '0.0.0.0'
 MODEL_SERVE_PORT = 6789
 
-MODEL_SERVE_DETECTION_URL = 'http://selks.ddns.net:6789/anomaly'
+MODEL_SERVE_DETECTION_URL = 'http://ngfw.h05:6789/anomaly'
 
 DATA_DIR = '/cic/2018/'
 TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'

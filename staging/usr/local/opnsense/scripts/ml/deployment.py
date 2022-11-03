@@ -26,7 +26,7 @@ for endpoint in ['anomaly-staging', 'anomaly-production']:
         env = gym.make('CartPole-v0')
         obs = env.reset()
         print(f'-> Sending /{endpoint} observation {obs}')
-        resp = requests.post(f'http://selks.ddns.net:6789/{endpoint}', json={'obs': obs.tolist()})
+        resp = requests.post(f'http://ngfw.h05:6789/{endpoint}', json={'obs': obs.tolist()})
         print(f"<- Received /{endpoint} response {resp.json() if resp.ok else resp}")
         time.sleep(random.randint(1, 5))
 

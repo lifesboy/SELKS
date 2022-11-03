@@ -49,7 +49,7 @@ class AnomalyDeploymentModelTest(HttpUser):
         env = gym.make("CartPole-v0")
         obs = env.reset()
         print(f"-> Sending observation {obs}")
-        resp = self.client.get("http://selks.ddns.net:6789/anomaly", json={"observation": obs.tolist()})
+        resp = self.client.get("http://ngfw.h05:6789/anomaly", json={"observation": obs.tolist()})
         print(f"<- Received response {resp.json() if resp.ok else resp}")
 
 # if __name__ == "__main__":
