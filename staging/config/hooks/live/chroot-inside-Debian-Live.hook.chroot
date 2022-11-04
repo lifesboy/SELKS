@@ -146,6 +146,16 @@ systemctl enable nftables.service
 #apt-get install -y kibana-dashboards-stamus
 dpkg -i /binaries/kibana-dashboards-stamus_2020122001_amd64.deb
 
+#echo "**** download Kibana dashboards ****" && \
+#wget --no-check-certificate --content-disposition -O /tmp/kibana7-dashboards.tar.gz https://github.com/StamusNetworks/KTS7/tarball/master && \
+#mkdir /tmp/kibana7-dashboards && \
+#tar zxf /tmp/kibana7-dashboards.tar.gz -C /tmp/kibana7-dashboards --strip-components 1 && \
+#mv /tmp/kibana7-dashboards /opt/kibana7-dashboards
+
+mkdir -p /opt/selks/kibana7-dashboards
+mv -f /opt/selks/kibana7-dashboards /opt/selks/kibana7-dashboards.bak
+cp -R /binaries/kibana7-dashboards /opt/selks/
+
 ### END Install kibana dashboards ###
 
 ### START Evebox ###
