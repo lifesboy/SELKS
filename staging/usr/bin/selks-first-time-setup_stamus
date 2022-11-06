@@ -97,7 +97,11 @@ echo "FPC_Retain - Full Packet Capture with having Moloch's pcap retention/rotat
 
 service elasticsearch restart
 echo -e "waiting 60s for elasticsearch ready"
-sleep 60 # waiting 10s for elasticsearch ready
+sleep 60 # waiting 60s for elasticsearch ready
+
+service kibana restart
+echo -e "waiting 60s for kibana ready"
+sleep 60 # waiting 60s for kibana ready
 
 ES_STATUS=$(curl http://localhost:9200/_cluster/health?pretty | grep '"status" : "red"')
 if [ -n "${ES_STATUS}" ]; then
