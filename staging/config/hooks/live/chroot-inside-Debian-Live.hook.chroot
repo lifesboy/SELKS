@@ -89,7 +89,7 @@ openjdk-11-jdk openjdk-11-jre openjdk-11-jre-headless
 ### START ELK ###
 
 #apt-get update
-yes | apt-get install -y elasticsearch logstash kibana elasticsearch-curator
+yes | apt-get install -y elasticsearch logstash kibana elasticsearch-curator filebeat
 
 mkdir -p /var/cache/logstash/sincedbs/
 chown logstash:logstash /var/cache/logstash/sincedbs/
@@ -98,6 +98,7 @@ chown logstash:logstash /var/cache/logstash/sincedbs/
 /bin/systemctl enable elasticsearch && \
 /bin/systemctl enable logstash && \
 /bin/systemctl enable kibana && \
+/bin/systemctl enable filebeat && \
 /bin/systemctl daemon-reload
 
 ### END ELK ###
