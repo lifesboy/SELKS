@@ -311,7 +311,7 @@ abstract class Rule
                         $rule[$target] = '$this_firewall' . $this->parseReplaceSimple($rule['ipprotocol'], 'inet:ip|inet6:ip6', '_');
                     } elseif (preg_match("/^(wan|lan|opt[0-9]+)ip$/", $network_name, $matches)) {
                         if (!empty($interfaces[$matches[1]]['if'])) {
-                            $rule[$target] = "{$interfaces["{$matches[1]}"]['if']}";
+                            $rule[$target] = "({$interfaces["{$matches[1]}"]['if']})";
                         }
                     } elseif (!empty($interfaces[$network_name]['if'])) {
                         // $rule[$target] = "({$interfaces[$network_name]['if']}:network)";
