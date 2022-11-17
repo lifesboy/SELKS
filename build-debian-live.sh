@@ -123,6 +123,10 @@ if [ ! -f /binaries/megaraid_sas-07.721.02.00-1dkms.noarch.deb ]; then
   cp ./drivers/megaraid_sas-07.721.02.00-1dkms.noarch.deb /binaries
 fi
 
+if [ ! -f /binaries/NVIDIA-Linux-x86_64-470.129.06.run ]; then
+  wget https://us.download.nvidia.com/tesla/470.129.06/NVIDIA-Linux-x86_64-470.129.06.run --output-document=/binaries/NVIDIA-Linux-x86_64-470.129.06.run
+fi
+
 if [ ! -f /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb ]; then
   wget https://developer.download.nvidia.com/compute/cuda/11.4.2/local_installers/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb -o /binaries/cuda-repo-debian10-11-4-local_11.4.2-470.57.02-1_amd64.deb
 fi
