@@ -42,14 +42,15 @@ class ForwardRule extends Rule
             'pass' => 'parseBool,pass ',
             'log' => 'parseBool,log ',
             'interface' => 'parseInterface',
-            'protocol' => 'parseReplaceSimple,tcp/udp:{tcp udp},proto ',
-            'from' => 'parsePlainCurly,from ',
-            'from_port' => 'parsePlainCurly, port ',
+            // 'protocol' => 'parseReplaceSimple,tcp/udp:{tcp udp},proto ',
+            // 'from' => 'parsePlainCurly,from ',
+            // 'from_port' => 'parsePlainCurly, port ',
+            'ipprotocol,protocol,from,from_port' => 'parseFrom',
             'to' => 'parsePlainCurly,to ',
             'to_port' => 'parsePlainCurly, port ',
             'tag' => 'parsePlain, tag ',
             'tagged' => 'parsePlain, tagged ',
-            'target' => 'parsePlain, dnat to ',
+            'target' => 'parsePlain, redirect to ',
             'localport' => 'parsePlain, port ',
             'poolopts' => 'parsePlain',
             'descr' => 'parseComment'
@@ -63,7 +64,7 @@ class ForwardRule extends Rule
             'interface.from' => 'parseInterface, from (,:network)',
             'target.to' => 'parsePlainCurly,to ',
             'localport' => 'parsePlainCurly,port ',
-            'interface.to' => 'parseInterface, redirect to (,)',
+            'interface.to' => 'parseInterface, dnat to (,)',
             'staticnatport' => 'parseBool,  static-port , port 1024:65535 ',
             'descr' => 'parseComment'
         )
