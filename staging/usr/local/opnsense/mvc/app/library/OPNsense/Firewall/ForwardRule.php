@@ -48,10 +48,11 @@ class ForwardRule extends Rule
             'ipprotocol,protocol,from,from_port' => 'parseFrom',
             // 'to' => 'parsePlainCurly,to ',
             // 'to_port' => 'parsePlainCurly, port ',
+            'ipprotocol,protocol,to,to_port' => 'parseTo',
             // 'tag' => 'parsePlain, tag ',
             // 'tagged' => 'parsePlain, tagged ',
             // 'target' => 'parsePlain, redirect to ',
-            'localport' => 'parsePlain, :',
+            'localport' => 'parsePlain, redirect to :',
             // 'poolopts' => 'parsePlain',
             'log,log_prefix' => 'parseLog',
             'descr' => 'parseComment'
