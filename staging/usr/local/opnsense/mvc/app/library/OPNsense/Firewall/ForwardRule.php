@@ -37,11 +37,11 @@ class ForwardRule extends Rule
     private $procorder = array(
         'rdr' => array(
             'disabled' => 'parseIsComment',
-            'nordr' => 'parseBool,no rdr,rdr',
+            'ipprotocol' => 'parseReplaceVariable,inet:ip|inet4:ip|inet6:ip6,, {map}_nat prerouting',
+            // 'nordr' => 'parseBool,no rdr,rdr',
             'pass' => 'parseBool,pass ',
             'log' => 'parseBool,log ',
             'interface' => 'parseInterface',
-            'ipprotocol' => 'parsePlain',
             'protocol' => 'parseReplaceSimple,tcp/udp:{tcp udp},proto ',
             'from' => 'parsePlainCurly,from ',
             'from_port' => 'parsePlainCurly, port ',
@@ -49,21 +49,21 @@ class ForwardRule extends Rule
             'to_port' => 'parsePlainCurly, port ',
             'tag' => 'parsePlain, tag ',
             'tagged' => 'parsePlain, tagged ',
-            'target' => 'parsePlain, -> ',
+            'target' => 'parsePlain, dnat to ',
             'localport' => 'parsePlain, port ',
             'poolopts' => 'parsePlain',
             'descr' => 'parseComment'
         ),
         'rdr_nat' => array(
             'disabled' => 'parseIsComment',
-            'nat' => 'parseStaticText,nat ',
+            'ipprotocol' => 'parseReplaceVariable,inet:ip|inet4:ip|inet6:ip6,, {map}_nat prerouting',
+            // 'nat' => 'parseStaticText,nat ',
             'interface' => 'parseInterface',
-            'ipprotocol' => 'parsePlain',
             'protocol' => 'parseReplaceSimple,tcp/udp:{tcp udp},proto ',
             'interface.from' => 'parseInterface, from (,:network)',
             'target.to' => 'parsePlainCurly,to ',
             'localport' => 'parsePlainCurly,port ',
-            'interface.to' => 'parseInterface, -> (,)',
+            'interface.to' => 'parseInterface, redirect to (,)',
             'staticnatport' => 'parseBool,  static-port , port 1024:65535 ',
             'descr' => 'parseComment'
         )
