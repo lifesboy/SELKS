@@ -831,6 +831,10 @@ function filter_generate_aliases()
     $aliases .= "add chain ip_nat prerouting { type nat hook prerouting priority -110; }\n";
     $aliases .= "add chain ip_nat postrouting { type nat hook postrouting priority 110; }\n";
     $aliases .= "\n";
+    $aliases .= "add table ip6_nat\n";
+    $aliases .= "add chain ip6_nat prerouting { type nat hook prerouting priority -110; }\n";
+    $aliases .= "add chain ip6_nat postrouting { type nat hook postrouting priority 110; }\n";
+    $aliases .= "\n";
 
 //    $aliases .= "\n";
 //    $aliases .= "# THEM CHAIN DE UU TIEN THUC HIEN CHONG LOCKOUT - ANTI LOCKOUT CHAIN AND RULE HERE \n";

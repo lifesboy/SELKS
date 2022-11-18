@@ -37,20 +37,22 @@ class DNatRule extends Rule
     private $procorder = array(
         'nat' => array(
             'disabled' => 'parseIsComment',
+            'ipprotocol' => 'parseReplaceVariable,inet:ip|inet4:ip|inet6:ip6,, {map}_nat prerouting',
             'type' => 'parsePlain',
             'interface' => 'parseInterface',
             'from' => 'parsePlain,from ',
             'to' => 'parsePlain,to ',
-            'external' => 'parsePlain, -> ',
+            'external' => 'parsePlain, dnat to ',
             'descr' => 'parseComment'
         ),
         'nat_rdr' => array(
             'disabled' => 'parseIsComment',
-            'nat' => 'parseStaticText,rdr ',
+            'ipprotocol' => 'parseReplaceVariable,inet:ip|inet4:ip|inet6:ip6,, {map}_nat prerouting',
             'interface' => 'parseInterface',
             'to' => 'parsePlainCurly,from ',
             'external' => 'parsePlainCurly,to ',
-            'from' => 'parsePlainCurly, -> , bitmask',
+            // 'nat' => 'parseStaticText,redirect ',
+            'from' => 'parsePlainCurly, redirect to , bitmask',
             'descr' => 'parseComment'
         ),
         'nat_refl' => array(
