@@ -427,7 +427,6 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $natrules .= "add rule ip ip_nat prerouting iif \$lan tcp dport { 80 } redirect to :3128\n";
     $natrules .= "add rule ip ip_nat prerouting iif \$lan tcp dport { 443 } redirect to :3129\n";
     $natrules .= $fw->outputNatRules();
-    $natrules .= "add rule ip ip_filter_table forward ct status dnat accept\n";
 
     if ($verbose) {
         echo '.';
@@ -528,6 +527,8 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $rules .= $fw->anchorToText('fw', 'head');
     $rules .= filter_rules_legacy($cnfint);
     $rules .= $fw->outputFilterRules();
+    $rules .= "add rule ip ip_filter_table forward ct status dnat accept\n";
+
     $rules .= $fw->anchorToText('fw', 'tail');
 
     // Copy rules.debug to rules.debug.old
