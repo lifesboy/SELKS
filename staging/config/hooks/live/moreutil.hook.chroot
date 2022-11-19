@@ -240,6 +240,7 @@ systemctl disable wpa_supplicant.service
 systemctl disable network-manager.service
 systemctl disable avahi-daemon.service
 systemctl disable suricata.service
+systemctl disable clamav-daemon.service
 systemctl disable squid.service
 update-rc.d lighttpd disable
 ln -s /selks/staging/var/etc /var/etc
