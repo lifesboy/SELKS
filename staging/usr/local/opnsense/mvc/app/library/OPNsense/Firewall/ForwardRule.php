@@ -52,7 +52,8 @@ class ForwardRule extends Rule
             // 'tag' => 'parsePlain, tag ',
             // 'tagged' => 'parsePlain, tagged ',
             // 'target' => 'parsePlain, redirect to ',
-            'localport' => 'parsePlain, redirect to :',
+            'nordr' => 'parseBool,dnat to ,redirect to ',
+            'localport' => 'parsePlain,:',
             // 'poolopts' => 'parsePlain',
             'log,log_prefix' => 'parseLog',
             'descr' => 'parseComment'
