@@ -1053,7 +1053,7 @@ $( document ).ready(function() {
                 </tr>
 <?php         elseif (!isset($id) || (isset($_GET['dup']) && is_numericint($_GET['dup']))) :
 ?>
-                <tr class="act_no_rdr">
+                <!-- <tr class="act_no_rdr">
                   <td><a id="help_for_fra" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Filter rule association"); ?></td>
                   <td>
                     <select name="filter-rule-association">
@@ -1066,7 +1066,7 @@ $( document ).ready(function() {
                       <?=gettext("NOTE: The \"pass\" selection does not work properly with Multi-WAN. It will only work on an interface containing the default gateway.")?>
                     </div>
                   </td>
-                </tr>
+                </tr> -->
 <?php          endif;
 
                 $has_created_time = (isset($pconfig['created']) && is_array($pconfig['created']));
