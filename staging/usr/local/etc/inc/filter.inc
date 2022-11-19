@@ -424,8 +424,8 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $natrules .= "add rule ip_nat postrouting masquerade\n";
 
     // caching proxy squid - icap - clamav
-    $natrules .= "add rule ip ip_nat prerouting iif \$lan tcp dport { 80 } redirect to :3128\n";
-    $natrules .= "add rule ip ip_nat prerouting iif \$lan tcp dport { 443 } redirect to :3129\n";
+//    $natrules .= "add rule ip ip_nat prerouting iif \$lan tcp dport { 80 } redirect to :3128\n";
+//    $natrules .= "add rule ip ip_nat prerouting iif \$lan tcp dport { 443 } redirect to :3129\n";
     $natrules .= $fw->outputNatRules();
 
     if ($verbose) {
