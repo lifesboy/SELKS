@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pconfig['local-port'] = 80;
     if (isset($configId)) {
         // copy 1-on-1
-        foreach (array('protocol','target','local-port','descr','interface','associated-rule-id','nosync','log',
+        foreach (array('protocol','target','local-port','descr','interface','associated-rule-id','nosync','log', 'log_prefix',
                       'natreflection','created','updated','ipprotocol','tag','tagged','poolopts') as $fieldname) {
             if (isset($a_nat[$configId][$fieldname])) {
                 $pconfig[$fieldname] = $a_nat[$configId][$fieldname];
@@ -231,6 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $natent['nordr'] = !empty($pconfig['nordr']);
         $natent['nosync'] = !empty($pconfig['nosync']);
         $natent['log'] = !empty($pconfig['log']);
+        $natent['log_prefix'] = !empty($pconfig['log_prefix']);
 
         if (empty($natent['nordr'])) {
             $natent['target'] = $pconfig['target'];
@@ -965,6 +966,15 @@ $( document ).ready(function() {
                       <?=gettext("Log packets that are handled by this rule");?><br/>
                       <?=sprintf(gettext("Hint: the firewall has limited local log space. Don't turn on logging for everything. If you want to do a lot of logging, consider using a %sremote syslog server%s."),'<a href="diag_logs_settings.php">','</a>') ?>
                     </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a id="help_for_log_prefix" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Log prefix");?></td>
+                  <td>
+                      <input name="log_prefix" type="text" id="log_prefix" size="40" value="<?=$pconfig['log_prefix'];?>" />
+                      <div class="hidden" data-for="help_for_log_prefix">
+                          <?=gettext("You may enter log_prefix for filter firewall log."); ?>
+                      </div>
                   </td>
                 </tr>
                 <tr>
