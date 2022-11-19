@@ -11,7 +11,7 @@ chmod -R o+r /var/log/squid
 chmod 0755 /var/log/squid
 chmod 4755 /usr/lib/squid/pinger
 #/usr/sbin/pw groupmod proxy -m proxy
-#/usr/sbin/squid -z -N > /dev/null 2>&1
+/usr/sbin/squid -z -N > /dev/null 2>&1
 
 # remove ssl certificate store in case the user changed the CA
 if [ -f /etc/squid/ca.pem.id ]; then
