@@ -522,12 +522,12 @@ $( document ).ready(function() {
                   </td>
                 </tr>
                 <tr>
-                  <td><a id="help_for_nordr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("No RDR (NOT)"); ?></td>
+                  <td><a id="help_for_nordr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Is Redirect"); ?></td>
                   <td>
                     <input type="checkbox" name="nordr" id="nordr" <?= !empty($pconfig['nordr']) ? "checked=\"checked\"" : ""; ?> />
                     <div class="hidden" data-for="help_for_nordr">
-                      <?=gettext("Enabling this option will disable redirection for traffic matching this rule."); ?>
-                      <br /><?=gettext("Hint: this option is rarely needed, don't use this unless you know what you're doing."); ?>
+                      <?=gettext("Enabling this option will enable redirection for traffic matching this rule."); ?>
+                      <br /><?=gettext("Otherwise: this rule will be dnat."); ?>
                     </div>
                   </td>
                 </tr>
