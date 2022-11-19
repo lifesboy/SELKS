@@ -418,7 +418,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 //    $ipsrules .= "add rule ip6 ip6_ips_table ips-output queue num 3 bypass counter accept\n";
 
     $ftp_rules = "\n# FTP rules\n";
-    $ftp_rules .= "add ct helper ip ip_stateful_ftp ftp-standard '{type \"ftp\" protocol tcp;}'\n";
+    $ftp_rules .= "add ct helper ip ip_stateful_ftp ftp-standard {type \"ftp\" protocol tcp;}\n";
     $ftp_rules .= "add rule ip ip_stateful_ftp pre tcp dport 21 ct helper set \"ftp-standard\"\n";
     $ftp_rules .= "add rule ip ip_nat prerouting ct helper \"ftp\" accept\n";
 
@@ -841,7 +841,7 @@ function filter_generate_aliases()
 
     $aliases .= "\n";
     $aliases .= "# Cau hinh FTP chain\n";
-    $aliases .= "add chain ip ip_stateful_ftp pre '{type filter hook prerouting priority -111;}'\n";
+    $aliases .= "add chain ip ip_stateful_ftp pre {type filter hook prerouting priority -111;}\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
