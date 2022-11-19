@@ -511,7 +511,7 @@ $( document ).ready(function() {
                             <td><i class="fa fa-play fa-fw text-success"></i></td>
                             <td><?=gettext("Enabled rule"); ?></td>
                             <td><i class="fa fa-exclamation fa-fw text-success"></i></td>
-                            <td><?=gettext("No redirect"); ?></td>
+                            <td><?=gettext("Redirect"); ?></td>
                             <td><i class="fa fa-arrows-h fa-fw text-success"></i></td>
                             <td><?=gettext("Linked rule");?></td>
                           </tr>
@@ -519,7 +519,7 @@ $( document ).ready(function() {
                             <td><i class="fa fa-play fa-fw text-muted"></i></td>
                             <td><?=gettext("Disabled rule"); ?></td>
                             <td><i class="fa fa-exclamation fa-fw text-muted"></i></td>
-                            <td><?=gettext("Disabled no redirect"); ?></td>
+                            <td><?=gettext("Dnat"); ?></td>
                             <td><i class="fa fa-arrows-h fa-fw text-muted"></i></td>
                             <td><?=gettext("Disabled linked rule");?></td>
                           </tr>
