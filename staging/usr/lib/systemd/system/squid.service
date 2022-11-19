@@ -24,7 +24,7 @@
 [Unit]
 Documentation=man:systemd-sysv-generator(8)
 SourcePath=/etc/init.d/squid
-Description=LSB: Squid HTTP Proxy version 4.x
+Description=LSB: Squid HTTP Proxy version 6.x
 Before=multi-user.target
 Before=multi-user.target
 Before=multi-user.target
