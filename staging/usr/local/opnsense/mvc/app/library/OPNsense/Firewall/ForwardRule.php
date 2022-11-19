@@ -51,7 +51,7 @@ class ForwardRule extends Rule
             'ipprotocol,protocol,to,to_port' => 'parseTo',
             // 'tag' => 'parsePlain, tag ',
             // 'tagged' => 'parsePlain, tagged ',
-            'nordr' => 'parseBool,dnat to ,redirect to ',
+            'nordr' => 'parseBool,redirect to ,dnat to ',
             'target' => 'parsePlain',
             'localport' => 'parsePlain,:',
             // 'poolopts' => 'parsePlain',
