@@ -975,43 +975,43 @@ $( document ).ready(function() {
                       <?=gettext("You may enter a description here " ."for your reference (not parsed)."); ?>
                     </div>
                 </tr>
-<!--                <tr>-->
-<!--                    <td><a id="help_for_tag" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  --><?//=gettext("Set local tag"); ?><!--</td>-->
-<!--                    <td>-->
-<!--                      <input name="tag" type="text" value="--><?//=$pconfig['tag'];?><!--" />-->
-<!--                      <div class="hidden" data-for="help_for_tag">-->
-<!--                        --><?//= gettext("You can mark a packet matching this rule and use this mark to match on other NAT/filter rules.") ?>
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td><a id="help_for_tagged" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> --><?//=gettext("Match local tag"); ?><!--   </td>-->
-<!--                    <td>-->
-<!--                      <input name="tagged" type="text" value="--><?//=$pconfig['tagged'];?><!--" />-->
-<!--                      <div class="hidden" data-for="help_for_tagged">-->
-<!--                        --><?//=gettext("You can match packet on a mark placed before on another rule.")?>
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                  <td><a id="help_for_nosync" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  --><?//=gettext("No XMLRPC Sync"); ?><!--</td>-->
-<!--                  <td>-->
-<!--                    <input type="checkbox" value="yes" name="nosync" --><?//=!empty($pconfig['nosync']) ? "checked=\"checked\"" :"";?><!-- />-->
-<!--                    <div class="hidden" data-for="help_for_nosync">-->
-<!--                      --><?//=gettext("Hint: This prevents the rule on Master from automatically syncing to other CARP members. This does NOT prevent the rule from being overwritten on Slave.");?>
-<!--                    </div>-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                  <td><i class="fa fa-info-circle text-muted"></i> --><?//=gettext("NAT reflection"); ?><!--</td>-->
-<!--                  <td>-->
-<!--                    <select name="natreflection" class="selectpicker">-->
-<!--                    <option value="default" --><?//=$pconfig['natreflection'] != "enable" && $pconfig['natreflection'] != "purenat" && $pconfig['natreflection'] != "disable" ? "selected=\"selected\"" : ""; ?><!-->--><?//=gettext("Use system default"); ?><!--</option>-->
-<!--                    <option value="purenat" --><?//=$pconfig['natreflection'] == "purenat" ? "selected=\"selected\"" : ""; ?><!-->--><?//=gettext("Enable"); ?><!--</option>-->
-<!--                    <option value="disable" --><?//=$pconfig['natreflection'] == "disable" ? "selected=\"selected\"" : ""; ?><!-->--><?//=gettext("Disable"); ?><!--</option>-->
-<!--                    </select>-->
-<!--                  </td>-->
-<!--                </tr>-->
+                <tr>
+                    <td><a id="help_for_tag" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Set local tag"); ?></td>
+                    <td>
+                      <input name="tag" type="text" value="<?=$pconfig['tag'];?>" />
+                      <div class="hidden" data-for="help_for_tag">
+                        <?= gettext("You can mark a packet matching this rule and use this mark to match on other NAT/filter rules.") ?>
+                      </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a id="help_for_tagged" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Match local tag"); ?>   </td>
+                    <td>
+                      <input name="tagged" type="text" value="<?=$pconfig['tagged'];?>" />
+                      <div class="hidden" data-for="help_for_tagged">
+                        <?=gettext("You can match packet on a mark placed before on another rule.")?>
+                      </div>
+                    </td>
+                </tr>
+                <tr>
+                  <td><a id="help_for_nosync" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("No XMLRPC Sync"); ?></td>
+                  <td>
+                    <input type="checkbox" value="yes" name="nosync" <?=!empty($pconfig['nosync']) ? "checked=\"checked\"" :"";?> />
+                    <div class="hidden" data-for="help_for_nosync">
+                      <?=gettext("Hint: This prevents the rule on Master from automatically syncing to other CARP members. This does NOT prevent the rule from being overwritten on Slave.");?>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("NAT reflection"); ?></td>
+                  <td>
+                    <select name="natreflection" class="selectpicker">
+                    <option value="default" <?=$pconfig['natreflection'] != "enable" && $pconfig['natreflection'] != "purenat" && $pconfig['natreflection'] != "disable" ? "selected=\"selected\"" : ""; ?>><?=gettext("Use system default"); ?></option>
+                    <option value="purenat" <?=$pconfig['natreflection'] == "purenat" ? "selected=\"selected\"" : ""; ?>><?=gettext("Enable"); ?></option>
+                    <option value="disable" <?=$pconfig['natreflection'] == "disable" ? "selected=\"selected\"" : ""; ?>><?=gettext("Disable"); ?></option>
+                    </select>
+                  </td>
+                </tr>
 <?php            if (isset($id) && (!isset($_GET['dup']) || !is_numericint($_GET['dup']))): ?>
                 <tr class="act_no_rdr">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Filter rule association"); ?></td>
