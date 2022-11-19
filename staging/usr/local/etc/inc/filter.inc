@@ -417,6 +417,11 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 //    $ipsrules .= "add rule ip6 ip6_ips_table ips-forward queue num 3 bypass counter accept\n";
 //    $ipsrules .= "add rule ip6 ip6_ips_table ips-output queue num 3 bypass counter accept\n";
 
+    $ftp_rules = "\n# FTP rules\n";
+    $ftp_rules .= "add ct helper ip ip_stateful_ftp ftp-standard '{type \"ftp\" protocol tcp;}'\n";
+    $ftp_rules .= "add rule ip ip_stateful_ftp pre tcp dport 21 ct helper set \"ftp-standard\"\n";
+    $ftp_rules .= "add rule ip ip_nat prerouting ct helper \"ftp\" accept\n";
+
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
     $natrules .= "# no rdr proto carp all\n";
@@ -520,6 +525,8 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     //$rules .= filter_generate_scrubing($cnfint);
     $rules .= "\n";
     $rules .= "{$ipsrules}\n";
+    $rules .= "\n";
+    $rules .= "{$ftp_rules}\n";
     $rules .= "\n";
     $rules .= $fw->anchorToText('nat,binat,rdr', 'head');
     $rules .= "{$natrules}\n";
@@ -737,6 +744,9 @@ function filter_generate_aliases()
     $aliases .= "add table ip ip_ips_table\n";
     $aliases .= "add table ip6 ip6_ips_table\n";
     $aliases .= "\n";
+    $aliases .= "add table ip ip_stateful_ftp\n";
+    $aliases .= "add table ip6 ip6_stateful_ftp\n";
+    $aliases .= "\n";
     $aliases .= "define sshlockout_ip = {0.0.0.1}\n";
     $aliases .= "define sshlockout_ip6 = {2000::/16}\n";
     $aliases .= "\n";
@@ -823,6 +833,11 @@ function filter_generate_aliases()
     //$aliases .= "add chain ip6 ip6_ips_table ips-input { type filter hook input priority 40; policy accept; }\n";
     //$aliases .= "add chain ip6 ip6_ips_table ips-forward { type filter hook forward priority 40; policy accept; }\n";
     //$aliases .= "add chain ip6 ip6_ips_table ips-output { type filter hook output priority 40; policy accept; }\n";
+    $aliases .= "\n";
+
+    $aliases .= "\n";
+    $aliases .= "# Cau hinh FTP chain\n";
+    $aliases .= "add chain ip ip_stateful_ftp pre '{type filter hook prerouting priority -111;}'\n";
     $aliases .= "\n";
 
     $aliases .= "\n";
