@@ -975,7 +975,7 @@ $( document ).ready(function() {
                       <?=gettext("You may enter a description here " ."for your reference (not parsed)."); ?>
                     </div>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td><a id="help_for_tag" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Set local tag"); ?></td>
                     <td>
                       <input name="tag" type="text" value="<?=$pconfig['tag'];?>" />
@@ -1011,7 +1011,7 @@ $( document ).ready(function() {
                     <option value="disable" <?=$pconfig['natreflection'] == "disable" ? "selected=\"selected\"" : ""; ?>><?=gettext("Disable"); ?></option>
                     </select>
                   </td>
-                </tr>
+                </tr> -->
 <?php            if (isset($id) && (!isset($_GET['dup']) || !is_numericint($_GET['dup']))): ?>
                 <tr class="act_no_rdr">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Filter rule association"); ?></td>
