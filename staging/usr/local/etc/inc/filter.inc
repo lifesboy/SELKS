@@ -558,11 +558,15 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     //disable translate port to service name: 80 thanh http
     //mwexec('/usr/sbin/nft -fnn');
 
+    // enable nf ftp
+    mwexec('/sbin/modprobe nf_nat_ftp');
+
     exec('/usr/sbin/nft -f /tmp/rules.debug 2>&1', $rules_error, $rules_loading);
 
-    foreach ($sched_kill_states as $label) {
-        //mwexecf('/sbin/pfctl -k label -k %s', $label);
-    }
+    //foreach ($sched_kill_states as $label) {
+    //    mwexecf('/sbin/pfctl -k label -k %s', $label);
+    //}
+    mwexec('/usr/sbin/conntrack -F');
 
     /*
      * check for a error while loading the rules file.  if an error has occurred
