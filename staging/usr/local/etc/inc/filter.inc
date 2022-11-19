@@ -420,7 +420,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $natrules = "\n# NAT Redirects\n";
     $natrules .= "# no nat proto carp all\n";
     $natrules .= "# no rdr proto carp all\n";
-    $natrules .= "add rule ip_nat prerouting ip daddr ".$config['interfaces']['wan']['ipaddr']." tcp dport { 82} dnat to 10.0.2.10:80\n";
+//    $natrules .= "add rule ip_nat prerouting ip daddr ".$config['interfaces']['wan']['ipaddr']." tcp dport { 82} dnat to 10.0.2.10:80\n";
     $natrules .= "add rule ip_nat postrouting masquerade\n";
 
     // caching proxy squid - icap - clamav
