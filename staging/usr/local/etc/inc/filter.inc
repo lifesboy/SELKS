@@ -419,6 +419,7 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 
     $ftp_rules = "\n# FTP rules\n";
     $ftp_rules .= "add ct helper ip ip_stateful_ftp ftp-standard {type \"ftp\" protocol tcp;}\n";
+    $ftp_rules .= "#add rule ip ip_stateful_ftp pre tcp dport 21 ct helper set \"ftp-standard\"\n"; // wait for init stateful object
     $ftp_rules .= "add rule ip ip_nat prerouting ct helper \"ftp\" accept\n";
     $ftp_rules .= "add rule ip ip_stateful_ftp pre tcp dport 21 ct helper set \"ftp-standard\"\n";
 
