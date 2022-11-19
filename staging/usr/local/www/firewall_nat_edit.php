@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!empty($pconfig['dstendport']) && $pconfig['dstendport'] != 'any' && !is_portoralias($pconfig['dstendport']))
         $input_errors[] = sprintf(gettext("%s is not a valid end destination port. It must be a port alias or integer between 1 and 65535."), $pconfig['dstendport']);
 
-    if (($pconfig['protocol'] == "tcp" || $pconfig['protocol'] == "udp" || $_POST['protocol'] == "tcp/udp") && (!isset($pconfig['nordr']) && !is_portoralias($pconfig['local-port']))) {
+    if (($pconfig['protocol'] == "tcp" || $pconfig['protocol'] == "udp" || $_POST['protocol'] == "tcp/udp") && (/* !isset($pconfig['nordr']) && */ !is_portoralias($pconfig['local-port']))) {
         $input_errors[] = sprintf(gettext("A valid redirect target port must be specified. It must be a port alias or integer between 1 and 65535."), $pconfig['local-port']);
     }
 
@@ -198,8 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!empty($pconfig['dstmask']) && !is_numericint($pconfig['dstmask'])) {
       $input_errors[] = gettext("A valid destination bit count must be specified.");
     }
-    if (!isset($_POST['nordr'])
-      && is_numericint($pconfig['dstbeginport']) && is_numericint($pconfig['dstendport']) && is_numericint($pconfig['local-port'])
+    if (/*!isset($_POST['nordr']) &&*/ is_numericint($pconfig['dstbeginport']) && is_numericint($pconfig['dstendport']) && is_numericint($pconfig['local-port'])
       &&
       (max($pconfig['dstendport'],$pconfig['dstbeginport']) - min($pconfig['dstendport'],$pconfig['dstbeginport']) + $pconfig['local-port']) > 65535) {
         $input_errors[] = gettext("The target port range must be an integer between 1 and 65535.");
@@ -235,8 +234,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         if (empty($natent['nordr'])) {
             $natent['target'] = $pconfig['target'];
-            $natent['local-port'] = $pconfig['local-port'];
         }
+        $natent['local-port'] = $pconfig['local-port'];
 
         pconfig_to_address($natent['source'], $pconfig['src'],
           $pconfig['srcmask'], !empty($pconfig['srcnot']),
@@ -882,7 +881,7 @@ $( document ).ready(function() {
                       <?=gettext("e.g."); ?> <em>192.168.1.12</em>
                     </div>
                 </tr>
-                <tr class="act_no_rdr">
+                <tr>
                   <td><a id="help_for_localbeginport" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Redirect target port"); ?></td>
                   <td>
                     <table class="table table-condensed">
