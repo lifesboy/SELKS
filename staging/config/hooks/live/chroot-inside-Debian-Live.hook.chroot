@@ -411,7 +411,7 @@ apt-get install openvpn zip -y
 
 ### START Install Caching proxy ###
 #apt-get install squid -y
-apt-get install -y libecap3-dev libgnutls28-dev libpam0g-dev libkrb5-dev libtdb-dev libpmempool-dev
+apt-get install -y libecap3-dev libgnutls28-dev libpam0g-dev libkrb5-dev libtdb-dev libpmempool-dev libclamunrar p7zip-rar
 cd /binaries/squid
 sh bootstrap.sh
 ./configure --build=x86_64-linux-gnu \
