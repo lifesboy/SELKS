@@ -884,8 +884,8 @@ function filter_core_rules_system($fw, $defaults)
         }
     }
     // loopback
-    $fw->registerFilterRule(5, array('ipprotocol' => 'inet', 'interface' => 'loopback', 'descr' => 'pass loopback'), $defaults['pass']);
-    $fw->registerFilterRule(5, array('ipprotocol' => 'inet4', 'interface' => 'loopback', 'descr' => 'pass loopback'), $defaults['pass']);
+    // $fw->registerFilterRule(5, array('ipprotocol' => 'inet', 'interface' => 'loopback', 'descr' => 'pass loopback'), $defaults['pass']);
+    // $fw->registerFilterRule(5, array('ipprotocol' => 'inet4', 'interface' => 'loopback', 'descr' => 'pass loopback'), $defaults['pass']);
     // out from this Firewall
     $fw->registerFilterRule(
         5,
