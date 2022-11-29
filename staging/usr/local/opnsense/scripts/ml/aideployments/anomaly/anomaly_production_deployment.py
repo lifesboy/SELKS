@@ -74,20 +74,25 @@ class AnomalyProductionDeployment:
         self.client.log_param(run_id=self.run.info.run_id, key='cell_size', value=self.cell_size)
 
     async def __call__(self, request: Request):
+        timestamp = int(time.time() * 1000)
         self.current_step += 1
         self.batches_processed += 1
+        self.metrics += [
+            Metric(key='batches_processed', value=self.batches_processed, timestamp=timestamp, step=self.current_step),
+        ]
+
         try:
             obs, batch_size, anomaly_threshold = await self._process_request_data(request)
+            self.metrics += [
+                Metric(key='batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
+                Metric(key='anomaly_threshold', value=anomaly_threshold, timestamp=timestamp, step=self.current_step),
+            ]
+
             obs_labeled = await self.predict(obs, batch_size, anomaly_threshold)
             res = await self._process_response_data(obs_labeled)
             self.batches_success += 1
             self.anomaly_detected += obs_labeled[LABEL].sum()
-
-            timestamp = int(time.time() * 1000)
             self.metrics += [
-                Metric(key='batches_processed', value=self.batches_processed, timestamp=timestamp, step=self.current_step),
-                Metric(key='batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
-                Metric(key='anomaly_threshold', value=anomaly_threshold, timestamp=timestamp, step=self.current_step),
                 Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=timestamp, step=self.current_step),
                 Metric(key='batches_success', value=self.batches_success, timestamp=timestamp, step=self.current_step),
             ]
