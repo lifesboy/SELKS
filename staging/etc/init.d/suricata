@@ -27,7 +27,7 @@ DAEMON=/usr/bin/$NAME
 SCRIPTNAME=/etc/init.d/$NAME
 PIDFILE=/var/run/$NAME.pid
 LISTENMODE=nfqueue
-NFQUEUE=" -q 3 -q 4 -q 5"
+NFQUEUE=" -q 0 -q 1 -q 2 -q 3 -q 4 -q 5 -q 6 -q 7"
 #NFQUEUE=" -q 3"
 RUN_AS_USER="logstash"
 
@@ -97,7 +97,7 @@ esac
 
 SURICATA_OPTIONS=" -c $SURCONF --pidfile $PIDFILE $LISTEN_OPTIONS -D -v"
 
-# /usr/bin/suricata -c /etc/suricata/suricata.yaml --pidfile /var/run/suricata.pid -q 3 -q 4 -q 5 -D -v --user=logstash
+# /usr/bin/suricata -c /etc/suricata/suricata.yaml --pidfile /var/run/suricata.pid -q 0 -q 1 -q 2 -q 3 -q 4 -q 5 -q 6 -q 7 -D -v --user=logstash
 # See how we were called.
 case "$1" in
   start)

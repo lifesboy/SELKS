@@ -19,8 +19,8 @@ LISTENMODE=nfqueue
 IFACE=eno1
 
 # Queue number to listen on (for nfqueue mode)
-# to have multiple queues - example: NFQUEUE="-q 0 -q 1 -q 2 -q 3"
-NFQUEUE="-q 3 -q 4 -q 5"
+# to have multiple queues - example: NFQUEUE="-q 0 -q 1 -q 2 -q 3 -q 4 -q 5 -q 6 -q 7"
+NFQUEUE="-q 0 -q 1 -q 2 -q 3 -q 4 -q 5 -q 6 -q 7"
 
 # Load Google TCMALLOC if libtcmalloc-minimal0 is installed
 # This _might_ give you very very small performance gain....
