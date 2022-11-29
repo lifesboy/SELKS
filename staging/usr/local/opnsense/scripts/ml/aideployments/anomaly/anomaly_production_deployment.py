@@ -115,10 +115,16 @@ class AnomalyProductionDeployment:
         batch_size_padding = max(5 - batch_size, 0)  # batch size should greater than or equal 5 to avoid error on GPU
         x_padding = np.full(batch_size_padding * features_num, fill_value=0).reshape((batch_size_padding, features_num))
 
-        x = np.concatenate((df_norm.to_numpy(), x_padding)).reshape((self.num_step, batch_size + batch_size_padding, features_num))
+        seq_len = batch_size + batch_size_padding
+        timestamp = int(time.time() * 1000)
+        self.metrics += [
+            Metric(key='seq_len', value=seq_len, timestamp=timestamp, step=self.current_step),
+        ]
+
+        x = np.concatenate((df_norm.to_numpy(), x_padding)).reshape((self.num_step, seq_len, features_num))
 
         # BLAST gpu errors, or invalid access element at [index] errors might occur for invalid seq_len shape
-        s = np.full(self.num_step, fill_value=batch_size + batch_size_padding, dtype=np.int32)
+        s = np.full(self.num_step, fill_value=seq_len, dtype=np.int32)
         self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
 
         df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: min(max(0, i.item()) // anomaly_threshold, 1), axis=1)
