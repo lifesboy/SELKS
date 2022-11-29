@@ -101,6 +101,8 @@ class AnomalyProductionDeployment:
             self.client.log_text(run_id=self.run.info.run_id,
                                  text=traceback.format_exc(),
                                  artifact_file=f"predict_error_{time.time() * 1000}.txt")
+            if len(self.metrics) > 0:
+                self._log_metrics()
             raise e
 
     async def predict(self, df: DataFrame, batch_size: int, anomaly_threshold: float = 0.5) -> DataFrame:
