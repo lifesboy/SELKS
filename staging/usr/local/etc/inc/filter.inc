@@ -758,26 +758,31 @@ function filter_generate_aliases()
     $aliases .= "define virusprot_ip = {0.0.0.1}\n";
     $aliases .= "define virusprot_ip6 = {2000::/16}\n";
 
+    $lan_net_ip_parts = explode('.', $config['interfaces']['lan']['ipaddr']);
+    $lan_net_ip = "$lan_net_ip_parts[0].$lan_net_ip_parts[1].$lan_net_ip_parts[2].0";
+    $wan_net_ip_parts = explode('.', $config['interfaces']['wan']['ipaddr']);
+    $wan_net_ip = "$wan_net_ip_parts[0].$wan_net_ip_parts[1].$wan_net_ip_parts[2].0";
+
     $aliases .= "\n";
     $aliases .= "\n# Defining variables is easy in nftables scripts.\n";
-    $aliases .= "define lan_net_ip = {".$config['interfaces']['lan']['ipaddr']."/".$config['interfaces']['lan']['subnet']."} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24\n";
+    $aliases .= "define lan_net_ip = {".$lan_net_ip."/".$config['interfaces']['lan']['subnet']."} # la dia chi mang cua card LAN enp2s0: 10.0.2.15/24\n";
     $aliases .= "define lan_net_ip6 = {fe80::260:97ff:fe5b:732d} # la dia chi mang cua card LAN enp2s0: fe80::260:97ff:fe5b:732d\n";
     $aliases .= "\n# => nen lay dia chi ip tu cau hinh - ifconfig - thi tot, ko nen hard code\n";
     $aliases .= "define lan_address_ip = {".$config['interfaces']['lan']['ipaddr']."} # dia chi cua card lan enp2s0\n";
     $aliases .= "define lan_address_ip6 = {fe80::260:97ff:fe5b:732d} # dia chi cua card lan enp2s0\n";
     $aliases .= "define this_firewall_ip = {".$config['interfaces']['lan']['ipaddr'].", ".$config['interfaces']['wan']['ipaddr']."} # dia chi cua 2 card mang cua firewall\n";
     $aliases .= "define this_firewall_ip6 = {fe80::8a88:88ff:fe88:8788, fe80::260:97ff:fe5b:732d} # dia chi cua 2 card mang cua firewall\n";
-    $aliases .= "define wan_net_ip = {".$config['interfaces']['wan']['ipaddr']."/".$config['interfaces']['wan']['subnet']."} # la dia chi mang cua card WAN\n";
+    $aliases .= "define wan_net_ip = {".$wan_net_ip."/".$config['interfaces']['wan']['subnet']."} # la dia chi mang cua card WAN\n";
     $aliases .= "define wan_net_ip6 = {fe80::8a88:88ff:fe88:8788} # la dia chi mang cua card WAN\n";
     $aliases .= "define wan_address_ip = {".$config['interfaces']['wan']['ipaddr']."} # dia chi ip cua card WAN\n";
     $aliases .= "define wan_address_ip6 = {fe80::8a88:88ff:fe88:8788} # dia chi ip cua card WAN\n";
     $aliases .= "define lo_net_ip = {127.0.0.1/8} # dia chi ipv4 loopback\n";
     $aliases .= "define lo_net_ip6 = {::1} # dia chi ipv4 loopback\n";
 
-    $aliases .= "add set ip ip_filter_table lan_net_ip {type ipv4_addr; elements={{$config['interfaces']['lan']['ipaddr']}};}\n";
+    $aliases .= "add set ip ip_filter_table lan_net_ip {type ipv4_addr; elements={{$lan_net_ip}};}\n";
     $aliases .= "add set ip ip_filter_table lan_address_ip {type ipv4_addr; elements=\$lan_address_ip;}\n";
     $aliases .= "add set ip ip_filter_table this_firewall_ip {type ipv4_addr; elements=\$this_firewall_ip;}\n";
-    $aliases .= "add set ip ip_filter_table wan_net_ip {type ipv4_addr; elements={{$config['interfaces']['wan']['ipaddr']}};}\n";
+    $aliases .= "add set ip ip_filter_table wan_net_ip {type ipv4_addr; elements={{$wan_net_ip}};}\n";
     $aliases .= "add set ip ip_filter_table wan_address_ip {type ipv4_addr; elements=\$wan_address_ip;}\n";
     $aliases .= "add set ip ip_filter_table lo_net_ip {type ipv4_addr; elements={127.0.0.1};}\n";
     $aliases .= "add set ip6 ip6_filter_table lan_net_ip6 {type ipv6_addr; elements=\$lan_net_ip6;}\n";
