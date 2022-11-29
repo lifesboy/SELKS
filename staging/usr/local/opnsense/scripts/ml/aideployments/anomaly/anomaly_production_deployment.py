@@ -125,6 +125,7 @@ class AnomalyProductionDeployment:
         seq_len = batch_size + batch_size_padding
         timestamp = int(time.time() * 1000)
         self.metrics += [
+            Metric(key='padding_len', value=len(padding_features), timestamp=timestamp, step=self.current_step),
             Metric(key='seq_len', value=seq_len, timestamp=timestamp, step=self.current_step),
         ]
 
