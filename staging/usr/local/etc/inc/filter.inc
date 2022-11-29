@@ -394,9 +394,12 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
     $ipsrules .= "#forward all traffic to suricata by nfqueue\n";
     #nft add rule ip ip_ips_table ips-input iif eno3 queue num 3-5 bypass
     #nft add rule ip ip_ips_table ips-input iif eno4 queue num 3-5 bypass
-    $ipsrules .= "add rule ip ip_ips_table ips-input iif \$lan queue num 3-5 bypass\n";
-    $ipsrules .= "add rule ip ip_ips_table ips-input iif \$wan queue num 3-5 bypass\n";
-    $ipsrules .= "add rule ip ip_ips_table ips-input iif lo queue num 3-5 bypass\n";
+
+    #$ipsrules .= "add rule ip ip_ips_table ips-input iif \$lan queue num 3-5 bypass\n";
+    #$ipsrules .= "add rule ip ip_ips_table ips-input iif \$wan queue num 3-5 bypass\n";
+    #$ipsrules .= "add rule ip ip_ips_table ips-input iif lo queue num 3-5 bypass\n";
+    $ipsrules .= "add rule ip ip_ips_table ips-input tcp dport !={ 8005, 6379, 3310, 8265, 8075-8077, 6666, 10002-19999, 6379, 39265, 5000, x11-6, 6789, 8089 } queue num 3-5 bypass\n";
+
 
     #nft add rule ip ip_ips_table ips-forward iif eno3 oif eno4 queue num 3-5 bypass
     #nft add rule ip ip_ips_table ips-forward iif eno4 oif eno3 queue num 3-5 bypass
@@ -409,9 +412,12 @@ function filter_configure_sync($verbose = false, $flush_states = false, $load_al
 
     #nft add rule ip ip_ips_table ips-output oif eno3 queue num 3-5 bypass
     #nft add rule ip ip_ips_table ips-output oif eno4 queue num 3-5 bypass
-    $ipsrules .= "add rule ip ip_ips_table ips-output oif \$lan queue num 3-5 bypass\n";
-    $ipsrules .= "add rule ip ip_ips_table ips-output oif \$wan queue num 3-5 bypass\n";
-    $ipsrules .= "add rule ip ip_ips_table ips-output oif lo queue num 3-5 bypass\n";
+    #$ipsrules .= "add rule ip ip_ips_table ips-output oif \$lan queue num 3-5 bypass\n";
+    #$ipsrules .= "add rule ip ip_ips_table ips-output oif \$wan queue num 3-5 bypass\n";
+    #$ipsrules .= "add rule ip ip_ips_table ips-output oif lo queue num 3-5 bypass\n";
+    $ipsrules .= "add rule ip ip_ips_table ips-output tcp dport !={ 3128 } queue num 3-5 bypass\n";
+    $ipsrules .= "add rule ip ip_ips_table ips-output tcp sport !={ 3128 } queue num 3-5 bypass\n";
+    $ipsrules .= "add rule ip ip_ips_table ips-output udp dport !={ 53 } queue num 3-5 bypass\n";
 
 //    $ipsrules .= "add rule ip6 ip6_ips_table ips-input queue num 3 bypass counter accept\n";
 //    $ipsrules .= "add rule ip6 ip6_ips_table ips-forward queue num 3 bypass counter accept\n";
