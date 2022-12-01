@@ -265,6 +265,7 @@ chmod -R o+r /var/log/scirius
 chmod -R o+r /var/log/scirius*
 chmod -R o+r /var/log/logstash
 chmod -R o+r /var/log/elasticsearch
+chmod -R o+r /drl/elasticsearch
 chmod -R o+r /var/log/tensorboard
 chmod -R o+r /var/log/suricata/suricata.log
 chmod -R o+r /var/log/suricata/suricata-start.log
@@ -277,6 +278,7 @@ chmod 0755 /var/log/ray
 chmod 0755 /var/log/scirius
 chmod 0755 /var/log/logstash
 chmod 0755 /var/log/elasticsearch
+chmod 0755 /drl/elasticsearch
 chmod 0755 /var/log/tensorboard
 chmod 0755 /var/log/suricata
 chmod 0755 /usr/local/etc/rc.sshd
