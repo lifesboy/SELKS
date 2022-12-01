@@ -4,8 +4,7 @@
   "index_patterns": "suricata-1.1.0-*",
   "settings": {
     "index": {
-      "number_of_shards": 3,
-      "number_of_replicas": 1,
+      "number_of_replicas": 0,
       "refresh_interval": "10s",
       "codec": "best_compression",
       "mapping": {
