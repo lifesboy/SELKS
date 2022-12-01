@@ -15,7 +15,7 @@ ES_PATH_CONF=/etc/elasticsearch
 #PID_DIR=/var/run/elasticsearch
 
 # Additional Java OPTS
-ES_JAVA_OPTS='-Xms6g -Xmx6g'
+ES_JAVA_OPTS='-Xms20g -Xmx20g'
 
 # Configure restart on package upgrade (true, every other setting will lead to not restarting)
 #RESTART_ON_UPGRADE=true
@@ -50,4 +50,4 @@ ES_STARTUP_SLEEP_TIME=5
 # property is set at boot time in /usr/lib/sysctl.d/elasticsearch.conf
 #MAX_MAP_COUNT=262144
 
-ES_HEAP_SIZE=6g
+ES_HEAP_SIZE=20g
