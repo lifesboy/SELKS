@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import glob
+import os
 import sys
 import time
 from sys import version_info
@@ -23,7 +24,7 @@ PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
 
 PATH_ML = '/usr/local/opnsense/scripts/ml'
 
-RAY_HEAD_NODE_ADDRESS = '127.0.0.1:6379'
+RAY_HEAD_NODE_ADDRESS = os.getenv('RAY_HEAD_NODE_ADDRESS', '127.0.0.1:6379')
 MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
 # RAY_HEAD_NODE_ADDRESS = '123.16.153.97:6379'
 # MLFLOW_TRACKING_URI = 'http://ngfw.h05:5000'
