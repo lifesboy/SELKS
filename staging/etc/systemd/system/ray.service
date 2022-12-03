@@ -5,6 +5,7 @@ After=network-online.target
 
 [Service]
 Environment=MLFLOW_TRACKING_URI=postgresql://postgres:postgres@127.0.0.1:5432/postgres
+EnvironmentFile=-/etc/default/ray
 Restart=on-failure
 RestartSec=30
 RemainAfterExit=true
