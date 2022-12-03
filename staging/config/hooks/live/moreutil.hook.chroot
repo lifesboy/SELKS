@@ -168,7 +168,7 @@ chmod -R 0755 /etc/elasticsearch/
 
 mkdir -p /etc/ray/
 ln -s /selks/staging/etc/ray/cluster.yaml /etc/ray/cluster.yaml
-mv /etc/default/ray /etc/default/ray.bak
+mv -f /etc/default/ray /etc/default/ray.bak
 ln -s /selks/staging/etc/default/ray /etc/default/ray
 
 ln -s /selks/staging/etc/rc /etc/rc
