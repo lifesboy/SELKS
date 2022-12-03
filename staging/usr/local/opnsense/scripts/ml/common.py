@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+from dotenv import load_dotenv
+load_dotenv('/etc/default/ray')
+
 import glob
 import os
 import sys
