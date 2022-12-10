@@ -55,6 +55,8 @@ class AnomalyModel(LSTMWrapper):
                  **kwargs):
         super(AnomalyModel, self).__init__(obs_space, action_space, num_outputs,
                                            model_config, name)
+        self._wrapped_forward = self.forward
+
         # we have to pass features list to save model dynamic signature for each version,
         # so that we can detect to preprocess and infer data dynamically
         # Unfortunately, mlflow limit length of param to 5000 character,
