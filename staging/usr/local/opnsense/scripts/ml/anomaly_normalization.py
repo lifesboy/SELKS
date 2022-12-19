@@ -383,6 +383,16 @@ def norm_time_1h(v: int) -> float:
     return tf.math.sign(v) * tf.math.minimum(tf.math.abs(v), TIME_1H) / TIME_1H
 
 
+@tf_function(tf)
+def norm_size_1kb(v: float) -> float:
+    return tf.math.sign(v) * tf.math.minimum(tf.math.abs(v), SIZE_1KB) / SIZE_1KB
+
+
+@tf_function(tf)
+def norm_time_1min(v: int) -> float:
+    return tf.math.sign(v) * tf.math.minimum(tf.math.abs(v), TIME_1M) / TIME_1M
+
+
 def norm_ip(ip: str) -> int:
     return struct.unpack('!I', socket.inet_aton(ip))[0]
 
