@@ -67,9 +67,12 @@ class AnomalyModel(RecurrentNetwork):
         self._run, self._client = common.init_experiment(name='anomaly-model', run_name='model-tuning-%s' % time.time())
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
+        self.parent_run_id: str = kwargs.get('parent_run_id', '')
         self.hidden_size: int = kwargs.get('hidden_size', 256)
         self.cell_size: int = kwargs.get('cell_size', 64)
         self.features: [str] = kwargs.get('features', [])
+
+        self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=self.parent_run_id)
 
         # Define input layers
         input_layer = tf.keras.layers.Input(shape=(None, obs_space.shape[0]), name="inputs")

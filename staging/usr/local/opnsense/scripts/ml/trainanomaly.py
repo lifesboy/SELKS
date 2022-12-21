@@ -179,6 +179,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
             "custom_model": model,
             "max_seq_len": 20,
             "custom_model_config": {
+                'parent_run_id': run.info.run_id,
                 "cell_size": 32,
                 "hidden_size": 256,
                 "features": [],
@@ -222,6 +223,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     features = sorted(list(set(features_request).intersection(dataset.schema(fetch_if_missing=True).names)))
     config['model']['custom_model_config']['features'] = features
     context_data: dict = {
+        'parent_run_id': run.info.run_id,
         'features': features,
         'max_episode_steps': args.stop_episode_len,
         'num_samples': 10,
