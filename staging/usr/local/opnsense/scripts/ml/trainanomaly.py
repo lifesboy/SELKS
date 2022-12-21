@@ -17,6 +17,7 @@ from ray.data import Dataset
 from ray.data.aggregate import Count
 from ray.tune.logger import TBXLoggerCallback
 from ray.tune.registry import register_env
+from ray.tune.trial import ExportFormat
 from ray.tune.utils.log import Verbosity
 
 import common
@@ -263,6 +264,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
                         keep_checkpoints_num=20,
                         checkpoint_freq=1,
                         checkpoint_at_end=True,
+                        export_formats=[ExportFormat.MODEL, ExportFormat.H5, ExportFormat.CHECKPOINT],
                         resume=resume,
                         callbacks=[AnomalyLoggerCallback(
                             tracking_uri=common.MLFLOW_TRACKING_URI,
