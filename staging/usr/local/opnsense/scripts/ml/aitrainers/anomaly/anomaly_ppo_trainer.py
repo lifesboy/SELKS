@@ -16,7 +16,7 @@ class AnomalyPPOTrainer(PPOTrainer):
         self.export_policy_model(os.path.join(checkpoint_dir, "policy"))
 
         h5_path = os.path.join(checkpoint_dir, "h5", "saved_model.h5")
-        self.get_policy().model.base_model.save_weights(h5_path)
+        # self.get_policy().model.base_model.save_weights(h5_path)
         self.get_policy().model.base_model.save(h5_path)
 
         model_meta = AnomalyModel.get_model_meta()
