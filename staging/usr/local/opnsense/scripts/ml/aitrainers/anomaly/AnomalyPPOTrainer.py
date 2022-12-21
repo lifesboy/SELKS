@@ -1,6 +1,6 @@
 import os
 
-from ray.rllib.agents.ppo.ppo import PPOTrainer
+from ray.rllib.agents.ppo import PPOTrainer
 
 
 class AnomalyPPOTrainer(PPOTrainer):
