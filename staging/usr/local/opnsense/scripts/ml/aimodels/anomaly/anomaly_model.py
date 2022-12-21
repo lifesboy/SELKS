@@ -121,10 +121,10 @@ class AnomalyModel(RecurrentNetwork):
         output_schema = Schema([ColSpec(type=DataType.integer, name=LABEL)])
         signature = ModelSignature(inputs=input_schema, outputs=output_schema)
 
-        mlflow.keras.log_model(keras_model=self.rnn_model,
-                               signature=signature,
-                               artifact_path=model_meta.artifact_path,
-                               registered_model_name=model_meta.registered_model_name)
+        # mlflow.keras.log_model(keras_model=self.rnn_model,
+        #                       signature=signature,
+        #                       artifact_path=model_meta.artifact_path,
+        #                       registered_model_name=model_meta.registered_model_name)
 
         return model_out, [h, c]
 
