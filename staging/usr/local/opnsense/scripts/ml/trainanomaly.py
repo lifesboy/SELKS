@@ -155,6 +155,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     data_sampling_files = common.get_data_files_by_pattern(f"{data_source_sampling_dir}*")
 
     client.log_param(run_id=run.info.run_id, key='data_source', value=args.data_source)
+    client.log_param(run_id=run.info.run_id, key='data_source_sampling_dir', value=data_source_sampling_dir)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
     client.set_tag(run_id=run.info.run_id, key='training_name', value=training_name)
 
@@ -164,7 +165,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         "env_config": {  # mlflow cannot log too long param, saving to "context_data" instead
             "episode_len": args.stop_episode_len,
             "batch_size": args.batch_size,
-            "data_source_sampling_dir": data_source_sampling_dir,
+            # "data_source_sampling_dir": data_source_sampling_dir,
         },
         "gamma": 0.9,
         # Use GPUs iff `RLLIB_NUM_GPUS` env var set to > 0.
