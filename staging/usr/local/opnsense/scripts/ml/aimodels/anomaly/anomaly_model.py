@@ -94,7 +94,7 @@ class AnomalyModel(RecurrentNetwork):
             activation=tf.keras.activations.linear,
             name="logits")(lstm_out)
         values = tf.keras.layers.Dense(
-            1, activation=None, name="values")(lstm_out)
+            1, activation='sigmoid', name="values")(lstm_out)
 
         # Create the RNN model
         self.rnn_model: Model = Model(
