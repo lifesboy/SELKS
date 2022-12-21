@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+import os
 import time
 import numpy as np
 import mlflow
@@ -116,15 +116,6 @@ class AnomalyModel(RecurrentNetwork):
         # receiver_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(feat_specifications)
         # # self.rnn_model.export_saved_model("/tmp/anomaly_model/", receiver_fn).decode("utf-8")
         # # tf.keras.experimental.export_saved_model(self.rnn_model, "/tmp/anomaly_model/")
-        model_meta = AnomalyModel.get_model_meta()
-        input_schema = Schema([ColSpec(type=DataType.double, name=i) for i in self.features])
-        output_schema = Schema([ColSpec(type=DataType.integer, name=LABEL)])
-        signature = ModelSignature(inputs=input_schema, outputs=output_schema)
-
-        # mlflow.keras.log_model(keras_model=self.rnn_model,
-        #                       signature=signature,
-        #                       artifact_path=model_meta.artifact_path,
-        #                       registered_model_name=model_meta.registered_model_name)
 
         return model_out, [h, c]
 
@@ -138,3 +129,19 @@ class AnomalyModel(RecurrentNetwork):
     @override(ModelV2)
     def value_function(self):
         return tf.reshape(self._value_out, [-1])
+
+    def save_h5(self, checkpoint_dir):
+        h5_path = os.path.join(checkpoint_dir, "h5", "saved_model.h5")
+        self.rnn_model.save_weights(h5_path)
+        self.rnn_model.save(h5_path)
+
+    def save_mlflow(self):
+        model_meta = AnomalyModel.get_model_meta()
+        input_schema = Schema([ColSpec(type=DataType.double, name=i) for i in self.features])
+        output_schema = Schema([ColSpec(type=DataType.integer, name=LABEL)])
+        signature = ModelSignature(inputs=input_schema, outputs=output_schema)
+
+        mlflow.keras.log_model(keras_model=self.rnn_model,
+                               signature=signature,
+                               artifact_path=model_meta.artifact_path,
+                               registered_model_name=model_meta.registered_model_name)
