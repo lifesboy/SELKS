@@ -36,7 +36,7 @@ from aienvs.anomaly.anomaly_initial_obs_env import AnomalyInitialObsEnv
 from aienvs.anomaly.anomaly_random_env import AnomalyRandomEnv
 from aienvs.anomaly.anomaly_minibatch_env import AnomalyMinibatchEnv
 from aimodels.anomaly.anomaly_model import AnomalyModel
-from aitrainers.anomaly import AnomalyPPOTrainer
+from aitrainers.anomaly.anomaly_ppo_trainer import AnomalyPPOTrainer
 from ray.rllib.examples.models.rnn_model import RNNModel
 from ray.rllib.models import ModelCatalog
 from ray.rllib.utils.test_utils import check_learning_achieved
@@ -49,7 +49,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--run",
     type=str,
-    default="PPO",
+    default="AnomalyPPOTrainer",
     help="The RLlib-registered algorithm to use.")
 parser.add_argument("--env", type=str, default="AnomalyCleanEnsureEnv")
 parser.add_argument(
@@ -246,6 +246,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
+    tune.register_trainable("AnomalyPPOTrainer", AnomalyPPOTrainer)
+
     client.log_param(run_id=run.info.run_id, key='features_num', value=len(context_data['features']))
     client.log_text(run_id=run.info.run_id, text=f"{context_data['features']}", artifact_file='features.json')
     client.log_param(run_id=run.info.run_id, key='max_episode_steps', value=context_data['max_episode_steps'])
@@ -259,7 +261,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     def resume_tune(resume: str = 'AUTO'):
         # in case of error, sometime we're unable to recover an experiment
         # It should be switch to another unit, and assume agent is fail at error unit
-        return tune.run(AnomalyPPOTrainer, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
+        return tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
                         name=lab,
                         local_dir=f"/drl/ray_results/{course}/{unit}",
                         trial_name_creator=lambda _: lesson,
