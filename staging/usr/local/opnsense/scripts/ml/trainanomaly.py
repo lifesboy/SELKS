@@ -140,7 +140,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     num_cpus = args.num_cpus
     num_workers = args.num_workers
     features_request = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
-    data_sources = args.data_source.strip().split(';')
+    data_sources = args.data_source.strip().split(',')
     input_files = sum([common.get_data_normalized_labeled_files_by_pattern(i) for i in data_sources], [])
     destination_dir = f"{common.DATA_TRAINED_DIR}{course}/{unit}/{lab}"
     batch_df: DataFrame = utils.get_processing_file_pattern(
