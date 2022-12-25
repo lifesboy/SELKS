@@ -179,11 +179,11 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         "vf_clip_param": 1000.0,
         "model": {
             "custom_model": model,
-            "max_seq_len": 20,
+            "max_seq_len": 100,
             "custom_model_config": {
                 'parent_run_id': run.info.run_id,
-                "cell_size": 32,
-                "hidden_size": 256,
+                "cell_size": 320,
+                "hidden_size": 230,
                 "features": [],
             },
         },
