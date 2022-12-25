@@ -57,6 +57,12 @@ def is_float(val: str) -> bool:
     return len(val) > 0 and val.replace('.', '', 1).isdigit()
 
 
+def get_current_ray_head_address() -> bool:
+    script_command = "cat /drl/tmp/ray/ray_current_cluster"
+    out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()
+    return out
+
+
 def is_ray_gpu_ready() -> bool:
     script_command = "ray status | grep GPU"
     out = subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout.strip()

@@ -27,7 +27,11 @@ PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
 
 PATH_ML = '/usr/local/opnsense/scripts/ml'
 
-RAY_HEAD_NODE_ADDRESS = os.getenv('RAY_REDIS_ADDRESS', '127.0.0.1:6379')
+CURRENT_RAY_HEAD_NODE_ADDRESS = utils.get_current_ray_head_address()
+RAY_HEAD_NODE_ADDRESS = os.getenv('RAY_REDIS_ADDRESS', '127.0.0.1:6379')\
+    if not CURRENT_RAY_HEAD_NODE_ADDRESS\
+    else CURRENT_RAY_HEAD_NODE_ADDRESS
+
 MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
 # RAY_HEAD_NODE_ADDRESS = '123.16.153.97:6379'
 # MLFLOW_TRACKING_URI = 'http://ngfw.h05:5000'
