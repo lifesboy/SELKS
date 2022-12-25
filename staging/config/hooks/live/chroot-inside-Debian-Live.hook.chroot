@@ -1214,7 +1214,7 @@ python3 manage.py addsource "SSLBL abuse.ch" https://sslbl.abuse.ch/blacklist/ss
 python3 manage.py addsource "Suricata Traffic ID ruleset" https://raw.githubusercontent.com/jasonish/suricata-trafficid/master/rules/traffic-id.rules http sig
 python3 manage.py defaultruleset "Default SELKS ruleset"
 python3 manage.py addsuricata SELKS "Suricata on SELKS" /etc/suricata/rules "Default SELKS ruleset"
-python3 manage.py updatesuricata
+#python3 manage.py updatesuricata
 
 /usr/bin/supervisorctl reread && \
 /usr/bin/supervisorctl update && \
@@ -1350,7 +1350,7 @@ chmod 755 /opt/selks/delete-old-logs.sh
 
 # Set up a cron jobs for Logstash, Scirius, rule updates
 #echo "0 2 * * * www-data ( cd /usr/share/python3/scirius/ && . bin/activate && python3 bin/manage.py updatesuricata && deactivate )" >> /etc/crontab
-echo "0 2 * * * www-data ( cd /scirius/ && python3 manage.py updatesuricata )" >> /etc/crontab
+#echo "0 2 * * * www-data ( cd /scirius/ && python3 manage.py updatesuricata )" >> /etc/crontab
 echo "0 3 * * * root ( /data/moloch/db/db.pl http://127.0.0.1:9200 expire daily 14 )" >> /etc/crontab
 echo "0 4 * * * root /opt/selks/delete-old-logs.sh" >> /etc/crontab
 # always leave a empty line before cron files end
