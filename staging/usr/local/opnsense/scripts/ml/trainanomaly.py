@@ -175,12 +175,12 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         "num_envs_per_worker": 20,
         "entropy_coeff": 0.001,
         "num_sgd_iter": 5,
-        "sgd_minibatch_size": 100,
+        # "sgd_minibatch_size": 100,
         "vf_loss_coeff": 1e-5,
         "vf_clip_param": 1000.0,
         "model": {
             "custom_model": model,
-            "max_seq_len": 100,  # need increase sgd_minibatch_size
+            "max_seq_len": 20,  # need increase sgd_minibatch_size
             "custom_model_config": {
                 'parent_run_id': run.info.run_id,
                 "cell_size": 320,
