@@ -6,6 +6,7 @@ from mlflow.entities import Metric
 
 import common
 from aienvs.anomaly_spec import AnomalySpec
+import lib.utils as utils
 from lib.logger import log
 from pandas import DataFrame
 
@@ -152,4 +153,6 @@ class AnomalyMinibatchEnv(gym.Env):
             self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
+            utils.write_failsafe_metrics(f"{self._run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
+            self.metrics = []
             log.error('_log_metrics error %s', e)

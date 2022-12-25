@@ -5,6 +5,7 @@ from datetime import datetime
 
 import pandas as pd
 from pandas import DataFrame
+from mlflow.entities import Metric
 
 import hashlib
 
@@ -138,3 +139,11 @@ def create_sampling(directory: str, files: []) -> str:
     return subprocess.run(' && '.join(commands), shell=True, capture_output=True, text=True).stdout
 
 
+def write_failsafe_metrics(file_path: str, metrics: [Metric]):
+    df = pd.DataFrame.from_records(map(lambda x: {
+        'key': x.key,
+        'value': x.value,
+        'timestamp': x.timestamp,
+        'step': x.step,
+    }, metrics))
+    df.to_csv(file_path)
