@@ -183,8 +183,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
             "max_seq_len": 20,  # need increase sgd_minibatch_size
             "custom_model_config": {
                 'parent_run_id': run.info.run_id,
-                "cell_size": 320,
-                "hidden_size": 230,
+                "cell_size": 3200,
+                "hidden_size": 2300,
                 "features": [],
             },
         },
