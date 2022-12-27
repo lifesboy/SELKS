@@ -134,6 +134,8 @@ IDLE_MEAN = 'idle_mean'
 IDLE_STD = 'idle_std'
 IDLE_MAX = 'idle_max'
 IDLE_MIN = 'idle_min'
+LEN_PAYLOADS = 'len_payloads'
+PS = 'p%s'
 LABEL = 'label'
 
 ALL_FEATURES = [
