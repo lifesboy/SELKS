@@ -15,9 +15,19 @@ unzip awscliv2.zip
 ./aws/install
 /usr/local/bin/aws --version
 
-mkdir -p /cic/dataset/cic2018
+mkdir -p /cic/dataset/cic2018/pcap
 aws s3 sync --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms/" /cic/dataset/cic2018
-#aws s3 sync --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/" /cic/dataset/cic2018
+
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Wednesday-14-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180214.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Thursday-15-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180215.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Friday-16-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180216.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Tuesday-20-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180220.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Wednesday-21-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180221.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Thursday-22-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180222.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Friday-23-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180223.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Wednesday-28-02-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180228.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Thursday-01-03-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180301.pcap.zip
+aws s3 cp --no-sign-request --region us-east-2 "s3://cse-cic-ids2018/Original Network Traffic and Log data/Friday-02-03-2018/pcap.zip" /cic/dataset/cic2018/pcap/20180302.pcap.zip
 
 rm -rf /cic/dataset/featured_extracted/cic2018
 mkdir -p /cic/dataset/featured_extracted/cic2018
