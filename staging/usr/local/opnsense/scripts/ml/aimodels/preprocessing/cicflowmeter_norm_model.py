@@ -27,7 +27,8 @@ from anomaly_normalization import FLOW_ID, SRC_IP, SRC_PORT, SRC_MAC, DST_IP, DS
  DOWN_UP_RATIO, PKT_SIZE_AVG, FWD_SEG_SIZE_AVG, BWD_SEG_SIZE_AVG, FWD_BYTS_B_AVG, FWD_PKTS_B_AVG, FWD_BLK_RATE_AVG,\
  BWD_BYTS_B_AVG, BWD_PKTS_B_AVG, BWD_BLK_RATE_AVG, SUBFLOW_FWD_PKTS, SUBFLOW_FWD_BYTS, SUBFLOW_BWD_PKTS,\
  SUBFLOW_BWD_BYTS, INIT_FWD_WIN_BYTS, INIT_BWD_WIN_BYTS, FWD_ACT_DATA_PKTS, FWD_SEG_SIZE_MIN, ACTIVE_MEAN,\
- ACTIVE_STD, ACTIVE_MAX, ACTIVE_MIN, IDLE_MEAN, IDLE_STD, IDLE_MAX, IDLE_MIN, LEN_PAYLOADS, PS, LABEL
+ ACTIVE_STD, ACTIVE_MAX, ACTIVE_MIN, IDLE_MEAN, IDLE_STD, IDLE_MAX, IDLE_MIN, TTL, LEN_PAYLOADS, PS, LABEL,\
+ PAYLOAD_FEATURE_NUM
 
 import anomaly_normalization as norm
 
@@ -35,7 +36,6 @@ from datetime import date
 import mlflow
 from aimodels.model_meta import ModelMeta
 
-PAYLOAD_FEATURE_NUM = 128
 
 class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
@@ -146,6 +146,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             IDLE_STD: pa.float64(),
             IDLE_MAX: pa.float64(),
             IDLE_MIN: pa.float64(),
+            TTL: pa.float64(),
             LEN_PAYLOADS: pa.float64(),
             LABEL: pa.string(),
         }
@@ -243,6 +244,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             IDLE_STD: norm.norm_time_1min,
             IDLE_MAX: norm.norm_time_1min,
             IDLE_MIN: norm.norm_time_1min,
+            TTL: norm.norm_time_1min,
             LEN_PAYLOADS: norm.norm_port,
             LABEL: norm.norm_label,
         }

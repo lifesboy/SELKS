@@ -134,11 +134,12 @@ IDLE_MEAN = 'idle_mean'
 IDLE_STD = 'idle_std'
 IDLE_MAX = 'idle_max'
 IDLE_MIN = 'idle_min'
+TTL = 'ttl'
 LEN_PAYLOADS = 'len_payloads'
 PS = 'p%s'
 LABEL = 'label'
 
-PAYLOAD_FEATURE_NUM = 128
+PAYLOAD_FEATURE_NUM = 256
 
 ALL_FEATURES = [
     SRC_IP,
@@ -226,6 +227,7 @@ ALL_FEATURES = [
     IDLE_STD,
     IDLE_MAX,
     IDLE_MIN,
+    TTL,
     LEN_PAYLOADS,
     *[PS % i for i in range(0, PAYLOAD_FEATURE_NUM)]
 ]
