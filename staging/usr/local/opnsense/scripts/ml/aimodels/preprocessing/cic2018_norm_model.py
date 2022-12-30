@@ -264,7 +264,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         }
 
         for i in range(0, PAYLOAD_FEATURE_NUM):
-            feature_norm[PS % i] = norm.norm_port
+            feature_norm[PS % i] = norm.norm_flag
 
         return feature_norm
 
