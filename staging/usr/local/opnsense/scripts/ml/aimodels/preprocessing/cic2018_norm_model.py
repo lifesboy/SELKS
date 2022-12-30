@@ -323,8 +323,8 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         features = set(df.columns).intersection(feature_norm.keys())
         df_norm = df[features]
 
-        # if LABEL not in features:
-        #     df_norm[LABEL] = ''
+        if LABEL not in features:
+            df_norm[LABEL] = ''
 
         data = DataFrame(data={
             i: list(tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df_norm[i]))
