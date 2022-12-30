@@ -10,6 +10,7 @@ import pyarrow as pa
 from pandas import DataFrame
 from ray.rllib.utils.framework import try_import_tf
 
+import lib.utils as utils
 from lib.logger import log
 
 tf1, tf, tfv = try_import_tf()
@@ -340,4 +341,6 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             self.client.log_batch(run_id=self.run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
+            utils.write_failsafe_metrics(f"{self.run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
+            self.metrics = []
             log.error('_log_metrics error %s', e)

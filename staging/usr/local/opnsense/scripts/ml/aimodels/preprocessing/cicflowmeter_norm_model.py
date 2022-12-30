@@ -31,6 +31,7 @@ from anomaly_normalization import FLOW_ID, SRC_IP, SRC_PORT, SRC_MAC, DST_IP, DS
  PAYLOAD_FEATURE_NUM
 
 import anomaly_normalization as norm
+import lib.utils as utils
 
 from datetime import date
 import mlflow
@@ -328,4 +329,6 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             self.client.log_batch(run_id=self.run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
+            utils.write_failsafe_metrics(f"{self.run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
+            self.metrics = []
             log.error('_log_metrics error %s', e)
