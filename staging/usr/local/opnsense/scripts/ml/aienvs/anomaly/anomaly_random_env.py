@@ -53,7 +53,7 @@ class AnomalyRandomEnv(gym.Env):
             Metric(key='reward_total', value=self.reward_total, timestamp=int(time.time() * 1000), step=self.current_step)
         ]
 
-        if len(self.metrics) > 1000:
+        if len(self.metrics) > 600:
             self._log_metrics()
 
         done = self.current_step > self.episode_len

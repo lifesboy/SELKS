@@ -101,7 +101,7 @@ class AnomalyMinibatchEnv(gym.Env):
             Metric(key='clean_incorrect', value=self.clean_incorrect, timestamp=timestamp, step=self.current_step)
         ]
 
-        if done or len(self.metrics) > 1000:
+        if done or len(self.metrics) > 600:
             self._log_metrics()
 
         return self._next_obs(), reward, done, {}
