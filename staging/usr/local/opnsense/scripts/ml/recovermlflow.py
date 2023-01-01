@@ -40,10 +40,10 @@ def kill_exists_processing():
 
 
 def main(args):
-    fail_metrics = '/drl/mlruns/*/*/artifacts/metrics_*.csv'  # args.data_source
-    data_source_files = common.get_data_files_by_pattern(fail_metrics)
+    data_source = '/drl/mlruns/*/*/artifacts/metrics_*.csv'  # args.data_source
+    data_source_files = common.get_data_files_by_pattern(data_source)
 
-    client.log_param(run_id=run.info.run_id, key='data_source', value=args.data_source)
+    client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=args.tag)
 
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
