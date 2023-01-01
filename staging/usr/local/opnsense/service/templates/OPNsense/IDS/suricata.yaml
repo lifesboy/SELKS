@@ -1929,8 +1929,8 @@ napatech:
 ## If this section is completely commented out move down to the "Advanced rule
 ## file configuration".
 ##
-#default-rule-path: /etc/suricata/opnsense.rules
-default-rule-path: /etc/suricata/rules
+default-rule-path: /etc/suricata/opnsense.rules
+#default-rule-path: /etc/suricata/rules
 #/var/lib/suricata/rules
 
 rule-files:
