@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import math
 import os
 import signal
 import traceback
@@ -65,14 +66,18 @@ def main(args):
             df = pd.read_csv(path)
             metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=1).to_list()
 
-            metric_processed += len(metrics)
-            client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
+            batch_size = 600
+            for i in range(0, math.ceil(len(metrics) / batch_size)):
+                batch = metrics[i * batch_size, (i + 1) * batch_size]
+                metric_processed += len(batch)
+                client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
 
-            client.log_batch(run_id=metric_run_id, metrics=metrics)
-            metric_success += len(metrics)
+                client.log_batch(run_id=metric_run_id, metrics=batch)
+                metric_success += len(batch)
+                client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
+
             file_success += 1
             os.system(f'rm -rf "{path}"')
-            client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
             client.log_metric(run_id=run.info.run_id, key='file_success', value=file_success, timestamp=timestamp, step=step)
         except Exception as e:
             log.error('recover mlflow error: %s', e)
