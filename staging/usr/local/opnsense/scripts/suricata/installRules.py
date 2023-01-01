@@ -49,6 +49,8 @@ if __name__ == '__main__':
     if not os.path.exists(rule_target_dir):
         os.mkdir(rule_target_dir, 0o755)
 
+    os.chmod(rule_target_dir, 0o755)
+
     # install ruleset
     all_installed_files = []
     for filename in RuleCache.list_local():
