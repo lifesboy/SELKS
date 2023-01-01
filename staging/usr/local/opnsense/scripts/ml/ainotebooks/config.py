@@ -199,7 +199,7 @@ c = get_config()  #noqa
 #                                 Leading and trailing slashes can be omitted,
 #                                 and will automatically be added.
 #  Default: '/'
-c.NotebookApp.base_url = '/proxy/locust/'
+# c.NotebookApp.base_url = '/'
 
 ## Specify what command to use to invoke a web
 #                        browser when opening the notebook. If not specified, the
