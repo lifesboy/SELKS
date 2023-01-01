@@ -57,7 +57,7 @@ def main(args):
     for path in data_source_files:
         step += 1
         timestamp = int(time.time() * 1000)
-        file_success += 1
+        file_processed += 1
         try:
             client.log_metric(run_id=run.info.run_id, key='file_processed', value=file_processed, timestamp=timestamp, step=step)
 
@@ -70,8 +70,10 @@ def main(args):
 
             client.log_batch(run_id=metric_run_id, metrics=metrics)
             metric_success += len(metrics)
+            file_success += 1
             os.system(f'rm -rf "{path}"')
             client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
+            client.log_metric(run_id=run.info.run_id, key='file_success', value=file_success, timestamp=timestamp, step=step)
         except Exception as e:
             log.error('recover mlflow error: %s', e)
             client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='recover_error.txt')
