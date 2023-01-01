@@ -61,7 +61,7 @@ def main(args):
         try:
             client.log_metric(run_id=run.info.run_id, key='file_processed', value=file_processed, timestamp=timestamp, step=step)
 
-            metric_run_id = path.split('/')[3]
+            metric_run_id = path.split('/')[4]
             df = pd.read_csv(path)
             metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=1).to_list()
 
