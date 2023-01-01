@@ -12,7 +12,8 @@ User=root
 
 #ExecStart=/usr/local/bin/locust --web-host 0.0.0.0 --web-port 8089 -f /usr/local/opnsense/scripts/ml/deployment_test.py
 #ExecStart=/usr/local/bin/jupyter notebook --ip=0.0.0.0 --port 8089 --no-browser --allow-root
-ExecStart=/usr/local/bin/jupyter notebook --config=/usr/local/opnsense/scripts/ml/ainotebooks/config.py --no-browser --allow-root
+#ExecStart=/usr/local/bin/jupyter notebook --config=/usr/local/opnsense/scripts/ml/ainotebooks/config.py --no-browser --allow-root
+ExecStart=/usr/local/bin/jupyter lab --config=/usr/local/opnsense/scripts/ml/ainotebooks/config.py --no-browser --allow-root
 WorkingDirectory=/usr/local/opnsense/scripts/ml/
 
 [Install]

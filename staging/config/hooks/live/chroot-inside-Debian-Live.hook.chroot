@@ -1301,7 +1301,8 @@ python3 -m pip install pyarrow fsspec tensorflow==2.7.0 aioredis==1.3.1 pandas t
 python3 -m pip install scikit-image sklearn keras==2.7.0 typing-extensions==3.7.4.3 gputil starlette uvicorn pydantic
 python3 -m pip install mlflow==1.28.0 mlflow-elasticsearchstore mlflow-ray-serve --ignore-installed PyYAML
 python3 -m pip install locust --ignore-installed numpy --ignore-installed psutil
-python3 -m pip install jupyter
+#python3 -m pip install jupyter
+python3 -m pip install jupyterlab
 #Force using ray 1.13.0 after pip auto upgrading it when installing mlflow
 python3 -m pip install ray==1.13.0 "ray[tune]"==1.13.0 "ray[rllib]"==1.13.0 "ray[default]"==1.13.0 "ray[serve]"==1.13.0
 
