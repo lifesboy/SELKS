@@ -15,6 +15,7 @@ from ray import serve
 from starlette.requests import Request
 
 import common
+import lib.utils as utils
 from aimodels.anomaly.anomaly_model import AnomalyModel
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 from anomaly_normalization import DST_PORT, PROTOCOL, FLOW_DURATION, TOT_FWD_PKTS, TOT_BWD_PKTS, TOTLEN_FWD_PKTS, LABEL
@@ -158,4 +159,6 @@ class AnomalyProductionDeployment:
             self.client.log_batch(run_id=self.run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
+            utils.write_failsafe_metrics(f"{self.run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
+            self.metrics = []
             log.error('_log_metrics error %s', e)
