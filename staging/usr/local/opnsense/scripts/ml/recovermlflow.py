@@ -68,7 +68,7 @@ def main(args):
 
             batch_size = 600
             for i in range(0, math.ceil(len(metrics) / batch_size)):
-                batch = metrics[i * batch_size, (i + 1) * batch_size]
+                batch = metrics[i * batch_size:(i + 1) * batch_size]
                 metric_processed += len(batch)
                 client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
 
