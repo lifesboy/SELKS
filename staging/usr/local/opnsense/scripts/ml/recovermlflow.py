@@ -63,13 +63,14 @@ def main(args):
 
             metric_run_id = path.split('/')[3]
             df = pd.read_csv(path)
-            metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=0)
+            metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=1).to_list()
 
             metric_processed += len(metrics)
             client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
 
             client.log_batch(run_id=metric_run_id, metrics=metrics)
             metric_success += len(metrics)
+            os.system(f'rm -rf "{path}"')
             client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
         except Exception as e:
             log.error('recover mlflow error: %s', e)
