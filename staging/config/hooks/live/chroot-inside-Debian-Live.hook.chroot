@@ -1303,6 +1303,7 @@ python3 -m pip install mlflow==1.28.0 mlflow-elasticsearchstore mlflow-ray-serve
 python3 -m pip install locust --ignore-installed numpy --ignore-installed psutil
 #python3 -m pip install jupyter
 python3 -m pip install jupyterlab
+python3 -m pip install importlib-metadata==4.13.0
 #Force using ray 1.13.0 after pip auto upgrading it when installing mlflow
 python3 -m pip install ray==1.13.0 "ray[tune]"==1.13.0 "ray[rllib]"==1.13.0 "ray[default]"==1.13.0 "ray[serve]"==1.13.0
 
