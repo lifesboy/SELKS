@@ -66,7 +66,7 @@ def main(args):
             df = pd.read_csv(path)
             metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=1).to_list()
 
-            batch_size = 600
+            batch_size = 800
             for i in range(0, math.ceil(len(metrics) / batch_size)):
                 batch = metrics[i * batch_size:(i + 1) * batch_size]
                 metric_processed += len(batch)
