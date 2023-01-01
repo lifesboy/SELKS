@@ -84,6 +84,7 @@ if __name__ == '__main__':
         # write data to file
         all_installed_files.append(filename.split('/')[-1])
         open('%s/%s' % (rule_target_dir, filename.split('/')[-1]), 'w').write('\n'.join(output_data))
+        os.chmod('%s/%s' % (rule_target_dir, filename.split('/')[-1]), 0o644)
 
     # flush all written rule filenames into yaml file
     with open(rule_yaml_list, 'w') as f_out:
