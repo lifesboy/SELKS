@@ -133,7 +133,7 @@ c = get_config()  #noqa
 #  
 #          Takes precedence over allow_origin_pat.
 #  Default: ''
-# c.NotebookApp.allow_origin = ''
+c.NotebookApp.allow_origin = '*'
 
 ## Use a regular expression for the Access-Control-Allow-Origin header
 #  
@@ -171,11 +171,11 @@ c = get_config()  #noqa
 #         Local IP addresses (such as 127.0.0.1 and ::1) are allowed as local,
 #         along with hostnames configured in local_hostnames.
 #  Default: False
-# c.NotebookApp.allow_remote_access = False
+c.NotebookApp.allow_remote_access = True
 
 ## Whether to allow the user to run the notebook as root.
 #  Default: False
-# c.NotebookApp.allow_root = False
+c.NotebookApp.allow_root = True
 
 ## Answer yes to any prompts.
 #  See also: JupyterApp.answer_yes
