@@ -10,6 +10,7 @@ from ray.data import Dataset
 from tensorflow.keras.models import Model
 
 from anomaly_normalization import LABEL, ALL_FEATURES
+from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 10)
@@ -140,47 +141,50 @@ def show_train_metric(history, title="title"):
     plt.legend()
 
 
+FEATURES_SCHEMA = CicFlowmeterNormModel.get_input_schema()
+
 ALL_FEATURES_SCHEMA = {
+    **FEATURES_SCHEMA,
     LABEL: pa.float64(),
 }
-
-for i in ALL_FEATURES:
-    ALL_FEATURES_SCHEMA[i] = pa.float64()
 
 ALL_FEATURES_SCHEMA_LABEL_STRING = {
     **ALL_FEATURES_SCHEMA,
     LABEL: pa.string()
 }
 
+parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda x: 'skip')
+convert_options = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA)
+convert_options_label_string = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA_LABEL_STRING)
 
 # ---------------------------------
-class CicCSVDatasource(ray.data.datasource.CSVDatasource):
+def create_reader():
+    class CicCSVDatasource(ray.data.datasource.CSVDatasource):
 
-    def _read_stream(self, f: 'pyarrow.NativeFile', path: str, **reader_args):
-        read_options = reader_args.pop('read_options', csv.ReadOptions(use_threads=False))
-        parse_options = reader_args.pop('parse_options', csv.ParseOptions())
-        # Re-init invalid row handler: https://issues.apache.org/jira/browse/ARROW-17641
-        if hasattr(parse_options, 'invalid_row_handler'):
-            parse_options.invalid_row_handler = parse_options.invalid_row_handler
+        def _read_stream(self, f: 'pyarrow.NativeFile', path: str, **reader_args):
+            read_options = reader_args.pop('read_options', csv.ReadOptions(use_threads=False))
+            parse_options = reader_args.pop('parse_options', csv.ParseOptions())
+            # Re-init invalid row handler: https://issues.apache.org/jira/browse/ARROW-17641
+            if hasattr(parse_options, 'invalid_row_handler'):
+                parse_options.invalid_row_handler = parse_options.invalid_row_handler
 
-        reader = csv.open_csv(f, read_options=read_options, parse_options=parse_options, **reader_args)
-        schema = None
-        while True:
-            try:
-                batch = reader.read_next_batch()
-                table = pyarrow.Table.from_batches([batch], schema=schema)
-                if schema is None:
-                    schema = table.schema
-                yield table
-            except StopIteration:
-                return
+            reader = csv.open_csv(f, read_options=read_options, parse_options=parse_options, **reader_args)
+            schema = None
+            while True:
+                try:
+                    batch = reader.read_next_batch()
+                    table = pyarrow.Table.from_batches([batch], schema=schema)
+                    if schema is None:
+                        schema = table.schema
+                    yield table
+                except StopIteration:
+                    return
 
+    return CicCSVDatasource()
 
 def read_csv_in_dir(dir: str) -> Dataset:
-    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda x: 'skip')
-    convert_options = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA)
     dataset: Dataset = ray.data.read_datasource(
-        CicCSVDatasource(),
+        create_reader(),
         paths=[dir],
         parse_options=parse_options,
         convert_options=convert_options)
@@ -188,10 +192,8 @@ def read_csv_in_dir(dir: str) -> Dataset:
 
 
 def read_csv_in_dir_label_string(dir: str) -> Dataset:
-    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda x: 'skip')
-    convert_options_label_string = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA_LABEL_STRING)
     dataset: Dataset = ray.data.read_datasource(
-        CicCSVDatasource(),
+        create_reader(),
         paths=[dir],
         parse_options=parse_options,
         convert_options=convert_options_label_string)
