@@ -473,7 +473,7 @@ expire.url = ( "" => "access 50 hours" )
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "6006" ) ) )
 }
 \$HTTP["url"] =~ "^/proxy/locust/" {
-    proxy.header = ("map-urlpath" => ( "/proxy/locust/" => "/proxy/locust/" ), "https-remap" => "enable")
+    proxy.header = ("map-urlpath" => ( "/proxy/locust/" => "/proxy/locust/" ), "https-remap" => "enable", "upgrade" => "enable")
     proxy.server = ( "" => ( ( "host" => "127.0.0.1", "port" => "8089" ) ) )
 }
 \$HTTP["url"] =~ "^/proxy/ray/" {
