@@ -199,7 +199,7 @@ c.NotebookApp.allow_root = True
 #                                 Leading and trailing slashes can be omitted,
 #                                 and will automatically be added.
 #  Default: '/'
-# c.NotebookApp.base_url = '/'
+c.NotebookApp.base_url = '/proxy/locust/'
 
 ## Specify what command to use to invoke a web
 #                        browser when opening the notebook. If not specified, the
