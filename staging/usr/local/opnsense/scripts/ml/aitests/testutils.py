@@ -1,13 +1,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import pyarrow
+import pyarrow as pa
 import ray
 from PIL import Image
+from pyarrow import csv
+from ray.data import Dataset
 from tensorflow.keras.models import Model
 
+from anomaly_normalization import LABEL, ALL_FEATURES
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 10)
+
 
 def show_weights(model: Model, name='model'):
     weights = []
@@ -132,3 +138,62 @@ def show_train_metric(history, title="title"):
     plt.plot(history.history['val_loss'], label='Validation loss')
     plt.title(title)
     plt.legend()
+
+
+ALL_FEATURES_SCHEMA = {
+    LABEL: pa.float64(),
+}
+
+for i in ALL_FEATURES:
+    ALL_FEATURES_SCHEMA[i] = pa.float64()
+
+ALL_FEATURES_SCHEMA_LABEL_STRING = {
+    **ALL_FEATURES_SCHEMA,
+    LABEL: pa.string()
+}
+
+
+# ---------------------------------
+class CicCSVDatasource(ray.data.datasource.CSVDatasource):
+
+    def _read_stream(self, f: 'pyarrow.NativeFile', path: str, **reader_args):
+        read_options = reader_args.pop('read_options', csv.ReadOptions(use_threads=False))
+        parse_options = reader_args.pop('parse_options', csv.ParseOptions())
+        # Re-init invalid row handler: https://issues.apache.org/jira/browse/ARROW-17641
+        if hasattr(parse_options, 'invalid_row_handler'):
+            parse_options.invalid_row_handler = parse_options.invalid_row_handler
+
+        reader = csv.open_csv(f, read_options=read_options, parse_options=parse_options, **reader_args)
+        schema = None
+        while True:
+            try:
+                batch = reader.read_next_batch()
+                table = pyarrow.Table.from_batches([batch], schema=schema)
+                if schema is None:
+                    schema = table.schema
+                yield table
+            except StopIteration:
+                return
+
+
+convert_options = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA)
+convert_options_label_string = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA_LABEL_STRING)
+parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda x: 'skip')
+
+
+def read_csv_in_dir(dir: str) -> Dataset:
+    dataset: Dataset = ray.data.read_datasource(
+        CicCSVDatasource(),
+        paths=[dir],
+        parse_options=parse_options,
+        convert_options=convert_options)
+    return dataset.fully_executed().repartition(num_blocks=1)
+
+
+def read_csv_in_dir_label_string(dir: str) -> Dataset:
+    dataset: Dataset = ray.data.read_datasource(
+        CicCSVDatasource(),
+        paths=[dir],
+        parse_options=parse_options,
+        convert_options=convert_options_label_string)
+    return dataset.fully_executed().repartition(num_blocks=1)
