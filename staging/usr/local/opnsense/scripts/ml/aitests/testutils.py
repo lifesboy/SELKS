@@ -176,12 +176,9 @@ class CicCSVDatasource(ray.data.datasource.CSVDatasource):
                 return
 
 
-convert_options = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA)
-convert_options_label_string = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA_LABEL_STRING)
-parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda x: 'skip')
-
-
 def read_csv_in_dir(dir: str) -> Dataset:
+    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda x: 'skip')
+    convert_options = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA)
     dataset: Dataset = ray.data.read_datasource(
         CicCSVDatasource(),
         paths=[dir],
@@ -191,6 +188,8 @@ def read_csv_in_dir(dir: str) -> Dataset:
 
 
 def read_csv_in_dir_label_string(dir: str) -> Dataset:
+    parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=lambda x: 'skip')
+    convert_options_label_string = csv.ConvertOptions(column_types=ALL_FEATURES_SCHEMA_LABEL_STRING)
     dataset: Dataset = ray.data.read_datasource(
         CicCSVDatasource(),
         paths=[dir],
