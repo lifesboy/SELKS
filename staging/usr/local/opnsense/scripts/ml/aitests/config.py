@@ -580,7 +580,7 @@ c.NotebookApp.port = 8089
 #  For headers sent by the upstream reverse proxy. Necessary if the proxy handles
 #  SSL
 #  Default: False
-# c.NotebookApp.trust_xheaders = False
+c.NotebookApp.trust_xheaders = True
 
 ## Disable launching browser by redirect file
 #  
