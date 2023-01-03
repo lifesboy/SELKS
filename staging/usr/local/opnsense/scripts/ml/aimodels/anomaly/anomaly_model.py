@@ -83,7 +83,7 @@ class AnomalyModel(RecurrentNetwork):
         seq_in = tf.keras.layers.Input(shape=(), name="seq_in", dtype=tf.int32)
 
         # Preprocess observation with a hidden layer and send to LSTM cell
-        dense1 = tf.keras.layers.Dense(self.hidden_size, activation=tf.nn.relu, name="dense1")(input_layer)
+        dense1 = tf.keras.layers.Dense(self.hidden_size, activation=None, name="dense1")(input_layer)
         lstm_out, state_h, state_c = tf.keras.layers.LSTM(
             self.cell_size, return_sequences=True, return_state=True, name="lstm")(
             inputs=dense1,
