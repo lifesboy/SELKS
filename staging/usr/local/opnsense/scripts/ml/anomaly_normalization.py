@@ -141,6 +141,8 @@ LABEL = 'label'
 
 PAYLOAD_FEATURE_NUM = 256
 
+ALL_PAYLOAD_FEATURES = [PS % i for i in range(0, PAYLOAD_FEATURE_NUM)]
+
 ALL_FEATURES = [
     SRC_IP,
     SRC_PORT,
@@ -229,7 +231,7 @@ ALL_FEATURES = [
     IDLE_MIN,
     TTL,
     LEN_PAYLOADS,
-    *[PS % i for i in range(0, PAYLOAD_FEATURE_NUM)]
+    *ALL_PAYLOAD_FEATURES
 ]
 
 FLOW_ID_CIC = 'Flow ID'

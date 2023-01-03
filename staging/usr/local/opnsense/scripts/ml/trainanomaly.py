@@ -28,7 +28,7 @@ from aienvs.anomaly.anomaly_clean_ensure_payload_env import AnomalyCleanEnsurePa
 from aienvs.anomaly.anomaly_protected_reward_env import AnomalyProtectedRewardEnv
 from aienvs.anomaly.anomaly_threat_reward_env import AnomalyThreatRewardEnv
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
-from anomaly_normalization import ALL_FEATURES, LABEL
+from anomaly_normalization import ALL_PAYLOAD_FEATURES, ALL_FEATURES, LABEL
 from lib.anomalyloggercallback import AnomalyLoggerCallback
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
@@ -61,7 +61,7 @@ parser.add_argument(
 parser.add_argument(
     "--features",
     type=str,
-    default="",
+    default=",".join(ALL_PAYLOAD_FEATURES),
     help="data source file path filter pattern")
 parser.add_argument(
     "--as-test",
