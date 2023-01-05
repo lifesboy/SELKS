@@ -251,7 +251,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         }
 
         for i in range(0, PAYLOAD_FEATURE_NUM):
-            feature_norm[PS % i] = tf.keras.activations.tanh
+            feature_norm[PS % i] = tf.keras.activations.linear
 
         return feature_norm
 
