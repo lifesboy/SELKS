@@ -324,6 +324,7 @@ LABEL_CIC = 'Label'
 LABEL_VALUE_BENIGN = 'Benign'
 LABEL_VALUE_ANOMALY = 'Anomaly'
 
+SIZE_1B = 0xFF
 SIZE_1KB = 1024
 SIZE_1MB = 1024 * SIZE_1KB
 SIZE_1GB = 1024 * SIZE_1MB
@@ -401,6 +402,10 @@ def norm_size_1kb(v: float) -> float:
 @tf_function(tf)
 def norm_time_1min(v: int) -> float:
     return tf.math.sign(v) * tf.math.minimum(tf.math.abs(v), TIME_1M) / TIME_1M
+
+@tf_function(tf)
+def norm_crop_1byte(v: int) -> float:
+    return tf.math.sign(v) * tf.math.minimum(tf.math.abs(v), SIZE_1B)
 
 
 def norm_ip(ip: str) -> int:

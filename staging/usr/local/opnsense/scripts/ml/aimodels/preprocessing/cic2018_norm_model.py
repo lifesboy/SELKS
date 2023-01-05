@@ -264,7 +264,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         }
 
         for i in range(0, PAYLOAD_FEATURE_NUM):
-            feature_norm[PS % i] = tf.keras.activations.linear
+            feature_norm[PS % i] = norm.norm_crop_1byte
 
         return feature_norm
 
