@@ -47,7 +47,7 @@ class AnomalyEnv(gym.Env):
         ])
         self.iter: Iterator[BatchType] = None
 
-        self.observation_space: Box = Box(low=0., high=1., shape=(6,), dtype=np.float64)
+        self.observation_space: Box = Box(low=-1., high=255., shape=(6,), dtype=np.float64)
         self.action_space: Discrete = Discrete(2)
 
         self._client.log_param(run_id=self._run.info.run_id, key='name', value=type(self).__name__)
