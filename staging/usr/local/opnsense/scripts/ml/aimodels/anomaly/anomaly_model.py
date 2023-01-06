@@ -142,7 +142,7 @@ class AnomalyModel(RecurrentNetwork):
     def save_mlflow(self):
         model_meta = AnomalyModel.get_model_meta()
         input_schema = Schema([ColSpec(type=DataType.double, name=i) for i in self.features])
-        output_schema = Schema([ColSpec(type=DataType.integer, name=LABEL)])
+        output_schema = Schema([ColSpec(type=DataType.double, name=LABEL)])
         signature = ModelSignature(inputs=input_schema, outputs=output_schema)
 
         mlflow.keras.log_model(keras_model=self.rnn_model,
