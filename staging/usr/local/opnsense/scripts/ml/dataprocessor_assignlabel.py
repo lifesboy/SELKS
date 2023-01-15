@@ -53,7 +53,9 @@ def combine_label_csv(pattern: str):
     combine = pd.DataFrame()
     for f in common.get_data_featured_extracted_files_by_pattern(pattern):
         df = pd.read_csv(f)
-        if len(set(merge_features) - set(df.columns)) > 0:
+        missing_features = set(merge_features) - set(df.columns)
+        if len(missing_features) > 0:
+            log.info(f"combine_label_csv {f}: {missing_features}")
             continue
         df = df[merge_features]
         combine = pd.concat([combine, df], axis=0, ignore_index=True)
