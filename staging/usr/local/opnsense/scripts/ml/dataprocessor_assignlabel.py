@@ -57,7 +57,7 @@ def combine_label_csv(pattern: str):
         missing_features = set(merge_features) - set(df.columns)
         if len(missing_features) > 0:
             log.warn(f"combine_label_csv {f}: {missing_features}")
-        df[missing_features] = np.nan  # protocol will not be tcp(6) or udp (17)
+        df[list(missing_features)] = np.nan  # protocol will not be tcp(6) or udp (17)
         df = df[merge_features]
         combine = pd.concat([combine, df], axis=0, ignore_index=True)
 
