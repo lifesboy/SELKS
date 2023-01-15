@@ -8,6 +8,7 @@ import lib.utils as utils
 from lib.logger import log
 
 import common
+import numpy as np
 import pandas as pd
 
 from anomaly_normalization import TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, \
@@ -55,8 +56,8 @@ def combine_label_csv(pattern: str):
         df = pd.read_csv(f)
         missing_features = set(merge_features) - set(df.columns)
         if len(missing_features) > 0:
-            log.info(f"combine_label_csv {f}: {missing_features}")
-            continue
+            log.warn(f"combine_label_csv {f}: {missing_features}")
+        df[missing_features] = np.nan  # protocol will not be tcp(6) or udp (17)
         df = df[merge_features]
         combine = pd.concat([combine, df], axis=0, ignore_index=True)
 
