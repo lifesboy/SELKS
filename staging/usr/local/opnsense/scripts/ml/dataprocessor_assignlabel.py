@@ -49,10 +49,13 @@ def assign_label_to_extracted_csv(label_source: str, data_source: str, data_dest
 
 
 def combine_label_csv(pattern: str):
+    merge_features = [TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, LABEL]
     combine = pd.DataFrame()
     for f in common.get_data_featured_extracted_files_by_pattern(pattern):
         df = pd.read_csv(f)
-        df = df[[TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, LABEL]]
+        if len(set(merge_features) - set(df.columns)) > 0:
+            continue
+        df = df[merge_features]
         combine = pd.concat([combine, df], axis=0, ignore_index=True)
 
     log.info(f"combine_label_csv {pattern}: {combine.shape}")
