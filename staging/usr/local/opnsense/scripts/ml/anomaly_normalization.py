@@ -234,6 +234,8 @@ ALL_FEATURES = [
     *ALL_PAYLOAD_FEATURES
 ]
 
+TIMESTAMP_FLOW = 'timestamp_flow'
+
 FLOW_ID_CIC = 'Flow ID'
 SRC_IP_CIC = 'Src IP'
 SRC_PORT_CIC = 'Src Port'
