@@ -64,10 +64,10 @@ def combine_label_csv(pattern: str):
     log.info(f"combine_label_csv {pattern}: {combine.shape}")
 
     # Record the resolution for later matching
-    df.loc[df[TIMESTAMP].str.count(":") == 1, OFFSET] = 60
-    df.loc[df[TIMESTAMP].str.count(":") == 2, OFFSET] = 1
+    combine.loc[combine[TIMESTAMP].str.count(":") == 1, OFFSET] = 60
+    combine.loc[combine[TIMESTAMP].str.count(":") == 2, OFFSET] = 1
 
-    df[TIMESTAMP] = df[TIMESTAMP].apply(
+    combine[TIMESTAMP] = combine[TIMESTAMP].apply(
         lambda x: (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M %z"))
         if x.count(":") == 1
         else (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M:%S %z"))
@@ -75,12 +75,12 @@ def combine_label_csv(pattern: str):
 
     # Timestamps are listed 3/7/2017 2:55, without AM/PM indicators, so any time between 1 and 7 AM ADT (4 and 11 AM UTC) are actually PM
     # Datetime was instantiated with timezone info, so .hour is already in the -0300 timezone
-    df[TIMESTAMP] = df[TIMESTAMP].apply(
+    combine[TIMESTAMP] = combine[TIMESTAMP].apply(
         lambda x: int((x + timedelta(hours=12)).timestamp()) if (x.hour >= 1) & (x.hour <= 7) else int(x.timestamp())
     )
-    df = df.sort_values(by=TIMESTAMP)
+    combine = combine.sort_values(by=TIMESTAMP)
 
-    df.rename(columns={TIMESTAMP: TIMESTAMP_FLOW}, inplace=True)
+    combine.rename(columns={TIMESTAMP: TIMESTAMP_FLOW}, inplace=True)
 
     return combine
 
