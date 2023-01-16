@@ -235,6 +235,7 @@ ALL_FEATURES = [
 ]
 
 TIMESTAMP_FLOW = 'timestamp_flow'
+OFFSET = 'offset'
 
 FLOW_ID_CIC = 'Flow ID'
 SRC_IP_CIC = 'Src IP'

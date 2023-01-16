@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 
 from anomaly_normalization import TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, \
-    LABEL, TIMESTAMP_FLOW
+    LABEL, TIMESTAMP_FLOW, OFFSET, LABEL_VALUE_BENIGN
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -64,8 +64,8 @@ def combine_label_csv(pattern: str):
     log.info(f"combine_label_csv {pattern}: {combine.shape}")
 
     # Record the resolution for later matching
-    df.loc[df[TIMESTAMP].str.count(":") == 1, "offset"] = 60
-    df.loc[df[TIMESTAMP].str.count(":") == 2, "offset"] = 1
+    df.loc[df[TIMESTAMP].str.count(":") == 1, OFFSET] = 60
+    df.loc[df[TIMESTAMP].str.count(":") == 2, OFFSET] = 1
 
     df[TIMESTAMP] = df[TIMESTAMP].apply(
         lambda x: (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M %z"))
@@ -106,20 +106,15 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
     combine.drop_duplicates(inplace=True)
 
     # Drop any rows that are do not have matching times, i.e. keep only rows that the payload timestamp is after the flow started and before the flow ends
-    # stime is measured in seconds
-    # stime_flow has resolution of either 1 second or 60 seconds, recorded in offset
-    # duration is measured in microseconds
+    # TIMESTAMP is measured in seconds
+    # TIMESTAMP_FLOW has resolution of either 1 second or 60 seconds, recorded in offset
+    # FLOW_DURATION is measured in microseconds
     combine = combine[
-        (combine[TIMESTAMP_FLOW] - combine["offset"] <= combine[TIMESTAMP])
-        & (combine[TIMESTAMP] <= combine[TIMESTAMP_FLOW] + combine["offset"] + combine[FLOW_DURATION] / 1e6)
-        ]
+        (combine[TIMESTAMP_FLOW] - combine[OFFSET] <= combine[TIMESTAMP])
+        & (combine[TIMESTAMP] <= combine[TIMESTAMP_FLOW] + combine[OFFSET] + combine[FLOW_DURATION] / 1e6)
+    ]
 
-    # Rename to attack_cat for consistency with UNSW
-    combine.rename(columns={LABEL: "attack_cat"}, inplace=True)
-
-    # Label is 0 for benign and 1 for anything else
-    combine["label"] = 0
-    combine.loc[combine.attack_cat != "BENIGN", "label"] = 1
+    combine.loc[combine[LABEL] == "", LABEL] = LABEL_VALUE_BENIGN
 
     combine.to_csv(output_file, index=False)
     return combine.index.size
