@@ -39,12 +39,11 @@ def kill_exists_processing():
 
 def assign_label_to_extracted_csv(label_source: str, data_source: str, data_destination: str):
     df_label = combine_label_csv(label_source)
-    df = pd.DataFrame.from_records(common.get_data_featured_extracted_files_by_pattern(data_source), columns=['input'])
-    df['output'] = df.apply(lambda x: '/'.join([
-        common.DATA_FEATURED_EXTRACTED_DIR,
+    df = pd.DataFrame(common.get_data_featured_extracted_files_by_pattern(data_source), columns=['input'])
+    df['output'] = df.apply(lambda x: common.DATA_FEATURED_EXTRACTED_DIR + '/'.join([
         data_destination,
-        *(x.split(common.DATA_FEATURED_EXTRACTED_DIR)[1].split('/')[1:])
-    ]))
+        *(x['input'].split(common.DATA_FEATURED_EXTRACTED_DIR)[1].split('/')[1:])
+    ]), axis=1)
     df['result'] = df.apply(lambda x: label_extracted_csv(df_label, x['input'], x['output']), axis=1)
     return df
 
