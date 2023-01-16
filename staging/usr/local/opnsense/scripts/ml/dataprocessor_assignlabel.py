@@ -45,7 +45,7 @@ def assign_label_to_extracted_csv(label_source: str, data_source: str, data_dest
         data_destination,
         *(x.split(common.DATA_FEATURED_EXTRACTED_DIR)[1].split('/')[1:])
     ]))
-    df['result'] = df.apply(lambda x: label_extracted_csv(df_label, x['output']), axis=1)
+    df['result'] = df.apply(lambda x: label_extracted_csv(df_label, x['input'], x['output']), axis=1)
     return df
 
 
@@ -125,7 +125,7 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
     return combine.index.size
 
 
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessorheaderscic.py --data-source=cic2018/*.csv
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor_assignlabel.py --data-source=cic2018-payloads/*/*.csv --label-source=cic2018/*.csv --data-destination=cic2018-payloads-label
 
 if __name__ == "__main__":
     args = parser.parse_args()
