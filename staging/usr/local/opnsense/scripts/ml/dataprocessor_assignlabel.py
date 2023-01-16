@@ -80,8 +80,6 @@ def combine_label_csv(pattern: str):
     )
     combine = combine.sort_values(by=TIMESTAMP)
 
-    combine.rename(columns={TIMESTAMP: TIMESTAMP_FLOW}, inplace=True)
-
     return combine
 
 
@@ -92,7 +90,10 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
 
     # Merge based on the shared columns keeping every payload and adding flow data for every matches
     # Merge duplicates the PCAP row for each matching df_flow row
-    combine1 = pd.merge(df_pcap_csv, df_flow, how="left", on=[SRC_IP, DST_IP, DST_PORT, SRC_PORT, PROTOCOL])
+    _FLOW = "_flow"
+    combine1 = pd.merge(df_pcap_csv, df_flow, how="left",
+                        on=[SRC_IP, DST_IP, DST_PORT, SRC_PORT, PROTOCOL],
+                        suffixes=("", _FLOW))
     # Invert the dest/source to capture return traffic
     combine2 = pd.merge(
         df_pcap_csv,
@@ -100,7 +101,7 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
         how="left",
         left_on=[SRC_IP, DST_IP, DST_PORT, SRC_PORT, PROTOCOL],
         right_on=[DST_IP, SRC_IP, SRC_PORT, DST_PORT, PROTOCOL],
-        suffixes=["", "_flow"],
+        suffixes=("", _FLOW),
     )
     combine = pd.concat([combine1, combine2])
     combine.drop_duplicates(inplace=True)
@@ -110,13 +111,17 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
     # TIMESTAMP_FLOW has resolution of either 1 second or 60 seconds, recorded in offset
     # FLOW_DURATION is measured in microseconds
     combine = combine[
-        (combine[TIMESTAMP_FLOW] - combine[OFFSET] <= combine[TIMESTAMP])
-        & (combine[TIMESTAMP] <= combine[TIMESTAMP_FLOW] + combine[OFFSET] + combine[FLOW_DURATION] / 1e6)
+        (combine[f"{TIMESTAMP}{_FLOW}"] - combine[OFFSET] <= combine[TIMESTAMP])
+        & (combine[TIMESTAMP] <= combine[f"{TIMESTAMP}{_FLOW}"] + combine[OFFSET] + combine[FLOW_DURATION] / 1e6)
     ]
+
+    if f"{LABEL}{_FLOW}" in combine.columns:
+        combine[LABEL] = combine[f"{LABEL}{_FLOW}"]
 
     combine.loc[combine[LABEL] == "", LABEL] = LABEL_VALUE_BENIGN
 
-    combine.to_csv(output_file, index=False)
+    columns = df_pcap_csv.columns if LABEL in df_pcap_csv.columns else [*df_pcap_csv.columns, LABEL]
+    combine.to_csv(output_file, columns=columns, index=False)
     return combine.index.size
 
 
