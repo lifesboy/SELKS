@@ -5,7 +5,8 @@ Wants=cicflowmeter-timer.timer
 [Service]
 Type=oneshot
 ExecStartPre=-/bin/mkdir -p /var/log/cicflowmeter/ && /bin/mkdir -p /cic/dataset/featured_extracted/nsm/
-ExecStart=/usr/local/bin/cicflowmeter -f '/cic/dataset/nsm/*.pcap' -c /cic/dataset/featured_extracted/nsm/ -b 8 -cpu 6
+#ExecStart=/usr/local/bin/cicflowmeter -f '/cic/dataset/nsm/*.pcap' -c /cic/dataset/featured_extracted/nsm/ -b 8 -cpu 6
+ExecStart=/usr/local/bin/cicflowmeter -f '/cic/dataset/nsm/*.pcap' -c /cic/dataset/featured_extracted/nsm/ -b 1 -cpu 20
 #RemainAfterExit=true
 StandardOutput=file:/var/log/cicflowmeter/service.log
 StandardError=file:/var/log/cicflowmeter/error.log
