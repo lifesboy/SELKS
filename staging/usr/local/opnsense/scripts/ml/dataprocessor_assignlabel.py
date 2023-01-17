@@ -106,7 +106,7 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
     combine = pd.concat([combine1, combine2])
     combine.drop_duplicates(inplace=True)
 
-    if TIMESTAMP in combine.columns:
+    if f"{TIMESTAMP}{_FLOW}" in combine.columns:
         # Drop any rows that are do not have matching times, i.e. keep only rows that the payload timestamp is after the flow started and before the flow ends
         # TIMESTAMP is measured in seconds
         # TIMESTAMP_FLOW has resolution of either 1 second or 60 seconds, recorded in offset
