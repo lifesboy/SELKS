@@ -62,22 +62,23 @@ def combine_label_csv(pattern: str):
 
     log.info(f"combine_label_csv {pattern}: {combine.shape}")
 
-    # Record the resolution for later matching
-    combine.loc[combine[TIMESTAMP].str.count(":") == 1, OFFSET] = 60
-    combine.loc[combine[TIMESTAMP].str.count(":") == 2, OFFSET] = 1
+    if TIMESTAMP in combine.columns:
+        # Record the resolution for later matching
+        combine.loc[combine[TIMESTAMP].str.count(":") == 1, OFFSET] = 60
+        combine.loc[combine[TIMESTAMP].str.count(":") == 2, OFFSET] = 1
 
-    combine[TIMESTAMP] = combine[TIMESTAMP].apply(
-        lambda x: (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M %z"))
-        if x.count(":") == 1
-        else (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M:%S %z"))
-    )
+        combine[TIMESTAMP] = combine[TIMESTAMP].apply(
+            lambda x: (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M %z"))
+            if x.count(":") == 1
+            else (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M:%S %z"))
+        )
 
-    # Timestamps are listed 3/7/2017 2:55, without AM/PM indicators, so any time between 1 and 7 AM ADT (4 and 11 AM UTC) are actually PM
-    # Datetime was instantiated with timezone info, so .hour is already in the -0300 timezone
-    combine[TIMESTAMP] = combine[TIMESTAMP].apply(
-        lambda x: int((x + timedelta(hours=12)).timestamp()) if (x.hour >= 1) & (x.hour <= 7) else int(x.timestamp())
-    )
-    combine = combine.sort_values(by=TIMESTAMP)
+        # Timestamps are listed 3/7/2017 2:55, without AM/PM indicators, so any time between 1 and 7 AM ADT (4 and 11 AM UTC) are actually PM
+        # Datetime was instantiated with timezone info, so .hour is already in the -0300 timezone
+        combine[TIMESTAMP] = combine[TIMESTAMP].apply(
+            lambda x: int((x + timedelta(hours=12)).timestamp()) if (x.hour >= 1) & (x.hour <= 7) else int(x.timestamp())
+        )
+        combine = combine.sort_values(by=TIMESTAMP)
 
     return combine
 
@@ -105,14 +106,15 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
     combine = pd.concat([combine1, combine2])
     combine.drop_duplicates(inplace=True)
 
-    # Drop any rows that are do not have matching times, i.e. keep only rows that the payload timestamp is after the flow started and before the flow ends
-    # TIMESTAMP is measured in seconds
-    # TIMESTAMP_FLOW has resolution of either 1 second or 60 seconds, recorded in offset
-    # FLOW_DURATION is measured in microseconds
-    combine = combine[
-        (combine[f"{TIMESTAMP}{_FLOW}"] - combine[OFFSET] <= combine[TIMESTAMP])
-        & (combine[TIMESTAMP] <= combine[f"{TIMESTAMP}{_FLOW}"] + combine[OFFSET] + combine[FLOW_DURATION] / 1e6)
-    ]
+    if TIMESTAMP in combine.columns:
+        # Drop any rows that are do not have matching times, i.e. keep only rows that the payload timestamp is after the flow started and before the flow ends
+        # TIMESTAMP is measured in seconds
+        # TIMESTAMP_FLOW has resolution of either 1 second or 60 seconds, recorded in offset
+        # FLOW_DURATION is measured in microseconds
+        combine = combine[
+            (combine[f"{TIMESTAMP}{_FLOW}"] - combine[OFFSET] <= combine[TIMESTAMP])
+            & (combine[TIMESTAMP] <= combine[f"{TIMESTAMP}{_FLOW}"] + combine[OFFSET] + combine[FLOW_DURATION] / 1e6)
+        ]
 
     if f"{LABEL}{_FLOW}" in combine.columns:
         combine[LABEL] = combine[f"{LABEL}{_FLOW}"]
