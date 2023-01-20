@@ -335,7 +335,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             for i in features
         })
 
-        return data.fillna(0.).replace([np.inf, -np.inf], 0, inplace=True)
+        return data.fillna(0.).replace([np.inf, -np.inf], 0)
 
     def _log_metrics(self):
         try:
