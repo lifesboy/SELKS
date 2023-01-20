@@ -6,6 +6,7 @@ import ray
 from mlflow.entities import Metric
 from ray.tune.integration.mlflow import mlflow_mixin
 import pyarrow as pa
+import numpy as np
 
 from pandas import DataFrame
 from ray.rllib.utils.framework import try_import_tf
@@ -321,7 +322,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         df.columns = df.columns.str.replace(' ', '_')
 
         feature_norm = Cic2018NormModel.get_feature_norm()
-        features = set(df.columns).intersection(feature_norm.keys())
+        features = sorted(list(set(df.columns).intersection(feature_norm.keys())))
         df_norm = df[features]
 
         if LABEL not in features:
@@ -334,7 +335,7 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
             for i in features
         })
 
-        return data.fillna(0.)
+        return data.fillna(0.).replace([np.inf, -np.inf], 0, inplace=True)
 
     def _log_metrics(self):
         try:
