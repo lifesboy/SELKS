@@ -90,18 +90,18 @@ def kill_exists_processing():
 @ray.remote
 def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: str, values: [str], start_time: str, end_time: str) -> int:
     df = pd.read_csv(input_file)
-    df_filter = df
+    df_filter = df[feature].isin(values)
     if start_time:
         start = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
         timestamp_start = datetime.strftime(start, '%Y-%m-%d %H:%M:%S')
-        df_filter = df_filter[df_filter[TIMESTAMP] >= timestamp_start]
+        df_filter &= df[TIMESTAMP] >= timestamp_start
 
     if end_time:
         end = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
         timestamp_end = datetime.strftime(end, '%Y-%m-%d %H:%M:%S')
-        df_filter = df_filter[df_filter[TIMESTAMP] < timestamp_end]
+        df_filter &= df[TIMESTAMP] < timestamp_end
 
-    df.loc[df_filter[feature].isin(values), LABEL] = label
+    df.loc[df_filter, LABEL] = label
     df.loc[df[LABEL].isna(), LABEL] = ''
 
     if df.index.size > 0:

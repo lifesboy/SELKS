@@ -21,8 +21,10 @@ df = DataFrame.from_dict({
 
 print(df)
 
-df = df[df[TIMESTAMP] >= '2023-01-14 23:09:25']
-df = df[df[TIMESTAMP] < '2023-01-19 23:08:25']
-df.loc[df['f1'].isin([1, 3]), 'label'] = 'Anomaly'
+df_filter = df['f1'].isin([1, 3])
+df_filter &= df[TIMESTAMP] >= '2023-01-14 23:09:25'
+df_filter &= df[TIMESTAMP] < '2023-01-19 23:08:25'
+df.loc[df_filter, 'label'] = 'Anomaly'
+df.loc[df['label'].isna(), 'label'] = ''
 
 print(df)
