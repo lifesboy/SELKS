@@ -6,7 +6,7 @@ import os
 import signal
 import time
 import traceback
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import reduce
 from pathlib import Path
 
@@ -93,12 +93,12 @@ def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: st
     df_filter = df[feature].isin(values)
     if start_time:
         start = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
-        timestamp_start = datetime.strftime(start, '%Y-%m-%d %H:%M:%S')
+        timestamp_start = start.astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
         df_filter &= df[TIMESTAMP] >= timestamp_start
 
     if end_time:
         end = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
-        timestamp_end = datetime.strftime(end, '%Y-%m-%d %H:%M:%S')
+        timestamp_end = end.astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
         df_filter &= df[TIMESTAMP] < timestamp_end
 
     df.loc[df_filter, LABEL] = label
