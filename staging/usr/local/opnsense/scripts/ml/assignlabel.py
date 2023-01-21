@@ -160,8 +160,8 @@ if __name__ == "__main__":
     data_source = args.data_source
     feature = args.feature
     values = args.values.strip().split(',')
-    start_time = args.start_time
-    end_time = args.end_time
+    start_time = args.start_time.strip() if args.start_time.strip() not in ['', '-'] else None
+    end_time = args.end_time.strip() if args.end_time.strip() not in ['', '-'] else None
     label = args.label
     data_destination = args.data_destination
     batch_size_source = 4
