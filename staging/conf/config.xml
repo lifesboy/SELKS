@@ -981,6 +981,19 @@
           <parameters>cic2018 10000 1 0.4 0 cic2018/*.csv auto-processing-cic2018 start</parameters>
           <description>anomaly label data processor cic updates</description>
         </job>
+        <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
+          <origin>AnomalyLabeling</origin>
+          <enabled>0</enabled>
+          <minutes>0</minutes>
+          <hours>*/3</hours>
+          <days>*</days>
+          <months>*</months>
+          <weekdays>*</weekdays>
+          <who>root</who>
+          <command>anomaly labeling start</command>
+          <parameters>nsm-label src_ip 192.168.66.190,192.168.66.191 2023-01-14T23-08-25 2023-01-15T23-08-25 SSH-BruteForce nsm/*.csv auto-labeling start</parameters>
+          <description>anomaly labeling updates</description>
+        </job>
         <job uuid="2b34c3aa-1bdb-41d1-9b8f-9ab7c623900b">
           <origin>Anomaly</origin>
           <enabled>1</enabled>
@@ -993,19 +1006,6 @@
           <command>anomaly start</command>
           <parameters>10000 10000 10000 10000 cic2018/*.csv auto-train start</parameters>
           <description>anomaly training updates</description>
-        </job>
-        <job uuid="c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb">
-          <origin>AnomalyTesting</origin>
-          <enabled>1</enabled>
-          <minutes>0</minutes>
-          <hours>*/3</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>anomaly testing start</command>
-          <parameters>/anomaly-staging cic2018/*.csv 500 auto-test start</parameters>
-          <description>anomaly testing updates</description>
         </job>
         <job uuid="5dae6f51-476f-4fb6-a8df-401e4f320082">
           <origin>cron</origin>
@@ -1233,13 +1233,17 @@
         <UpdateCron>1866cc3f-86c7-4c69-9e81-ef6764f7b278</UpdateCron>
         <UpdateTrainCron>0972c9fe-fc7d-4c80-ae8a-c799fdf0a87f</UpdateTrainCron>
       </dataProcessor>
-      <testing>
+      <labeling>
         <enabled>1</enabled>
-        <DataSource>cic2018/*.csv</DataSource>
-        <BatchSize>500</BatchSize>
-        <ServingUrl>/anomaly-staging</ServingUrl>
+        <DataDestination>nsm-label</DataDestination>
+        <Feature>src_ip</Feature>
+        <Values>192.168.66.190,192.168.66.191</Values>
+        <StartTime>2023-01-14T23-08-25</StartTime>
+        <EndTime>2023-01-15T23-08-25</EndTime>
+        <Label>SSH-BruteForce</Label>
+        <DataSource>nsm/*.csv</DataSource>
         <UpdateCron>c61b1734-c5fc-4c0a-ab3d-7ef801c1deeb</UpdateCron>
-      </testing>
+      </labeling>
       <inferring>
         <enabled>1</enabled>
         <DataDestination>nsm_anomaly</DataDestination>

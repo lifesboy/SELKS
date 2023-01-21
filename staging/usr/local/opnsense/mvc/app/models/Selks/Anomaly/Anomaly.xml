@@ -317,7 +317,7 @@
                 <ValidationMessage>Enter a valid start time in YYYY-MM-DDTHH-mm-ss</ValidationMessage>
             </StartTime>
             <EndTime type="TextField">
-                <default>2023-01-14T23-08-25</default>
+                <default>2023-01-15T23-08-25</default>
                 <Required>N</Required>
                 <ValidationMessage>Enter a valid end time in YYYY-MM-DDTHH-mm-ss</ValidationMessage>
             </EndTime>
@@ -327,7 +327,7 @@
                 <ValidationMessage>Enter a valid label (A-Z,a-z,0-9,-) to assign. 'Benign' or blank for Nomally.</ValidationMessage>
             </Label>
             <DataSource type="TextField">
-                <default>cic2018/*.csv</default>
+                <default>nsm/*.csv</default>
                 <Required>Y</Required>
             </DataSource>
             <UpdateCron type="ModelRelationField">
