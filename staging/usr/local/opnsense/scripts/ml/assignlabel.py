@@ -2,7 +2,10 @@
 import argparse
 import os
 import signal
+import time
 from datetime import datetime, timedelta
+
+from pandas import DataFrame
 
 import lib.utils as utils
 from lib.logger import log
@@ -159,11 +162,42 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    tag = args.tag
     data_source = args.data_source
     label_source = args.label_source
     data_destination = args.data_destination
+    destination_dir = common.DATA_FEATURED_EXTRACTED_DIR + data_destination + '/'
+
+    input_files = common.get_data_featured_extracted_files_by_pattern(data_source)
 
     log.info('start dataprocessor_assignlabel: %s', data_source)
     kill_exists_processing()
+    run, client = common.init_experiment(name='labeling-data', run_name='%s-%s' % (tag, time.time()))
+
+    client.log_param(run_id=run.info.run_id, key='action', value=args.action)
+    if args.action == 'stop':
+        exit(0)
+
+
+    batch_df: DataFrame = utils.get_processing_file_pattern(
+        input_files=input_files,
+        output=destination_dir,
+        tag='labeling',
+        batch_size=1)
+
+    data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
+
+    client.log_param(run_id=run.info.run_id, key='data_source', value=data_source)
+    client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
+    client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
+
+    client.log_param(run_id=run.info.run_id, key='data_destination', value=data_destination)
+    client.log_param(run_id=run.info.run_id, key='batch_size_source', value=1)
+    client.log_param(run_id=run.info.run_id, key='batches', value=batch_df.index.size)
+
+    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
+    client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
+
+
     res = assign_label_to_extracted_csv(label_source, data_source, data_destination)
     log.info('finish dataprocessor_assignlabel: %s, %s', data_source, res['result'].tolist())
