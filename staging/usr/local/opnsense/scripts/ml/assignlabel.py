@@ -117,7 +117,7 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
         batches_processed += 1
         client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
-        output_dir = df['output_path'][0]
+        output_dir = df['output_path']
         Path(output_dir).mkdir(parents=True, exist_ok=True)
 
         pipes = map(lambda x: create_assign_pipe.remote(x, output_dir, label, feature, values, start_time, end_time), df['input_path'])
