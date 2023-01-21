@@ -91,18 +91,21 @@ def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: st
 
     if start_time:
         start = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
-        timestamp_start = datetime.strftime(start, '%Y-%m-%d %H-%M-%S')
+        timestamp_start = datetime.strftime(start, '%Y-%m-%d %H:%M:%S')
         df = df[df[TIMESTAMP] >= timestamp_start]
 
     if end_time:
         end = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
-        timestamp_end = datetime.strftime(end, '%Y-%m-%d %H-%M-%S')
+        timestamp_end = datetime.strftime(end, '%Y-%m-%d %H:%M:%S')
         df = df[df[TIMESTAMP] < timestamp_end]
 
-    df = df.loc[df[feature] in values, LABEL] = label
+    df.loc[df[feature].isin(values), LABEL] = label
 
-    df.to_csv(f"{output_dir}/{input_file.split('/')[-1]}")
-    return 1
+    if df.index.size > 0:
+        df.to_csv(f"{output_dir}/{input_file.split('/')[-1]}")
+        return 1
+
+    return 0
 
 
 def assign_data(df: Series, label: str, feature: str, values: [str], start_time: str, end_time: str) -> bool:
@@ -118,7 +121,7 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
         Path(output_dir).mkdir(parents=True, exist_ok=True)
 
         pipes = map(lambda x: create_assign_pipe.remote(x, output_dir, label, feature, values, start_time, end_time), df['input_path'])
-        df['pipe_done'] = reduce(lambda s, x: s + x, ray.get(list(pipes)))
+        df['pipe_labeled'] = reduce(lambda s, x: s + x, ray.get(list(pipes)))
 
         utils.marked_done(df['marked_done_path'])
         log.info('labeling done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
