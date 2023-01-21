@@ -8,6 +8,7 @@ from ray.tune.integration.mlflow import mlflow_mixin
 import pyarrow as pa
 import numpy as np
 
+import pandas as pd
 from pandas import DataFrame
 from ray.rllib.utils.framework import try_import_tf
 
@@ -328,12 +329,21 @@ class Cic2018NormModel(mlflow.pyfunc.PythonModel):
         if LABEL not in features:
             df_norm[LABEL] = ''
 
-        data = DataFrame(data={
-            i: list(tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(df_norm[i]))
-                    .map(feature_norm[i])
-                    .as_numpy_iterator())
-            for i in features
-        })
+        #@ray.remote(num_gpus=1)
+        def preprocess_transform(name, ds, f):
+            return (name, list(tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(ds))
+                               .map(f)
+                               .as_numpy_iterator()))
+
+        # pipes = map(lambda x: preprocess_transform.remote(x, df_norm[x], feature_norm[x]), features)
+        # data = DataFrame()
+        # for ps in np.array_split(list(pipes), 2):
+        #     transformed = ray.get(list(ps))
+        #     df_ps = DataFrame(data=dict(transformed))
+        #     data = pd.concat([data, df_ps], axis=1, ignore_index=True)
+
+        pipes = map(lambda x: preprocess_transform(x, df_norm[x], feature_norm[x]), features)
+        data = DataFrame(data=dict(list(pipes)))
 
         return data.fillna(0.).replace([np.inf, -np.inf], 0)
 
