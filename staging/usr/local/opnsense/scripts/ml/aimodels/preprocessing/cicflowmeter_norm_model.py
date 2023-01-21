@@ -316,13 +316,13 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         # if LABEL not in features:
         #     df_norm[LABEL] = ''
 
-        @ray.remote(num_gpus=0.01)
-        def transform(name, ds, f):
+        @ray.remote(num_gpus=0.05)
+        def preprocess_transform(name, ds, f):
             return (name, list(tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(ds))
                                .map(f)
                                .as_numpy_iterator()))
 
-        pipes = map(lambda x: transform.remote(x, df_norm[x], feature_norm[x]), features)
+        pipes = map(lambda x: preprocess_transform.remote(x, df_norm[x], feature_norm[x]), features)
         transformed = ray.get(list(pipes))
         data = DataFrame(data=dict(transformed))
 
