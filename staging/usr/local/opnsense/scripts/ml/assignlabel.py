@@ -114,7 +114,10 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
         batches_processed += 1
         client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
-        pipes = map(lambda x: create_assign_pipe(x, df['output_path'][0], label, feature, values, start_time, end_time), df['input_path'])
+        output_dir = df['output_path'][0]
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+
+        pipes = map(lambda x: create_assign_pipe.remote(x, output_dir, label, feature, values, start_time, end_time), df['input_path'])
         df['pipe_done'] = reduce(lambda s, x: s + x, ray.get(list(pipes)))
 
         utils.marked_done(df['marked_done_path'])
@@ -187,7 +190,6 @@ if __name__ == "__main__":
 
     try:
         log.info('start assign_data: pipe=%s', batch_df.count())
-        Path(destination_dir).mkdir(parents=True, exist_ok=True)
         batch_df.apply(lambda i: assign_data(i, label, feature, values, start_time, end_time), axis=1)
         log.info('finish assign_data.')
 
