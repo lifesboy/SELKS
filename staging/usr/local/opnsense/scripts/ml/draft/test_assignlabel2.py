@@ -27,4 +27,5 @@ df_filter &= df[TIMESTAMP] < '2023-01-19 23:08:25'
 df.loc[df_filter, 'label'] = 'Anomaly'
 df.loc[df['label'].isna(), 'label'] = ''
 
+print(df_filter.sum())
 print(df)
