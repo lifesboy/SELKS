@@ -12,25 +12,54 @@ import numpy as np
 import pandas as pd
 
 from anomaly_normalization import TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, \
-    LABEL, TIMESTAMP_FLOW, OFFSET, LABEL_VALUE_BENIGN
+    LABEL, TIMESTAMP_FLOW, OFFSET, LABEL_VALUE_BENIGN, LABEL_VALUE_ANOMALY
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--data-source",
-    type=str,
-    default="",
-    help="data source file paths")
-parser.add_argument(
-    "--label-source",
-    type=str,
-    default="",
-    help="label file paths")
-parser.add_argument(
     "--data-destination",
     type=str,
-    default="",
+    default="nsm-label",
     help="output labeled data directory path")
-
+parser.add_argument(
+    "--feature",
+    type=str,
+    default="src_ip",
+    help="Matched values of this feature will be labeled")
+parser.add_argument(
+    "--values",
+    type=str,
+    default="192.168.66.190,192.168.66.191",
+    help="Anomaly values to label (separate by comma)")
+parser.add_argument(
+    "--start-time",
+    type=str,
+    default="",
+    help="Label matched data from this time (YYYY-MM-ddTHH-mm-ss). ex: 2023-01-14T23-08-25")
+parser.add_argument(
+    "--end-time",
+    type=str,
+    default="",
+    help="Label matched data before this time (YYYY-MM-ddTHH-mm-ss). ex: 2023-01-14T23-08-25")
+parser.add_argument(
+    "--label",
+    type=str,
+    default=f"{LABEL_VALUE_ANOMALY}",
+    help="Value to assign to label feature")
+parser.add_argument(
+    "--data-source",
+    type=str,
+    default="nsm/*.csv",
+    help="Data to label")
+parser.add_argument(
+    "--action",
+    type=str,
+    default="start",
+    help="run action")
+parser.add_argument(
+    "--tag",
+    type=str,
+    default="labeling-data",
+    help="run tag")
 
 def kill_exists_processing():
     for pid in set(utils.get_process_ids(__file__)) - {os.getpid()}:
