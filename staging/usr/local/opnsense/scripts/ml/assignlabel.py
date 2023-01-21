@@ -104,7 +104,7 @@ def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: st
     df.loc[df[feature].isin(values), LABEL] = label
 
     if df.index.size > 0:
-        df.to_csv(f"{output_dir}/{input_file.split('/')[-1]}")
+        df.to_csv(f"{output_dir}/{input_file.split('/')[-1]}", index=False)
         return df.index.size
 
     return 0
