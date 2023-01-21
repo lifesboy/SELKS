@@ -28,6 +28,7 @@ from anomaly_normalization import TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DS
 
 batches_processed: int = 0
 batches_success: int = 0
+labeling_success: int = 0
 sources_fail: [] = []
 invalid_rows: [] = []
 sources_success: int = 0
@@ -111,7 +112,7 @@ def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: st
 def assign_data(df: Series, label: str, feature: str, values: [str], start_time: str, end_time: str) -> bool:
     log.info('assign_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, batches_processed, batches_success, sources_success, sources_fail
+    global run, client, batches_processed, batches_success, sources_success, sources_fail, labeling_success
 
     try:
         batches_processed += 1
@@ -121,12 +122,15 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
         Path(output_dir).mkdir(parents=True, exist_ok=True)
 
         pipes = map(lambda x: create_assign_pipe.remote(x, output_dir, label, feature, values, start_time, end_time), df['input_path'])
-        df['pipe_labeled'] = reduce(lambda s, x: s + x, ray.get(list(pipes)))
+        labeled = reduce(lambda s, x: s + x, ray.get(list(pipes)))
+        df['pipe_labeled'] = labeled
+        labeling_success += labeled
 
         utils.marked_done(df['marked_done_path'])
         log.info('labeling done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
         batches_success += 1
         sources_success += len(df['input_path'])
+        client.log_metric(run_id=run.info.run_id, key='labeling_success', value=labeling_success)
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
     except Exception as e:
