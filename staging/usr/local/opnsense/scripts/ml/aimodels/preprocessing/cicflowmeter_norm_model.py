@@ -326,7 +326,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         pipes = map(lambda x: preprocess_transform.remote(x, df_norm[x], feature_norm[x]), features)
         data = DataFrame()
         for ps in np.array_split(list(pipes), 2):
-            transformed = ray.get(ps)
+            transformed = ray.get(list(ps))
             df_ps = DataFrame(data=dict(transformed))
             data = pd.concat([data, df_ps], axis=1, ignore_index=True)
 
