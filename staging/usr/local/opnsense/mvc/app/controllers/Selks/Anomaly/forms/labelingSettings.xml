@@ -1,0 +1,50 @@
+<form>
+    <field>
+        <id>anomaly.labeling.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable labeling anomaly model.</help>
+    </field>
+    <field>
+        <id>anomaly.labeling.DataDestination</id>
+        <label>--data-destination</label>
+        <type>text</type>
+        <help><![CDATA[Data destination to save labeled data.]]></help>
+    </field>
+    <field>
+        <id>anomaly.labeling.Feature</id>
+        <label>--feature</label>
+        <type>text</type>
+        <help><![CDATA[Matched values of this feature will be labeled.]]></help>
+    </field>
+    <field>
+        <id>anomaly.labeling.Values</id>
+        <label>--values</label>
+        <type>text</type>
+        <help><![CDATA[Anomaly values to label (separate by comma).]]></help>
+    </field>
+    <field>
+        <id>anomaly.labeling.StartTime</id>
+        <label>--start-time</label>
+        <type>text</type>
+        <help><![CDATA[Label matched data from this time (YYYY-MM-ddTHH-mm-ss). ex: 2023-01-14T23-08-25]]></help>
+    </field>
+    <field>
+        <id>anomaly.labeling.EndTime</id>
+        <label>--end-time</label>
+        <type>integer</type>
+        <help><![CDATA[Label matched data from this time (YYYY-MM-ddTHH-mm-ss). ex: 2023-01-14T23-08-25]]></help>
+    </field>
+    <field>
+        <id>anomaly.labeling.Label</id>
+        <label>--label</label>
+        <type>text</type>
+        <help><![CDATA[Value to assign to label feature]]></help>
+    </field>
+    <field>
+        <id>anomaly.labeling.DataSource</id>
+        <label>--data-source</label>
+        <type>text</type>
+        <help><![CDATA[Data to label.]]></help>
+    </field>
+</form>

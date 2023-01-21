@@ -55,7 +55,7 @@ POSSIBILITY OF SUCH DAMAGE.
         var data_processor_settings_get_map = {'frm_DataProcessorSettings':"/api/anomaly/data-processor-settings/get"};
 
         //
-        var testing_settings_get_map = {'frm_TestingSettings':"/api/anomaly/testing-settings/get"};
+        var labeling_settings_get_map = {'frm_LabelingSettings':"/api/anomaly/labeling-settings/get"};
 
         //
         var inferring_settings_get_map = {'frm_InferringSettings':"/api/anomaly/inferring-settings/get"};
@@ -180,13 +180,13 @@ POSSIBILITY OF SUCH DAMAGE.
         }
 
         // load initial data
-        function loadTestingSettings() {
-            mapDataToFormUI(testing_settings_get_map).done(function(data){
+        function loadLabelingSettings() {
+            mapDataToFormUI(labeling_settings_get_map).done(function(data){
                 // set schedule updates link to cron
-                $.each(data.frm_TestingSettings.anomaly.testing.UpdateCron, function(key, value) {
+                $.each(data.frm_LabelingSettings.anomaly.labeling.UpdateCron, function(key, value) {
                     if (value.selected == 1) {
-                        $("#scheduled_updates_testing a").attr("href","/ui/cron/item/open/"+key);
-                        $("#scheduled_updates_testing").show();
+                        $("#scheduled_updates_labeling a").attr("href","/ui/cron/item/open/"+key);
+                        $("#scheduled_updates_labeling").show();
                     }
                 });
             });
@@ -283,7 +283,7 @@ POSSIBILITY OF SUCH DAMAGE.
          */
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             loadGeneralSettings();
-            loadTestingSettings();
+            loadLabelingSettings();
             loadInferringSettings();
             loadDataProcessorSettings();
 
@@ -635,7 +635,7 @@ POSSIBILITY OF SUCH DAMAGE.
         $("#reconfigureTestingAct").SimpleActionButton({
             onPreAction: function() {
                 const dfObj = new $.Deferred();
-                saveFormToEndpoint("/api/anomaly/testing-settings/set", 'frm_TestingSettings', function(){
+                saveFormToEndpoint("/api/anomaly/labeling-settings/set", 'frm_LabelingSettings', function(){
                     dfObj.resolve();
                 });
                 return dfObj;
@@ -806,29 +806,29 @@ POSSIBILITY OF SUCH DAMAGE.
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
-    <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('1.PreProcessing Training Data') }}</a></li>
-    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('2.Training AI Model') }}</a></li>
-    <li><a data-toggle="tab" href="#testingSettings" id="testingSettings_tab">{{ lang._('3.Testing AI Model') }}</a></li>
+    <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('1.PreProcessing Data') }}</a></li>
+    <li><a data-toggle="tab" href="#labelingSettings" id="labelingSettings_tab">{{ lang._('2.Labeling data') }}</a></li>
+    <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('3.Training AI Model') }}</a></li>
     <li><a data-toggle="tab" href="#inferringSettings" id="inferringSettings_tab">{{ lang._('4.Inferring traffic') }}</a></li>
     <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('5.Extracted rules') }}</a></li>
 </ul>
 <div class="tab-content content-box">
-    <div id="testingSettings" class="tab-pane fade in">
-        {{ partial("layout_partials/base_form",['fields':formTestingSettings,'id':'frm_TestingSettings'])}}
+    <div id="labelingSettings" class="tab-pane fade in">
+        {{ partial("layout_partials/base_form",['fields':formLabelingSettings,'id':'frm_LabelingSettings'])}}
         <div class="col-md-12">
             <hr/>
             <button class="btn btn-primary" id="reconfigureTestingAct"
-                    data-endpoint='/api/anomaly/testing-service/reconfigure'
-                    data-label="{{ lang._('Start testing') }}"
+                    data-endpoint='/api/anomaly/labeling-service/reconfigure'
+                    data-label="{{ lang._('Start labeling') }}"
                     data-error-title="{{ lang._('Error reconfiguring Anomaly') }}"
                     data-service-widget="anomaly"
                     type="button"
             ></button>
-            &nbsp;&nbsp;<span id="scheduled_updates_testing" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule') }}</a></span>
+            &nbsp;&nbsp;<span id="scheduled_updates_labeling" class="btn btn-primary" style="display:none"><a href="" style="color: #fff">{{ lang._('Schedule') }}</a></span>
             <br/>
             <br/>
         </div>
-        {# { partial("layout_partials/dataset_form",['fields':formTestingSettings,'id':'frm_TestingSettings_Dataset','api':'/api/anomaly/testing-settings/'])} #}
+        {# { partial("layout_partials/dataset_form",['fields':formLabelingSettings,'id':'frm_LabelingSettings_Dataset','api':'/api/anomaly/labeling-settings/'])} #}
     </div>
     <div id="inferringSettings" class="tab-pane fade in">
         {{ partial("layout_partials/base_form",['fields':formInferringSettings,'id':'frm_InferringSettings'])}}

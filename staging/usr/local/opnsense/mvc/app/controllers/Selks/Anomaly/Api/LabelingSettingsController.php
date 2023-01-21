@@ -39,7 +39,7 @@ use OPNsense\Base\UIModelGrid;
  * Class DataProcessorSettingsController Handles settings related API actions for the Anomaly module
  * @package Selks\Anomaly
  */
-class TestingSettingsController extends ApiMutableModelControllerBase
+class LabelingSettingsController extends ApiMutableModelControllerBase
 {
     protected static $internalModelName = 'anomaly';
     protected static $internalModelClass = '\Selks\Anomaly\Anomaly';
@@ -51,7 +51,7 @@ class TestingSettingsController extends ApiMutableModelControllerBase
      */
     protected function getModelNodes()
     {
-        $settingsNodes = array('testing');
+        $settingsNodes = array('labeling');
         $result = array();
         $mdlAnomaly = $this->getModel();
         foreach ($settingsNodes as $key) {

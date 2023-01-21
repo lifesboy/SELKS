@@ -40,10 +40,10 @@ use Phalcon\Filter;
  * Class DataProcessorServiceController
  * @package Selks\Anomaly
  */
-class TestingServiceController extends ApiMutableServiceControllerBase
+class LabelingServiceController extends ApiMutableServiceControllerBase
 {
     protected static $internalServiceClass = '\Selks\Anomaly\Anomaly';
-    protected static $internalServiceEnabled = 'testing.enabled';
+    protected static $internalServiceEnabled = 'labeling.enabled';
     protected static $internalServiceTemplate = 'Selks/Anomaly';
     protected static $internalServiceName = 'anomaly';
 
@@ -62,18 +62,22 @@ class TestingServiceController extends ApiMutableServiceControllerBase
             $this->sessionClose();
             $mdlAnomaly = new Anomaly();
             $runStatus = $this->statusAction();
-            $runCommand = sprintf("anomaly testing start %s %s %s web-test %s",
-                $mdlAnomaly->testing->ServingUrl,
-                $mdlAnomaly->testing->DataSource,
-                $mdlAnomaly->testing->BatchSize,
-                $mdlAnomaly->testing->enabled == '1' ? 'start' : 'stop'
+            $runCommand = sprintf("anomaly labeling start %s %s %s %s %s %s %s web-labeling %s",
+                $mdlAnomaly->labeling->DataDestination,
+                $mdlAnomaly->labeling->Feature,
+                $mdlAnomaly->labeling->Values,
+                $mdlAnomaly->labeling->StartTime,
+                $mdlAnomaly->labeling->EndTime,
+                $mdlAnomaly->labeling->Label,
+                $mdlAnomaly->labeling->DataSource,
+                $mdlAnomaly->labeling->enabled == '1' ? 'start' : 'stop'
             );
 
             // we should always have a cron item configured for Anomaly, let's create one upon first reconfigure.
-            if ((string)$mdlAnomaly->testing->UpdateCron == "") {
+            if ((string)$mdlAnomaly->labeling->UpdateCron == "") {
                 $mdlCron = new Cron();
                 // update cron relation (if this doesn't break consistency)
-                $mdlAnomaly->testing->UpdateCron = $mdlCron->newDailyJob("AnomalyTesting", "anomaly testing start", "anomaly testing updates", "*", "0");
+                $mdlAnomaly->labeling->UpdateCron = $mdlCron->newDailyJob("AnomalyLabeling", "anomaly labeling start", "anomaly labeling updates", "*", "0");
 
                 if ($mdlCron->performValidation()->count() == 0) {
                     $mdlCron->serializeToConfig();
@@ -92,18 +96,18 @@ class TestingServiceController extends ApiMutableServiceControllerBase
             $bckresult = trim($backend->configdRun('template reload Selks/Anomaly'));
 
             if ($bckresult == "OK") {
-                #if ((string)$mdlAnomaly->testing->enabled == 1) {
+                #if ((string)$mdlAnomaly->labeling->enabled == 1) {
                     $bckresult = trim($backend->configdRun($runCommand, true));
                     if ($bckresult != null) {
                         $status ="ok";
                     } else {
-                        $status = "error running testing anomaly model (" . $bckresult . ")";
+                        $status = "error running labeling anomaly model (" . $bckresult . ")";
                     }
                 #} else {
                 #    $status = "OK";
                 #}
             } else {
-                $status = "error generating anomaly testing template (" . $bckresult . ")";
+                $status = "error generating anomaly labeling template (" . $bckresult . ")";
             }
         }
         return array("status" => $status);
