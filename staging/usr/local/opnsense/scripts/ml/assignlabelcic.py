@@ -126,7 +126,7 @@ def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
     return combine.index.size
 
 
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/dataprocessor_assignlabel.py --data-source=cic2018-payloads/*/*.csv --label-source=cic2018/*.csv --data-destination=cic2018-payloads-label
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/assignlabel.py --data-source=cic2018-payloads/*/*.csv --label-source=cic2018/*.csv --data-destination=cic2018-payloads-label
 
 if __name__ == "__main__":
     args = parser.parse_args()
