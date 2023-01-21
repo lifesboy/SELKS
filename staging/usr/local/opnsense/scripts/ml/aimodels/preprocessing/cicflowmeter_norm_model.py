@@ -317,12 +317,12 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
         #     df_norm[LABEL] = ''
 
         @ray.remote
-        def transform(ds, f):
-            return list(tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(ds))
-                        .map(f)
-                        .as_numpy_iterator())
+        def transform(name, ds, f):
+            return (name, list(tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(ds))
+                               .map(f)
+                               .as_numpy_iterator()))
 
-        pipes = map(lambda x: (x, transform.remote(df_norm[x], feature_norm[x])), features)
+        pipes = map(lambda x: transform.remote(df_norm[x], feature_norm[x]), features)
         transformed = ray.get(list(pipes))
         data = DataFrame(data=dict(transformed))
 
