@@ -147,7 +147,7 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
         df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
 
         utils.marked_done(df['marked_done_path'])
-        log.info('sniffing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+        log.info('processing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
         batches_success += 1
         sources_success += len(df['input_path'])
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)

@@ -1,13 +1,21 @@
 #!/usr/bin/python3
 import argparse
+import csv
+import glob
 import os
 import signal
 import time
+import traceback
 from datetime import datetime, timedelta
+from functools import reduce
 
-from pandas import DataFrame
+import ray
+from pandas import DataFrame, Series
+from ray.data import DatasetPipeline
+from ray.data.datasource import FastFileMetadataProvider
 
 import lib.utils as utils
+from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 
 import common
@@ -16,6 +24,12 @@ import pandas as pd
 
 from anomaly_normalization import TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, \
     LABEL, TIMESTAMP_FLOW, OFFSET, LABEL_VALUE_BENIGN, LABEL_VALUE_ANOMALY
+
+batches_processed: int = 0
+batches_success: int = 0
+sources_fail: [] = []
+invalid_rows: [] = []
+sources_success: int = 0
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -64,98 +78,62 @@ parser.add_argument(
     default="labeling-data",
     help="run tag")
 
+
 def kill_exists_processing():
     for pid in set(utils.get_process_ids(__file__)) - {os.getpid()}:
         os.kill(pid, signal.SIGTERM)
 
 
-def assign_label_to_extracted_csv(label_source: str, data_source: str, data_destination: str):
-    df_label = combine_label_csv(label_source)
-    df = pd.DataFrame(common.get_data_featured_extracted_files_by_pattern(data_source), columns=['input'])
-    df['output'] = df.apply(lambda x: common.DATA_FEATURED_EXTRACTED_DIR + '/'.join([
-        data_destination,
-        *(x['input'].split(common.DATA_FEATURED_EXTRACTED_DIR)[1].split('/')[1:])
-    ]), axis=1)
-    df['result'] = df.apply(lambda x: label_extracted_csv(df_label, x['input'], x['output']), axis=1)
-    return df
+@ray.remote
+def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: str, values: [str], start_time: str, end_time: str) -> int:
+    df = pd.read_csv(input_file)
+
+    if start_time:
+        start = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
+        timestamp_start = datetime.strftime(start, '%Y-%m-%d %H-%M-%S')
+        df = df[df[TIMESTAMP] >= timestamp_start]
+
+    if end_time:
+        end = datetime.strptime(start_time + ' +0700', '%Y-%m-%dT%H-%M-%S %z')
+        timestamp_end = datetime.strftime(end, '%Y-%m-%d %H-%M-%S')
+        df = df[df[TIMESTAMP] < timestamp_end]
+
+    df = df.loc[df[feature] in values, LABEL] = label
+
+    df.to_csv(f"{output_dir}/{input_file.split('/')[-1]}")
+    return 1
 
 
-def combine_label_csv(pattern: str):
-    merge_features = [SRC_IP, SRC_PORT, DST_IP, DST_PORT, PROTOCOL, LABEL]
-    combine = pd.DataFrame()
-    for f in common.get_data_featured_extracted_files_by_pattern(pattern):
-        df = pd.read_csv(f)
-        missing_features = set(merge_features) - set(df.columns)
-        if len(missing_features) > 0:
-            log.warn(f"combine_label_csv {f}: {missing_features}")
-        df[list(missing_features)] = np.nan  # protocol will not be tcp(6) or udp (17)
-        df = df[merge_features]
-        combine = pd.concat([combine, df], axis=0, ignore_index=True)
+def assign_data(df: Series, label: str, feature: str, values: [str], start_time: str, end_time: str) -> bool:
+    log.info('assign_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    log.info(f"combine_label_csv {pattern}: {combine.shape}")
+    global run, client, batches_processed, batches_success, sources_success, sources_fail
 
-    if TIMESTAMP in combine.columns:
-        # Record the resolution for later matching
-        combine.loc[combine[TIMESTAMP].str.count(":") == 1, OFFSET] = 60
-        combine.loc[combine[TIMESTAMP].str.count(":") == 2, OFFSET] = 1
+    try:
+        batches_processed += 1
+        client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
-        combine[TIMESTAMP] = combine[TIMESTAMP].apply(
-            lambda x: (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M %z"))
-            if x.count(":") == 1
-            else (datetime.strptime(x + " -0300", "%d/%m/%Y %H:%M:%S %z"))
-        )
+        pipes = map(lambda x: create_assign_pipe(x, df['output_path'][0], label, feature, values, start_time, end_time), df['input_path'])
+        df['pipe_done'] = reduce(lambda s, x: s + x, ray.get(list(pipes)))
 
-        # Timestamps are listed 3/7/2017 2:55, without AM/PM indicators, so any time between 1 and 7 AM ADT (4 and 11 AM UTC) are actually PM
-        # Datetime was instantiated with timezone info, so .hour is already in the -0300 timezone
-        combine[TIMESTAMP] = combine[TIMESTAMP].apply(
-            lambda x: int((x + timedelta(hours=12)).timestamp()) if (x.hour >= 1) & (x.hour <= 7) else int(x.timestamp())
-        )
-        combine = combine.sort_values(by=TIMESTAMP)
+        utils.marked_done(df['marked_done_path'])
+        log.info('labeling done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+        batches_success += 1
+        sources_success += len(df['input_path'])
+        client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
+        client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
+    except Exception as e:
+        log.error('assign_data tasks interrupted: %s', e)
+        sources_fail += [{'source': df['input_path'], 'reason': traceback.format_exc()}]
+        client.log_metric(run_id=run.info.run_id, key='sources_fail_num', value=len(sources_fail))
+        client.log_dict(run_id=run.info.run_id,
+                        dictionary=sources_fail,
+                        artifact_file='sources_fail.json')
+    finally:
+        pass
 
-    return combine
-
-
-def label_extracted_csv(df_flow: pd.DataFrame, input_file, output_file) -> int:
-
-    log.info("Reading extracted_csv %s ......" % input_file)
-    df_pcap_csv = pd.read_csv(input_file, index_col=0)
-
-    # Merge based on the shared columns keeping every payload and adding flow data for every matches
-    # Merge duplicates the PCAP row for each matching df_flow row
-    _FLOW = "_flow"
-    combine1 = pd.merge(df_pcap_csv, df_flow, how="left",
-                        on=[SRC_IP, DST_IP, DST_PORT, SRC_PORT, PROTOCOL],
-                        suffixes=("", _FLOW))
-    # Invert the dest/source to capture return traffic
-    combine2 = pd.merge(
-        df_pcap_csv,
-        df_flow,
-        how="left",
-        left_on=[SRC_IP, DST_IP, DST_PORT, SRC_PORT, PROTOCOL],
-        right_on=[DST_IP, SRC_IP, SRC_PORT, DST_PORT, PROTOCOL],
-        suffixes=("", _FLOW),
-    )
-    combine = pd.concat([combine1, combine2])
-    combine.drop_duplicates(inplace=True)
-
-    if f"{TIMESTAMP}{_FLOW}" in combine.columns:
-        # Drop any rows that are do not have matching times, i.e. keep only rows that the payload timestamp is after the flow started and before the flow ends
-        # TIMESTAMP is measured in seconds
-        # TIMESTAMP_FLOW has resolution of either 1 second or 60 seconds, recorded in offset
-        # FLOW_DURATION is measured in microseconds
-        combine = combine[
-            (combine[f"{TIMESTAMP}{_FLOW}"] - combine[OFFSET] <= combine[TIMESTAMP])
-            & (combine[TIMESTAMP] <= combine[f"{TIMESTAMP}{_FLOW}"] + combine[OFFSET] + combine[FLOW_DURATION] / 1e6)
-        ]
-
-    if f"{LABEL}{_FLOW}" in combine.columns:
-        combine[LABEL] = combine[f"{LABEL}{_FLOW}"]
-
-    combine.loc[combine[LABEL] == "", LABEL] = LABEL_VALUE_BENIGN
-
-    columns = df_pcap_csv.columns if LABEL in df_pcap_csv.columns else [*df_pcap_csv.columns, LABEL]
-    combine.to_csv(output_file, columns=columns, index=False)
-    return combine.index.size
+    log.info('assign_data end %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
+    return True
 
 
 # ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/assignlabel.py --data-source=cic2018-payloads/*/*.csv --label-source=cic2018/*.csv --data-destination=cic2018-payloads-label
@@ -164,13 +142,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
     tag = args.tag
     data_source = args.data_source
-    label_source = args.label_source
+    feature = args.feature
+    values = args.values.strip().split(',')
+    start_time = args.start_time
+    end_time = args.end_time
+    label = args.label
     data_destination = args.data_destination
+    batch_size_source = 4
     destination_dir = common.DATA_FEATURED_EXTRACTED_DIR + data_destination + '/'
 
     input_files = common.get_data_featured_extracted_files_by_pattern(data_source)
 
-    log.info('start dataprocessor_assignlabel: %s', data_source)
     kill_exists_processing()
     run, client = common.init_experiment(name='labeling-data', run_name='%s-%s' % (tag, time.time()))
 
@@ -178,12 +160,11 @@ if __name__ == "__main__":
     if args.action == 'stop':
         exit(0)
 
-
     batch_df: DataFrame = utils.get_processing_file_pattern(
         input_files=input_files,
         output=destination_dir,
         tag='labeling',
-        batch_size=1)
+        batch_size=batch_size_source)
 
     data_source_files = [i for j in batch_df['input_path'].values for i in j] if 'input_path' in batch_df else []
 
@@ -191,13 +172,30 @@ if __name__ == "__main__":
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
 
+    client.log_param(run_id=run.info.run_id, key='feature', value=feature)
+    client.log_param(run_id=run.info.run_id, key='values', value=values)
+    client.log_param(run_id=run.info.run_id, key='start_time', value=start_time)
+    client.log_param(run_id=run.info.run_id, key='end_time', value=end_time)
+    client.log_param(run_id=run.info.run_id, key='label', value=label)
     client.log_param(run_id=run.info.run_id, key='data_destination', value=data_destination)
-    client.log_param(run_id=run.info.run_id, key='batch_size_source', value=1)
+    client.log_param(run_id=run.info.run_id, key='batch_size_source', value=batch_size_source)
     client.log_param(run_id=run.info.run_id, key='batches', value=batch_df.index.size)
 
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_TAG, value=tag)
     client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='saving')
 
+    try:
+        log.info('start assign_data: pipe=%s', batch_df.count())
+        batch_df.apply(lambda i: assign_data(i, label, feature, values, start_time, end_time), axis=1)
+        log.info('finish assign_data.')
 
-    res = assign_label_to_extracted_csv(label_source, data_source, data_destination)
-    log.info('finish dataprocessor_assignlabel: %s, %s', data_source, res['result'].tolist())
+        data_destination_files = glob.glob(destination_dir + '*')
+        client.log_text(run_id=run.info.run_id, text=f'{data_destination_files}',
+                        artifact_file='data_destination_files.json')
+
+        client.set_tag(run_id=run.info.run_id, key=common.TAG_RUN_STATUS, value='done')
+        client.set_terminated(run_id=run.info.run_id)
+    except Exception as e:
+        log.error('assignlabel run error: %s', e)
+        client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='run_error.txt')
+        client.set_terminated(run_id=run.info.run_id, status='FAILED')
