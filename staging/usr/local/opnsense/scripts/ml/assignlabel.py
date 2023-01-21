@@ -8,6 +8,7 @@ import time
 import traceback
 from datetime import datetime, timedelta
 from functools import reduce
+from pathlib import Path
 
 import ray
 from pandas import DataFrame, Series
@@ -136,7 +137,7 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
     return True
 
 
-# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/assignlabel.py --data-source=cic2018-payloads/*/*.csv --label-source=cic2018/*.csv --data-destination=cic2018-payloads-label
+# ex: /usr/bin/python3 /usr/local/opnsense/scripts/ml/assignlabel.py --data-destination=nsm-label --feature=src_ip --values=192.168.66.190,192.168.66.191 --start-time=2023-01-14T23-08-25 --end-time=2023-01-15T23-08-25 --label=SSH-BruteForce --data-source=nsm/*.csv --tag=manual-labeling
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -186,6 +187,7 @@ if __name__ == "__main__":
 
     try:
         log.info('start assign_data: pipe=%s', batch_df.count())
+        Path(destination_dir).mkdir(parents=True, exist_ok=True)
         batch_df.apply(lambda i: assign_data(i, label, feature, values, start_time, end_time), axis=1)
         log.info('finish assign_data.')
 
