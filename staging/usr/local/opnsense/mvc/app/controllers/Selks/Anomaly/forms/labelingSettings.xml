@@ -32,7 +32,7 @@
     <field>
         <id>anomaly.labeling.EndTime</id>
         <label>--end-time</label>
-        <type>integer</type>
+        <type>text</type>
         <help><![CDATA[Label matched data from this time (YYYY-MM-ddTHH-mm-ss). ex: 2023-01-14T23-08-25]]></help>
     </field>
     <field>
