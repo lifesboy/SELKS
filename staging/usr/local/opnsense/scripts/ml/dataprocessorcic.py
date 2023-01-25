@@ -20,7 +20,7 @@ import common
 from aimodels.preprocessing.cic2018_norm_model import Cic2018NormModel
 import mlflow
 
-from anomaly_normalization import DST_PORT_CIC
+from lib.singlefileblockwritepathprovider import SingleFileBlockWritePathProvider
 
 batches_processed: int = 0
 batches_success: int = 0
@@ -146,7 +146,7 @@ def process_data(df: Series, batch_size: int, num_gpus: float, num_cpus: float) 
         client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
         df['pipe'] = create_processor_pipe(df['input_path'], batch_size, num_gpus, num_cpus)
-        df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
+        df['pipe'].write_csv(path=df['output_path'], try_create_dir=True, block_path_provider=SingleFileBlockWritePathProvider(df['output_name']))
 
         utils.marked_done(df['marked_done_path'])
         log.info('sniffing done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
