@@ -1,3 +1,4 @@
+import glob
 import math
 import os
 import subprocess
@@ -9,8 +10,9 @@ from mlflow.entities import Metric
 
 import hashlib
 
-import common
 
+def get_data_files_by_pattern(pattern: str) -> [str]:
+    return glob.glob(pattern)
 
 def marked_done(files: []) -> bool:
     t = str(datetime.now())
@@ -20,7 +22,7 @@ def marked_done(files: []) -> bool:
     return True
 
 
-def get_output_file_of_batch(names: [], tag: str = '_', ext: str = '') -> str:
+def get_output_file_of_batch(names: [str], tag: str = '_', ext: str = '') -> str:
     return '%s.%s_%s%s' % (names[0], tag, datetime.now().strftime("%Y-%m-%dT%H%M%S"), ext)
 
 
@@ -153,7 +155,7 @@ def write_failsafe_metrics(file_path: str, metrics: [Metric]):
 
 def combine_csv(pattern: str):
     combine = pd.DataFrame()
-    for f in common.get_data_files_by_pattern(pattern):
+    for f in get_data_files_by_pattern(pattern):
         df = pd.read_csv(f)
         combine = pd.concat([combine, df], axis=0, ignore_index=True)
 
