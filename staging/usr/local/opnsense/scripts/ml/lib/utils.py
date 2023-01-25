@@ -153,7 +153,7 @@ def write_failsafe_metrics(file_path: str, metrics: [Metric]):
 
 def combine_csv(pattern: str):
     combine = pd.DataFrame()
-    for f in common.get_data_featured_extracted_files_by_pattern(pattern):
+    for f in common.get_data_files_by_pattern(pattern):
         df = pd.read_csv(f)
         combine = pd.concat([combine, df], axis=0, ignore_index=True)
 
