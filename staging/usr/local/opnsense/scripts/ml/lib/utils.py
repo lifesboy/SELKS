@@ -9,6 +9,8 @@ from mlflow.entities import Metric
 
 import hashlib
 
+import common
+
 
 def marked_done(files: []) -> bool:
     t = str(datetime.now())
@@ -147,3 +149,12 @@ def write_failsafe_metrics(file_path: str, metrics: [Metric]):
         'step': x.step,
     }, metrics))
     df.to_csv(file_path)
+
+
+def combine_csv(pattern: str):
+    combine = pd.DataFrame()
+    for f in common.get_data_featured_extracted_files_by_pattern(pattern):
+        df = pd.read_csv(f)
+        combine = pd.concat([combine, df], axis=0, ignore_index=True)
+
+    return combine
