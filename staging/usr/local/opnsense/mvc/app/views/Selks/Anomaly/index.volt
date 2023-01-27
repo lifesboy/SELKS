@@ -806,8 +806,8 @@ POSSIBILITY OF SUCH DAMAGE.
 </script>
 
 <ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
-    <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('1.PreProcessing Data') }}</a></li>
-    <li><a data-toggle="tab" href="#labelingSettings" id="labelingSettings_tab">{{ lang._('2.Labeling data') }}</a></li>
+    <li><a data-toggle="tab" href="#labelingSettings" id="labelingSettings_tab">{{ lang._('1.Labeling data') }}</a></li>
+    <li><a data-toggle="tab" href="#dataProcessorSettings" id="dataProcessorSettings_tab">{{ lang._('2.Normalize data') }}</a></li>
     <li><a data-toggle="tab" href="#settings" id="settings_tab">{{ lang._('3.Training AI Model') }}</a></li>
     <li><a data-toggle="tab" href="#inferringSettings" id="inferringSettings_tab">{{ lang._('4.Inferring traffic') }}</a></li>
     <li><a data-toggle="tab" href="#training_histories" id="training_histories_tab">{{ lang._('5.Extracted rules') }}</a></li>
