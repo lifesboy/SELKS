@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 from dotenv import load_dotenv
+from keras import Model
+from mlflow.models import ModelSignature
+from mlflow.types import Schema, ColSpec, DataType
+
+from anomaly_normalization import LABEL
+
 load_dotenv('/etc/default/ray')
 
 import glob
@@ -42,7 +48,9 @@ MODEL_STAGING_PORT = 6689
 MODEL_SERVE_ADDRESS = '0.0.0.0'
 MODEL_SERVE_PORT = 6789
 
-MODEL_SERVE_DETECTION_URL = 'http://ngfw.h05:6789/anomaly'
+MODEL_ARTIFACT_PATH = 'anomaly'
+MODEL_NAME = 'AnomalyModel'
+MODEL_SERVE_DETECTION_URL = f"http://ngfw.h05:6789/{MODEL_ARTIFACT_PATH}"
 
 DATA_DIR = '/cic/2018/'
 TRAIN_DATA_DIR = DATA_DIR + 'Processed Traffic Data for ML Algorithms/'
@@ -175,3 +183,14 @@ def get_data_normalized_labeled_files_by_pattern(pattern: str) -> [str]:
 
 def get_data_files_by_pattern(pattern: str) -> [str]:
     return glob.glob(pattern)
+
+
+def save_anomaly_model_to_mlflow(model: Model, features: [str]):
+    input_schema = Schema([ColSpec(type=DataType.double, name=i) for i in features])
+    output_schema = Schema([ColSpec(type=DataType.double, name=LABEL)])
+    signature = ModelSignature(inputs=input_schema, outputs=output_schema)
+
+    return mlflow.keras.log_model(keras_model=model,
+                                  signature=signature,
+                                  artifact_path=MODEL_ARTIFACT_PATH,
+                                  registered_model_name=MODEL_NAME)

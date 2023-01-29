@@ -31,8 +31,8 @@ class AnomalyModel(RecurrentNetwork):
 
     @staticmethod
     def get_model_meta() -> ModelMeta:
-        return ModelMeta(artifact_path='anomaly',
-                         registered_model_name='AnomalyModel',
+        return ModelMeta(artifact_path=common.MODEL_ARTIFACT_PATH,
+                         registered_model_name=common.MODEL_NAME,
                          python_model=None,  # AnomalyModel(),
                          conda_env={
                              'channels': ['defaults', 'conda-forge'],
@@ -140,12 +140,4 @@ class AnomalyModel(RecurrentNetwork):
         self.rnn_model.save(h5_path)
 
     def save_mlflow(self):
-        model_meta = AnomalyModel.get_model_meta()
-        input_schema = Schema([ColSpec(type=DataType.double, name=i) for i in self.features])
-        output_schema = Schema([ColSpec(type=DataType.double, name=LABEL)])
-        signature = ModelSignature(inputs=input_schema, outputs=output_schema)
-
-        mlflow.keras.log_model(keras_model=self.rnn_model,
-                               signature=signature,
-                               artifact_path=model_meta.artifact_path,
-                               registered_model_name=model_meta.registered_model_name)
+        common.save_anomaly_model_to_mlflow(self.rnn_model, self.features)
