@@ -88,7 +88,8 @@ class AnomalyModel(RecurrentNetwork):
             self.cell_size, return_sequences=True, return_state=True, name="lstm")(
             inputs=dense1,
             mask=tf.sequence_mask(seq_in),
-            initial_state=[state_in_h, state_in_c])
+            initial_state=[state_in_h, state_in_c]
+        )
 
         # Postprocess LSTM output with another hidden layer and compute values
         logits = tf.keras.layers.Dense(

@@ -179,6 +179,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         # "sgd_minibatch_size": 100,
         "vf_loss_coeff": 1e-5,
         "vf_clip_param": 1000.0,
+        # "lr": tune.choice([0.001, 0.005, 0.01, 0.05, 0.1]),
+        # "momentum": tune.uniform(0.1, 0.9),
         "model": {
             "custom_model": model,
             "max_seq_len": 20,  # need increase sgd_minibatch_size
