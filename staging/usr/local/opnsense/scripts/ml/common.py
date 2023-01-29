@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+import json
+
+import keras
 from dotenv import load_dotenv
 from keras import Model
 from mlflow.models import ModelSignature
@@ -34,8 +37,8 @@ PYTHON_VERSION = "{major}.{minor}.{micro}".format(major=version_info.major,
 PATH_ML = '/usr/local/opnsense/scripts/ml'
 
 CURRENT_RAY_HEAD_NODE_ADDRESS = utils.get_current_ray_head_address()
-RAY_HEAD_NODE_ADDRESS = os.getenv('RAY_REDIS_ADDRESS', '127.0.0.1:6379')\
-    if not CURRENT_RAY_HEAD_NODE_ADDRESS\
+RAY_HEAD_NODE_ADDRESS = os.getenv('RAY_REDIS_ADDRESS', '127.0.0.1:6379') \
+    if not CURRENT_RAY_HEAD_NODE_ADDRESS \
     else CURRENT_RAY_HEAD_NODE_ADDRESS
 
 MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
@@ -194,3 +197,9 @@ def save_anomaly_model_to_mlflow(model: Model, features: [str]):
                                   signature=signature,
                                   artifact_path=MODEL_ARTIFACT_PATH,
                                   registered_model_name=MODEL_NAME)
+
+
+def saving_checkpoint_to_mlflow(checkpoint_path: str):
+    model = keras.models.load_model(checkpoint_path)
+    features = json.load(open(f"{checkpoint_path}/features.json", "r"))
+    return save_anomaly_model_to_mlflow(model, features)

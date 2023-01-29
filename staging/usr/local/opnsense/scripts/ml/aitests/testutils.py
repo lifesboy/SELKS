@@ -9,6 +9,7 @@ from pyarrow import csv
 from ray.data import Dataset
 from tensorflow.keras.models import Model
 
+import common
 from anomaly_normalization import LABEL, ALL_FEATURES
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
 
