@@ -240,7 +240,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     }
 
     # Shuffle batches to resume training at new partitions
-    dataset.repartition(num_blocks=1 + dataset_size // (args.batch_size + 1), shuffle=True)
+    dataset = dataset.repartition(num_blocks=1 + dataset_size // (args.batch_size + 1), shuffle=True)
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
