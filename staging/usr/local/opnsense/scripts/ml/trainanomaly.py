@@ -238,6 +238,9 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         'dataset_label_count': count_df.to_json(),
     }
 
+    # Shuffle batches to resume training at new partitions
+    dataset.repartition(num_blocks=1 + count_df.sum()['count()'] // (args.batch_size + 1), shuffle=True)
+
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
     register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
