@@ -226,6 +226,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
 
     dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas(limit=1000000000)
+    dataset_size = count_df.sum()['count()']
     features = sorted(list(set(features_request).intersection(dataset.schema(fetch_if_missing=True).names)))
     config['model']['custom_model_config']['features'] = features
     context_data: dict = {
@@ -234,12 +235,12 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         'max_episode_steps': args.stop_episode_len,
         'num_samples': 10,
         'anomaly_total': count_df.loc[count_df[LABEL] != '0'].sum()['count()'],
-        'dataset_size': count_df.sum()['count()'],
+        'dataset_size': dataset_size,
         'dataset_label_count': count_df.to_json(),
     }
 
     # Shuffle batches to resume training at new partitions
-    dataset.repartition(num_blocks=1 + count_df.sum()['count()'] // (args.batch_size + 1), shuffle=True)
+    dataset.repartition(num_blocks=1 + dataset_size // (args.batch_size + 1), shuffle=True)
 
     register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
     register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
