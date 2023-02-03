@@ -150,8 +150,9 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers
-    base_version = args.base_version
     reward_function = args.reward_function
+    training_dir = f"/drl/ray_results/{course}/{unit}"
+    base_version = args.base_version if not os.path.exists(training_dir) else None
     features_request = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
     data_sources = args.data_source.strip().split(',')
     input_files = sum([common.get_data_normalized_labeled_files_by_pattern(i) for i in data_sources], [])
@@ -279,6 +280,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     client.log_param(run_id=run.info.run_id, key='dataset_size', value=context_data['dataset_size'])
     client.log_param(run_id=run.info.run_id, key='dataset_label_count', value=context_data['dataset_label_count'])
     client.log_param(run_id=run.info.run_id, key='stop', value=stop)
+    client.log_param(run_id=run.info.run_id, key='base_version', value=base_version)
+    client.log_param(run_id=run.info.run_id, key='reward_function', value=reward_function)
     client.log_text(run_id=run.info.run_id, text=dataset.stats(), artifact_file='dataset_stats.txt')
 
     def resume_tune(resume: str = 'AUTO'):
@@ -286,7 +289,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         # It should be switch to another unit, and assume agent is fail at error unit
         return tune.run(args.run, config=config, stop=stop, verbose=Verbosity.V3_TRIAL_DETAILS,
                         name=lab,
-                        local_dir=f"/drl/ray_results/{course}/{unit}",
+                        local_dir=training_dir,
                         trial_name_creator=lambda _: lesson,
                         trial_dirname_creator=lambda _: lesson,
                         # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
