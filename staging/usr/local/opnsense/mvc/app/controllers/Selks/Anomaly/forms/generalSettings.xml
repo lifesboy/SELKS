@@ -35,4 +35,10 @@
         <type>text</type>
         <help><![CDATA[Data source to preprocess.]]></help>
     </field>
+    <field>
+        <id>anomaly.general.BaseVersion</id>
+        <label>--base-version</label>
+        <type>text</type>
+        <help><![CDATA[Base version to transfer learning.]]></help>
+    </field>
 </form>

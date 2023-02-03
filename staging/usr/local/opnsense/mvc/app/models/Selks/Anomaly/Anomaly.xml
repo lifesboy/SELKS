@@ -177,6 +177,10 @@
                 <default>cic2018/*.csv</default>
                 <Required>Y</Required>
             </DataSource>
+            <BaseVersion type="TextField">
+                <default>0</default>
+                <Required>N</Required>
+            </BaseVersion>
             <StopIters type="IntegerField">
                 <default>1000</default>
                 <Required>N</Required>
