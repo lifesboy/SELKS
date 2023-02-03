@@ -70,6 +70,7 @@ class AnomalyModel(RecurrentNetwork):
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
         self.parent_run_id: str = kwargs.get('parent_run_id', '')
+        self.base_version: str = kwargs.get('base_version', '')
         self.hidden_size: int = kwargs.get('hidden_size', 256)
         self.cell_size: int = kwargs.get('cell_size', 64)
         self.features: [str] = kwargs.get('features', [])
@@ -103,6 +104,11 @@ class AnomalyModel(RecurrentNetwork):
         self.rnn_model: Model = Model(
             inputs=[input_layer, seq_in, state_in_h, state_in_c],
             outputs=[logits, values, state_h, state_c])
+
+        if self.base_version:
+            base_model: Model = mlflow.keras.load_model(f'models:/{common.MODEL_NAME}/{self.base_version}')
+            self.rnn_model = base_model if base_model else self.rnn_model
+
         self.rnn_model.summary()
 
     @override(RecurrentNetwork)

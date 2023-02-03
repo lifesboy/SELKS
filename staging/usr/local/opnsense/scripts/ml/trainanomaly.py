@@ -59,6 +59,16 @@ parser.add_argument(
     default="cic2018/*.csv",
     help="data source file path filter pattern")
 parser.add_argument(
+    "--base-version",
+    type=str,
+    default='',
+    help="base version to start training from")
+parser.add_argument(
+    "--reward-function",
+    type=str,
+    default="",
+    help="reward function to train")
+parser.add_argument(
     "--features",
     type=str,
     default=",".join(ALL_FLOW_FEATURES),
@@ -140,6 +150,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     num_gpus = args.num_gpus
     num_cpus = args.num_cpus
     num_workers = args.num_workers
+    base_version = args.base_version
+    reward_function = args.reward_function
     features_request = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
     data_sources = args.data_source.strip().split(',')
     input_files = sum([common.get_data_normalized_labeled_files_by_pattern(i) for i in data_sources], [])
@@ -231,6 +243,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     config['model']['custom_model_config']['features'] = features
     context_data: dict = {
         'parent_run_id': run.info.run_id,
+        'base_version': base_version,
+        'reward_function': reward_function,
         'features': features,
         'max_episode_steps': args.stop_episode_len,
         'num_samples': 10,
