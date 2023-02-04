@@ -33,7 +33,7 @@
         <id>anomaly.general.DataSource</id>
         <label>--data-source</label>
         <type>text</type>
-        <help><![CDATA[Data source to preprocess.]]></help>
+        <help><![CDATA[Data sources to train, separate by comma (",").]]></help>
     </field>
     <field>
         <id>anomaly.general.BaseVersion</id>
