@@ -106,7 +106,7 @@ def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: st
     df.loc[df[LABEL].isna(), LABEL] = ''
     df.to_csv(f"{output_dir}/{input_file.split('/')[-1]}", index=False)
 
-    return df_filter.sum(), df.sum()
+    return df_filter.sum(), df.index.size
 
 
 def assign_data(df: Series, label: str, feature: str, values: [str], start_time: str, end_time: str) -> bool:
