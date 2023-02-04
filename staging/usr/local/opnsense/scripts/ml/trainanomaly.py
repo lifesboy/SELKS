@@ -24,6 +24,7 @@ from ray.tune.utils.log import Verbosity
 import common
 import lib.utils as utils
 from aienvs.anomaly.anomaly_balance_env import AnomalyBalanceEnv
+from aienvs.anomaly.anomaly_anomaly_ensure_env import AnomalyAnomalyEnsureEnv
 from aienvs.anomaly.anomaly_clean_ensure_env import AnomalyCleanEnsureEnv
 from aienvs.anomaly.anomaly_clean_ensure_payload_env import AnomalyCleanEnsurePayloadEnv
 from aienvs.anomaly.anomaly_protected_reward_env import AnomalyProtectedRewardEnv
@@ -53,7 +54,7 @@ parser.add_argument(
     type=str,
     default="AnomalyPPOTrainer",
     help="The RLlib-registered algorithm to use.")
-parser.add_argument("--env", type=str, default="AnomalyBalanceEnv")
+parser.add_argument("--env", type=str, default="AnomalyAnomalyEnsureEnv")
 parser.add_argument(
     "--data-source",
     type=str,
@@ -265,17 +266,18 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     # Shuffle batches to resume training at new partitions
     dataset = dataset.repartition(num_blocks=1 + dataset_size // (args.batch_size + 1), shuffle=True)
 
-    register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
-    register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
-    register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
-    register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, context_data, c))
-    register_env("AnomalyProtectedRewardEnv", lambda c: AnomalyProtectedRewardEnv(dataset, context_data, c))
-    register_env("AnomalyThreatRewardEnv", lambda c: AnomalyThreatRewardEnv(dataset, context_data, c))
-    register_env("AnomalyBalanceEnv", lambda c: AnomalyBalanceEnv(dataset, context_data, c))
-    register_env("AnomalyCleanEnsureEnv", lambda c: AnomalyCleanEnsureEnv(dataset, context_data, c))
-    register_env("AnomalyCleanEnsurePayloadEnv", lambda c: AnomalyCleanEnsurePayloadEnv(dataset, context_data, c))
+    # register_env("AnomalyEnv", lambda c: AnomalyEnv(dataset, context_data, c))
+    # register_env("AnomalyInitialObsEnv", lambda c: AnomalyInitialObsEnv(c))
+    # register_env("AnomalyRandomEnv", lambda c: AnomalyRandomEnv(c))
+    # register_env("AnomalyMinibatchEnv", lambda c: AnomalyMinibatchEnv(dataset, context_data, c))
+    # register_env("AnomalyProtectedRewardEnv", lambda c: AnomalyProtectedRewardEnv(dataset, context_data, c))
+    # register_env("AnomalyThreatRewardEnv", lambda c: AnomalyThreatRewardEnv(dataset, context_data, c))
+    # register_env("AnomalyBalanceEnv", lambda c: AnomalyBalanceEnv(dataset, context_data, c))
+    register_env("AnomalyAnomalyEnsureEnv", lambda c: AnomalyAnomalyEnsureEnv(dataset, context_data, c))
+    # register_env("AnomalyCleanEnsureEnv", lambda c: AnomalyCleanEnsureEnv(dataset, context_data, c))
+    # register_env("AnomalyCleanEnsurePayloadEnv", lambda c: AnomalyCleanEnsurePayloadEnv(dataset, context_data, c))
 
-    ModelCatalog.register_custom_model("rnn", RNNModel)
+    # ModelCatalog.register_custom_model("rnn", RNNModel)
     ModelCatalog.register_custom_model("anomaly", AnomalyModel)
 
     tune.register_trainable("AnomalyPPOTrainer", AnomalyPPOTrainer)
