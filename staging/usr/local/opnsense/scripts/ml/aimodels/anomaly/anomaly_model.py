@@ -66,10 +66,12 @@ class AnomalyModel(RecurrentNetwork):
         #
         # mlflow.tensorflow.autolog()
         # # mlflow.keras.autolog()
-        self._run, self._client = common.init_experiment(name='anomaly-model', run_name='model-tuning-%s' % time.time())
+        self.parent_run_id: str = kwargs.get('parent_run_id', '')
+        self.lesson: str = kwargs.get('lesson', '%s-model-tuning' % time.time())
+
+        self._run, self._client = common.init_experiment(name='anomaly-model', run_name=self.lesson)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
-        self.parent_run_id: str = kwargs.get('parent_run_id', '')
         self.base_version: str = kwargs.get('base_version', '')
         self.base_version_dir: str = kwargs.get('base_version_dir', '')
         self.hidden_size: int = kwargs.get('hidden_size', 256)

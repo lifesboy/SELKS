@@ -244,11 +244,13 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas(limit=1000000000)
     dataset_size = count_df.sum()['count()'].item()
     features = sorted(list(set(features_request).intersection(dataset.schema(fetch_if_missing=True).names)))
+    config['model']['custom_model_config']['lesson'] = lesson
     config['model']['custom_model_config']['features'] = features
     config['model']['custom_model_config']['base_version'] = base_version
     config['model']['custom_model_config']['base_version_dir'] = base_version_dir
     context_data: dict = {
         'parent_run_id': run.info.run_id,
+        'lesson': lesson,
         'base_version': base_version,
         'base_version_dir': base_version_dir,
         'reward_function': reward_function,

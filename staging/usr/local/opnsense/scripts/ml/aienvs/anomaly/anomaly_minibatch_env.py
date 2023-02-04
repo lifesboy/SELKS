@@ -24,6 +24,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
         self.blocks_per_window: int = 1
         self.parent_run_id: str = context_data.get("parent_run_id", '')
+        self.lesson: str = context_data.get("lesson", common.get_second())
         self.batch_size: int = config.get("batch_size", 1000)
         self.episode_len: int = config.get("episode_len", 100)
         self.current_batch: DataFrame = None
@@ -37,7 +38,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.clean_incorrect: int = 0
 
         self.metrics: [Metric] = []
-        self._run, self._client = common.init_experiment(name='anomaly-env', run_name=f"{common.get_second()}",
+        self._run, self._client = common.init_experiment(name='anomaly-env', run_name=self.lesson,
                                                          skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='env-tuning')
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=self.parent_run_id)
