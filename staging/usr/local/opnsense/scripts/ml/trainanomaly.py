@@ -341,7 +341,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     training_course = f"{common.get_course()}-train"
     training_unit = f"{common.get_course_unit()}"
-    training_lesson = '%s-%s' % (args.tag, common.get_second())  # learning 1 sample per week
+    training_lesson = '%s-%s' % (common.get_second(), args.tag)  # learning 1 sample per week
     training_lab = args.env
 
     kill_exists_processing()
