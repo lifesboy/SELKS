@@ -77,6 +77,7 @@ class AnomalyModel(RecurrentNetwork):
         self.features: [str] = kwargs.get('features', [])
 
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=self.parent_run_id)
+        self._client.log_param(run_id=self._run.info.run_id, key='base_version', value=self.base_version)
 
         # Define input layers
         input_layer = tf.keras.layers.Input(shape=(None, obs_space.shape[0]), name="inputs")
@@ -110,6 +111,7 @@ class AnomalyModel(RecurrentNetwork):
             base_model: Model = mlflow.keras.load_model(f'models:/{common.MODEL_NAME}/{self.base_version}')
             self.rnn_model = base_model if base_model else self.rnn_model
 
+        self._client.log_param(run_id=self._run.info.run_id, key='load_model', value=base_model.name if base_model else '')
         self.rnn_model.summary()
 
     @override(RecurrentNetwork)
