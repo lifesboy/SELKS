@@ -245,6 +245,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     dataset_size = count_df.sum()['count()'].item()
     features = sorted(list(set(features_request).intersection(dataset.schema(fetch_if_missing=True).names)))
     config['model']['custom_model_config']['features'] = features
+    config['model']['custom_model_config']['base_version'] = base_version
+    config['model']['custom_model_config']['base_version_dir'] = base_version_dir
     context_data: dict = {
         'parent_run_id': run.info.run_id,
         'base_version': base_version,
