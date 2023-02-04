@@ -114,7 +114,8 @@ class AnomalyMinibatchEnv(gym.Env):
             self.current_obs = None
             return None
 
-        i = self.current_batch.sample(1)
+        # i = self.current_batch.sample(1)
+        i = self.current_batch.take(1)
         self.current_batch = self.current_batch.drop(i.index)
 
         padding_features = set(self.features) - set(i.columns)
