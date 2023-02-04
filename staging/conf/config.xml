@@ -1004,7 +1004,7 @@
           <weekdays>*</weekdays>
           <who>root</who>
           <command>anomaly start</command>
-          <parameters>10000 10000 10000 10000 cic2018/*.csv auto-train start</parameters>
+          <parameters>10000 10000 10000 10000 cic2018/*.csv 0 auto-train start</parameters>
           <description>anomaly training updates</description>
         </job>
         <job uuid="5dae6f51-476f-4fb6-a8df-401e4f320082">
@@ -1216,6 +1216,7 @@
       <general>
         <enabled>1</enabled>
         <DataSource>cic2018/*.csv</DataSource>
+        <BaseVersion>0</BaseVersion>
         <StopIters>1000000</StopIters>
         <StopEpisodeLen>1000000</StopEpisodeLen>
         <StopTimesteps>1000000</StopTimesteps>
