@@ -154,7 +154,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     reward_function = args.reward_function
     training_dir = f"/drl/ray_results/{course}/{unit}"
     base_version = args.base_version
-    base_version_dir = f"{training_dir}/base_version/{base_version}"
+    base_version_dir = f"{training_dir}/{lab}/base_version/{base_version}"
 
     features_request = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
     data_sources = args.data_source.strip().split(',')
