@@ -71,6 +71,7 @@ class AnomalyModel(RecurrentNetwork):
 
         self.parent_run_id: str = kwargs.get('parent_run_id', '')
         self.base_version: str = kwargs.get('base_version', '')
+        self.base_version_dir: str = kwargs.get('base_version_dir', '')
         self.hidden_size: int = kwargs.get('hidden_size', 256)
         self.cell_size: int = kwargs.get('cell_size', 64)
         self.features: [str] = kwargs.get('features', [])
@@ -105,7 +106,7 @@ class AnomalyModel(RecurrentNetwork):
             inputs=[input_layer, seq_in, state_in_h, state_in_c],
             outputs=[logits, values, state_h, state_c])
 
-        if self.base_version:
+        if self.base_version and self.base_version not in ['', '0']:
             base_model: Model = mlflow.keras.load_model(f'models:/{common.MODEL_NAME}/{self.base_version}')
             self.rnn_model = base_model if base_model else self.rnn_model
 
@@ -148,3 +149,6 @@ class AnomalyModel(RecurrentNetwork):
 
     def save_mlflow(self):
         common.save_anomaly_model_to_mlflow(self.rnn_model, self.features)
+
+    def mark_resumed_base_version(self):
+        Path(self.base_version_dir).mkdir(parents=True, exist_ok=True)

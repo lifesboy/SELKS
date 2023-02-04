@@ -12,5 +12,6 @@ class AnomalyPPOTrainer(PPOTrainer):
             with self.get_policy().get_session().as_default():
                 self.get_policy().model.save_h5(checkpoint_dir)
                 self.get_policy().model.save_mlflow()
+                self.get_policy().model.mark_resumed_base_version()
 
         return path

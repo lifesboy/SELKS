@@ -248,6 +248,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     context_data: dict = {
         'parent_run_id': run.info.run_id,
         'base_version': base_version,
+        'base_version_dir': base_version_dir,
         'reward_function': reward_function,
         'features': features,
         'max_episode_steps': args.stop_episode_len,
@@ -315,11 +316,11 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
 
         try:
             resume = 'AUTO' if os.path.exists(base_version_dir) else False
-            Path(base_version_dir).mkdir(parents=True, exist_ok=True)
             results = resume_tune(resume=resume)
         except Exception as e1:
             log.error('tune run error1: %s', e1)
             # https://github.com/ray-project/ray/issues/12389
+            os.system(f'rm -rf "{base_version_dir}"')
             results = resume_tune(resume='ERRORED_ONLY')
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
