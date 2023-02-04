@@ -110,8 +110,8 @@ class AnomalyModel(RecurrentNetwork):
         if self.base_version and self.base_version not in ['', '0']:
             base_model: Model = mlflow.keras.load_model(f'models:/{common.MODEL_NAME}/{self.base_version}')
             self.rnn_model = base_model if base_model else self.rnn_model
+            self._client.log_param(run_id=self._run.info.run_id, key='load_model', value=base_model.name if base_model else '')
 
-        self._client.log_param(run_id=self._run.info.run_id, key='load_model', value=base_model.name if base_model else '')
         self.rnn_model.summary()
 
     @override(RecurrentNetwork)
