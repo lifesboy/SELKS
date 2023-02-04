@@ -29,6 +29,7 @@ from anomaly_normalization import TIMESTAMP, FLOW_DURATION, SRC_IP, SRC_PORT, DS
 batches_processed: int = 0
 batches_success: int = 0
 labeled_row: int = 0
+processed_row: int = 0
 labeled_source: int = 0
 sources_fail: [] = []
 invalid_rows: [] = []
@@ -88,7 +89,7 @@ def kill_exists_processing():
 
 
 @ray.remote
-def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: str, values: [str], start_time: str, end_time: str) -> int:
+def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: str, values: [str], start_time: str, end_time: str) -> (int, int):
     df = pd.read_csv(input_file)
     df_filter = df[feature].isin(values)
     if start_time:
@@ -105,13 +106,13 @@ def create_assign_pipe(input_file: str, output_dir: str, label: str, feature: st
     df.loc[df[LABEL].isna(), LABEL] = ''
     df.to_csv(f"{output_dir}/{input_file.split('/')[-1]}", index=False)
 
-    return df_filter.sum()
+    return df_filter.sum(), df.sum()
 
 
 def assign_data(df: Series, label: str, feature: str, values: [str], start_time: str, end_time: str) -> bool:
     log.info('assign_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, batches_processed, batches_success, sources_success, sources_fail, labeled_row, labeled_source
+    global run, client, batches_processed, batches_success, sources_success, sources_fail, labeled_row, processed_row, labeled_source
 
     try:
         batches_processed += 1
@@ -122,10 +123,12 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
 
         pipes = map(lambda x: create_assign_pipe.remote(x, output_dir, label, feature, values, start_time, end_time), df['input_path'])
         labeled_pipes = ray.get(list(pipes))
-        done_rows = reduce(lambda s, x: s + x, labeled_pipes)
-        done_sources = reduce(lambda s, x: s + (1 if x > 0 else 0), labeled_pipes)
+        done_rows = reduce(lambda s, x: s + x[0], labeled_pipes)
+        scanned_rows = reduce(lambda s, x: s + x[1], labeled_pipes)
+        done_sources = reduce(lambda s, x: s + (1 if x[0] > 0 else 0), labeled_pipes)
         df['pipe_labeled'] = done_sources
         labeled_row += done_rows
+        processed_row += scanned_rows
         labeled_source += done_sources
 
         utils.marked_done(df['marked_done_path'])
@@ -133,6 +136,7 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
         batches_success += 1
         sources_success += len(df['input_path'])
         client.log_metric(run_id=run.info.run_id, key='labeled_row', value=labeled_row)
+        client.log_metric(run_id=run.info.run_id, key='processed_row', value=processed_row)
         client.log_metric(run_id=run.info.run_id, key='labeled_source', value=labeled_source)
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
