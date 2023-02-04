@@ -124,11 +124,11 @@ def assign_data(df: Series, label: str, feature: str, values: [str], start_time:
         pipes = map(lambda x: create_assign_pipe.remote(x, output_dir, label, feature, values, start_time, end_time), df['input_path'])
         labeled_pipes = ray.get(list(pipes))
         done_rows = reduce(lambda s, x: (s[0] + x[0], s[1] + x[1]), labeled_pipes)
-        done_sources = reduce(lambda s, x: s + (1 if x[0] > 0 else 0), labeled_pipes)
-        df['pipe_labeled'] = done_sources
+        done_sources = reduce(lambda s, x: (s[0] + (1 if x[0] > 0 else 0), 0), labeled_pipes)
+        df['pipe_labeled'] = done_sources[0]
         labeled_row += done_rows[0]
         processed_row += done_rows[1]
-        labeled_source += done_sources
+        labeled_source += done_sources[0]
 
         utils.marked_done(df['marked_done_path'])
         log.info('labeling done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
