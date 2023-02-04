@@ -240,7 +240,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         parse_options=parse_options,
         convert_options=convert_options)
 
-    dataset = dataset.fully_executed().repartition(num_blocks=dataset_parallelism)
+    dataset = dataset.fully_executed()  # .repartition(num_blocks=dataset_parallelism)
     count_df: DataFrame = dataset.groupby(LABEL).aggregate(Count()).to_pandas(limit=1000000000)
     dataset_size = count_df.sum()['count()'].item()
     features = sorted(list(set(features_request).intersection(dataset.schema(fetch_if_missing=True).names)))
