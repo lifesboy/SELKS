@@ -4,6 +4,7 @@ import os
 import subprocess
 from datetime import datetime
 
+import numpy as np
 import pandas as pd
 from pandas import DataFrame
 from mlflow.entities import Metric
@@ -140,7 +141,11 @@ def create_sampling(directory: str, files: []) -> str:
         "mkdir -p %s" % directory,
         *["ln -sf '{}' '{}{:06d}.csv'".format(files[i], directory, i) for i in range(0, len(files))],
     ]
-    return subprocess.run(' && '.join(commands), shell=True, capture_output=True, text=True).stdout
+
+    batches = filter(lambda x: len(x) > 0, np.array_split(commands, 1 + len(commands) // 100))
+    outs = map(lambda x: subprocess.run(' && '.join(x), shell=True, capture_output=True, text=True).stdout, batches)
+
+    return '\n'.join(outs)
 
 
 def write_failsafe_metrics(file_path: str, metrics: [Metric]):
