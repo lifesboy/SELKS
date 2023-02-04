@@ -23,7 +23,7 @@ class AnomalyMinibatchEnv(gym.Env):
         config = config or {}
 
         self.blocks_per_window: int = 1
-        self.parent_run_id: str = config.get("parent_run_id", '')
+        self.parent_run_id: str = context_data.get("parent_run_id", '')
         self.batch_size: int = config.get("batch_size", 1000)
         self.episode_len: int = config.get("episode_len", 100)
         self.current_batch: DataFrame = None
