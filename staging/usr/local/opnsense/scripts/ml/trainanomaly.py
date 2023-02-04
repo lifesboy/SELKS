@@ -5,6 +5,7 @@ import os
 import signal
 import time
 import traceback
+from pathlib import Path
 
 import mlflow
 import pandas as pd
@@ -152,7 +153,9 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     num_workers = args.num_workers
     reward_function = args.reward_function
     training_dir = f"/drl/ray_results/{course}/{unit}"
-    base_version = args.base_version if not os.path.exists(training_dir) else None
+    base_version = args.base_version
+    base_version_dir = f"{training_dir}/base_version/{base_version}"
+
     features_request = args.features.strip().split(',') if args.features.strip() != '' else ALL_FEATURES
     data_sources = args.data_source.strip().split(',')
     input_files = sum([common.get_data_normalized_labeled_files_by_pattern(i) for i in data_sources], [])
@@ -311,7 +314,9 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     try:
 
         try:
-            results = resume_tune(resume='AUTO')
+            resume = 'AUTO' if os.path.exists(base_version_dir) else False
+            Path(base_version_dir).mkdir(parents=True, exist_ok=True)
+            results = resume_tune(resume=resume)
         except Exception as e1:
             log.error('tune run error1: %s', e1)
             # https://github.com/ray-project/ray/issues/12389
