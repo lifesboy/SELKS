@@ -225,7 +225,10 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
     client.log_param(run_id=run.info.run_id, key='data_sampling_files_num', value=len(data_sampling_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_sampling_files}', artifact_file='data_sampling_files.json')
-    client.log_param(run_id=run.info.run_id, key='config', value=config)  # assert mlflow auto-log param too long error
+
+    #TODO training process call this somewhere cause failure training, need enable this for early validation
+    # client.log_param(run_id=run.info.run_id, key='config', value=config)  # assert mlflow auto-log param too long error
+    client.log_dict(run_id=run.info.run_id, dictionary=config, artifact_file='config.json')
 
     def skip_invalid_row(row):
         global invalid_rows, data_source_sampling_dir
