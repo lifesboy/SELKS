@@ -119,7 +119,7 @@ parser.add_argument(
 parser.add_argument(
     "--batch-size",
     type=int,
-    default=1000,
+    default=4300,  # seq_len * 32 / 0.75
     help="Number of batch size to process.")
 parser.add_argument(
     "--action",
