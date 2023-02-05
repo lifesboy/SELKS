@@ -178,6 +178,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
     client.set_tag(run_id=run.info.run_id, key='training_name', value=training_name)
 
     # config = yaml.load(open('anomaly.yaml', 'r'), Loader=yaml.FullLoader)
+    max_seq_len = 100
     config = {
         "env": lab,
         "env_config": {  # mlflow cannot log too long param, saving to "context_data" instead
@@ -192,15 +193,16 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         "num_workers": num_workers,  # https://github.com/ray-project/ray/issues/25012
         "num_envs_per_worker": 20,
         "entropy_coeff": 0.001,
-        "num_sgd_iter": 5,
-        # "sgd_minibatch_size": 100,
+        "num_sgd_iter": 50,
+        "train_batch_size": args.batch_size,
+        "sgd_minibatch_size": max(max_seq_len, int(0.75 * args.batch_size)),
         "vf_loss_coeff": 1e-5,
         "vf_clip_param": 1000.0,
         # "lr": tune.choice([0.001, 0.005, 0.01, 0.05, 0.1]),
         # "momentum": tune.uniform(0.1, 0.9),
         "model": {
             "custom_model": model,
-            "max_seq_len": 20,  # need increase sgd_minibatch_size
+            "max_seq_len": max_seq_len,  # need increase sgd_minibatch_size
             "custom_model_config": {
                 'parent_run_id': run.info.run_id,
                 "cell_size": 320,
