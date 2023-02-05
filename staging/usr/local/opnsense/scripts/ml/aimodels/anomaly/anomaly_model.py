@@ -99,7 +99,7 @@ class AnomalyModel(RecurrentNetwork):
         # Postprocess LSTM output with another hidden layer and compute values
         logits = tf.keras.layers.Dense(
             self.num_outputs,
-            activation=tf.keras.activations.linear,
+            activation=tf.keras.activations.sigmoid,
             name="logits")(lstm_out)
         values = tf.keras.layers.Dense(
             1, activation='sigmoid', name="values")(lstm_out)
