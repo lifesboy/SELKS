@@ -69,7 +69,8 @@ class AnomalyModel(RecurrentNetwork):
         self.parent_run_id: str = kwargs.get('parent_run_id', '')
         self.lesson: str = kwargs.get('lesson', '%s-model-tuning' % time.time())
 
-        self._run, self._client = common.init_experiment(name='anomaly-model', run_name=f"{self.lesson}-model")
+        self._run, self._client = common.init_experiment(name='anomaly-model', run_name=f"{self.lesson}-model",
+                                                         skip_init_node=True)
         self._client.set_tag(run_id=self._run.info.run_id, key=common.TAG_RUN_TAG, value='model-tuning')
 
         self.base_version: str = kwargs.get('base_version', '')
