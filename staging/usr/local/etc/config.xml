@@ -856,19 +856,6 @@
           <parameters/>
           <description>ids rule updates</description>
         </job>
-        <job uuid="92c14099-7e2a-44e5-bdd1-7fcd0f22172b">
-          <origin>SIDS</origin>
-          <enabled>0</enabled>
-          <minutes>0</minutes>
-          <hours>0</hours>
-          <days>*</days>
-          <months>*</months>
-          <weekdays>*</weekdays>
-          <who>root</who>
-          <command>sids update</command>
-          <parameters/>
-          <description>sids rule updates</description>
-        </job>
       </jobs>
     </cron>
   </OPNsense>
@@ -1015,32 +1002,6 @@
   </openvpn>
   <dhcpdv6/>
   <Selks>
-    <SIDS version="1.0.5">
-      <rules/>
-      <userDefinedRules/>
-      <files/>
-      <fileTags/>
-      <general>
-        <enabled>1</enabled>
-        <ips>0</ips>
-        <promisc>0</promisc>
-        <interfaces>wan</interfaces>
-        <homenet>192.168.0.0/16,10.0.0.0/8,172.16.0.0/12</homenet>
-        <defaultPacketSize/>
-        <UpdateCron>92c14099-7e2a-44e5-bdd1-7fcd0f22172b</UpdateCron>
-        <AlertLogrotate>W0D23</AlertLogrotate>
-        <AlertSaveLogs>4</AlertSaveLogs>
-        <MPMAlgo>ac</MPMAlgo>
-        <detect>
-          <Profile>medium</Profile>
-          <toclient_groups/>
-          <toserver_groups/>
-        </detect>
-        <syslog>0</syslog>
-        <syslog_eve>0</syslog_eve>
-        <LogPayload>0</LogPayload>
-      </general>
-    </SIDS>
     <Anomaly version="1.0.0">
       <rules/>
       <userDefinedRules/>
