@@ -139,7 +139,7 @@ LEN_PAYLOADS = 'len_payloads'
 PS = 'p%s'
 LABEL = 'label'
 
-PAYLOAD_FEATURE_NUM = 256
+PAYLOAD_FEATURE_NUM = 0  # 256
 
 ALL_PAYLOAD_FEATURES = [PS % i for i in range(0, PAYLOAD_FEATURE_NUM)]
 
