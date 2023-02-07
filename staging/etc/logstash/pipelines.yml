@@ -34,6 +34,7 @@
   pipeline.ecs_compatibility: disabled
 - pipeline.id: cic
   path.config: "/etc/logstash/conf.d/cic.conf"
+  pipeline.workers: 1
 #- pipeline.id: ray-result
 #  path.config: "/etc/logstash/conf.d/ray-result.conf"
 #- pipeline.id: ray-session
