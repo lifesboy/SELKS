@@ -171,7 +171,7 @@ class DatasetCache(object):
                 # define basic record
                 record = {
                     'enabled': False,
-                    'source': source_filename,
+                    'source': filename,
                     'sid': filename_md5_sum,
                     'rev': None,
                     'gid': None,
