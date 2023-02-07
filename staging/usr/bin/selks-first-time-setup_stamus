@@ -219,8 +219,6 @@ fi
 #ln -s /selks/staging/etc/suricata/suricata.yaml /etc/suricata/suricata.yaml
 mv /etc/init.d/suricata /etc/init.d/suricata.bak
 ln -s /selks/staging/etc/init.d/suricata /etc/init.d/suricata
-#mv /etc/init.d/suricataips /etc/init.d/suricataips.bak
-#ln -s /selks/staging/etc/init.d/suricataips /etc/init.d/suricataips
 
 #cat > /etc/network/interfaces.d/eno1 <<EOF
 ## Stamus Networks SELKS eno1 interface set up auto generated!
