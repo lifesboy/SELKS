@@ -159,6 +159,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     tag = args.tag
     data_source = args.data_source
+    data_sources = args.data_source.strip().split(',')
     feature = args.feature
     values = args.values.strip().split(',')
     start_time = args.start_time.strip() if args.start_time.strip() not in ['', '-'] else None
@@ -168,7 +169,7 @@ if __name__ == "__main__":
     batch_size_source = 4
     destination_dir = common.DATA_FEATURED_EXTRACTED_DIR + data_destination + '/'
 
-    input_files = common.get_data_featured_extracted_files_by_pattern(data_source)
+    input_files = sum([common.get_data_featured_extracted_files_by_pattern(i) for i in data_sources], [])
 
     kill_exists_processing()
     run, client = common.init_experiment(name='labeling-data', run_name='%s-%s' % (tag, time.time()))
