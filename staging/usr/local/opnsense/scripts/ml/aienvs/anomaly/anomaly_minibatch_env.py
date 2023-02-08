@@ -22,7 +22,7 @@ class AnomalyMinibatchEnv(gym.Env):
     def __init__(self, dataset: Dataset, context_data: dict, config: dict = None):
         config = config or {}
 
-        self.blocks_per_window: int = 1
+        self.blocks_per_window: int = 10
         self.parent_run_id: str = context_data.get("parent_run_id", '')
         self.lesson: str = context_data.get("lesson", common.get_second())
         self.batch_size: int = config.get("batch_size", 1000)
