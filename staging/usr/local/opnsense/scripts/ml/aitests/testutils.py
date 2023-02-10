@@ -186,7 +186,7 @@ def create_reader():
 def read_csv_in_dir(dir: str) -> Dataset:
     dataset: Dataset = ray.data.read_datasource(
         create_reader(),
-        paths=[dir],
+        paths=dir.split(','),
         parse_options=parse_options,
         convert_options=convert_options)
     return dataset.fully_executed().repartition(num_blocks=1)
@@ -195,7 +195,7 @@ def read_csv_in_dir(dir: str) -> Dataset:
 def read_csv_in_dir_label_string(dir: str) -> Dataset:
     dataset: Dataset = ray.data.read_datasource(
         create_reader(),
-        paths=[dir],
+        paths=dir.split(','),
         parse_options=parse_options,
         convert_options=convert_options_label_string)
     return dataset.fully_executed().repartition(num_blocks=1)
