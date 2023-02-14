@@ -140,6 +140,7 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018 --env=AnomalyMinibatchEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --data-source=cic2018/*.csv --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018  --env=AnomalyMinibatchEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyEnv
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --data-source=nsm-huongftp-label/*.csv --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-nsm --env=AnomalyBalanceOnTrainEnsureEnv
 
 
 def kill_exists_processing():
