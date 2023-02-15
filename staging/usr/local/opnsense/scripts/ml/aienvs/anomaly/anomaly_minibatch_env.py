@@ -112,7 +112,7 @@ class AnomalyMinibatchEnv(gym.Env):
         self.current_batch_i += 1
         if not (0 <= self.current_batch_i < len(self.current_batch)):
             df: DataFrame = next(self.iter).fillna(0.)
-            padding_features = set(self.features) - set(df.columns)
+            padding_features = list(set(self.features) - set(df.columns))
             df[padding_features] = 0.
 
             self.current_batch = df[[LABEL, *self.features]].to_numpy(dtype=np.float64)
