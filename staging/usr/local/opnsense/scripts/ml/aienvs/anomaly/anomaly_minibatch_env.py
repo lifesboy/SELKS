@@ -27,7 +27,8 @@ class AnomalyMinibatchEnv(gym.Env):
         self.lesson: str = context_data.get("lesson", common.get_second())
         self.batch_size: int = config.get("batch_size", 1000)
         self.episode_len: int = config.get("episode_len", 100)
-        self.current_batch: DataFrame = None
+        self.current_batch: np.array = np.array([])
+        self.current_batch_i = -1
         self.current_obs = None
         self.current_action = None
         self.current_step: int = 0
@@ -108,26 +109,23 @@ class AnomalyMinibatchEnv(gym.Env):
         return self._next_obs(), reward, done, {}
 
     def _next_obs(self) -> [np.float64]:
-        if self.current_batch is None or self.current_batch.empty:
-            self.current_batch: DataFrame = next(self.iter).fillna(0.)
+        self.current_batch_i += 1
+        if not (0 <= self.current_batch_i < len(self.current_batch)):
+            df: DataFrame = next(self.iter).fillna(0.)
+            padding_features = set(self.features) - set(df.columns)
+            df[padding_features] = 0.
 
-        if self.current_batch is None or self.current_batch.empty:
+            self.current_batch = df[[LABEL, *self.features]].to_numpy(dtype=np.float64)
+            self.current_batch_i = 0
+
+        if not (0 <= self.current_batch_i < len(self.current_batch)):
             self.current_obs = None
             return None
 
-        # i = self.current_batch.sample(1)
-        i = self.current_batch.take([0])
-        self.current_batch = self.current_batch.drop(i.index)
+        self.current_obs = self.current_batch[self.current_batch_i][1:]
+        self.current_action = [np.int32(self.current_batch[self.current_batch_i][0])]
 
-        padding_features = set(self.features) - set(i.columns)
-        for f in padding_features:
-            i[f] = 0.
-
-        token = i[self.features].to_numpy(dtype=np.float64).flatten()
-        self.current_obs = token
-        self.current_action = i[LABEL].to_numpy(dtype=np.int32).flatten()
-
-        return token
+        return self.current_obs
 
     def close(self):
         self._log_metrics()
