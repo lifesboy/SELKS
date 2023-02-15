@@ -150,7 +150,7 @@ class AnomalyMinibatchEnv(gym.Env):
 
     def _log_metrics(self):
         try:
-            self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
+            # self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
             utils.write_failsafe_metrics(f"{self._run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
