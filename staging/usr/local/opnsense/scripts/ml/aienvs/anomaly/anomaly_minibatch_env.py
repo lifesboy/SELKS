@@ -103,7 +103,7 @@ class AnomalyMinibatchEnv(gym.Env):
             Metric(key='clean_incorrect', value=self.clean_incorrect, timestamp=timestamp, step=self.current_step)
         ]
 
-        if done or len(self.metrics) > 600:
+        if done or len(self.metrics) > 1000:
             self._log_metrics()
 
         return self._next_obs(), reward, done, {}
@@ -149,10 +149,5 @@ class AnomalyMinibatchEnv(gym.Env):
         return -1
 
     def _log_metrics(self):
-        try:
-            # self._client.log_batch(run_id=self._run.info.run_id, metrics=self.metrics)
-            self.metrics = []
-        except Exception as e:
-            utils.write_failsafe_metrics(f"{self._run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
-            self.metrics = []
-            log.error('_log_metrics error %s', e)
+        utils.write_failsafe_metrics(f"{self._run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
+        self.metrics = []
