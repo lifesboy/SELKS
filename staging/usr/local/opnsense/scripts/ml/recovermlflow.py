@@ -64,6 +64,7 @@ def main(args):
 
             metric_run_id = path.split('/')[4]
             df = pd.read_csv(path)
+            df = df.groupby(by=['key', 'timestamp', 'step']).max()
             metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=1).to_list()
 
             batch_size = 800
