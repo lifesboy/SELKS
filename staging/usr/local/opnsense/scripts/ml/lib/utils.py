@@ -155,7 +155,7 @@ def write_failsafe_metrics(file_path: str, metrics: [Metric]):
         'timestamp': x.timestamp,
         'step': x.step,
     }, metrics))
-    df.to_csv(file_path)
+    df.to_csv(file_path, index=False)
 
 
 def combine_csv(pattern: str):
