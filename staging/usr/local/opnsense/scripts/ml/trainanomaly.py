@@ -338,9 +338,10 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
             results = resume_tune(resume='ERRORED_ONLY')
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
+        client.log_dict(run_id=run.info.run_id, dictionary={results: results}, artifact_file='results.json')
 
-        if args.as_test:
-            check_learning_achieved(results, args.stop_reward)
+        # if args.as_test:
+        check_learning_achieved(results, args.stop_reward)
 
         client.set_terminated(run_id=run.info.run_id)
     except Exception as e:
