@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import json
 import os
 import signal
 import time
@@ -338,7 +339,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
             results = resume_tune(resume='ERRORED_ONLY')
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
-        client.log_dict(run_id=run.info.run_id, dictionary={results: results}, artifact_file='results.json')
+        client.log_text(run_id=run.info.run_id, text=json.dumps({results: results}), artifact_file='results.json')
 
         # if args.as_test:
         check_learning_achieved(results, args.stop_reward)
