@@ -340,7 +340,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         client.log_text(run_id=run.info.run_id,
-                        text=json.dumps({results: results}, default=lambda o: '<not serializable>'),
+                        text=json.dumps({'best_result': results.best_result}, default=lambda o: '<not serializable>'),
                         artifact_file='results.json')
 
         # if args.as_test:
