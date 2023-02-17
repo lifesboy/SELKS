@@ -338,9 +338,16 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
             os.system(f'rm -rf "{base_version_dir}"')
             results = resume_tune(resume='ERRORED_ONLY')
 
+        # Gets best trial based on max accuracy across all training iterations.
+        best_trial = results.get_best_trial(metric="accuracy", mode="max", scope="all")
+        # Gets best checkpoint for trial based on accuracy.
+        best_checkpoint = results.get_best_checkpoint(best_trial, metric="accuracy")
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         client.log_text(run_id=run.info.run_id,
-                        text=json.dumps({'best_result': results.best_result}, default=lambda o: '<not serializable>'),
+                        text=json.dumps({
+                            'best_trial': best_trial,
+                            'best_checkpoint': best_checkpoint,
+                        }, default=lambda o: '<not serializable>'),
                         artifact_file='results.json')
 
         # if args.as_test:
