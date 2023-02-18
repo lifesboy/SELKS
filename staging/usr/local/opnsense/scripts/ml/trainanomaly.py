@@ -317,7 +317,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
                         keep_checkpoints_num=5,
                         checkpoint_freq=1,
                         checkpoint_at_end=True,
-                        checkpoint_score_attr="accuracy",
+                        checkpoint_score_attr="mean_accuracy",
                         export_formats=[ExportFormat.MODEL, ExportFormat.H5, ExportFormat.CHECKPOINT],
                         resume=resume,
                         callbacks=[AnomalyLoggerCallback(
