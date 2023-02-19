@@ -129,10 +129,10 @@ if __name__ == "__main__":
 
     try:
         older_than = '60d'
-        backend_store_uri = 'postgresql://postgres:postgres@127.0.0.1:5432/postgres'
         client.log_param(run_id=run.info.run_id, key='auto-clean.older_than', value=older_than)
-        client.log_param(run_id=run.info.run_id, key='auto-clean.backend_store_uri', value=backend_store_uri)
-        os.system(f"mlflow gc --backend-store-uri {backend_store_uri} --older-than {older_than}")
+
+        clean_result = utils.clean_mlflow(older_than)
+        client.log_text(run_id=run.info.run_id, text=clean_result, artifact_file='clean_result.txt')
 
         main(args)
     except Exception as e:

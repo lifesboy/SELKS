@@ -59,6 +59,12 @@ def get_process_ids(script: str) -> map:
     return map(lambda i: int(i), set(p_ids) - set(['']))
 
 
+def clean_mlflow(older_than: str = '60d') -> str:
+    backend_store_uri = 'postgresql://postgres:postgres@127.0.0.1:5432/postgres'
+    script_command = f"mlflow gc --backend-store-uri {backend_store_uri} --older-than {older_than}"
+    return subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout
+
+
 def is_float(val: str) -> bool:
     return len(val) > 0 and val.replace('.', '', 1).isdigit()
 
