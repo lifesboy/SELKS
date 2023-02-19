@@ -102,7 +102,7 @@ def main(args):
                         metric_success += len(batch)
                         batch = []
                     except Exception as ex:
-                        log.error('log_batch mlflow error: %s, try discard error metric', ex)
+                        log.error('log_batch mlflow error: %s, try discard error metric from batch %s', ex, len(batch))
                         batch = remove_duplicated_metric(batch, ex)
                         metric_discarded += 1
 
