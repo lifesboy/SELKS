@@ -53,7 +53,7 @@ class AnomalyMinibatchEnv(gym.Env):
             .window(blocks_per_window=self.blocks_per_window)\
             .iter_batches(batch_size=self.batch_size, batch_format='pandas')
 
-        self.observation_space: Box = Box(low=-1., high=255., shape=(len(self.features),), dtype=np.float64)
+        self.observation_space: Box = Box(low=-1., high=1., shape=(len(self.features),), dtype=np.float64)
         self.action_space: Discrete = Discrete(2)
 
         self._client.log_param(run_id=self._run.info.run_id, key='name', value=type(self).__name__)
