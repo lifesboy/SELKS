@@ -7,6 +7,7 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
+from mlflow.tracking import MlflowClient
 from pandas import DataFrame
 from mlflow.entities import Metric
 
@@ -60,7 +61,7 @@ def get_process_ids(script: str) -> map:
     return map(lambda i: int(i), set(p_ids) - set(['']))
 
 
-def clean_mlflow(older_than: int = 60) -> str:
+def clean_mlflow(client: MlflowClient, older_than: int = 60) -> str:
     pattern = '/drl/mlruns/*/*'
     input_files = get_data_files_by_pattern(pattern)
     file_df: DataFrame = pd.DataFrame(input_files, columns=['input_path'])
@@ -69,12 +70,10 @@ def clean_mlflow(older_than: int = 60) -> str:
     clean_timestamp = time.time() - older_than * 24 * 60 * 60
     file_df = file_df[file_df['st_mtime'] <= clean_timestamp]
     file_df['run_id'] = file_df['input_path'].apply(lambda x: x.split('/')[4])
-    clean_run_ids = ','.join(file_df['run_id'].to_list())
+    file_df['run_id'].apply(lambda x: client.delete_run(x))
 
     backend_store_uri = 'postgresql://postgres:postgres@127.0.0.1:5432/postgres'
-    script_clean_active = f"mlflow gc --backend-store-uri {backend_store_uri} --run-ids {clean_run_ids}"
-    script_clean_deleted = f"mlflow gc --backend-store-uri {backend_store_uri} --older-than {older_than}d"
-    script_command = f"{script_clean_active} && {script_clean_deleted}"
+    script_command = f"mlflow gc --backend-store-uri {backend_store_uri} --older-than {older_than}d"
     return subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout
 
 
