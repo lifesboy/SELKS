@@ -56,7 +56,7 @@ def remove_duplicated_metric(batch: [Metric], err: Exception):
     m = dict(map(lambda x: (keys[x], values[x]), range(0, len(keys))))
     return list(filter(lambda x: not (
             f"{x.key}" == m['key']
-            and float(x.value) == float(m['value'])
+            and round(float(x.value), 4) == round(float(m['value']), 4)
             and int(x.timestamp) == int(m['"timestamp"'])
             and int(x.step) == int(m['step'])
     ), batch))
