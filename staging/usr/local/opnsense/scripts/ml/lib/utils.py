@@ -2,6 +2,7 @@ import glob
 import math
 import os
 import subprocess
+import time
 from datetime import datetime
 
 import numpy as np
@@ -59,9 +60,21 @@ def get_process_ids(script: str) -> map:
     return map(lambda i: int(i), set(p_ids) - set(['']))
 
 
-def clean_mlflow(older_than: str = '60d') -> str:
+def clean_mlflow(older_than: int = 60) -> str:
+    pattern = '/drl/mlruns/*/*'
+    input_files = get_data_files_by_pattern(pattern)
+    file_df: DataFrame = pd.DataFrame(input_files, columns=['input_path'])
+    file_df['st_mtime'] = file_df.apply(lambda i: os.stat(i.input_path).st_mtime if os.path.exists(i.input_path) else 0,
+                                        axis=1, result_type='reduce')
+    clean_timestamp = time.time() - older_than * 24 * 60 * 60
+    file_df = file_df[file_df['st_mtime'] <= clean_timestamp]
+    file_df['run_id'] = file_df['input_path'].apply(lambda x: x.split('/')[4])
+    clean_run_ids = ','.join(file_df['run_id'].to_list())
+
     backend_store_uri = 'postgresql://postgres:postgres@127.0.0.1:5432/postgres'
-    script_command = f"mlflow gc --backend-store-uri {backend_store_uri} --older-than {older_than}"
+    script_clean_active = f"mlflow gc --backend-store-uri {backend_store_uri} --run-ids {clean_run_ids}"
+    script_clean_deleted = f"mlflow gc --backend-store-uri {backend_store_uri} --older-than {older_than}d"
+    script_command = f"{script_clean_active} && {script_clean_deleted}"
     return subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout
 
 

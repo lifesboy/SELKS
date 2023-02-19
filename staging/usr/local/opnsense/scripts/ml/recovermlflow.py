@@ -128,8 +128,8 @@ if __name__ == "__main__":
         exit(0)
 
     try:
-        older_than = '30d'
-        client.log_param(run_id=run.info.run_id, key='auto-clean.older_than', value=older_than)
+        older_than = 30
+        client.log_param(run_id=run.info.run_id, key='auto-clean.older_than', value=f"{older_than}d")
 
         clean_result = utils.clean_mlflow(older_than)
         client.log_text(run_id=run.info.run_id, text=clean_result, artifact_file='clean_result.txt')
