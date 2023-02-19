@@ -69,16 +69,18 @@ def clean_mlflow(client: MlflowClient, older_than: int = 60) -> str:
                                         axis=1, result_type='reduce')
     clean_timestamp = time.time() - older_than * 24 * 60 * 60
     file_df = file_df[file_df['st_mtime'] <= clean_timestamp]
-    file_df['run_id'] = file_df['input_path'].apply(lambda x: x.split('/')[4])
-    for id in file_df['run_id'].to_list():
+    # file_df['run_id'] = file_df['input_path'].apply(lambda x: x.split('/')[4])
+    for path in file_df['input_path'].to_list():
         try:
+            id = path.split('/')[4]
             client.delete_run(id)
         except Exception as e:
             print(f"delete_run error {e}, force remove artifact")
             None
+        os.system(f'rm -rf "{path}"')
 
     backend_store_uri = 'postgresql://postgres:postgres@127.0.0.1:5432/postgres'
-    script_command = f"mlflow gc --backend-store-uri {backend_store_uri} --older-than {older_than}d"
+    script_command = f"mlflow gc --backend-store-uri {backend_store_uri} --older-than 1s"
     return subprocess.run(script_command, shell=True, capture_output=True, text=True).stdout
 
 
