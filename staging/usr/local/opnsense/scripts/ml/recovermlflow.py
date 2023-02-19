@@ -58,7 +58,7 @@ def remove_duplicated_metric(batch: [Metric], err: Exception):
             f"{x.key}" == m['key']
             and float(x.value) == float(m['value'])
             and int(x.timestamp) == int(m['"timestamp"'])
-            and int(x.step) == int('step')
+            and int(x.step) == int(m['step'])
     ), batch))
 
 
