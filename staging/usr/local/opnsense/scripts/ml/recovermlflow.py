@@ -55,6 +55,7 @@ def main(args):
     metric_processed: int = 0
     file_success: int = 0
     metric_success: int = 0
+    metric_discarded: int = 0
     for path in data_source_files:
         step += 1
         timestamp = int(time.time() * 1000)
@@ -73,9 +74,20 @@ def main(args):
                 metric_processed += len(batch)
                 client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
 
-                client.log_batch(run_id=metric_run_id, metrics=batch)
-                metric_success += len(batch)
+                try:
+                    client.log_batch(run_id=metric_run_id, metrics=batch)
+                    metric_success += len(batch)
+                except Exception as ex:
+                    log.error('log_batch mlflow error: %s, force retry one by one', ex)
+                    for b in batch:
+                        try:
+                            client.log_batch(run_id=metric_run_id, metrics=[b])
+                            metric_success += 1
+                        except Exception as ignore:
+                            metric_discarded += 1
+
                 client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
+                client.log_metric(run_id=run.info.run_id, key='metric_discarded', value=metric_discarded, timestamp=timestamp, step=step)
 
             file_success += 1
             os.system(f'rm -rf "{path}"')
