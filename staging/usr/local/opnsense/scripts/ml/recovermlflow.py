@@ -84,12 +84,14 @@ def main(args):
                             client.log_batch(run_id=metric_run_id, metrics=[b])
                             metric_success += 1
                         except Exception as ignore:
+                            log.error('discard error metric %s: %s', b, ignore)
                             metric_discarded += 1
 
                 client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
                 client.log_metric(run_id=run.info.run_id, key='metric_discarded', value=metric_discarded, timestamp=timestamp, step=step)
 
             file_success += 1
+            log.info(f"remove path {path}")
             os.system(f'rm -rf "{path}"')
             client.log_metric(run_id=run.info.run_id, key='file_success', value=file_success, timestamp=timestamp, step=step)
         except Exception as e:
