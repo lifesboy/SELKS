@@ -55,11 +55,10 @@ def remove_duplicated_metric(batch: [Metric], err: Exception):
     values = s[2].split('=(')[1].split(')')[0].split(', ')
     m = dict(map(lambda x: (keys[x], values[x]), range(0, len(keys))))
     return list(filter(lambda x: not (
-            x.key == m['key']
-            and x.value == m['value']
-            and x.timestamp == m['timestamp']
-            and x.step == m['step']
-            and x.run_uuid == m['run_uuid']
+            f"{x.key}" == m['key']
+            and f"{x.value}" == m['value']
+            and f"{x.timestamp}" == m['"timestamp"']
+            and f"{x.step}" == m['step']
     ), batch))
 
 
