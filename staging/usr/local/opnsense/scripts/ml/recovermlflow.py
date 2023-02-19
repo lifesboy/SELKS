@@ -40,6 +40,29 @@ def kill_exists_processing():
         os.kill(pid, signal.SIGTERM)
 
 
+def remove_duplicated_metric(batch: [Metric], err: Exception):
+    # BAD_REQUEST: (raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely)
+    # (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "metric_pk"
+    # DETAIL:  Key (key, "timestamp", step, run_uuid, value, is_nan)=(anomaly_detected, 1675736159441, 4254, 1b7e267a1cff44e79404b119c9dc03ee, 3, f) already exists.
+    #
+    # [SQL: INSERT INTO metrics (key, value, timestamp, step, is_nan, run_uuid) VALUES (%(key)s, %(value)s, %(timestamp)s, %(step)s, %(is_nan)s, %(run_uuid)s)]
+
+    s = f"{err}".split('\n')
+    if len(s) < 3 or 'duplicate key value violates unique constraint' not in s[1]:
+        raise err
+
+    keys = s[2].split(')=')[0].split('(')[1].split(', ')
+    values = s[2].split('=(')[1].split(')')[0].split(', ')
+    m = dict(map(lambda x: (keys[x], values[x]), range(0, len(keys))))
+    return list(filter(lambda x: not (
+            x.key == m['key']
+            and x.value == m['value']
+            and x.timestamp == m['timestamp']
+            and x.step == m['step']
+            and x.run_uuid == m['run_uuid']
+    ), batch))
+
+
 def main(args):
     data_source = '/drl/mlruns/*/*/artifacts/metrics_*.csv'  # args.data_source
     data_source_files = common.get_data_files_by_pattern(data_source)
@@ -73,19 +96,15 @@ def main(args):
                 batch = metrics[i * batch_size:(i + 1) * batch_size]
                 metric_processed += len(batch)
                 client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
-
-                try:
-                    client.log_batch(run_id=metric_run_id, metrics=batch)
-                    metric_success += len(batch)
-                except Exception as ex:
-                    log.error('log_batch mlflow error: %s, force retry one by one', ex)
-                    for b in batch:
-                        try:
-                            client.log_batch(run_id=metric_run_id, metrics=[b])
-                            metric_success += 1
-                        except Exception as ignore:
-                            log.error('discard error metric %s: %s', b, ignore)
-                            metric_discarded += 1
+                while len(batch) > 0:
+                    try:
+                        client.log_batch(run_id=metric_run_id, metrics=batch)
+                        metric_success += len(batch)
+                        batch = []
+                    except Exception as ex:
+                        log.error('log_batch mlflow error: %s, try discard error metric', ex)
+                        batch = remove_duplicated_metric(batch, ex)
+                        metric_discarded += 1
 
                 client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
                 client.log_metric(run_id=run.info.run_id, key='metric_discarded', value=metric_discarded, timestamp=timestamp, step=step)
