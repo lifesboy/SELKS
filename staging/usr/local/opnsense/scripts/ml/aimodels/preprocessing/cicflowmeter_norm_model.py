@@ -272,7 +272,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
         self.run, self.client = common.init_tracking(name='data-processor', run_name='sub-processing-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=parent_run_id)
-        self.client.set_tag(run_id=self.run.info.run_id, key='data_source', value=data_source)
+        self.client.log_param(run_id=self.run.info.run_id, key='data_source', value=data_source)
 
     def __del__(self):
         self.client.set_terminated(run_id=self.run.info.run_id)
