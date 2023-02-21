@@ -109,8 +109,6 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
     #     log.warning('create_processor_pipe restart ray failing ray: %s', data_files)
     #     utils.restart_ray_service()
 
-    global run
-
     def skip_invalid_row(row):
         global run, client, invalid_rows
         log.warning('skip_invalid_row %s on %s', row, data_files)
@@ -131,12 +129,7 @@ def create_processor_pipe(data_files: [], batch_size: int, num_gpus: float, num_
         parse_options=parse_options,
         convert_options=convert_options,
     ).window(blocks_per_window=batch_size)
-    pipe = pipe.map_batches(CicFlowmeterNormModel,
-                            fn_constructor_kwargs={
-                                'parent_run_id': run.info.run_id,
-                                'data_source': ','.join(data_files),
-                            },
-                            batch_format="pandas", compute="actors",
+    pipe = pipe.map_batches(CicFlowmeterNormModel, batch_format="pandas", compute="actors",
                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
     # tf.keras.layers.BatchNormalization
 
