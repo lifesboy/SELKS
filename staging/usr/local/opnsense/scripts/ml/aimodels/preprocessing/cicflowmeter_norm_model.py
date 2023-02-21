@@ -257,10 +257,11 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
         return feature_norm
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super().__init__()
         # global run
-        parent_run_id = ''  # run.info.run_id
+        parent_run_id = kwargs.get('parent_run_id', '')
+        data_source = kwargs.get('data_source', '')
 
         self.processed_num: int = 0
         self.row_normed_num: int = 0
@@ -271,6 +272,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
 
         self.run, self.client = common.init_tracking(name='data-processor', run_name='sub-processing-%s' % time.time())
         self.client.set_tag(run_id=self.run.info.run_id, key=common.TAG_PARENT_RUN_UUID, value=parent_run_id)
+        self.client.log_param(run_id=self.run.info.run_id, key='data_source', value=data_source)
 
     def __del__(self):
         self.client.set_terminated(run_id=self.run.info.run_id)
