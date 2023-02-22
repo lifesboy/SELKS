@@ -312,12 +312,12 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
                         trial_name_creator=lambda _: lesson,
                         trial_dirname_creator=lambda _: lesson,
                         # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
-                        metric='mean_accuracy',
-                        mode='max',
+                        # metric='mean_accuracy',
+                        # mode='max',
                         keep_checkpoints_num=5,
                         checkpoint_freq=1,
                         checkpoint_at_end=True,
-                        checkpoint_score_attr="mean_accuracy",
+                        # checkpoint_score_attr="mean_accuracy",
                         export_formats=[ExportFormat.MODEL, ExportFormat.H5, ExportFormat.CHECKPOINT],
                         resume=resume,
                         callbacks=[AnomalyLoggerCallback(
