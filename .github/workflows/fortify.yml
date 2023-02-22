@@ -58,12 +58,12 @@ jobs:
       #   ScanCentral has additional options that should be set for PHP and Python projects
       #   For other build tools, add your build commands to download necessary dependencies and prepare according to Fortify on Demand Packaging documentation.
       #   ScanCentral Client documentation is located at https://www.microfocus.com/documentation/fortify-software-security-center/
-      #- name: Download Fortify ScanCentral Client
-      #  uses: fortify/gha-setup-scancentral-client@5b7382f8234fb9840958c49d5f32ae854115f9f3
-      #- name: Package Code + Dependencies
-      #  run: scancentral package $PACKAGE_OPTS -o package.zip
-      #  env:
-      #    PACKAGE_OPTS: "-bt mvn"
+      - name: Download Fortify ScanCentral Client
+        uses: fortify/gha-setup-scancentral-client@5b7382f8234fb9840958c49d5f32ae854115f9f3
+      - name: Package Code + Dependencies
+        run: scancentral package $PACKAGE_OPTS -o package.zip
+        env:
+          PACKAGE_OPTS: "-bt mvn"
 
       # Start Fortify on Demand SAST scan and wait until results complete. For more information on FoDUploader commands, see https://github.com/fod-dev/fod-uploader-java
       # TODO: Update ENV variables for your application and create the necessary GitHub Secrets.  Helpful hints:
