@@ -437,7 +437,7 @@ include("fbegin.inc");
                   <tr>
                     <td><a id="help_for_snaplen" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Packet Length");?></td>
                     <td>
-                      <input type="text" name="snaplen" value="<?=$pconfig['snaplen'];?>" />
+                      <input type="text" name="snaplen" value="<?=strval($pconfig['snaplen']);?>" />
                       <div class="hidden" data-for="help_for_snaplen">
                         <?=gettext("The Packet length is the number of bytes of each packet that will be captured. Default value is 0, which will capture the entire frame regardless of its size.");?>
                       </div>
