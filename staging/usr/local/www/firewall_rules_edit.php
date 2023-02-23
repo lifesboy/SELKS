@@ -763,8 +763,8 @@ include("head.inc");
           <section class="col-xs-12">
             <div class="content-box">
               <form method="post" name="iform" id="iform">
-                <input type='hidden' name="id" value="<?=isset($id) ? $id:''?>" />
-                <input name="after" type="hidden" value="<?=isset($after) ? $after :'';?>" />
+                <input type='hidden' name="id" value="<?=isset($id) ? strval($id):''?>" />
+                <input name="after" type="hidden" value="<?=isset($after) ? strval($after) :'';?>" />
                 <input type="hidden" name="floating" value="<?=strval($pconfig['floating']);?>" />
                 <div class="table-responsive">
                   <table class="table table-striped opnsense_standard_table_form">
@@ -1720,7 +1720,7 @@ include("head.inc");
                       <td>&nbsp;</td>
                       <td>
                         <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
-                        <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/firewall_rules.php?direction=<?= $pconfig['interface'] ?>'" />
+                        <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/firewall_rules.php?direction=<?= strval($pconfig['interface']) ?>'" />
                       </td>
                     </tr>
                   </table>

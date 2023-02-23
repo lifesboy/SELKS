@@ -775,7 +775,7 @@ $( document ).ready(function() {
                         <td>
                           <div class="input-group">
                           <!-- updates to "other" option in dst -->
-                          <input type="text" id="dst_address" for="dst" value="<?= !is_specialnet($pconfig['dst']) ? $pconfig['dst'] : "";?>" aria-label="<?=gettext("Destination address");?>"/>
+                          <input type="text" id="dst_address" for="dst" value="<?= !is_specialnet($pconfig['dst']) ? strval($pconfig['dst']) : "";?>" aria-label="<?=gettext("Destination address");?>"/>
                           <select name="dstmask" data-network-id="dst_address" class="selectpicker ipv4v6net input-group-btn" data-size="5" id="dstmask"  data-width="auto" for="dst" >
                           <?php for ($i = 128; $i > 0; $i--): ?>
                             <option value="<?=strval($i);?>" <?= $i == $pconfig['dstmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
