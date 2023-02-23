@@ -3668,7 +3668,7 @@ function get_real_interface($interface = 'wan', $family = 'all')
 {
     global $config;
 
-    $realif = $interface;
+    $realif = strval($interface);
 
     switch ($interface) {
         case 'openvpn':
