@@ -197,7 +197,7 @@ legacy_html_escape_form_data($pconfig);
                   <tr>
                     <td><a id="help_for_tag" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("VLAN tag");?></td>
                     <td>
-                      <input name="tag" type="text" value="<?=$pconfig['tag'];?>" />
+                      <input name="tag" type="text" value="<?=strval($pconfig['tag']);?>" />
                       <div class="hidden" data-for="help_for_tag">
                         <?=gettext("802.1Q VLAN tag (between 1 and 4094)");?>
                       </div>
@@ -219,7 +219,7 @@ legacy_html_escape_form_data($pconfig);
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here for your reference (not parsed).");?>
                       </div>

@@ -493,8 +493,8 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                           </thead>
                           <tbody>
                             <tr>
-                              <td><input name="range_from" type="text" id="range_from" value="<?=$pconfig['range_from'];?>" /></td>
-                              <td><input name="range_to" type="text" id="range_to" value="<?=$pconfig['range_to'];?>" /> </td>
+                              <td><input name="range_from" type="text" id="range_from" value="<?=strval($pconfig['range_from']);?>" /></td>
+                              <td><input name="range_to" type="text" id="range_to" value="<?=strval($pconfig['range_to']);?>" /> </td>
                             </tr>
                           </tbody>
                         </table>
@@ -515,8 +515,8 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                           </thead>
                           <tbody>
                             <tr>
-                              <td><input name="prefixrange_from" type="text" id="range_from" value="<?=$pconfig['prefixrange_from'];?>" /></td>
-                              <td><input name="prefixrange_to" type="text" id="range_to" value="<?=$pconfig['prefixrange_to'];?>" /> </td>
+                              <td><input name="prefixrange_from" type="text" id="range_from" value="<?=strval($pconfig['prefixrange_from']);?>" /></td>
+                              <td><input name="prefixrange_to" type="text" id="range_to" value="<?=strval($pconfig['prefixrange_to']);?>" /> </td>
                             </tr>
                             <tr>
                               <td>
@@ -551,8 +551,8 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                     <tr>
                       <td><a id="help_for_dns" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("DNS servers");?></td>
                       <td>
-                        <input name="dns1" type="text" id="dns1" value="<?=$pconfig['dns1'];?>" /><br />
-                        <input name="dns2" type="text" id="dns2" value="<?=$pconfig['dns2'];?>" />
+                        <input name="dns1" type="text" id="dns1" value="<?=strval($pconfig['dns1']);?>" /><br />
+                        <input name="dns2" type="text" id="dns2" value="<?=strval($pconfig['dns2']);?>" />
                         <div class="hidden" data-for="help_for_dns">
                           <?= gettext('Leave blank to use the system default DNS servers: This interface IP address if a DNS service is enabled or the configured global DNS servers.') ?>
                         </div>
@@ -561,7 +561,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                     <tr>
                       <td><a id="help_for_domainsearchlist" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain search list");?></td>
                       <td>
-                        <input name="domainsearchlist" type="text" id="domainsearchlist" value="<?=$pconfig['domainsearchlist'];?>" />
+                        <input name="domainsearchlist" type="text" id="domainsearchlist" value="<?=strval($pconfig['domainsearchlist']);?>" />
                         <div class="hidden" data-for="help_for_domainsearchlist">
                           <?=gettext("The default is to use the domain name of this system as the domain search list option provided by DHCPv6. You may optionally specify one or multiple domain(s) here. Use the semicolon character as separator. The first domain in this list will also be used for DNS registration of DHCP static mappings (if enabled).");?>
                         </div>
@@ -570,7 +570,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                     <tr>
                       <td><a id="help_for_defaultleasetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Default lease time");?> (<?=gettext("seconds");?>)</td>
                       <td>
-                        <input name="defaultleasetime" type="text" value="<?=$pconfig['defaultleasetime'];?>" />
+                        <input name="defaultleasetime" type="text" value="<?=strval($pconfig['defaultleasetime']);?>" />
                         <div class="hidden" data-for="help_for_defaultleasetime">
                           <?=gettext("This is used for clients that do not ask for a specific expiration time."); ?><br />
                           <?=gettext("The default is 7200 seconds.");?>
@@ -580,7 +580,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                     <tr>
                       <td><a id="help_for_maxleasetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Maximum lease time");?> (<?=gettext("seconds");?>)</td>
                       <td>
-                        <input name="maxleasetime" type="text" id="maxleasetime" size="10" value="<?=$pconfig['maxleasetime'];?>" />
+                        <input name="maxleasetime" type="text" id="maxleasetime" size="10" value="<?=strval($pconfig['maxleasetime']);?>" />
                         <div class="hidden" data-for="help_for_maxleasetime">
                           <?=gettext("This is the maximum lease time for clients that ask for a specific expiration time."); ?><br />
                           <?=gettext("The default is 86400 seconds.");?>
@@ -610,13 +610,13 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                           <b><?=gettext("Enable registration of DHCP client names in DNS.");?></b><br />
                           <?=gettext("Note: Leave blank to disable dynamic DNS registration.");?><br />
                           <?=gettext("Enter the dynamic DNS domain which will be used to register client names in the DNS server.");?>
-                          <input name="ddnsdomain" type="text" id="ddnsdomain" value="<?=$pconfig['ddnsdomain'];?>" />
+                          <input name="ddnsdomain" type="text" id="ddnsdomain" value="<?=strval($pconfig['ddnsdomain']);?>" />
                           <?=gettext("Enter the primary domain name server IP address for the dynamic domain name.");?><br />
-                          <input name="ddnsdomainprimary" type="text" id="ddnsdomainprimary" size="20" value="<?=$pconfig['ddnsdomainprimary'];?>" />
+                          <input name="ddnsdomainprimary" type="text" id="ddnsdomainprimary" size="20" value="<?=strval($pconfig['ddnsdomainprimary']);?>" />
                           <?=gettext("Enter the dynamic DNS domain key name which will be used to register client names in the DNS server.");?>
-                          <input name="ddnsdomainkeyname" type="text" id="ddnsdomainkeyname" size="20" value="<?=$pconfig['ddnsdomainkeyname'];?>" />
+                          <input name="ddnsdomainkeyname" type="text" id="ddnsdomainkeyname" size="20" value="<?=strval($pconfig['ddnsdomainkeyname']);?>" />
                           <?=gettext("Enter the dynamic DNS domain key secret which will be used to register client names in the DNS server.");?>
-                          <input name="ddnsdomainkey" type="text" id="ddnsdomainkey" size="20" value="<?=$pconfig['ddnsdomainkey'];?>" />
+                          <input name="ddnsdomainkey" type="text" id="ddnsdomainkey" size="20" value="<?=strval($pconfig['ddnsdomainkey']);?>" />
                           <?=gettext("Choose the dynamic DNS domain key algorithm.");?><br />
                           <select name='ddnsdomainalgorithm' id="ddnsdomainalgorithm" class="selectpicker">
 <?php
@@ -637,8 +637,8 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                           <input type="button" onclick="show_ntp_config()" value="<?= html_safe(gettext('Advanced')) ?>" class="btn btn-xs btn-default"/> - <?=gettext("Show NTP configuration");?>
                         </div>
                         <div id="showntp" style="display:none">
-                          <input name="ntp1" type="text" id="ntp1" value="<?=$pconfig['ntp1'];?>" /><br />
-                          <input name="ntp2" type="text" id="ntp2" value="<?=$pconfig['ntp2'];?>" />
+                          <input name="ntp1" type="text" id="ntp1" value="<?=strval($pconfig['ntp1']);?>" /><br />
+                          <input name="ntp2" type="text" id="ntp2" value="<?=strval($pconfig['ntp2']);?>" />
                         </div>
                       </td>
                     </tr>
@@ -653,7 +653,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                           <b><?=gettext("Enables network booting.");?></b>
                           <br/>
                           <?=gettext("Enter the Bootfile URL");?>
-                          <input name="bootfile_url" type="text" id="bootfile_url" value="<?=$pconfig['bootfile_url'];?>" />
+                          <input name="bootfile_url" type="text" id="bootfile_url" value="<?=strval($pconfig['bootfile_url']);?>" />
                         </div>
                       </td>
                     </tr>

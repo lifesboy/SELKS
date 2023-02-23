@@ -118,7 +118,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_domain" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain");?></td>
                     <td>
-                      <input name="domain" type="text" id="domain" size="40" value="<?=$pconfig['domain'];?>" />
+                      <input name="domain" type="text" id="domain" size="40" value="<?=strval($pconfig['domain']);?>" />
                       <div class="hidden" data-for="help_for_domain">
                           <?=gettext("Domain to override (NOTE: this does not have to be a valid TLD!)"); ?><br />
                           <?=gettext("e.g."); ?> <em><?=gettext("test"); ?></em> <?=gettext("or"); ?> <em>mycompany.localdomain</em> <?=gettext("or"); ?> <em>1.168.192.in-addr.arpa</em>
@@ -128,7 +128,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_ip" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IP address");?></td>
                     <td>
-                        <input name="ip" type="text" id="ip" size="40" value="<?=$pconfig['ip'];?>" />
+                        <input name="ip" type="text" id="ip" size="40" value="<?=strval($pconfig['ip']);?>" />
                         <div class="hidden" data-for="help_for_ip">
                           <?=gettext("IP address of the authoritative DNS server for this domain"); ?><br />
                           <?=gettext("e.g."); ?> <em>192.168.100.100</em><br />
@@ -139,7 +139,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                     <td>
-                      <input name="descr" type="text" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here for your reference (not parsed).");?>
                       </div>

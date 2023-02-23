@@ -233,7 +233,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_host" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Host");?></td>
                     <td>
-                      <input name="host" type="text" value="<?=$pconfig['host'];?>" />
+                      <input name="host" type="text" value="<?=strval($pconfig['host']);?>" />
                       <div class="hidden" data-for="help_for_host">
                         <?= gettext('Name of the host, without domain part. Use "*" to create a wildcard entry.') ?>
                       </div>
@@ -242,7 +242,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_domain" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain");?></td>
                     <td>
-                      <input name="domain" type="text" value="<?=$pconfig['domain'];?>" />
+                      <input name="domain" type="text" value="<?=strval($pconfig['domain']);?>" />
                       <div class="hidden" data-for="help_for_domain">
                         <?=gettext("Domain of the host"); ?><br />
                         <?=gettext("e.g."); ?> <em><?=gettext("example.com"); ?></em>
@@ -272,7 +272,7 @@ include("head.inc");
                   <tr class="a_aaa_rec">
                     <td><a id="help_for_ip" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IP");?></td>
                     <td>
-                      <input name="ip" type="text" id="ip" value="<?=$pconfig['ip'];?>" />
+                      <input name="ip" type="text" id="ip" value="<?=strval($pconfig['ip']);?>" />
                       <div class="hidden" data-for="help_for_ip">
                         <?=gettext("IP address of the host"); ?><br />
                         <?=gettext("e.g."); ?> <em>192.168.100.100</em> <?=gettext("or"); ?> <em>fd00:abcd::1</em>
@@ -282,7 +282,7 @@ include("head.inc");
                   <tr class="mx_rec">
                     <td><a id="help_for_mxprio" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("MX Priority");?></td>
                     <td>
-                      <input name="mxprio" type="text" id="mxprio" value="<?=$pconfig['mxprio'];?>" />
+                      <input name="mxprio" type="text" id="mxprio" value="<?=strval($pconfig['mxprio']);?>" />
                       <div class="hidden" data-for="help_for_mxprio">
                         <?=gettext("Priority of MX record"); ?><br />
                         <?=gettext("e.g."); ?> <em>10</em>
@@ -292,7 +292,7 @@ include("head.inc");
                   <tr class="mx_rec">
                     <td><a id="help_for_mx" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("MX Host");?></td>
                     <td>
-                      <input name="mx" type="text" id="mx" size="6" value="<?=$pconfig['mx'];?>" />
+                      <input name="mx" type="text" id="mx" size="6" value="<?=strval($pconfig['mx']);?>" />
                       <div class="hidden" data-for="help_for_mx">
                         <?=gettext("Host name of MX host"); ?><br />
                         <?=gettext("e.g."); ?> <em>mail.example.com</em>
@@ -302,7 +302,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                     <td>
-                      <input name="descr" type="text" id="descr" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" id="descr" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here for your reference (not parsed).");?>
                       </div>

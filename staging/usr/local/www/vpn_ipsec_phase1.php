@@ -726,7 +726,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_remotegw" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Remote gateway"); ?></td>
                     <td>
-                      <input name="remote-gateway" type="text" class="formfld unknown" id="remotegw" size="28" value="<?=$pconfig['remote-gateway'];?>" />
+                      <input name="remote-gateway" type="text" class="formfld unknown" id="remotegw" size="28" value="<?=strval($pconfig['remote-gateway']);?>" />
                       <div class="hidden" data-for="help_for_remotegw">
                         <?= gettext('Enter the public IP address or host name of the remote gateway.') ?>
                       </div>
@@ -746,7 +746,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here " .
                                                 "for your reference (not parsed)."); ?>
@@ -824,7 +824,7 @@ include("head.inc");
 endforeach; ?>
                       </select>
                       <div id="myid_data">
-                        <input name="myid_data" type="text" size="30" value="<?=$pconfig['myid_data'];?>" />
+                        <input name="myid_data" type="text" size="30" value="<?=strval($pconfig['myid_data']);?>" />
                       </div>
                     </td>
                   </tr>
@@ -853,7 +853,7 @@ endforeach; ?>
 <?php                endforeach;
 ?>
                       </select>
-                      <input name="peerid_data" type="text" id="peerid_data" size="30" value="<?=$pconfig['peerid_data'];?>" />
+                      <input name="peerid_data" type="text" id="peerid_data" size="30" value="<?=strval($pconfig['peerid_data']);?>" />
 <?php if (!empty($pconfig['mobile'])) {
 ?>
                       <small><?=gettext("NOTE: This is known as the \"group\" setting on some VPN client implementations."); ?></small>
@@ -1074,7 +1074,7 @@ endforeach; ?>
                   <tr>
                     <td><a id="help_for_lifetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Lifetime"); ?></td>
                     <td>
-                      <input name="lifetime" type="text" id="lifetime" size="20" value="<?=$pconfig['lifetime'];?>" />
+                      <input name="lifetime" type="text" id="lifetime" size="20" value="<?=strval($pconfig['lifetime']);?>" />
                       <div class="hidden" data-for="help_for_lifetime">
                         <?=gettext("seconds"); ?>
                       </div>
@@ -1158,13 +1158,13 @@ endforeach; ?>
                       </div>
                       <div id="opt_dpd">
                         <br />
-                        <input name="dpd_delay" type="text" class="formfld unknown" id="dpd_delay" size="5" value="<?=$pconfig['dpd_delay'];?>" />
+                        <input name="dpd_delay" type="text" class="formfld unknown" id="dpd_delay" size="5" value="<?=strval($pconfig['dpd_delay']);?>" />
                         <?=gettext("seconds"); ?>
                         <div class="hidden" data-for="help_for_dpd_enable">
                           <?=gettext("Delay between requesting peer acknowledgement."); ?>
                         </div>
                         <br />
-                        <input name="dpd_maxfail" type="text" class="formfld unknown" id="dpd_maxfail" size="5" value="<?=$pconfig['dpd_maxfail'];?>" />
+                        <input name="dpd_maxfail" type="text" class="formfld unknown" id="dpd_maxfail" size="5" value="<?=strval($pconfig['dpd_maxfail']);?>" />
                         <?=gettext("retries"); ?>
                         <div class="hidden" data-for="help_for_dpd_enable">
                           <?=gettext("Number of consecutive failures allowed before disconnect."); ?>
@@ -1185,7 +1185,7 @@ endforeach; ?>
                   <tr>
                     <td><a id="help_for_inactivity_timeout" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Inactivity timeout"); ?></td>
                     <td>
-                      <input name="inactivity_timeout" type="text" id="inactivity_timeout" value="<?=$pconfig['inactivity_timeout'];?>" />
+                      <input name="inactivity_timeout" type="text" id="inactivity_timeout" value="<?=strval($pconfig['inactivity_timeout']);?>" />
                       <div class="hidden" data-for="help_for_inactivity_timeout">
                         <?=gettext("Time before closing inactive tunnels if they don't handle any traffic. (seconds)"); ?>
                       </div>
@@ -1194,7 +1194,7 @@ endforeach; ?>
                   <tr>
                     <td><a id="help_for_margintime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Margintime"); ?></td>
                     <td>
-                      <input name="margintime" type="text" id="margintime" value="<?=$pconfig['margintime'];?>" />
+                      <input name="margintime" type="text" id="margintime" value="<?=strval($pconfig['margintime']);?>" />
                       <div class="hidden" data-for="help_for_margintime">
                         <?=gettext("Time before SA expiry the rekeying should start. (seconds)"); ?>
                       </div>
@@ -1203,7 +1203,7 @@ endforeach; ?>
                   <tr>
                     <td><a id="help_for_rekeyfuzz" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Rekeyfuzz"); ?></td>
                     <td>
-                      <input name="rekeyfuzz" type="text" id="rekeyfuzz" value="<?=$pconfig['rekeyfuzz'];?>" />
+                      <input name="rekeyfuzz" type="text" id="rekeyfuzz" value="<?=strval($pconfig['rekeyfuzz']);?>" />
                       <div class="hidden" data-for="help_for_rekeyfuzz">
                         <?=gettext("Percentage by which margintime is randomly increased (may exceed 100%). Randomization may be disabled by setting rekeyfuzz=0%."); ?>
                       </div>
@@ -1222,7 +1222,7 @@ endif; ?>
                       <input id="mobile" name="mobile" type="hidden" value="true" />
                       <?php
 endif; ?>
-                      <input name="ikeid" type="hidden" value="<?=$pconfig['ikeid'];?>" />
+                      <input name="ikeid" type="hidden" value="<?=strval($pconfig['ikeid']);?>" />
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                     </td>
                   </tr>

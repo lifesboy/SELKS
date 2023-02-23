@@ -216,7 +216,7 @@ if (!isset($_GET['act'])) {
                 <tr>
                   <td><a id="help_for_aclname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Access List name");?></td>
                   <td>
-                    <input name="aclname" type="text" value="<?=$pconfig['aclname'];?>" />
+                    <input name="aclname" type="text" value="<?=strval($pconfig['aclname']);?>" />
                     <div class="hidden" data-for="help_for_aclname">
                       <?=gettext("Provide an Access List name.");?>
                     </div>
@@ -315,7 +315,7 @@ if (!isset($_GET['act'])) {
                 <tr>
                   <td><a id="help_for_description" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                   <td>
-                    <input name="description" type="text" value="<?=$pconfig['description'];?>" />
+                    <input name="description" type="text" value="<?=strval($pconfig['description']);?>" />
                     <div class="hidden" data-for="help_for_description">
                       <?=gettext("You may enter a description here for your reference.");?>
                     </div>

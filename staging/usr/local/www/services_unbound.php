@@ -213,7 +213,7 @@ include_once("head.inc");
                       <tr>
                         <td><a id="help_for_port" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Listen Port");?></td>
                         <td>
-                            <input name="port" type="text" id="port" placeholder="53" size="6" value="<?=$pconfig['port'];?>" />
+                            <input name="port" type="text" id="port" placeholder="53" size="6" value="<?=strval($pconfig['port']);?>" />
                             <div class="hidden" data-for="help_for_port">
                                 <?=gettext("The port used for responding to DNS queries. It should normally be left blank unless another service needs to bind to TCP/UDP port 53.");?>
                             </div>

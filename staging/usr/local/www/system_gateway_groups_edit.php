@@ -177,7 +177,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Group Name"); ?></td>
                     <td>
-                      <input name="name" type="text" size="20" value="<?=$pconfig['name'];?>" />
+                      <input name="name" type="text" size="20" value="<?=strval($pconfig['name']);?>" />
                     </td>
                   </tr>
                   <tr>
@@ -247,7 +247,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" />
                       <div data-for="help_for_descr" class="hidden">
                         <?=gettext("You may enter a description here for your reference (not parsed)."); ?>
                       </div>

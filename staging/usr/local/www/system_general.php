@@ -276,7 +276,7 @@ $( document ).ready(function() {
             <tr>
               <td><a id="help_for_hostname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Hostname"); ?></td>
               <td>
-                <input name="hostname" type="text" size="40" value="<?=$pconfig['hostname'];?>" />
+                <input name="hostname" type="text" size="40" value="<?=strval($pconfig['hostname']);?>" />
                 <div class="hidden" data-for="help_for_hostname">
                   <?=gettext("Name of the firewall host, without domain part"); ?>
                 </div>
@@ -285,7 +285,7 @@ $( document ).ready(function() {
             <tr>
               <td><a id="help_for_domain" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain"); ?></td>
               <td>
-                <input name="domain" type="text" value="<?=$pconfig['domain'];?>" />
+                <input name="domain" type="text" value="<?=strval($pconfig['domain']);?>" />
                 <div class="hidden" data-for="help_for_domain">
                   <?=gettext("Do not use 'local' as a domain name. It will cause local hosts running mDNS (avahi, bonjour, etc.) to be unable to resolve local hosts not running mDNS."); ?>
                   <br />
@@ -381,7 +381,7 @@ $( document ).ready(function() {
                       $dnsgw = "dns{$dnscounter}gw";?>
                     <tr>
                       <td>
-                        <input name="dns<?=$dnscounter;?>" type="text" value="<?=$pconfig['dns'.$dnscounter];?>" />
+                        <input name="dns<?=$dnscounter;?>" type="text" value="<?=strval($pconfig['dns'.$dnscounter]);?>" />
                       </td>
                       <td>
                         <select name='<?="dns{$dnscounter}gw";?>' class='selectpicker' data-size="10" data-width="200px">

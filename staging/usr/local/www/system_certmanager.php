@@ -1285,7 +1285,7 @@ $( document ).ready(function() {
               <tr>
                 <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Descriptive name");?></td>
                 <td>
-                  <input name="descr" type="text" id="descr" size="20" value="<?=$pconfig['descr'];?>"/>
+                  <input name="descr" type="text" id="descr" size="20" value="<?=strval($pconfig['descr']);?>"/>
                 </td>
               </tr>
             </table>
@@ -1363,7 +1363,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Lifetime");?> (<?=gettext("days");?>)</td>
                   <td>
-                    <input name="lifetime_sign_csr" type="text" id="lifetime_sign_csr" size="5" value="<?=$pconfig['lifetime_sign_csr'];?>"/>
+                    <input name="lifetime_sign_csr" type="text" id="lifetime_sign_csr" size="5" value="<?=strval($pconfig['lifetime_sign_csr']);?>"/>
                   </td>
                 </tr>
                 <tr>
@@ -1440,7 +1440,7 @@ $( document ).ready(function() {
                     <td><a id="help_for_basic_extensions_sign_csr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('basicConstraints');?></td>
                     <td>
                       <input type="checkbox" name="basic_constraints_is_ca_sign_csr" id="basic_constraints_is_ca_sign_csr" value="true" /> <?= gettext('is CA'); ?><br />
-                      <?= gettext('Maximum Path Length'); ?>: <input type="text" name="basic_constraints_path_len_sign_csr" id="basic_constraints_path_len_sign_csr" size="5" value="<?=$pconfig['basic_constraints_sign_csr'];?>"/>
+                      <?= gettext('Maximum Path Length'); ?>: <input type="text" name="basic_constraints_path_len_sign_csr" id="basic_constraints_path_len_sign_csr" size="5" value="<?=strval($pconfig['basic_constraints_sign_csr']);?>"/>
                       <div class="hidden" data-for="help_for_basic_extensions_sign_csr">
                         <strong><?= gettext('Maximum Path Length'); ?></strong>: <?= gettext('Define the maximum number of non-self-issued intermediate certificates that may follow this certificate in a valid certification path.'); ?>
                       </div>
@@ -1593,7 +1593,7 @@ $( document ).ready(function() {
               <tr>
                 <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Lifetime");?> (<?=gettext("days");?>)</td>
                 <td>
-                  <input name="lifetime" type="text" id="lifetime" size="5" value="<?=$pconfig['lifetime'];?>"/>
+                  <input name="lifetime" type="text" id="lifetime" size="5" value="<?=strval($pconfig['lifetime']);?>"/>
                 </td>
               </tr>
               <tr>
@@ -1629,7 +1629,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_dn_state" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("State or Province");?> : &nbsp;</td>
                 <td>
-                  <input name="dn_state" id="dn_state" type="text" size="40" value="<?=$pconfig['dn_state'];?>"/>
+                  <input name="dn_state" id="dn_state" type="text" size="40" value="<?=strval($pconfig['dn_state']);?>"/>
                   <div class="hidden" data-for="help_for_digest_dn_state">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1640,7 +1640,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_dn_city" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("City");?> : &nbsp;</td>
                 <td>
-                  <input name="dn_city" id="dn_city" type="text" size="40" value="<?=$pconfig['dn_city'];?>"/>
+                  <input name="dn_city" id="dn_city" type="text" size="40" value="<?=strval($pconfig['dn_city']);?>"/>
                   <div class="hidden" data-for="help_for_digest_dn_city">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1651,7 +1651,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_dn_organization" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Organization");?> : &nbsp;</td>
                 <td>
-                  <input name="dn_organization" id="dn_organization" type="text" size="40" value="<?=$pconfig['dn_organization'];?>"/>
+                  <input name="dn_organization" id="dn_organization" type="text" size="40" value="<?=strval($pconfig['dn_organization']);?>"/>
                   <div class="hidden" data-for="help_for_digest_dn_organization">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1662,7 +1662,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_dn_email" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Email Address");?> : &nbsp;</td>
                 <td>
-                  <input name="dn_email" id="dn_email" type="text" size="25" value="<?=$pconfig['dn_email'];?>"/>
+                  <input name="dn_email" id="dn_email" type="text" size="25" value="<?=strval($pconfig['dn_email']);?>"/>
                   <div class="hidden" data-for="help_for_digest_dn_email">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1673,7 +1673,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_dn_commonname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Common Name");?> : &nbsp;</td>
                 <td>
-                  <input name="dn_commonname" id="dn_commonname" type="text" size="25" value="<?=$pconfig['dn_commonname'];?>"/>
+                  <input name="dn_commonname" id="dn_commonname" type="text" size="25" value="<?=strval($pconfig['dn_commonname']);?>"/>
                   <div class="hidden" data-for="help_for_digest_dn_commonname">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1832,7 +1832,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_csr_dn_state" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("State or Province");?> : &nbsp;</td>
                 <td>
-                  <input name="csr_dn_state" type="text" size="40" value="<?=$pconfig['csr_dn_state'];?>"/>
+                  <input name="csr_dn_state" type="text" size="40" value="<?=strval($pconfig['csr_dn_state']);?>"/>
                   <div class="hidden" data-for="help_for_digest_csr_dn_state">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1843,7 +1843,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_csr_dn_city" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("City");?> : &nbsp;</td>
                 <td>
-                  <input name="csr_dn_city" type="text" size="40" value="<?=$pconfig['csr_dn_city'];?>"/>
+                  <input name="csr_dn_city" type="text" size="40" value="<?=strval($pconfig['csr_dn_city']);?>"/>
                   <div class="hidden" data-for="help_for_digest_csr_dn_city">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1854,7 +1854,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_csr_dn_organization" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Organization");?> : &nbsp;</td>
                 <td>
-                  <input name="csr_dn_organization" type="text" size="40" value="<?=$pconfig['csr_dn_organization'];?>"/>
+                  <input name="csr_dn_organization" type="text" size="40" value="<?=strval($pconfig['csr_dn_organization']);?>"/>
                   <div class="hidden" data-for="help_for_digest_csr_dn_organization">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1865,7 +1865,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_csr_dn_organizationalunit" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Organizational Unit");?> : &nbsp;</td>
                 <td>
-                  <input name="csr_dn_organizationalunit" type="text" size="40" value="<?=$pconfig['csr_dn_organizationalunit'];?>"/>
+                  <input name="csr_dn_organizationalunit" type="text" size="40" value="<?=strval($pconfig['csr_dn_organizationalunit']);?>"/>
                   <div class="hidden" data-for="help_for_digest_csr_dn_organizationalunit">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1876,7 +1876,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_csr_dn_email" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Email Address");?> : &nbsp;</td>
                 <td>
-                  <input name="csr_dn_email" type="text" size="25" value="<?=$pconfig['csr_dn_email'];?>"/>
+                  <input name="csr_dn_email" type="text" size="25" value="<?=strval($pconfig['csr_dn_email']);?>"/>
                   <div class="hidden" data-for="help_for_digest_csr_dn_email">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1887,7 +1887,7 @@ $( document ).ready(function() {
               <tr>
                 <td><a id="help_for_digest_csr_dn_commonname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Common Name");?> : &nbsp;</td>
                 <td>
-                  <input name="csr_dn_commonname" type="text" size="25" value="<?=$pconfig['csr_dn_commonname'];?>"/>
+                  <input name="csr_dn_commonname" type="text" size="25" value="<?=strval($pconfig['csr_dn_commonname']);?>"/>
                   <div class="hidden" data-for="help_for_digest_csr_dn_commonname">
                     <em><?=gettext("ex:");?></em>
                     &nbsp;
@@ -1960,7 +1960,7 @@ $( document ).ready(function() {
               <tr>
                 <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> <?=gettext("Descriptive name");?></td>
                 <td style="width:78%">
-                  <input name="descr" type="text" id="descr" readonly="readonly" value="<?=$pconfig['descr'];?>"/>
+                  <input name="descr" type="text" id="descr" readonly="readonly" value="<?=strval($pconfig['descr']);?>"/>
                 </td>
               </tr>
               <tr>

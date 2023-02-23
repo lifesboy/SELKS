@@ -672,7 +672,7 @@ include("head.inc");
                     <tr>
                       <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Pool Description");?></td>
                       <td>
-                        <input name="descr" type="text" id="descr" value="<?=$pconfig['descr'];?>" />
+                        <input name="descr" type="text" id="descr" value="<?=strval($pconfig['descr']);?>" />
                       </td>
                     </tr>
 <?php
@@ -729,8 +729,8 @@ include("head.inc");
                             </thead>
                             <tbody>
                               <tr>
-                                <td><input name="range_from" type="text" id="range_from" value="<?=$pconfig['range_from'];?>" /></td>
-                                <td><input name="range_to" type="text" id="range_to" value="<?=$pconfig['range_to'];?>" /> </td>
+                                <td><input name="range_from" type="text" id="range_from" value="<?=strval($pconfig['range_from']);?>" /></td>
+                                <td><input name="range_to" type="text" id="range_to" value="<?=strval($pconfig['range_to']);?>" /> </td>
                               </tr>
                             </tbody>
                         </table>
@@ -780,15 +780,15 @@ include("head.inc");
                     <tr>
                       <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("WINS servers");?></td>
                       <td>
-                        <input name="wins1" type="text" value="<?=$pconfig['wins1'];?>" /><br />
-                        <input name="wins2" type="text" value="<?=$pconfig['wins2'];?>" />
+                        <input name="wins1" type="text" value="<?=strval($pconfig['wins1']);?>" /><br />
+                        <input name="wins2" type="text" value="<?=strval($pconfig['wins2']);?>" />
                       </td>
                     </tr>
                     <tr>
                       <td><a id="help_for_dns" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("DNS servers");?></td>
                       <td>
-                        <input name="dns1" type="text" value="<?=$pconfig['dns1'];?>" /><br />
-                        <input name="dns2" type="text" value="<?=$pconfig['dns2'];?>" />
+                        <input name="dns1" type="text" value="<?=strval($pconfig['dns1']);?>" /><br />
+                        <input name="dns2" type="text" value="<?=strval($pconfig['dns2']);?>" />
                         <div class="hidden" data-for="help_for_dns">
                           <?= gettext('Leave blank to use the system default DNS servers: This interface IP address if a DNS service is enabled or the configured global DNS servers.') ?>
                         </div>
@@ -797,7 +797,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_gateway" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Gateway");?></td>
                       <td>
-                        <input name="gateway" type="text" class="form-control host" value="<?=$pconfig['gateway'];?>" />
+                        <input name="gateway" type="text" class="form-control host" value="<?=strval($pconfig['gateway']);?>" />
                         <div class="hidden" data-for="help_for_gateway">
                           <?=gettext('The default is to use the IP on this interface of the firewall as the gateway, if a valid (online) gateway has been configured under System->Gateways. '.
                                      'Specify an alternate gateway here if this is not the correct gateway for your network. Type "none" for no gateway assignment.');?>
@@ -807,7 +807,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_domain" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain name");?></td>
                       <td>
-                        <input name="domain" type="text" value="<?=$pconfig['domain'];?>" />
+                        <input name="domain" type="text" value="<?=strval($pconfig['domain']);?>" />
                         <div class="hidden" data-for="help_for_domain">
                           <?=gettext("The default is to use the domain name of this system as the default domain name provided by DHCP. You may specify an alternate domain name here.");?>
                         </div>
@@ -816,7 +816,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_domainsearchlist" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain search list");?></td>
                       <td>
-                        <input name="domainsearchlist" type="text" id="domainsearchlist" value="<?=$pconfig['domainsearchlist'];?>" />
+                        <input name="domainsearchlist" type="text" id="domainsearchlist" value="<?=strval($pconfig['domainsearchlist']);?>" />
                         <div class="hidden" data-for="help_for_domainsearchlist">
                           <?=gettext("The DHCP server can optionally provide a domain search list. Use the semicolon character as separator.");?>
                         </div>
@@ -825,7 +825,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_defaultleasetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Default lease time (seconds)")?></td>
                       <td>
-                        <input name="defaultleasetime" type="text" id="defaultleasetime" value="<?=$pconfig['defaultleasetime'];?>" />
+                        <input name="defaultleasetime" type="text" id="defaultleasetime" value="<?=strval($pconfig['defaultleasetime']);?>" />
                         <div class="hidden" data-for="help_for_defaultleasetime">
                           <?=gettext("This is used for clients that do not ask for a specific expiration time."); ?><br />
                           <?=gettext("The default is 7200 seconds.");?>
@@ -835,7 +835,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_maxleasetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Maximum lease time");?> (<?=gettext("seconds");?>)</td>
                       <td>
-                        <input name="maxleasetime" type="text" id="maxleasetime" value="<?=$pconfig['maxleasetime'];?>" />
+                        <input name="maxleasetime" type="text" id="maxleasetime" value="<?=strval($pconfig['maxleasetime']);?>" />
                         <div class="hidden" data-for="help_for_maxleasetime">
                           <?=gettext("This is the maximum lease time for clients that ask for a specific expiration time."); ?><br />
                           <?=gettext("The default is 86400 seconds.");?>
@@ -856,7 +856,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_failover_peerip" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Failover peer IP:");?></td>
                       <td>
-                        <input name="failover_peerip" type="text" class="form-control host" id="failover_peerip" value="<?=$pconfig['failover_peerip'];?>" />
+                        <input name="failover_peerip" type="text" class="form-control host" id="failover_peerip" value="<?=strval($pconfig['failover_peerip']);?>" />
                         <div class="hidden" data-for="help_for_failover_peerip">
                           <?=gettext("Leave blank to disable. Enter the interface IP address of the other machine. Machines must be using CARP. Interface's advskew determines whether the DHCPd process is Primary or Secondary. Ensure one machine's advskew<20 (and the other is >20). Note that changing this value will delete the current leases-database!");?>
                         </div>
@@ -864,7 +864,7 @@ include("head.inc");
                     </tr>
                     <td><a id="help_for_failover_split" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Failover split:");?></td>
                       <td>
-                        <input name="failover_split" type="text" class="form-control host" id="failover_split" value="<?=$pconfig['failover_split'];?>" />
+                        <input name="failover_split" type="text" class="form-control host" id="failover_split" value="<?=strval($pconfig['failover_split']);?>" />
                         <div class="hidden" data-for="help_for_failover_split">
                           <?=gettext("Leave blank to use default (128) which should be fine for most cases. ".
                                      "Enter a number (0-256) to specify the load-balancing split between the failover peers, ".
@@ -911,13 +911,13 @@ include("head.inc");
                         <strong><?=gettext("Enable registration of DHCP client names in DNS.");?></strong><br />
                         <?=gettext("Enter the dynamic DNS domain which will be used to register client names in the DNS server.");?>
                         <?=gettext("Note: Leave blank to disable dynamic DNS registration.");?><br />
-                        <input name="ddnsdomain" type="text" value="<?=$pconfig['ddnsdomain'];?>" />
+                        <input name="ddnsdomain" type="text" value="<?=strval($pconfig['ddnsdomain']);?>" />
                         <?=gettext("Enter the primary domain name server IP address for the dynamic domain name.");?><br />
-                        <input name="ddnsdomainprimary" type="text" value="<?=$pconfig['ddnsdomainprimary'];?>" />
+                        <input name="ddnsdomainprimary" type="text" value="<?=strval($pconfig['ddnsdomainprimary']);?>" />
                         <?=gettext("Enter the dynamic DNS domain key name which will be used to register client names in the DNS server.");?>
-                        <input name="ddnsdomainkeyname" type="text" value="<?=$pconfig['ddnsdomainkeyname'];?>" />
+                        <input name="ddnsdomainkeyname" type="text" value="<?=strval($pconfig['ddnsdomainkeyname']);?>" />
                         <?=gettext("Enter the dynamic DNS domain key secret which will be used to register client names in the DNS server.");?>
-                        <input name="ddnsdomainkey" type="text" value="<?=$pconfig['ddnsdomainkey'];?>" />
+                        <input name="ddnsdomainkey" type="text" value="<?=strval($pconfig['ddnsdomainkey']);?>" />
                         <?=gettext("Choose the dynamic DNS domain key algorithm.");?><br />
                         <select name='ddnsdomainalgorithm' id="ddnsdomainalgorithm" class="selectpicker">
 <?php
@@ -956,8 +956,8 @@ include("head.inc");
                           <input type="button" onclick="show_ntp_config()" class="btn btn-default btn-xs" value="<?= html_safe(gettext('Advanced')) ?>" /> - <?=gettext("Show NTP configuration");?>
                         </div>
                         <div id="showntp" style="display:none">
-                          <input name="ntp1" type="text" id="ntp1" value="<?=$pconfig['ntp1'];?>" /><br />
-                          <input name="ntp2" type="text" id="ntp2" value="<?=$pconfig['ntp2'];?>" />
+                          <input name="ntp1" type="text" id="ntp1" value="<?=strval($pconfig['ntp1']);?>" /><br />
+                          <input name="ntp2" type="text" id="ntp2" value="<?=strval($pconfig['ntp2']);?>" />
                         </div>
                       </td>
                     </tr>
@@ -969,9 +969,9 @@ include("head.inc");
                         </div>
                         <div id="showtftp" style="display:none">
                           <?=gettext("Set TFTP hostname");?>
-                          <input name="tftp" type="text" size="50" value="<?=$pconfig['tftp'];?>" /><br />
+                          <input name="tftp" type="text" size="50" value="<?=strval($pconfig['tftp']);?>" /><br />
                           <?=gettext("Set Bootfile");?>
-                          <input name="bootfilename" type="text" value="<?=$pconfig['bootfilename'];?>" /><br />
+                          <input name="bootfilename" type="text" value="<?=strval($pconfig['bootfilename']);?>" /><br />
                           <?=gettext("Leave blank to disable. Enter a full hostname or IP for the TFTP server and optionally a full path for a bootfile.");?>
                         </div>
                       </td>
@@ -983,7 +983,7 @@ include("head.inc");
                           <input type="button" onclick="show_ldap_config()" class="btn btn-default btn-xs" value="<?= html_safe(gettext('Advanced')) ?>" /> - <?=gettext("Show LDAP configuration");?>
                         </div>
                         <div id="showldap" style="display:none">
-                          <input name="ldap" type="text" id="ldap" size="80" value="<?=$pconfig['ldap'];?>" /><br />
+                          <input name="ldap" type="text" id="ldap" size="80" value="<?=strval($pconfig['ldap']);?>" /><br />
                           <?=sprintf(gettext("Leave blank to disable. Enter a full URI for the LDAP server in the form %s"),'ldap://ldap.example.com/dc=example,dc=com')?>
                         </div>
                       </td>
@@ -999,18 +999,18 @@ include("head.inc");
                           <strong><?=gettext("Enables network booting.");?></strong>
                           <br/><br/>
                           <?=gettext('Set next-server IP');?>
-                          <input name="nextserver" type="text" id="nextserver" value="<?=$pconfig['nextserver'];?>" /><br />
+                          <input name="nextserver" type="text" id="nextserver" value="<?=strval($pconfig['nextserver']);?>" /><br />
                           <?=gettext('Set default bios filename');?>
-                          <input name="filename" type="text" id="filename" value="<?=$pconfig['filename'];?>" /><br />
+                          <input name="filename" type="text" id="filename" value="<?=strval($pconfig['filename']);?>" /><br />
                           <?=gettext('Set UEFI 32bit filename');?>
-                          <input name="filename32" type="text" id="filename32" value="<?=$pconfig['filename32'];?>" /><br />
+                          <input name="filename32" type="text" id="filename32" value="<?=strval($pconfig['filename32']);?>" /><br />
                           <?=gettext('Set UEFI 64bit filename');?>
-                          <input name="filename64" type="text" id="filename64" value="<?=$pconfig['filename64'];?>" /><br />
+                          <input name="filename64" type="text" id="filename64" value="<?=strval($pconfig['filename64']);?>" /><br />
                           <?=gettext("Note: You need both a filename and a boot server configured for this to work!");?><br/>
                           <?=gettext("You will need all three filenames and a boot server configured for UEFI to work!");?>
                           <br/><br/>
                           <?=gettext('Set root-path string');?>
-                          <input name="rootpath" type="text" id="rootpath" size="90" value="<?=$pconfig['rootpath'];?>" /><br />
+                          <input name="rootpath" type="text" id="rootpath" size="90" value="<?=strval($pconfig['rootpath']);?>" /><br />
                           <?=gettext("Note: string-format: iscsi:(servername):(protocol):(port):(LUN):targetname");?>
                         </div>
                       </td>
@@ -1038,11 +1038,11 @@ include("head.inc");
                           <strong><?=gettext("Enables OMAPI");?></strong>
                           <br/><br/>
                           <?=gettext('OMAPI port');?>
-                          <input name="omapiport" type="text" id="omapiport" value="<?=$pconfig['omapiport'];?>" /><br />
+                          <input name="omapiport" type="text" id="omapiport" value="<?=strval($pconfig['omapiport']);?>" /><br />
                           <?=gettext('Key algorithm');?>
-                          <input name="omapialgorithm" type="text" id="omapialgorithm" value="<?=$pconfig['omapialgorithm'];?>" /><br />
+                          <input name="omapialgorithm" type="text" id="omapialgorithm" value="<?=strval($pconfig['omapialgorithm']);?>" /><br />
                           <?=gettext('OMAPI key');?>
-                          <input name="omapikey" type="text" id="omapikey" value="<?=$pconfig['omapikey'];?>" /><br />
+                          <input name="omapikey" type="text" id="omapikey" value="<?=strval($pconfig['omapikey']);?>" /><br />
                         </div>
                       </td>
                     </tr>

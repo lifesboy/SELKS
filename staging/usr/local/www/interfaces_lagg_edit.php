@@ -273,7 +273,7 @@ legacy_html_escape_form_data($pconfig);
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here for your reference (not parsed)."); ?>
                       </div>
@@ -291,7 +291,7 @@ legacy_html_escape_form_data($pconfig);
                   <tr>
                     <td><a id="help_for_mtu" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("MTU"); ?></td>
                     <td>
-                      <input name="mtu" id="mtu" type="text" value="<?=$pconfig['mtu'];?>" />
+                      <input name="mtu" id="mtu" type="text" value="<?=strval($pconfig['mtu']);?>" />
                       <div class="hidden" data-for="help_for_mtu">
                         <?= gettext("If you leave this field blank, the smallest mtu of this laggs children will be used.");?>
                       </div>

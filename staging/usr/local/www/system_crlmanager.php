@@ -345,7 +345,7 @@ include("head.inc");
               <tr>
                 <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Descriptive name");?></td>
                 <td>
-                  <input name="descr" type="text" id="descr" size="20" value="<?=$pconfig['descr'];?>"/>
+                  <input name="descr" type="text" id="descr" size="20" value="<?=strval($pconfig['descr']);?>"/>
                 </td>
               </tr>
               <tr>
@@ -393,7 +393,7 @@ include("head.inc");
                 <tr>
                   <td style="width:22%"><a id="help_for_lifetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Lifetime");?> (<?=gettext("days");?>)</td>
                   <td style="width:78%">
-                    <input name="lifetime" type="text" id="lifetime" size="5" value="<?=$pconfig['lifetime'];?>"/>
+                    <input name="lifetime" type="text" id="lifetime" size="5" value="<?=strval($pconfig['lifetime']);?>"/>
                     <div class="hidden" data-for="help_for_lifetime">
                       <?=gettext("Default: 9999");?>
                     </div>
@@ -402,7 +402,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_serial" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Serial");?></td>
                   <td>
-                    <input name="serial" type="text" id="serial" size="5" value="<?=$pconfig['serial'];?>"/>
+                    <input name="serial" type="text" id="serial" size="5" value="<?=strval($pconfig['serial']);?>"/>
                     <div class="hidden" data-for="help_for_serial">
                       <?=gettext("Default: 0");?>
                     </div>

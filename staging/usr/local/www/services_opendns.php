@@ -151,7 +151,7 @@ include 'head.inc';
                 <tr>
                   <td><a id="help_for_username" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Username'); ?></td>
                   <td>
-                    <input name="username" type="text" id="username" size="20" value="<?=$pconfig['username'];?>" />
+                    <input name="username" type="text" id="username" size="20" value="<?=strval($pconfig['username']);?>" />
                     <div class="hidden" data-for="help_for_username">
                       <?=gettext(
                         'Signon Username to log into your OpenDNS dashboard. ' .
@@ -164,13 +164,13 @@ include 'head.inc';
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext('Password'); ?></td>
                   <td>
-                    <input name="password" type="password" id="password" size="20" value="<?=$pconfig['password'];?>" />
+                    <input name="password" type="password" id="password" size="20" value="<?=strval($pconfig['password']);?>" />
                   </td>
                 </tr>
                 <tr>
                   <td><a id="help_for_host" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Network'); ?></td>
                   <td>
-                    <input name="host" type="text" id="host" size="30" value="<?=$pconfig['host'];?>" />
+                    <input name="host" type="text" id="host" size="30" value="<?=strval($pconfig['host']);?>" />
                     <div class="hidden" data-for="help_for_host">
                       <?= sprintf(gettext(
                         'Enter the network name configured on the %sNetworks ' .
