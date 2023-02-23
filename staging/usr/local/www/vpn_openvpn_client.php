@@ -690,10 +690,10 @@ $( document ).ready(function() {
                   endif ?>
                     </td>
                     <td>
-                      <input name="server_addr[]" type="text" value="<?= $pconfig['server_addr'][$i] ?>" />
+                      <input name="server_addr[]" type="text" value="<?= strval($pconfig['server_addr'][$i]) ?>" />
                     </td>
                     <td>
-                      <input name="server_port[]" type="text" value="<?= $pconfig['server_port'][$i] ?>" />
+                      <input name="server_port[]" type="text" value="<?= strval($pconfig['server_port'][$i]) ?>" />
                     </td>
                   </tr>
 <?php

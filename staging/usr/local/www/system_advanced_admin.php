@@ -577,7 +577,7 @@ $(document).ready(function() {
               <tr>
                 <td><a id="help_for_althostnames" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Alternate Hostnames") ?></td>
                 <td>
-                  <input name="althostnames" type="text" value="<?= $pconfig['althostnames'] ?>"/>
+                  <input name="althostnames" type="text" value="<?= strval($pconfig['althostnames']) ?>"/>
                   <?=gettext("Alternate Hostnames for DNS Rebinding and HTTP_REFERER Checks"); ?>
                   <div class="hidden" data-for="help_for_althostnames">
                     <?= gettext("Here you can specify alternate hostnames by which the router may be queried, to " .

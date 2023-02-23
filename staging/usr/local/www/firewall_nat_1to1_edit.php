@@ -295,7 +295,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_external" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("External network"); ?></td>
                     <td>
-                      <input name="external" type="text" value="<?=$pconfig['external'];?>" />
+                      <input name="external" type="text" value="<?=strval($pconfig['external']);?>" />
                       <div class="hidden" data-for="help_for_external">
                         <?=gettext("Enter the external subnet's starting address for the 1:1 mapping or network.");?><br />
                         <?=gettext("The subnet mask from the internal address below will be applied to this IP address, when none is provided."); ?><br />
@@ -319,7 +319,7 @@ include("head.inc");
                           <tr>
                             <td>
                               <select name="src" id="src" class="selectpicker" data-live-search="true" data-size="5" data-width="auto" data-hide-disabled="true">
-                                <option data-other=true value="<?=$pconfig['src'];?>" <?=!is_specialnet($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                                <option data-other=true value="<?=strval($pconfig['src']);?>" <?=!is_specialnet($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                                 <optgroup label="<?=gettext("Aliases");?>" data-type="nat">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
@@ -339,7 +339,7 @@ include("head.inc");
                           <td>
                             <div class="input-group">
                             <!-- updates to "other" option in src -->
-                            <input type="text" for="src" value="<?=$pconfig['src'];?>" aria-label="<?=gettext("Source address");?>"/>
+                            <input type="text" for="src" value="<?=strval($pconfig['src']);?>" aria-label="<?=gettext("Source address");?>"/>
                             <select name="srcmask" class="selectpicker input-group-btn" data-size="5" id="srcmask"  data-width="auto" for="src" >
                             <?php for ($i = 32; $i > 0; $i--): ?>
                               <option value="<?=$i;?>" <?= $i == $pconfig['srcmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
@@ -370,7 +370,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select name="dst" id="dst" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['dst'];?>" <?=!is_specialnet($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                              <option data-other=true value="<?=strval($pconfig['dst']);?>" <?=!is_specialnet($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                               <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
@@ -409,7 +409,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here " ."for your reference (not parsed)."); ?>
                       </div>

@@ -867,7 +867,7 @@ endforeach; ?>
                     <td><a id="help_for_psk" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Pre-Shared Key"); ?></td>
                     <td>
                       <input name="pre-shared-key" type="text" class="formfld unknown" id="pskey" size="40"
-                             value="<?= $pconfig['authentication_method'] == "pre_shared_key" || $pconfig['authentication_method'] == "xauth_psk_server" ? $pconfig['pre-shared-key'] : "";?>" />
+                             value="<?= strval($pconfig['authentication_method'] == "pre_shared_key" || $pconfig['authentication_method'] == "xauth_psk_server" ? $pconfig['pre-shared-key'] : "");?>" />
                       <div class="hidden" data-for="help_for_psk">
                         <?=gettext("Input your Pre-Shared Key string."); ?>
                       </div>

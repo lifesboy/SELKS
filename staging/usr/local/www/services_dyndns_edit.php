@@ -314,7 +314,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_host" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Hostname") ?></td>
                     <td>
-                      <input name="host" type="text" id="host" value="<?= $pconfig['host'] ?>" />
+                      <input name="host" type="text" id="host" value="<?= strval($pconfig['host']) ?>" />
                       <div class="hidden" data-for="help_for_host">
                         <?= gettext("Enter the complete host/domain name. example: myhost.dyndns.org") ?><br />
                         <?= gettext("For he.net tunnelbroker, enter your tunnel ID") ?>
@@ -324,7 +324,7 @@ include("head.inc");
                   <tr class="opt_field type_default type_route53">
                     <td><a id="help_for_mx" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("MX") ?></td>
                     <td>
-                      <input name="mx" type="text" id="mx" value="<?= $pconfig['mx'] ?>" />
+                      <input name="mx" type="text" id="mx" value="<?= strval($pconfig['mx']) ?>" />
                       <div class="hidden" data-for="help_for_mx">
                         <?= gettext("Note: With a dynamic DNS service you can only use a hostname, not an IP address.") ?>
                         <br />
@@ -358,7 +358,7 @@ include("head.inc");
                   <tr class ="opt_field type_custom type_route53 type_azure type_default">
                     <td><a id="help_for_username" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Username") ?></td>
                     <td>
-                      <input name="username" type="text" id="username" value="<?= $pconfig['username'] ?>" />
+                      <input name="username" type="text" id="username" value="<?= strval($pconfig['username']) ?>" />
                       <div class="hidden" data-for="help_for_username">
                         <?= gettext('Username is required except when stated otherwise.') ?>
                         <br /><?= gettext('Route 53: Enter your Access Key ID.') ?>
@@ -373,7 +373,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_password" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Password") ?></td>
                     <td>
-                      <input name="password" type="password" id="password" value="<?= $pconfig['password'] ?>" />
+                      <input name="password" type="password" id="password" value="<?= strval($pconfig['password']) ?>" />
                       <div class="hidden" data-for="help_for_password">
                         <?=gettext('FreeDNS (freedns.afraid.org): Enter your "Authentication Token" provided by FreeDNS.') ?>
                         <br /><?= gettext('Route 53: Enter your Secret Access Key.') ?>
@@ -389,7 +389,7 @@ include("head.inc");
                   <tr class="opt_field type_route53">
                     <td><a id="help_for_zoneid" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Zone ID") ?></td>
                     <td>
-                      <input name="zoneid" type="text" id="zoneid" value="<?= $pconfig['zoneid'] ?>" />
+                      <input name="zoneid" type="text" id="zoneid" value="<?= strval($pconfig['zoneid']) ?>" />
                       <div class="hidden" data-for="help_for_zoneid">
                         <?= gettext("Enter Zone ID that you received when you created your domain in Route 53.") ?>
                       </div>
@@ -398,7 +398,7 @@ include("head.inc");
                   <tr class="opt_field type_azure">
                     <td><a id="help_for_resourceid" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Resource Id') ?></td>
                     <td>
-                      <input name="resourceid" type="text" id="resourceid" value="<?= $pconfig['resourceid'] ?>" />
+                      <input name="resourceid" type="text" id="resourceid" value="<?= strval($pconfig['resourceid']) ?>" />
                       <div class="hidden" data-for="help_for_resourceid">
                         <?= gettext("Enter the resource id of the DNS Zone in Azure.") ?>
                       </div>
@@ -407,7 +407,7 @@ include("head.inc");
                   <tr class="opt_field type_custom">
                     <td><a id="help_for_updateurl" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Update URL") ?></td>
                     <td>
-                      <input name="updateurl" type="text" id="updateurl" value="<?= $pconfig['updateurl'] ?>" />
+                      <input name="updateurl" type="text" id="updateurl" value="<?= strval($pconfig['updateurl']) ?>" />
                       <div class="hidden" data-for="help_for_updateurl">
                         <?= gettext("This is the only field required by for Custom Dynamic DNS, and is only used by Custom Entries.") ?>
                         <br />
@@ -435,7 +435,7 @@ include("head.inc");
                   <tr class="opt_field type_route53 type_azure type_cloudflare">
                     <td><a id="help_for_ttl" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("TTL");?></td>
                     <td>
-                      <input name="ttl" type="text" id="ttl" value="<?= $pconfig['ttl'] ?>" />
+                      <input name="ttl" type="text" id="ttl" value="<?= strval($pconfig['ttl']) ?>" />
                       <div class="hidden" data-for="help_for_ttl">
                         <?= gettext("Choose TTL for your dns record.") ?>
                         <br /><?= gettext('Cloudflare: value "1" means "Auto". Anything below 1 will be updated with value 1/Auto.') ?>
@@ -445,7 +445,7 @@ include("head.inc");
                   <tr>
                     <td><i class="fa fa-info-circle text-muted"></i> <?= gettext("Description") ?></td>
                     <td>
-                      <input name="descr" type="text" id="descr" value="<?= $pconfig['descr'] ?>" />
+                      <input name="descr" type="text" id="descr" value="<?= strval($pconfig['descr']) ?>" />
                     </td>
                   </tr>
                   <tr>

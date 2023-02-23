@@ -1552,7 +1552,7 @@ include("head.inc");
                   <tr class="opt_advanced hidden">
                       <td><a id="help_for_max-src-conn" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Max established");?> </td>
                       <td>
-                        <input name="max-src-conn" type="text" value="<?= $pconfig['max-src-conn'];?>" />
+                        <input name="max-src-conn" type="text" value="<?= strval($pconfig['max-src-conn']);?>" />
                         <div class="hidden" data-for="help_for_max-src-conn">
                             <?=gettext("Maximum number of established connections per host (TCP only)");?>
                         </div>

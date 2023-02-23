@@ -132,13 +132,13 @@ include("head.inc"); ?>
                     <tr>
                       <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Host"); ?></td>
                       <td>
-                        <input name="host" type="text" value="<?=$pconfig['host'];?>" />
+                        <input name="host" type="text" value="<?=strval($pconfig['host']);?>" />
                       </td>
                     </tr>
                     <tr>
                       <td><i class="fa fa-info-circle text-muted"></i> <?= gettext("Port"); ?></td>
                       <td>
-                        <input name="port" type="text" value="<?=$pconfig['port'];?>" />
+                        <input name="port" type="text" value="<?=strval($pconfig['port']);?>" />
                       </td>
                     </tr>
                     <tr>
@@ -170,7 +170,7 @@ include("head.inc"); ?>
                     <tr>
                       <td><a id="help_for_srcport" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Source Port"); ?></td>
                       <td>
-                        <input name="srcport" type="text" value="<?=$pconfig['srcport'];?>" />
+                        <input name="srcport" type="text" value="<?=strval($pconfig['srcport']);?>" />
                         <div class="hidden" data-for="help_for_srcport">
                           <?=gettext("This should typically be left blank."); ?>
                         </div>
