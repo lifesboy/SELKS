@@ -2254,7 +2254,7 @@ include("head.inc");
                         <tr>
                           <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Username"); ?></td>
                           <td>
-                            <input name="username" type="text" id="username" value="<?=strval($pconfig['username'];?>" />
+                            <input name="username" type="text" id="username" value="<?=strval($pconfig['username']);?>" />
                           </td>
                         </tr>
                         <tr>
