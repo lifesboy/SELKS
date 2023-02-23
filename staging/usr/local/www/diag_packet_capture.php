@@ -416,7 +416,7 @@ include("fbegin.inc");
                   <tr>
                     <td><a id="help_for_host" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Host Address");?></td>
                     <td>
-                      <input type="text"  name="host" value="<?=$pconfig['host'];?>" />
+                      <input type="text"  name="host" value="<?=strval($pconfig['host']);?>" />
                       <div class="hidden" data-for="help_for_host">
                         <?=gettext("This value is either the Source or Destination IP address or subnet in CIDR notation. The packet capture will look for this address in either field.");?>
                         <?=gettext("Matching can be negated by preceding the value with \"not\". Multiple IP addresses or CIDR subnets may be specified as boolean expression.");?>
@@ -428,7 +428,7 @@ include("fbegin.inc");
                   <tr>
                     <td><a id="help_for_port" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Port");?></td>
                     <td>
-                      <input type="text" name="port" value="<?=$pconfig['port'];?>" />
+                      <input type="text" name="port" value="<?=strval($pconfig['port']);?>" />
                       <div class="hidden" data-for="help_for_port">
                         <?=gettext("The port can be either the source or destination port. The packet capture will look for this port in either field.");?> <?=gettext("Leave blank if you do not want to filter by port.");?>
                       </div>
@@ -446,7 +446,7 @@ include("fbegin.inc");
                   <tr>
                     <td><a id="help_for_count" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Count");?></td>
                     <td>
-                      <input type="text" name="count" class="formfld unknown" id="count" size="5" value="<?=$pconfig['count'];?>" />
+                      <input type="text" name="count" class="formfld unknown" id="count" size="5" value="<?=strval($pconfig['count']);?>" />
                       <div class="hidden" data-for="help_for_count">
                         <?=gettext("This is the number of packets the packet capture will grab. Default value is 100.") . "<br />" . gettext("Enter 0 (zero) for no count limit.");?>
                       </div>
