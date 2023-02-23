@@ -376,7 +376,7 @@ include("head.inc");
                           <tr>
                             <td>
                               <select name="src" id="src" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['src'];?>" <?=!is_specialnet($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                                <option data-other=true value="<?=strval($pconfig['src']);?>" <?=!is_specialnet($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
@@ -400,7 +400,7 @@ include("head.inc");
                                   <tr>
                                       <td style="width:348px">
                                         <!-- updates to "other" option in  src -->
-                                        <input type="text" id="src_address" for="src" value="<?=$pconfig['src'];?>" aria-label="<?=gettext("Source address");?>"/>
+                                        <input type="text" id="src_address" for="src" value="<?=strval($pconfig['src']);?>" aria-label="<?=gettext("Source address");?>"/>
                                       </td>
                                       <td>
                                         <select name="srcmask" data-network-id="src_address" class="selectpicker ipv4v6net" data-size="5" id="srcmask"  data-width="auto" for="src" >
@@ -430,7 +430,7 @@ include("head.inc");
                           <tr>
                             <td>
                               <select id="srcport" name="srcport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['srcport'];?>">(<?=gettext("other"); ?>)</option>
+                                <option data-other=true value="<?=strval($pconfig['srcport']);?>">(<?=gettext("other"); ?>)</option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("port") as $alias):
   ?>
@@ -448,7 +448,7 @@ include("head.inc");
                           </tr>
                           <tr>
                             <td>
-                              <input type="text" value="<?=$pconfig['srcport'];?>" for="srcport"> <!-- updates to "other" option in  srcport -->
+                              <input type="text" value="<?=strval($pconfig['srcport']);?>" for="srcport"> <!-- updates to "other" option in  srcport -->
                             </td>
                           </tr>
                         </tbody>
@@ -476,7 +476,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select name="dst" id="dst" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['dst'];?>" <?=!is_specialnet($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                              <option data-other=true value="<?=strval($pconfig['dst']);?>" <?=!is_specialnet($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                               <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
@@ -499,7 +499,7 @@ include("head.inc");
                                 <tr>
                                     <td style="width:348px">
                                       <!-- updates to "other" option in  src -->
-                                      <input  type="text" id="dst_address" for="dst" value="<?=$pconfig['dst'];?>" aria-label="<?=gettext("Destination address");?>"/>
+                                      <input  type="text" id="dst_address" for="dst" value="<?=strval($pconfig['dst']);?>" aria-label="<?=gettext("Destination address");?>"/>
                                     </td>
                                     <td>
                                       <select name="dstmask" data-network-id="dst_address" class="selectpicker ipv4v6net" data-size="5" id="dstmask"  data-width="auto" for="dst" >
@@ -524,7 +524,7 @@ include("head.inc");
                           <tr>
                             <td>
                               <select id="dstport" name="dstport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['dstport'];?>">(<?=gettext("other"); ?>)</option>
+                                <option data-other=true value="<?=strval($pconfig['dstport']);?>">(<?=gettext("other"); ?>)</option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("port") as $alias):
   ?>
@@ -542,7 +542,7 @@ include("head.inc");
                           </tr>
                           <tr>
                             <td>
-                              <input  type="text" value="<?=$pconfig['dstport'];?>" for="dstport"> <!-- updates to "other" option in  dstport -->
+                              <input  type="text" value="<?=strval($pconfig['dstport']);?>" for="dstport"> <!-- updates to "other" option in  dstport -->
                             </td>
                           </tr>
                         </tbody>
@@ -556,7 +556,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here for your reference (not parsed)."); ?>
                       </div>
@@ -576,7 +576,7 @@ include("head.inc");
                   <tr>
                       <td style="width:22%"><a id="help_for_maxmss" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Max mss"); ?></td>
                       <td style="width:78%">
-                          <input name="max-mss" type="text" value="<?=$pconfig['max-mss'];?>" />
+                          <input name="max-mss" type="text" value="<?=strval($pconfig['max-mss']);?>" />
                           <div class="hidden" data-for="help_for_maxmss">
                             <?=gettext("Enforces a maximum MSS for matching TCP packets."); ?>
                           </div>
@@ -599,7 +599,7 @@ include("head.inc");
                   <tr>
                       <td style="width:22%"><a id="help_for_minttl" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Minimum TTL') ?></td>
                       <td style="width:78%">
-                          <input name="min-ttl" type="text" value="<?=$pconfig['min-ttl'];?>" />
+                          <input name="min-ttl" type="text" value="<?=strval($pconfig['min-ttl']);?>" />
                           <div class="hidden" data-for="help_for_minttl">
                             <?=gettext("Enforces a minimum TTL for matching IP packets."); ?>
                           </div>
