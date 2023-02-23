@@ -370,7 +370,7 @@ $( document ).ready(function() {
                         <table style="border:0;">
                           <tr>
                             <td style="width:348px">
-                              <input name="subnet" type="text" class="form-control" id="subnet" size="28" value="<?=$pconfig['subnet'];?>" />
+                              <input name="subnet" type="text" class="form-control" id="subnet" size="28" value="<?=strval($pconfig['subnet']);?>" />
                             </td>
                             <td>
                               <select name="subnet_bits" data-network-id="subnet" class="selectpicker ipv4v6net" data-size="10"  data-width="auto" id="subnet_bits">
@@ -394,7 +394,7 @@ $( document ).ready(function() {
                   <tr>
                       <td><a id="help_for_gateway" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Gateway");?></td>
                       <td>
-                          <input name="gateway" type="text" class="form-control" id="gateway" value="<?=$pconfig['gateway'];?>" />
+                          <input name="gateway" type="text" class="form-control" id="gateway" value="<?=strval($pconfig['gateway']);?>" />
                           <div class="hidden" data-for="help_for_gateway">
                             <?=gettext("For some interface types a gateway is required to configure an IP Alias (ppp/pppoe/tun), leave this field empty for all other interface types.");?>
                           </div>
@@ -411,7 +411,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_password" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Virtual IP Password");?></td>
                     <td>
-                      <input type='password'  name='password' id="password" value="<?=$pconfig['password'];?>" />
+                      <input type='password'  name='password' id="password" value="<?=strval($pconfig['password']);?>" />
                       <div class="hidden" data-for="help_for_password">
                         <?=gettext("Enter the VHID group password.");?>
                       </div>
@@ -465,7 +465,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                     <td>
-                      <input name="descr" type="text" class="form-control unknown" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" class="form-control unknown" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_adv">
                         <?=gettext("You may enter a description here for your reference (not parsed).");?>
                       </div>

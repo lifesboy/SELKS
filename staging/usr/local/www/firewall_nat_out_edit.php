@@ -501,7 +501,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select name="source" id="source" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['source'];?>" <?=!is_alias($pconfig['source']) && !in_array($pconfig['source'],array('this_firewall','any'))  ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                              <option data-other=true value="<?=strval($pconfig['source']);?>" <?=!is_alias($pconfig['source']) && !in_array($pconfig['source'],array('this_firewall','any'))  ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                            foreach (legacy_list_aliases("network") as $alias):
 ?>
@@ -521,7 +521,7 @@ include("head.inc");
                         <td>
                           <div class="input-group">
                           <!-- updates to "other" option in  source -->
-                          <input type="text" for="source" id="src_address" value="<?=$pconfig['source'];?>" aria-label="<?=gettext("Source address");?>"/>
+                          <input type="text" for="source" id="src_address" value="<?=strval($pconfig['source']);?>" aria-label="<?=gettext("Source address");?>"/>
                           <select name="source_subnet"  data-network-id="src_address" class="selectpicker ipv4v6net input-group-btn" data-size="5" id="srcmask"  data-width="auto" for="source" >
                           <?php for ($i = 128; $i > 0; $i--): ?>
                             <option value="<?=$i;?>" <?= $i == $pconfig['source_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
@@ -544,7 +544,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select id="sourceport" name="sourceport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['sourceport'];?>">(<?=gettext("other"); ?>)</option>
+                              <option data-other=true value="<?=strval($pconfig['sourceport']);?>">(<?=gettext("other"); ?>)</option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
@@ -562,7 +562,7 @@ include("head.inc");
                         </tr>
                         <tr>
                           <td>
-                            <input type="text" value="<?=$pconfig['sourceport'];?>" for="sourceport"> <!-- updates to "other" option in  localbeginport -->
+                            <input type="text" value="<?=strval($pconfig['sourceport']);?>" for="sourceport"> <!-- updates to "other" option in  localbeginport -->
                           </td>
                         </tr>
                       </tbody>
@@ -588,7 +588,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select name="destination" id="destination" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['destination'];?>" <?=!is_alias($pconfig['destination']) && $pconfig['destination'] != 'any' ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                              <option data-other=true value="<?=strval($pconfig['destination']);?>" <?=!is_alias($pconfig['destination']) && $pconfig['destination'] != 'any' ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                             foreach (legacy_list_aliases("network") as $alias):
 ?>
@@ -608,7 +608,7 @@ include("head.inc");
                         <td>
                           <div class="input-group">
                           <!-- updates to "other" option in  source -->
-                          <input type="text" id="dst_address" for="destination" value="<?=$pconfig['destination'];?>" aria-label="<?=gettext("Destination address");?>"/>
+                          <input type="text" id="dst_address" for="destination" value="<?=strval($pconfig['destination']);?>" aria-label="<?=gettext("Destination address");?>"/>
                           <select name="destination_subnet" data-network-id="dst_address" class="selectpicker ipv4v6net input-group-btn" id="dstmask" data-size="5" data-width="auto" for="destination" >
                           <?php for ($i = 128; $i > 0; $i--): ?>
                             <option value="<?=$i;?>" <?= $i == $pconfig['destination_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
@@ -631,7 +631,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select id="dstport" name="dstport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['dstport'];?>">(<?=gettext("other"); ?>)</option>
+                              <option data-other=true value="<?=strval($pconfig['dstport']);?>">(<?=gettext("other"); ?>)</option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
@@ -649,7 +649,7 @@ include("head.inc");
                         </tr>
                         <tr>
                           <td>
-                            <input type="text" value="<?=$pconfig['dstport'];?>" for="dstport"> <!-- updates to "other" option in  localbeginport -->
+                            <input type="text" value="<?=strval($pconfig['dstport']);?>" for="dstport"> <!-- updates to "other" option in  localbeginport -->
                           </td>
                         </tr>
                       </tbody>
@@ -667,7 +667,7 @@ include("head.inc");
                           <td>
                             <select name="targetip" id="targetip" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
                                 <option value="" <?= empty($pconfig['targetip']) ? "selected=\"selected\"" : "";?> > <?=gettext("Interface address");?> </option>
-                                <option data-other=true value="<?=$pconfig['targetip'];?>" <?= !empty($pconfig['targetip']) && !array_key_exists($pconfig['targetip'], formTranslateAddresses() ) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                                <option data-other=true value="<?=strval($pconfig['targetip']);?>" <?= !empty($pconfig['targetip']) && !array_key_exists($pconfig['targetip'], formTranslateAddresses() ) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
 <?php                              foreach (formTranslateAddresses() as $optKey => $optValue): ?>
                                     <option value="<?=$optKey;?>" <?= $pconfig['targetip'] == $optKey ? "selected=\"selected\"" : ""; ?>>
                                       <?=$optValue;?>
@@ -680,7 +680,7 @@ include("head.inc");
                           <td>
                             <div class="input-group">
                               <!-- updates to "other" option in  source -->
-                              <input type="text" id="targetip_text" for="targetip" value="<?=$pconfig['targetip'];?>" aria-label="<?=gettext("Translation address");?>"/>
+                              <input type="text" id="targetip_text" for="targetip" value="<?=strval($pconfig['targetip']);?>" aria-label="<?=gettext("Translation address");?>"/>
                               <select name="targetip_subnet" data-network-id="targetip_text" class="selectpicker ipv4v6net input-group-btn" id="targetip_subnet" data-size="5" data-width="auto" for="targetip" >
                               <?php for ($i = 128; $i > 0; $i--): ?>
                                 <option value="<?=$i;?>" <?= $i == $pconfig['targetip_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
@@ -710,7 +710,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_natport" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Translation") . " / " .gettext("port:");?></td>
                   <td>
-                    <input name="natport" type="text" value="<?=$pconfig['natport'];?>" />
+                    <input name="natport" type="text" value="<?=strval($pconfig['natport']);?>" />
                     <div class="hidden" data-for="help_for_natport">
                       <?=gettext("Enter the source port for the outbound NAT mapping.");?>
                     </div>
@@ -766,7 +766,7 @@ include("head.inc");
                         </tr>
                         <tr>
                         <td>
-                          <input type="text" id="poolopts_sourcehashkey" name="poolopts_sourcehashkey" for="poolopts" placeholder="Source Hash Key" value="<?=$pconfig['poolopts_sourcehashkey']?>"/>
+                          <input type="text" id="poolopts_sourcehashkey" name="poolopts_sourcehashkey" for="poolopts" placeholder="Source Hash Key" value="<?=strval($pconfig['poolopts_sourcehashkey'])?>"/>
                         </td>
                         </tr>
                       </tbody>
@@ -776,7 +776,7 @@ include("head.inc");
                 <tr>
                     <td><a id="help_for_tag" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Set local tag"); ?></td>
                     <td>
-                      <input name="tag" type="text" value="<?=$pconfig['tag'];?>" />
+                      <input name="tag" type="text" value="<?=strval($pconfig['tag']);?>" />
                       <div class="hidden" data-for="help_for_tag">
                         <?= gettext("You can mark a packet matching this rule and use this mark to match on other NAT/filter rules.") ?>
                       </div>
@@ -785,7 +785,7 @@ include("head.inc");
                 <tr>
                     <td><a id="help_for_tagged" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Match local tag"); ?>   </td>
                     <td>
-                      <input name="tagged" type="text" value="<?=$pconfig['tagged'];?>" />
+                      <input name="tagged" type="text" value="<?=strval($pconfig['tagged']);?>" />
                       <div class="hidden" data-for="help_for_tagged">
                         <?=gettext("You can match packet on a mark placed before on another rule.")?>
                       </div>
@@ -803,7 +803,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                   <td>
-                    <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                    <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                     <div class="hidden" data-for="help_for_descr">
                       <?=gettext("You may enter a description here " ."for your reference (not parsed)."); ?>
                     </div>
