@@ -611,7 +611,7 @@ $( document ).ready(function() {
                         <tr>
                           <td>
                             <select name="src" id="src" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['src'];?>" <?=!is_specialnet($pconfig['src']) && !is_alias($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                              <option data-other=true value="<?=strval($pconfig['src']);?>" <?=!is_specialnet($pconfig['src']) && !is_alias($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("network") as $alias):
 ?>
@@ -631,7 +631,7 @@ $( document ).ready(function() {
                         <td>
                           <div class="input-group">
                           <!-- updates to "other" option in  src -->
-                          <input type="text" id="src_address" for="src" value="<?=$pconfig['src'];?>" aria-label="<?=gettext("Source address");?>"/>
+                          <input type="text" id="src_address" for="src" value="<?=strval($pconfig['src']);?>" aria-label="<?=gettext("Source address");?>"/>
                           <select name="srcmask" data-network-id="src_address" class="selectpicker ipv4v6net input-group-btn" data-size="5" id="srcmask"  data-width="auto" for="src" >
                           <?php for ($i = 128; $i > 0; $i--): ?>
                             <option value="<?=$i;?>" <?= $i == $pconfig['srcmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
@@ -657,7 +657,7 @@ $( document ).ready(function() {
                         <tr>
                           <td>
                             <select id="srcbeginport" name="srcbeginport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['srcbeginport'];?>">(<?=gettext("other"); ?>)</option>
+                              <option data-other=true value="<?=strval($pconfig['srcbeginport']);?>">(<?=gettext("other"); ?>)</option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
@@ -674,7 +674,7 @@ $( document ).ready(function() {
                           </td>
                           <td>
                             <select id="srcendport" name="srcendport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['srcendport'];?>">(<?=gettext("other"); ?>)</option>
+                              <option data-other=true value="<?=strval($pconfig['srcendport']);?>">(<?=gettext("other"); ?>)</option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
@@ -692,10 +692,10 @@ $( document ).ready(function() {
                         </tr>
                         <tr>
                           <td>
-                            <input type="text" value="<?=$pconfig['srcbeginport'];?>" for="srcbeginport"> <!-- updates to "other" option in  srcbeginport -->
+                            <input type="text" value="<?=strval($pconfig['srcbeginport']);?>" for="srcbeginport"> <!-- updates to "other" option in  srcbeginport -->
                           </td>
                           <td>
-                            <input type="text" value="<?=$pconfig['srcendport'];?>" for="srcendport"> <!-- updates to "other" option in  srcendport -->
+                            <input type="text" value="<?=strval($pconfig['srcendport']);?>" for="srcendport"> <!-- updates to "other" option in  srcendport -->
                           </td>
                         </tr>
                       </tbody>
@@ -725,7 +725,7 @@ $( document ).ready(function() {
                       <tr>
                         <td>
                           <select name="dst" id="dst" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                            <option data-other=true value="<?=$pconfig['dst'];?>" <?=!is_specialnet($pconfig['dst']) && !is_alias($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                            <option data-other=true value="<?=strval($pconfig['dst']);?>" <?=!is_specialnet($pconfig['dst']) && !is_alias($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                             <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("network") as $alias):
 ?>
@@ -801,7 +801,7 @@ $( document ).ready(function() {
                         <tr>
                           <td>
                             <select id="dstbeginport" name="dstbeginport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['dstbeginport'];?>">(<?=gettext("other"); ?>)</option>
+                              <option data-other=true value="<?=strval($pconfig['dstbeginport']);?>">(<?=gettext("other"); ?>)</option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
@@ -818,7 +818,7 @@ $( document ).ready(function() {
                           </td>
                           <td>
                             <select id="dstendport" name="dstendport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['dstendport'];?>">(<?=gettext("other"); ?>)</option>
+                              <option data-other=true value="<?=strval($pconfig['dstendport']);?>">(<?=gettext("other"); ?>)</option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
@@ -836,10 +836,10 @@ $( document ).ready(function() {
                         </tr>
                         <tr>
                           <td>
-                            <input type="text" value="<?=$pconfig['dstbeginport'];?>" for="dstbeginport"> <!-- updates to "other" option in  dstbeginport -->
+                            <input type="text" value="<?=strval($pconfig['dstbeginport']);?>" for="dstbeginport"> <!-- updates to "other" option in  dstbeginport -->
                           </td>
                           <td>
-                            <input type="text" value="<?=$pconfig['dstendport'];?>" for="dstendport"> <!-- updates to "other" option in  dstendport -->
+                            <input type="text" value="<?=strval($pconfig['dstendport']);?>" for="dstendport"> <!-- updates to "other" option in  dstendport -->
                           </td>
                         </tr>
                       </tbody>
@@ -856,7 +856,7 @@ $( document ).ready(function() {
                       <tr>
                         <td>
                           <select name="target" id="target" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                            <option data-other=true value="<?=$pconfig['target'];?>" <?=!is_alias($pconfig['target']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                            <option data-other=true value="<?=strval($pconfig['target']);?>" <?=!is_alias($pconfig['target']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                             <optgroup label="<?=gettext("Aliases");?>">
 <?php
                               foreach (legacy_list_aliases("network") as $alias):?>
@@ -871,7 +871,7 @@ $( document ).ready(function() {
                         <td>
                           <div class="input-group">
                           <!-- updates to "other" option in target -->
-                          <input type="text" id="target_address" for="target" value="<?=$pconfig['target'];?>" aria-label="<?=gettext("Redirect target IP");?>"/>
+                          <input type="text" id="target_address" for="target" value="<?=strval($pconfig['target']);?>" aria-label="<?=gettext("Redirect target IP");?>"/>
                         </div>
                         </td>
                       </tr>
@@ -890,7 +890,7 @@ $( document ).ready(function() {
                         <tr>
                           <td>
                             <select id="localbeginport" name="local-port" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['local-port'];?>">(<?=gettext("other"); ?>)</option>
+                              <option data-other=true value="<?=strval($pconfig['local-port']);?>">(<?=gettext("other"); ?>)</option>
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
@@ -908,7 +908,7 @@ $( document ).ready(function() {
                         </tr>
                         <tr>
                           <td>
-                            <input type="text" value="<?=$pconfig['local-port'];?>" for="localbeginport"> <!-- updates to "other" option in  localbeginport -->
+                            <input type="text" value="<?=strval($pconfig['local-port']);?>" for="localbeginport"> <!-- updates to "other" option in  localbeginport -->
                           </td>
                         </tr>
                       </tbody>
@@ -971,7 +971,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><a id="help_for_log_prefix" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Log prefix");?></td>
                   <td>
-                      <input name="log_prefix" type="text" id="log_prefix" size="40" value="<?=$pconfig['log_prefix'];?>" />
+                      <input name="log_prefix" type="text" id="log_prefix" size="40" value="<?=strval($pconfig['log_prefix']);?>" />
                       <div class="hidden" data-for="help_for_log_prefix">
                           <?=gettext("You may enter log_prefix for filter firewall log."); ?>
                       </div>
@@ -980,7 +980,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                   <td>
-                    <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                    <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                     <div class="hidden" data-for="help_for_descr">
                       <?=gettext("You may enter a description here " ."for your reference (not parsed)."); ?>
                     </div>
@@ -988,7 +988,7 @@ $( document ).ready(function() {
                 <!-- <tr>
                     <td><a id="help_for_tag" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Set local tag"); ?></td>
                     <td>
-                      <input name="tag" type="text" value="<?=$pconfig['tag'];?>" />
+                      <input name="tag" type="text" value="<?=strval($pconfig['tag']);?>" />
                       <div class="hidden" data-for="help_for_tag">
                         <?= gettext("You can mark a packet matching this rule and use this mark to match on other NAT/filter rules.") ?>
                       </div>
@@ -997,7 +997,7 @@ $( document ).ready(function() {
                 <tr>
                     <td><a id="help_for_tagged" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Match local tag"); ?>   </td>
                     <td>
-                      <input name="tagged" type="text" value="<?=$pconfig['tagged'];?>" />
+                      <input name="tagged" type="text" value="<?=strval($pconfig['tagged']);?>" />
                       <div class="hidden" data-for="help_for_tagged">
                         <?=gettext("You can match packet on a mark placed before on another rule.")?>
                       </div>

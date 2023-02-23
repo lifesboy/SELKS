@@ -111,7 +111,7 @@ include("head.inc");
                   <tbody>
                     <tr>
                       <td><?=gettext("Host"); ?></td>
-                      <td><input name="host" type="text" class="form-control" id="host" value="<?=$pconfig['host'];?>" /></td>
+                      <td><input name="host" type="text" class="form-control" id="host" value="<?=strval($pconfig['host']);?>" /></td>
                     </tr>
                     <tr>
                       <td><?=gettext("IP Protocol"); ?></td>

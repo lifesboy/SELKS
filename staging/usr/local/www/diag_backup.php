@@ -466,7 +466,7 @@ $( document ).ready(function() {
                         <input name="<?=$fieldId;?>" type="checkbox" <?=!empty($pconfig[$fieldId]) ? "checked" : "";?> >
 <?php
                         elseif ($field['type'] == 'text'):?>
-                        <input name="<?=$fieldId;?>" value="<?=$pconfig[$fieldId];?>" type="text">
+                        <input name="<?=$fieldId;?>" value="<?=strval($pconfig[$fieldId]);?>" type="text">
 
 <?php
                         elseif ($field['type'] == 'file'):?>

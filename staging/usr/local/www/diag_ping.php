@@ -96,7 +96,7 @@ include("head.inc"); ?>
                 <table class="table table-striped __nomb">
                     <tr>
                       <td><?=gettext("Host"); ?></td>
-                      <td><input name="host" type="text" value="<?=$pconfig['host'];?>" /></td>
+                      <td><input name="host" type="text" value="<?=strval($pconfig['host']);?>" /></td>
                     </tr>
                     <tr>
                       <td><?=gettext("IP Protocol"); ?></td>

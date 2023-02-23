@@ -218,7 +218,7 @@ $(document).ready(function() {
                   <tr class="hidden">
                     <td><a id="help_for_preservelogs" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Preserve logs (Days)') ?></td>
                     <td>
-                      <input name="preservelogs" id="preservelogs" type="text" value="<?=$pconfig['preservelogs'];?>" />
+                      <input name="preservelogs" id="preservelogs" type="text" value="<?=strval($pconfig['preservelogs']);?>" />
                       <div class="hidden" data-for="help_for_preservelogs">
                           <?=gettext("Number of log to preserve. By default 31 logs are preserved.");?>
                       </div>
@@ -227,7 +227,7 @@ $(document).ready(function() {
                   <tr>
                     <td><a id="help_for_logfilesize" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Log File Size (Bytes)') ?></td>
                     <td>
-                      <input name="logfilesize" id="logfilesize" type="text" value="<?=$pconfig['logfilesize'];?>" />
+                      <input name="logfilesize" id="logfilesize" type="text" value="<?=strval($pconfig['logfilesize']);?>" />
                       <div class="hidden" data-for="help_for_logfilesize">
                         <?=gettext("Logs are held in constant-size circular log files. This field controls how large each log file is, and thus how many entries may exist inside the log. By default this is approximately 500KB per log file, and there are nearly 20 such log files.") ?>
                         <br /><br />
