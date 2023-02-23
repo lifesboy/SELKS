@@ -635,7 +635,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_email" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("E-Mail");?></td>
                     <td>
-                      <input name="email" type="text" value="<?= $pconfig['email'] ?>" />
+                      <input name="email" type="text" value="<?= strval($pconfig['email']) ?>" />
                       <div class="hidden" data-for="help_for_email">
                         <?= gettext('User\'s e-mail address, for your own information only') ?>
                       </div>
@@ -662,7 +662,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Language");?></td>
                     <td>
-                      <input name="language" type="hidden" value="<?= $pconfig['language'] ?>" />
+                      <input name="language" type="hidden" value="<?= strval($pconfig['language']) ?>" />
                       <?= $pconfig['language'] ?>
                     </td>
                   </tr>

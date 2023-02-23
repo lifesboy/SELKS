@@ -275,7 +275,7 @@ include_once("head.inc");
                       <tr>
                         <td><a id="help_for_cache_max_ttl" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Maximum TTL for RRsets and messages") ?></td>
                         <td>
-                          <input type="text" id="cache_max_ttl" name="cache_max_ttl" size="5" value="<?= $pconfig['cache_max_ttl'] ?>" />
+                          <input type="text" id="cache_max_ttl" name="cache_max_ttl" size="5" value="<?= strval($pconfig['cache_max_ttl']) ?>" />
                           <div class="hidden" data-for="help_for_cache_max_ttl">
                             <?= gettext("Configure a maximum Time to live for RRsets and messages in the cache. The default is 86400 seconds (1 day). When the internal TTL expires the cache item is expired. This can be configured to force the resolver to query for data more often and not trust (very large) TTL values.") ?>
                           </div>
@@ -284,7 +284,7 @@ include_once("head.inc");
                       <tr>
                         <td><a id="help_for_cache_min_ttl" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Minimum TTL for RRsets and messages") ?></td>
                         <td>
-                          <input type="text" id="cache_min_ttl" name="cache_min_ttl" size="5" value="<?= $pconfig['cache_min_ttl'] ?>" />
+                          <input type="text" id="cache_min_ttl" name="cache_min_ttl" size="5" value="<?= strval($pconfig['cache_min_ttl']) ?>" />
                           <div class="hidden" data-for="help_for_cache_min_ttl">
                             <?= gettext("Configure a minimum Time to live for RRsets and messages in the cache. The default is 0 seconds. If the minimum value kicks in, the data is cached for longer than the domain owner intended, and thus less queries are made to look up the data. The 0 value ensures the data in the cache is as the domain owner intended. High values can lead to trouble as the data in the cache might not match up with the actual data anymore.") ?>
                           </div>

@@ -943,9 +943,9 @@ include("head.inc");
                         </div>
                         <div id="showmaccontrol" style="display:none">
                           <?= sprintf(gettext("Enter a list of partial MAC addresses to allow, comma-separated, no spaces, such as %s"), '00:00:00,01:E5:FF') ?>
-                          <input name="mac_allow" type="text" id="mac_allow" value="<?= $pconfig['mac_allow'] ?>" />
+                          <input name="mac_allow" type="text" id="mac_allow" value="<?= strval($pconfig['mac_allow']) ?>" />
                           <?= sprintf(gettext("Enter a list of partial MAC addresses to deny access, comma-separated, no spaces, such as %s"), '00:00:00,01:E5:FF') ?>
-                          <input name="mac_deny" type="text" id="mac_deny" value="<?= $pconfig['mac_deny'] ?>" /><br />
+                          <input name="mac_deny" type="text" id="mac_deny" value="<?= strval($pconfig['mac_deny']) ?>" /><br />
                         </div>
                       </td>
                     </tr>

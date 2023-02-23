@@ -151,25 +151,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         <tr>
           <td><?= gettext('Zone Warning:') ?></td>
           <td>
-            <input type="text" id="thermal_sensors_widget_zone_warning_threshold" name="thermal_sensors_widget_zone_warning_threshold" value="<?= $pconfig['thermal_sensors_widget_zone_warning_threshold']; ?>" />
+            <input type="text" id="thermal_sensors_widget_zone_warning_threshold" name="thermal_sensors_widget_zone_warning_threshold" value="<?= strval($pconfig['thermal_sensors_widget_zone_warning_threshold']); ?>" />
           </td>
         </tr>
         <tr>
           <td><?= gettext('Zone Critical:') ?></td>
           <td>
-            <input type="text" id="thermal_sensors_widget_zone_critical_threshold" name="thermal_sensors_widget_zone_critical_threshold" value="<?= $pconfig['thermal_sensors_widget_zone_critical_threshold']; ?>" />
+            <input type="text" id="thermal_sensors_widget_zone_critical_threshold" name="thermal_sensors_widget_zone_critical_threshold" value="<?= strval($pconfig['thermal_sensors_widget_zone_critical_threshold']); ?>" />
           </td>
         </tr>
         <tr>
           <td><?= gettext('Core Warning:') ?></td>
           <td>
-            <input type="text" id="thermal_sensors_widget_core_warning_threshold" name="thermal_sensors_widget_core_warning_threshold" value="<?= $pconfig['thermal_sensors_widget_core_warning_threshold']; ?>" />
+            <input type="text" id="thermal_sensors_widget_core_warning_threshold" name="thermal_sensors_widget_core_warning_threshold" value="<?= strval($pconfig['thermal_sensors_widget_core_warning_threshold']); ?>" />
           </td>
         </tr>
         <tr>
           <td><?= gettext('Core Critical:') ?></td>
           <td>
-            <input type="text" id="thermal_sensors_widget_core_critical_threshold" name="thermal_sensors_widget_core_critical_threshold" value="<?= $pconfig['thermal_sensors_widget_core_critical_threshold']; ?>" />
+            <input type="text" id="thermal_sensors_widget_core_critical_threshold" name="thermal_sensors_widget_core_critical_threshold" value="<?= strval($pconfig['thermal_sensors_widget_core_critical_threshold']); ?>" />
           </td>
         </tr>
         <tr>

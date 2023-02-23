@@ -307,7 +307,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><a id="help_for_regdhcpdomain" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("DHCP Domain Override");?></td>
                   <td>
-                    <input name="regdhcpdomain" type="text" id="regdhcpdomain" value="<?= $pconfig['regdhcpdomain'] ?>"/>
+                    <input name="regdhcpdomain" type="text" id="regdhcpdomain" value="<?= strval($pconfig['regdhcpdomain']) ?>"/>
                     <div class="hidden" data-for="help_for_regdhcpdomain">
                       <?= gettext("The domain name to use for DHCP hostname registration. " .
                         "If empty, the default system domain is used. Note that all DHCP " .

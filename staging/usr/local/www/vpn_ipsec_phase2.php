@@ -790,7 +790,7 @@ endif; ?>
                 <tr class="opt_localid">
                   <td><a id="help_for_spd" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Manual SPD entries"); ?></td>
                   <td>
-                    <input name="spd" type="text" id="spd" value="<?= $pconfig['spd'];?>" />
+                    <input name="spd" type="text" id="spd" value="<?= strval($pconfig['spd']);?>" />
                     <div class="hidden" data-for="help_for_spd">
                         <strong><?=gettext("Register additional Security Policy Database entries"); ?></strong><br/>
                         <?=gettext("Strongswan automatically creates SPD policies for the networks defined in this phase2. ".

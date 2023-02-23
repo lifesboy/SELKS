@@ -248,7 +248,7 @@ include_once("head.inc");
                             <?= gettext("If this option is set, Unbound will synthesize AAAA " .
                             "records from A records if no actual AAAA records are present."); ?>
                           </div>
-                          <input placeholder="<?=gettext("DNS64 prefix");?>" title="<?=gettext("DNS64 prefix");?>" name="dns64prefix" type="text" id="dns64prefix" value="<?= $pconfig['dns64prefix'] ?>" />
+                          <input placeholder="<?=gettext("DNS64 prefix");?>" title="<?=gettext("DNS64 prefix");?>" name="dns64prefix" type="text" id="dns64prefix" value="<?= strval($pconfig['dns64prefix']) ?>" />
                           <div class="hidden" data-for="help_for_dns64">
                             <?= gettext("If no DNS64 prefix is specified, the default prefix " .
                             "64:ff9b::/96 (RFC 6052) will be used."); ?>
@@ -270,7 +270,7 @@ include_once("head.inc");
                       <tr>
                         <td><a id="help_for_regdhcpdomain" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("DHCP Domain Override");?></td>
                         <td>
-                          <input name="regdhcpdomain" type="text" id="regdhcpdomain" value="<?= $pconfig['regdhcpdomain'] ?>"/>
+                          <input name="regdhcpdomain" type="text" id="regdhcpdomain" value="<?= strval($pconfig['regdhcpdomain']) ?>"/>
                           <div class="hidden" data-for="help_for_regdhcpdomain">
                             <?= gettext("The domain name to use for DHCP hostname registration. " .
                               "If empty, the default system domain is used. Note that all DHCP " .

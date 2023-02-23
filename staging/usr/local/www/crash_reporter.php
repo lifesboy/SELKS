@@ -224,7 +224,7 @@ legacy_html_escape_form_data($pconfig);
               <p><?=gettext("Would you like to submit this crash report to the developers?");?></p>
               <hr><p><?=gettext('You can help us further by adding your contact information and a problem description. ' .
                   'Please note that providing your contact information greatly improves the chances of bugs being fixed.');?></p>
-              <p><input type="text" placeholder="<?= html_safe(gettext('your@email.com')) ?>" name="Email" value="<?= $pconfig['Email'] ?>"></p>
+              <p><input type="text" placeholder="<?= html_safe(gettext('your@email.com')) ?>" name="Email" value="<?= strval($pconfig['Email']) ?>"></p>
               <p><textarea rows="5" placeholder="<?= html_safe(gettext('A short problem description or steps to reproduce.')) ?>" name="Desc"><?= $pconfig['Desc'] ?></textarea></p>
               <hr><p><?=gettext("Please double-check the following contents to ensure you are comfortable submitting the following information.");?></p>
 <?php
@@ -237,7 +237,7 @@ legacy_html_escape_form_data($pconfig);
               endforeach;
             else:?>
 
-              <input type="hidden" name="Email" value="<?= $pconfig['Email'] ?>">
+              <input type="hidden" name="Email" value="<?= strval($pconfig['Email']) ?>">
               <br/><button name="Submit" type="submit" class="btn btn-primary pull-right" value="new"><?=gettext('Report an issue');?></button>
               <p><strong><?=$message;?></strong></p><br/>
 <?php
