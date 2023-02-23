@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $input_errors = array();
     // validate id and store if usable
     if (isset($pconfig['id']) && is_numericint($pconfig['id']) && isset($a_nat[$pconfig['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
     if (isset($pconfig['after']) && isset($a_nat[$pconfig['after']])) {
         // place record after provided sequence number

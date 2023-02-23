@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     } elseif (!empty($_POST['id']) && !empty($_POST['action']) && $_POST['action'] == 'del' & !empty($config['interfaces'][$_POST['id']]) ) {
         // ** Delete interface **
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
         if (link_interface_to_group($id)) {
             $input_errors[] = gettext("The interface is part of a group. Please remove it from the group to continue");
         } elseif (link_interface_to_bridge($id)) {

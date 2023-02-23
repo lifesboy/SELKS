@@ -37,7 +37,7 @@ $a_ifgroups = &config_read_array('ifgroups', 'ifgroupentry');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($a_ifgroups[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
 
     if (isset($_POST['apply'])) {

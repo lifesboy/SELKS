@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $input_errors = array();
     $pconfig = $_POST;
     if (isset($_POST['id']) && !empty($a_acls[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
     if (!empty($_POST['act'])) {
         $act = $_POST['act'];

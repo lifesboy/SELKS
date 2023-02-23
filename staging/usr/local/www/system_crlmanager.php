@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_POST['id'])) {
         $thiscrl =& lookup_crl($_POST['id']);
         if ($thiscrl !== false) {
-            $id = $_POST['id'];
+            $id = strval($_POST['id']);
         }
     }
     if (isset($_POST['act'])) {

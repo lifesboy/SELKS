@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pconfig = $_POST;
     // fetch record number if valid
     if (isset($_POST['id']) && is_numericint($_POST['id']) && isset($config['ipsec']['mobilekey'][$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     } else {
         $id = null;
     }

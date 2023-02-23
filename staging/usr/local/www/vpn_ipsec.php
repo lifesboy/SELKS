@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isset($_POST['id']) || !isset($a_phase2[$_POST['id']])) {
                 $id = count($a_phase2);
             } else {
-                $id = $_POST['id'];
+                $id = strval($_POST['id']);
             }
             $a_phase2 = legacy_move_config_list_items($a_phase2, $id,  $_POST['p2entry']);
         }
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isset($_POST['id']) || !isset($a_phase1[$_POST['id']])) {
                 $id = count($a_phase1);
             } else {
-                $id = $_POST['id'];
+                $id = strval($_POST['id']);
             }
             $a_phase1 = legacy_move_config_list_items($a_phase1, $id,  $_POST['p1entry']);
         }

@@ -34,7 +34,7 @@ require_once("interfaces.inc");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['if']) && !empty($_POST['submit'])) {
-        $interface = $_POST['if'];
+        $interface = strval($_POST['if']);
         if ($_POST['submit'] == 'remote') {
             configdp_run('interface reconfigure', array($interface));
         } elseif (!empty($_POST['status']) && $_POST['status'] == 'up') {
