@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // save / validate formdata
     if (!empty($a_bridges[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
 
     $input_errors = array();

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pconfig['descr'] = isset($id) && !empty($a_domainOverrides[$id]['descr']) ? $a_domainOverrides[$id]['descr'] : null;
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_GET['id']) && !empty($a_domainOverrides[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
     $input_errors= array();
     $pconfig = $_POST;

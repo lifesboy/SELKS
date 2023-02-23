@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // validate and save form data
     if (!empty($a_laggs[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
     $input_errors = array();
     $pconfig = $_POST;

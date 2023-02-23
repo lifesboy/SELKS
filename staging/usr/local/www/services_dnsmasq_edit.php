@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && !empty($a_hosts[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
     $input_errors = array();
     $pconfig = $_POST;

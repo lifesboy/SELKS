@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $act = $_POST['act'];
     }
     if (isset($_POST['id']) && isset($a_csc[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
 
     if ($act == "del") {

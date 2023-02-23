@@ -55,7 +55,7 @@ $a_laggs = &config_read_array('laggs', 'lagg');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input_errors = array();
     if (!empty($a_laggs[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
 
     if (!empty($_POST['action']) && $_POST['action'] == "del" && isset($id)) {

@@ -45,7 +45,7 @@ $a_vlans = &config_read_array('vlans', 'vlan') ;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input_errors = array();
     if (!empty($a_vlans[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
 
     if (!empty($_POST['action']) && $_POST['action'] == "del" && isset($id)) {

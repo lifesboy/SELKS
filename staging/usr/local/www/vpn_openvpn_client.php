@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pconfig = $_POST;
     $input_errors = array();
     if (isset($_POST['id']) && isset($a_client[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
     if (isset($_POST['act'])) {
         $act = $_POST['act'];

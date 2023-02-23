@@ -44,7 +44,7 @@ $a_gifs = &config_read_array('gifs', 'gif') ;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input_errors = array();
     if (!empty($a_gifs[$_POST['id']])) {
-        $id = $_POST['id'];
+        $id = strval($_POST['id']);
     }
 
     if (!empty($_POST['action']) && $_POST['action'] == "del" && isset($id)) {
