@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $gre = array();
         $copy_fields = array('if', 'greif', 'remote-addr', 'tunnel-remote-net', 'tunnel-local-addr', 'tunnel-remote-addr', 'descr');
         foreach ($copy_fields as $fieldname) {
-            $gre[$fieldname] = isset($pconfig[$fieldname]) ? $pconfig[$fieldname] : null;
+            $gre[$fieldname] = isset($pconfig[$fieldname]) ? strval($pconfig[$fieldname]) : null;
         }
         $gre['link1'] = isset($pconfig['link1']);
         $gre['link2'] = isset($pconfig['link2']);
