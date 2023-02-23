@@ -132,7 +132,7 @@ function session_auth(&$Login_Error)
                 } else {
                     $redir_uri = $_GET['url'];
                 }
-                header(url_safe("Location: {$redir_uri}"));
+                header(url_safe("Location: {strval($redir_uri)}"));
             } elseif (!empty($_SESSION['user_shouldChangePassword'])) {
                 header("Location: system_usermanager_passwordmg.php");
             } else {
