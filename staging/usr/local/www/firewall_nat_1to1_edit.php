@@ -390,7 +390,7 @@ include("head.inc");
                           <td>
                             <div class="input-group">
                             <!-- updates to "other" option in dst -->
-                            <input type="text" for="dst" value="<?= !is_specialnet($pconfig['dst']) ? $pconfig['dst'] : "";?>" aria-label="<?=gettext("Destination address");?>"/>
+                            <input type="text" for="dst" value="<?= !is_specialnet($pconfig['dst']) ? strval($pconfig['dst']) : "";?>" aria-label="<?=gettext("Destination address");?>"/>
                             <select name="dstmask" class="selectpicker input-group-btn" data-size="5" id="dstmask"  data-width="auto" for="dst" >
                             <?php for ($i = 32; $i > 0; $i--): ?>
                               <option value="<?=strval($i);?>" <?= $i == $pconfig['dstmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>

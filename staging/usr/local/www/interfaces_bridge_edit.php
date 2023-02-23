@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $copy_fields = array('descr', 'maxaddr', 'timeout', 'bridgeif', 'maxage','fwdelay', 'hellotime', 'priority', 'proto', 'holdcnt');
         foreach ($copy_fields as $fieldname) {
             if (isset($pconfig[$fieldname]) && $pconfig[$fieldname] != "") {
-                $bridge[$fieldname] = $pconfig[$fieldname];
+                $bridge[$fieldname] = strval($pconfig[$fieldname]);
             } else {
                 $bridge[$fieldname] = null;
             }
