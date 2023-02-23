@@ -812,7 +812,7 @@ $( function() { $('#iform td').css({ 'background-color' : '' }); })
                           </p>
 <?php
                             else: ?>
-                          <input name="name" type="text" id="name" value="<?=$pconfig['name'];?>" />
+                          <input name="name" type="text" id="name" value="<?=strval($pconfig['name']);?>" />
 <?php
                             endif; ?>
                         </td>
@@ -820,7 +820,7 @@ $( function() { $('#iform td').css({ 'background-color' : '' }); })
                       <tr>
                         <td><a id="help_for_description" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                         <td>
-                          <input name="descr" type="text" id="descr" value="<?=$pconfig['descr'];?>" /><br />
+                          <input name="descr" type="text" id="descr" value="<?=strval($pconfig['descr']);?>" /><br />
                           <div class="hidden" data-for="help_for_name">
                             <?=gettext("You may enter a description here for your reference (not parsed).");?>
                           </div>

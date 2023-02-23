@@ -765,7 +765,7 @@ include("head.inc");
               <form method="post" name="iform" id="iform">
                 <input type='hidden' name="id" value="<?=isset($id) ? $id:''?>" />
                 <input name="after" type="hidden" value="<?=isset($after) ? $after :'';?>" />
-                <input type="hidden" name="floating" value="<?=$pconfig['floating'];?>" />
+                <input type="hidden" name="floating" value="<?=strval($pconfig['floating']);?>" />
                 <div class="table-responsive">
                   <table class="table table-striped opnsense_standard_table_form">
                   <tr>
@@ -1079,7 +1079,7 @@ include("head.inc");
                           <tr>
                             <td>
                               <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?> name="src" id="src" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['src'];?>" <?=!is_specialnet($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                                <option data-other=true value="<?=strval($pconfig['src']);?>" <?=!is_specialnet($pconfig['src']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
@@ -1103,7 +1103,7 @@ include("head.inc");
                                   <tr>
                                       <td style="width:348px">
                                         <!-- updates to "other" option in  src -->
-                                        <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" id="src_address" for="src" value="<?=$pconfig['src'];?>" aria-label="<?=gettext("Source address");?>"/>
+                                        <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" id="src_address" for="src" value="<?=strval($pconfig['src']);?>" aria-label="<?=gettext("Source address");?>"/>
                                       </td>
                                       <td>
                                         <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?> name="srcmask" data-network-id="src_address" class="selectpicker ipv4v6net" data-size="5" id="srcmask"  data-width="auto" for="src" >
@@ -1144,7 +1144,7 @@ include("head.inc");
                           <tr>
                             <td>
                               <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  id="srcbeginport" name="srcbeginport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['srcbeginport'];?>">(<?=gettext("other"); ?>)</option>
+                                <option data-other=true value="<?=strval($pconfig['srcbeginport']);?>">(<?=gettext("other"); ?>)</option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("port") as $alias):
   ?>
@@ -1161,7 +1161,7 @@ include("head.inc");
                             </td>
                             <td>
                               <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  id="srcendport" name="srcendport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['srcendport'];?>">(<?=gettext("other"); ?>)</option>
+                                <option data-other=true value="<?=strval($pconfig['srcendport']);?>">(<?=gettext("other"); ?>)</option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("port") as $alias):
   ?>
@@ -1179,10 +1179,10 @@ include("head.inc");
                           </tr>
                           <tr>
                             <td>
-                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=$pconfig['srcbeginport'];?>" for="srcbeginport"> <!-- updates to "other" option in  srcbeginport -->
+                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=strval($pconfig['srcbeginport']);?>" for="srcbeginport"> <!-- updates to "other" option in  srcbeginport -->
                             </td>
                             <td>
-                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=$pconfig['srcendport'];?>" for="srcendport"> <!-- updates to "other" option in  srcendport -->
+                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=strval($pconfig['srcendport']);?>" for="srcendport"> <!-- updates to "other" option in  srcendport -->
                             </td>
                           </tr>
                         </tbody>
@@ -1209,7 +1209,7 @@ include("head.inc");
                         <tr>
                           <td>
                             <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?> name="dst" id="dst" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                              <option data-other=true value="<?=$pconfig['dst'];?>" <?=!is_specialnet($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
+                              <option data-other=true value="<?=strval($pconfig['dst']);?>" <?=!is_specialnet($pconfig['dst']) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
                               <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
@@ -1232,7 +1232,7 @@ include("head.inc");
                                 <tr>
                                     <td style="width:348px">
                                       <!-- updates to "other" option in  src -->
-                                      <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" id="dst_address" for="dst" value="<?=$pconfig['dst'];?>" aria-label="<?=gettext("Destination address");?>"/>
+                                      <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" id="dst_address" for="dst" value="<?=strval($pconfig['dst']);?>" aria-label="<?=gettext("Destination address");?>"/>
                                     </td>
                                     <td>
                                       <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?> name="dstmask" class="selectpicker ipv4v6net" data-network-id="dst_address" data-size="5" id="dstmask"  data-width="auto" for="dst" >
@@ -1263,7 +1263,7 @@ include("head.inc");
                           <tr>
                             <td>
                               <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?> id="dstbeginport" name="dstbeginport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['dstbeginport'];?>">(<?=gettext("other"); ?>)</option>
+                                <option data-other=true value="<?=strval($pconfig['dstbeginport']);?>">(<?=gettext("other"); ?>)</option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("port") as $alias):
   ?>
@@ -1280,7 +1280,7 @@ include("head.inc");
                             </td>
                             <td>
                               <select <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?> id="dstendport" name="dstendport" class="selectpicker" data-live-search="true" data-size="5" data-width="auto">
-                                <option data-other=true value="<?=$pconfig['dstendport'];?>">(<?=gettext("other"); ?>)</option>
+                                <option data-other=true value="<?=strval($pconfig['dstendport']);?>">(<?=gettext("other"); ?>)</option>
                                 <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("port") as $alias):
   ?>
@@ -1298,10 +1298,10 @@ include("head.inc");
                           </tr>
                           <tr>
                             <td>
-                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=$pconfig['dstbeginport'];?>" for="dstbeginport"> <!-- updates to "other" option in  dstbeginport -->
+                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=strval($pconfig['dstbeginport']);?>" for="dstbeginport"> <!-- updates to "other" option in  dstbeginport -->
                             </td>
                             <td>
-                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=$pconfig['dstendport'];?>" for="dstendport"> <!-- updates to "other" option in  dstendport -->
+                              <input <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>  type="text" value="<?=strval($pconfig['dstendport']);?>" for="dstendport"> <!-- updates to "other" option in  dstendport -->
                             </td>
                           </tr>
                         </tbody>
@@ -1324,7 +1324,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_log_prefix" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Log prefix");?></td>
                     <td>
-                      <input name="log_prefix" type="text" id="log_prefix" size="40" value="<?=$pconfig['log_prefix'];?>" />
+                      <input name="log_prefix" type="text" id="log_prefix" size="40" value="<?=strval($pconfig['log_prefix']);?>" />
                       <div class="hidden" data-for="help_for_log_prefix">
                           <?=gettext("You may enter log_prefix for filter firewall log."); ?>
                       </div>
@@ -1333,7 +1333,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_category" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Category"); ?></td>
                     <td>
-                      <input name="category" type="text" class="formfld unknown" id="category" size="40" value="<?=$pconfig['category'];?>" />
+                      <input name="category" type="text" class="formfld unknown" id="category" size="40" value="<?=strval($pconfig['category']);?>" />
                       <div class="hidden" data-for="help_for_category">
                         <?=gettext("You may enter or select a category here to group firewall rules (not parsed)."); ?>
                       </div>
@@ -1354,7 +1354,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here for your reference (not parsed)."); ?>
                       </div>
@@ -1516,7 +1516,7 @@ include("head.inc");
                   <tr class="opt_advanced hidden">
                       <td><a id="help_for_tag" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a>  <?=gettext("Set local tag"); ?></td>
                       <td>
-                        <input name="tag" type="text" value="<?=$pconfig['tag'];?>" />
+                        <input name="tag" type="text" value="<?=strval($pconfig['tag']);?>" />
                         <div class="hidden" data-for="help_for_tag">
                           <?= gettext("You can mark a packet matching this rule and use this mark to match on other NAT/filter rules.") ?>
                         </div>
@@ -1525,7 +1525,7 @@ include("head.inc");
                   <tr class="opt_advanced hidden">
                       <td><a id="help_for_tagged" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Match local tag"); ?>   </td>
                       <td>
-                        <input name="tagged" type="text" value="<?=$pconfig['tagged'];?>" />
+                        <input name="tagged" type="text" value="<?=strval($pconfig['tagged']);?>" />
                         <div class="hidden" data-for="help_for_tagged">
                           <?=gettext("You can match packet on a mark placed before on another rule.")?>
                         </div>
@@ -1534,7 +1534,7 @@ include("head.inc");
                   <tr class="opt_advanced hidden">
                       <td><a id="help_for_max" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Max states");?> </td>
                       <td>
-                        <input name="max" type="text" value="<?=$pconfig['max'];?>" />
+                        <input name="max" type="text" value="<?=strval($pconfig['max']);?>" />
                         <div class="hidden" data-for="help_for_max">
                           <?=gettext("Maximum state entries this rule can create");?>
                         </div>
@@ -1543,7 +1543,7 @@ include("head.inc");
                   <tr class="opt_advanced hidden">
                       <td><a id="help_for_max-src-nodes" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Max source nodes");?> </td>
                       <td>
-                        <input name="max-src-nodes" type="text" value="<?=$pconfig['max-src-nodes'];?>"/>
+                        <input name="max-src-nodes" type="text" value="<?=strval($pconfig['max-src-nodes']);?>"/>
                         <div class="hidden" data-for="help_for_max-src-nodes">
                           <?=gettext("Maximum number of unique source hosts");?>
                         </div>
@@ -1561,7 +1561,7 @@ include("head.inc");
                   <tr class="opt_advanced hidden">
                       <td><a id="help_for_max-src-states" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Max source states");?> </td>
                       <td>
-                        <input name="max-src-states" type="text" value="<?=$pconfig['max-src-states'];?>" />
+                        <input name="max-src-states" type="text" value="<?=strval($pconfig['max-src-states']);?>" />
                         <div class="hidden" data-for="help_for_max-src-states">
                             <?=gettext("Maximum state entries per host");?>
                         </div>
@@ -1574,7 +1574,7 @@ include("head.inc");
                           <tbody>
                             <tr>
                               <td>
-                                <input name="max-src-conn-rate" type="text" value="<?=$pconfig['max-src-conn-rate'];?>" />
+                                <input name="max-src-conn-rate" type="text" value="<?=strval($pconfig['max-src-conn-rate']);?>" />
                               </td>
                               <td> / </td>
                               <td>
@@ -1600,7 +1600,7 @@ include("head.inc");
                   <tr class="opt_advanced hidden">
                       <td><a id="help_for_statetimeout" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("State timeout");?></td>
                       <td>
-                        <input name="statetimeout" type="text" value="<?=$pconfig['statetimeout'];?>" />
+                        <input name="statetimeout" type="text" value="<?=strval($pconfig['statetimeout']);?>" />
                         <div class="hidden" data-for="help_for_statetimeout">
                           <?=gettext("State Timeout in seconds (TCP only)");?>
                         </div>

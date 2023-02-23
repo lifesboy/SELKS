@@ -197,7 +197,7 @@ include("head.inc");
                       <table style="border:0;">
                         <tr>
                           <td style="width:348px">
-                            <input name="src" type="text" value="<?=$pconfig['src'];?>" aria-label="<?=gettext("Source address");?>"/>
+                            <input name="src" type="text" value="<?=strval($pconfig['src']);?>" aria-label="<?=gettext("Source address");?>"/>
                           </td>
                           <td>
                             <select name="srcmask" class="selectpicker" data-size="5"  data-width="auto">
@@ -235,7 +235,7 @@ include("head.inc");
                       <table style="border:0;">
                         <tr>
                           <td style="width:348px">
-                            <input name="dst" type="text" value="<?=$pconfig['dst'];?>" aria-label="<?=gettext("Source address");?>"/>
+                            <input name="dst" type="text" value="<?=strval($pconfig['dst']);?>" aria-label="<?=gettext("Source address");?>"/>
                           </td>
                           <td>
                             <select name="dstmask" class="selectpicker" data-size="5"  data-width="auto">
@@ -254,7 +254,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" class="formfld unknown" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here " ."for your reference (not parsed)."); ?>
                       </div>
