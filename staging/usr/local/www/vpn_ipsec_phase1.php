@@ -76,9 +76,9 @@ config_read_array('ipsec', 'phase2');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // fetch data
     if (isset($_GET['dup']) && is_numericint($_GET['dup'])) {
-        $p1index = $_GET['dup'];
+        $p1index = strval($_GET['dup']);
     } elseif (isset($_GET['p1index']) && is_numericint($_GET['p1index'])) {
-        $p1index = $_GET['p1index'];
+        $p1index = strval($_GET['p1index']);
     }
     $pconfig = array();
 

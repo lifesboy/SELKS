@@ -36,10 +36,10 @@ $a_acls = &config_read_array('unbound', 'acls');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && !empty($a_acls[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     if (!empty($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     } else {
         $act = null;
     }

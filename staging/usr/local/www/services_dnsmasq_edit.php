@@ -35,7 +35,7 @@ $a_hosts = &config_read_array('dnsmasq', 'hosts');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && !empty($a_hosts[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $config_copy_fieldnames = array('host', 'domain', 'ip', 'descr', 'aliases');
     foreach ($config_copy_fieldnames as $fieldname) {

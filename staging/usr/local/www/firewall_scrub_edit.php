@@ -84,10 +84,10 @@ $config_fields = array('interface', 'proto', 'srcnot', 'src', 'srcmask', 'dstnot
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // input record id, if valid
     if (isset($_GET['dup']) && isset($a_scrub[$_GET['dup']]))  {
-        $configId = $_GET['dup'];
+        $configId = strval($_GET['dup']);
         $after = $configId;
     } elseif (isset($_GET['id']) && isset($a_scrub[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id;
     }
 

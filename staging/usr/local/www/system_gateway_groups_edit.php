@@ -35,10 +35,10 @@ $a_gateways = (new \OPNsense\Routing\Gateways(legacy_interfaces_details()))->gat
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && isset($a_gateway_groups[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id;
     } elseif (isset($_GET['dup']) && isset($a_gateway_groups[$_GET['dup']])) {
-        $configId = $_GET['dup'];
+        $configId = strval($_GET['dup']);
     }
     $pconfig=array();
     if (isset($configId)) {

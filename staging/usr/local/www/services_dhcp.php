@@ -102,9 +102,9 @@ $config_copy_fieldsnames = array('enable', 'staticarp', 'failover_peerip', 'fail
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // handle identifiers and action
     if (!empty($_GET['if']) && !empty($config['interfaces'][$_GET['if']])) {
-        $if = $_GET['if'];
+        $if = strval($_GET['if']);
         if (isset($_GET['pool']) && !empty($config['dhcpd'][$_GET['if']]['pool'][$_GET['pool']])) {
-            $pool = $_GET['pool'];
+            $pool = strval($_GET['pool']);
         }
     } else {
         /* if no interface is provided this invoke is invalid */
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $a_pools = &config_read_array('dhcpd', $if, 'pool');
 
     if (!empty($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     } else {
         $act = null;
     }

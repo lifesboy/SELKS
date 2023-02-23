@@ -45,7 +45,7 @@ function reconfigure_dhcpd()
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // handle identifiers and action
     if (!empty($_GET['if']) && !empty($config['interfaces'][$_GET['if']])) {
-        $if = $_GET['if'];
+        $if = strval($_GET['if']);
     } else {
         /* if no interface is provided this invoke is invalid */
         header(url_safe('Location: /index.php'));

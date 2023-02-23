@@ -91,9 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         }
     } elseif (isset($_GET['dup']) && isset($a_schedules[$_GET['dup']]))  {
-        $configId = $_GET['dup'];
+        $configId = strval($_GET['dup']);
     } elseif (isset($_GET['id']) && isset($a_schedules[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id;
     }
     $pconfig['name'] = $a_schedules[$configId]['name'];

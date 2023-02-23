@@ -37,13 +37,13 @@ $act = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // fetch id if provided
     if (isset($_GET['dup']) && isset($a_server[$_GET['dup']]))  {
-        $configId = $_GET['dup'];
+        $configId = strval($_GET['dup']);
     } elseif (isset($_GET['id']) && is_numericint($_GET['id'])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id;
     }
     if (isset($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     }
     $pconfig = array();
     // defaults

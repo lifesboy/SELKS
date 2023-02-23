@@ -47,7 +47,7 @@ $a_clones = &config_read_array('wireless', 'clone');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && !empty($a_clones[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     if (isset($id)) {
         $pconfig['if'] = $a_clones[$id]['if'];

@@ -37,7 +37,7 @@ $a_domainOverrides = &config_read_array('dnsmasq', 'domainoverrides');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && !empty($a_domainOverrides[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $pconfig =  array();
 

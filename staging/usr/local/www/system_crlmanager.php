@@ -67,11 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id'])) {
         $thiscrl =& lookup_crl($_GET['id']);
         if ($thiscrl !== false) {
-            $id = $_GET['id'];
+            $id = strval($_GET['id']);
         }
     }
     if (isset($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     }
 
     if ($act == "exp") {

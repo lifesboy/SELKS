@@ -36,7 +36,7 @@ $a_gifs = &config_read_array('gifs', 'gif');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // read form data
     if (!empty($a_gifs[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $pconfig = array();
 
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // copy fields
         $copy_fields = array('tunnel-local-addr', 'tunnel-remote-addr', 'tunnel-remote-net', 'remote-addr', 'descr', 'gifif');
         foreach ($copy_fields as $fieldname) {
-            $gif[$fieldname] = $pconfig[$fieldname];
+            $gif[$fieldname] = strval($pconfig[$fieldname]);
         }
         // bool fields
         $gif['link1'] = !empty($pconfig['link1']);

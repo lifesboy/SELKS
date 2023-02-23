@@ -37,7 +37,7 @@ $a_hosts = &config_read_array('unbound', 'hosts');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && !empty($a_hosts[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $pconfig = array();
     foreach (array('rr', 'host', 'domain', 'ip', 'mxprio', 'mx', 'descr', 'aliases') as $fieldname) {

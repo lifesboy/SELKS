@@ -34,10 +34,10 @@ $a_npt = &config_read_array('nat', 'npt');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['dup']) && isset($a_npt[$_GET['dup']])) {
-        $configId = $_GET['dup'];
-        $after = $_GET['dup'];
+        $configId = strval($_GET['dup']);
+        $after = strval($_GET['dup']);
     } elseif (isset($_GET['id']) && isset($a_npt[$_GET['id']])) {
-        $configId = $_GET['id'];
+        $configId = strval($_GET['id']);
         $id = $configId;
     }
 

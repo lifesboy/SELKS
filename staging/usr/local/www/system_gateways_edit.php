@@ -378,10 +378,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // retrieve form data
     if (isset($_GET['id']) && isset($a_gateways[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id;
     } elseif (isset($_GET['dup']) && isset($a_gateways[$_GET['dup']])) {
-        $configId = $_GET['dup'];
+        $configId = strval($_GET['dup']);
     }
     // set config details
     $pconfig = array();

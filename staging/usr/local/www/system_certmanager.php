@@ -257,11 +257,11 @@ $a_cert = &config_read_array('cert');
 // handle user GET/POST data
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($a_user[$_GET['userid']])) {
-        $userid = $_GET['userid'];
+        $userid = strval($_GET['userid']);
         $cert_methods["existing"] = gettext("Choose an existing certificate");
     }
     if (isset($a_cert[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
 
     $act = isset($_GET['act']) ? $_GET['act'] : null;
@@ -269,12 +269,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pconfig = array();
     if ($act == "new") {
         if (isset($_GET['method'])) {
-            $pconfig['certmethod'] = $_GET['method'];
+            $pconfig['certmethod'] = strval($_GET['method']);
         } else {
             $pconfig['certmethod'] = null;
         }
         if (isset($_GET['caref'])) {
-            $pconfig['caref'] = $_GET['caref'];
+            $pconfig['caref'] = strval($_GET['caref']);
         }
         $pconfig['keytype'] = "RSA";
         $pconfig['keylen'] = "2048";

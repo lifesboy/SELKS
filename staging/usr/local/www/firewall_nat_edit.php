@@ -36,14 +36,14 @@ $a_nat = &config_read_array('nat', 'rule');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // load form data from config
     if (isset($_GET['id']) && is_numericint($_GET['id']) && isset($a_nat[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id; // load form data from id
     } elseif (isset($_GET['dup']) && isset($a_nat[$_GET['dup']])){
-        $after = $_GET['dup'];
-        $configId = $_GET['dup']; // load form data from id
+        $after = strval($_GET['dup']);
+        $configId = strval($_GET['dup']); // load form data from id
     }
     if (isset($_GET['after']) && isset($a_nat[$_GET['after']])) {
-        $after = $_GET['after'];
+        $after = strval($_GET['after']);
     }
 
     // initialize form and set defaults

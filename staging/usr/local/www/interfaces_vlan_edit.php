@@ -36,7 +36,7 @@ $a_vlans = &config_read_array('vlans', 'vlan');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // read form data
     if (!empty($a_vlans[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $pconfig['if'] = isset($a_vlans[$id]['if']) ? $a_vlans[$id]['if'] : null;
     $pconfig['vlanif'] = isset($a_vlans[$id]['vlanif']) ? $a_vlans[$id]['vlanif'] : null;

@@ -44,7 +44,7 @@ foreach (legacy_config_get_interfaces(array('virtual' => false, "enable" => true
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // read form data
     if (!empty($a_bridges[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     // copy fields 1-on-1
     $copy_fields = array('descr', 'bridgeif', 'maxaddr', 'timeout', 'maxage','fwdelay', 'hellotime', 'priority', 'proto', 'holdcnt', 'span');

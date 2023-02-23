@@ -33,13 +33,13 @@ require_once("interfaces.inc");
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // handle identifiers and action
     if (!empty($_GET['if']) && !empty($config['interfaces'][$_GET['if']])) {
-        $if = $_GET['if'];
+        $if = strval($_GET['if']);
     } else {
         header(url_safe('Location: /services_dhcp.php'));
         exit;
     }
     if (isset($if) && isset($_GET['id']) && !empty($config['dhcpd'][$if]['staticmap'][$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
 
     // read form data
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (isset($if) && isset($id) && isset($config['dhcpd'][$if]['staticmap'][$id][$fieldname])) {
             $pconfig[$fieldname] = $config['dhcpd'][$if]['staticmap'][$id][$fieldname];
         } elseif (isset($_GET[$fieldname])) {
-            $pconfig[$fieldname] = $_GET[$fieldname];
+            $pconfig[$fieldname] = strval($_GET[$fieldname]);
         } else {
             $pconfig[$fieldname] = null;
         }

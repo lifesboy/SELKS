@@ -48,7 +48,7 @@ $a_dyndns = &config_read_array('dyndnses', 'dyndns');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && !empty($a_dyndns[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $config_copy_fieldnames = array('username', 'password', 'host', 'mx', 'type', 'zoneid','resourceid', 'ttl', 'updateurl',
                                     'resultmatch', 'requestif', 'descr', 'interface');
