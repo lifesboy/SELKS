@@ -465,7 +465,7 @@ $( document ).ready(function() {
             <form method="post" name="iform" id="iform">
 <?php
             if ($pconfig['attribute'] == "system" || is_numeric($pconfig['attribute'])):?>
-              <input type='hidden' name='attribute' id='attribute' value="<?=$pconfig['attribute'];?>"/>
+              <input type='hidden' name='attribute' id='attribute' value="<?=strval($pconfig['attribute']);?>"/>
 <?php
             endif;?>
               <table class="table table-striped opnsense_standard_table_form">
@@ -488,13 +488,13 @@ $( document ).ready(function() {
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?= gettext('Name') ?></td>
                   <td>
-                    <input name="name" type="text" size="20" value="<?=$pconfig['name'];?>" />
+                    <input name="name" type="text" size="20" value="<?=strval($pconfig['name']);?>" />
                   </td>
                 </tr>
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?= gettext('Description') ?></td>
                   <td>
-                    <input name="descr" type="text" value="<?=$pconfig['descr'];?>" />
+                    <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" />
                   </td>
                 </tr>
                 <tr>
@@ -642,10 +642,10 @@ $( document ).ready(function() {
                         <tbody>
                             <tr>
                               <td>
-                                <input name="latencylow" type="text" value="<?=$pconfig['latencylow'];?>" />
+                                <input name="latencylow" type="text" value="<?=strval($pconfig['latencylow']);?>" />
                               </td>
                               <td>
-                                <input name="latencyhigh" type="text" value="<?=$pconfig['latencyhigh'];?>" />
+                                <input name="latencyhigh" type="text" value="<?=strval($pconfig['latencyhigh']);?>" />
                               </td>
                             </tr>
                         </tbody>
@@ -668,10 +668,10 @@ $( document ).ready(function() {
                         <tbody>
                             <tr>
                               <td>
-                                <input name="losslow" type="text" value="<?=$pconfig['losslow'];?>" />
+                                <input name="losslow" type="text" value="<?=strval($pconfig['losslow']);?>" />
                               </td>
                               <td>
-                                <input name="losshigh" type="text" value="<?=$pconfig['losshigh'];?>" />
+                                <input name="losshigh" type="text" value="<?=strval($pconfig['losshigh']);?>" />
                               </td>
                             </tr>
                         </tbody>
@@ -684,7 +684,7 @@ $( document ).ready(function() {
                 <tr class="advanced hidden">
                   <td><a id="help_for_interval" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Probe Interval");?></td>
                   <td>
-                    <input name="interval" id="interval" type="text" value="<?=$pconfig['interval'];?>" />
+                    <input name="interval" id="interval" type="text" value="<?=strval($pconfig['interval']);?>" />
                     <div class="hidden" data-for="help_for_interval">
                       <?= sprintf(gettext('How often that an ICMP probe will be sent in seconds. Default is %d.'), $dpinger_default['interval']) ?>
                     </div>
@@ -693,7 +693,7 @@ $( document ).ready(function() {
                  <tr class="advanced hidden">
                   <td><a id="help_for_alert_interval" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Alert Interval");?></td>
                   <td>
-                    <input name="alert_interval" id="alert_interval" type="text" value="<?=$pconfig['alert_interval'];?>" />
+                    <input name="alert_interval" id="alert_interval" type="text" value="<?=strval($pconfig['alert_interval']);?>" />
                     <div class="hidden" data-for="help_for_alert_interval">
                       <?= sprintf(gettext('Time interval between alerts. Default is %d.'), $dpinger_default['alert_interval']) ?>
                     </div>
@@ -702,7 +702,7 @@ $( document ).ready(function() {
                 <tr class="advanced hidden">
                   <td><a id="help_for_time_period" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Time Period");?></td>
                   <td>
-                    <input name="time_period" id="interval" type="text" value="<?=$pconfig['time_period'];?>" />
+                    <input name="time_period" id="interval" type="text" value="<?=strval($pconfig['time_period']);?>" />
                     <div class="hidden" data-for="help_for_time_period">
                       <?= sprintf(gettext('The time period over which results are averaged. Default is %d.'), $dpinger_default['time_period']) ?>
                     </div>
@@ -711,7 +711,7 @@ $( document ).ready(function() {
                 <tr class="advanced hidden">
                   <td><a id="help_for_loss_interval" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Loss Interval");?></td>
                   <td>
-                    <input name="loss_interval" id="loss_interval" type="text" value="<?=$pconfig['loss_interval'];?>" />
+                    <input name="loss_interval" id="loss_interval" type="text" value="<?=strval($pconfig['loss_interval']);?>" />
                     <div class="hidden" data-for="help_for_loss_interval">
                       <?= sprintf(gettext('Time interval before packets are treated as lost. Default is %d.'), $dpinger_default['loss_interval']) ?>
                     </div>
@@ -720,7 +720,7 @@ $( document ).ready(function() {
                 <tr class="advanced hidden">
                   <td><a id="help_for_data_length" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Data Length");?></td>
                   <td>
-                    <input name="data_length" id="data_length" type="text" value="<?=$pconfig['data_length'];?>" />
+                    <input name="data_length" id="data_length" type="text" value="<?=strval($pconfig['data_length']);?>" />
                     <div class="hidden" data-for="help_for_data_length">
                       <?= sprintf(gettext('Specify the number of data bytes to be sent. Default is %d.'), $dpinger_default['data_length']) ?>
                     </div>

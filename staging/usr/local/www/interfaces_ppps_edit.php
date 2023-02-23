@@ -464,7 +464,7 @@ include("head.inc");
                       <tr>
                         <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Description"); ?></td>
                         <td>
-                          <input name="descr" type="text"  value="<?=$pconfig['descr'];?>" />
+                          <input name="descr" type="text"  value="<?=strval($pconfig['descr']);?>" />
                           <div class="hidden" data-for="help_for_descr">
                             <?= gettext("You may enter a description here for your reference. Description will appear in the \"Interfaces Assign\" select lists."); ?>
                           </div>
@@ -507,19 +507,19 @@ include("head.inc");
                       <tr>
                         <td><i class="fa fa-info-circle text-muted"></i> <?= gettext("Username"); ?></td>
                         <td>
-                          <input name="username" type="text" id="username" value="<?=$pconfig['username'];?>" />
+                          <input name="username" type="text" id="username" value="<?=strval($pconfig['username']);?>" />
                         </td>
                       </tr>
                       <tr>
                         <td><i class="fa fa-info-circle text-muted"></i> <?= gettext("Password"); ?></td>
                         <td>
-                          <input name="password" type="password" id="password" value="<?=$pconfig['password'];?>" />
+                          <input name="password" type="password" id="password" value="<?=strval($pconfig['password']);?>" />
                         </td>
                       </tr>
                       <tr style="display:none" id="phone_num">
                         <td><a id="help_for_phone" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Phone Number"); ?></td>
                         <td>
-                          <input name="phone" type="text" id="phone" value="<?=$pconfig['phone'];?>" />
+                          <input name="phone" type="text" id="phone" value="<?=strval($pconfig['phone']);?>" />
                           <div class="hidden" data-for="help_for_phone">
                             <?= gettext("Note: Typically *99# for GSM networks and #777 for CDMA networks"); ?>
                           </div>
@@ -528,13 +528,13 @@ include("head.inc");
                       <tr style="display:none" id="apn_">
                         <td><i class="fa fa-info-circle text-muted"></i> <?= gettext("Access Point Name (APN)"); ?></td>
                         <td>
-                          <input name="apn" type="text" id="apn" value="<?=$pconfig['apn'];?>" />
+                          <input name="apn" type="text" id="apn" value="<?=strval($pconfig['apn']);?>" />
                         </td>
                       </tr>
                       <tr style="display:none" id="pppoe">
                         <td><a id="help_for_provider" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Service name"); ?></td>
                         <td>
-                          <input name="provider" type="text" id="provider" value="<?=$pconfig['provider'];?>" />&nbsp;&nbsp;
+                          <input name="provider" type="text" id="provider" value="<?=strval($pconfig['provider']);?>" />&nbsp;&nbsp;
                           <input type="checkbox" value="on" id="null_service" name="null_service" <?=!empty($pconfig['null_service']) ? "checked=\"checked\"" : ""; ?> /> <?= gettext("Configure a NULL Service name"); ?>
                           <div class="hidden" data-for="help_for_provider">
                             <?= gettext("Hint: this field can usually be left empty. Service name will not be configured if this field is empty. Check the \"Configure NULL\" box to configure a blank Service name."); ?>
@@ -544,7 +544,7 @@ include("head.inc");
                       <tr style="display:none" id="hostuniqopt">
                         <td><a id="help_for_hostuniq" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Host-Uniq"); ?></td>
                         <td>
-                          <input name="hostuniq" type="text" id="hostuniq" value="<?=$pconfig['hostuniq'];?>" />
+                          <input name="hostuniq" type="text" id="hostuniq" value="<?=strval($pconfig['hostuniq']);?>" />
                           <div class="hidden" data-for="help_for_hostuniq">
                             <?= gettext('This field can usually be left empty unless specified by the provider.') ?>
                           </div>
@@ -617,7 +617,7 @@ include("head.inc");
                       <tr style="display:none" class="act_show_advanced">
                         <td style="width:22%"><a id="help_for_apnum" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("APN number (optional)"); ?></td>
                         <td style="width:78%">
-                          <input name="apnum" type="text" id="apnum" value="<?=$pconfig['apnum'];?>" />
+                          <input name="apnum" type="text" id="apnum" value="<?=strval($pconfig['apnum']);?>" />
                           <div class="hidden" data-for="help_for_apnum">
                             <?= gettext("Note: Defaults to 1 if you set APN above. Ignored if you set no APN above."); ?>
                           </div>
@@ -626,13 +626,13 @@ include("head.inc");
                       <tr style="display:none" class="act_show_advanced">
                         <td><i class="fa fa-info-circle text-muted"></i> <?= gettext("SIM PIN"); ?></td>
                         <td>
-                          <input name="simpin" type="text" id="simpin" value="<?=$pconfig['simpin'];?>" />
+                          <input name="simpin" type="text" id="simpin" value="<?=strval($pconfig['simpin']);?>" />
                         </td>
                       </tr>
                       <tr style="display:none" class="act_show_advanced">
                         <td><a id="help_for_pin-wait" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("SIM PIN wait"); ?></td>
                         <td>
-                          <input name="pin-wait" type="text" cid="pin-wait"  value="<?=$pconfig['pin-wait'];?>" />
+                          <input name="pin-wait" type="text" cid="pin-wait"  value="<?=strval($pconfig['pin-wait']);?>" />
                           <div class="hidden" data-for="help_for_pin-wait">
                             <?= gettext("Note: Time to wait for SIM to discover network after PIN is sent to SIM (seconds)."); ?>
                           </div>
@@ -641,7 +641,7 @@ include("head.inc");
                       <tr style="display:none" class="act_show_advanced">
                         <td><a id="help_for_initstr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Init String"); ?></td>
                         <td>
-                          <input type="text" id="initstr" name="initstr" value="<?=$pconfig['initstr'];?>" />
+                          <input type="text" id="initstr" name="initstr" value="<?=strval($pconfig['initstr']);?>" />
                           <div class="hidden" data-for="help_for_initstr">
                             <?= gettext("Note: Enter the modem initialization string here. Do NOT include the \"AT\"" .
                           " string at the beginning of the command. Many modern USB 3G modems don't need an initialization string."); ?>
@@ -651,7 +651,7 @@ include("head.inc");
                       <tr style="display:none" class="act_show_advanced">
                         <td><a id="help_for_connect-timeout" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Connection Timeout"); ?></td>
                         <td>
-                          <input name="connect-timeout" type="text" id="connect-timeout" value="<?=$pconfig['connect-timeout'];?>" />
+                          <input name="connect-timeout" type="text" id="connect-timeout" value="<?=strval($pconfig['connect-timeout']);?>" />
                           <div class="hidden" data-for="help_for_connect-timeout">
                             <?= gettext("Note: Enter timeout in seconds for connection to be established (sec.) Default is 45 sec."); ?>
                           </div>
@@ -686,7 +686,7 @@ include("head.inc");
                       <tr style="display:none" class="act_show_advanced">
                         <td><a id="help_for_idletimeout" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Idle Timeout"); ?></td>
                         <td>
-                          <input name="idletimeout" type="text" id="idletimeout" value="<?=$pconfig['idletimeout'];?>" />
+                          <input name="idletimeout" type="text" id="idletimeout" value="<?=strval($pconfig['idletimeout']);?>" />
                           <div class="hidden" data-for="help_for_idletimeout">
                             <?= gettext("(seconds) Default is 0, which disables the timeout feature."); ?><br /><br />
                             <?= gettext("If no incoming or outgoing packets are transmitted for the entered number of seconds the connection is brought down.");?>
@@ -807,7 +807,7 @@ include("head.inc");
                         <td style="width:78%">
                           <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                           <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_ppps.php'" />
-                          <input name="ptpid" type="hidden" value="<?=$pconfig['ptpid'];?>" />
+                          <input name="ptpid" type="hidden" value="<?=strval($pconfig['ptpid']);?>" />
                           <?php if (isset($id)): ?>
                             <input name="id" type="hidden" value="<?=$id;?>" />
                           <?php endif; ?>

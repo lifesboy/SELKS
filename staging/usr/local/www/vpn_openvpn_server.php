@@ -791,7 +791,7 @@ $( document ).ready(function() {
                     <tr>
                       <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Local port");?></td>
                       <td>
-                        <input name="local_port" type="text" class="form-control unknown" size="5" value="<?=$pconfig['local_port'];?>" />
+                        <input name="local_port" type="text" class="form-control unknown" size="5" value="<?=strval($pconfig['local_port']);?>" />
                       </td>
                     </tr>
                   </table>
@@ -1086,7 +1086,7 @@ endif; ?>
                     <tr>
                       <td style="width:22%" id="ipv4_tunnel_network"><a id="help_for_tunnel_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Tunnel Network"); ?></td>
                       <td style="width:78%">
-                        <input name="tunnel_network" type="text" class="form-control unknown" size="20" value="<?=$pconfig['tunnel_network'];?>" />
+                        <input name="tunnel_network" type="text" class="form-control unknown" size="20" value="<?=strval($pconfig['tunnel_network']);?>" />
                         <div class="hidden" data-for="help_for_tunnel_network">
                             <?=gettext("This is the IPv4 virtual network used for private " .
                                                   "communications between this server and client " .
@@ -1101,7 +1101,7 @@ endif; ?>
                     <tr>
                       <td style="width:22%"><a id="help_for_tunnel_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Tunnel Network"); ?></td>
                       <td>
-                        <input name="tunnel_networkv6" type="text" class="form-control unknown" size="20" value="<?=$pconfig['tunnel_networkv6'];?>" />
+                        <input name="tunnel_networkv6" type="text" class="form-control unknown" size="20" value="<?=strval($pconfig['tunnel_networkv6']);?>" />
                         <div class="hidden" data-for="help_for_tunnel_networkv6">
                             <?=gettext("This is the IPv6 virtual network used for private " .
                                                   "communications between this server and client " .
@@ -1162,7 +1162,7 @@ endif; ?>
                     <tr class="dev_mode dev_mode_tap">
                       <td style="width:22%"><a id="help_for_serverbridge_dhcp_start" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Server Bridge DHCP Start"); ?></td>
                       <td>
-                        <input  id="serverbridge_dhcp_start" name="serverbridge_dhcp_start" type="text" class="form-control unknown" size="20" value="<?=$pconfig['serverbridge_dhcp_start'];?>" />
+                        <input  id="serverbridge_dhcp_start" name="serverbridge_dhcp_start" type="text" class="form-control unknown" size="20" value="<?=strval($pconfig['serverbridge_dhcp_start']);?>" />
                         <div class="hidden" data-for="help_for_serverbridge_dhcp_start">
                             <?=gettext("When using tap mode as a multi-point server, " .
                                                   "you may optionally supply a DHCP range to use on the " .
@@ -1176,7 +1176,7 @@ endif; ?>
                     <tr class="dev_mode dev_mode_tap">
                       <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> <?=gettext("Server Bridge DHCP End"); ?></td>
                       <td>
-                        <input id="serverbridge_dhcp_end" name="serverbridge_dhcp_end" type="text" class="form-control unknown" size="20" value="<?=$pconfig['serverbridge_dhcp_end'];?>" />
+                        <input id="serverbridge_dhcp_end" name="serverbridge_dhcp_end" type="text" class="form-control unknown" size="20" value="<?=strval($pconfig['serverbridge_dhcp_end']);?>" />
                       </td>
                     </tr>
                     <tr class="opt_mode opt_mode_p2p_tls opt_mode_p2p_shared_key opt_mode_server_tls opt_mode_server_user opt_mode_server_tls_user">
@@ -1193,7 +1193,7 @@ endif; ?>
                     <tr class="opt_mode opt_mode_p2p_tls opt_mode_p2p_shared_key opt_mode_server_tls opt_mode_server_user opt_mode_server_tls_user opt_gwredir">
                       <td style="width:22%"><a id="help_local_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Local Network"); ?></td>
                       <td>
-                        <input name="local_network" type="text" class="form-control unknown" size="40" value="<?=$pconfig['local_network'];?>" />
+                        <input name="local_network" type="text" class="form-control unknown" size="40" value="<?=strval($pconfig['local_network']);?>" />
                         <div class="hidden" data-for="help_local_network">
                             <?=gettext("These are the IPv4 networks that will be accessible " .
                                                   "from the remote endpoint. Expressed as a comma-separated list of one or more CIDR ranges. " .
@@ -1207,7 +1207,7 @@ endif; ?>
                     <tr class="opt_mode opt_mode_p2p_tls opt_mode_p2p_shared_key opt_mode_server_tls opt_mode_server_user opt_mode_server_tls_user opt_gwredir">
                       <td style="width:22%"><a id="help_for_local_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Local Network"); ?></td>
                       <td>
-                        <input name="local_networkv6" type="text" class="form-control unknown" size="40" value="<?=$pconfig['local_networkv6'];?>" />
+                        <input name="local_networkv6" type="text" class="form-control unknown" size="40" value="<?=strval($pconfig['local_networkv6']);?>" />
                         <div class="hidden" data-for="help_for_local_networkv6">
                             <?=gettext("These are the IPv6 networks that will be accessible " .
                                                   "from the remote endpoint. Expressed as a comma-separated list of one or more IP/PREFIX. " .
@@ -1221,7 +1221,7 @@ endif; ?>
                     <tr class="opt_mode opt_mode_p2p_tls opt_mode_p2p_shared_key opt_mode_server_tls opt_mode_server_user opt_mode_server_tls_user">
                       <td style="width:22%"><a id="help_for_remote_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Remote Network"); ?></td>
                       <td>
-                        <input name="remote_network" type="text" class="form-control unknown" size="40" value="<?=$pconfig['remote_network'];?>" />
+                        <input name="remote_network" type="text" class="form-control unknown" size="40" value="<?=strval($pconfig['remote_network']);?>" />
                         <div class="hidden" data-for="help_for_remote_network">
                             <?=gettext("These are the IPv4 networks that will be routed through " .
                                                   "the tunnel, so that a site-to-site VPN can be " .
@@ -1236,7 +1236,7 @@ endif; ?>
                     <tr class="opt_mode opt_mode_p2p_tls opt_mode_p2p_shared_key opt_mode_server_tls opt_mode_server_user opt_mode_server_tls_user">
                       <td style="width:22%"><a id="help_for_remote_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Remote Network"); ?></td>
                       <td>
-                        <input name="remote_networkv6" type="text" class="form-control unknown" size="40" value="<?=$pconfig['remote_networkv6'];?>" />
+                        <input name="remote_networkv6" type="text" class="form-control unknown" size="40" value="<?=strval($pconfig['remote_networkv6']);?>" />
                         <div class="hidden" data-for="help_for_remote_networkv6">
                             <?=gettext("These are the IPv6 networks that will be routed through " .
                                                   "the tunnel, so that a site-to-site VPN can be " .
@@ -1251,7 +1251,7 @@ endif; ?>
                     <tr>
                       <td style="width:22%"><a id="help_for_maxclients" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Concurrent connections");?></td>
                       <td>
-                        <input name="maxclients" type="text" class="form-control unknown" size="5" value="<?=$pconfig['maxclients'];?>" />
+                        <input name="maxclients" type="text" class="form-control unknown" size="5" value="<?=strval($pconfig['maxclients']);?>" />
                         <div class="hidden" data-for="help_for_maxclients">
                             <?=gettext("Specify the maximum number of clients allowed to concurrently connect to this server"); ?>.
                         </div>
@@ -1389,19 +1389,19 @@ endif; ?>
                               <span>
                                 <?=gettext("Server #1:"); ?>&nbsp;
                               </span>
-                              <input name="dns_server1" type="text" class="form-control unknown" id="dns_server1" size="20" value="<?=$pconfig['dns_server1'];?>" />
+                              <input name="dns_server1" type="text" class="form-control unknown" id="dns_server1" size="20" value="<?=strval($pconfig['dns_server1']);?>" />
                               <span>
                                 <?=gettext("Server #2:"); ?>&nbsp;
                               </span>
-                              <input name="dns_server2" type="text" class="form-control unknown" id="dns_server2" size="20" value="<?=$pconfig['dns_server2'];?>" />
+                              <input name="dns_server2" type="text" class="form-control unknown" id="dns_server2" size="20" value="<?=strval($pconfig['dns_server2']);?>" />
                               <span>
                                 <?=gettext("Server #3:"); ?>&nbsp;
                               </span>
-                              <input name="dns_server3" type="text" class="form-control unknown" id="dns_server3" size="20" value="<?=$pconfig['dns_server3'];?>" />
+                              <input name="dns_server3" type="text" class="form-control unknown" id="dns_server3" size="20" value="<?=strval($pconfig['dns_server3']);?>" />
                               <span>
                                 <?=gettext("Server #4:"); ?>&nbsp;
                               </span>
-                              <input name="dns_server4" type="text" class="form-control unknown" id="dns_server4" size="20" value="<?=$pconfig['dns_server4'];?>" />
+                              <input name="dns_server4" type="text" class="form-control unknown" id="dns_server4" size="20" value="<?=strval($pconfig['dns_server4']);?>" />
                         </div>
                         <div class="hidden" data-for="help_for_dns_server">
                           <span>
@@ -1429,11 +1429,11 @@ endif; ?>
                           <span>
                             <?=gettext("Server #1:"); ?>&nbsp;
                           </span>
-                          <input name="ntp_server1" type="text" class="form-control unknown" id="ntp_server1" size="20" value="<?=$pconfig['ntp_server1'];?>" />
+                          <input name="ntp_server1" type="text" class="form-control unknown" id="ntp_server1" size="20" value="<?=strval($pconfig['ntp_server1']);?>" />
                           <span>
                             <?=gettext("Server #2:"); ?>&nbsp;
                           </span>
-                          <input name="ntp_server2" type="text" class="form-control unknown" id="ntp_server2" size="20" value="<?=$pconfig['ntp_server2'];?>" />
+                          <input name="ntp_server2" type="text" class="form-control unknown" id="ntp_server2" size="20" value="<?=strval($pconfig['ntp_server2']);?>" />
                         </div>
                         <div class="hidden" data-for="help_for_ntp_server_enable">
                           <span>
@@ -1477,7 +1477,7 @@ endif; ?>
                           <span>
                             <?=gettext("Scope ID"); ?>:&nbsp;
                           </span>
-                          <input name="netbios_scope" type="text" class="form-control unknown" id="netbios_scope" size="30" value="<?=$pconfig['netbios_scope'];?>" />
+                          <input name="netbios_scope" type="text" class="form-control unknown" id="netbios_scope" size="30" value="<?=strval($pconfig['netbios_scope']);?>" />
                           <div class="hidden" data-for="help_for_netbios_enable">
                             <?=gettext("A NetBIOS Scope ID provides an extended naming " .
                                                         "service for NetBIOS over TCP/IP. The NetBIOS " .
@@ -1501,11 +1501,11 @@ endif; ?>
                           <span>
                             <?=gettext("Server #1:"); ?>&nbsp;
                           </span>
-                          <input name="wins_server1" type="text" class="form-control unknown" id="wins_server1" size="20" value="<?=$pconfig['wins_server1'];?>" />
+                          <input name="wins_server1" type="text" class="form-control unknown" id="wins_server1" size="20" value="<?=strval($pconfig['wins_server1']);?>" />
                           <span>
                             <?=gettext("Server #2:"); ?>&nbsp;
                           </span>
-                          <input name="wins_server2" type="text" class="form-control unknown" id="wins_server2" size="20" value="<?=$pconfig['wins_server2'];?>" />
+                          <input name="wins_server2" type="text" class="form-control unknown" id="wins_server2" size="20" value="<?=strval($pconfig['wins_server2']);?>" />
                         </div>
                       </td>
                     </tr>
@@ -1584,7 +1584,7 @@ endif; ?>
                     <tr class="opt_mode opt_mode_server_tls_user opt_mode_server_user">
                       <td><a id="help_for_reneg-sec" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Renegotiate time"); ?></td>
                       <td>
-                        <input type="text" name="reneg-sec" value="<?=$pconfig['reneg-sec'];?>">
+                        <input type="text" name="reneg-sec" value="<?=strval($pconfig['reneg-sec']);?>">
                         <div class="hidden" data-for="help_for_reneg-sec">
                           <?=sprintf(
                               gettext('Renegotiate data channel key after n seconds (default=3600).%s' .

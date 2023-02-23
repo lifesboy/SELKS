@@ -522,7 +522,7 @@ $(document).ready(function() {
               <tr>
                 <td><a id="help_for_webguiport" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("TCP port"); ?></td>
                 <td>
-                  <input name="webguiport" id="webguiport" type="text" value="<?=$pconfig['webguiport'];?>" placeholder="<?= $pconfig['webguiproto'] == 'https' ? '443' : '80' ?>" />
+                  <input name="webguiport" id="webguiport" type="text" value="<?=strval($pconfig['webguiport']);?>" placeholder="<?= $pconfig['webguiproto'] == 'https' ? '443' : '80' ?>" />
                   <div class="hidden" data-for="help_for_webguiport">
                     <?=gettext("Enter a custom port number for the web GUI " .
                                           "above if you want to override the default (80 for HTTP, 443 " .
@@ -556,7 +556,7 @@ $(document).ready(function() {
               <tr>
                 <td><a id="help_for_session_timeout" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Session Timeout') ?></td>
                 <td>
-                  <input class="form-control" name="session_timeout" id="session_timeout" type="text" placeholder="240" value="<?=$pconfig['session_timeout'];?>" />
+                  <input class="form-control" name="session_timeout" id="session_timeout" type="text" placeholder="240" value="<?=strval($pconfig['session_timeout']);?>" />
                   <div class="hidden" data-for="help_for_session_timeout">
                     <?= gettext('Time in minutes to expire idle management sessions. The default is 4 hours (240 minutes).') ?>
                   </div>
@@ -701,7 +701,7 @@ $(document).ready(function() {
               <tr>
                 <td><a id="help_for_sshport" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("SSH port"); ?></td>
                 <td>
-                  <input name="sshport" type="text" value="<?=$pconfig['sshport'];?>" placeholder="22" />
+                  <input name="sshport" type="text" value="<?=strval($pconfig['sshport']);?>" placeholder="22" />
                   <div class="hidden" data-for="help_for_sshport">
                     <?=gettext("Leave this blank for the default of 22."); ?>
                   </div>

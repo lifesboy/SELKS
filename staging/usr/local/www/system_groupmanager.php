@@ -237,13 +237,13 @@ $( document ).ready(function() {
               <tr>
                 <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Group name");?></td>
                 <td>
-                  <input name="name" type="text" maxlength="32" value="<?=$pconfig['name'];?>" <?=$pconfig['scope'] == "system" ? "readonly=\"readonly\"" : "";?> />
+                  <input name="name" type="text" maxlength="32" value="<?=strval($pconfig['name']);?>" <?=$pconfig['scope'] == "system" ? "readonly=\"readonly\"" : "";?> />
                 </td>
               </tr>
               <tr>
                 <td><a id="help_for_desc" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                 <td>
-                  <input name="description" type="text" value="<?=$pconfig['description'];?>" />
+                  <input name="description" type="text" value="<?=strval($pconfig['description']);?>" />
                   <div class="hidden" data-for="help_for_desc">
                     <?=gettext("Group description, for your own information only");?>
                   </div>

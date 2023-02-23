@@ -271,7 +271,7 @@ $(document).ready(function() {
                     <tr>
                       <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                       <td>
-                        <input type="text" name="descr" value="<?=$pconfig['descr'];?>" />
+                        <input type="text" name="descr" value="<?=strval($pconfig['descr']);?>" />
                         <div class="hidden" data-for="help_for_descr">
                           <?=gettext("You may enter a description here for your reference (not parsed).");?>
                         </div>
@@ -357,7 +357,7 @@ $(document).ready(function() {
                     <tr>
                       <td><a id="help_for_maxage" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Valid time"); ?> (<?=gettext("seconds"); ?>)</td>
                       <td>
-                        <input name="maxage" type="text" value="<?=$pconfig['maxage'];?>" />
+                        <input name="maxage" type="text" value="<?=strval($pconfig['maxage']);?>" />
                         <div class="hidden" data-for="help_for_maxage">
                          <?=gettext("Set the time that a Spanning Tree Protocol configuration is " .
                          "valid. The default is 20 seconds. The minimum is 6 seconds and " .
@@ -368,7 +368,7 @@ $(document).ready(function() {
                     <tr>
                       <td><a id="help_for_fwdelay" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Forward time"); ?> (<?=gettext("seconds"); ?>)</td>
                       <td>
-                        <input name="fwdelay" type="text" value="<?=$pconfig['fwdelay'];?>" />
+                        <input name="fwdelay" type="text" value="<?=strval($pconfig['fwdelay']);?>" />
                         <div class="hidden" data-for="help_for_fwdelay">
                          <?=gettext("Set the time that must pass before an interface begins forwarding " .
                          "packets when Spanning Tree is enabled. The default is 15 seconds. The minimum is 4 seconds and the maximum is 30 seconds."); ?>
@@ -378,7 +378,7 @@ $(document).ready(function() {
                     <tr>
                       <td><a id="help_for_hellotime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Hello time"); ?> (<?=gettext("seconds"); ?>)</td>
                       <td>
-                        <input name="hellotime" type="text" value="<?=$pconfig['hellotime'];?>" />
+                        <input name="hellotime" type="text" value="<?=strval($pconfig['hellotime']);?>" />
                         <div class="hidden" data-for="help_for_hellotime">
                          <?=gettext("Set the time between broadcasting of Spanning Tree Protocol configuration messages. The hello time may only be changed when " .
                          "operating in legacy STP mode. The default is 2 seconds. The minimum is 1 second and the maximum is 2 seconds."); ?>
@@ -388,7 +388,7 @@ $(document).ready(function() {
                     <tr>
                       <td><a id="help_for_priority" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Priority"); ?></td>
                       <td>
-                        <input name="priority" type="text" value="<?=$pconfig['priority'];?>" />
+                        <input name="priority" type="text" value="<?=strval($pconfig['priority']);?>" />
                         <div class="hidden" data-for="help_for_priority">
                          <?=gettext("Set the bridge priority for Spanning Tree. The default is 32768. " .
                          "The minimum is 0 and the maximum is 61440."); ?>
@@ -398,7 +398,7 @@ $(document).ready(function() {
                     <tr>
                       <td><a id="help_for_holdcnt" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Hold count"); ?></td>
                       <td>
-                        <input name="holdcnt" type="text" value="<?=$pconfig['holdcnt'];?>" />
+                        <input name="holdcnt" type="text" value="<?=strval($pconfig['holdcnt']);?>" />
                         <div class="hidden" data-for="help_for_holdcnt">
                          <?=gettext("Set the transmit hold count for Spanning Tree. This is the number " .
                          "of packets transmitted before being rate limited. The " .
@@ -466,7 +466,7 @@ $(document).ready(function() {
                     <tr>
                       <td style="width:22%"><a id="help_for_maxaddr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Cache size"); ?> (<?=gettext("entries"); ?>)</td>
                       <td style="width:78%">
-                        <input name="maxaddr" type="text" value="<?=$pconfig['maxaddr'];?>" />
+                        <input name="maxaddr" type="text" value="<?=strval($pconfig['maxaddr']);?>" />
                       <div class="hidden" data-for="help_for_maxaddr">
                         <?=gettext("Set the size of the bridge address cache to size. The default is .100 entries."); ?>
                       </div>
@@ -475,7 +475,7 @@ $(document).ready(function() {
                     <tr>
                       <td><a id="help_for_timeout" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Cache entry expire time"); ?> (<?=gettext("seconds"); ?>)</td>
                       <td>
-                        <input name="timeout" type="text" value="<?=$pconfig['timeout'];?>" />
+                        <input name="timeout" type="text" value="<?=strval($pconfig['timeout']);?>" />
                         <div class="hidden" data-for="help_for_timeout">
                          <?=gettext("Set the timeout of address cache entries to this number of seconds. If " .
                          "seconds is zero, then address cache entries will not be expired. " .

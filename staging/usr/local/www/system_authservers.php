@@ -518,11 +518,11 @@ $( document ).ready(function() {
                   <td>
 <?php if (!isset($id)) :
 ?>
-                    <input name="name" type="text" size="20" value="<?=$pconfig['name'];?>"/>
+                    <input name="name" type="text" size="20" value="<?=strval($pconfig['name']);?>"/>
 <?php else :
 ?>
                     <strong><?=$pconfig['name'];?></strong>
-                    <input name="name" type="hidden" value="<?=$pconfig['name'];?>"/>
+                    <input name="name" type="hidden" value="<?=strval($pconfig['name']);?>"/>
 <?php
 endif; ?>
                   </td>
@@ -545,7 +545,7 @@ endif; ?>
 else :
 ?>
                     <strong><?= !empty($authCNFOptions[$pconfig['type']]['description']) ? $authCNFOptions[$pconfig['type']]['description'] : $pconfig['name'] ?></strong>
-                    <input name='type' type='hidden' id='type' value="<?=$pconfig['type'];?>"/>
+                    <input name='type' type='hidden' id='type' value="<?=strval($pconfig['type']);?>"/>
 <?php
 endif; ?>
                   </td>
@@ -608,7 +608,7 @@ endif; ?>
                 <tr class="auth_ldap auth_ldap-totp auth_options hidden">
                   <td><a id="help_for_ldap_host" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Hostname or IP address");?></td>
                   <td>
-                    <input name="ldap_host" type="text" id="ldap_host" size="20" value="<?=$pconfig['ldap_host'];?>"/>
+                    <input name="ldap_host" type="text" id="ldap_host" size="20" value="<?=strval($pconfig['ldap_host']);?>"/>
                     <div class="hidden" data-for="help_for_ldap_host">
                       <?= gettext("NOTE: When using SSL, this hostname MUST match the Common Name (CN) of the LDAP server's SSL Certificate."); ?>
                     </div>
@@ -617,7 +617,7 @@ endif; ?>
                 <tr class="auth_ldap auth_ldap-totp auth_options hidden">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Port value");?></td>
                   <td>
-                    <input name="ldap_port" type="text" id="ldap_port" size="5" value="<?=$pconfig['ldap_port'];?>"/>
+                    <input name="ldap_port" type="text" id="ldap_port" size="5" value="<?=strval($pconfig['ldap_port']);?>"/>
                   </td>
                 </tr>
                 <tr class="auth_ldap auth_ldap-totp auth_options hidden">
@@ -652,9 +652,9 @@ endif; ?>
                   <td><a id="help_for_ldap_binddn" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Bind credentials");?></td>
                   <td>
                     <?=gettext("User DN:");?><br/>
-                    <input name="ldap_binddn" type="text" id="ldap_binddn" size="40" value="<?=$pconfig['ldap_binddn'];?>"/>
+                    <input name="ldap_binddn" type="text" id="ldap_binddn" size="40" value="<?=strval($pconfig['ldap_binddn']);?>"/>
                     <?=gettext("Password:");?><br/>
-                    <input name="ldap_bindpw" type="password" class="formfld pwd" id="ldap_bindpw" size="20" value="<?=$pconfig['ldap_bindpw'];?>"/><br />
+                    <input name="ldap_bindpw" type="password" class="formfld pwd" id="ldap_bindpw" size="20" value="<?=strval($pconfig['ldap_bindpw']);?>"/><br />
                     <div class="hidden" data-for="help_for_ldap_binddn">
                       <?=gettext("Leave empty to use anonymous binds to resolve distinguished names");?>
                     </div>
@@ -676,14 +676,14 @@ endif; ?>
                 <tr class="auth_ldap auth_ldap-totp auth_options hidden">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Base DN");?></td>
                   <td>
-                    <input name="ldap_basedn" type="text" id="ldap_basedn" size="40" value="<?=$pconfig['ldap_basedn'];?>"/>
+                    <input name="ldap_basedn" type="text" id="ldap_basedn" size="40" value="<?=strval($pconfig['ldap_basedn']);?>"/>
                   </td>
                 </tr>
                 <tr class="auth_ldap auth_ldap-totp auth_options hidden">
                   <td><a id="help_for_ldapauthcontainers" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Authentication containers");?></td>
                   <td>
                     <ul class="list-inline">
-                    <li><input name="ldapauthcontainers" type="text" id="ldapauthcontainers" size="40" value="<?=$pconfig['ldap_authcn'];?>"/></li>
+                    <li><input name="ldapauthcontainers" type="text" id="ldapauthcontainers" size="40" value="<?=strval($pconfig['ldap_authcn']);?>"/></li>
                     <li><input type="button" id="act_select" class="btn btn-default" value="<?= html_safe(gettext('Select')) ?>" /></li>
                     </ul>
                     <br/>
@@ -696,7 +696,7 @@ endif; ?>
                 <tr class="auth_ldap auth_ldap-totp auth_options hidden">
                   <td><a id="help_for_ldap_extended_query" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Extended Query");?></td>
                   <td>
-                    <input name="ldap_extended_query" type="text" id="ldap_extended_query" size="40" value="<?=$pconfig['ldap_extended_query'];?>"/>
+                    <input name="ldap_extended_query" type="text" id="ldap_extended_query" size="40" value="<?=strval($pconfig['ldap_extended_query']);?>"/>
                     <div class="hidden" data-for="help_for_ldap_extended_query">
                       <?=gettext("Example:");?> &amp;(objectClass=inetOrgPerson)(mail=*@example.com)
                     </div>
@@ -719,7 +719,7 @@ endif; ?>
                 <tr class="auth_ldap auth_ldap-totp auth_options hidden">
                   <td><a id="help_for_ldap_attr_user" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("User naming attribute");?></td>
                   <td>
-                    <input name="ldap_attr_user" type="text" id="ldap_attr_user" size="20" value="<?=$pconfig['ldap_attr_user'];?>"/>
+                    <input name="ldap_attr_user" type="text" id="ldap_attr_user" size="20" value="<?=strval($pconfig['ldap_attr_user']);?>"/>
                     <div class="hidden" data-for="help_for_ldap_attr_user">
                       <?= gettext('Typically "cn" (OpenLDAP, Novell eDirectory), "sAMAccountName" (Microsoft AD)') ?>
                     </div>
@@ -768,13 +768,13 @@ endif; ?>
                 <tr class="auth_radius auth_options hidden">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Hostname or IP address");?></td>
                   <td>
-                    <input name="radius_host" type="text" id="radius_host" size="20" value="<?=$pconfig['radius_host'];?>"/>
+                    <input name="radius_host" type="text" id="radius_host" size="20" value="<?=strval($pconfig['radius_host']);?>"/>
                   </td>
                 </tr>
                 <tr class="auth_radius auth_options hidden">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Shared Secret");?></td>
                   <td>
-                    <input name="radius_secret" type="password" class="formfld pwd" id="radius_secret" size="20" value="<?=$pconfig['radius_secret'];?>"/>
+                    <input name="radius_secret" type="password" class="formfld pwd" id="radius_secret" size="20" value="<?=strval($pconfig['radius_secret']);?>"/>
                   </td>
                 </tr>
                 <tr class="auth_radius auth_options hidden">
@@ -793,19 +793,19 @@ endif; ?>
                 <tr id="radius_auth" class="auth_radius auth_options hidden">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Authentication port value");?></td>
                   <td>
-                    <input name="radius_auth_port" type="text" id="radius_auth_port" size="5" value="<?=$pconfig['radius_auth_port'];?>"/>
+                    <input name="radius_auth_port" type="text" id="radius_auth_port" size="5" value="<?=strval($pconfig['radius_auth_port']);?>"/>
                   </td>
                 </tr>
                 <tr id="radius_acct" class="auth_radius auth_options hidden">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Accounting port value");?></td>
                   <td>
-                    <input name="radius_acct_port" type="text" id="radius_acct_port" size="5" value="<?=$pconfig['radius_acct_port'];?>"/>
+                    <input name="radius_acct_port" type="text" id="radius_acct_port" size="5" value="<?=strval($pconfig['radius_acct_port']);?>"/>
                   </td>
                 </tr>
                 <tr class="auth_radius auth_options hidden">
                   <td><a id="help_for_radius_timeout" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Authentication Timeout");?></td>
                   <td>
-                    <input name="radius_timeout" type="text" id="radius_timeout" size="20" value="<?=$pconfig['radius_timeout'];?>"/>
+                    <input name="radius_timeout" type="text" id="radius_timeout" size="20" value="<?=strval($pconfig['radius_timeout']);?>"/>
                     <div class="hidden" data-for="help_for_radius_timeout">
                       <br /><?= gettext("This value controls how long, in seconds, that the RADIUS server may take to respond to an authentication request.") ?>
                       <br /><?= gettext("If left blank, the default value is 5 seconds.") ?>
@@ -834,7 +834,7 @@ endif; ?>
                       <td>
 <?php
                         if ($field['type'] == 'text'):?>
-                        <input name="<?=$fieldname;?>" type="text" value="<?=$pconfig[$fieldname];?>"/>
+                        <input name="<?=$fieldname;?>" type="text" value="<?=strval($pconfig[$fieldname]);?>"/>
 <?php
                         elseif ($field['type'] == 'dropdown'):?>
                         <select name="<?=$fieldname;?>" class="selectpicker" data-style="btn-default">

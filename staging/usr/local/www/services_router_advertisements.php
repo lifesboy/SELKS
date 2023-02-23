@@ -394,8 +394,8 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_radns" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("DNS servers");?></td>
                     <td>
-                      <input name="radns1" type="text" value="<?=$pconfig['radns1'];?>" /><br />
-                      <input name="radns2" type="text" value="<?=$pconfig['radns2'];?>" />
+                      <input name="radns1" type="text" value="<?=strval($pconfig['radns1']);?>" /><br />
+                      <input name="radns2" type="text" value="<?=strval($pconfig['radns2']);?>" />
                       <div class="hidden" data-for="help_for_radns">
                         <?= gettext('Leave blank to use the system default DNS servers: This interface IP address if a DNS service is enabled or the configured global DNS servers.') ?>
                       </div>
@@ -407,7 +407,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_radomainsearchlist" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain search list");?></td>
                     <td>
-                      <input name="radomainsearchlist" type="text" id="radomainsearchlist" size="28" value="<?=$pconfig['radomainsearchlist'];?>" />
+                      <input name="radomainsearchlist" type="text" id="radomainsearchlist" size="28" value="<?=strval($pconfig['radomainsearchlist']);?>" />
                       <div class="hidden" data-for="help_for_radomainsearchlist">
                         <?=gettext("The default is to use the domain name of this system as the DNSSL option in Router Advertisements. You may optionally specify one or multiple domain(s) here. Use the semicolon character as separator.");?>
                       </div>
@@ -416,7 +416,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_ramininterval" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Minimum Interval') ?></td>
                     <td>
-                      <input name="ramininterval" type="text" id="ramininterval" size="28" value="<?=$pconfig['ramininterval'];?>" />
+                      <input name="ramininterval" type="text" id="ramininterval" size="28" value="<?=strval($pconfig['ramininterval']);?>" />
                       <div class="hidden" data-for="help_for_ramininterval">
                         <?= gettext('The minimum time allowed between sending unsolicited multicast router advertisements from the interface, in seconds.') ?>
                       </div>
@@ -425,7 +425,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_ramaxinterval" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Maximum Interval') ?></td>
                     <td>
-                      <input name="ramaxinterval" type="text" id="ramaxinterval" size="28" value="<?=$pconfig['ramaxinterval'];?>" />
+                      <input name="ramaxinterval" type="text" id="ramaxinterval" size="28" value="<?=strval($pconfig['ramaxinterval']);?>" />
                       <div class="hidden" data-for="help_for_ramaxinterval">
                         <?= gettext('The maximum time allowed between sending unsolicited multicast router advertisements from the interface, in seconds.') ?>
                       </div>

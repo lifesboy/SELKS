@@ -550,7 +550,7 @@ if (isset($input_errors) && count($input_errors) > 0) {
                 <tr>
                   <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                   <td>
-                    <input name="descr" type="text" id="descr" size="40" value="<?=$pconfig['descr'];?>" />
+                    <input name="descr" type="text" id="descr" size="40" value="<?=strval($pconfig['descr']);?>" />
                     <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here " .
                                                     "for your reference (not parsed)"); ?>.
@@ -564,13 +564,13 @@ if (isset($input_errors) && count($input_errors) > 0) {
                 <tr class="opt_route">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Local Address");?> </td>
                   <td>
-                    <input name="tunnel_local" type="text" id="tunnel_local" size="28" value="<?=$pconfig['tunnel_local'];?>" />
+                    <input name="tunnel_local" type="text" id="tunnel_local" size="28" value="<?=strval($pconfig['tunnel_local']);?>" />
                   </td>
                 </tr>
                 <tr class="opt_route">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Remote Address");?> </td>
                   <td>
-                    <input name="tunnel_remote" type="text" id="tunnel_remote" size="28" value="<?=$pconfig['tunnel_remote'];?>" />
+                    <input name="tunnel_remote" type="text" id="tunnel_remote" size="28" value="<?=strval($pconfig['tunnel_remote']);?>" />
                   </td>
                 </tr>
                 <!-- Tunnel settings -->
@@ -597,7 +597,7 @@ if (isset($input_errors) && count($input_errors) > 0) {
                 <tr class="opt_localid">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Address:");?>&nbsp;&nbsp;</td>
                   <td>
-                    <input name="localid_address" type="text" id="localid_address" size="28" value="<?=$pconfig['localid_address'];?>" />
+                    <input name="localid_address" type="text" id="localid_address" size="28" value="<?=strval($pconfig['localid_address']);?>" />
                     /
                     <select name="localid_netbits" data-network-id="localid_address" class="ipv4v6net" id="localid_netbits">
 <?php               for ($i = 128; $i >= 0; $i--) :
@@ -631,7 +631,7 @@ if (isset($input_errors) && count($input_errors) > 0) {
                 <tr class="opt_remoteid">
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Address"); ?>:&nbsp;&nbsp;</td>
                   <td>
-                    <input name="remoteid_address" type="text" class="formfld unknown" id="remoteid_address" size="28" value="<?=$pconfig['remoteid_address'];?>" />
+                    <input name="remoteid_address" type="text" class="formfld unknown" id="remoteid_address" size="28" value="<?=strval($pconfig['remoteid_address']);?>" />
                     /
                     <select name="remoteid_netbits" data-network-id="remoteid_address" class="ipv4v6net" id="remoteid_netbits">
 <?php              for ($i = 128; $i >= 0; $i--) :
@@ -757,7 +757,7 @@ endif; ?>
                     <select disabled="disabled">
                       <option selected="selected"><?=$p2_pfskeygroups[$config['ipsec']['client']['pfs_group']];?></option>
                     </select>
-                    <input name="pfsgroup" type="hidden" value="<?=$pconfig['pfsgroup'];?>" />
+                    <input name="pfsgroup" type="hidden" value="<?=strval($pconfig['pfsgroup']);?>" />
                     <br />
                     <em><?=gettext("Set globally in mobile client options"); ?></em>
 <?php
@@ -767,7 +767,7 @@ endif; ?>
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Lifetime"); ?></td>
                   <td>
-                    <input name="lifetime" type="text" class="formfld unknown" id="lifetime" size="20" value="<?=$pconfig['lifetime'];?>" />
+                    <input name="lifetime" type="text" class="formfld unknown" id="lifetime" size="20" value="<?=strval($pconfig['lifetime']);?>" />
                     <?=gettext("seconds"); ?>
                   </td>
                 </tr>
@@ -779,7 +779,7 @@ endif; ?>
                 <tr>
                   <td><a id="help_for_pinghost" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Automatically ping host"); ?></td>
                   <td>
-                    <input name="pinghost" type="text" class="formfld unknown" id="pinghost" size="28" value="<?=$pconfig['pinghost'];?>" />
+                    <input name="pinghost" type="text" class="formfld unknown" id="pinghost" size="28" value="<?=strval($pconfig['pinghost']);?>" />
                     <div class="hidden" data-for="help_for_pinghost">
                         <?=gettext("IP address"); ?>
                     </div>
@@ -812,8 +812,8 @@ endif; ?>
 <?php
                  endif; ?>
                     <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
-                    <input name="ikeid" type="hidden" value="<?=$pconfig['ikeid'];?>" />
-                    <input name="uniqid" type="hidden" value="<?=$pconfig['uniqid'];?>" />
+                    <input name="ikeid" type="hidden" value="<?=strval($pconfig['ikeid']);?>" />
+                    <input name="uniqid" type="hidden" value="<?=strval($pconfig['uniqid']);?>" />
                   </td>
                 </tr>
               </table>

@@ -564,7 +564,7 @@ $( document ).ready(function() {
             <tr>
               <td><a id="help_for_description" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
               <td>
-                <input name="description" type="text" class="form-control unknown" size="30" value="<?=$pconfig['description'];?>" />
+                <input name="description" type="text" class="form-control unknown" size="30" value="<?=strval($pconfig['description']);?>" />
                 <div class="hidden" data-for="help_for_description">
                   <small><?=gettext("You may enter a description here for your reference (not parsed)"); ?>.</small>
                 </div>
@@ -718,13 +718,13 @@ $( document ).ready(function() {
           <tr>
             <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Proxy host or address");?></td>
             <td>
-              <input name="proxy_addr" type="text" class="form-control unknown" size="30" value="<?=$pconfig['proxy_addr'];?>" />
+              <input name="proxy_addr" type="text" class="form-control unknown" size="30" value="<?=strval($pconfig['proxy_addr']);?>" />
             </td>
           </tr>
           <tr>
             <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Proxy port");?></td>
             <td>
-              <input name="proxy_port" type="text" class="form-control unknown" size="5" value="<?=$pconfig['proxy_port'];?>" />
+              <input name="proxy_port" type="text" class="form-control unknown" size="5" value="<?=strval($pconfig['proxy_port']);?>" />
             </td>
           </tr>
           <tr>
@@ -738,16 +738,16 @@ $( document ).ready(function() {
               </select>
               <div style="display:none" id="proxy_authtype_opts">
                 <div><?=gettext("Username"); ?> <br/></div>
-                <div><input name="proxy_user" id="proxy_user" class="form-control unknown" type="text" size="20" value="<?=$pconfig['proxy_user'];?>" /></div>
+                <div><input name="proxy_user" id="proxy_user" class="form-control unknown" type="text" size="20" value="<?=strval($pconfig['proxy_user']);?>" /></div>
                 <div><?=gettext("Password"); ?> </div>
-                <div><input name="proxy_passwd" id="proxy_passwd" type="password" class="form-control pwd" size="20" value="<?=$pconfig['proxy_passwd'];?>" /></div>
+                <div><input name="proxy_passwd" id="proxy_passwd" type="password" class="form-control pwd" size="20" value="<?=strval($pconfig['proxy_passwd']);?>" /></div>
               </div>
             </td>
           </tr>
           <tr>
             <td><a id="help_for_local_port" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Local port");?></td>
             <td>
-              <input name="local_port" type="text" class="form-control unknown" size="5" value="<?=$pconfig['local_port'];?>" />
+              <input name="local_port" type="text" class="form-control unknown" size="5" value="<?=strval($pconfig['local_port']);?>" />
               <div class="hidden" data-for="help_for_local_port">
                 <em><small><?=gettext("Set this option if you would like to bind to a specific port. Leave this blank or enter 0 for a random dynamic port."); ?></small></em>
               </div>
@@ -768,9 +768,9 @@ $( document ).ready(function() {
             <td style="width:22%"><a id="help_for_auth_user_pass" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("User name/pass"); ?></td>
             <td style="width:78%">
               <div><?=gettext("Username"); ?></div>
-              <div><input name="auth_user" id="auth_user" class="form-control unknown" type="text" size="20" value="<?=$pconfig['auth_user'];?>" /></div>
+              <div><input name="auth_user" id="auth_user" class="form-control unknown" type="text" size="20" value="<?=strval($pconfig['auth_user']);?>" /></div>
               <div><?=gettext("Password"); ?></div>
-              <div><input name="auth_pass" id="auth_pass" type="password" class="form-control pwd" size="20" value="<?=$pconfig['auth_pass'];?>" /></div>
+              <div><input name="auth_pass" id="auth_pass" type="password" class="form-control pwd" size="20" value="<?=strval($pconfig['auth_pass']);?>" /></div>
               <div class="hidden" data-for="help_for_auth_user_pass">
                 <?=gettext("Leave empty when no user name and password are needed."); ?>
               </div>
@@ -780,7 +780,7 @@ $( document ).ready(function() {
           <tr>
             <td><a id="help_for_reneg-sec" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Renegotiate time"); ?></td>
             <td>
-              <input type="text" name="reneg-sec" value="<?=$pconfig['reneg-sec'];?>">
+              <input type="text" name="reneg-sec" value="<?=strval($pconfig['reneg-sec']);?>">
               <div class="hidden" data-for="help_for_reneg-sec">
                 <?= gettext('Renegotiate data channel key after n seconds (default=3600). Set to 0 to disable.') ?>
               </div>
@@ -964,7 +964,7 @@ $( document ).ready(function() {
           <tr>
             <td style="width:22%"><a id="help_for_tunnel_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Tunnel Network"); ?></td>
             <td style="width:78%">
-              <input name="tunnel_network" type="text" class="form-control unknown" size="20" value="<?=$pconfig['tunnel_network'];?>" />
+              <input name="tunnel_network" type="text" class="form-control unknown" size="20" value="<?=strval($pconfig['tunnel_network']);?>" />
               <div class="hidden" data-for="help_for_tunnel_network">
                 <?=gettext("This is the IPv4 virtual network used for private " .
                                 "communications between this client and the " .
@@ -979,7 +979,7 @@ $( document ).ready(function() {
           <tr>
             <td><a id="help_for_tunnel_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Tunnel Network"); ?></td>
             <td>
-              <input name="tunnel_networkv6" type="text" class="form-control unknown" size="20" value="<?=$pconfig['tunnel_networkv6'];?>" />
+              <input name="tunnel_networkv6" type="text" class="form-control unknown" size="20" value="<?=strval($pconfig['tunnel_networkv6']);?>" />
               <div class="hidden" data-for="help_for_tunnel_networkv6">
                 <?=gettext("This is the IPv6 virtual network used for private " .
                                 "communications between this client and the " .
@@ -994,7 +994,7 @@ $( document ).ready(function() {
           <tr>
             <td><a id="help_for_remote_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Remote Network"); ?></td>
             <td>
-              <input name="remote_network" type="text" class="form-control unknown" size="40" value="<?=$pconfig['remote_network'];?>" />
+              <input name="remote_network" type="text" class="form-control unknown" size="40" value="<?=strval($pconfig['remote_network']);?>" />
               <div class="hidden" data-for="help_for_remote_network">
                 <?=gettext("These are the IPv4 networks that will be routed through " .
                                 "the tunnel, so that a site-to-site VPN can be " .
@@ -1009,7 +1009,7 @@ $( document ).ready(function() {
           <tr>
             <td><a id="help_for_remote_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Remote Network"); ?></td>
             <td>
-              <input name="remote_networkv6" type="text" class="form-control unknown" size="40" value="<?=$pconfig['remote_networkv6'];?>" />
+              <input name="remote_networkv6" type="text" class="form-control unknown" size="40" value="<?=strval($pconfig['remote_networkv6']);?>" />
               <div class="hidden" data-for="help_for_remote_networkv6">
                 <?=gettext("These are the IPv6 networks that will be routed through " .
                                 "the tunnel, so that a site-to-site VPN can be " .
@@ -1024,7 +1024,7 @@ $( document ).ready(function() {
           <tr>
             <td><a id="help_for_use_shaper" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Limit outgoing bandwidth");?></td>
             <td>
-              <input name="use_shaper" type="text" class="form-control unknown" size="5" value="<?=$pconfig['use_shaper'];?>" />
+              <input name="use_shaper" type="text" class="form-control unknown" size="5" value="<?=strval($pconfig['use_shaper']);?>" />
               <div class="hidden" data-for="help_for_use_shaper">
                 <?=gettext("Maximum outgoing bandwidth for this tunnel. " .
                                 "Leave empty for no limit. The input value has " .

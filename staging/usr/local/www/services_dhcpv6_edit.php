@@ -179,7 +179,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_duid" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("DUID Identifier");?></td>
                     <td>
-                      <input name="duid" type="text" value="<?=$pconfig['duid'];?>" />
+                      <input name="duid" type="text" value="<?=strval($pconfig['duid']);?>" />
                       <div class="hidden" data-for="help_for_duid">
                         <?=gettext("Enter a DUID Identifier in the following format: ");?><br />
                         "<?= gettext('DUID-LLT - ETH -- TIME --- ---- ADDR ----') ?>" <br />
@@ -190,7 +190,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_ipaddrv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 address");?></td>
                     <td>
-                      <input name="ipaddrv6" type="text" value="<?=$pconfig['ipaddrv6'];?>" />
+                      <input name="ipaddrv6" type="text" value="<?=strval($pconfig['ipaddrv6']);?>" />
                       <div class="hidden" data-for="help_for_ipaddrv6">
                         <?=gettext("If an IPv6 address is entered, the address must be outside of the pool.");?>
                         <br />
@@ -204,7 +204,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_hostname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Hostname");?></td>
                     <td>
-                      <input name="hostname" type="text" value="<?=$pconfig['hostname'];?>" />
+                      <input name="hostname" type="text" value="<?=strval($pconfig['hostname']);?>" />
                       <div class="hidden" data-for="help_for_hostname">
                         <?=gettext("Name of the host, without domain part.");?>
                         <?=gettext("If no IP address is given above, hostname will not be visible to DNS services with lease registration enabled.");?>
@@ -214,7 +214,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_domainsearchlist" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain search list");?></td>
                     <td>
-                      <input name="domainsearchlist" type="text" value="<?=$pconfig['domainsearchlist'];?>" />
+                      <input name="domainsearchlist" type="text" value="<?=strval($pconfig['domainsearchlist']);?>" />
                       <div class="hidden" data-for="help_for_domainsearchlist">
                         <?=gettext("If you want to use a custom domain search list for this host, you may optionally specify one or multiple domains here. " .
                         "Use the semicolon character as separator. The first domain in this list will also be used for DNS registration of this host if enabled. " .
@@ -226,7 +226,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_filename" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Netboot filename') ?></td>
                     <td>
-                      <input name="filename" type="text" value="<?=$pconfig['filename'];?>" />
+                      <input name="filename" type="text" value="<?=strval($pconfig['filename']);?>" />
                       <div class="hidden" data-for="help_for_filename">
                         <?= gettext('Name of the file that should be loaded when this host boots off of the network, overrides setting on main page.') ?>
                       </div>
@@ -235,7 +235,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_rootpath" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Root Path') ?></td>
                     <td>
-                      <input name="rootpath" type="text" value="<?=$pconfig['rootpath'];?>" />
+                      <input name="rootpath" type="text" value="<?=strval($pconfig['rootpath']);?>" />
                       <div class="hidden" data-for="help_for_rootpath">
                         <?= gettext('Enter the root-path-string, overrides setting on main page.') ?>
                       </div>
@@ -246,7 +246,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                     <td>
-                      <input name="descr" type="text" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here "."for your reference (not parsed).");?>
                       </div>

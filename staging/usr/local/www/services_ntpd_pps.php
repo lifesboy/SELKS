@@ -121,7 +121,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_fudge1" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Fudge time') ?> (<?=gettext("seconds");?>)</td>
                       <td>
-                        <input name="fudge1" type="text" value="<?=$pconfig['fudge1'];?>" />
+                        <input name="fudge1" type="text" value="<?=strval($pconfig['fudge1']);?>" />
                         <div class="hidden" data-for="help_for_fudge1">
                           <?=gettext('Fudge time is used to specify the PPS signal offset from the actual second such as the transmission delay between the transmitter and the receiver.');?> (<?=gettext('default');?>: 0.0).
                         </div>
@@ -130,7 +130,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_stratum" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Stratum') ?></td>
                       <td>
-                        <input name="stratum" type="text" value="<?=$pconfig['stratum'];?>" />
+                        <input name="stratum" type="text" value="<?=strval($pconfig['stratum']);?>" />
                         <div class="hidden" data-for="help_for_stratum">
                           <?=gettext("(0-16)");?><br />
                           <?=gettext('This may be used to change the PPS Clock stratum');?> (<?=gettext('default');?>: 0). <?=gettext('This may be useful if, for some reason, you want ntpd to prefer a different clock and just monitor this source.'); ?>
@@ -174,7 +174,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_refid" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Clock ID') ?></td>
                       <td>
-                        <input name="refid" type="text" value="<?=$pconfig['refid'];?>" />
+                        <input name="refid" type="text" value="<?=strval($pconfig['refid']);?>" />
                         <div class="hidden" data-for="help_for_refid">
                           <?=gettext("(1 to 4 characters)");?><br />
                           <?=gettext("This may be used to change the PPS Clock ID");?> (<?=gettext("default");?>: PPS).

@@ -409,7 +409,7 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                           <input name="pool_enable" type="checkbox" id="pool_enable" value="yes" <?= !empty($pconfig['pool_address'])&&!empty($pconfig['pool_netbits']) ? "checked=\"checked\"" : "";?> onclick="pool_change()" />
                           <?=gettext("Provide a virtual IPv4 address to clients"); ?>
                           <div class="input-group">
-                              <input name="pool_address" type="text" class="form-control" id="pool_address" size="20" value="<?=$pconfig['pool_address'];?>" style="width:200px;" />
+                              <input name="pool_address" type="text" class="form-control" id="pool_address" size="20" value="<?=strval($pconfig['pool_address']);?>" style="width:200px;" />
                               <select name="pool_netbits" class="selectpicker form-control" id="pool_netbits" data-width="70px" data-size="10">
 <?php
                               for ($i = 32; $i >= 0; $i--) :?>
@@ -428,7 +428,7 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                           <input name="pool_enable_v6" type="checkbox" id="pool_enable_v6" value="yes" <?= !empty($pconfig['pool_address_v6'])&&!empty($pconfig['pool_netbits_v6']) ? "checked=\"checked\"" : "";?> onclick="pool_v6_change()" />
                           <?=gettext("Provide a virtual IPv6 address to clients"); ?>
                           <div class="input-group">
-                              <input name="pool_address_v6" type="text" class="form-control" id="pool_address_v6" size="20" value="<?=$pconfig['pool_address_v6'];?>" style="width:200px;" />
+                              <input name="pool_address_v6" type="text" class="form-control" id="pool_address_v6" size="20" value="<?=strval($pconfig['pool_address_v6']);?>" style="width:200px;" />
                               <select name="pool_netbits_v6" class="selectpicker form-control" id="pool_netbits_v6" data-width="70px" data-size="10">
 <?php
                               for ($i = 128; $i >= 0; $i--) :?>
@@ -463,7 +463,7 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                     <td>
                       <input name="dns_domain_enable" type="checkbox" id="dns_domain_enable" value="yes"  <?= !empty($pconfig['dns_domain']) ? "checked=\"checked\"" : "";?> onclick="dns_domain_change()" />
                       <?=gettext("Provide a default domain name to clients"); ?>
-                      <input name="dns_domain" type="text" id="dns_domain" size="30" value="<?=$pconfig['dns_domain'];?>" />
+                      <input name="dns_domain" type="text" id="dns_domain" size="30" value="<?=strval($pconfig['dns_domain']);?>" />
                     </td>
                   </tr>
                   <tr>
@@ -471,7 +471,7 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                     <td>
                       <input name="dns_split_enable" type="checkbox" id="dns_split_enable" value="yes" <?= !empty($pconfig['dns_split']) ? "checked=\"checked\"" : "";?> onclick="dns_split_change()" />
                       <?= gettext('Provide a list of split DNS domain names to clients') ?>
-                      <input name="dns_split" type="text" class="form-control" id="dns_split" size="30" value="<?=$pconfig['dns_split'];?>" />
+                      <input name="dns_split" type="text" class="form-control" id="dns_split" size="30" value="<?=strval($pconfig['dns_split']);?>" />
                       <div class="hidden" data-for="help_for_dns_split_enable">
                         <?= gettext('Enter a comma-separated list. If left blank, and a default domain is set, it will be used for this value.') ?>
                       </div>
@@ -484,13 +484,13 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                       <?=gettext("Provide a DNS server list to clients"); ?>
                       <div id="dns_server_enable_inputs">
                         <?=gettext("Server"); ?> #1:
-                        <input name="dns_server1" type="text" class="form-control" id="dns_server1" size="20" value="<?=$pconfig['dns_server1'];?>" />
+                        <input name="dns_server1" type="text" class="form-control" id="dns_server1" size="20" value="<?=strval($pconfig['dns_server1']);?>" />
                         <?=gettext("Server"); ?> #2:
-                        <input name="dns_server2" type="text" class="form-control" id="dns_server2" size="20" value="<?=$pconfig['dns_server2'];?>" />
+                        <input name="dns_server2" type="text" class="form-control" id="dns_server2" size="20" value="<?=strval($pconfig['dns_server2']);?>" />
                         <?=gettext("Server"); ?> #3:
-                        <input name="dns_server3" type="text" class="form-control" id="dns_server3" size="20" value="<?=$pconfig['dns_server3'];?>" />
+                        <input name="dns_server3" type="text" class="form-control" id="dns_server3" size="20" value="<?=strval($pconfig['dns_server3']);?>" />
                         <?=gettext("Server"); ?> #4:
-                        <input name="dns_server4" type="text" class="form-control" id="dns_server4" size="20" value="<?=$pconfig['dns_server4'];?>" />
+                        <input name="dns_server4" type="text" class="form-control" id="dns_server4" size="20" value="<?=strval($pconfig['dns_server4']);?>" />
                       </div>
                     </td>
                   </tr>
@@ -501,9 +501,9 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                       <?= gettext('Provide a WINS server list to clients') ?>
                       <div id="wins_server_enable_inputs">
                         <?=gettext("Server"); ?> #1:
-                        <input name="wins_server1" type="text" class="form-control" id="wins_server1" size="20" value="<?=$pconfig['wins_server1'];?>" />
+                        <input name="wins_server1" type="text" class="form-control" id="wins_server1" size="20" value="<?=strval($pconfig['wins_server1']);?>" />
                         <?=gettext("Server"); ?> #2:
-                        <input name="wins_server2" type="text" class="form-control" id="wins_server2" size="20" value="<?=$pconfig['wins_server2'];?>" />
+                        <input name="wins_server2" type="text" class="form-control" id="wins_server2" size="20" value="<?=strval($pconfig['wins_server2']);?>" />
                       </div>
                     </td>
                   </tr>

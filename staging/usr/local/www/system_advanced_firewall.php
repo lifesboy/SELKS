@@ -588,7 +588,7 @@ include("head.inc");
               <tr>
                 <td><a id="help_for_maximumstates" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Firewall Maximum States");?></td>
                 <td>
-                  <input name="maximumstates" type="text" id="maximumstates" value="<?=$pconfig['maximumstates'];?>" />
+                  <input name="maximumstates" type="text" id="maximumstates" value="<?=strval($pconfig['maximumstates']);?>" />
                   <div class="hidden" data-for="help_for_maximumstates">
                     <?=gettext("Maximum number of connections to hold in the firewall state table.");?><br/>
                     <?=gettext("Note: Leave this blank for the default. On your system the default size is:");?> <?= default_state_size() ?>
@@ -598,7 +598,7 @@ include("head.inc");
               <tr>
                 <td><a id="help_for_maximumfrags" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Firewall Maximum Fragments");?></td>
                 <td>
-                  <input name="maximumfrags" type="text" id="maximumfrags" value="<?=$pconfig['maximumfrags'];?>" />
+                  <input name="maximumfrags" type="text" id="maximumfrags" value="<?=strval($pconfig['maximumfrags']);?>" />
                   <div class="hidden" data-for="help_for_maximumfrags">
                     <?=gettext("Sets the maximum number of entries in the memory pool used for fragment reassembly.");?><br/>
                     <?=gettext("Note: Leave this blank for the default.");?>

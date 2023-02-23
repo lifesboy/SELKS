@@ -319,7 +319,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_mac" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("MAC address");?></td>
                   <td>
-                    <input name="mac" id="mac" type="text" value="<?=$pconfig['mac'];?>" />
+                    <input name="mac" id="mac" type="text" value="<?=strval($pconfig['mac']);?>" />
 <?php
                     $ip = getenv('REMOTE_ADDR');
                     $mac = `/usr/sbin/arp -an | grep {$ip} | /usr/bin/head -n1 | /usr/bin/cut -d" " -f4`;
@@ -333,13 +333,13 @@ include("head.inc");
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Client identifier");?></td>
                   <td>
-                    <input name="cid" type="text" value="<?=$pconfig['cid'];?>" />
+                    <input name="cid" type="text" value="<?=strval($pconfig['cid']);?>" />
                   </td>
                 </tr>
                 <tr>
                   <td><a id="help_for_ipaddr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IP address");?></td>
                   <td>
-                    <input name="ipaddr" type="text" value="<?=$pconfig['ipaddr'];?>" />
+                    <input name="ipaddr" type="text" value="<?=strval($pconfig['ipaddr']);?>" />
                     <div class="hidden" data-for="help_for_ipaddr">
                       <?=gettext("If an IPv4 address is entered, the address must be outside of the pool.");?>
                       <br />
@@ -350,7 +350,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_hostname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Hostname");?></td>
                   <td>
-                    <input name="hostname" type="text" value="<?=$pconfig['hostname'];?>" />
+                    <input name="hostname" type="text" value="<?=strval($pconfig['hostname']);?>" />
                     <div class="hidden" data-for="help_for_hostname">
                       <?=gettext("Name of the host, without domain part.");?>
                       <?=gettext("If no IP address is given above, hostname will not be visible to DNS services with lease registration enabled.");?>
@@ -362,7 +362,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_filename" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Netboot Filename') ?></td>
                   <td>
-                    <input name="filename" type="text" id="filename" size="20" value="<?=$pconfig['filename'];?>" />
+                    <input name="filename" type="text" id="filename" size="20" value="<?=strval($pconfig['filename']);?>" />
                     <div class="hidden" data-for="help_for_filename">
                       <?= gettext('Name of the file that should be loaded when this host boots off of the network, overrides setting on main page.') ?>
                     </div>
@@ -371,7 +371,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_rootpath" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Root Path') ?></td>
                   <td>
-                    <input name="rootpath" type="text" value="<?=$pconfig['rootpath'];?>" />
+                    <input name="rootpath" type="text" value="<?=strval($pconfig['rootpath']);?>" />
                     <div class="hidden" data-for="help_for_rootpath">
                       <?= gettext("Enter the root-path-string, overrides setting on main page.") ?>
                     </div>
@@ -382,7 +382,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description");?></td>
                   <td>
-                    <input name="descr" type="text" value="<?=$pconfig['descr'];?>" />
+                    <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" />
                     <div class="hidden" data-for="help_for_descr">
                       <?=gettext("You may enter a description here ". "for your reference (not parsed).");?>
                     </div>
@@ -400,15 +400,15 @@ include("head.inc");
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("WINS servers");?></td>
                   <td>
-                    <input name="wins1" type="text" value="<?=$pconfig['wins1'];?>" /><br />
-                    <input name="wins2" type="text" value="<?=$pconfig['wins2'];?>" />
+                    <input name="wins1" type="text" value="<?=strval($pconfig['wins1']);?>" /><br />
+                    <input name="wins2" type="text" value="<?=strval($pconfig['wins2']);?>" />
                   </td>
                 </tr>
                 <tr>
                   <td><a id="help_for_dns" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("DNS servers");?></td>
                   <td>
-                    <input name="dns1" type="text" value="<?=$pconfig['dns1'];?>" /><br/>
-                    <input name="dns2" type="text" value="<?=$pconfig['dns2'];?>" />
+                    <input name="dns1" type="text" value="<?=strval($pconfig['dns1']);?>" /><br/>
+                    <input name="dns2" type="text" value="<?=strval($pconfig['dns2']);?>" />
                     <div class="hidden" data-for="help_for_dns">
                       <?= gettext('Leave blank to use the system default DNS servers: This interface IP address if a DNS service is enabled or the configured global DNS servers.') ?>
                     </div>
@@ -417,7 +417,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_gateway" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Gateway");?></td>
                   <td>
-                    <input name="gateway" type="text" value="<?=$pconfig['gateway'];?>" />
+                    <input name="gateway" type="text" value="<?=strval($pconfig['gateway']);?>" />
                     <div class="hidden" data-for="help_for_gateway">
                       <?=gettext("The default is to use the IP on this interface of the firewall as the gateway. Specify an alternate gateway here if this is not the correct gateway for your network.");?>
                     </div>
@@ -426,7 +426,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_domain" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain name");?></td>
                   <td>
-                    <input name="domain" type="text" value="<?=$pconfig['domain'];?>" />
+                    <input name="domain" type="text" value="<?=strval($pconfig['domain']);?>" />
                     <div class="hidden" data-for="help_for_domain">
                       <?=gettext("The default is to use the domain name of this system as the default domain name provided by DHCP. You may specify an alternate domain name here.");?>
                     </div>
@@ -435,7 +435,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_domainsearchlist" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Domain search list");?></td>
                   <td>
-                    <input name="domainsearchlist" type="text" id="domainsearchlist" size="20" value="<?=$pconfig['domainsearchlist'];?>" />
+                    <input name="domainsearchlist" type="text" id="domainsearchlist" size="20" value="<?=strval($pconfig['domainsearchlist']);?>" />
                     <div class="hidden" data-for="help_for_domainsearchlist">
                       <?=gettext("The DHCP server can optionally provide a domain search list. Use the semicolon character as separator.");?>
                     </div>
@@ -444,7 +444,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_defaultleasetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Default lease time");?> (<?=gettext("seconds");?>)</td>
                   <td>
-                    <input name="defaultleasetime" type="text" id="deftime" size="10" value="<?=$pconfig['defaultleasetime'];?>" />
+                    <input name="defaultleasetime" type="text" id="deftime" size="10" value="<?=strval($pconfig['defaultleasetime']);?>" />
                     <div class="hidden" data-for="help_for_defaultleasetime">
                       <?=gettext("This is used for clients that do not ask for a specific " ."expiration time."); ?><br />
                       <?=gettext("The default is 7200 seconds.");?>
@@ -454,7 +454,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_maxleasetime" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Maximum lease time");?> (<?=gettext("seconds");?>)</td>
                   <td>
-                    <input name="maxleasetime" type="text" value="<?=$pconfig['maxleasetime'];?>" />
+                    <input name="maxleasetime" type="text" value="<?=strval($pconfig['maxleasetime']);?>" />
                     <div class="hidden" data-for="help_for_maxleasetime">
                       <?=gettext("This is the maximum lease time for clients that ask"." for a specific expiration time."); ?><br />
                       <?=gettext("The default is 86400 seconds.");?>
@@ -472,7 +472,7 @@ include("head.inc");
                       <b><?=gettext("Enable registration of DHCP client names in DNS.");?></b><br />
                       <?=gettext("Note: Leave blank to disable dynamic DNS registration.");?><br />
                       <?=gettext("Enter the dynamic DNS domain which will be used to register client names in the DNS server.");?>
-                      <input name="ddnsdomain" type="text" id="ddnsdomain" size="20" value="<?=$pconfig['ddnsdomain'];?>" />
+                      <input name="ddnsdomain" type="text" id="ddnsdomain" size="20" value="<?=strval($pconfig['ddnsdomain']);?>" />
                     </div>
                   </td>
                 </tr>
@@ -483,8 +483,8 @@ include("head.inc");
                       <input type="button" onclick="show_ntp_config()" class="btn btn-xs btn-default" value="<?= html_safe(gettext('Advanced')) ?>" /> - <?=gettext("Show NTP configuration");?>
                     </div>
                     <div id="showntp" style="display:none">
-                      <input name="ntp1" type="text" id="ntp1" size="20" value="<?=$pconfig['ntp1'];?>" /><br />
-                      <input name="ntp2" type="text" id="ntp2" size="20" value="<?=$pconfig['ntp2'];?>" />
+                      <input name="ntp1" type="text" id="ntp1" size="20" value="<?=strval($pconfig['ntp1']);?>" /><br />
+                      <input name="ntp2" type="text" id="ntp2" size="20" value="<?=strval($pconfig['ntp2']);?>" />
                     </div>
                   </td>
                 </tr>
@@ -496,9 +496,9 @@ include("head.inc");
                     </div>
                     <div id="showtftp" style="display:none">
                       <?=gettext("Set TFTP hostname");?>
-                      <input name="tftp" type="text" size="50" value="<?=$pconfig['tftp'];?>" /><br />
+                      <input name="tftp" type="text" size="50" value="<?=strval($pconfig['tftp']);?>" /><br />
                       <?=gettext("Set Bootfile");?>
-                      <input name="bootfilename" type="text" value="<?=$pconfig['bootfilename'];?>" /><br />
+                      <input name="bootfilename" type="text" value="<?=strval($pconfig['bootfilename']);?>" /><br />
                       <?=gettext("Leave blank to disable. Enter a full hostname or IP for the TFTP server and optionally a full path for a bootfile.");?>
                     </div>
                   </td>

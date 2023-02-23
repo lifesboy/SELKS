@@ -526,7 +526,7 @@ $main_buttons = array(
             <tr>
               <td><?=gettext("Descriptive name");?></td>
               <td>
-                <input name="descr" type="text" id="descr" size="20" value="<?=$pconfig['descr'];?>"/>
+                <input name="descr" type="text" id="descr" size="20" value="<?=strval($pconfig['descr']);?>"/>
               </td>
             </tr>
             <tr class="<?=isset($id) ? "hidden" : "";?>">
@@ -578,7 +578,7 @@ $main_buttons = array(
               <tr>
                 <td><a id="help_for_serial" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Serial for next certificate");?></td>
                 <td>
-                  <input name="serial" type="text" id="serial" size="20" value="<?=$pconfig['serial'];?>"/>
+                  <input name="serial" type="text" id="serial" size="20" value="<?=strval($pconfig['serial']);?>"/>
                   <div class="hidden" data-for="help_for_serial">
                     <?=gettext("Enter a decimal number to be used as the serial number for the next certificate to be created using this CA.");?>
                   </div>
@@ -665,7 +665,7 @@ $main_buttons = array(
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Lifetime");?> (<?=gettext("days");?>)</td>
                   <td>
-                    <input name="lifetime" type="text" id="lifetime"  value="<?=$pconfig['lifetime'];?>"/>
+                    <input name="lifetime" type="text" id="lifetime"  value="<?=strval($pconfig['lifetime']);?>"/>
                   </td>
                 </tr>
                 <tr>
@@ -688,7 +688,7 @@ $main_buttons = array(
                 <tr>
                   <td><a id="help_for_digest_dn_state" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("State or Province");?> : &nbsp;</td>
                   <td>
-                    <input name="dn_state" type="text" size="40" value="<?=$pconfig['dn_state'];?>"/>
+                    <input name="dn_state" type="text" size="40" value="<?=strval($pconfig['dn_state']);?>"/>
                     <div class="hidden" data-for="help_for_digest_dn_state">
                       <em><?=gettext("ex:");?></em>
                       &nbsp;
@@ -699,7 +699,7 @@ $main_buttons = array(
                 <tr>
                   <td><a id="help_for_digest_dn_city" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("City");?> : &nbsp;</td>
                   <td>
-                    <input name="dn_city" type="text" size="40" value="<?=$pconfig['dn_city'];?>"/>
+                    <input name="dn_city" type="text" size="40" value="<?=strval($pconfig['dn_city']);?>"/>
                     <div class="hidden" data-for="help_for_digest_dn_city">
                       <em><?=gettext("ex:");?></em>
                       &nbsp;
@@ -710,7 +710,7 @@ $main_buttons = array(
                 <tr>
                   <td><a id="help_for_digest_dn_organization" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Organization");?> : &nbsp;</td>
                   <td>
-                    <input name="dn_organization" type="text" size="40" value="<?=$pconfig['dn_organization'];?>"/>
+                    <input name="dn_organization" type="text" size="40" value="<?=strval($pconfig['dn_organization']);?>"/>
                     <div class="hidden" data-for="help_for_digest_dn_organization">
                       <em><?=gettext("ex:");?></em>
                       &nbsp;
@@ -721,7 +721,7 @@ $main_buttons = array(
                 <tr>
                   <td><a id="help_for_digest_dn_email" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Email Address");?> : &nbsp;</td>
                   <td>
-                    <input name="dn_email" type="text" size="25" value="<?=$pconfig['dn_email'];?>"/>
+                    <input name="dn_email" type="text" size="25" value="<?=strval($pconfig['dn_email']);?>"/>
                     <div class="hidden" data-for="help_for_digest_dn_email">
                       <em><?=gettext("ex:");?></em>
                       &nbsp;
@@ -732,7 +732,7 @@ $main_buttons = array(
                 <tr>
                   <td><a id="help_for_digest_dn_commonname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Common Name");?> : &nbsp;</td>
                   <td>
-                    <input name="dn_commonname" type="text" size="25" value="<?=$pconfig['dn_commonname'];?>"/>
+                    <input name="dn_commonname" type="text" size="25" value="<?=strval($pconfig['dn_commonname']);?>"/>
                     <div class="hidden" data-for="help_for_digest_dn_commonname">
                       <em><?=gettext("ex:");?></em>
                       &nbsp;

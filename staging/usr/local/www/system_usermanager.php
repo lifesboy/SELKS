@@ -599,8 +599,8 @@ $( document ).ready(function() {
                   <tr>
                     <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Username");?></td>
                     <td>
-                      <input name="usernamefld" type="text" class="formfld user" id="usernamefld" size="20" maxlength="32" value="<?=$pconfig['usernamefld'];?>" <?= $pconfig['scope'] == "system" || !empty($pconfig['user_dn']) ? "readonly=\"readonly\"" : "";?> />
-                      <input name="oldusername" type="hidden" id="oldusername" value="<?=$pconfig['usernamefld'];?>" />
+                      <input name="usernamefld" type="text" class="formfld user" id="usernamefld" size="20" maxlength="32" value="<?=strval($pconfig['usernamefld']);?>" <?= $pconfig['scope'] == "system" || !empty($pconfig['user_dn']) ? "readonly=\"readonly\"" : "";?> />
+                      <input name="oldusername" type="hidden" id="oldusername" value="<?=strval($pconfig['usernamefld']);?>" />
                     </td>
                   </tr>
 <?php
@@ -608,7 +608,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("User distinguished name");?></td>
                     <td>
-                      <input name="user_dn" type="text" class="formfld user" id="user_dn" size="20" value="<?=$pconfig['user_dn'];?>" readonly="readonly" />
+                      <input name="user_dn" type="text" class="formfld user" id="user_dn" size="20" value="<?=strval($pconfig['user_dn']);?>" readonly="readonly" />
                     </td>
                   </tr>
 <?php
@@ -626,7 +626,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_fullname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Full name");?></td>
                     <td>
-                      <input name="descr" type="text" value="<?=$pconfig['descr'];?>" <?= $pconfig['scope'] == "system" ? "readonly=\"readonly\"" : "";?> />
+                      <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" <?= $pconfig['scope'] == "system" ? "readonly=\"readonly\"" : "";?> />
                       <div class="hidden" data-for="help_for_fullname">
                         <?=gettext("User's full name, for your own information only");?>
                       </div>
@@ -653,7 +653,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_landing_page" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Preferred landing page");?></td>
                     <td>
-                      <input name="landing_page" type="text" value="<?=$pconfig['landing_page'];?>">
+                      <input name="landing_page" type="text" value="<?=strval($pconfig['landing_page']);?>">
                       <div class="hidden" data-for="help_for_landing_page">
                         <?= gettext('Preferred landing page after login or authentication failure') ?>
                       </div>
@@ -681,7 +681,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_expires" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Expiration date"); ?></td>
                     <td>
-                      <input name="expires" type="text" id="expires" class="datepicker" data-date-format="mm/dd/yyyy" value="<?=$pconfig['expires'];?>" />
+                      <input name="expires" type="text" id="expires" class="datepicker" data-date-format="mm/dd/yyyy" value="<?=strval($pconfig['expires']);?>" />
                       <div class="hidden" data-for="help_for_expires">
                           <?=gettext("Leave blank if the account shouldn't expire, otherwise enter the expiration date in the following format: mm/dd/yyyy"); ?>
                       </div>
@@ -920,7 +920,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_otp_seed" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('OTP seed') ?></td>
                     <td>
-                      <input name="otp_seed" type="text" value="<?=$pconfig['otp_seed'];?>"/>
+                      <input name="otp_seed" type="text" value="<?=strval($pconfig['otp_seed']);?>"/>
                       <input type="checkbox" name="gen_otp_seed"/>
                       <small><?= gettext('Generate new secret (160 bit)') ?></small>
                       <div class="hidden" data-for="help_for_otp_seed">
@@ -959,7 +959,7 @@ $( document ).ready(function() {
                   <tr id="ipsecpskrow">
                     <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("IPsec Pre-Shared Key");?></td>
                     <td>
-                      <input name="ipsecpsk" type="text" size="65" value="<?=$pconfig['ipsecpsk'];?>" />
+                      <input name="ipsecpsk" type="text" size="65" value="<?=strval($pconfig['ipsecpsk']);?>" />
                     </td>
                   </tr>
                   <tr>

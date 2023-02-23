@@ -221,7 +221,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_username" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Remote System Username') ?></td>
                   <td>
-                    <input  name="username" type="text" value="<?=$pconfig['username'];?>" />
+                    <input  name="username" type="text" value="<?=strval($pconfig['username']);?>" />
                     <div class="hidden" data-for="help_for_username">
                       <?=gettext('Enter the web GUI username of the system entered above for synchronizing your configuration.') ?><br />
                       <div class="well well-sm">

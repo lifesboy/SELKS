@@ -193,7 +193,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_remote-addr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("GIF remote address"); ?></td>
                     <td>
-                      <input name="remote-addr" type="text" value="<?=$pconfig['remote-addr'];?>" />
+                      <input name="remote-addr" type="text" value="<?=strval($pconfig['remote-addr']);?>" />
                       <div class="hidden" data-for="help_for_remote-addr">
                         <?=gettext("Peer address where encapsulated gif packets will be sent. "); ?>
                       </div>
@@ -202,7 +202,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_tunnel-local-addr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("GIF tunnel local address"); ?></td>
                     <td>
-                      <input name="tunnel-local-addr" type="text" value="<?=$pconfig['tunnel-local-addr'];?>" />
+                      <input name="tunnel-local-addr" type="text" value="<?=strval($pconfig['tunnel-local-addr']);?>" />
                       <div class="hidden" data-for="help_for_tunnel-local-addr">
                         <?=gettext("Local gif tunnel endpoint"); ?>
                       </div>
@@ -214,7 +214,7 @@ include("head.inc");
                       <table class="table table-condensed">
                         <tr>
                           <td style="width:285px">
-                            <input name="tunnel-remote-addr" type="text" id="tunnel-remote-addr" value="<?=$pconfig['tunnel-remote-addr'];?>" />
+                            <input name="tunnel-remote-addr" type="text" id="tunnel-remote-addr" value="<?=strval($pconfig['tunnel-remote-addr']);?>" />
                           </td>
                           <td>
                             <select name="tunnel-remote-net" data-network-id="tunnel-remote-addr" class="selectpicker ipv4v6net" data-size="10" id="tunnel-remote-net" data-width="auto">
@@ -255,7 +255,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_descr" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="descr" type="text" value="<?=$pconfig['descr'];?>" />
+                      <input name="descr" type="text" value="<?=strval($pconfig['descr']);?>" />
                       <div class="hidden" data-for="help_for_descr">
                         <?=gettext("You may enter a description here for your reference (not parsed)."); ?>
                       </div>

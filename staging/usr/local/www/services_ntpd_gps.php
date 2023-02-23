@@ -373,7 +373,7 @@ SureGPS =    #Sure Electronics SKG16B
                       <!-- 1 = RMC, 2 = GGA, 4 = GLL, 8 = ZDA or ZDG -->
                       <td><a id="help_for_nmea" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('NMEA sentences') ?></td>
                       <td>
-                        <input type="hidden" name="nmea" value="<?=$pconfig['nmea'];?>" id="nmea">
+                        <input type="hidden" name="nmea" value="<?=strval($pconfig['nmea']);?>" id="nmea">
                         <select id="gpsnmea" multiple="multiple" class="selectpicker">
                           <option value="0" <?=empty($pconfig['nmea']) ? " selected=\"selected\"" : ""; ?>><?=gettext("All");?></option>
                           <option value="1" <?=intval($pconfig['nmea']) & 1 ? " selected=\"selected\"" : "";?>><?=gettext("RMC");?></option>
@@ -389,7 +389,7 @@ SureGPS =    #Sure Electronics SKG16B
                     <tr>
                       <td><a id="help_for_fudge1" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Fudge time 1 (seconds)') ?></td>
                       <td>
-                        <input name="fudge1" type="text" id="gpsfudge1" min="-1" max="1" size="20" value="<?=$pconfig['fudge1'];?>" />
+                        <input name="fudge1" type="text" id="gpsfudge1" min="-1" max="1" size="20" value="<?=strval($pconfig['fudge1']);?>" />
                         <div class="hidden" data-for="help_for_fudge1">
                           <?= gettext("Fudge time 1 is used to specify the GPS PPS signal offset (default: 0.0).") ?>
                         </div>
@@ -397,7 +397,7 @@ SureGPS =    #Sure Electronics SKG16B
                     <tr>
                       <td><a id="help_for_fudge2" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Fudge time 2 (seconds)');?></td>
                       <td>
-                        <input name="fudge2" type="text" id="gpsfudge2" min="-1" max="1" size="20" value="<?=$pconfig['fudge2'];?>" />
+                        <input name="fudge2" type="text" id="gpsfudge2" min="-1" max="1" size="20" value="<?=strval($pconfig['fudge2']);?>" />
                         <div class="hidden" data-for="help_for_fudge2">
                           <?= gettext("Fudge time 2 is used to specify the GPS time offset (default: 0.0).") ?>
                         </div>
@@ -406,7 +406,7 @@ SureGPS =    #Sure Electronics SKG16B
                     <tr>
                       <td><a id="help_for_stratum" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Stratum') ?></td>
                       <td>
-                        <input name="stratum" type="text" id="gpsstratum"  value="<?=$pconfig['stratum'];?>" />
+                        <input name="stratum" type="text" id="gpsstratum"  value="<?=strval($pconfig['stratum']);?>" />
                         <div class="hidden" data-for="help_for_stratum">
                           <?=gettext("(0-16)");?><br />
                           <?=gettext("This may be used to change the GPS Clock stratum (default: 0). This may be useful if, for some reason, you want ntpd to prefer a different clock"); ?>
@@ -484,7 +484,7 @@ SureGPS =    #Sure Electronics SKG16B
                     <tr>
                       <td><a id="help_for_refid" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Clock ID') ?></td>
                       <td>
-                        <input name="refid" type="text" id="gpsrefid" value="<?=$pconfig['refid'];?>" />
+                        <input name="refid" type="text" id="gpsrefid" value="<?=strval($pconfig['refid']);?>" />
                         <div class="hidden" data-for="help_for_refid">
                           <?=gettext("(1 to 4 characters)");?><br />
                           <?=gettext("This may be used to change the GPS Clock ID (default: GPS).") ?>

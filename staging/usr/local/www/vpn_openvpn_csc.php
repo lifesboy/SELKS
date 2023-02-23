@@ -411,7 +411,7 @@ if ($act!="new" && $act!="edit") {
                   <tr>
                     <td><a id="help_for_common_name" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Common name"); ?></td>
                     <td>
-                      <input name="common_name" type="text" value="<?=$pconfig['common_name'];?>" />
+                      <input name="common_name" type="text" value="<?=strval($pconfig['common_name']);?>" />
                       <div class="hidden" data-for="help_for_common_name">
                         <?=gettext("Enter the client's X.509 common name here"); ?>.
                       </div>
@@ -420,7 +420,7 @@ if ($act!="new" && $act!="edit") {
                   <tr>
                     <td><a id="help_for_description" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Description"); ?></td>
                     <td>
-                      <input name="description" type="text" value="<?=$pconfig['description'];?>" />
+                      <input name="description" type="text" value="<?=strval($pconfig['description']);?>" />
                       <div class="hidden" data-for="help_for_description">
                         <?=gettext("You may enter a description here for your reference (not parsed)"); ?>.
                       </div>
@@ -447,7 +447,7 @@ if ($act!="new" && $act!="edit") {
                   <tr>
                     <td><a id="help_for_tunnel_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Tunnel Network"); ?></td>
                     <td>
-                      <input name="tunnel_network" type="text" size="20" value="<?=$pconfig['tunnel_network'];?>" />
+                      <input name="tunnel_network" type="text" size="20" value="<?=strval($pconfig['tunnel_network']);?>" />
                       <div class="hidden" data-for="help_for_tunnel_network">
                         <?=gettext("This is the IPv4 virtual network used for private " .
                                                 "communications between this client and the " .
@@ -462,7 +462,7 @@ if ($act!="new" && $act!="edit") {
                   <tr>
                     <td><a id="help_for_tunnel_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Tunnel Network"); ?></td>
                     <td>
-                      <input name="tunnel_networkv6" type="text" value="<?=$pconfig['tunnel_networkv6'];?>" />
+                      <input name="tunnel_networkv6" type="text" value="<?=strval($pconfig['tunnel_networkv6']);?>" />
                       <div class="hidden" data-for="help_for_tunnel_networkv6">
                           <?=gettext("This is the IPv6 virtual network used for private " .
                                                 "communications between this server and client " .
@@ -477,7 +477,7 @@ if ($act!="new" && $act!="edit") {
                   <tr id="local_optsv4">
                     <td><a id="help_for_local_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Local Network"); ?></td>
                     <td>
-                      <input name="local_network" type="text" size="40" value="<?=$pconfig['local_network'];?>" />
+                      <input name="local_network" type="text" size="40" value="<?=strval($pconfig['local_network']);?>" />
                       <div class="hidden" data-for="help_for_local_network">
                         <?=gettext("These are the IPv4 networks that will be accessible " .
                                                 "from this particular client. Expressed as a comma-separated list of one or more CIDR ranges."); ?>
@@ -489,7 +489,7 @@ if ($act!="new" && $act!="edit") {
                   <tr id="local_optsv6">
                     <td><a id="help_for_local_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Local Network"); ?></td>
                     <td>
-                      <input name="local_networkv6" type="text" size="40" value="<?=$pconfig['local_networkv6'];?>" />
+                      <input name="local_networkv6" type="text" size="40" value="<?=strval($pconfig['local_networkv6']);?>" />
                       <div class="hidden" data-for="help_for_local_networkv6">
                                                     <?=gettext("These are the IPv6 networks that will be accessible " .
                                                     "from this particular client. Expressed as a comma-separated list of one or more IP/PREFIX networks."); ?><br />
@@ -501,7 +501,7 @@ if ($act!="new" && $act!="edit") {
                   <tr id="remote_optsv4">
                     <td><a id="help_for_remote_network" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv4 Remote Network"); ?></td>
                     <td>
-                      <input name="remote_network" type="text" size="40" value="<?=$pconfig['remote_network'];?>" />
+                      <input name="remote_network" type="text" size="40" value="<?=strval($pconfig['remote_network']);?>" />
                       <div class="hidden" data-for="help_for_remote_network">
                         <?=gettext("These are the IPv4 networks that will be routed " .
                                                 "to this client specifically using iroute, so that a site-to-site " .
@@ -517,7 +517,7 @@ if ($act!="new" && $act!="edit") {
                   <tr id="remote_optsv6">
                     <td><a id="help_for_remote_networkv6" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("IPv6 Remote Network"); ?></td>
                     <td>
-                      <input name="remote_networkv6" type="text" size="40" value="<?=$pconfig['remote_networkv6'];?>" />
+                      <input name="remote_networkv6" type="text" size="40" value="<?=strval($pconfig['remote_networkv6']);?>" />
                       <div class="hidden" data-for="help_for_remote_networkv6">
                         <?=gettext("These are the IPv6 networks that will be routed " .
                                                 "to this client specifically using iroute, so that a site-to-site " .
@@ -559,7 +559,7 @@ if ($act!="new" && $act!="edit") {
                     <td>
                       <input name="dns_domain_enable" type="checkbox" id="dns_domain_enable" value="yes" <?= !empty($pconfig['dns_domain']) ? "checked=\"checked\"" : "";?> />
                       <div id="dns_domain_data" style="display:none">
-                        <input name="dns_domain" type="text" id="dns_domain" value="<?=$pconfig['dns_domain'];?>" />
+                        <input name="dns_domain" type="text" id="dns_domain" value="<?=strval($pconfig['dns_domain']);?>" />
                       </div>
                       <div class="hidden" data-for="help_for_dns_domain">
                         <?=gettext("Provide a default domain name to clients"); ?><br />
@@ -591,9 +591,9 @@ if ($act!="new" && $act!="edit") {
                       <input name="ntp_server_enable" type="checkbox" id="ntp_server_enable" value="yes" <?=!empty($pconfig['ntp_server1']) || !empty($pconfig['ntp_server2']) ? "checked=\"checked\"" : "" ;?> />
                       <div id="ntp_server_data" style="display:none">
                         <?=gettext("Server #1:"); ?>&nbsp;
-                        <input name="ntp_server1" type="text" id="ntp_server1" size="20" value="<?=$pconfig['ntp_server1'];?>" />
+                        <input name="ntp_server1" type="text" id="ntp_server1" size="20" value="<?=strval($pconfig['ntp_server1']);?>" />
                         <?=gettext("Server #2:"); ?>&nbsp;
-                        <input name="ntp_server2" type="text" id="ntp_server2" size="20" value="<?=$pconfig['ntp_server2'];?>" />
+                        <input name="ntp_server2" type="text" id="ntp_server2" size="20" value="<?=strval($pconfig['ntp_server2']);?>" />
                       </div>
                       <div class="hidden" data-for="help_for_ntp_server">
                         <?=gettext("Provide a NTP server list to clients"); ?>
@@ -629,7 +629,7 @@ if ($act!="new" && $act!="edit") {
                                                     "h-node (query name server, then broadcast)."); ?>
                         </div>
                         Scope ID:&nbsp;
-                        <input name="netbios_scope" type="text" id="netbios_scope" value="<?=$pconfig['netbios_scope'];?>" />
+                        <input name="netbios_scope" type="text" id="netbios_scope" value="<?=strval($pconfig['netbios_scope']);?>" />
                         <div class="hidden" data-for="help_for_netbios_enable">
                           <?=gettext("A NetBIOS Scope ID provides an extended naming " .
                                                     "service for NetBIOS over TCP/IP. The NetBIOS " .
@@ -646,9 +646,9 @@ if ($act!="new" && $act!="edit") {
                       <input name="wins_server_enable" type="checkbox" id="wins_server_enable" value="yes"  <?=!empty($pconfig['wins_server1']) || !empty($pconfig['wins_server2']) ? "checked=\"checked\"" : "" ;?> />
                       <div id="wins_server_data" style="display:none">
                         <?=gettext("Server #1:"); ?>
-                        <input name="wins_server1" type="text" id="wins_server1" size="20" value="<?=$pconfig['wins_server1'];?>" />
+                        <input name="wins_server1" type="text" id="wins_server1" size="20" value="<?=strval($pconfig['wins_server1']);?>" />
                         <?=gettext("Server #2:"); ?>
-                        <input name="wins_server2" type="text" id="wins_server2" size="20" value="<?=$pconfig['wins_server2'];?>" />
+                        <input name="wins_server2" type="text" id="wins_server2" size="20" value="<?=strval($pconfig['wins_server2']);?>" />
                       </div>
                       <div class="hidden" data-for="help_for_wins_server">
                         <?=gettext("Provide a WINS server list to clients"); ?>
