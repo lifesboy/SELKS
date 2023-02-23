@@ -539,7 +539,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $input_errors = array();
     if (!empty($_POST['if']) && !empty($a_interfaces[$_POST['if']])) {
-        $if = $_POST['if'];
+        $if = strval($_POST['if']);
         // read physcial interface name from config.xml
         $pconfig['if'] = $a_interfaces[$if]['if'];
     }
