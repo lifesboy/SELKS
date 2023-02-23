@@ -83,10 +83,10 @@ $act = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // process get type actions
     if (isset($_GET['userid']) && isset($a_user[$_GET['userid']])) {
-        $id = $_GET['userid'];
+        $id = strval($_GET['userid']);
     }
     if (isset($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     }
     if (isset($_GET['savemsg'])) {
         $savemsg = htmlspecialchars($_GET['savemsg']);

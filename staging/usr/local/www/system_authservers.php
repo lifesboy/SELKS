@@ -46,10 +46,10 @@ $act = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // input record id, if valid
     if (isset($_GET['id']) && isset($a_server[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     if (isset($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     }
     $pconfig = array();
     $pconfig['ldap_sync_memberof_groups'] = array();

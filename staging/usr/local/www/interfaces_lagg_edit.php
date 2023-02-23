@@ -81,7 +81,7 @@ $a_laggs = &config_read_array('laggs', 'lagg');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // read form data
     if (!empty($a_laggs[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $pconfig = array();
     $pconfig['laggif'] = isset($a_laggs[$id]['laggif']) ? $a_laggs[$id]['laggif'] : null;

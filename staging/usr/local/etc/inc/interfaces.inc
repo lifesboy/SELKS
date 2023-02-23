@@ -3673,7 +3673,7 @@ function get_real_interface($interface = 'wan', $family = 'all')
     switch ($interface) {
         case 'openvpn':
         case 'ppp':
-            $realif = $interface;
+            $realif = strval($interface);
             break;
         case 'ipsec':
         case 'enc0':

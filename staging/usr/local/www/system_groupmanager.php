@@ -35,10 +35,10 @@ $a_group = &config_read_array('system', 'group');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($a_group[$_GET['groupid']])) {
-        $id = $_GET['groupid'];
+        $id = strval($_GET['groupid']);
     }
     if (isset($_GET['act']) && ($_GET['act'] == 'edit' || $_GET['act'] == 'new')) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     } else {
         $act = null;
     }

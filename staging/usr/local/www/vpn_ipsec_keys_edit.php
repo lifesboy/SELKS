@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $pconfig = array();
     if (isset($_GET['id']) && is_numericint($_GET['id']) && isset($config['ipsec']['mobilekey'][$_GET['id']])) {
         // fetch record
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $pconfig['ident'] = $config['ipsec']['mobilekey'][$id]['ident'];
         $pconfig['psk'] = $config['ipsec']['mobilekey'][$id]['pre-shared-key'];
         $pconfig['type'] = $config['ipsec']['mobilekey'][$id]['type'];

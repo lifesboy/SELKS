@@ -312,7 +312,7 @@ $a_ppps = &config_read_array('ppps', 'ppp');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!empty($_GET['if']) && !empty($a_interfaces[$_GET['if']])) {
-        $if = $_GET['if'];
+        $if = strval($_GET['if']);
     } else {
         // no interface provided, redirect to interface assignments
         header(url_safe('Location: /interfaces_assign.php'));

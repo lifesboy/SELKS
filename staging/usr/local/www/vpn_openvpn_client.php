@@ -37,14 +37,14 @@ $vpnid = 0;
 $act = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['dup']) && isset($a_client[$_GET['dup']]))  {
-        $configId = $_GET['dup'];
+        $configId = strval($_GET['dup']);
     } elseif (isset($_GET['id']) && isset($a_client[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id;
     }
 
     if (isset($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     }
 
     $pconfig = array();

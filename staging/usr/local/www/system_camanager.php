@@ -143,11 +143,11 @@ $a_crl = &config_read_array('crl');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($a_ca[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
 
     if (isset($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     } else {
         $act = null;
     }
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     } elseif ($act == "new") {
         if (isset($_GET['method'])) {
-            $pconfig['camethod'] = $_GET['method'];
+            $pconfig['camethod'] = strval($_GET['method']);
         }
         $pconfig['refid'] = null;
         $pconfig['keytype'] = "RSA";

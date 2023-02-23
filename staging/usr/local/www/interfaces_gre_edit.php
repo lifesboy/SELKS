@@ -36,7 +36,7 @@ $a_gres = &config_read_array('gres', 'gre');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // read form data
     if (!empty($a_gres[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $pconfig = array();
     // copy fields

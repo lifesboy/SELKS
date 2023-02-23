@@ -40,7 +40,7 @@ function val_int_in_range($value, $min, $max) {
 $advanced_options = array('AdvDefaultLifetime', 'AdvValidLifetime', 'AdvPreferredLifetime', 'AdvRDNSSLifetime', 'AdvDNSSLLifetime', 'AdvRouteLifetime', 'AdvLinkMTU');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!empty($_GET['if']) && !empty($config['interfaces'][$_GET['if']])) {
-        $if = $_GET['if'];
+        $if = strval($_GET['if']);
     } else {
         /* if no interface is provided this invoke is invalid */
         header(url_safe('Location: /index.php'));

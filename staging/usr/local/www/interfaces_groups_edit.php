@@ -37,7 +37,7 @@ $a_ifgroups = &config_read_array('ifgroups', 'ifgroupentry');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // read form data
     if (!empty($a_ifgroups[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     $pconfig = array();
     $pconfig['ifname'] = isset($a_ifgroups[$id]['ifname']) ? $a_ifgroups[$id]['ifname'] : null;

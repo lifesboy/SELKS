@@ -606,7 +606,7 @@ abstract class BaseField
                         throw new Exception("Invalid  input type for {$key} (configuration error?)");
                     }
                 } else {
-                    $node->setValue($data[$key]);
+                    $node->setValue(strval($data[$key]));
                 }
             }
         }

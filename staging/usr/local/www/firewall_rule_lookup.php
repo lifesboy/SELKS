@@ -38,7 +38,7 @@ plugins_firewall($fw);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!empty($_GET['rid'])) {
-        $rid = $_GET['rid'];
+        $rid = strval($_GET['rid']);
         // search auto-generated rules
         foreach ($fw->iterateFilterRules() as $rule) {
             if (!empty($rule->getRef()) && $rid == $rule->getLabel()) {

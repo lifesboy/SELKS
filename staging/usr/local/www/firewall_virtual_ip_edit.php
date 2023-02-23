@@ -56,10 +56,10 @@ $a_vip = &config_read_array('virtualip', 'vip');
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // input record id, if valid
     if (isset($_GET['dup']) && isset($a_vip[$_GET['dup']]))  {
-        $configId = $_GET['dup'];
+        $configId = strval($_GET['dup']);
         $after = $configId;
     } elseif (isset($_GET['id']) && isset($a_vip[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
         $configId = $id;
     }
     $pconfig = array();

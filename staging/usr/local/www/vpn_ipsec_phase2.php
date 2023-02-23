@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     } else {
         if (isset($_GET['ikeid'])) {
-            $pconfig['ikeid'] = $_GET['ikeid'];
+            $pconfig['ikeid'] = strval($_GET['ikeid']);
         }
         /* defaults */
         $pconfig['localid_type'] = "lan";

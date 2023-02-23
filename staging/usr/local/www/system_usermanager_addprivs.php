@@ -43,10 +43,10 @@ function sort_user_privs($privs)
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['userid']) && isset($config['system']['user'][$_GET['userid']]['name'])) {
         $input_type = "user";
-        $id = $_GET['userid'];
+        $id = strval($_GET['userid']);
     } elseif (isset($_GET['groupid']) &&  isset($config['system']['group'][$_GET['groupid']])) {
         $input_type = "group";
-        $id = $_GET['groupid'];
+        $id = strval($_GET['groupid']);
     } else {
         header(url_safe('Location: /system_usermanager.php'));
         exit;

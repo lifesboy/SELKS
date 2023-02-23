@@ -72,14 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             }
         }
 
-        $oldtime = $_GET['oldtime'];
+        $oldtime = strval($_GET['oldtime']);
         $oldcheck = $oldtime;
 
         if ($_GET['newtime'] == 'current') {
             $newfile = '/conf/config.xml';
             $newtime = $config['revision']['time'];
         } else {
-            $newtime = $_GET['newtime'];
+            $newtime = strval($_GET['newtime']);
             $newcheck = $newtime;
         }
     } elseif (count($confvers)) {

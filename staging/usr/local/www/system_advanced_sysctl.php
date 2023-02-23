@@ -36,10 +36,10 @@ $a_tunable = &config_read_array('sysctl', 'item');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && isset($a_tunable[$_GET['id']])) {
-        $id = $_GET['id'];
+        $id = strval($_GET['id']);
     }
     if (isset($_GET['act'])) {
-        $act = $_GET['act'];
+        $act = strval($_GET['act']);
     } else {
         $act = null;
     }
