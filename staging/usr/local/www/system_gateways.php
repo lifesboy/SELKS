@@ -314,7 +314,7 @@ $( document ).ready(function() {
                       <td>
 <?php
                     if (is_numeric($gateway['attribute'])) :?>
-                      <input type="checkbox" name="rule[]" value="<?=$i;?>"/>
+                      <input type="checkbox" name="rule[]" value="<?=strval($i);?>"/>
 <?php
                     else :?>
                       &nbsp;

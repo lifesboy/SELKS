@@ -1828,7 +1828,7 @@ include("head.inc");
 <?php
                             $types4 = array("none" => gettext("None"), "staticv4" => gettext("Static IPv4"), "dhcp" => gettext("DHCP"), "ppp" => gettext("PPP"), "pppoe" => gettext("PPPoE"), "pptp" => gettext("PPTP"), "l2tp" => gettext("L2TP"));
                             foreach ($types4 as $key => $opt):?>
-                            <option value="<?=$key;?>" <?=$key == $pconfig['type'] ? "selected=\"selected\"" : "";?> ><?=$opt;?></option>
+                            <option value="<?=strval($key);?>" <?=$key == $pconfig['type'] ? "selected=\"selected\"" : "";?> ><?=$opt;?></option>
 <?php
                             endforeach;?>
                             </select>
@@ -1841,7 +1841,7 @@ include("head.inc");
 <?php
                             $types6 = array("none" => gettext("None"), "staticv6" => gettext("Static IPv6"), "dhcp6" => gettext("DHCPv6"), "slaac" => gettext("SLAAC"), "6rd" => gettext("6rd Tunnel"), "6to4" => gettext("6to4 Tunnel"), "track6" => gettext("Track Interface"));
                             foreach ($types6 as $key => $opt):?>
-                              <option value="<?=$key;?>" <?=$key == $pconfig['type6'] ? "selected=\"selected\"" : "";?> ><?=$opt;?></option>
+                              <option value="<?=strval($key);?>" <?=$key == $pconfig['type6'] ? "selected=\"selected\"" : "";?> ><?=$opt;?></option>
 <?php
                             endforeach;?>
                             </select>
@@ -1900,7 +1900,7 @@ include("head.inc");
                                   <option value=""><?=gettext('Default (no preference, typically autoselect)');?></option>
 <?php
                                   foreach($mediaopts_list as $mediaopt):?>
-                                    <option value="<?=$mediaopt;?>" <?=$mediaopt == trim($pconfig['media'] . " ". $pconfig['mediaopt']) ? "selected=\"selected\"" : "";?> >
+                                    <option value="<?=strval($mediaopt);?>" <?=$mediaopt == trim($pconfig['media'] . " ". $pconfig['mediaopt']) ? "selected=\"selected\"" : "";?> >
                                       <?=$mediaopt;?>
                                     </option>
 <?php
@@ -1952,7 +1952,7 @@ include("head.inc");
 
 <?php
                                     for ($i = 32; $i > 0; $i--):?>
-                                    <option value="<?=$i;?>" <?=$i == $pconfig['subnet'] ? "selected=\"selected\"" : "";?>><?=$i;?></option>
+                                    <option value="<?=strval($i);?>" <?=$i == $pconfig['subnet'] ? "selected=\"selected\"" : "";?>><?=$i;?></option>
 <?php
                                     endfor;?>
                                   </select>
@@ -1971,7 +1971,7 @@ include("head.inc");
                                 foreach ($config['gateways']['gateway_item'] as $gateway):
                                   if ($gateway['interface'] == $if && is_ipaddrv4($gateway['gateway'])):
 ?>
-                                  <option value="<?=$gateway['name'];?>" <?= $gateway['name'] == $pconfig['gateway'] ? "selected=\"selected\"" : ""; ?>>
+                                  <option value="<?=strval($gateway['name']);?>" <?= $gateway['name'] == $pconfig['gateway'] ? "selected=\"selected\"" : ""; ?>>
                                     <?=htmlspecialchars($gateway['name']. " - " . $gateway['gateway']);?>
                                   </option>
 <?php
@@ -2080,7 +2080,7 @@ include("head.inc");
                                   <select name="alias-subnet" class="selectpicker" data-style="btn-default" id="alias-subnet" data-width="auto"  data-size="10">
 <?php
                                     for ($i = 32; $i > 0; $i--):?>
-                                        <option value="<?=$i;?>" <?=$i == $pconfig['alias-subnet'] ?  "selected=\"selected\"" : "";?> >
+                                        <option value="<?=strval($i);?>" <?=$i == $pconfig['alias-subnet'] ?  "selected=\"selected\"" : "";?> >
                                             <?=$i;?>
                                         </option>
 <?php
@@ -2417,7 +2417,7 @@ include("head.inc");
                                 <td>
                                   <select name="pptp_subnet" class="selectpicker" data-width="auto" data-style="btn-default" data-size="10" id="pptp_subnet">
                                     <?php for ($i = 31; $i > 0; $i--): ?>
-                                      <option value="<?=$i;?>" <?= $i == $pconfig['pptp_subnet'] ? 'selected="selected"' : ''; ?>>
+                                      <option value="<?=strval($i);?>" <?= $i == $pconfig['pptp_subnet'] ? 'selected="selected"' : ''; ?>>
                                         <?=$i;?>
                                       </option>
                                     <?php endfor; ?>
@@ -2485,7 +2485,7 @@ include("head.inc");
                                   <select id="subnetv6" name="subnetv6" class="selectpicker" data-style="btn-default" data-width="auto" data-size="10" data-id="subnetv6">
 <?php
                                     for ($i = 128; $i > 0; $i--): ?>
-                                      <option value="<?=$i;?>" <?=$i == $pconfig['subnetv6'] ? "selected=\"selected\"" : "";?>><?=$i;?></option>
+                                      <option value="<?=strval($i);?>" <?=$i == $pconfig['subnetv6'] ? "selected=\"selected\"" : "";?>><?=$i;?></option>
 <?php
                                     endfor;?>
                                   </select>
@@ -2504,7 +2504,7 @@ include("head.inc");
                                 foreach ($config['gateways']['gateway_item'] as $gateway):
                                   if ($gateway['interface'] == $if && is_ipaddrv6($gateway['gateway'])):
 ?>
-                                  <option value="<?=$gateway['name'];?>" <?= $gateway['name'] == $pconfig['gatewayv6'] ? "selected=\"selected\"" : ""; ?>>
+                                  <option value="<?=strval($gateway['name']);?>" <?= $gateway['name'] == $pconfig['gatewayv6'] ? "selected=\"selected\"" : ""; ?>>
                                     <?=htmlspecialchars($gateway['name']. " - " . $gateway['gateway']);?>
                                   </option>
 <?php
@@ -2638,7 +2638,7 @@ include("head.inc");
                               16 => '48',
                               'none' => gettext('None'),
                             ) as $bits => $length): ?>
-                              <option value="<?=$bits;?>" <?= "{$bits}" === "{$pconfig['dhcp6-ia-pd-len']}" ? 'selected="selected"' : '' ?>>
+                              <option value="<?=strval($bits);?>" <?= "{$bits}" === "{$pconfig['dhcp6-ia-pd-len']}" ? 'selected="selected"' : '' ?>>
                                   <?=$length;?>
                               </option>
 <?php
@@ -2864,7 +2864,7 @@ include("head.inc");
                             <select name="prefix-6rd-v4plen" class="selectpicker" data-size="10" data-style="btn-default" id="prefix-6rd-v4plen">
 <?php
                               for ($i = 0; $i <= 32; $i++):?>
-                                <option value="<?=$i;?>" <?= $i == $pconfig['prefix-6rd-v4plen'] ? "selected=\"selected\"" : "";?>>
+                                <option value="<?=strval($i);?>" <?= $i == $pconfig['prefix-6rd-v4plen'] ? "selected=\"selected\"" : "";?>>
                                   <?=$i;?> <?=gettext("bits");?>
                                 </option>
 <?php
@@ -2913,7 +2913,7 @@ include("head.inc");
                                 default:
                                     continue 2;
                               }?>
-                                <option value="<?=$iface;?>" <?=$iface == $pconfig['track6-interface'] ? " selected=\"selected\"" : "";?>>
+                                <option value="<?=strval($iface);?>" <?=$iface == $pconfig['track6-interface'] ? " selected=\"selected\"" : "";?>>
                                   <?= htmlspecialchars($ifcfg['descr']) ?>
                                 </option>
 <?php
@@ -2983,7 +2983,7 @@ include("head.inc");
                             <select name="standard" class="selectpicker" data-size="10" data-style="btn-default" id="standard">
 <?php
                               foreach($wl_modes as $wl_standard => $wl_channels):?>
-                              <option value="<?=$wl_standard;?>" <?=$pconfig['standard'] == $wl_standard ? "selected=\"selected\"" : "";?>>
+                              <option value="<?=strval($wl_standard);?>" <?=$pconfig['standard'] == $wl_standard ? "selected=\"selected\"" : "";?>>
                                 802.<?=$wl_standard;?>
                               </option>
 <?php
@@ -3018,7 +3018,7 @@ include("head.inc");
                               <option value=""><?= gettext('default') ?></option>
 <?php
                             for($x = 99; $x > 0; $x--):?>
-                              <option value="<?=$x;?>" <?=$pconfig['txpower'] == $x ? 'selected="selected"' : '';?>><?=$x;?></option>
+                              <option value="<?=strval($x);?>" <?=$pconfig['txpower'] == $x ? 'selected="selected"' : '';?>><?=$x;?></option>
 <?php
                               endfor;?>
                             </select>
@@ -3036,7 +3036,7 @@ include("head.inc");
                               $wl_chaninfo = get_wireless_channel_info($if);
                               foreach($wl_modes as $wl_standard => $wl_channels):
                                 foreach($wl_channels as $wl_channel):?>
-                              <option value="<?=$wl_channel;?>" <?=$pconfig['channel'] == $wl_channel ? "selected=\"selected\" " : "";?>>
+                              <option value="<?=strval($wl_channel);?>" <?=$pconfig['channel'] == $wl_channel ? "selected=\"selected\" " : "";?>>
                                   <?=$wl_standard;?> - <?=$wl_channel;?>
                                   <?=isset($wl_chaninfo[$wl_channel]) ?  "( " . $wl_chaninfo[$wl_channel][1] . "@" . $wl_chaninfo[$wl_channel][2] . "/" . $wl_chaninfo[$wl_channel][3] . ")" : "";?>
                               </option>
@@ -3113,7 +3113,7 @@ include("head.inc");
                               <option <?= empty($pconfig['regdomain']) ? "selected=\"selected\"" : ""; ?> value=""><?=gettext("Default"); ?></option>
 <?php
                               foreach($wl_regdomains as $wl_regdomain_key => $wl_regdomain):?>
-                              <option value="<?=$wl_regdomains_attr[$wl_regdomain_key]['ID'];?>" <?=$pconfig['regdomain'] == $wl_regdomains_attr[$wl_regdomain_key]['ID'] ? "selected=\"selected\" " : "";?> >
+                              <option value="<?=strval($wl_regdomains_attr[$wl_regdomain_key]['ID']);?>" <?=$pconfig['regdomain'] == $wl_regdomains_attr[$wl_regdomain_key]['ID'] ? "selected=\"selected\" " : "";?> >
                                 <?=$wl_regdomain['name'];?>
                               </option>
 <?php
@@ -3129,7 +3129,7 @@ include("head.inc");
                               <option <?=empty($pconfig['regcountry']) ? "selected=\"selected\"" : ""; ?> value=""><?=gettext("Default"); ?></option>
 <?php
                             foreach($wl_countries as $wl_country_key => $wl_country):?>
-                              <option value="<?=$wl_countries_attr[$wl_country_key]['ID'];?>" <?=$pconfig['regcountry'] == $wl_countries_attr[$wl_country_key]['ID'] ?  "selected=\"selected\" " : "";?> >
+                              <option value="<?=strval($wl_countries_attr[$wl_country_key]['ID']);?>" <?=$pconfig['regcountry'] == $wl_countries_attr[$wl_country_key]['ID'] ?  "selected=\"selected\" " : "";?> >
                                   <?=$wl_country['name'];?> -- ( <?=$wl_countries_attr[$wl_country_key]['ID'];?> <?=strtoupper($wl_countries_attr[$wl_country_key]['rd'][0]['REF']);?> )
                               </option>
 <?php
@@ -3468,7 +3468,7 @@ include("head.inc");
                         <td style="width:78%">
                           <input id="save" name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                           <input id="cancel" type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces.php'" />
-                          <input name="if" type="hidden" id="if" value="<?=$if;?>" />
+                          <input name="if" type="hidden" id="if" value="<?=strval($if);?>" />
 <?php
                           if ($pconfig['if'] == $a_ppps[$pppid]['if']) : ?>
                             <input name="ppp_port" type="hidden" value="<?=strval($pconfig['ports']);?>" />

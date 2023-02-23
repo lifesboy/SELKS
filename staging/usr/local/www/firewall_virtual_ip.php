@@ -271,7 +271,7 @@ $main_buttons = array(
                     if(!empty($vipent['subnet']) || !empty($vipent['range']) || !empty($vipent['subnet_bits']) || (isset($vipent['range']['from']) && !empty($vipent['range']['from']))): ?>
                   <tr ondblclick="document.location='firewall_virtual_ip_edit.php?id=<?=$i;?>';">
                     <td>
-                      <input class="rule_select" type="checkbox" name="rule[]" value="<?=$i;?>"  />
+                      <input class="rule_select" type="checkbox" name="rule[]" value="<?=strval($i);?>"  />
                     </td>
                     <td>
                       <?=($vipent['type'] == "single" || $vipent['type'] == "network") && !empty($vipent['subnet_bits']) ? $vipent['subnet']."/".$vipent['subnet_bits'] : "";?>

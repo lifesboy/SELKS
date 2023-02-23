@@ -258,9 +258,9 @@ include("head.inc");
                       <input name="Submit" type="submit" class="formbtn btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                       <input type="button" class="formbtn btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/services_dhcpv6.php?if=<?= html_safe($if) ?>'" />
                       <?php if (isset($id)): ?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
-                      <input name="if" type="hidden" value="<?=$if;?>" />
+                      <input name="if" type="hidden" value="<?=strval($if);?>" />
                     </td>
                   </tr>
                 </table>

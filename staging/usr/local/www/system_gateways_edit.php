@@ -503,7 +503,7 @@ $( document ).ready(function() {
                     <select name='interface' class="selectpicker" data-style="btn-default" data-live-search="true">
 <?php
                     foreach (legacy_config_get_interfaces(array('virtual' => false, "enable" => true)) as $iface => $ifcfg):?>
-                      <option value="<?=$iface;?>" <?=$iface == $pconfig['interface'] ? "selected='selected'" : "";?>>
+                      <option value="<?=strval($iface);?>" <?=$iface == $pconfig['interface'] ? "selected='selected'" : "";?>>
                         <?= $ifcfg['descr'] ?>
                       </option>
 <?php
@@ -566,7 +566,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><a id="help_for_monitor" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Monitor IP"); ?></td>
                   <td>
-                      <input name="monitor" type="text" value="<?=$pconfig['gateway'] == $pconfig['monitor'] ? "" : $pconfig['monitor'] ;?>" size="28" />
+                      <input name="monitor" type="text" value="<?=strval($pconfig['gateway'] == $pconfig['monitor'] ? "" : $pconfig['monitor'] );?>" size="28" />
                       <div class="hidden" data-for="help_for_monitor">
                         <?=gettext("Enter an alternative address here to be used to monitor the link. This is used for the " .
                                                 "quality RRD graphs as well as the load balancer entries. Use this if the gateway does not respond " .
@@ -591,7 +591,7 @@ $( document ).ready(function() {
                     <select id="priority" name="priority" class="selectpicker"  data-live-search="true" data-size="5">
 <?php
                     for ($prio=255; $prio >= 1; --$prio):?>
-                        <option value="<?=$prio;?>" <?=$pconfig['priority'] == $prio ? "selected=selected" : "";?> >
+                        <option value="<?=strval($prio);?>" <?=$pconfig['priority'] == $prio ? "selected=selected" : "";?> >
                             <?=$prio;?>
                         </option>
 <?php
@@ -618,7 +618,7 @@ $( document ).ready(function() {
                     <select name="weight" class="selectpicker">
 <?php
                     for ($i = 1; $i < 6; $i++):?>
-                      <option value="<?=$i;?>" <?=$pconfig['weight'] == $i ? "selected='selected'" : "";?> >
+                      <option value="<?=strval($i);?>" <?=$pconfig['weight'] == $i ? "selected='selected'" : "";?> >
                         <?=$i;?>
                       </option>
 <?php
@@ -734,7 +734,7 @@ $( document ).ready(function() {
                            onclick="window.location.href = '/system_gateways.php';" />
 <?php
                     if (isset($id)) :?>
-                    <input name="id" type="hidden" value="<?=$id;?>" />
+                    <input name="id" type="hidden" value="<?=strval($id);?>" />
 <?php
                     endif; ?>
                   </td>

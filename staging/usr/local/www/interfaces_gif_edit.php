@@ -179,7 +179,7 @@ include("head.inc");
                           $portlist[$aliasif.'|'.$aliasip] = $aliasip." (".get_vip_descr($aliasip).")";
                       }
                       foreach ($portlist as $ifn => $ifinfo):?>
-                        <option value="<?=$ifn;?>" <?=$ifn == $pconfig['if'] ? "selected=\"selected\"" : "";?>>
+                        <option value="<?=strval($ifn);?>" <?=$ifn == $pconfig['if'] ? "selected=\"selected\"" : "";?>>
                             <?=htmlspecialchars($ifinfo);?>
                         </option>
 <?php
@@ -220,7 +220,7 @@ include("head.inc");
                             <select name="tunnel-remote-net" data-network-id="tunnel-remote-addr" class="selectpicker ipv4v6net" data-size="10" id="tunnel-remote-net" data-width="auto">
 <?php
                             for ($i = 128; $i > 0; $i--):?>
-                              <option value="<?=$i;?>"  <?=$i == $pconfig['tunnel-remote-net'] ? "selected=\"selected\"" : "";?> >
+                              <option value="<?=strval($i);?>"  <?=$i == $pconfig['tunnel-remote-net'] ? "selected=\"selected\"" : "";?> >
                                   <?=$i;?>
                               </option>
 <?php

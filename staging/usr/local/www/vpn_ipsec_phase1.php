@@ -661,7 +661,7 @@ include("head.inc");
                       $keyexchange = array("ike" => "auto", "ikev1" => "V1", "ikev2" => "V2");
                       foreach ($keyexchange as $kidx => $name) :
                         ?>
-                        <option value="<?=$kidx;?>" <?= $kidx == $pconfig['iketype'] ? "selected=\"selected\"" : "";?> >
+                        <option value="<?=strval($kidx);?>" <?= $kidx == $pconfig['iketype'] ? "selected=\"selected\"" : "";?> >
                             <?=$name;?>
                         </option>
 <?php                endforeach;
@@ -680,7 +680,7 @@ include("head.inc");
                       $protocols = array("inet" => "IPv4", "inet6" => "IPv6");
                       foreach ($protocols as $protocol => $name) :
                       ?>
-                        <option value="<?=$protocol;?>"  <?=$protocol == $pconfig['protocol'] ? "selected=\"selected\"" : "";?> >
+                        <option value="<?=strval($protocol);?>"  <?=$protocol == $pconfig['protocol'] ? "selected=\"selected\"" : "";?> >
                             <?=$name?>
                         </option>
 <?php                endforeach;
@@ -708,7 +708,7 @@ include("head.inc");
                       }
                       foreach ($interfaces as $iface => $ifacename) :
 ?>
-                        <option value="<?=$iface;?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : "" ?> >
+                        <option value="<?=strval($iface);?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : "" ?> >
                             <?=htmlspecialchars($ifacename);?>
                         </option>
 <?php                  endforeach;
@@ -769,7 +769,7 @@ include("head.inc");
                               continue;
                           }
                         ?>
-                          <option value="<?=$method_type;?>" <?= $method_type == $pconfig['authentication_method'] ? "selected=\"selected\"" : "";?> >
+                          <option value="<?=strval($method_type);?>" <?= $method_type == $pconfig['authentication_method'] ? "selected=\"selected\"" : "";?> >
         <?=$method_params['name'];?>
                           </option>
 <?php                endforeach;
@@ -789,7 +789,7 @@ include("head.inc");
                       $modes = array("main" => "Main", "aggressive" => "Aggressive");
                       foreach ($modes as $mode => $mdescr) :
 ?>
-      <option value="<?=$mode;?>" <?= $mode == $pconfig['mode'] ? "selected=\"selected\"" : "" ;?> >
+      <option value="<?=strval($mode);?>" <?= $mode == $pconfig['mode'] ? "selected=\"selected\"" : "" ;?> >
                             <?=$mdescr;?>
                         </option>
 <?php                endforeach;
@@ -815,7 +815,7 @@ include("head.inc");
                         'dyn_dns' => array( 'desc' => gettext('Dynamic DNS'), 'mobile' => true ));
                       foreach ($my_identifier_list as $id_type => $id_params) :
 ?>
-                        <option value="<?=$id_type;?>" <?php if ($id_type == $pconfig['myid_type']) {
+                        <option value="<?=strval($id_type);?>" <?php if ($id_type == $pconfig['myid_type']) {
                                                     echo "selected=\"selected\"";
 } ?>>
                           <?=$id_params['desc'];?>
@@ -847,7 +847,7 @@ endforeach; ?>
                           continue;
                         }
 ?>
-                        <option value="<?=$id_type;?>" <?= $id_type == $pconfig['peerid_type'] ? "selected=\"selected\"" : "";?> >
+                        <option value="<?=strval($id_type);?>" <?= $id_type == $pconfig['peerid_type'] ? "selected=\"selected\"" : "";?> >
         <?=$id_params['desc'];?>
                         </option>
 <?php                endforeach;
@@ -881,7 +881,7 @@ endforeach; ?>
                       if (isset($config['cert'])) :
                         foreach ($config['cert'] as $cert) :
 ?>
-                        <option value="<?=$cert['refid'];?>" <?= isset($pconfig['certref']) && $pconfig['certref'] == $cert['refid'] ? "selected=\"selected\"" : ""?>>
+                        <option value="<?=strval($cert['refid']);?>" <?= isset($pconfig['certref']) && $pconfig['certref'] == $cert['refid'] ? "selected=\"selected\"" : ""?>>
                           <?=$cert['descr'];?>
                         </option>
 <?php                endforeach;
@@ -905,7 +905,7 @@ endforeach; ?>
                                 $selected = "selected=\"selected\"";
                             }
                         ?>
-                          <option value="<?=$ca['refid'];?>" <?= isset($pconfig['caref']) && $pconfig['caref'] == $ca['refid'] ? "selected=\"selected\"":"";?>>
+                          <option value="<?=strval($ca['refid']);?>" <?= isset($pconfig['caref']) && $pconfig['caref'] == $ca['refid'] ? "selected=\"selected\"":"";?>>
                             <?=htmlspecialchars($ca['descr']);?>
                           </option>
 <?php                endforeach;
@@ -969,7 +969,7 @@ endforeach; ?>
 <?php
                       foreach (auth_get_authserver_list() as $auth_server):
                         if ($auth_server['type'] == "radius"):?>
-                        <option value="<?=$auth_server['name'];?>" <?=in_array($auth_server['name'],$pconfig['authservers']) ? 'selected="selected"' : "";?>>
+                        <option value="<?=strval($auth_server['name']);?>" <?=in_array($auth_server['name'],$pconfig['authservers']) ? 'selected="selected"' : "";?>>
                           <?=htmlspecialchars($auth_server['name']);?>
                         </option>
 <?php
@@ -991,7 +991,7 @@ endforeach; ?>
 <?php
                       foreach (ipsec_p1_ealgos() as $algo => $algodata) :
                       ?>
-                        <option value="<?=$algo;?>" <?= $algo == $pconfig['encryption-algorithm']['name'] ? "selected=\"selected\"" : "" ;?>
+                        <option value="<?=strval($algo);?>" <?= $algo == $pconfig['encryption-algorithm']['name'] ? "selected=\"selected\"" : "" ;?>
                                 data-hi="<?=$algodata['keysel']['hi'];?>"
                                 data-lo="<?=$algodata['keysel']['lo'];?>"
                                 data-step="<?=$algodata['keysel']['step'];?>"
@@ -1214,7 +1214,7 @@ endforeach; ?>
                     <td>
                       <?php if (isset($p1index) && isset($config['ipsec']['phase1'][$p1index]) && !isset($_GET['dup'])) :
 ?>
-                      <input name="p1index" type="hidden" value="<?=$p1index;?>" />
+                      <input name="p1index" type="hidden" value="<?=strval($p1index);?>" />
                       <?php
 endif; ?>
                       <?php if (!empty($pconfig['mobile'])) :

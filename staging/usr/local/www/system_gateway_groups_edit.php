@@ -205,7 +205,7 @@ $( document ).ready(function() {
                                     }
                                 }
 ?>
-                                <option value="<?=$tierId;?>" <?=$is_selected ? "selected=\"selected\"" : "";?>>
+                                <option value="<?=strval($tierId);?>" <?=$is_selected ? "selected=\"selected\"" : "";?>>
                                     <?=$tierId == 0 ? gettext("Never") : sprintf(gettext("Tier %d"), $tierId) ;?>
                                 </option>
 <?php
@@ -260,7 +260,7 @@ $( document ).ready(function() {
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext("Cancel"));?>" onclick="window.location.href='/system_gateway_groups.php'" />
 <?php
                       if (isset($id)) :?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
 <?php
                       endif; ?>
                     </td>

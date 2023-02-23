@@ -403,7 +403,7 @@ $( document ).ready(function() {
                         <option value=""><?=gettext("ALL");?></option>
 <?php
                       foreach($areas as $area => $areaname):?>
-                        <option value="<?=$area;?>"><?=$areaname;?></option>
+                        <option value="<?=strval($area);?>"><?=$areaname;?></option>
 <?php
                       endforeach;?>
                       </select>
@@ -474,7 +474,7 @@ $( document ).ready(function() {
 <?php
                         elseif ($field['type'] == 'password'):?>
 
-                        <input name="<?=$fieldId;?>" type="password" value="<?=$field['value'];?>" />
+                        <input name="<?=$fieldId;?>" type="password" value="<?=strval($field['value']);?>" />
 <?php
                         elseif ($field['type'] == 'textarea'):?>
                         <textarea name="<?=$fieldId;?>" rows="10"><?=$pconfig[$fieldId];?></textarea>

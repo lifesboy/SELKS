@@ -514,7 +514,7 @@ $main_buttons = array(
 
         <form method="post" name="iform" id="iform">
           <input type="hidden" name="id" id="id" value="<?=isset($id) ? $id :"";?>"/>
-          <input type="hidden" name="act" id="action" value="<?=$act;?>"/>
+          <input type="hidden" name="act" id="action" value="<?=strval($act);?>"/>
           <table class="table table-striped opnsense_standard_table_form">
             <tr>
               <td style="width:22%"></td>
@@ -603,7 +603,7 @@ $main_buttons = array(
                         if (!$ca['prv']) {
                             continue;
                         }?>
-                      <option value="<?=$ca['refid'];?>"<?=isset($pconfig['caref']) && isset($ca['refid']) && $pconfig['caref'] == $ca['refid'] ? " selected=\"selected\"" :"" ;?>><?=htmlspecialchars($ca['descr']);?></option>
+                      <option value="<?=strval($ca['refid']);?>"<?=isset($pconfig['caref']) && isset($ca['refid']) && $pconfig['caref'] == $ca['refid'] ? " selected=\"selected\"" :"" ;?>><?=htmlspecialchars($ca['descr']);?></option>
 <?php
                     endforeach; ?>
                     </select>
@@ -628,7 +628,7 @@ $main_buttons = array(
                     <select name='keylen' id='keylen' class="selectpicker">
 <?php
                         foreach ($ca_keylens as $len) :?>
-                      <option value="<?=$len;?>" <?=isset($pconfig['keylen']) && $pconfig['keylen'] == $len ? "selected=\"selected\"" : "";?>><?=$len;?></option>
+                      <option value="<?=strval($len);?>" <?=isset($pconfig['keylen']) && $pconfig['keylen'] == $len ? "selected=\"selected\"" : "";?>><?=$len;?></option>
 <?php
                     endforeach; ?>
                     </select>
@@ -641,7 +641,7 @@ $main_buttons = array(
                     <select name='curve' id='curve' class="selectpicker">
 <?php
                     foreach ($ca_curves as $curve) :?>
-                      <option value="<?=$curve;?>" <?=isset($pconfig['curve']) && $pconfig['curve'] == $curve ? "selected=\"selected\"" : "";?>><?=$curve;?></option>
+                      <option value="<?=strval($curve);?>" <?=isset($pconfig['curve']) && $pconfig['curve'] == $curve ? "selected=\"selected\"" : "";?>><?=$curve;?></option>
 <?php
                     endforeach; ?>
                     </select>
@@ -653,7 +653,7 @@ $main_buttons = array(
                     <select name='digest_alg' id='digest_alg' class="selectpicker">
 <?php
                     foreach ($openssl_digest_algs as $digest_alg) :?>
-                      <option value="<?=$digest_alg;?>" <?=isset($pconfig['digest_alg']) && $pconfig['digest_alg'] == $digest_alg ? "selected=\"selected\"" : "";?>><?=strtoupper($digest_alg);?></option>
+                      <option value="<?=strval($digest_alg);?>" <?=isset($pconfig['digest_alg']) && $pconfig['digest_alg'] == $digest_alg ? "selected=\"selected\"" : "";?>><?=strtoupper($digest_alg);?></option>
 <?php
                     endforeach; ?>
                     </select>
@@ -677,7 +677,7 @@ $main_buttons = array(
                       <select name="dn_country" class="selectpicker">
 <?php
                       foreach (get_country_codes() as $cc => $cn):?>
-                        <option value="<?=$cc;?>" <?=$pconfig['dn_country'] == $cc ? "selected=\"selected\"" : "";?>>
+                        <option value="<?=strval($cc);?>" <?=$pconfig['dn_country'] == $cc ? "selected=\"selected\"" : "";?>>
                           <?=$cc;?> (<?=$cn;?>)
                         </option>
 <?php
@@ -757,7 +757,7 @@ $main_buttons = array(
         else :?>
         <form method="post" name="iform" id="iform">
           <input type="hidden" name="id" id="id" value="<?=isset($id) ? $id :"";?>"/>
-          <input type="hidden" name="act" id="action" value="<?=$act;?>"/>
+          <input type="hidden" name="act" id="action" value="<?=strval($act);?>"/>
         </form>
         <table style="width:100%; border:0;" class="table table-striped">
           <thead>

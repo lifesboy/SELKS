@@ -327,7 +327,7 @@ include("head.inc");
 <?php
         if ($act == "new") :?>
           <form method="post" name="iform" id="iform">
-            <input type="hidden" name="act" id="action" value="<?=$act;?>"/>
+            <input type="hidden" name="act" id="action" value="<?=strval($act);?>"/>
             <table class="table table-striped opnsense_standard_table_form">
 <?php
               if (!isset($id)) :?>
@@ -354,7 +354,7 @@ include("head.inc");
                   <select name='caref' id='caref' class="selectpicker">
 <?php
                   foreach ($a_ca as $ca):?>
-                    <option value="<?=$ca['refid'];?>" <?=$pconfig['caref'] == $ca['refid'] ? "selected=\"selected\"" : "";?>>
+                    <option value="<?=strval($ca['refid']);?>" <?=$pconfig['caref'] == $ca['refid'] ? "selected=\"selected\"" : "";?>>
                       <?=htmlentities($ca['descr']);?>
                     </option>
 <?php
@@ -418,7 +418,7 @@ include("head.inc");
                   <input id="submit" name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
 <?php
                   if (isset($id)) :?>
-                  <input name="id" type="hidden" value="<?=$id;?>" />
+                  <input name="id" type="hidden" value="<?=strval($id);?>" />
 <?php
                   endif;?>
                 </td>
@@ -435,7 +435,7 @@ include("head.inc");
               <tr>
                 <td style="width:22%"><i class="fa fa-info-circle text-muted"></i> <?=gettext("Descriptive name");?></td>
                 <td style="width:78%">
-                  <input name="descr" type="text" id="descr" size="20" value="<?=$thiscrl['descr'];?>"/>
+                  <input name="descr" type="text" id="descr" size="20" value="<?=strval($thiscrl['descr']);?>"/>
                 </td>
               </tr>
               <tr>
@@ -451,8 +451,8 @@ include("head.inc");
                 <td>&nbsp;</td>
                 <td>
                   <input id="submit" name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
-                  <input name="id" type="hidden" value="<?=$id;?>" />
-                  <input name="act" type="hidden" value="<?=$act;?>" />
+                  <input name="id" type="hidden" value="<?=strval($id);?>" />
+                  <input name="act" type="hidden" value="<?=strval($act);?>" />
                 </td>
               </tr>
             </table>
@@ -535,7 +535,7 @@ include("head.inc");
                     <select name='certref' id='certref' class="selectpicker" data-style="btn-default" data-live-search="true">
 <?php
                   foreach ($ca_certs as $cert) :?>
-                    <option value="<?=$cert['refid'];?>"><?=htmlspecialchars($cert['descr'])?></option>
+                    <option value="<?=strval($cert['refid']);?>"><?=htmlspecialchars($cert['descr'])?></option>
 <?php
                   endforeach;?>
                     </select>
@@ -559,7 +559,7 @@ include("head.inc");
                   <td></td>
                   <td colspan="3" style="text-align:left">
                     <input name="act" type="hidden" value="addcert" />
-                    <input name="id" type="hidden" value="<?=$thiscrl['refid'];?>" />
+                    <input name="id" type="hidden" value="<?=strval($thiscrl['refid']);?>" />
                     <input id="submit" name="add" type="submit" class="formbtn btn btn-primary" value="<?= html_safe(gettext('Add')) ?>" />
                   </td>
                 </tr>

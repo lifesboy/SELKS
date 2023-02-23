@@ -203,8 +203,8 @@ if (!isset($_GET['act'])) {
             <form method="post" name="iform" id="iform">
 <?php
               if ($act=="new" || $act=="edit"): ?>
-              <input name="id" type="hidden" value="<?=$id;?>" />
-              <input name="act" type="hidden" value="<?=$act;?>" />
+              <input name="id" type="hidden" value="<?=strval($id);?>" />
+              <input name="act" type="hidden" value="<?=strval($act);?>" />
               <table class="table table-striped opnsense_standard_table_form">
                 <tr>
                   <td style="width:22%"><strong><?=ucwords(sprintf(gettext("%s Access List"),$act));?></strong></td>
@@ -282,13 +282,13 @@ if (!isset($_GET['act'])) {
                             <div style="cursor:pointer;" class="act-removerow btn btn-default btn-xs"><i class="fa fa-minus fa-fw"></i></div>
                           </td>
                           <td>
-                            <input name="acl_networks_acl_network[]" type="text" id="acl_network_<?=$item_idx;?>" value="<?=$item['acl_network'];?>" />
+                            <input name="acl_networks_acl_network[]" type="text" id="acl_network_<?=$item_idx;?>" value="<?=strval($item['acl_network']);?>" />
                           </td>
                           <td>
                             <select name="acl_networks_mask[]" data-network-id="acl_network_<?=$item_idx;?>" class="ipv4v6net" id="mask<?=$item_idx;?>">
 <?php
                               for ($i = 128; $i > 0; $i--):?>
-                              <option value="<?=$i;?>" <?= $item['mask'] == $i ? 'selected="selected"' : ''?>>
+                              <option value="<?=strval($i);?>" <?= $item['mask'] == $i ? 'selected="selected"' : ''?>>
                                 <?=$i;?>
                               </option>
 <?php
@@ -296,7 +296,7 @@ if (!isset($_GET['act'])) {
                             </select>
                           </td>
                           <td>
-                            <input name="acl_networks_description[]" type="text" value="<?=$item['description'];?>" />
+                            <input name="acl_networks_description[]" type="text" value="<?=strval($item['description']);?>" />
                           </td>
                         </tr>
 <?php

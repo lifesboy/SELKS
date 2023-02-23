@@ -535,7 +535,7 @@ endif; ?>
                     <select name='type' id='type' class="selectpicker" data-style="btn-default">
 <?php
                     foreach ($authCNFOptions as $typename => $authType) :?>
-                      <option value="<?=$typename;?>" <?=$pconfig['type'] == $typename ? "selected=\"selected\"" : "";?> >
+                      <option value="<?=strval($typename);?>" <?=$pconfig['type'] == $typename ? "selected=\"selected\"" : "";?> >
                         <?= !empty($authType['description']) ? $authType['description'] : $pconfig['name'] ?>
                       </option>
 <?php
@@ -840,7 +840,7 @@ endif; ?>
                         <select name="<?=$fieldname;?>" class="selectpicker" data-style="btn-default">
 <?php
                           foreach ($field['options'] as $option => $optiontext):?>
-                          <option value="<?=$option;?>" <?=(empty($pconfig[$fieldname]) && $field['default'] == $option) || $pconfig[$fieldname] == $option ? "selected=\"selected\"" : "";?> >
+                          <option value="<?=strval($option);?>" <?=(empty($pconfig[$fieldname]) && $field['default'] == $option) || $pconfig[$fieldname] == $option ? "selected=\"selected\"" : "";?> >
                             <?=$optiontext;?>
                           </option>
 <?php

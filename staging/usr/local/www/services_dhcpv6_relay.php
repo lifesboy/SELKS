@@ -138,7 +138,7 @@ include("head.inc");
                                 continue;
                             }?>
 
-                          <option value="<?=$ifent;?>" <?=!empty($pconfig['interface']) && in_array($ifent, $pconfig['interface']) ? " selected=\"selected\"" : "";?> >
+                          <option value="<?=strval($ifent);?>" <?=!empty($pconfig['interface']) && in_array($ifent, $pconfig['interface']) ? " selected=\"selected\"" : "";?> >
                             <?=$ifdesc;?>
                           </option>
 <?php

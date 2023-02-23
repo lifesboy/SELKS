@@ -316,7 +316,7 @@ $( document ).ready(function() {
                 <select name="language" class="selectpicker" data-style="btn-default">
 <?php
                   foreach (get_locale_list() as $lcode => $ldesc):?>
-                  <option value="<?=$lcode;?>" <?= $lcode == $pconfig['language'] ? 'selected="selected"' : '' ?>>
+                  <option value="<?=strval($lcode);?>" <?= $lcode == $pconfig['language'] ? 'selected="selected"' : '' ?>>
                     <?=$ldesc;?>
                   </option>
 <?php
@@ -390,7 +390,7 @@ $( document ).ready(function() {
                           </option>
 <?php
                           foreach($a_gateways as $gwname => $gwitem):?>
-                            <option value="<?=$gwname;?>" <?=$pconfig[$dnsgw] == $gwname ? 'selected="selected"' : '' ?>>
+                            <option value="<?=strval($gwname);?>" <?=$pconfig[$dnsgw] == $gwname ? 'selected="selected"' : '' ?>>
                               <?=$gwname;?> - <?=$gwitem['interface'];?> - <?=$gwitem['gateway'];?>
                             </option>
 <?php
@@ -433,7 +433,7 @@ $( document ).ready(function() {
                   <select name="dnsallowoverride_exclude[]" class="selectpicker" data-style="btn-default" data-live-search="true"  multiple="multiple">
 <?php
                   foreach (legacy_config_get_interfaces(array('virtual' => false, "enable" => true)) as $iface => $ifcfg):?>
-                    <option value="<?=$iface;?>" <?=in_array($iface, $pconfig['dnsallowoverride_exclude']) ? "selected='selected'" : "";?>>
+                    <option value="<?=strval($iface);?>" <?=in_array($iface, $pconfig['dnsallowoverride_exclude']) ? "selected='selected'" : "";?>>
                       <?= $ifcfg['descr'] ?>
                     </option>
 <?php

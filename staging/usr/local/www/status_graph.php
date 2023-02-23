@@ -321,7 +321,7 @@ include("head.inc");
                       <select id="if" name="if">
 <?php
                       foreach ($ifdescrs as $ifn => $ifd):?>
-                        <option value="<?=$ifn;?>" <?=$ifn == $pconfig['if'] ?  " selected=\"selected\"" : "";?>>
+                        <option value="<?=strval($ifn);?>" <?=$ifn == $pconfig['if'] ?  " selected=\"selected\"" : "";?>>
                             <?=htmlspecialchars($ifd);?>
                         </option>
 <?php

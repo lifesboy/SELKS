@@ -270,7 +270,7 @@ $( document ).ready(function() {
                                   continue;
                               }
 ?>
-                            <option value="<?=$user['uid'];?>">
+                            <option value="<?=strval($user['uid']);?>">
                                 <?=htmlspecialchars($user['name']);?>
                             </option>
 <?php
@@ -295,7 +295,7 @@ $( document ).ready(function() {
                                   continue;
                               }
 ?>
-                            <option value="<?=$user['uid'];?>">
+                            <option value="<?=strval($user['uid']);?>">
                                 <?=htmlspecialchars($user['name']);?>
                             </option>
 <?php

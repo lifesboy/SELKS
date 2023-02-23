@@ -340,7 +340,7 @@ $( document ).ready(function() {
 ?>
                     <tr <?=isset($natent['disabled'])?"class=\"text-muted\"":"";?> ondblclick="document.location='firewall_nat_edit.php?id=<?=$nnats;?>';">
                       <td>
-                        <input class="rule_select" type="checkbox" name="rule[]" value="<?=$nnats;?>"  />
+                        <input class="rule_select" type="checkbox" name="rule[]" value="<?=strval($nnats);?>"  />
                       </td>
                       <td>
 <?php                 if (isset($natent['nordr'])): ?>

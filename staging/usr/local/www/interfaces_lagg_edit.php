@@ -204,7 +204,7 @@ legacy_html_escape_form_data($pconfig);
                       <select name="members[]" multiple="multiple" class="selectpicker">
 <?php
                         foreach (available_interfaces(isset($id) ? $id : null) as $ifn => $ifinfo):?>
-                        <option value="<?=$ifn;?>" <?=!empty($pconfig['members']) && in_array($ifn, $pconfig['members']) ? "selected=\"selected\"" : "";?>>
+                        <option value="<?=strval($ifn);?>" <?=!empty($pconfig['members']) && in_array($ifn, $pconfig['members']) ? "selected=\"selected\"" : "";?>>
                             <?=$ifn;?> (<?=$ifinfo['mac']?>)
                         </option>
 <?php
@@ -221,7 +221,7 @@ legacy_html_escape_form_data($pconfig);
                       <select name="proto" class="selectpicker" id="proto">
 <?php
                       foreach ($laggprotos as $proto):?>
-                        <option value="<?=$proto;?>" <?=$proto == $pconfig['proto'] ? "selected=\"selected\"": "";?>>
+                        <option value="<?=strval($proto);?>" <?=$proto == $pconfig['proto'] ? "selected=\"selected\"": "";?>>
                             <?=strtoupper($proto);?>
                         </option>
 <?php
@@ -304,7 +304,7 @@ legacy_html_escape_form_data($pconfig);
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_lagg.php'" />
                       <?php if (isset($id)): ?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
                     </td>
                   </tr>

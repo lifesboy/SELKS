@@ -100,7 +100,7 @@ include("head.inc");
                     <select class="selectpicker" name="authmode" id="authmode" >
 <?php
                     foreach (auth_get_authserver_list() as $auth_server_id => $auth_server):?>
-                      <option value="<?=$auth_server_id;?>" <?=$auth_server['name'] == $pconfig['authmode'] ? "selected=\"selected\"" : "";?>>
+                      <option value="<?=strval($auth_server_id);?>" <?=$auth_server['name'] == $pconfig['authmode'] ? "selected=\"selected\"" : "";?>>
                         <?=htmlspecialchars($auth_server['name']);?>
                       </option>
 <?php

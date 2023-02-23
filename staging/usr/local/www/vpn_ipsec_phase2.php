@@ -538,7 +538,7 @@ if (isset($input_errors) && count($input_errors) > 0) {
                         'transport' => 'Transport');
                         foreach ($p2_modes as $name => $value) :
     ?>
-                        <option value="<?=$name;?>"
+                        <option value="<?=strval($name);?>"
                           <?=$name == $pconfig['mode'] ? "selected=\"selected\"":"" ;?>><?=$value;?>
                         </option>
 <?php
@@ -602,7 +602,7 @@ if (isset($input_errors) && count($input_errors) > 0) {
                     <select name="localid_netbits" data-network-id="localid_address" class="ipv4v6net" id="localid_netbits">
 <?php               for ($i = 128; $i >= 0; $i--) :
 ?>
-                      <option value="<?=$i;?>" <?= isset($pconfig['localid_netbits']) && $i == $pconfig['localid_netbits'] ? "selected=\"selected\"" : "";?>>
+                      <option value="<?=strval($i);?>" <?= isset($pconfig['localid_netbits']) && $i == $pconfig['localid_netbits'] ? "selected=\"selected\"" : "";?>>
                         <?=$i;?>
                       </option>
 <?php
@@ -636,7 +636,7 @@ if (isset($input_errors) && count($input_errors) > 0) {
                     <select name="remoteid_netbits" data-network-id="remoteid_address" class="ipv4v6net" id="remoteid_netbits">
 <?php              for ($i = 128; $i >= 0; $i--) :
 ?>
-                      <option value="<?=$i;?>" <?= isset($pconfig['remoteid_netbits']) && $i == $pconfig['remoteid_netbits'] ? "selected=\"selected\"" : "";?> >
+                      <option value="<?=strval($i);?>" <?= isset($pconfig['remoteid_netbits']) && $i == $pconfig['remoteid_netbits'] ? "selected=\"selected\"" : "";?> >
                         <?=$i;?>
                       </option>
 <?php              endfor;
@@ -658,7 +658,7 @@ endif; ?>
                     <select name="protocol" id="proto">
 <?php
                     foreach (array('esp' => 'ESP','ah' => 'AH') as $proto => $protoname) :?>
-                      <option value="<?=$proto;?>" <?= $proto == $pconfig['protocol'] ? "selected=\"selected\"" : "";?>>
+                      <option value="<?=strval($proto);?>" <?= $proto == $pconfig['protocol'] ? "selected=\"selected\"" : "";?>>
                         <?=$protoname;?>
                       </option>
 <?php
@@ -675,7 +675,7 @@ endif; ?>
                   <td>
 <?php
                   foreach (ipsec_p2_ealgos() as $algo => $algodata) :?>
-                    <input type="checkbox" name="ealgos[]" value="<?=$algo;?>" <?=isset($pconfig['ealgos']) && in_array($algo, $pconfig['ealgos']) ? "checked=\"checked\"" : ""; ?> />
+                    <input type="checkbox" name="ealgos[]" value="<?=strval($algo);?>" <?=isset($pconfig['ealgos']) && in_array($algo, $pconfig['ealgos']) ? "checked=\"checked\"" : ""; ?> />
                       <?=$algodata['name'];?>
 <?php
                       if (isset($algodata['keysel'])) :?>
@@ -683,7 +683,7 @@ endif; ?>
                         <option value="auto"><?=gettext("auto"); ?></option>
 <?php
                         for ($keylen = $algodata['keysel']['hi']; $keylen >= $algodata['keysel']['lo']; $keylen -= $algodata['keysel']['step']) :?>
-                        <option value="<?=$keylen;?>" <?=$keylen == $pconfig["keylen_".$algo] ? "selected=\"selected\"" : "";?>>
+                        <option value="<?=strval($keylen);?>" <?=$keylen == $pconfig["keylen_".$algo] ? "selected=\"selected\"" : "";?>>
                           <?=$keylen;?> <?=gettext("bits"); ?>
                         </option>
 <?php
@@ -746,7 +746,7 @@ endif; ?>
                         31 => '31 (Elliptic Curve 25519)',
                     );
                     foreach ($p2_dhgroups as $keygroup => $keygroupname): ?>
-                      <option value="<?=$keygroup;?>" <?= $keygroup == $pconfig['pfsgroup'] ? "selected=\"selected\"" : "";?>>
+                      <option value="<?=strval($keygroup);?>" <?= $keygroup == $pconfig['pfsgroup'] ? "selected=\"selected\"" : "";?>>
                         <?=$keygroupname;?>
                       </option>
 <?php

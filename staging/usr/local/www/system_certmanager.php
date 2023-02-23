@@ -1212,7 +1212,7 @@ $( document ).ready(function() {
           $("#dn_organization").val("<?=$subject_items['O'];?>");
           $("#dn_email").val("<?=$subject_items['emailAddress'];?>");
           $('#dn_country option').removeAttr('selected');
-          $('#dn_country option').filter('[value="<?=$subject_items['C'];?>"]').prop('selected', true);
+          $('#dn_country option').filter('[value="<?=strval($subject_items['C']);?>"]').prop('selected', true);
           $("#dn_country").selectpicker('refresh');
           break;
   <?php
@@ -1249,7 +1249,7 @@ $( document ).ready(function() {
 <?php
         if ($act == "new") :?>
           <form method="post" name="iform" id="iform" >
-            <input type="hidden" name="act" value="<?=$act;?>"/>
+            <input type="hidden" name="act" value="<?=strval($act);?>"/>
 <?php
             if (isset($userid)) :?>
             <input name="userid" type="hidden" value="<?=htmlspecialchars($userid);?>" />
@@ -1257,7 +1257,7 @@ $( document ).ready(function() {
             endif;?>
 <?php
             if (isset($id)) :?>
-            <input name="id" type="hidden" value="<?=$id;?>" />
+            <input name="id" type="hidden" value="<?=strval($id);?>" />
 <?php
             endif;?>
             <table class="table table-striped opnsense_standard_table_form">
@@ -1274,7 +1274,7 @@ $( document ).ready(function() {
                   <select name="certmethod" id="certmethod">
 <?php
                   foreach ($cert_methods as $method => $desc) :?>
-                    <option value="<?=$method;?>" <?=$pconfig['certmethod'] == $method ? 'selected="selected"' : ''; ?>>
+                    <option value="<?=strval($method);?>" <?=$pconfig['certmethod'] == $method ? 'selected="selected"' : ''; ?>>
                       <?=$desc;?>
                     </option>
 <?php
@@ -1334,7 +1334,7 @@ $( document ).ready(function() {
                         if (empty($ca['prv'])) {
                             continue;
                         }?>
-                      <option value="<?=$ca['refid'];?>" <?=isset($pconfig['caref_sign_csr']) && isset($ca['refid']) && $pconfig['caref_sign_csr'] == $ca['refid'] ? 'selected="selected"' : '';?>><?=html_safe($ca['descr']);?></option>
+                      <option value="<?=strval($ca['refid']);?>" <?=isset($pconfig['caref_sign_csr']) && isset($ca['refid']) && $pconfig['caref_sign_csr'] == $ca['refid'] ? 'selected="selected"' : '';?>><?=html_safe($ca['descr']);?></option>
   <?php
                     endforeach; ?>
                     </select>
@@ -1349,7 +1349,7 @@ $( document ).ready(function() {
                     <select name='digest_alg_sign_csr' id='digest_alg_sign_csr'>
   <?php
                     foreach ($openssl_digest_algs as $digest_alg) :?>
-                      <option value="<?=$digest_alg;?>" <?=$pconfig['digest_alg_sign_csr'] == $digest_alg ? 'selected="selected"' : '';?>>
+                      <option value="<?=strval($digest_alg);?>" <?=$pconfig['digest_alg_sign_csr'] == $digest_alg ? 'selected="selected"' : '';?>>
                         <?=strtoupper($digest_alg);?>
                       </option>
   <?php
@@ -1452,7 +1452,7 @@ $( document ).ready(function() {
                       <select name="key_usage_sign_csr[]" title="<?html_safe(gettext("Select keyUsage"));?>" multiple="multiple" id="key_usage_sign_csr" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                       foreach ($key_usages as $key => $human_readable): ?>
-                        <option value="<?=$key;?>" id="key_usage_sign_csr_<?=$key;?>">
+                        <option value="<?=strval($key;?>" id="key_usage_sign_csr_<?=$key);?>">
                           <?= $human_readable; ?>
                         </option>
 <?php
@@ -1475,7 +1475,7 @@ $( document ).ready(function() {
                       <select name="extended_key_usage_sign_csr[]" title="<?html_safe(gettext("Select extendedKeyUsage"));?>" multiple="multiple" id="extended_key_usage_sign_csr" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                       foreach ($extended_key_usages as $key => $human_readable): ?>
-                        <option value="<?=$key;?>" id="extended_key_usage_sign_csr_<?= str_replace('.', '_', $key);?>">
+                        <option value="<?=strval($key;?>" id="extended_key_usage_sign_csr_<?= str_replace('.', '_', $key));?>">
                           <?= $human_readable; ?>
                         </option>
 <?php
@@ -1512,7 +1512,7 @@ $( document ).ready(function() {
                       if (!$ca['prv']) {
                           continue;
                       }?>
-                    <option value="<?=$ca['refid'];?>" <?=isset($pconfig['caref']) && isset($ca['refid']) && $pconfig['caref'] == $ca['refid'] ? 'selected="selected"' : '';?>><?=$ca['descr'];?></option>
+                    <option value="<?=strval($ca['refid']);?>" <?=isset($pconfig['caref']) && isset($ca['refid']) && $pconfig['caref'] == $ca['refid'] ? 'selected="selected"' : '';?>><?=$ca['descr'];?></option>
 <?php
                   endforeach; ?>
                   </select>
@@ -1554,7 +1554,7 @@ $( document ).ready(function() {
                   <select name='keylen'>
 <?php
                   foreach ($cert_keylens as $len) :?>
-                    <option value="<?=$len;?>" <?=isset($pconfig['keylen']) && $pconfig['keylen'] == $len ? "selected=\"selected\"" : "";?>><?=$len;?></option>
+                    <option value="<?=strval($len);?>" <?=isset($pconfig['keylen']) && $pconfig['keylen'] == $len ? "selected=\"selected\"" : "";?>><?=$len;?></option>
 <?php
                     endforeach; ?>
                   </select>
@@ -1567,7 +1567,7 @@ $( document ).ready(function() {
                     <select name='curve' id='curve' class="selectpicker">
 <?php
                     foreach ($cert_curves as $curve) :?>
-                      <option value="<?=$curve;?>" <?=isset($pconfig['curve']) && $pconfig['curve'] == $curve ? "selected=\"selected\"" : "";?>><?=$curve;?></option>
+                      <option value="<?=strval($curve);?>" <?=isset($pconfig['curve']) && $pconfig['curve'] == $curve ? "selected=\"selected\"" : "";?>><?=$curve;?></option>
 <?php
                     endforeach; ?>
                     </select>
@@ -1579,7 +1579,7 @@ $( document ).ready(function() {
                   <select name='digest_alg' id='digest_alg'>
 <?php
                   foreach ($openssl_digest_algs as $digest_alg) :?>
-                    <option value="<?=$digest_alg;?>" <?=$pconfig['digest_alg'] == $digest_alg ? 'selected="selected"' : '';?>>
+                    <option value="<?=strval($digest_alg);?>" <?=$pconfig['digest_alg'] == $digest_alg ? 'selected="selected"' : '';?>>
                       <?=strtoupper($digest_alg);?>
                     </option>
 <?php
@@ -1618,7 +1618,7 @@ $( document ).ready(function() {
                   <select name="dn_country" id="dn_country" class="selectpicker">
 <?php
                   foreach (get_country_codes() as $cc => $cn):?>
-                    <option value="<?=$cc;?>" <?=$pconfig['dn_country'] == $cc ? 'selected="selected"' : '';?>>
+                    <option value="<?=strval($cc);?>" <?=$pconfig['dn_country'] == $cc ? 'selected="selected"' : '';?>>
                       <?=$cc;?> (<?=$cn;?>)
                     </option>
 <?php
@@ -1725,7 +1725,7 @@ $( document ).ready(function() {
                             </select>
                           </td>
                           <td>
-                            <input name="altname_value[]" type="text" size="20" value="<?=$item;?>" />
+                            <input name="altname_value[]" type="text" size="20" value="<?=strval($item);?>" />
                           </td>
                           <td>
                             <div style="cursor:pointer;" class="act-removerow-altnm btn btn-default btn-xs"><i class="fa fa-minus fa-fw"></i></div>
@@ -1776,7 +1776,7 @@ $( document ).ready(function() {
                     <select name='csr_keylen' class="selectpicker">
 <?php
                     foreach ($cert_keylens as $len) :?>
-                      <option value="<?=$len;?>" <?=isset($pconfig['csr_keylen']) && $pconfig['csr_keylen'] == $len ? "selected=\"selected\"" : "";?>><?=$len;?></option>
+                      <option value="<?=strval($len);?>" <?=isset($pconfig['csr_keylen']) && $pconfig['csr_keylen'] == $len ? "selected=\"selected\"" : "";?>><?=$len;?></option>
 <?php
                     endforeach; ?>
                     </select>
@@ -1789,7 +1789,7 @@ $( document ).ready(function() {
                     <select name='csr_curve' id='csr_curve' class="selectpicker">
 <?php
                     foreach ($cert_curves as $curve) :?>
-                      <option value="<?=$curve;?>" <?=isset($pconfig['csr_curve']) && $pconfig['csr_curve'] == $curve ? "selected=\"selected\"" : "";?>><?=$curve;?></option>
+                      <option value="<?=strval($curve);?>" <?=isset($pconfig['csr_curve']) && $pconfig['csr_curve'] == $curve ? "selected=\"selected\"" : "";?>><?=$curve;?></option>
 <?php
                     endforeach; ?>
                     </select>
@@ -1801,7 +1801,7 @@ $( document ).ready(function() {
                   <select name='csr_digest_alg'>
 <?php
                   foreach ($openssl_digest_algs as $csr_digest_alg) :?>
-                    <option value="<?=$csr_digest_alg;?>" <?=$pconfig['csr_digest_alg'] == $csr_digest_alg ? "selected=\"selected\"" : "";?>>
+                    <option value="<?=strval($csr_digest_alg);?>" <?=$pconfig['csr_digest_alg'] == $csr_digest_alg ? "selected=\"selected\"" : "";?>>
                       <?=strtoupper($csr_digest_alg);?>
                     </option>
 <?php
@@ -1821,7 +1821,7 @@ $( document ).ready(function() {
                   <select name="csr_dn_country" id="csr_dn_country" class="selectpicker">
 <?php
                   foreach (get_country_codes() as $cc => $cn):?>
-                    <option value="<?=$cc;?>" <?=$pconfig['csr_dn_country'] == $cc ? "selected=\"selected\"" : "";?>>
+                    <option value="<?=strval($cc);?>" <?=$pconfig['csr_dn_country'] == $cc ? "selected=\"selected\"" : "";?>>
                       <?=$cc;?> (<?=$cn;?>)
                     </option>
 <?php
@@ -1922,7 +1922,7 @@ $( document ).ready(function() {
                               $caname = " (CA: {$ca['descr']})";
                           }
                       }?>
-                    <option value="<?=$cert['refid'];?>" <?=isset($pconfig['certref']) && isset($cert['refid']) && $pconfig['certref'] == $cert['refid'] ? "selected=\"selected\"" : "";?>>
+                    <option value="<?=strval($cert['refid']);?>" <?=isset($pconfig['certref']) && isset($cert['refid']) && $pconfig['certref'] == $cert['refid'] ? "selected=\"selected\"" : "";?>>
                       <?=$cert['descr'];?> <?=$caname;?>
                       <?=isset($cert['refid']) && cert_in_use($cert['refid']) ? gettext("*In Use") : "";?>
                       <?=is_cert_revoked($cert) ? gettext("*Revoked") :"";?>
@@ -2035,7 +2035,7 @@ $( document ).ready(function() {
           else :?>
           <form method="post" name="iform" id="iform">
             <input type="hidden" name="id" id="id" value="<?=isset($id) ? $id :"";?>"/>
-            <input type="hidden" name="act" id="action" value="<?=$act;?>"/>
+            <input type="hidden" name="act" id="action" value="<?=strval($act);?>"/>
           </form>
           <table class="table table-striped">
             <thead>

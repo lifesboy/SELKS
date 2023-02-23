@@ -380,7 +380,7 @@ $( document ).ready(function() {
                   foreach ($a_phase1 as $ph1ent) :?>
                     <tr class="phase1_tr">
                       <td>
-                        <input type="checkbox" name="p1entry[]" value="<?=$i;?>"/>
+                        <input type="checkbox" name="p1entry[]" value="<?=strval($i);?>"/>
                       </td>
                       <td>
                         <button data-id="<?=$i; ?>" data-act="togglep1" type="submit"
@@ -487,7 +487,7 @@ $( document ).ready(function() {
                                 }?>
                               <tr class="phase2_tr">
                                 <td>
-                                  <input type="checkbox" name="p2entry[]" value="<?=$ph2index;?>"/>
+                                  <input type="checkbox" name="p2entry[]" value="<?=strval($ph2index);?>"/>
                                 </td>
                                 <td>
                                   <button data-id="<?=$ph2index; ?>" data-act="togglep2" type="submit"

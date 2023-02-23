@@ -510,10 +510,10 @@ include("head.inc");
                     <input type="button" class="formbtn btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/services_dhcp.php?if=<?= html_safe($if) ?>'" />
 <?php
                   if (isset($id)): ?>
-                    <input name="id" type="hidden" value="<?=$id;?>" />
+                    <input name="id" type="hidden" value="<?=strval($id);?>" />
 <?php
                   endif; ?>
-                    <input name="if" type="hidden" value="<?=$if;?>" />
+                    <input name="if" type="hidden" value="<?=strval($if);?>" />
                   </td>
                 </tr>
               </table>

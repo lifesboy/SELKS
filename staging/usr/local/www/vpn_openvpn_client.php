@@ -583,7 +583,7 @@ $( document ).ready(function() {
                     if ($pconfig['mode'] == $name) {
                         $selected = "selected=\"selected\"";
                     }?>
-                  <option value="<?=$name;?>" <?=$selected;?>><?=$desc;?></option>
+                  <option value="<?=strval($name);?>" <?=$selected;?>><?=$desc;?></option>
 <?php
                 endforeach; ?>
                 </select>
@@ -599,7 +599,7 @@ $( document ).ready(function() {
                     if ($pconfig['protocol'] == $prot) {
                         $selected = "selected=\"selected\"";
                     }?>
-                  <option value="<?=$prot;?>" <?=$selected;?>><?=$prot;?></option>
+                  <option value="<?=strval($prot);?>" <?=$selected;?>><?=$prot;?></option>
 <?php
                 endforeach; ?>
               </select>
@@ -620,7 +620,7 @@ $( document ).ready(function() {
                   if ($pconfig['dev_mode'] == $mode) {
                       $selected = "selected=\"selected\"";
                   }?>
-                <option value="<?=$mode;?>" <?=$selected;?>><?=$mode;?></option>
+                <option value="<?=strval($mode);?>" <?=$selected;?>><?=$mode;?></option>
 <?php
               endforeach; ?>
               </select>
@@ -647,7 +647,7 @@ $( document ).ready(function() {
                   if ($iface == $pconfig['interface']) {
                       $selected = "selected=\"selected\"";
                   }?>
-              <option value="<?=$iface;?>" <?=$selected;?>><?=htmlspecialchars($ifacename);?></option>
+              <option value="<?=strval($iface);?>" <?=$selected;?>><?=htmlspecialchars($ifacename);?></option>
 <?php
               endforeach; ?>
               </select>
@@ -829,7 +829,7 @@ $( document ).ready(function() {
                   if (isset($pconfig['caref']) && $pconfig['caref'] == $ca['refid']) {
                       $selected = "selected=\"selected\"";
                   }?>
-                <option value="<?=$ca['refid'];?>" <?=$selected;?>><?=$ca['descr'];?></option>
+                <option value="<?=strval($ca['refid']);?>" <?=$selected;?>><?=$ca['descr'];?></option>
 <?php
               endforeach; ?>
               </select>
@@ -866,7 +866,7 @@ $( document ).ready(function() {
                   if (is_cert_revoked($cert)) {
                       $revoked = " *Revoked";
                   }?>
-                <option value="<?=$cert['refid'];?>" <?=$selected;?>><?=$cert['descr'] . $caname . $inuse . $revoked;?></option>
+                <option value="<?=strval($cert['refid']);?>" <?=$selected;?>><?=$cert['descr'] . $caname . $inuse . $revoked;?></option>
 <?php
                 endforeach; ?>
                 <option value="" <?=empty($pconfig['certref'])?  "selected=\"selected\"" : "";?>>
@@ -907,7 +907,7 @@ $( document ).ready(function() {
                   if ($name == $pconfig['crypto']) {
                       $selected = " selected=\"selected\"";
                   }?>
-                  <option value="<?=$name;?>"<?=$selected?>><?=htmlspecialchars($desc);?></option>
+                  <option value="<?=strval($name);?>"<?=$selected?>><?=htmlspecialchars($desc);?></option>
 <?php
               endforeach; ?>
               </select>
@@ -924,7 +924,7 @@ $( document ).ready(function() {
                   if ($name == $pconfig['digest']) {
                       $selected = " selected=\"selected\"";
                   }?>
-                <option value="<?=$name;?>"<?=$selected?>><?=htmlspecialchars($desc);?></option>
+                <option value="<?=strval($name);?>"<?=$selected?>><?=htmlspecialchars($desc);?></option>
 <?php
               endforeach; ?>
               </select>
@@ -944,7 +944,7 @@ $( document ).ready(function() {
                   if ($name == $pconfig['engine']) {
                       $selected = " selected=\"selected\"";
                   }?>
-                <option value="<?=$name;?>"<?=$selected?>><?=htmlspecialchars($desc);?></option>
+                <option value="<?=strval($name);?>"<?=$selected?>><?=htmlspecialchars($desc);?></option>
 <?php
               endforeach; ?>
               </select>
@@ -1145,7 +1145,7 @@ $( document ).ready(function() {
             <td>&nbsp;</td>
             <td style="width:78%">
               <input name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
-              <input name="act" type="hidden" value="<?=$act;?>" />
+              <input name="act" type="hidden" value="<?=strval($act);?>" />
 <?php
               if (isset($id) && $a_client[$id]) :?>
               <input name="id" type="hidden" value="<?=htmlspecialchars($id);?>" />
@@ -1187,7 +1187,7 @@ $( document ).ready(function() {
               } ?>
               <tr>
                 <td>
-                  <input type="checkbox" name="rule[]" value="<?=$i;?>"  />
+                  <input type="checkbox" name="rule[]" value="<?=strval($i);?>"  />
                   &nbsp;
                   <a href="#" class="act_toggle" data-id="<?=$i;?>" data-toggle="tooltip" title="<?=(empty($client['disable'])) ? gettext("Disable") : gettext("Enable");?>">
                     <span class="fa fa-play fa-fw <?=(empty($client['disable'])) ? "text-success" : "text-muted";?>"></span>

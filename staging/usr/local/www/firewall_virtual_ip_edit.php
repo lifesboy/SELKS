@@ -340,7 +340,7 @@ $( document ).ready(function() {
                       $interfaces = legacy_config_get_interfaces(array('virtual' => false));
                       $interfaces['lo'] = array('descr' => 'Loopback');
                       foreach ($interfaces as $iface => $ifcfg): ?>
-                        <option value="<?=$iface;?>" <?= $iface == $pconfig['interface'] ? 'selected="selected"' : '' ?>>
+                        <option value="<?=strval($iface);?>" <?= $iface == $pconfig['interface'] ? 'selected="selected"' : '' ?>>
                           <?= htmlspecialchars($ifcfg['descr']) ?>
                         </option>
 <?php
@@ -377,7 +377,7 @@ $( document ).ready(function() {
                                 <option disabled="disabled"></option> <!-- workaround for selectpicker -->
 <?php
                                 for ($i = 128; $i >= 1; $i--): ?>
-                                  <option value="<?=$i;?>" <?= $i == $pconfig['subnet_bits'] ? "selected=\"selected\"" :""; ?>>
+                                  <option value="<?=strval($i);?>" <?= $i == $pconfig['subnet_bits'] ? "selected=\"selected\"" :""; ?>>
                                     <?=$i;?>
                                   </option>
 <?php
@@ -423,7 +423,7 @@ $( document ).ready(function() {
                       <select id='vhid' name='vhid' class="selectpicker" data-size="10" data-width="auto">
                           <option value=""><?= gettext('none') ?></option>
                         <?php for ($i = 1; $i <= 255; $i++): ?>
-                          <option value="<?=$i;?>" <?= $i == $pconfig['vhid'] ?  "selected=\"selected\"" : ""; ?>>
+                          <option value="<?=strval($i);?>" <?= $i == $pconfig['vhid'] ?  "selected=\"selected\"" : ""; ?>>
                             <?=$i;?>
                           </option>
                         <?php endfor; ?>
@@ -442,7 +442,7 @@ $( document ).ready(function() {
                       <?=gettext("Base");?>:
                       <select id='advbase' name='advbase' class="selectpicker" data-size="10" data-width="auto">
                         <?php for ($i = 1; $i <= 254; $i++): ?>
-                          <option value="<?=$i;?>" <?=$i == $pconfig['advbase'] ? "selected=\"selected\"" :""; ?>>
+                          <option value="<?=strval($i);?>" <?=$i == $pconfig['advbase'] ? "selected=\"selected\"" :""; ?>>
                             <?=$i;?>
                           </option>
                         <?php endfor; ?>
@@ -450,7 +450,7 @@ $( document ).ready(function() {
                       <?=gettext("Skew");?>:
                       <select id='advskew' name='advskew' class="selectpicker" data-size="10" data-width="auto">
                         <?php for ($i = 0; $i <= 254; $i++): ?>
-                          <option value="<?=$i;?>" <?php if ($i == $pconfig['advskew']) echo "selected=\"selected\""; ?>>
+                          <option value="<?=strval($i);?>" <?php if ($i == $pconfig['advskew']) echo "selected=\"selected\""; ?>>
                             <?=$i;?>
                           </option>
                         <?php endfor; ?>
@@ -477,7 +477,7 @@ $( document ).ready(function() {
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/firewall_virtual_ip.php'" />
                       <?php if (isset($id) && $a_vip[$id]): ?>
-                        <input name="id" type="hidden" value="<?=$id;?>" />
+                        <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
                     </td>
                   </tr>
