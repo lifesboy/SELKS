@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // handle identifiers and actions
     if (!empty($_POST['if']) && !empty($config['interfaces'][$_POST['if']])) {
-        $if = $_POST['if'];
+        $if = strval($_POST['if']);
         if (isset($_POST['pool']) && !empty($config['dhcpd'][$_POST['if']]['pool'][$_POST['pool']])) {
             $pool = $_POST['pool'];
         }

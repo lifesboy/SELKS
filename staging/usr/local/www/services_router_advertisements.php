@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['if']) && !empty($config['interfaces'][$_POST['if']])) {
-        $if = $_POST['if'];
+        $if = strval($_POST['if']);
     }
 
     /* input validation */
