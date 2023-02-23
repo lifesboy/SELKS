@@ -670,7 +670,7 @@ $( document ).ready(function() {
                             if ($pconfig['mode'] == $name) {
                                 $selected = "selected=\"selected\"";
                             }?>
-                        <option value="<?=$name;?>" <?=$selected;?>><?=$desc;?></option>
+                        <option value="<?=strval($name);?>" <?=$selected;?>><?=$desc;?></option>
 <?php
                         endforeach; ?>
                         </select>
@@ -726,7 +726,7 @@ $( document ).ready(function() {
                               if ($pconfig['protocol'] == $prot) {
                                   $selected = "selected=\"selected\"";
                               }?>
-                            <option value="<?=$prot;?>" <?=$selected;?>><?=$prot;?></option>
+                            <option value="<?=strval($prot);?>" <?=$selected;?>><?=$prot;?></option>
 <?php
                           endforeach; ?>
                         </select>
@@ -753,7 +753,7 @@ $( document ).ready(function() {
                                         $selected = "selected=\"selected\"";
                                 }
                             }?>
-                        <option value="<?=$device;?>" <?=$selected;?>><?=$device;?></option>
+                        <option value="<?=strval($device);?>" <?=$selected;?>><?=$device;?></option>
 <?php
                         endforeach; ?>
                         </select>
@@ -972,7 +972,7 @@ endif; ?>
                                 $selected = " selected=\"selected\"";
                             }
                         ?>
-                          <option value="<?=$name;?>"<?=$selected?>>
+                          <option value="<?=strval($name);?>"<?=$selected?>>
                             <?=htmlspecialchars($desc);?>
                           </option>
 <?php
@@ -992,7 +992,7 @@ endif; ?>
                                 $selected = " selected=\"selected\"";
                             }
                         ?>
-                          <option value="<?=$name;?>"<?=$selected?>>
+                          <option value="<?=strval($name);?>"<?=$selected?>>
                             <?=htmlspecialchars($desc);?>
                           </option>
 <?php
@@ -1015,7 +1015,7 @@ endif; ?>
                                 $selected = " selected=\"selected\"";
                             }
                         ?>
-                          <option value="<?=$name;?>"<?=$selected?>>
+                          <option value="<?=strval($name);?>"<?=$selected?>>
                             <?=htmlspecialchars($desc);?>
                           </option>
 <?php
@@ -1143,7 +1143,7 @@ endif; ?>
                               $selected = "selected=\"selected\"";
                           }
                         ?>
-                            <option value="<?=$iface;?>" <?=$selected;?>>
+                            <option value="<?=strval($iface);?>" <?=$selected;?>>
                                 <?=htmlspecialchars($ifacename);?>
                             </option>
 <?php
@@ -1464,7 +1464,7 @@ endif; ?>
                                   $selected = "selected=\"selected\"";
                               }
                           ?>
-                            <option value="<?=$type;?>" <?=$selected;?>><?=$name;?></option>
+                            <option value="<?=strval($type);?>" <?=$selected;?>><?=$name;?></option>
 <?php
                           endforeach; ?>
                           </select>
@@ -1608,7 +1608,7 @@ endif; ?>
                       <td style="width:22%">&nbsp;</td>
                       <td style="width:78%">
                         <input name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
-                        <input name="act" type="hidden" value="<?=$act;?>" />
+                        <input name="act" type="hidden" value="<?=strval($act);?>" />
 <?php
                         if (isset($id) && $a_server[$id]) :?>
                         <input name="id" type="hidden" value="<?=htmlspecialchars($id);?>" />

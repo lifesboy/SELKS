@@ -210,7 +210,7 @@ $main_buttons = array(
                     <tr <?=isset($natent['disabled'])?"class=\"text-muted\"":"";?>  ondblclick="document.location='firewall_nat_npt_edit.php?id=<?=$i;?>';">
                       <td> </td>
                       <td>
-                          <input class="rule_select" type="checkbox" name="rule[]" value="<?=$i;?>"  />
+                          <input class="rule_select" type="checkbox" name="rule[]" value="<?=strval($i);?>"  />
                       </td>
                       <td>
                         <a href="#" class="act_toggle" id="toggle_<?=$i;?>" data-toggle="tooltip" title="<?=(!isset($natent['disabled'])) ? gettext("Disable") : gettext("Enable");?>">

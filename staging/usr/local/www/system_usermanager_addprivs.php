@@ -183,8 +183,8 @@ include("head.inc");
       <section class="col-xs-12">
         <div class="tab-content content-box col-xs-12">
           <form method="post" name="iform">
-            <input name="id" type="hidden" value="<?=$id;?>" />
-            <input name="input_type" type="hidden" value="<?=$input_type;?>" />
+            <input name="id" type="hidden" value="<?=strval($id);?>" />
+            <input name="input_type" type="hidden" value="<?=strval($input_type);?>" />
             <table class="table table-striped opnsense_standard_table_form">
               <tr>
                 <td style="width:22%"><?=gettext("System Privileges");?></td>

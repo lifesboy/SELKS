@@ -439,7 +439,7 @@ include("head.inc");
                       <select name="interface" class="selectpicker" data-width="auto" data-live-search="true">
 <?php
                         foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
-                        <option value="<?=$iface;?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : ""; ?>>
+                        <option value="<?=strval($iface);?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : ""; ?>>
                           <?=htmlspecialchars($ifdetail['descr']);?>
                         </option>
                         <?php endforeach; ?>
@@ -457,7 +457,7 @@ include("head.inc");
                     <select name="ipprotocol" class="selectpicker" data-width="auto" data-live-search="true" data-size="5" >
 <?php
                     foreach (array('inet' => 'IPv4','inet6' => 'IPv6') as $proto => $name): ?>
-                    <option value="<?=$proto;?>" <?= $proto == $pconfig['ipprotocol'] ? "selected=\"selected\"" : "";?>>
+                    <option value="<?=strval($proto);?>" <?= $proto == $pconfig['ipprotocol'] ? "selected=\"selected\"" : "";?>>
                       <?=$name;?>
                     </option>
 <?php
@@ -505,13 +505,13 @@ include("head.inc");
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                            foreach (legacy_list_aliases("network") as $alias):
 ?>
-                                <option value="<?=$alias['name'];?>" <?=$alias['name'] == $pconfig['source'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
+                                <option value="<?=strval($alias['name']);?>" <?=$alias['name'] == $pconfig['source'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
 <?php                            endforeach; ?>
                               </optgroup>
                               <optgroup label="<?=gettext("Networks");?>">
 <?php                             foreach (get_specialnets(true) as $ifent => $ifdesc):
 ?>
-                                      <option value="<?=$ifent;?>" <?= $pconfig['source'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
+                                      <option value="<?=strval($ifent);?>" <?= $pconfig['source'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
 <?php                              endforeach; ?>
                               </optgroup>
                           </select>
@@ -524,7 +524,7 @@ include("head.inc");
                           <input type="text" for="source" id="src_address" value="<?=strval($pconfig['source']);?>" aria-label="<?=gettext("Source address");?>"/>
                           <select name="source_subnet"  data-network-id="src_address" class="selectpicker ipv4v6net input-group-btn" data-size="5" id="srcmask"  data-width="auto" for="source" >
                           <?php for ($i = 128; $i > 0; $i--): ?>
-                            <option value="<?=$i;?>" <?= $i == $pconfig['source_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
+                            <option value="<?=strval($i);?>" <?= $i == $pconfig['source_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
                           <?php endfor; ?>
                           </select>
                         </div>
@@ -548,13 +548,13 @@ include("head.inc");
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
-                                <option value="<?=$alias['name'];?>" <?= $pconfig['sourceport'] == $alias['name'] ? "selected=\"selected\"" : ""; ?>  ><?=htmlspecialchars($alias['name']);?> </option>
+                                <option value="<?=strval($alias['name']);?>" <?= $pconfig['sourceport'] == $alias['name'] ? "selected=\"selected\"" : ""; ?>  ><?=htmlspecialchars($alias['name']);?> </option>
 <?php                          endforeach; ?>
                               </optgroup>
                               <optgroup label="<?=gettext("Well-known ports");?>">
                                 <option value="" <?= $pconfig['sourceport'] == "" ? "selected=\"selected\"" : ""; ?>><?=gettext("any"); ?></option>
 <?php                            foreach ($wkports as $wkport => $wkportdesc): ?>
-                                <option value="<?=$wkport;?>" <?= $wkport == $pconfig['sourceport'] ?  "selected=\"selected\"" : "" ;?>><?=htmlspecialchars($wkportdesc);?></option>
+                                <option value="<?=strval($wkport);?>" <?= $wkport == $pconfig['sourceport'] ?  "selected=\"selected\"" : "" ;?>><?=htmlspecialchars($wkportdesc);?></option>
 <?php                            endforeach; ?>
                               </optgroup>
                             </select>
@@ -592,13 +592,13 @@ include("head.inc");
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                             foreach (legacy_list_aliases("network") as $alias):
 ?>
-                                      <option value="<?=$alias['name'];?>" <?=$alias['name'] == $pconfig['destination'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
+                                      <option value="<?=strval($alias['name']);?>" <?=$alias['name'] == $pconfig['destination'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
 <?php                              endforeach; ?>
                               </optgroup>
                               <optgroup label="<?=gettext("Networks");?>">
 <?php                             foreach (get_specialnets(true) as $ifent => $ifdesc):
 ?>
-                                      <option value="<?=$ifent;?>" <?= $pconfig['destination'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
+                                      <option value="<?=strval($ifent);?>" <?= $pconfig['destination'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
 <?php                              endforeach; ?>
                               </optgroup>
                           </select>
@@ -611,7 +611,7 @@ include("head.inc");
                           <input type="text" id="dst_address" for="destination" value="<?=strval($pconfig['destination']);?>" aria-label="<?=gettext("Destination address");?>"/>
                           <select name="destination_subnet" data-network-id="dst_address" class="selectpicker ipv4v6net input-group-btn" id="dstmask" data-size="5" data-width="auto" for="destination" >
                           <?php for ($i = 128; $i > 0; $i--): ?>
-                            <option value="<?=$i;?>" <?= $i == $pconfig['destination_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
+                            <option value="<?=strval($i);?>" <?= $i == $pconfig['destination_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
                           <?php endfor; ?>
                           </select>
                         </div>
@@ -635,13 +635,13 @@ include("head.inc");
                               <optgroup label="<?=gettext("Aliases");?>">
 <?php                        foreach (legacy_list_aliases("port") as $alias):
 ?>
-                                <option value="<?=$alias['name'];?>" <?= $pconfig['dstport'] == $alias['name'] ? "selected=\"selected\"" : ""; ?>  ><?=htmlspecialchars($alias['name']);?> </option>
+                                <option value="<?=strval($alias['name']);?>" <?= $pconfig['dstport'] == $alias['name'] ? "selected=\"selected\"" : ""; ?>  ><?=htmlspecialchars($alias['name']);?> </option>
 <?php                          endforeach; ?>
                               </optgroup>
                               <optgroup label="<?=gettext("Well-known ports");?>">
                                 <option value="" <?= $pconfig['dstport'] == "" ? "selected=\"selected\"" : ""; ?>><?=gettext("any"); ?></option>
 <?php                            foreach ($wkports as $wkport => $wkportdesc): ?>
-                                <option value="<?=$wkport;?>" <?= $wkport == $pconfig['dstport'] ?  "selected=\"selected\"" : "" ;?>><?=htmlspecialchars($wkportdesc);?></option>
+                                <option value="<?=strval($wkport);?>" <?= $wkport == $pconfig['dstport'] ?  "selected=\"selected\"" : "" ;?>><?=htmlspecialchars($wkportdesc);?></option>
 <?php                            endforeach; ?>
                               </optgroup>
                             </select>
@@ -669,7 +669,7 @@ include("head.inc");
                                 <option value="" <?= empty($pconfig['targetip']) ? "selected=\"selected\"" : "";?> > <?=gettext("Interface address");?> </option>
                                 <option data-other=true value="<?=strval($pconfig['targetip']);?>" <?= !empty($pconfig['targetip']) && !array_key_exists($pconfig['targetip'], formTranslateAddresses() ) ? "selected=\"selected\"" : "";?>><?=gettext("Single host or Network"); ?></option>
 <?php                              foreach (formTranslateAddresses() as $optKey => $optValue): ?>
-                                    <option value="<?=$optKey;?>" <?= $pconfig['targetip'] == $optKey ? "selected=\"selected\"" : ""; ?>>
+                                    <option value="<?=strval($optKey);?>" <?= $pconfig['targetip'] == $optKey ? "selected=\"selected\"" : ""; ?>>
                                       <?=$optValue;?>
                                     </option>
 <?php                              endforeach; ?>
@@ -683,7 +683,7 @@ include("head.inc");
                               <input type="text" id="targetip_text" for="targetip" value="<?=strval($pconfig['targetip']);?>" aria-label="<?=gettext("Translation address");?>"/>
                               <select name="targetip_subnet" data-network-id="targetip_text" class="selectpicker ipv4v6net input-group-btn" id="targetip_subnet" data-size="5" data-width="auto" for="targetip" >
                               <?php for ($i = 128; $i > 0; $i--): ?>
-                                <option value="<?=$i;?>" <?= $i == $pconfig['targetip_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
+                                <option value="<?=strval($i);?>" <?= $i == $pconfig['targetip_subnet'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
                               <?php endfor; ?>
                               </select>
                             </div>
@@ -850,7 +850,7 @@ include("head.inc");
 <?php
                     if (isset($id)):
 ?>
-                    <input name="id" type="hidden" value="<?=$id;?>" />
+                    <input name="id" type="hidden" value="<?=strval($id);?>" />
 <?php
                     endif;
 ?>

@@ -472,7 +472,7 @@ $(document).ready(function() {
                   <select name="ssl-certref" class="selectpicker" data-style="btn-default">
 <?php foreach ($a_cert as $cert): ?>
 <?php if (isset($cert['prv'])): ?>
-                    <option value="<?=$cert['refid'];?>" <?=$pconfig['ssl-certref'] == $cert['refid'] ? "selected=\"selected\"" : "";?>>
+                    <option value="<?=strval($cert['refid']);?>" <?=$pconfig['ssl-certref'] == $cert['refid'] ? "selected=\"selected\"" : "";?>>
                       <?=$cert['descr'];?>
                     </option>
 <?php endif ?>
@@ -498,7 +498,7 @@ $(document).ready(function() {
                     }
                     ksort($ciphers);
                     foreach ($ciphers as $cipher => $cipher_data):?>
-                      <option value="<?=$cipher;?>" <?= !empty($pconfig['ssl-ciphers']) && in_array($cipher, $pconfig['ssl-ciphers']) ? 'selected="selected"' : '' ?>>
+                      <option value="<?=strval($cipher);?>" <?= !empty($pconfig['ssl-ciphers']) && in_array($cipher, $pconfig['ssl-ciphers']) ? 'selected="selected"' : '' ?>>
                         <?=!empty($cipher_data['description']) ? $cipher_data['description'] : $cipher;?>
                       </option>
 <?php
@@ -727,7 +727,7 @@ $(document).ready(function() {
 <?php
                     $options = json_decode(configd_run("openssh query kex"), true);
                     foreach ($options = empty($options) ? array() : $options as $option):?>
-                      <option value="<?=$option;?>" <?= !empty($pconfig['ssh-kex']) && in_array($option, $pconfig['ssh-kex']) ? 'selected="selected"' : '' ?>>
+                      <option value="<?=strval($option);?>" <?= !empty($pconfig['ssh-kex']) && in_array($option, $pconfig['ssh-kex']) ? 'selected="selected"' : '' ?>>
                         <?=$option;?>
                       </option>
 <?php
@@ -745,7 +745,7 @@ $(document).ready(function() {
 <?php
                     $options = json_decode(configd_run("openssh query cipher"), true);
                     foreach ($options = empty($options) ? array() : $options as $option):?>
-                      <option value="<?=$option;?>" <?= !empty($pconfig['ssh-ciphers']) && in_array($option, $pconfig['ssh-ciphers']) ? 'selected="selected"' : '' ?>>
+                      <option value="<?=strval($option);?>" <?= !empty($pconfig['ssh-ciphers']) && in_array($option, $pconfig['ssh-ciphers']) ? 'selected="selected"' : '' ?>>
                         <?=$option;?>
                       </option>
 <?php
@@ -763,7 +763,7 @@ $(document).ready(function() {
 <?php
                     $options = json_decode(configd_run("openssh query mac"), true);
                     foreach ($options = empty($options) ? array() : $options as $option):?>
-                      <option value="<?=$option;?>" <?= !empty($pconfig['ssh-macs']) && in_array($option, $pconfig['ssh-macs']) ? 'selected="selected"' : '' ?>>
+                      <option value="<?=strval($option);?>" <?= !empty($pconfig['ssh-macs']) && in_array($option, $pconfig['ssh-macs']) ? 'selected="selected"' : '' ?>>
                         <?=$option;?>
                       </option>
 <?php
@@ -781,7 +781,7 @@ $(document).ready(function() {
 <?php
                     $options = json_decode(configd_run("openssh query key"), true);
                     foreach ($options = empty($options) ? array() : $options as $option):?>
-                      <option value="<?=$option;?>" <?= !empty($pconfig['ssh-keys']) && in_array($option, $pconfig['ssh-keys']) ? 'selected="selected"' : '' ?>>
+                      <option value="<?=strval($option);?>" <?= !empty($pconfig['ssh-keys']) && in_array($option, $pconfig['ssh-keys']) ? 'selected="selected"' : '' ?>>
                         <?=$option;?>
                       </option>
 <?php

@@ -570,7 +570,7 @@ $( document ).ready(function() {
 <?php
             if ($act == "new" || $act == "edit" ) :?>
               <form method="post" name="iform" id="iform">
-                <input type="hidden" id="act" name="act" value="<?=$act;?>" />
+                <input type="hidden" id="act" name="act" value="<?=strval($act);?>" />
                 <input type="hidden" id="userid" name="userid" value="<?=(isset($id) ? $id : '');?>" />
                 <input type="hidden" id="priv_delete" name="priv_delete" value="" /> <!-- delete priv action -->
                 <input type="hidden" id="api_delete" name="api_delete" value="" /> <!-- delete api ke action -->
@@ -708,7 +708,7 @@ $( document ).ready(function() {
                                   continue;
                                 }
 ?>
-                                <option value="<?=$group['name'];?>">
+                                <option value="<?=strval($group['name']);?>">
                                     <?=htmlspecialchars($group['name']);?>
                                 </option>
 <?php
@@ -734,7 +734,7 @@ $( document ).ready(function() {
                                     continue;
                                   }
 ?>
-                                <option value="<?=$group['name'];?>">
+                                <option value="<?=strval($group['name']);?>">
                                     <?=htmlspecialchars($group['name']);?>
                                 </option>
 <?php

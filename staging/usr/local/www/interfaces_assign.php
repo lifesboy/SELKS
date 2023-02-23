@@ -434,7 +434,7 @@ include("head.inc");
 <?php
                           foreach ($interfaces as $portname => $portinfo):?>
                             <option data-icon="fa fa-plug <?=$portinfo['status'] == 'no carrier' ? "text-danger": "text-success";?>"
-                                    value="<?=$portname;?>"  <?= $portname == $iface['if'] ? " selected=\"selected\"" : "";?>>
+                                    value="<?=strval($portname);?>"  <?= $portname == $iface['if'] ? " selected=\"selected\"" : "";?>>
                               <?=$portinfo['descr'];?>
                             </option>
 <?php
@@ -462,7 +462,7 @@ include("head.inc");
                           foreach ($unused_interfaces as $portname => $portinfo): ?>
                             <option data-icon="fa fa-plug <?=$portinfo['status'] == 'no carrier' ? "text-danger": "text-success";?>"
                                     data-ifdescr="<?=!empty($portinfo['ifdescr']) ? $portinfo['ifdescr'] : '';?>"
-                                    value="<?=$portname;?>">
+                                    value="<?=strval($portname);?>">
                                     <?=$portinfo['descr'];?>
                             </option>
 <?php
@@ -474,7 +474,7 @@ include("head.inc");
                           </form>
                         </td>
                         <td>
-                          <button name="add_x" type="submit" value="<?=$portname;?>" class="btn btn-primary" title="<?= html_safe(gettext('Add')) ?>" data-toggle="tooltip">
+                          <button name="add_x" type="submit" value="<?=strval($portname);?>" class="btn btn-primary" title="<?= html_safe(gettext('Add')) ?>" data-toggle="tooltip">
                             <i class="fa fa-plus fa-fw"></i>
                           </button>
                         </td>

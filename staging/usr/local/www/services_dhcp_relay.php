@@ -134,7 +134,7 @@ include("head.inc");
                         if (!is_ipaddr(get_interface_ip($ifent))) {
                             continue;
                         }?>
-                          <option value="<?=$ifent;?>" <?=isset($pconfig['interface']) && in_array($ifent, $pconfig['interface']) ? "selected=\"selected\"" : "";?>>
+                          <option value="<?=strval($ifent);?>" <?=isset($pconfig['interface']) && in_array($ifent, $pconfig['interface']) ? "selected=\"selected\"" : "";?>>
                             <?=$ifdesc;?>
                           </option>
 <?php

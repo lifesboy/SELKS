@@ -176,7 +176,7 @@ legacy_html_escape_form_data($pconfig);
                             continue;
                         }?>
 
-                        <option value="<?=$ifn;?>" <?=$ifn == $pconfig['if'] ? " selected=\"selected\"" : "";?>>
+                        <option value="<?=strval($ifn);?>" <?=$ifn == $pconfig['if'] ? " selected=\"selected\"" : "";?>>
                           <?=htmlspecialchars($ifn);?>
                           ( <?= !empty($ifinfo['macaddr']) ? $ifinfo['macaddr'] :"" ;?> )
 <?php
@@ -208,7 +208,7 @@ legacy_html_escape_form_data($pconfig);
                     <td>
                       <select name="pcp">
 <?php foreach (interfaces_vlan_priorities() as $pcp => $priority): ?>
-                        <option value="<?=$pcp;?>"<?=($pconfig['pcp'] == $pcp ? ' selected="selected"' : '');?>><?=htmlspecialchars($priority);?></option>
+                        <option value="<?=strval($pcp);?>"<?=($pconfig['pcp'] == $pcp ? ' selected="selected"' : '');?>><?=htmlspecialchars($priority);?></option>
 <?php endforeach ?>
                       </select>
                       <div class="hidden" data-for="help_for_pcp">
@@ -232,7 +232,7 @@ legacy_html_escape_form_data($pconfig);
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_vlan.php'" />
                       <?php if (isset($id)): ?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
                     </td>
                   </tr>

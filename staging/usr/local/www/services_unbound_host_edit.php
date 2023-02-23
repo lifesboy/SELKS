@@ -256,7 +256,7 @@ include("head.inc");
 <?php
                        $rrs = array("A" => gettext("A or AAAA (IPv4 or IPv6 address)"), "MX" => gettext("MX (Mail server)"));
                        foreach ($rrs as $rr => $name) :?>
-                        <option value="<?=$rr;?>" <?=($rr == $pconfig['rr'] || ($rr == 'A' && $pconfig['rr'] == 'AAAA')) ? 'selected="selected"' : '';?> >
+                        <option value="<?=strval($rr);?>" <?=($rr == $pconfig['rr'] || ($rr == 'A' && $pconfig['rr'] == 'AAAA')) ? 'selected="selected"' : '';?> >
                           <?=$name;?>
                         </option>
 <?php
@@ -331,13 +331,13 @@ include("head.inc");
                               <div style="cursor:pointer;" class="act-removerow btn btn-default btn-xs"><i class="fa fa-minus fa-fw"></i></div>
                             </td>
                             <td>
-                              <input name="aliases_host[]" type="text" value="<?=$item['host'];?>" />
+                              <input name="aliases_host[]" type="text" value="<?=strval($item['host']);?>" />
                             </td>
                             <td>
-                              <input name="aliases_domain[]" type="text" value="<?=$item['domain'];?>" />
+                              <input name="aliases_domain[]" type="text" value="<?=strval($item['domain']);?>" />
                             </td>
                             <td>
-                              <input name="aliases_descr[]" type="text" value="<?=$item['descr'];?>" />
+                              <input name="aliases_descr[]" type="text" value="<?=strval($item['descr']);?>" />
                             </td>
                           </tr>
 <?php
@@ -362,7 +362,7 @@ include("head.inc");
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?= html_safe(gettext('Save')) ?>" />
                       <input type="button" class="btn btn-default" value="<?= html_safe(gettext('Cancel')) ?>" onclick="window.location.href='/services_unbound_overrides.php'" />
                       <?php if (isset($id)): ?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
                     </td>
                   </tr>

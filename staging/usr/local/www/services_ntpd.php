@@ -243,7 +243,7 @@ include("head.inc");
                           if (!is_ipaddr(get_interface_ip($iface)) && !is_ipaddr($iface)) {
                               continue;
                           }?>
-                          <option value="<?=$iface;?>" <?= !empty($pconfig['interface']) && in_array($iface, $pconfig['interface']) ? 'selected="selected"' : '' ?>>
+                          <option value="<?=strval($iface);?>" <?= !empty($pconfig['interface']) && in_array($iface, $pconfig['interface']) ? 'selected="selected"' : '' ?>>
                               <?=htmlspecialchars($ifacename);?>
                           </option>
 <?php
@@ -280,13 +280,13 @@ include("head.inc");
                               <div style="cursor:pointer;" class="act-removerow btn btn-default btn-xs"><i class="fa fa-minus fa-fw"></i></div>
                             </td>
                             <td>
-                              <input name="timeservers_host[]" type="text" value="<?=$timeserver;?>" />
+                              <input name="timeservers_host[]" type="text" value="<?=strval($timeserver);?>" />
                             </td>
                             <td>
-                              <input name="timeservers_prefer[]" class="ts_checkbox" type="checkbox" value="<?=$timeserver;?>" <?= !empty($pconfig['timeservers_prefer']) && in_array($timeserver, $pconfig['timeservers_prefer']) ? 'checked="checked"' : '' ?>/>
+                              <input name="timeservers_prefer[]" class="ts_checkbox" type="checkbox" value="<?=strval($timeserver);?>" <?= !empty($pconfig['timeservers_prefer']) && in_array($timeserver, $pconfig['timeservers_prefer']) ? 'checked="checked"' : '' ?>/>
                             </td>
                             <td>
-                              <input name="timeservers_noselect[]" class="ts_checkbox" type="checkbox" value="<?=$timeserver;?>" <?= !empty($pconfig['timeservers_noselect']) && in_array($timeserver,  $pconfig['timeservers_noselect']) ? 'checked="checked"' : '' ?>/>
+                              <input name="timeservers_noselect[]" class="ts_checkbox" type="checkbox" value="<?=strval($timeserver);?>" <?= !empty($pconfig['timeservers_noselect']) && in_array($timeserver,  $pconfig['timeservers_noselect']) ? 'checked="checked"' : '' ?>/>
                             </td>
                           </tr>
 <?php

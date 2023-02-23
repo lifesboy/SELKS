@@ -928,7 +928,7 @@ include("head.inc");
                               $selected = "selected=\"selected\"";
                             }
                           }?>
-                          <option value="<?=$algorithm;?>" <?=$selected;?>><?=$algorithm;?></option>
+                          <option value="<?=strval($algorithm);?>" <?=$selected;?>><?=$algorithm;?></option>
 <?php
                         endforeach; ?>
                         </select>
@@ -1078,7 +1078,7 @@ include("head.inc");
                                   <div style="cursor:pointer;" class="act-removerow btn btn-default btn-xs"><i class="fa fa-minus fa-fw"></i></div>
                                 </td>
                                 <td>
-                                  <input name="numberoptions_number[]" type="text" value="<?=$item['number'];?>" />
+                                  <input name="numberoptions_number[]" type="text" value="<?=strval($item['number']);?>" />
                                 </td>
                                 <td>
                                   <select name="numberoptions_type[]">
@@ -1114,7 +1114,7 @@ include("head.inc");
                                     </option>
                                   </select>
                                 </td>
-                                <td> <input name="numberoptions_value[]" type="text" value="<?=$item['value'];?>" /> </td>
+                                <td> <input name="numberoptions_value[]" type="text" value="<?=strval($item['value']);?>" /> </td>
                               </tr>
 <?php
                             endforeach;?>
@@ -1148,7 +1148,7 @@ include("head.inc");
                         <input type="hidden" name="pool" value="<?=$pool; ?>" />
 <?php
                         endif; ?>
-                        <input name="if" type="hidden" value="<?=$if;?>" />
+                        <input name="if" type="hidden" value="<?=strval($if);?>" />
                         <input name="submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>"  />
                       </td>
                     </tr>

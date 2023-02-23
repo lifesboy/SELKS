@@ -127,7 +127,7 @@ include("head.inc"); ?>
                         <select name="count" class="selectpicker" id="count">
 <?php
                         for ($i = 1; $i <= 10; $i++): ?>
-                          <option value="<?=$i;?>" <?=$i == $pconfig['count'] ? "selected=\"selected\"" : ""; ?>>
+                          <option value="<?=strval($i);?>" <?=$i == $pconfig['count'] ? "selected=\"selected\"" : ""; ?>>
                             <?=$i;?>
                           </option>
 <?php

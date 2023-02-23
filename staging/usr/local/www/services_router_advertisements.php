@@ -372,7 +372,7 @@ include("head.inc");
 <?php endif ?>
                             </td>
                             <td>
-                              <input name="route_address[]" type="text" value="<?=$sn_address;?>" />
+                              <input name="route_address[]" type="text" value="<?=strval($sn_address);?>" />
                             </td>
                             <td>
                               <select name="route_bits[]">
@@ -455,8 +455,8 @@ include("head.inc");
                   <tr>
                     <td>&nbsp;</td>
                     <td>
-                      <input id="has_advanced" type="hidden" value="<?=$has_advanced ? "X": "";?>">
-                      <input name="if" type="hidden" value="<?=$if;?>" />
+                      <input id="has_advanced" type="hidden" value="<?=strval($has_advanced ? "X": "");?>">
+                      <input name="if" type="hidden" value="<?=strval($if);?>" />
                       <input name="Submit" type="submit" class="formbtn btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                     </td>
                   </tr>

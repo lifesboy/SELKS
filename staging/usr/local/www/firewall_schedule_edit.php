@@ -941,7 +941,7 @@ $( function() { $('#iform td').css({ 'background-color' : '' }); })
                                   <select name="starttimehour" class="selectpicker form-control" data-width="auto" data-size="5" data-live-search="true" id="starttimehour">
 <?php
                                     for ($i=0; $i<24; $i++):?>
-                                    <option value="<?=$i;?>"><?=$i;?> </option>
+                                    <option value="<?=strval($i);?>"><?=$i;?> </option>
 <?php
                                       endfor; ?>
                                   </select>
@@ -959,7 +959,7 @@ $( function() { $('#iform td').css({ 'background-color' : '' }); })
                                   <select name="stoptimehour" class="selectpicker form-control" data-width="auto" data-size="5" data-live-search="true" id="stoptimehour">
 <?php
                                     for ($i=0; $i<24; $i++):?>
-                                    <option value="<?=$i;?>"><?=$i;?> </option>
+                                    <option value="<?=strval($i);?>"><?=$i;?> </option>
 <?php
                                       endfor; ?>
                                   </select>
@@ -1160,7 +1160,7 @@ $( function() { $('#iform td').css({ 'background-color' : '' }); })
                         <input id="submit" name="submit" type="submit" onclick="return checkForRanges();" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                         <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/firewall_schedule.php'" />
                         <?php if (isset($id)): ?>
-                          <input name="id" type="hidden" value="<?=$id;?>" />
+                          <input name="id" type="hidden" value="<?=strval($id);?>" />
                         <?php endif; ?>
                       </td>
                     </tr>

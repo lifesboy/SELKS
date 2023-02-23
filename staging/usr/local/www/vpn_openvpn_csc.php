@@ -397,7 +397,7 @@ if ($act!="new" && $act!="edit") {
                       <select name="ovpn_servers[]" class="selectpicker" multiple="multiple" data-size="5" data-live-search="true">
 <?php
                       foreach (openvpn_get_remote_access_servers() as $ra_server_vpnid => $ra_server):?>
-                        <option value="<?=$ra_server_vpnid;?>" <?= !empty($pconfig['ovpn_servers']) && in_array($ra_server_vpnid, $pconfig['ovpn_servers']) ?  'selected="selected"' : '' ?>>
+                        <option value="<?=strval($ra_server_vpnid);?>" <?= !empty($pconfig['ovpn_servers']) && in_array($ra_server_vpnid, $pconfig['ovpn_servers']) ?  'selected="selected"' : '' ?>>
                            <?=!empty($ra_server['description']) ? $ra_server['description'] : ""?> ( <?=$ra_server['local_port'];?> / <?=$ra_server['protocol'];?>)
                         </option>
 <?php
@@ -618,7 +618,7 @@ if ($act!="new" && $act!="edit") {
                             if ($pconfig['netbios_ntype'] == $type) {
                                 $selected = "selected=\"selected\"";
                             }?>
-                          <option value="<?=$type;?>" <?=$selected;?>><?=$name;?></option>
+                          <option value="<?=strval($type);?>" <?=$selected;?>><?=$name;?></option>
 <?php
                         endforeach; ?>
                         </select>
@@ -670,10 +670,10 @@ if ($act!="new" && $act!="edit") {
                     <td>&nbsp;</td>
                     <td>
                       <input name="save" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
-                      <input name="act" type="hidden" value="<?=$act;?>" />
+                      <input name="act" type="hidden" value="<?=strval($act);?>" />
 <?php
                       if (isset($id)) :?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
 <?php
                       endif; ?>
                     </td>
@@ -700,7 +700,7 @@ if ($act!="new" && $act!="edit") {
                     foreach ($a_csc as $csc):?>
                     <tr>
                       <td>
-                        <input type="checkbox" name="rule[]" value="<?=$i;?>"/>
+                        <input type="checkbox" name="rule[]" value="<?=strval($i);?>"/>
                         <a href="#" class="act_toggle" data-id="<?=$i;?>" data-toggle="tooltip" title="<?=(empty($csc['disable'])) ? gettext("Disable") : gettext("Enable");?>">
                           <span class="fa fa-play fa-fw <?=(empty($csc['disable'])) ? "text-success" : "text-muted";?>"></span>
                         </a>

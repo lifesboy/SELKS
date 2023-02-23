@@ -413,7 +413,7 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                               <select name="pool_netbits" class="selectpicker form-control" id="pool_netbits" data-width="70px" data-size="10">
 <?php
                               for ($i = 32; $i >= 0; $i--) :?>
-                                  <option value="<?=$i;?>" <?= ($i == $pconfig['pool_netbits']) ? "selected=\"selected\"" : "";?>>
+                                  <option value="<?=strval($i);?>" <?= ($i == $pconfig['pool_netbits']) ? "selected=\"selected\"" : "";?>>
                                       <?=$i;?>
                                   </option>
 <?php
@@ -432,7 +432,7 @@ foreach ($auth_servers as $auth_key => $auth_server) : ?>
                               <select name="pool_netbits_v6" class="selectpicker form-control" id="pool_netbits_v6" data-width="70px" data-size="10">
 <?php
                               for ($i = 128; $i >= 0; $i--) :?>
-                                  <option value="<?=$i;?>" <?= ($i == $pconfig['pool_netbits_v6']) ? "selected=\"selected\"" : "";?>>
+                                  <option value="<?=strval($i);?>" <?= ($i == $pconfig['pool_netbits_v6']) ? "selected=\"selected\"" : "";?>>
                                       <?=$i;?>
                                   </option>
 <?php

@@ -310,7 +310,7 @@ $( document ).ready(function() {
                 foreach ($a_scrub as $i => $scrubEntry):?>
                   <tr>
                     <td>
-                        <input class="rule_select" type="checkbox" name="rule[]" value="<?=$i;?>"  />
+                        <input class="rule_select" type="checkbox" name="rule[]" value="<?=strval($i);?>"  />
                         <a href="#" class="act_toggle" data-id="<?=$i;?>" data-toggle="tooltip" data-html="true" title="<?=(empty($scrubEntry['disabled'])) ? gettext("Disable") : gettext("Enable");?>">
                           <span class="fa fa-play fa-fw <?=(empty($scrubEntry['disabled'])) ? "text-success" : "text-muted";?>"></span>
                         </a>

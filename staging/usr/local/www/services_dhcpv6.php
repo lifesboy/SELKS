@@ -621,7 +621,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                           <select name='ddnsdomainalgorithm' id="ddnsdomainalgorithm" class="selectpicker">
 <?php
                           foreach (array("hmac-md5", "hmac-sha512") as $algorithm) :?>
-                              <option value="<?=$algorithm;?>" <?=$pconfig['ddnsdomainalgorithm'] == $algorithm ? "selected=\"selected\"" :"";?>>
+                              <option value="<?=strval($algorithm);?>" <?=$pconfig['ddnsdomainalgorithm'] == $algorithm ? "selected=\"selected\"" :"";?>>
                                 <?=$algorithm;?>
                               </option>
 <?php
@@ -687,7 +687,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                                   <div style="cursor:pointer;" class="act-removerow btn btn-default btn-xs"><i class="fa fa-minus fa-fw"></i></div>
                                 </td>
                                 <td>
-                                  <input name="numberoptions_number[]" type="text" value="<?=$item['number'];?>" />
+                                  <input name="numberoptions_number[]" type="text" value="<?=strval($item['number']);?>" />
                                 </td>
                                 <td>
                                   <select name="numberoptions_type[]">
@@ -723,7 +723,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                                     </option>
                                   </select>
                                 </td>
-                                <td> <input name="numberoptions_value[]" type="text" value="<?=$item['value'];?>" /> </td>
+                                <td> <input name="numberoptions_value[]" type="text" value="<?=strval($item['value']);?>" /> </td>
                               </tr>
 <?php
                             endforeach;?>
@@ -745,7 +745,7 @@ if (isset($config['interfaces'][$if]['dhcpd6track6allowoverride'])) {
                     <tr>
                       <td>&nbsp;</td>
                       <td>
-                        <input name="if" type="hidden" value="<?=$if;?>" />
+                        <input name="if" type="hidden" value="<?=strval($if);?>" />
                         <input name="submit" type="submit" class="formbtn btn btn-primary" value="<?=html_safe(gettext('Save'));?>"/>
                       </td>
                     </tr>

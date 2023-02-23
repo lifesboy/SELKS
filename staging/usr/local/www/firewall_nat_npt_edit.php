@@ -167,7 +167,7 @@ include("head.inc");
                         <select name="interface" class="selectpicker" data-width="auto" data-live-search="true">
   <?php
                           foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
-                          <option value="<?=$iface;?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : ""; ?>>
+                          <option value="<?=strval($iface);?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : ""; ?>>
                             <?=htmlspecialchars($ifdetail['descr']);?>
                           </option>
                           <?php endforeach; ?>
@@ -202,7 +202,7 @@ include("head.inc");
                           <td>
                             <select name="srcmask" class="selectpicker" data-size="5"  data-width="auto">
                               <?php for ($i = 128; $i > 0; $i--): ?>
-                                <option value="<?=$i;?>" <?= $i == $pconfig['srcmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
+                                <option value="<?=strval($i);?>" <?= $i == $pconfig['srcmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
                               <?php endfor; ?>
                             </select>
                           </td>
@@ -240,7 +240,7 @@ include("head.inc");
                           <td>
                             <select name="dstmask" class="selectpicker" data-size="5"  data-width="auto">
                               <?php for ($i = 128; $i > 0; $i--): ?>
-                                <option value="<?=$i;?>" <?= $i == $pconfig['dstmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
+                                <option value="<?=strval($i);?>" <?= $i == $pconfig['dstmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
                               <?php endfor; ?>
                             </select>
                           </td>

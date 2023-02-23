@@ -248,13 +248,13 @@ include("head.inc");
                             <div style="cursor:pointer;" class="act-removerow btn btn-default btn-xs"><i class="fa fa-minus fa-fw"></i></div>
                           </td>
                           <td>
-                            <input name="aliases_host[]" type="text" value="<?=$item['host'];?>" />
+                            <input name="aliases_host[]" type="text" value="<?=strval($item['host']);?>" />
                           </td>
                           <td>
-                            <input name="aliases_domain[]" type="text" value="<?=$item['domain'];?>" />
+                            <input name="aliases_domain[]" type="text" value="<?=strval($item['domain']);?>" />
                           </td>
                           <td>
-                            <input name="aliases_description[]" type="text" value="<?=$item['description'];?>" />
+                            <input name="aliases_description[]" type="text" value="<?=strval($item['description']);?>" />
                           </td>
                         </tr>
 <?php

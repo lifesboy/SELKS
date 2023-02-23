@@ -156,7 +156,7 @@ include("head.inc");
                       }
 
                       foreach ($portlist as $ifn => $ifinfo):?>
-                        <option value="<?=$ifn;?>" <?=$ifn == $pconfig['if'] ? "selected=\"selected\"" : "";?>>
+                        <option value="<?=strval($ifn);?>" <?=$ifn == $pconfig['if'] ? "selected=\"selected\"" : "";?>>
                             <?=htmlspecialchars($ifinfo);?>
                         </option>
 
@@ -198,7 +198,7 @@ include("head.inc");
                             <select name="tunnel-remote-net" data-network-id="tunnel-remote-addr" class="selectpicker ipv4v6net" id="tunnel-remote-net" data-width="auto">
 <?php
                             for ($i = 128; $i > 0; $i--):?>
-                              <option value="<?=$i;?>"  <?=$i == $pconfig['tunnel-remote-net'] ? "selected=\"selected\"" : "";?> >
+                              <option value="<?=strval($i);?>"  <?=$i == $pconfig['tunnel-remote-net'] ? "selected=\"selected\"" : "";?> >
                                   <?=$i;?>
                               </option>
 <?php
@@ -258,7 +258,7 @@ include("head.inc");
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_gre.php'" />
                       <?php if (isset($id)): ?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
                     </td>
                   </tr>

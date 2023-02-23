@@ -180,7 +180,7 @@ if (isset($input_errors) && count($input_errors) > 0) {
                         <select name="passthrough_networks[]" multiple="multiple" class="tokenize" data-width="348px" data-allownew="true" data-nbdropdownelements="10">
 <?php
                         foreach ($pconfig['passthrough_networks'] as $ptnet):?>
-                          <option value="<?=$ptnet;?>" selected="selected"><?=$ptnet;?></option>
+                          <option value="<?=strval($ptnet);?>" selected="selected"><?=$ptnet;?></option>
 <?php                   endforeach; ?>
                         </select>
                         <div class="hidden" data-for="help_for_passthrough_networks">

@@ -142,7 +142,7 @@ include("head.inc");
                         <select name="ttl" class="selectpicker" id="ttl">
 <?php
                         for ($i = 1; $i <= MAX_TTL; $i++): ?>
-                          <option value="<?=$i;?>" <?= $i == $pconfig['ttl'] ? "selected=\"selected\"" : "" ;?>>
+                          <option value="<?=strval($i);?>" <?= $i == $pconfig['ttl'] ? "selected=\"selected\"" : "" ;?>>
                             <?=$i;?>
                           </option>
 <?php

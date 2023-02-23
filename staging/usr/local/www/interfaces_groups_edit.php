@@ -187,7 +187,7 @@ legacy_html_escape_form_data($pconfig);
                               continue;
                           }
                           ?>
-                          <option value="<?=$ifn;?>" <?=in_array($ifn, $pconfig['members']) ? "selected=\"selected\"" : "";?>>
+                          <option value="<?=strval($ifn);?>" <?=in_array($ifn, $pconfig['members']) ? "selected=\"selected\"" : "";?>>
                             <?= htmlspecialchars($ifdetail['descr']) ?>
                           </option>
 <?php
@@ -204,7 +204,7 @@ legacy_html_escape_form_data($pconfig);
                       <input name="submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_groups.php'" />
                       <?php if (isset($id)): ?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
                     </td>
                   </tr>

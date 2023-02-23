@@ -262,7 +262,7 @@ include("head.inc");
                         <select name="interface" class="selectpicker" data-width="auto" data-live-search="true">
   <?php
                           foreach (legacy_config_get_interfaces(array("enable" => true)) as $iface => $ifdetail): ?>
-                          <option value="<?=$iface;?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : ""; ?>>
+                          <option value="<?=strval($iface);?>" <?= $iface == $pconfig['interface'] ? "selected=\"selected\"" : ""; ?>>
                             <?=htmlspecialchars($ifdetail['descr']);?>
                           </option>
                           <?php endforeach; ?>
@@ -323,13 +323,13 @@ include("head.inc");
                                 <optgroup label="<?=gettext("Aliases");?>" data-type="nat">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
-                                  <option value="<?=$alias['name'];?>" <?=$alias['name'] == $pconfig['src'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
+                                  <option value="<?=strval($alias['name']);?>" <?=$alias['name'] == $pconfig['src'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
   <?php                          endforeach; ?>
                                 </optgroup>
                                 <optgroup label="<?=gettext("Networks");?>" data-type="nat">
   <?php                          foreach (get_specialnets(true) as $ifent => $ifdesc):
   ?>
-                                  <option value="<?=$ifent;?>" <?= $pconfig['src'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
+                                  <option value="<?=strval($ifent);?>" <?= $pconfig['src'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
   <?php                            endforeach; ?>
                               </optgroup>
                             </select>
@@ -342,7 +342,7 @@ include("head.inc");
                             <input type="text" for="src" value="<?=strval($pconfig['src']);?>" aria-label="<?=gettext("Source address");?>"/>
                             <select name="srcmask" class="selectpicker input-group-btn" data-size="5" id="srcmask"  data-width="auto" for="src" >
                             <?php for ($i = 32; $i > 0; $i--): ?>
-                              <option value="<?=$i;?>" <?= $i == $pconfig['srcmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
+                              <option value="<?=strval($i);?>" <?= $i == $pconfig['srcmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
                             <?php endfor; ?>
                             </select>
                           </div>
@@ -374,13 +374,13 @@ include("head.inc");
                               <optgroup label="<?=gettext("Aliases");?>">
   <?php                        foreach (legacy_list_aliases("network") as $alias):
   ?>
-                                <option value="<?=$alias['name'];?>" <?=$alias['name'] == $pconfig['dst'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
+                                <option value="<?=strval($alias['name']);?>" <?=$alias['name'] == $pconfig['dst'] ? "selected=\"selected\"" : "";?>><?=htmlspecialchars($alias['name']);?></option>
   <?php                          endforeach; ?>
                               </optgroup>
                               <optgroup label="<?=gettext("Networks");?>">
   <?php                          foreach (get_specialnets(true) as $ifent => $ifdesc):
   ?>
-                                <option value="<?=$ifent;?>" <?= $pconfig['dst'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
+                                <option value="<?=strval($ifent);?>" <?= $pconfig['dst'] == $ifent ? "selected=\"selected\"" : ""; ?>><?=$ifdesc;?></option>
   <?php                            endforeach; ?>
                               </optgroup>
                             </select>
@@ -393,7 +393,7 @@ include("head.inc");
                             <input type="text" for="dst" value="<?= !is_specialnet($pconfig['dst']) ? $pconfig['dst'] : "";?>" aria-label="<?=gettext("Destination address");?>"/>
                             <select name="dstmask" class="selectpicker input-group-btn" data-size="5" id="dstmask"  data-width="auto" for="dst" >
                             <?php for ($i = 32; $i > 0; $i--): ?>
-                              <option value="<?=$i;?>" <?= $i == $pconfig['dstmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
+                              <option value="<?=strval($i);?>" <?= $i == $pconfig['dstmask'] ? "selected=\"selected\"" : ""; ?>><?=$i;?></option>
                             <?php endfor; ?>
                             </select>
                           </div>
@@ -430,7 +430,7 @@ include("head.inc");
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/firewall_nat_1to1.php'" />
                       <?php if (isset($id)): ?>
-                      <input name="id" type="hidden" value="<?=$id;?>" />
+                      <input name="id" type="hidden" value="<?=strval($id);?>" />
                       <?php endif; ?>
                     </td>
                   </tr>

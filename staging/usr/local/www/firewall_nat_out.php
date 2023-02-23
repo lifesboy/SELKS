@@ -356,7 +356,7 @@ include("head.inc");
 ?>
                   <tr <?=$mode == "disabled" || $mode == "automatic" || isset($natent['disabled'])?"class=\"text-muted\"":"";?> ondblclick="document.location='firewall_nat_out_edit.php?id=<?=$i;?>';">
                     <td>
-                      <input class="rule_select" type="checkbox" name="rule[]" value="<?=$i;?>"  />
+                      <input class="rule_select" type="checkbox" name="rule[]" value="<?=strval($i);?>"  />
                     </td>
                     <td>
 <?php

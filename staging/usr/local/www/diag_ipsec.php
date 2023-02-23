@@ -157,7 +157,7 @@ include("head.inc");
                             <?php if (count($ipsec_conn['sas'])):
 ?>
                             <form method="post">
-                              <input type="hidden" value="<?=$ipsec_conn_key;?>" name="connid"/>
+                              <input type="hidden" value="<?=strval($ipsec_conn_key);?>" name="connid"/>
                               <button type="submit" class="btn btn-xs" name="action" value="disconnect">
                                 <i class="fa fa-remove fa-fw"></i>
                               </button>
@@ -171,7 +171,7 @@ include("head.inc");
                             <?php else:
 ?>
                             <form method="post">
-                              <input type="hidden" value="<?=$ipsec_conn_key;?>" name="connid"/>
+                              <input type="hidden" value="<?=strval($ipsec_conn_key);?>" name="connid"/>
                               <button type="submit" class="btn btn-xs" name="action" value="connect">
                                 <i class="fa fa-play fa-fw text-warning"></i>
                               </button>

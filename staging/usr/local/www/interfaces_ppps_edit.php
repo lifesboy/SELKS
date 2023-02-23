@@ -422,7 +422,7 @@ include("head.inc");
 <?php
                           $types = array("ppp" => "PPP", "pppoe" => "PPPoE", "pptp" => "PPTP",  "l2tp" => "L2TP");
                           foreach ($types as $key => $opt):?>
-                            <option value="<?=$key;?>" <?=$key == $pconfig['type'] ? "selected=\"selected\"" : "";?>><?=$opt;?></option>
+                            <option value="<?=strval($key);?>" <?=$key == $pconfig['type'] ? "selected=\"selected\"" : "";?>><?=$opt;?></option>
 <?php
                           endforeach;?>
                           </select>
@@ -434,7 +434,7 @@ include("head.inc");
                           <select class="selectpicker" multiple="multiple" size="3" name="ports[]" id="ports" >
 <?php
                           foreach (legacy_serial_devices() as $port => $port_info):?>
-                            <option data-type="serial" value="<?=$port;?>" <?=in_array($port, $pconfig['ports']) ? "selected=\"selected\"" : "";?> >
+                            <option data-type="serial" value="<?=strval($port);?>" <?=in_array($port, $pconfig['ports']) ? "selected=\"selected\"" : "";?> >
                               <?=$port;?>  <?=!empty($port_info['descr']) ?  "(".$port_info['descr'].")" : "" ;?>
                             </option>
 <?php
@@ -450,7 +450,7 @@ include("head.inc");
                               }
                           }
                           foreach ($portlist as $intf_key => $intf_value):?>
-                          <option data-type="interface" value="<?=$intf_key;?>" <?=in_array($intf_key, $pconfig['ports']) ? "selected=\"selected\"" : "";?> >
+                          <option data-type="interface" value="<?=strval($intf_key);?>" <?=in_array($intf_key, $pconfig['ports']) ? "selected=\"selected\"" : "";?> >
                             <?=$intf_key;?> <?=isset($intf_value['mac']) ? '('.$intf_value['mac'].')' : "";?>
                           </option>
 <?php
@@ -563,7 +563,7 @@ include("head.inc");
                           /
                           <select name="subnet[]" class="intf_select_<?=$intf_idx;?>">
                           <?php for ($i = 31; $i > 0; $i--): ?>
-                            <option value="<?=$i;?>" <?= isset($pconfig['subnet'][$intf_idx]) && $i == $pconfig['subnet'][$intf_idx] ? "selected=\"selected\"" : "";?>>
+                            <option value="<?=strval($i);?>" <?= isset($pconfig['subnet'][$intf_idx]) && $i == $pconfig['subnet'][$intf_idx] ? "selected=\"selected\"" : "";?>>
                               <?=$i;?>
                             </option>
                           <?php endfor; ?>
@@ -809,7 +809,7 @@ include("head.inc");
                           <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_ppps.php'" />
                           <input name="ptpid" type="hidden" value="<?=strval($pconfig['ptpid']);?>" />
                           <?php if (isset($id)): ?>
-                            <input name="id" type="hidden" value="<?=$id;?>" />
+                            <input name="id" type="hidden" value="<?=strval($id);?>" />
                           <?php endif; ?>
                         </td>
                       </tr>
