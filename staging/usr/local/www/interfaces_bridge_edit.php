@@ -341,7 +341,7 @@ $(document).ready(function() {
 <?php
                         foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?= $ifn ?>" <?= !empty($pconfig['stp']) && in_array($ifn, $pconfig['stp']) ? 'selected="selected"' : '' ?> >
-                              <?=$ifdescr;?>
+                              <?=strval($ifdescr);?>
                           </option>
 <?php
                         endforeach;?>
@@ -413,7 +413,7 @@ $(document).ready(function() {
 <?php
                         foreach ($ifacelist as $ifn => $ifdescr):?>
                           <tr>
-                            <td><?=$ifdescr;?></td>
+                            <td><?=strval($ifdescr);?></td>
                             <td>
                                 <input name="ifpriority_<?=$ifn;?>" type="text" value="<?=isset($pconfig['ifpriority_'.$ifn]) ? $pconfig['ifpriority_'.$ifn] : "";?>" />
                             </td>
@@ -434,7 +434,7 @@ $(document).ready(function() {
 <?php
                         foreach ($ifacelist as $ifn => $ifdescr):?>
                           <tr>
-                            <td><?=$ifdescr;?></td>
+                            <td><?=strval($ifdescr);?></td>
                             <td>
                                 <input name="ifpathcost_<?=$ifn;?>" type="text" value="<?=isset($pconfig['ifpathcost_'.$ifn]) ? $pconfig['ifpathcost_'.$ifn] : "";?>" />
                             </td>
@@ -491,7 +491,7 @@ $(document).ready(function() {
 <?php
                           foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?=strval($ifn);?>" <?=$ifn == $pconfig['span'] ? "selected=\"selected\"" : "";?>>
-                            <?=$ifdescr;?>
+                            <?=strval($ifdescr);?>
                           </option>
 <?php
                           endforeach;?>
@@ -514,7 +514,7 @@ $(document).ready(function() {
 <?php
                           foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?=strval($ifn);?>" <?=!empty($pconfig['edge']) && in_array($ifn, $pconfig['edge']) ? "selected=\"selected\"" : "";?>>
-                            <?=$ifdescr;?>
+                            <?=strval($ifdescr);?>
                           </option>
 <?php
                           endforeach;?>
@@ -533,7 +533,7 @@ $(document).ready(function() {
 <?php
                           foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?=strval($ifn);?>" <?=!empty($pconfig['autoedge']) && in_array($ifn, $pconfig['autoedge']) ? "selected=\"selected\"" : "";?>>
-                            <?=$ifdescr;?>
+                            <?=strval($ifdescr);?>
                           </option>
 <?php
                           endforeach;?>
@@ -553,7 +553,7 @@ $(document).ready(function() {
 <?php
                           foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?=strval($ifn);?>" <?=!empty($pconfig['ptp']) && in_array($ifn, $pconfig['ptp']) ? 'selected="selected"' : "";?>>
-                            <?=$ifdescr;?>
+                            <?=strval($ifdescr);?>
                           </option>
 <?php
                           endforeach;?>
@@ -572,7 +572,7 @@ $(document).ready(function() {
 <?php
                           foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?=strval($ifn);?>" <?=!empty($pconfig['autoptp']) && in_array($ifn, $pconfig['autoptp']) ? 'selected="selected"' : "";?>>
-                            <?=$ifdescr;?>
+                            <?=strval($ifdescr);?>
                           </option>
 <?php
                           endforeach;?>
@@ -593,7 +593,7 @@ $(document).ready(function() {
 <?php
                           foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?=strval($ifn);?>" <?=!empty($pconfig['static']) && in_array($ifn, $pconfig['static']) ? "selected=\"selected\"" : "";?>>
-                            <?=$ifdescr;?>
+                            <?=strval($ifdescr);?>
                           </option>
 <?php
                           endforeach;?>
@@ -613,7 +613,7 @@ $(document).ready(function() {
 <?php
                           foreach ($ifacelist as $ifn => $ifdescr):?>
                           <option value="<?=strval($ifn);?>" <?=!empty($pconfig['private']) && in_array($ifn, $pconfig['private']) ? "selected=\"selected\"" : "";?>>
-                            <?=$ifdescr;?>
+                            <?=strval($ifdescr);?>
                           </option>
 <?php
                           endforeach;?>
