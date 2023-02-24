@@ -812,7 +812,7 @@ $( document ).ready(function() {
 <?php
               endif; ?>
               <div id="autotls_opts">
-                  <textarea name="tls" cols="65" rows="7" class="formpre"><?=isset($pconfig['tls'])?$pconfig['tls']:"";?></textarea>
+                  <textarea name="tls" cols="65" rows="7" class="formpre"><?=isset($pconfig['tls']) ? strval($pconfig['tls']) : "";?></textarea>
                     <p class="text-muted"><em><small><?=gettext("Paste your shared key here"); ?>.</small></em></p>
               </div>
             </td>
@@ -891,7 +891,7 @@ $( document ).ready(function() {
 <?php
               endif; ?>
               <div id="autokey_opts">
-                <textarea name="shared_key" cols="65" rows="7" class="formpre"><?=isset($pconfig['shared_key']) ? $pconfig['shared_key'] : "";?></textarea>
+                <textarea name="shared_key" cols="65" rows="7" class="formpre"><?=isset($pconfig['shared_key']) ? strval($pconfig['shared_key']) : "";?></textarea>
                 <em><small><?=gettext("Paste your shared key here"); ?>.</small></em>
               </div>
             </td>

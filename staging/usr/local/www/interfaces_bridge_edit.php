@@ -415,7 +415,7 @@ $(document).ready(function() {
                           <tr>
                             <td><?=strval($ifdescr);?></td>
                             <td>
-                                <input name="ifpriority_<?=$ifn;?>" type="text" value="<?=isset($pconfig['ifpriority_'.$ifn]) ? $pconfig['ifpriority_'.$ifn] : "";?>" />
+                                <input name="ifpriority_<?=$ifn;?>" type="text" value="<?=isset($pconfig['ifpriority_'.$ifn]) ? strval($pconfig['ifpriority_'.$ifn]) : "";?>" />
                             </td>
                           </tr>
 <?php

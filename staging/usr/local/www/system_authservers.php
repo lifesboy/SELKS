@@ -544,7 +544,7 @@ endif; ?>
 <?php
 else :
 ?>
-                    <strong><?= !empty($authCNFOptions[$pconfig['type']]['description']) ? $authCNFOptions[$pconfig['type']]['description'] : $pconfig['name'] ?></strong>
+                    <strong><?= !empty($authCNFOptions[$pconfig['type']]['description']) ? strval($authCNFOptions[$pconfig['type']]['description']) : strval($pconfig['name']) ?></strong>
                     <input name='type' type='hidden' id='type' value="<?=strval($pconfig['type']);?>"/>
 <?php
 endif; ?>

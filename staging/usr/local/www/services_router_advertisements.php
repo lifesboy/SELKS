@@ -438,7 +438,7 @@ include("head.inc");
                   <tr style="display:none;" class="advanced_opt">
                     <td><i class="fa fa-info-circle text-muted"></i> <?=$advopt;?></td>
                     <td>
-                      <input name="<?=$advopt;?>" type="text" id="<?=$advopt;?>" value="<?=!empty($pconfig[$advopt]) ? $pconfig[$advopt] :"" ;?>" />
+                      <input name="<?=$advopt;?>" type="text" id="<?=$advopt;?>" value="<?=!empty($pconfig[$advopt]) ? strval($pconfig[$advopt]) :"" ;?>" />
                     </td>
                   </tr>
 <?php

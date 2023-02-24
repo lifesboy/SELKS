@@ -397,7 +397,7 @@ include("head.inc");
               <tr>
                 <td></td>
                 <td>
-                  <input placeholder="<?=gettext("Source tracking timeout");?>" title="<?=gettext("Source tracking timeout");?>" name="srctrack" id="srctrack" type="text" value="<?= !empty($pconfig['srctrack']) ? $pconfig['srctrack'] : "";?>"/>
+                  <input placeholder="<?=gettext("Source tracking timeout");?>" title="<?=gettext("Source tracking timeout");?>" name="srctrack" id="srctrack" type="text" value="<?= !empty($pconfig['srctrack']) ? strval($pconfig['srctrack']) : "";?>"/>
                   <div class="hidden" data-for="help_for_lb_use_sticky">
                     <?=gettext("Set the source tracking timeout for sticky connections in seconds. " .
                                         "By default this is 0, so source tracking is removed as soon as the state expires. " .

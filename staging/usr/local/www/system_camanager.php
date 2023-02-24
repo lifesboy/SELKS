@@ -569,7 +569,7 @@ $main_buttons = array(
                   <?=gettext("(optional)");?>
                 </td>
                 <td style="width:78%">
-                  <textarea name="key" id="key" cols="65" rows="7"><?= isset($pconfig['key']) ? $pconfig['key'] : "";?></textarea>
+                  <textarea name="key" id="key" cols="65" rows="7"><?= isset($pconfig['key']) ? strval($pconfig['key']) : "";?></textarea>
                   <div class="hidden" data-for="help_for_key">
                     <?=gettext("Paste the private key for the above certificate here. This is optional in most cases, but required if you need to generate a Certificate Revocation List (CRL).");?>
                   </div>

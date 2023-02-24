@@ -1728,7 +1728,7 @@ include("head.inc");
           print_input_errors($input_errors);
       }
       if (is_subsystem_dirty('interfaces')) {
-          print_info_box_apply(sprintf(gettext("The %s configuration has been changed."),$pconfig['descr'])."<br/>".gettext("You must apply the changes in order for them to take effect.")."<br/>".gettext("Don't forget to adjust the DHCP Server range if needed after applying."));
+          print_info_box_apply(sprintf(gettext("The %s configuration has been changed."),strval($pconfig['descr']))."<br/>".gettext("You must apply the changes in order for them to take effect.")."<br/>".gettext("Don't forget to adjust the DHCP Server range if needed after applying."));
       }
       if (isset($savemsg)) {
         print_info_box($savemsg);

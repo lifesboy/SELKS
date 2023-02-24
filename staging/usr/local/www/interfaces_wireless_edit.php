@@ -180,7 +180,7 @@ include("head.inc");
                 <tr>
                   <td></td>
                   <td>
-                    <input type="hidden" name="mode" value="<?=isset($pconfig['mode']) ? $pconfig['mode'] : 'bss' ?>" />
+                    <input type="hidden" name="mode" value="<?=isset($pconfig['mode']) ? strval($pconfig['mode']) : 'bss' ?>" />
                     <input type="hidden" name="cloneif" value="<?=strval($pconfig['cloneif']); ?>" />
                     <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                     <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_wireless.php'" />

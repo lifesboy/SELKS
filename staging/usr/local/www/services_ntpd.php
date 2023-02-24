@@ -399,7 +399,7 @@ include("head.inc");
                         <?=gettext("Normally this is only useful if this server is a stratum 1 time server.");?>
                         <br /><br />
                         <?=gettext("Enter Leap second configuration as text:");?><br />
-                        <textarea name="leapsec" cols="65" rows="7"><?=$pconfig['leapsec'];?></textarea><br />
+                        <textarea name="leapsec" cols="65" rows="7"><?=strval($pconfig['leapsec']);?></textarea><br />
                         <strong><?=gettext("Or");?></strong>, <?=gettext("select a file to upload:");?>
                         <input type="file" name="leapfile"/>
                       </div>

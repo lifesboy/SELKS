@@ -148,7 +148,7 @@ $( document ).ready(function() {
             // apply search filter
             if (isset($config['widgets']['monitsearch'])) {
                echo '$("#grid-monit").bootgrid("search", "' .
-                        $config['widgets']['monitsearch'] . '");';
+                        strval($config['widgets']['monitsearch']) . '");';
             }
          ?>
          setTimeout(monitStatusPoll, pollInterval);
@@ -191,7 +191,7 @@ $( document ).ready(function() {
                   </div>
                </td>
                <td>
-                  <input type="text" class="form-control" size="25" name="monitsearch" id="monitsearch" value="<?= $config['widgets']['monitsearch'] ?>" />
+                  <input type="text" class="form-control" size="25" name="monitsearch" id="monitsearch" value="<?= strval($config['widgets']['monitsearch']) ?>" />
                </td>
             </tr>
             <tr>
