@@ -84,7 +84,7 @@ function provider_plan_data($country,$provider,$connection) {
                 }
             }
             if (!empty($conndata)) {
-                echo "<apn>" . $connection . "</apn>\n";
+                echo "<apn>" . strval($connection) . "</apn>\n";
                 echo "<username>" . (string)$conndata->username . "</username>\n";
                 echo "<password>" . (string)$conndata->password . "</password>\n";
                 foreach($conndata->dns as $dns) {
