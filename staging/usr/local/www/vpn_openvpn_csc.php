@@ -658,7 +658,7 @@ if ($act!="new" && $act!="edit") {
                   <tr>
                     <td><a id="help_for_custom_options" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Advanced"); ?></td>
                     <td>
-                      <textarea rows="6" cols="70" name="custom_options" id="custom_options"><?=$pconfig['custom_options'];?></textarea>
+                      <textarea rows="6" cols="70" name="custom_options" id="custom_options"><?=strval($pconfig['custom_options']);?></textarea>
                       <?=gettext("This option will be removed in the future due to being insecure by nature. In the mean time only full administrators are allowed to change this setting.");?>
                       <div class="hidden" data-for="help_for_custom_options">
                         <?=gettext("Enter any additional options you would like to add for this client specific override, separated by a semicolon"); ?><br />

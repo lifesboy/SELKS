@@ -389,7 +389,7 @@ $( document ).ready(function() {
                       <button class="btn btn-default btn-xs" id="show_advanced_dns" value="yes"><?= gettext('Show advanced option') ?></button>
                     </div>
                     <div id="showadv" <?= empty($pconfig['custom_options']) ? "style='display:none'" : "" ?>>
-                      <textarea rows="6" cols="78" name="custom_options" id="custom_options"><?=$pconfig['custom_options'];?></textarea>
+                      <textarea rows="6" cols="78" name="custom_options" id="custom_options"><?=strval($pconfig['custom_options']);?></textarea>
                       <?=gettext("This option will be removed in the future due to being insecure by nature. In the mean time only full administrators are allowed to change this setting.");?>
                     </div>
                     <div class="hidden" data-for="help_for_advanced">
