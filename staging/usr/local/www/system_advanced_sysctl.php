@@ -237,7 +237,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Tunable"); ?></td>
                   <td>
-                    <input type="text" name="tunable" value="<?=$pconfig['tunable']; ?>" />
+                    <input type="text" name="tunable" value="<?=strval($pconfig['tunable']); ?>" />
                   </td>
                 </tr>
                 <tr>
@@ -249,7 +249,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Value"); ?></td>
                   <td>
-                    <input name="value" type="text" value="<?=$pconfig['value']; ?>" />
+                    <input name="value" type="text" value="<?=strval($pconfig['value']); ?>" />
                   </td>
                 </tr>
                 <tr>

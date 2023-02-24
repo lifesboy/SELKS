@@ -636,7 +636,7 @@ $(document).ready(function() {
                     <tr>
                       <td style="width:22%">&nbsp;</td>
                       <td style="width:78%">
-                        <input type="hidden" name="bridgeif" value="<?=$pconfig['bridgeif']; ?>" />
+                        <input type="hidden" name="bridgeif" value="<?=strval($pconfig['bridgeif']); ?>" />
                         <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                         <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_bridge.php'" />
 <?php if (isset($id)): ?>

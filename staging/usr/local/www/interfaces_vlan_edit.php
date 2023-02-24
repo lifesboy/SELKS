@@ -228,7 +228,7 @@ legacy_html_escape_form_data($pconfig);
                   <tr>
                     <td style="width:22%">&nbsp;</td>
                     <td style="width:78%">
-                      <input type="hidden" name="vlanif" value="<?=$pconfig['vlanif']; ?>" />
+                      <input type="hidden" name="vlanif" value="<?=strval($pconfig['vlanif']); ?>" />
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_vlan.php'" />
                       <?php if (isset($id)): ?>

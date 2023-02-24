@@ -300,7 +300,7 @@ legacy_html_escape_form_data($pconfig);
                   <tr>
                     <td style="width:22%">&nbsp;</td>
                     <td style="width:78%">
-                      <input type="hidden" name="laggif" value="<?=$pconfig['laggif']; ?>" />
+                      <input type="hidden" name="laggif" value="<?=strval($pconfig['laggif']); ?>" />
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save')); ?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_lagg.php'" />
                       <?php if (isset($id)): ?>

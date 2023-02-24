@@ -185,7 +185,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_pfsyncpeerip" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Synchronize Peer IP') ?></td>
                   <td>
-                    <input name="pfsyncpeerip" type="text" placeholder="224.0.0.240" value="<?=$pconfig['pfsyncpeerip']; ?>" />
+                    <input name="pfsyncpeerip" type="text" placeholder="224.0.0.240" value="<?=strval($pconfig['pfsyncpeerip']); ?>" />
                     <div class="hidden" data-for="help_for_pfsyncpeerip">
                       <?=gettext('Setting this option will force pfsync to synchronize its state table to this IP address. The default is directed multicast.') ?>
                     </div>
@@ -206,7 +206,7 @@ include("head.inc");
                 <tr>
                   <td style="width:22%"><a id="help_for_synchronizetoip" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext('Synchronize Config to IP') ?></td>
                   <td>
-                    <input name="synchronizetoip" type="text" value="<?=$pconfig['synchronizetoip']; ?>" />
+                    <input name="synchronizetoip" type="text" value="<?=strval($pconfig['synchronizetoip']); ?>" />
                     <div class="hidden" data-for="help_for_synchronizetoip">
                       <?=gettext('Enter the IP address of the firewall to which the selected configuration sections should be synchronized.') ?><br />
                       <div class="well">
@@ -233,7 +233,7 @@ include("head.inc");
                 <tr>
                   <td><a id="help_for_password" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Remote System Password') ?></td>
                   <td>
-                    <input  type="password" name="password" value="<?=$pconfig['password']; ?>" />
+                    <input  type="password" name="password" value="<?=strval($pconfig['password']); ?>" />
                     <div class="hidden" data-for="help_for_password">
                       <?=gettext('Enter the web GUI password of the system entered above for synchronizing your configuration.') ?><br />
                       <div class="well well-sm">
