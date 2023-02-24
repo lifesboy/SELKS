@@ -418,7 +418,7 @@ include("head.inc");
                   <tr class="opt_field type_custom">
                     <td><a id="help_for_resultmatch" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?= gettext("Result Match") ?></td>
                     <td>
-                      <textarea name="resultmatch" class="formpre" id="resultmatch" cols="65" rows="7"><?= $pconfig['resultmatch'] ?></textarea>
+                      <textarea name="resultmatch" class="formpre" id="resultmatch" cols="65" rows="7"><?= strval($pconfig['resultmatch']) ?></textarea>
                       <div class="hidden" data-for="help_for_resultmatch">
                         <?= gettext("This field is only used by Custom Dynamic DNS Entries.") ?>
                         <br />

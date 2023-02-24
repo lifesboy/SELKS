@@ -243,7 +243,7 @@ $( document ).ready(function() {
                 <tr>
                   <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Description"); ?></td>
                   <td>
-                    <textarea name="descr"><?=$pconfig['descr']; ?></textarea>
+                    <textarea name="descr"><?=strval($pconfig['descr']); ?></textarea>
                   </td>
                 </tr>
                 <tr>

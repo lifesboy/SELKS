@@ -231,7 +231,7 @@ $( document ).ready(function() {
                 <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Defined by");?></td>
                 <td>
                   <strong><?=strtoupper($pconfig['scope']);?></strong>
-                  <input name="scope" type="hidden" value="<?=$pconfig['scope']?>"/>
+                  <input name="scope" type="hidden" value="<?=strval($pconfig['scope'])?>"/>
                 </td>
               </tr>
               <tr>

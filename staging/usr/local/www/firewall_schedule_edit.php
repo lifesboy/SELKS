@@ -806,7 +806,7 @@ $( function() { $('#iform td').css({ 'background-color' : '' }); })
 <?php
                             if (is_schedule_inuse($pconfig['name']) && isset($id)): ?>
                           <input name="name" type="hidden" id="name" value="<?=htmlspecialchars($pconfig['name']);?>" />
-                          <?=$pconfig['name']; ?>
+                          <?=strval($pconfig['name']); ?>
                           <p>
                             <?=gettext("This schedule is in use so the name may not be modified!");?>
                           </p>
