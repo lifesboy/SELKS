@@ -567,10 +567,10 @@ include("head.inc");
                     <tbody>
                       <tr>
                         <td>
-                          <input name="adaptivestart" type="text" value="<?=$pconfig['adaptivestart']; ?>" />
+                          <input name="adaptivestart" type="text" value="<?=strval($pconfig['adaptivestart']); ?>" />
                         </td>
                         <td>
-                          <input name="adaptiveend" type="text" value="<?=$pconfig['adaptiveend']; ?>" />
+                          <input name="adaptiveend" type="text" value="<?=strval($pconfig['adaptiveend']); ?>" />
                         </td>
                       </tr>
                     </tbody>
@@ -662,7 +662,7 @@ include("head.inc");
               <tr>
                 <td><a id="help_for_aliasesresolveinterval" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Aliases Resolve Interval");?></td>
                 <td>
-                  <input name="aliasesresolveinterval" type="text" value="<?=$pconfig['aliasesresolveinterval']; ?>" />
+                  <input name="aliasesresolveinterval" type="text" value="<?=strval($pconfig['aliasesresolveinterval']); ?>" />
                   <div class="hidden" data-for="help_for_aliasesresolveinterval">
                     <?=gettext("Interval, in seconds, that will be used to resolve hostnames configured on aliases.");?>
                     <br />
