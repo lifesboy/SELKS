@@ -1599,7 +1599,7 @@ include("head.inc");
           var custom_map = {'DHCP' : {}, 'OPNsense' : {}, 'SavedCfg' : {} , 'Clear': {} };
           custom_map['DHCP'] = ["60", "300", "0", "10", "120", "10"];
           custom_map['OPNsense'] = ["60", "15", "0", "", "", "1"];
-          custom_map['SavedCfg'] = ["<?=$pconfig['adv_dhcp_pt_timeout'];?>", "<?=$pconfig['adv_dhcp_pt_retry'];?>", "<?=$pconfig['adv_dhcp_pt_select_timeout'];?>", "<?=$pconfig['adv_dhcp_pt_reboot'];?>", "<?=$pconfig['adv_dhcp_pt_backoff_cutoff'];?>", "<?=$pconfig['adv_dhcp_pt_initial_interval'];?>"];
+          custom_map['SavedCfg'] = ["<?=strval($pconfig['adv_dhcp_pt_timeout']);?>", "<?=strval($pconfig['adv_dhcp_pt_retry']);?>", "<?=strval($pconfig['adv_dhcp_pt_select_timeout']);?>", "<?=strval($pconfig['adv_dhcp_pt_reboot']);?>", "<?=strval($pconfig['adv_dhcp_pt_backoff_cutoff']);?>", "<?=strval($pconfig['adv_dhcp_pt_initial_interval']);?>"];
           custom_map['Clear'] = ["", "", "", "", "", ""];
           $("#adv_dhcp_pt_timeout").val(custom_map[$(this).val()][0]);
           $("#adv_dhcp_pt_retry").val(custom_map[$(this).val()][1]);
@@ -1767,7 +1767,7 @@ include("head.inc");
                       <tr>
                         <td style="width:22%"><a id="help_for_ifname" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Device"); ?></td>
                         <td style="width:78%">
-                          <strong><?=$pconfig['if'];?></strong>
+                          <strong><?=strval($pconfig['if']);?></strong>
                           <div class="hidden" data-for="help_for_ifname">
                             <?= gettext("The real device name of this interface."); ?>
                           </div>
@@ -2372,7 +2372,7 @@ include("head.inc");
                           <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Advanced and MLPPP"); ?></td>
                           <?php if (isset($pconfig['pppid'])): ?>
                             <td>
-                            <?= sprintf(gettext('%sClick here%s for additional PPPoE configuration options. Save first if you made changes.'),'<a href="/interfaces_ppps_edit.php?id='.$pconfig['pppid'].'" class="navlnk">','</a>') ?>
+                            <?= sprintf(gettext('%sClick here%s for additional PPPoE configuration options. Save first if you made changes.'),'<a href="/interfaces_ppps_edit.php?id='.strval($pconfig['pppid']).'" class="navlnk">','</a>') ?>
                             </td>
                           <?php else: ?>
                             <td>
@@ -2453,7 +2453,7 @@ include("head.inc");
                           <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Advanced"); ?></td>
                             <td>
                           <?php if (!empty($pconfig['pppid'])): ?>
-                            <?= sprintf(gettext("%sClick here%s for additional PPTP and L2TP configuration options. Save first if you made changes."),'<a href="/interfaces_ppps_edit.php?id='.$pconfig['pppid'].'" class="navlnk">','</a>') ?>
+                            <?= sprintf(gettext("%sClick here%s for additional PPTP and L2TP configuration options. Save first if you made changes."),'<a href="/interfaces_ppps_edit.php?id='.strval($pconfig['pppid']).'" class="navlnk">','</a>') ?>
                           <?php else: ?>
                             <?= sprintf(gettext('%sClick here%s for advanced PPTP and L2TP configuration options.'),'<a href="/interfaces_ppps_edit.php" class="navlnk">','</a>') ?>
                           <?php endif; ?>

@@ -254,7 +254,7 @@ include("head.inc");
                   <tr>
                     <td style="width:22%">&nbsp;</td>
                     <td style="width:78%">
-                      <input type="hidden" name="greif" value="<?=$pconfig['greif']; ?>" />
+                      <input type="hidden" name="greif" value="<?=strval($pconfig['greif']); ?>" />
                       <input name="Submit" type="submit" class="btn btn-primary" value="<?=html_safe(gettext('Save'));?>" />
                       <input type="button" class="btn btn-default" value="<?=html_safe(gettext('Cancel'));?>" onclick="window.location.href='/interfaces_gre.php'" />
                       <?php if (isset($id)): ?>
