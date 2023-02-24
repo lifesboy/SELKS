@@ -413,7 +413,7 @@ include("head.inc");
                       </div>
                       <div id="showadv" <?=empty($pconfig['custom_options']) ? "style='display:none'" : ""; ?>>
                         <strong><?=gettext("Advanced");?><br /></strong>
-                        <textarea rows="6" cols="78" name="custom_options" id="custom_options"><?=$pconfig['custom_options'];?></textarea><br />
+                        <textarea rows="6" cols="78" name="custom_options" id="custom_options"><?=strval($pconfig['custom_options']);?></textarea><br />
                         <?=gettext("This option will be removed in the future due to being insecure by nature. In the mean time only full administrators are allowed to change this setting.");?><br/>
                         <?= gettext('Enter any additional options you would like to add to the network time configuration here, separated by a space or newline.') ?>
                       </div>
