@@ -953,7 +953,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Authorized keys");?></td>
                     <td>
-                      <textarea name="authorizedkeys" id="authorizedkeys" style="max-width: inherit;" class="form-control" cols="65" rows="1" placeholder="<?=gettext("Paste an authorized keys file here.");?>" wrap='off'><?=$pconfig['authorizedkeys'];?></textarea>
+                      <textarea name="authorizedkeys" id="authorizedkeys" style="max-width: inherit;" class="form-control" cols="65" rows="1" placeholder="<?=gettext("Paste an authorized keys file here.");?>" wrap='off'><?=strval($pconfig['authorizedkeys']);?></textarea>
                     </td>
                   </tr>
                   <tr id="ipsecpskrow">
