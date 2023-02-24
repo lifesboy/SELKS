@@ -845,7 +845,7 @@ include("head.inc");
                     <tr>
                       <td><a id="help_for_interface_mtu" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Interface MTU");?></td>
                       <td>
-                        <input name="interface_mtu"  type="text" value="<?=$pconfig['interface_mtu']?>" />
+                        <input name="interface_mtu"  type="text" value="<?=strval($pconfig['interface_mtu'])?>" />
                         <div class="hidden" data-for="help_for_interface_mtu">
                           <?=gettext('This option specifies the MTU to use on this interface. The minimum legal value for the MTU is 68.');?>
                         </div>

@@ -312,7 +312,7 @@ include("head.inc");
                   <tr>
                     <td><a id="help_for_orphan" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext('Orphan mode') ?></td>
                     <td>
-                      <input name="orphan" type="text" value="<?=$pconfig['orphan']?>" />
+                      <input name="orphan" type="text" value="<?=strval($pconfig['orphan'])?>" />
                       <div class="hidden" data-for="help_for_orphan">
                         <?=gettext("(0-15)");?><br />
                         <?=gettext("Orphan mode allows the system clock to be used when no other clocks are available. The number here specifies the stratum reported during orphan mode and should normally be set to a number high enough to insure that any other servers available to clients are preferred over this server. (default: 12)."); ?>
