@@ -261,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $fin = @fopen($leasesfile, "r");
         $fout = @fopen($leasesfile.".new", "w");
         if ($fin) {
-            $ip_to_remove = $_POST['deleteip'];
+            $ip_to_remove = strval($_POST['deleteip']);
             $lease = '';
             while (($line = fgets($fin, 4096)) !== false) {
                 $fields = explode(' ', $line);

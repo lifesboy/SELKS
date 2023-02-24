@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $a_phase1 = &config_read_array('ipsec', 'phase1');
     if (isset($_POST['p1index']) && is_numericint($_POST['p1index'])) {
-        $p1index = $_POST['p1index'];
+        $p1index = strval($_POST['p1index']);
     }
     $input_errors = array();
     $pconfig = $_POST;

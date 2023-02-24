@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $input_errors = array();
     $pconfig = $_POST;
     if (isset($_POST['act'])) {
-        $act = $_POST['act'];
+        $act = strval($_POST['act']);
     }
     if (isset($_POST['id']) && isset($a_csc[$_POST['id']])) {
         $id = strval($_POST['id']);

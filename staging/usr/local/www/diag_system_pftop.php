@@ -39,13 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numstate = '200';
     $sorttype ='bytes';
     if (isset($_POST['viewtype']) && in_array($_POST['viewtype'], $viewtypes)) {
-        $viewtype = $_POST['viewtype'];
+        $viewtype = strval($_POST['viewtype']);
     }
     if (isset($_POST['states']) && in_array($_POST['states'], $numstates)) {
-            $numstate = $_POST['states'];
+            $numstate = strval($_POST['states']);
     }
     if (isset($_POST['sorttype']) && in_array($_POST['sorttype'], $sorttypes)) {
-        $sorttype = $_POST['sorttype'];
+        $sorttype = strval($_POST['sorttype']);
     }
 
     // fetch pftop data

@@ -360,7 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $id = strval($_POST['id']);
     }
     if (isset($a_user[$_POST['userid']])) {
-        $userid = $_POST['userid'];
+        $userid = strval($_POST['userid']);
     }
     $act = isset($_POST['act']) ? $_POST['act'] : null;
 

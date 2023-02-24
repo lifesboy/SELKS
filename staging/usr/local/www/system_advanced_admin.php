@@ -271,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
 
         if (!empty($pconfig['sshport'])) {
-            $config['system']['ssh']['port'] = $_POST['sshport'];
+            $config['system']['ssh']['port'] = strval($_POST['sshport']);
         } elseif (isset($config['system']['ssh']['port'])) {
             unset($config['system']['ssh']['port']);
         }
