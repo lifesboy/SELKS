@@ -374,7 +374,7 @@ include("head.inc");
                 <tr>
                   <td style="width:22%"><a id="help_for_crltext" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("CRL data");?></td>
                   <td style="width:78%">
-                    <textarea name="crltext" id="crltext" cols="65" rows="7" class="formfld_crl"><?=$pconfig['crltext'];?></textarea>
+                    <textarea name="crltext" id="crltext" cols="65" rows="7" class="formfld_crl"><?=strval($pconfig['crltext']);?></textarea>
                     <div class="hidden" data-for="help_for_crltext">
                       <?=gettext("Paste a Certificate Revocation List in X.509 CRL format here.");?>
                     </div>

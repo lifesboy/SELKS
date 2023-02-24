@@ -552,7 +552,7 @@ endforeach;
                     <td>
                       <input name="login_banner_enable" type="checkbox" id="login_banner_enable" value="yes" <?= !empty($pconfig['login_banner']) ? "checked=\"checked\"" : "";?> onclick="login_banner_change()" />
                       <?=gettext("Provide a login banner to clients"); ?>
-                      <textarea name="login_banner" cols="65" rows="7" id="login_banner" class="formpre"><?=$pconfig['login_banner'];?></textarea>
+                      <textarea name="login_banner" cols="65" rows="7" id="login_banner" class="formpre"><?=strval($pconfig['login_banner']);?></textarea>
                     </td>
                   </tr>
                   <tr>

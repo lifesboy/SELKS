@@ -941,7 +941,7 @@ $( document ).ready(function() {
                       <label class="btn btn-primary" id="otp_unhide"><?= gettext('Click to unhide') ?></label>
                       <div style="display:none;" id="otp_qrcode"></div>
                       <script>
-                        $('#otp_qrcode').qrcode('<?= $otp_url ?>');
+                        $('#otp_qrcode').qrcode('<?= strval($otp_url) ?>');
                       </script>
                       <div class="hidden" data-for="help_for_otp_code">
                         <?= gettext('Scan this QR code for easy setup with external apps.') ?>

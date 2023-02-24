@@ -821,7 +821,7 @@ $( document ).ready(function() {
                         <?php
 endif; ?>
                         <div>
-                          <textarea id="tls" name="tls" cols="65" rows="7" class="formpre"><?=$pconfig['tls'];?></textarea>
+                          <textarea id="tls" name="tls" cols="65" rows="7" class="formpre"><?=strval($pconfig['tls']);?></textarea>
                           <?=gettext("Paste your shared key here"); ?>.
                         </div>
                       </td>
