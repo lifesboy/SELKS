@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $id = strval($_POST['id']);
     }
     if (isset($_POST['act'])) {
-        $act = $_POST['act'];
+        $act = strval($_POST['act']);
     }
 
     if ($act == "del") {

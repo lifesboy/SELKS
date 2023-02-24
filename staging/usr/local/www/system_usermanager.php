@@ -162,10 +162,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // process post type requests
     if (isset($_POST['userid']) && isset($a_user[$_POST['userid']])) {
-        $id = $_POST['userid'];
+        $id = strval($_POST['userid']);
     }
     if (isset($_POST['act'])) {
-        $act = $_POST['act'];
+        $act = strval($_POST['act']);
     }
     $pconfig = $_POST;
     $input_errors = array();

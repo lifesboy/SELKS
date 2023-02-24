@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         /* FALLTHROUGH */
     } elseif (isset($pconfig['input_type']) && isset($pconfig['id'])) {
         if ($pconfig['input_type'] == 'user' && isset($config['system']['user'][$pconfig['id']]['name'])) {
-            $userid = $_POST['id'];
+            $userid = strval($_POST['id']);
             $a_user = &config_read_array('system', 'user', $userid);
             $a_user['priv'] = is_array($pconfig['sysprivs']) ? $pconfig['sysprivs'] : array();
             $a_user['priv'] = sort_user_privs($a_user['priv']);
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             header(url_safe('Location: /system_usermanager.php?act=edit&userid=%d&savemsg=%s', array($userid, $savemsg)));
             exit;
         } elseif ($_POST['input_type'] == 'group' && isset($config['system']['group'][$pconfig['id']]['name'])) {
-            $groupid = $_POST['id'];
+            $groupid = strval($_POST['id']);
             $a_group = &config_read_array('system', 'group', $groupid);
             $a_group['priv'] = is_array($pconfig['sysprivs']) ? $pconfig['sysprivs'] : array();
             $a_group['priv'] = sort_user_privs($a_group['priv']);

@@ -71,12 +71,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     });
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['origin']) && $_POST['origin'] == 'dashboard') {
     if (!empty($_POST['sequence'])) {
-        $config['widgets']['sequence'] = $_POST['sequence'];
+        $config['widgets']['sequence'] = strval($_POST['sequence']);
     } elseif (isset($config['widgets']['sequence'])) {
         unset($config['widgets']['sequence']);
     }
     if (!empty($_POST['column_count'])) {
-        $config['widgets']['column_count'] = $_POST['column_count'];
+        $config['widgets']['column_count'] = strval($_POST['column_count']);
     } elseif(isset($config['widgets']['column_count'])) {
         unset($config['widgets']['column_count']);
     }

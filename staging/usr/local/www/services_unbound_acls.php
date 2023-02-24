@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $id = strval($_POST['id']);
     }
     if (!empty($_POST['act'])) {
-        $act = $_POST['act'];
+        $act = strval($_POST['act']);
     } else {
         $act = null;
     }

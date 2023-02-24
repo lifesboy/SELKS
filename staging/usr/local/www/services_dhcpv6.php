@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $if = strval($_POST['if']);
     }
     if (!empty($_POST['act'])) {
-        $act = $_POST['act'];
+        $act = strval($_POST['act']);
     } else {
         $act = null;
     }

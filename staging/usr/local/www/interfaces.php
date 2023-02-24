@@ -1253,7 +1253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     unset($new_config['wireless']['txantenna']);
                 }
                 if (isset($pconfig['rxantenna']) && is_numeric($pconfig['rxantenna'])) {
-                    $new_config['wireless']['rxantenna'] = $_POST['rxantenna'];
+                    $new_config['wireless']['rxantenna'] = strval($_POST['rxantenna']);
                 } elseif (isset($new_config['wireless']['rxantenna'])) {
                     unset($new_config['wireless']['rxantenna']);
                 }

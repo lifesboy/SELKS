@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($a_group[$_POST['groupid']])) {
-        $id = $_POST['groupid'];
+        $id = strval($_POST['groupid']);
     }
     $pconfig = $_POST;
     $input_errors = array();

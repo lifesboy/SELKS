@@ -162,14 +162,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!empty($_POST['if']) && !empty($config['interfaces'][$_POST['if']])) {
         $if = strval($_POST['if']);
         if (isset($_POST['pool']) && !empty($config['dhcpd'][$_POST['if']]['pool'][$_POST['pool']])) {
-            $pool = $_POST['pool'];
+            $pool = strval($_POST['pool']);
         }
     }
 
     $a_pools = &config_read_array('dhcpd', $if, 'pool');
 
     if (!empty($_POST['act'])) {
-        $act = $_POST['act'];
+        $act = strval($_POST['act']);
     } else {
         $act = null;
     }

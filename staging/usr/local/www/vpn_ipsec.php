@@ -86,9 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!empty($_POST['act']) && $_POST['act'] == "delphase1" ) {
         $del_items = array();
         if (isset($_POST['id']) && isset($config['ipsec']['phase1'][$_POST['id']])){
-            $del_items[] = $_POST['id'];
+            $del_items[] = strval($_POST['id']);
         } elseif (empty($_POST['id']) && isset($_POST['p1entry']) && count($_POST['p1entry'])) {
-            $del_items = $_POST['p1entry'];
+            $del_items = strval($_POST['p1entry']);
         }
 
         foreach ($del_items as $p1entrydel) {

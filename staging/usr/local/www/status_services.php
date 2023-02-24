@@ -34,7 +34,7 @@ require_once("filter.inc");
 require_once("interfaces.inc");
 
 if (!empty($_POST['service'])) {
-    $service_name = $_POST['service'];
+    $service_name = strval($_POST['service']);
     switch ($_POST['action']) {
         case 'restart':
           echo service_control_restart($service_name, $_POST);

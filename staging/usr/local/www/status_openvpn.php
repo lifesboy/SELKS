@@ -72,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $vpnid = 0;
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'kill') {
-        $port = $_POST['port'];
-        $remipp = $_POST['remipp'];
+        $port = strval($_POST['port']);
+        $remipp = strval($_POST['remipp']);
         if (!empty($port) && !empty($remipp)) {
             $retval = kill_client($port, $remipp);
             echo htmlentities("|{$port}|{$remipp}|{$retval}|");

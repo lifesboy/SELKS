@@ -238,10 +238,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         $mapent['dnsserver'] = array();
         if (!empty($pconfig['dns1'])) {
-            $mapent['dnsserver'][] = $_POST['dns1'];
+            $mapent['dnsserver'][] = strval($_POST['dns1']);
         }
         if (!empty($pconfig['dns2'])) {
-            $mapent['dnsserver'][] = $_POST['dns2'];
+            $mapent['dnsserver'][] = strval($_POST['dns2']);
         }
 
         $mapent['ntpserver'] = array();
