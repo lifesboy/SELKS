@@ -543,7 +543,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // read physcial interface name from config.xml
         $pconfig['if'] = $a_interfaces[$if]['if'];
     }
-    $ifgroup = !empty($_GET['group']) ? $_GET['group'] : '';
+    $ifgroup = !empty($_GET['group']) ? strval($_GET['group']) : '';
 
     if (!empty($pconfig['apply'])) {
         if (!is_subsystem_dirty('interfaces')) {
@@ -2931,7 +2931,7 @@ include("head.inc");
                             if (empty($pconfig['track6-prefix-id'])) {
                                 $pconfig['track6-prefix-id'] = 0;
                             }
-                            $track6_prefix_id_hex = !empty($pconfig['track6-prefix-id--hex']) ? $pconfig['track6-prefix-id--hex']: sprintf("%x", $pconfig['track6-prefix-id']);?>
+                            $track6_prefix_id_hex = !empty($pconfig['track6-prefix-id--hex']) ? strval($pconfig['track6-prefix-id--hex']): sprintf("%x", strval($pconfig['track6-prefix-id']));?>
                             <div class="input-group" style="max-width:348px">
                               <div class="input-group-addon">0x</div>
                               <input name="track6-prefix-id--hex" type="text" class="form-control" id="track6-prefix-id--hex" value="<?= $track6_prefix_id_hex ?>" />
@@ -3359,7 +3359,7 @@ include("head.inc");
                         <tr>
                           <td><a id="help_for_wpa_group_rekey" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Key Rotation"); ?></td>
                           <td>
-                            <input name="wpa_group_rekey" type="text" id="wpa_group_rekey" value="<?=!empty($pconfig['wpa_group_rekey']) ? $pconfig['wpa_group_rekey'] : "60";?>" />
+                            <input name="wpa_group_rekey" type="text" id="wpa_group_rekey" value="<?=!empty($pconfig['wpa_group_rekey']) ? strval($pconfig['wpa_group_rekey']) : "60";?>" />
                             <div class="hidden" data-for="help_for_wpa_group_rekey">
                               <?=gettext("Allowed values are 1-9999 but should not be longer than Master Key Regeneration time."); ?>
                             </div>
@@ -3368,7 +3368,7 @@ include("head.inc");
                         <tr>
                           <td><a id="help_for_wpa_gmk_rekey" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Master Key Regeneration"); ?></td>
                           <td>
-                            <input name="wpa_gmk_rekey" type="text" id="wpa_gmk_rekey" value="<?=!empty($pconfig['wpa_gmk_rekey']) ? $pconfig['wpa_gmk_rekey'] : "3600";?>" />
+                            <input name="wpa_gmk_rekey" type="text" id="wpa_gmk_rekey" value="<?=!empty($pconfig['wpa_gmk_rekey']) ? strval($pconfig['wpa_gmk_rekey']) : "3600";?>" />
                             <div class="hidden" data-for="help_for_wpa_gmk_rekey">
                               <?=gettext("Allowed values are 1-9999 but should not be shorter than Key Rotation time."); ?>
                             </div>

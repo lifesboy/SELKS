@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $authFactory = new OPNsense\Auth\AuthenticationFactory;
         $authenticator = $authFactory->get($authName);
         if ($authenticator->authenticate($_POST['username'], $_POST['password'])) {
-            $savemsg = gettext("User") . ": " . $_POST['username'] . " " . gettext("authenticated successfully.");
+            $savemsg = gettext("User") . ": " . strval($_POST['username']) . " " . gettext("authenticated successfully.");
             $groups = getUserGroups($_POST['username']);
             $savemsg .= "<br />" . gettext("This user is a member of these groups") . ": <br />";
             foreach ($groups as $group) {

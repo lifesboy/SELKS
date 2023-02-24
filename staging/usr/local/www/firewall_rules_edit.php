@@ -537,7 +537,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         mark_subsystem_dirty('filter');
 
         header(url_safe('Location: /firewall_rules.php?direction=%s', array(
-            $pconfig['direction']
+            strval($pconfig['direction'])
         )));
         exit;
     }
@@ -833,7 +833,7 @@ include("head.inc");
                   <tr>
                     <td><?=gettext("Associated filter rule");?></td>
                     <td>
-                      <input name='associated-rule-id' id='associated-rule-id' type='hidden' value='<?=$pconfig['associated-rule-id'];?>' />
+                      <input name='associated-rule-id' id='associated-rule-id' type='hidden' value='<?=strval($pconfig['associated-rule-id']);?>' />
                       <span class="text-danger"><strong><?=gettext("Note: ");?></strong></span><?=gettext("This is associated to a NAT rule.");?><br />
                       <?=gettext("You cannot edit the interface, protocol, source, or destination of associated filter rules.");?>
                       <br />

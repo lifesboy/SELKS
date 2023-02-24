@@ -436,7 +436,7 @@ $(document).ready(function() {
                           <tr>
                             <td><?=strval($ifdescr);?></td>
                             <td>
-                                <input name="ifpathcost_<?=$ifn;?>" type="text" value="<?=isset($pconfig['ifpathcost_'.$ifn]) ? $pconfig['ifpathcost_'.$ifn] : "";?>" />
+                                <input name="ifpathcost_<?=$ifn;?>" type="text" value="<?=isset($pconfig['ifpathcost_'.$ifn]) ? strval($pconfig['ifpathcost_'.$ifn]) : "";?>" />
                             </td>
                           </tr>
 <?php
