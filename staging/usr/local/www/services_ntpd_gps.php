@@ -498,7 +498,7 @@ SureGPS =    #Sure Electronics SKG16B
                           <input class="btn btn-xs btn-default" type="button" id="showgpsinitbox" value="<?= html_safe(gettext('Advanced')) ?>" /> - <?=gettext("Show GPS Initialization commands");?>
                         </div>
                         <div id="showgpsinit" style="display:none">
-                          <textarea name="initcmd" class="formpre" id="gpsinitcmd" cols="65" rows="7"><?=base64_decode($pconfig['initcmd']);?></textarea><br />
+                          <textarea name="initcmd" class="formpre" id="gpsinitcmd" cols="65" rows="7"><?=base64_decode(strval($pconfig['initcmd']));?></textarea><br />
                           <?=gettext("Note: Commands entered here will be sent to the GPS during initialization. ".
                                      "Please read and understand your GPS documentation before making any changes here.");?><br /><br />
                           <strong><?=gettext("NMEA checksum calculator");?></strong><br /><br />

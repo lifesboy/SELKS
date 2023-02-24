@@ -521,7 +521,7 @@ $( document ).ready(function() {
                     <input name="name" type="text" size="20" value="<?=strval($pconfig['name']);?>"/>
 <?php else :
 ?>
-                    <strong><?=$pconfig['name'];?></strong>
+                    <strong><?=strval($pconfig['name']);?></strong>
                     <input name="name" type="hidden" value="<?=strval($pconfig['name']);?>"/>
 <?php
 endif; ?>
@@ -536,7 +536,7 @@ endif; ?>
 <?php
                     foreach ($authCNFOptions as $typename => $authType) :?>
                       <option value="<?=strval($typename);?>" <?=$pconfig['type'] == $typename ? "selected=\"selected\"" : "";?> >
-                        <?= !empty($authType['description']) ? $authType['description'] : $pconfig['name'] ?>
+                        <?= !empty($authType['description']) ? strval($authType['description']) : strval($pconfig['name']) ?>
                       </option>
 <?php
                     endforeach; ?>

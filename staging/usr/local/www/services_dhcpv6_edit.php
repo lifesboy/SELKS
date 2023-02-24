@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             mark_subsystem_dirty('hosts');
         }
 
-        header(url_safe('Location: /services_dhcpv6.php?if=%s', array($if)));
+        header(url_safe('Location: /services_dhcpv6.php?if=%s', array(strval($if))));
         exit;
     }
 }

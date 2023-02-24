@@ -576,7 +576,7 @@ include("head.inc");
                       <tr style="display:none" class="intf_select_<?=$intf_idx;?>">
                         <td style="width:22%"><a id="help_for_gateway_<?=$intf_idx;?>" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Gateway");?> <span class="intf_select_txt_<?=$intf_idx;?>"> </span></td>
                         <td style="width:78%">
-                          <input name="gateway[]" type="text" class="intf_select_<?=$intf_idx;?>" value="<?=isset($pconfig['gateway'][$intf_idx]) ? $pconfig['gateway'][$intf_idx] : "";?>" />
+                          <input name="gateway[]" type="text" class="intf_select_<?=$intf_idx;?>" value="<?=isset($pconfig['gateway'][$intf_idx]) ? strval($pconfig['gateway'][$intf_idx]) : "";?>" />
                           <div class="hidden" data-for="help_for_gateway_<?=$intf_idx;?>">
                             <?= gettext("IP Address"); ?>
                           </div>
@@ -764,25 +764,25 @@ include("head.inc");
                             <tr>
                               <td><?=gettext("Bandwidth");?></td>
                               <td>
-                                <input name="bandwidth[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['bandwidth'][$intf_idx]) ? $pconfig['bandwidth'][$intf_idx] : "";?>" />
+                                <input name="bandwidth[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['bandwidth'][$intf_idx]) ? strval($pconfig['bandwidth'][$intf_idx]) : "";?>" />
                               </td>
                             </tr>
                             <tr>
                               <td><?=gettext("MTU"); ?></td>
                               <td>
-                                <input name="mtu[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['mtu'][$intf_idx]) ? $pconfig['mtu'][$intf_idx] : "";?>" />
+                                <input name="mtu[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['mtu'][$intf_idx]) ? strval($pconfig['mtu'][$intf_idx]) : "";?>" />
                               </td>
                             </tr>
                             <tr>
                               <td><?=gettext("MRU"); ?></td>
                               <td>
-                                <input name="mru[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['mru'][$intf_idx]) ? $pconfig['mru'][$intf_idx] : "";?>" />
+                                <input name="mru[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['mru'][$intf_idx]) ? strval($pconfig['mru'][$intf_idx]) : "";?>" />
                               </td>
                             </tr>
                             <tr>
                               <td><?=gettext("MRRU"); ?></td>
                               <td>
-                                <input name="mrru[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['mrru'][$intf_idx]) ? $pconfig['mrru'][$intf_idx] : "";?>" />
+                                <input name="mrru[]" class="intf_select_<?=$intf_idx;?>" type="text" value="<?=isset($pconfig['mrru'][$intf_idx]) ? strval($pconfig['mrru'][$intf_idx]) : "";?>" />
                               </td>
                             </tr>
                           </table>

@@ -300,12 +300,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 filter_configure();
             }
 
-            header(url_safe('Location: /services_dhcpv6.php?if=%s', array($if)));
+            header(url_safe('Location: /services_dhcpv6.php?if=%s', array(strval($if))));
             exit;
         }
     } elseif (isset($pconfig['apply'])) {
         reconfigure_dhcpd();
-        header(url_safe('Location: /services_dhcpv6.php?if=%s', array($if)));
+        header(url_safe('Location: /services_dhcpv6.php?if=%s', array(strval($if))));
         exit;
     } elseif ($act == "del") {
         if (!empty($config['dhcpdv6'][$if]['staticmap'][$_POST['id']])) {
