@@ -955,7 +955,7 @@ endif; ?>
 <?php
                         endif; ?>
                         <div id="autokey_opts">
-                          <textarea name="shared_key" cols="65" rows="7"><?=$pconfig['shared_key'];?></textarea>
+                          <textarea name="shared_key" cols="65" rows="7"><?=strval($pconfig['shared_key']);?></textarea>
                           <?=gettext("Paste your shared key here"); ?>.
                         </div>
                       </td>

@@ -145,7 +145,7 @@ if ($_POST && !$input_errors) {
             else
                 $arraynum = '';
 
-            update_config_field($field['bindstofield'], $_POST[$fieldname], $unset_fields, $arraynum, $field['type']);
+            update_config_field($field['bindstofield'], strval($_POST[$fieldname]), $unset_fields, $arraynum, $field['type']);
         }
 
     }

@@ -557,7 +557,7 @@ $main_buttons = array(
               <tr>
                 <td style="width:22%"><a id="help_for_cert" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Certificate data");?></td>
                 <td style="width:78%">
-                  <textarea name="cert" cols="65" rows="7" id="cert"><?=isset($pconfig['cert']) ? $pconfig['cert'] : "";?></textarea>
+                  <textarea name="cert" cols="65" rows="7" id="cert"><?=isset($pconfig['cert']) ? strval($pconfig['cert']) : "";?></textarea>
                   <div class="hidden" data-for="help_for_cert">
                     <?=gettext("Paste a certificate in X.509 PEM format here.");?>
                   </div>

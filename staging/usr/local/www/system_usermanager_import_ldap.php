@@ -177,7 +177,7 @@ else :
     </thead>
     <tbody>
 <?php foreach ($ldap_users as $username => $userDN): ?>
-        <tr><td><?=$username?></td><td><?=$userDN?></td><td> <input type="checkbox" value="<?=$userDN?>" id="user_dn" class="user_option" name="user_dn[]"></td></tr>
+        <tr><td><?=$username?></td><td><?=$userDN?></td><td> <input type="checkbox" value="<?=strval($userDN)?>" id="user_dn" class="user_option" name="user_dn[]"></td></tr>
 <?php endforeach ?>
       <tr>
         <td style="text-align:left" colspan="3">

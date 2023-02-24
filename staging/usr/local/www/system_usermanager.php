@@ -586,7 +586,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><?=gettext("Defined by");?></td>
                     <td>
-                      <strong><?=strtoupper($pconfig['scope']);?></strong>
+                      <strong><?=strtoupper(strval($pconfig['scope']));?></strong>
                       <input name="scope" type="hidden" value="<?=strval($pconfig['scope'])?>" />
                     </td>
                   </tr>

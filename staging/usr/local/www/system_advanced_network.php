@@ -374,7 +374,7 @@ include("head.inc");
               <tr>
                 <td><a id="help_for_persistent_duid" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("DHCP Unique Identifier"); ?></td>
                 <td>
-                  <textarea name="ipv6duid" id="ipv6duid" rows="2" ><?=$pconfig['ipv6duid'];?></textarea>
+                  <textarea name="ipv6duid" id="ipv6duid" rows="2" ><?=strval($pconfig['ipv6duid']);?></textarea>
                   <input name="ipv6_duid_llt_value" type="hidden" value="<?= html_safe($pconfig['ipv6_duid_llt_value']) ?>">
                   <input name="ipv6_duid_ll_value" type="hidden" value="<?= html_safe($pconfig['ipv6_duid_ll_value']) ?>">
                   <input name="ipv6_duid_uuid_value" type="hidden" value="<?= html_safe($pconfig['ipv6_duid_uuid_value']) ?>">
