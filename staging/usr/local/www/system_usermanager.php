@@ -644,7 +644,7 @@ $( document ).ready(function() {
                   <tr>
                     <td><a id="help_for_comment" href="#" class="showhelp"><i class="fa fa-info-circle"></i></a> <?=gettext("Comment");?></td>
                     <td>
-                      <textarea name="comment" id="comment" class="form-control" cols="65" rows="3"><?= $pconfig['comment'] ?></textarea>
+                      <textarea name="comment" id="comment" class="form-control" cols="65" rows="3"><?= strval($pconfig['comment']) ?></textarea>
                       <div class="hidden" data-for="help_for_comment">
                         <?= gettext('User comment, for your own information only') ?>
                       </div>
@@ -663,7 +663,7 @@ $( document ).ready(function() {
                     <td><i class="fa fa-info-circle text-muted"></i> <?=gettext("Language");?></td>
                     <td>
                       <input name="language" type="hidden" value="<?= strval($pconfig['language']) ?>" />
-                      <?= $pconfig['language'] ?>
+                      <?= strval($pconfig['language']) ?>
                     </td>
                   </tr>
                   <tr>

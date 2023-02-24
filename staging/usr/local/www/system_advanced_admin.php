@@ -812,7 +812,7 @@ $(document).ready(function() {
                 <td>
                   <select name="primaryconsole" id="primaryconsole" class="selectpicker">
 <?php foreach (system_console_types() as $console_key => $console_type): ?>
-                    <option value="<?= html_safe($console_key) ?>" <?= $pconfig['primaryconsole'] == $console_key ? 'selected="selected"' : '' ?>><?= $console_type['name'] ?></option>
+                    <option value="<?= html_safe($console_key) ?>" <?= $pconfig['primaryconsole'] == $console_key ? 'selected="selected"' : '' ?>><?= strval($console_type['name']) ?></option>
 <?php endforeach ?>
                   </select>
                   <div class="hidden" data-for="help_for_primaryconsole">
@@ -827,7 +827,7 @@ $(document).ready(function() {
                   <select name="secondaryconsole" id="secondaryconsole" class="selectpicker">
                     <option value="" <?= empty($pconfig['secondaryconsole']) ? 'selected="selected"' : '' ?>><?= gettext('None') ?></option>
 <?php foreach (system_console_types() as $console_key => $console_type): ?>
-                    <option value="<?= html_safe($console_key) ?>" <?= $pconfig['secondaryconsole'] == $console_key ? 'selected="selected"' : '' ?>><?= $console_type['name'] ?></option>
+                    <option value="<?= html_safe($console_key) ?>" <?= $pconfig['secondaryconsole'] == $console_key ? 'selected="selected"' : '' ?>><?= strval($console_type['name']) ?></option>
 <?php endforeach ?>
                   </select>
                   <div class="hidden" data-for="help_for_secondaryconsole">
