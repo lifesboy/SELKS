@@ -357,7 +357,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
             results = resume_tune(resume='ERRORED_ONLY')
 
         # Gets best trial based on max accuracy across all training iterations.
-        best_trial = results.get_best_trial(metric="accuracy", mode="max", scope="all")
+        best_trial = results.get_best_trial(metric="episode_reward_mean", mode="max", scope="all")
         # Gets best checkpoint for trial based on accuracy.
         best_checkpoint = results.get_best_checkpoint(best_trial, metric="episode_reward_mean", mode="max")
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
