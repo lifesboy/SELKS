@@ -9,10 +9,18 @@ import time
 
 import pandas as pd
 from mlflow.entities import Metric
+from pandas import DataFrame
 
 import common
 import lib.utils as utils
 from lib.logger import log
+
+step: int = 0
+file_processed: int = 0
+metric_processed: int = 0
+file_success: int = 0
+metric_success: int = 0
+metric_discarded: int = 0
 
 parser = argparse.ArgumentParser()
 # parser.add_argument(
@@ -62,6 +70,54 @@ def remove_duplicated_metric(batch: [Metric], err: Exception):
     ), batch))
 
 
+def recover_run_id(run_df: DataFrame):
+    global step, file_processed, metric_processed, file_success, metric_success, metric_discarded
+    metric_run_id = run_df.index[0]
+    input_paths = run_df['input_path'].values[0]
+
+    step += 1
+    timestamp = int(time.time() * 1000)
+    file_processed += len(input_paths)
+    client.log_metric(run_id=run.info.run_id, key='file_processed', value=file_processed, timestamp=timestamp, step=step)
+
+    df = pd.DataFrame()
+    for path in input_paths:
+        df_p = pd.read_csv(path)[['key', 'value', 'timestamp', 'step']]
+        df = pd.concat([df, df_p], axis=0, ignore_index=True)
+        df = df.groupby(by=['key', 'timestamp', 'step']).max().reset_index()
+
+    try:
+        metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=1).to_list()
+
+        batch_size = 800
+        for i in range(0, math.ceil(len(metrics) / batch_size)):
+            batch = metrics[i * batch_size:(i + 1) * batch_size]
+            metric_processed += len(batch)
+            client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
+            while len(batch) > 0:
+                try:
+                    client.log_batch(run_id=metric_run_id, metrics=batch)
+                    metric_success += len(batch)
+                    batch = []
+                except Exception as ex:
+                    log.error('log_batch mlflow error: %s, try discard error metric from batch %s', ex, len(batch))
+                    # batch = remove_duplicated_metric(batch, ex)
+                    metric_discarded += len(batch)
+                    batch = []
+
+            client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
+            client.log_metric(run_id=run.info.run_id, key='metric_discarded', value=metric_discarded, timestamp=timestamp, step=step)
+
+        file_success += len(input_paths)
+        log.info(f"remove path {input_paths}")
+        cmd = ' && '.join(map(lambda x: f"rm -rf {x}", input_paths))
+        os.system(cmd)
+        client.log_metric(run_id=run.info.run_id, key='file_success', value=file_success, timestamp=timestamp, step=step)
+    except Exception as e:
+        log.error('recover mlflow error: %s', e)
+        client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='recover_error.txt')
+
+
 def main(args):
     data_source = '/drl/mlruns/*/*/artifacts/metrics_*.csv'  # args.data_source
     data_source_files = common.get_data_files_by_pattern(data_source)
@@ -72,50 +128,11 @@ def main(args):
     client.log_param(run_id=run.info.run_id, key='data_source_files_num', value=len(data_source_files))
     client.log_text(run_id=run.info.run_id, text=f'{data_source_files}', artifact_file='data_source_files.json')
 
-    step: int = 0
-    file_processed: int = 0
-    metric_processed: int = 0
-    file_success: int = 0
-    metric_success: int = 0
-    metric_discarded: int = 0
-    for path in data_source_files:
-        step += 1
-        timestamp = int(time.time() * 1000)
-        file_processed += 1
-        try:
-            client.log_metric(run_id=run.info.run_id, key='file_processed', value=file_processed, timestamp=timestamp, step=step)
-
-            metric_run_id = path.split('/')[4]
-            df = pd.read_csv(path)
-            df = df.groupby(by=['key', 'timestamp', 'step']).max().reset_index()
-            metrics = df.apply(lambda x: Metric(key=x['key'], value=x['value'], timestamp=x['timestamp'], step=x['step']), axis=1).to_list()
-
-            batch_size = 800
-            for i in range(0, math.ceil(len(metrics) / batch_size)):
-                batch = metrics[i * batch_size:(i + 1) * batch_size]
-                metric_processed += len(batch)
-                client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
-                while len(batch) > 0:
-                    try:
-                        client.log_batch(run_id=metric_run_id, metrics=batch)
-                        metric_success += len(batch)
-                        batch = []
-                    except Exception as ex:
-                        log.error('log_batch mlflow error: %s, try discard error metric from batch %s', ex, len(batch))
-                        # batch = remove_duplicated_metric(batch, ex)
-                        metric_discarded += len(batch)
-                        batch = []
-
-                client.log_metric(run_id=run.info.run_id, key='metric_success', value=metric_success, timestamp=timestamp, step=step)
-                client.log_metric(run_id=run.info.run_id, key='metric_discarded', value=metric_discarded, timestamp=timestamp, step=step)
-
-            file_success += 1
-            log.info(f"remove path {path}")
-            os.system(f'rm -rf "{path}"')
-            client.log_metric(run_id=run.info.run_id, key='file_success', value=file_success, timestamp=timestamp, step=step)
-        except Exception as e:
-            log.error('recover mlflow error: %s', e)
-            client.log_text(run_id=run.info.run_id, text=traceback.format_exc(), artifact_file='recover_error.txt')
+    file_df: DataFrame = pd.DataFrame(data_source_files, columns=['input_path'])
+    file_df = file_df.applymap(lambda x: [x])
+    file_df['run_id'] = file_df['input_path'].apply(lambda x: x[0].split('/')[4])
+    batch_df: DataFrame = file_df.groupby('run_id').sum()
+    batch_df.apply(lambda x: recover_run_id(x), axis=1)
 
 
 if __name__ == "__main__":
