@@ -211,7 +211,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         "num_workers": num_workers,  # https://github.com/ray-project/ray/issues/25012
         "num_envs_per_worker": 20,
         "entropy_coeff": 0.001,
-        "num_sgd_iter": 50,
+        "num_sgd_iter": 120,
         "train_batch_size": args.batch_size,
         "sgd_minibatch_size": max(max_seq_len, int(0.75 * args.batch_size)),
         "vf_loss_coeff": 1e-5,
