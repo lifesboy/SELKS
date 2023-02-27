@@ -142,6 +142,21 @@ parser.add_argument(
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --data-source=cic2018/*.csv --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-cic2018  --env=AnomalyMinibatchEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --stop-iters=100 --stop-episode-len=100 --stop-timesteps=100 --stop-reward=100 --tag=manual-train-cic2018 --env=AnomalyEnv
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py --data-source=nsm-huongftp-label/*.csv --stop-iters=1000000 --stop-episode-len=1000000 --stop-timesteps=1000000 --stop-reward=1000000 --tag=manual-train-nsm --env=AnomalyBalanceOnTrainEnsureEnv
+# /usr/bin/python3 /usr/local/opnsense/scripts/ml/trainanomaly.py \
+# --data-source=nsm-2023w06-ssh-02-label/*.csv,\
+# nsm-2023w07-dos-02-label/*.csv,\
+# nsm-2023w07-01-label/*.csv,\
+# nsm-2023w07-ftp-02-label/*.csv,\
+# nsm-2023w07-ftp-04-label/*.csv,\
+# nsm-2023w07-dos-03-label/*.csv,\
+# nsm-2023w08-ftp-01-label/*.csv,\
+# nsm-2023w08-dos-01-label/*.csv\
+# --stop-iters=1000000 \
+# --stop-episode-len=100000 \
+# --stop-timesteps=1000000 \
+# --stop-reward=1000000 \
+# --tag=manual-train-nsm \
+# --env=AnomalyBalanceOnTrainEnsureEnv
 
 
 def kill_exists_processing():
