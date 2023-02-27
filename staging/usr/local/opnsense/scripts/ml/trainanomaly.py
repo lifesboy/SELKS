@@ -327,8 +327,8 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
                         trial_name_creator=lambda _: lesson,
                         trial_dirname_creator=lambda _: lesson,
                         # log_to_file=['stdout.txt', 'stderr.txt'],  #not use this, ray error I/O on closed stream
-                        # metric='mean_accuracy',
-                        # mode='max',
+                        metric='episode_reward_mean',
+                        mode='max',
                         keep_checkpoints_num=5,
                         checkpoint_freq=1,
                         checkpoint_at_end=True,
@@ -359,7 +359,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         # Gets best trial based on max accuracy across all training iterations.
         best_trial = results.get_best_trial(metric="accuracy", mode="max", scope="all")
         # Gets best checkpoint for trial based on accuracy.
-        best_checkpoint = results.get_best_checkpoint(best_trial, metric="accuracy", mode="max")
+        best_checkpoint = results.get_best_checkpoint(best_trial, metric="episode_reward_mean", mode="max")
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         client.log_text(run_id=run.info.run_id,
                         text=json.dumps({
