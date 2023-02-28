@@ -97,7 +97,7 @@ def recover_run_id(s: Series):
             is_nan=False
         ), axis=1).to_list()
 
-        batch_size = 400
+        batch_size = 1000
         for i in range(0, math.ceil(len(metrics) / batch_size)):
             batch = metrics[i * batch_size:(i + 1) * batch_size]
             metric_processed += len(batch)
