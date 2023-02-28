@@ -105,7 +105,7 @@ def recover_run_id(s: Series):
             while len(batch) > 0:
                 try:
                     # client.log_batch(run_id=metric_run_id, metrics=batch)
-                    log_batch_heavy(client, batch)
+                    log_batch_heavy(batch)
 
                     metric_success += len(batch)
                     batch = []
