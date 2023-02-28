@@ -9,11 +9,13 @@ import time
 
 import pandas as pd
 from mlflow.entities import Metric
+from mlflow.store.tracking.dbmodels.models import SqlMetric
 from pandas import DataFrame, Series
 
 import common
 import lib.utils as utils
 from lib.logger import log
+from lib.mlflow_helper import log_batch_heavy
 
 step: int = 0
 file_processed: int = 0
@@ -86,11 +88,13 @@ def recover_run_id(s: Series):
     client.log_metric(run_id=run.info.run_id, key='file_processed', value=file_processed, timestamp=timestamp, step=step)
 
     try:
-        metrics = df.apply(lambda x: Metric(
+        metrics = df.apply(lambda x: SqlMetric(
+            run_uuid=metric_run_id,
             key=x['key'],
             value=x['value'],
             timestamp=x['timestamp'],
             step=x['step'],
+            is_nan=False
         ), axis=1).to_list()
 
         batch_size = 400
@@ -100,8 +104,8 @@ def recover_run_id(s: Series):
             client.log_metric(run_id=run.info.run_id, key='metric_processed', value=metric_processed, timestamp=timestamp, step=step)
             while len(batch) > 0:
                 try:
-                    client.log_batch(run_id=metric_run_id, metrics=batch)
-                    # log_batch_heavy(client, batch)
+                    # client.log_batch(run_id=metric_run_id, metrics=batch)
+                    log_batch_heavy(client, batch)
 
                     metric_success += len(batch)
                     batch = []
