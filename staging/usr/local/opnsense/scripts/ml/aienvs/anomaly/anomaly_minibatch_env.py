@@ -82,6 +82,8 @@ class AnomalyMinibatchEnv(gym.Env):
             Metric(key='clean_detected', value=self.clean_detected, timestamp=timestamp, step=self.current_step),
             Metric(key='clean_incorrect', value=self.clean_incorrect, timestamp=timestamp, step=self.current_step)
         ]
+        if len(self.metrics) > 1000:
+            self._log_metrics()
 
         return self._next_obs()
 
