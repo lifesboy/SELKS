@@ -72,8 +72,9 @@ def remove_duplicated_metric(batch: [Metric], err: Exception):
 
 def recover_run_id(run_df: DataFrame):
     global step, file_processed, metric_processed, file_success, metric_success, metric_discarded
-    metric_run_id = run_df.index[0]
-    input_paths = run_df['input_path'].values[0]
+    metric_run_id = run_df['run_id']
+    input_paths = run_df['input_path']
+    log.info(f"start recovering run_id={metric_run_id}, input_paths={input_paths}")
 
     step += 1
     timestamp = int(time.time() * 1000)
