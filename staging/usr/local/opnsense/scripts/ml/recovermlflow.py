@@ -76,21 +76,15 @@ def recover_run_id(s: Series):
     global step, file_processed, metric_processed, file_success, metric_success, metric_discarded
     metric_run_id = s.name
     input_paths = s.input_path
-    log.info(f"start recovering run_id={metric_run_id}...")
+    log.info(f"start recovering run_id={metric_run_id}: {len(input_paths)}")
 
     step += 1
     timestamp = int(time.time() * 1000)
-    processed = 0
-    total = len(input_paths)
-    df = pd.DataFrame()
-    for path in input_paths:
-        processed += 1
-        log.info(f"collecting metrics {processed}/{total}: {df.index.size}")
-        df_p = pd.read_csv(path)[['key', 'value', 'timestamp', 'step']]
-        df = pd.concat([df, df_p], axis=0, ignore_index=True)
-        df = df.groupby(by=['key', 'timestamp', 'step']).max().reset_index()
+    dfs = list(map(lambda x: pd.read_csv(x)[['key', 'value', 'timestamp', 'step']], input_paths))
+    df = pd.concat(dfs, axis=0, ignore_index=True)
+    df = df.groupby(by=['key', 'timestamp', 'step']).max().reset_index()
 
-    file_processed += processed
+    file_processed += len(input_paths)
     client.log_metric(run_id=run.info.run_id, key='file_processed', value=file_processed, timestamp=timestamp, step=step)
 
     try:
