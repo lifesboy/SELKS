@@ -85,6 +85,7 @@ def recover_run_id(s: Series):
 
     df = pd.DataFrame()
     for path in input_paths:
+        log.info(f"start collecting metrics from {path}")
         df_p = pd.read_csv(path)[['key', 'value', 'timestamp', 'step']]
         df = pd.concat([df, df_p], axis=0, ignore_index=True)
         df = df.groupby(by=['key', 'timestamp', 'step']).max().reset_index()
