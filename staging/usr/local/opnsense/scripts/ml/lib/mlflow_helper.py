@@ -8,4 +8,4 @@ def log_batch_heavy(metrics: [SqlLatestMetric]):
     client = MlflowClient(tracking_uri=DATABASE_URI)
     store = client._tracking_client.store
     with store.ManagedSessionMaker() as session:
-        session.add_all(metrics)
+        session.bulk_save_objects(metrics)
