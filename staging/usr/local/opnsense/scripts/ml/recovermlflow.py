@@ -9,7 +9,7 @@ import time
 
 import pandas as pd
 from mlflow.entities import Metric
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 import common
 import lib.utils as utils
@@ -70,10 +70,10 @@ def remove_duplicated_metric(batch: [Metric], err: Exception):
     ), batch))
 
 
-def recover_run_id(run_df: DataFrame):
+def recover_run_id(s: Series):
     global step, file_processed, metric_processed, file_success, metric_success, metric_discarded
-    metric_run_id = run_df['run_id']
-    input_paths = run_df['input_path']
+    metric_run_id = s.name
+    input_paths = s.input_path
     log.info(f"start recovering run_id={metric_run_id}, input_paths={input_paths}")
 
     step += 1
