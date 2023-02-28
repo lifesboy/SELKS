@@ -91,20 +91,20 @@ class AnomalyMinibatchEnv(gym.Env):
         self.reward_total += reward
         done = (self.current_step > self.episode_len) or (self.current_obs is None)
 
-        timestamp = int(time.time() * 1000)
-        self.metrics += [
-            Metric(key='action_expected', value=self.current_action[0], timestamp=timestamp, step=self.current_step),
-            Metric(key='action', value=action, timestamp=timestamp, step=self.current_step),
-            Metric(key='reward', value=reward, timestamp=timestamp, step=self.current_step),
-            Metric(key='reward_total', value=self.reward_total, timestamp=timestamp, step=self.current_step),
-            Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=timestamp, step=self.current_step),
-            Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=timestamp, step=self.current_step),
-            Metric(key='clean_detected', value=self.clean_detected, timestamp=timestamp, step=self.current_step),
-            Metric(key='clean_incorrect', value=self.clean_incorrect, timestamp=timestamp, step=self.current_step)
-        ]
-
-        if done or len(self.metrics) > 1000:
-            self._log_metrics()
+        # timestamp = int(time.time() * 1000)
+        # self.metrics += [
+        #     Metric(key='action_expected', value=self.current_action[0], timestamp=timestamp, step=self.current_step),
+        #     Metric(key='action', value=action, timestamp=timestamp, step=self.current_step),
+        #     Metric(key='reward', value=reward, timestamp=timestamp, step=self.current_step),
+        #     Metric(key='reward_total', value=self.reward_total, timestamp=timestamp, step=self.current_step),
+        #     Metric(key='anomaly_detected', value=self.anomaly_detected, timestamp=timestamp, step=self.current_step),
+        #     Metric(key='anomaly_incorrect', value=self.anomaly_incorrect, timestamp=timestamp, step=self.current_step),
+        #     Metric(key='clean_detected', value=self.clean_detected, timestamp=timestamp, step=self.current_step),
+        #     Metric(key='clean_incorrect', value=self.clean_incorrect, timestamp=timestamp, step=self.current_step)
+        # ]
+        #
+        # if done or len(self.metrics) > 1000:
+        #     self._log_metrics()
 
         return self._next_obs(), reward, done, {}
 
