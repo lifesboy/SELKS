@@ -119,7 +119,7 @@ def recover_run_id(s: Series):
             client.log_metric(run_id=run.info.run_id, key='metric_discarded', value=metric_discarded, timestamp=timestamp, step=step)
 
         file_success += len(input_paths)
-        remove_pattern = '/'.join(input_paths[0].split('/')[:-1]) + 'metrics_*.csv'
+        remove_pattern = '/'.join(input_paths[0].split('/')[:-1]) + '/metrics_*.csv'
         log.info(f"remove path {remove_pattern}")
         os.system(f"rm -rf {remove_pattern}")
         client.log_metric(run_id=run.info.run_id, key='file_success', value=file_success, timestamp=timestamp, step=step)
