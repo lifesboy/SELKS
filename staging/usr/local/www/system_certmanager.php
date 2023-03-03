@@ -1452,7 +1452,7 @@ $( document ).ready(function() {
                       <select name="key_usage_sign_csr[]" title="<?html_safe(gettext("Select keyUsage"));?>" multiple="multiple" id="key_usage_sign_csr" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                       foreach ($key_usages as $key => $human_readable): ?>
-                        <option value="<?=strval($key;?>" id="key_usage_sign_csr_<?=$key);?>">
+                        <option value="<?=strval($key);?>" id="key_usage_sign_csr_<?=($key);?>">
                           <?= $human_readable; ?>
                         </option>
 <?php
@@ -1475,7 +1475,7 @@ $( document ).ready(function() {
                       <select name="extended_key_usage_sign_csr[]" title="<?html_safe(gettext("Select extendedKeyUsage"));?>" multiple="multiple" id="extended_key_usage_sign_csr" class="selectpicker" data-live-search="true" data-size="5" tabindex="2" <?=!empty($pconfig['associated-rule-id']) ? "disabled" : "";?>>
 <?php
                       foreach ($extended_key_usages as $key => $human_readable): ?>
-                        <option value="<?=strval($key;?>" id="extended_key_usage_sign_csr_<?= str_replace('.', '_', $key));?>">
+                        <option value="<?=strval($key);?>" id="extended_key_usage_sign_csr_<?= str_replace('.', '_', $key);?>">
                           <?= $human_readable; ?>
                         </option>
 <?php
