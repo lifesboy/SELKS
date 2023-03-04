@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+import os
 import time
 import pandas
 import ray
@@ -340,6 +340,7 @@ class CicFlowmeterNormModel(mlflow.pyfunc.PythonModel):
             self.client.log_batch(run_id=self.run.info.run_id, metrics=self.metrics)
             self.metrics = []
         except Exception as e:
+            os.system(f'mkdir -p "{self.run.info.artifact_uri}"')
             utils.write_failsafe_metrics(f"{self.run.info.artifact_uri}/metrics_{int(time.time() * 1000)}.csv", self.metrics)
             self.metrics = []
             log.error('_log_metrics error %s', e)
