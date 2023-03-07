@@ -1,4 +1,5 @@
 from typing import Dict
+from lib.logger import log
 
 from ray.tune.integration.mlflow import MLflowLoggerCallback
 
@@ -22,7 +23,11 @@ class AnomalyLoggerCallback(MLflowLoggerCallback):
         # self.mlflow_util.log_params(run_id=run_id, params_to_log=config)
 
     def log_trial_result(self, iteration: int, trial: "Trial", result: Dict):
-        super().log_trial_result(iteration=iteration, trial=trial, result=result)
+        try:
+            super().log_trial_result(iteration=iteration, trial=trial, result=result)
+        except Exception as e:
+            log.error('log_trial_result interrupted: %s', e)
+
         run_id = self._trial_runs[trial]
         if self.should_save_artifact:
             self.mlflow_util.save_artifacts(run_id=run_id, dir=trial.logdir)
