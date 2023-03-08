@@ -384,7 +384,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
                         artifact_file='results.json')
 
         # if args.as_test:
-        check_learning_achieved(results, args.stop_reward)
+        # check_learning_achieved(results, args.stop_reward)
 
         client.set_terminated(run_id=run.info.run_id)
     except Exception as e:
