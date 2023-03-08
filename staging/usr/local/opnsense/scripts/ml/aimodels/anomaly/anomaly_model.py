@@ -147,11 +147,11 @@ class AnomalyModel(RecurrentNetwork):
         return tf.reshape(self._value_out, [-1])
 
     def save_h5(self, checkpoint_dir):
-        # h5_dir = os.path.join(checkpoint_dir, "h5")
-        # h5_path = os.path.join(h5_dir, "saved_model.h5")
-        # Path(h5_dir).mkdir(parents=True, exist_ok=True)
-        # self.rnn_model.save_weights(h5_path)
-        # self.rnn_model.save(h5_path)
+        h5_dir = os.path.join(checkpoint_dir, "h5")
+        h5_path = os.path.join(h5_dir, "saved_model.h5")
+        Path(h5_dir).mkdir(parents=True, exist_ok=True)
+        self.rnn_model.save_weights(h5_path)
+        self.rnn_model.save(h5_path)
         None
 
     def save_mlflow(self):
