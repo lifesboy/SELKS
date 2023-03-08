@@ -17,10 +17,12 @@ from pyarrow import csv
 from ray import tune
 from ray.data import Dataset
 from ray.data.aggregate import Count
+from ray.ml import Checkpoint
 from ray.tune.logger import TBXLoggerCallback
 from ray.tune.registry import register_env
 from ray.tune.trial import ExportFormat
 from ray.tune.utils.log import Verbosity
+from ray.util.ml_utils.util import is_nan
 
 import common
 import lib.utils as utils
@@ -356,12 +358,22 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
             os.system(f'rm -rf "{base_version_dir}"')
             results = resume_tune(resume='ERRORED_ONLY')
 
-        # Bug in ray 1.13.0, which cause AWS error event get checkpoint from local path
-        results._legacy_checkpoint = False
         # Gets best trial based on max accuracy across all training iterations.
         best_trial = results.get_best_trial(metric="episode_reward_mean", mode="max", scope="all")
+
         # Gets best checkpoint for trial based on accuracy.
-        best_checkpoint = results.get_best_checkpoint(best_trial, metric="episode_reward_mean", mode="max")
+        # Bug in ray 1.13.0, which cause AWS error event get checkpoint from local path
+        results._legacy_checkpoint = False
+        # best_checkpoint = results.get_best_checkpoint(best_trial, metric="episode_reward_mean", mode="max")
+        checkpoint_paths = results.get_trial_checkpoints_paths(best_trial, metric="episode_reward_mean")
+        checkpoint_paths = [
+            (path, metric) for path, metric in checkpoint_paths if not is_nan(metric)
+        ]
+        a = -1  # if mode == "max" else 1
+        best_path_metrics = sorted(checkpoint_paths, key=lambda x: a * x[1])
+        best_path, best_metric = best_path_metrics[0]
+        best_checkpoint = Checkpoint.from_directory(best_path)
+
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         client.log_text(run_id=run.info.run_id,
                         text=json.dumps({
