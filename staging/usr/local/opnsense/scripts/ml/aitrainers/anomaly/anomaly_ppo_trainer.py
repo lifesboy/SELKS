@@ -6,7 +6,7 @@ class AnomalyPPOTrainer(PPOTrainer):
 
     def save_checkpoint(self, checkpoint_dir: str) -> str:
         path = super().save_checkpoint(checkpoint_dir)
-        self.export_policy_model(os.path.join(checkpoint_dir, "policy"))
+        self.export_policy_model(export_dir=os.path.join(checkpoint_dir, "policy"), onnx=1)
 
         with self.get_policy().get_session().graph.as_default():
             with self.get_policy().get_session().as_default():
