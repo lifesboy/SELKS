@@ -370,20 +370,24 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         checkpoint_paths = [
             (path, metric) for path, metric in checkpoint_paths if not is_nan(metric)
         ]
-        a = -1  # if mode == "max" else 1
-        best_path_metrics = sorted(checkpoint_paths, key=lambda x: a * x[1])
-        best_path, best_metric = best_path_metrics[0]
-        # /drl/ray_results/2020T2024-train/2023W10/AnomalyBalanceOnTrainEnsureEnv/20230308T234118-manual-train-nsm/checkpoint_000003/checkpoint-3
-        best_path = '/'.join(best_path.split('/')[:-1])
-        best_checkpoint = Checkpoint.from_directory(best_path)
-        saved_model = keras.models.load_model(f"{best_path}/h5/saved_model.h5")
-        common.save_anomaly_model_to_mlflow(saved_model, features)
+
+        if len(checkpoint_paths) > 0:
+            a = -1  # if mode == "max" else 1
+            best_path_metrics = sorted(checkpoint_paths, key=lambda x: a * x[1])
+            best_path, best_metric = best_path_metrics[0]
+            # /drl/ray_results/2020T2024-train/2023W10/AnomalyBalanceOnTrainEnsureEnv/20230308T234118-manual-train-nsm/checkpoint_000003/checkpoint-3
+            best_path = '/'.join(best_path.split('/')[:-1])
+            best_checkpoint = Checkpoint.from_directory(best_path)
+            saved_model = keras.models.load_model(f"{best_path}/h5/saved_model.h5")
+            common.save_anomaly_model_to_mlflow(saved_model, features)
+        else:
+            best_checkpoint = None
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         client.log_text(run_id=run.info.run_id,
                         text=json.dumps({
                             'best_trial': best_trial.metric_analysis,
-                            'best_checkpoint': best_checkpoint.to_dict(),
+                            'best_checkpoint': best_checkpoint.to_dict() if best_checkpoint else None,
                         }, default=lambda o: '<not serializable>'),
                         artifact_file='results.json')
 
