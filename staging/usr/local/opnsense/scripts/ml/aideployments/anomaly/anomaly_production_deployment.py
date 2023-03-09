@@ -32,7 +32,7 @@ class AnomalyProductionDeployment:
         self.batches_processed: int = 0
         self.batches_success: int = 0
         self.num_step: int = 1
-        self.cell_size: int = 32
+        self.cell_size: int = 320
         self.l = None
         self.h = np.zeros((self.num_step, self.cell_size), dtype=np.float32)
         self.c = np.zeros((self.num_step, self.cell_size), dtype=np.float32)
