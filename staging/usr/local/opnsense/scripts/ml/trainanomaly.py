@@ -8,6 +8,7 @@ import time
 import traceback
 from pathlib import Path
 
+import keras
 import mlflow
 import pandas as pd
 import ray
@@ -372,8 +373,11 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         a = -1  # if mode == "max" else 1
         best_path_metrics = sorted(checkpoint_paths, key=lambda x: a * x[1])
         best_path, best_metric = best_path_metrics[0]
+        # /drl/ray_results/2020T2024-train/2023W10/AnomalyBalanceOnTrainEnsureEnv/20230308T234118-manual-train-nsm/checkpoint_000003/checkpoint-3
         best_path = '/'.join(best_path.split('/')[:-1])
         best_checkpoint = Checkpoint.from_directory(best_path)
+        model = keras.models.load_model(f"{best_path}/h5/saved_model.h5")
+        common.save_anomaly_model_to_mlflow(model, features)
 
         client.log_dict(run_id=run.info.run_id, dictionary=invalid_rows, artifact_file='invalid_rows.json')
         client.log_text(run_id=run.info.run_id,
