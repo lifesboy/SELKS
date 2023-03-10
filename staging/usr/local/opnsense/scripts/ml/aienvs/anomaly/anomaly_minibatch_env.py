@@ -88,7 +88,7 @@ class AnomalyMinibatchEnv(gym.Env):
         if done:
             self._add_metrics()
             self._log_metrics()
-            return np.zeros(1 + len(self.features), dtype=np.float64), reward, done, {}
+            return np.zeros(len(self.features), dtype=np.float64), reward, done, {}
 
         return self._next_obs(), reward, done, {}
 
