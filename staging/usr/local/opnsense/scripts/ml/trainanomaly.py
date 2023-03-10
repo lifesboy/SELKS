@@ -213,6 +213,7 @@ def main(args, course: str, unit: str, lesson: str, lab: str):
         "num_gpus": num_gpus,  # int(os.environ.get("RLLIB_NUM_GPUS", "0")),
         "num_workers": num_workers,  # https://github.com/ray-project/ray/issues/25012
         "num_envs_per_worker": 1,
+        "recreate_failed_workers": True,
         "entropy_coeff": 0.001,
         "num_sgd_iter": 120,
         "train_batch_size": args.batch_size,
