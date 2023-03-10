@@ -77,6 +77,9 @@ class AnomalyMinibatchEnv(gym.Env):
         self._add_metrics()
         self._log_metrics()
 
+        self.iter: Iterator[BatchType] = self.dataset\
+            .window(blocks_per_window=self.blocks_per_window)\
+            .iter_batches(batch_size=self.batch_size, batch_format='pandas')
         return self._next_obs()
 
     def step(self, action: np.int32):
