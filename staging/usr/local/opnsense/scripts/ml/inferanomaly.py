@@ -122,9 +122,9 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
 
 
 def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, anomaly_threshold: float) -> DataFrame:
-    global batches_processed, anomaly_detected, total_processed
-    batches_processed += num_step
-    client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
+    # global batches_processed, anomaly_detected, total_processed
+    # batches_processed += num_step
+    # client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
     url = f'http://{common.MODEL_SERVE_ADDRESS}:{common.MODEL_SERVE_PORT}{endpoint}'
     log.info(f'-> Sending {endpoint} observation {batch}')
@@ -142,10 +142,10 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, ano
     log.info(f"<- Received {endpoint} response {data}")
     action_label = DataFrame.from_dict(data['action'])[LABEL]
     batch[LABEL] = action_label.map({0: LABEL_VALUE_BENIGN, 1: LABEL_VALUE_ANOMALY}).fillna(LABEL_VALUE_BENIGN)
-    anomaly_detected += action_label.sum()
-    total_processed += action_label.size
-    client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
-    client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
+    # anomaly_detected += action_label.sum()
+    # total_processed += action_label.size
+    # client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
+    # client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
 
     return batch
 
@@ -153,21 +153,29 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, ano
 def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomaly_threshold: float, num_gpus: float, num_cpus: float) -> bool:
     log.info('infer_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, sources_processed, batches_success, sources_success, sources_fail
+    global run, client, sources_processed, batches_success, sources_success, sources_fail, anomaly_detected, total_processed
 
     try:
         sources_processed += 1
         client.log_metric(run_id=run.info.run_id, key='sources_processed', value=sources_processed)
 
         df['pipe'] = create_predict_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
-        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size, anomaly_threshold), batch_format="pandas", compute="actors",
+        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size, anomaly_threshold),
+                                            batch_format="pandas", compute="actors",
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
-        df['pipe'].write_csv(path=df['output_path'], try_create_dir=True, block_path_provider=SingleFileBlockWritePathProvider(df['output_name']))
+        # df['pipe'].write_csv(path=df['output_path'], try_create_dir=True, block_path_provider=SingleFileBlockWritePathProvider(df['output_name']))
+        df_pipe: DataFrame = df['pipe'].to_pandas(limit=1000000000)
+        df_pipe.to_csv(f"{df['output_path']}/{df['output_name']}", index=False)
         utils.marked_done(df['marked_done_path'])
 
         log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
         batches_success += num_step
         sources_success += len(df['input_path'])
+        labels = df_pipe[LABEL].apply(lambda x: 0 if x in ['', LABEL_VALUE_BENIGN] else 1)
+        anomaly_detected += labels.sum()
+        total_processed += labels.size
+        client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
+        client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
         client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
         client.log_text(run_id=run.info.run_id, text=f"{df['input_path']}", artifact_file='sources_success.txt')
