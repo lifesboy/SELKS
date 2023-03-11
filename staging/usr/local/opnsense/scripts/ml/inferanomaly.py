@@ -165,7 +165,8 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         # df['pipe'].write_csv(path=df['output_path'], try_create_dir=True, block_path_provider=SingleFileBlockWritePathProvider(df['output_name']))
         df_pipe: DataFrame = df['pipe'].to_pandas(limit=1000000000)
-        df_pipe.to_csv(f"{df['output_path']}/{df['output_name']}", index=False)
+        os.system(f"mkdir -p \"{df['output_path']}\"")
+        df_pipe.to_csv(f"{df['output_path']}{df['output_name']}.csv", index=False)
         utils.marked_done(df['marked_done_path'])
 
         log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
