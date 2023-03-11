@@ -146,7 +146,7 @@ class AnomalyProductionDeployment:
         self.client.log_text(run_id=self.run.info.run_id, text=body.decode("utf-8"), artifact_file="last_request.json")
 
         data = json.loads(body)
-        tag = float(data['tag']) if data['tag'] else 'anonymous'
+        tag = str(data['tag']) if data['tag'] else 'anonymous'
         anomaly_threshold = float(data['anomaly_threshold']) if data['anomaly_threshold'] else 0.5
         df = DataFrame.from_dict(data['obs'])
         # batch_size = int(data['batch_size'])
