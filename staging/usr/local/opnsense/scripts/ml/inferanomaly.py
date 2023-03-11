@@ -21,6 +21,7 @@ from anomaly_normalization import LABEL, LABEL_VALUE_BENIGN, LABEL_VALUE_ANOMALY
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_production_deployment import AnomalyProductionDeployment
+from lib.singlefileblockwritepathprovider import SingleFileBlockWritePathProvider
 
 parallelism = common.TOTAL_CPUS_INFERRING_DATASET_OPERATION
 anomaly_detected: int = 0
@@ -161,7 +162,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
         df['pipe'] = create_predict_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
         df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size, anomaly_threshold), batch_format="pandas", compute="actors",
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
-        df['pipe'].write_csv(path=df['output_path'], try_create_dir=True)
+        df['pipe'].write_csv(path=df['output_path'], try_create_dir=True, block_path_provider=SingleFileBlockWritePathProvider(df['output_name']))
         utils.marked_done(df['marked_done_path'])
 
         log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
