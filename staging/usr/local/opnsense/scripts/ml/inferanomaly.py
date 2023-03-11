@@ -110,13 +110,13 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
     parse_options = csv.ParseOptions(delimiter=",", invalid_row_handler=skip_invalid_row)
     convert_options = csv.ConvertOptions(column_types=schema)
 
-    pipe: DatasetPipeline = ray.data.read_datasource(
+    pipe: Dataset = ray.data.read_datasource(
         CicCSVDatasource(),
         paths=data_files,
         meta_provider=FastFileMetadataProvider(),
         parse_options=parse_options,
         convert_options=convert_options,
-    ).window(blocks_per_window=batch_size)
+    )  # .window(blocks_per_window=batch_size)
 
     return pipe
 
