@@ -83,19 +83,21 @@ class AnomalyProductionDeployment:
         ]
 
         try:
-            obs, batch_size, anomaly_threshold = await self._process_request_data(request)
+            obs, batch_size, anomaly_threshold, tag = await self._process_request_data(request)
             self.metrics += [
-                Metric(key='batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
-                Metric(key='anomaly_threshold', value=anomaly_threshold, timestamp=timestamp, step=self.current_step),
+                Metric(key=f'{tag}.batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
+                Metric(key=f'{tag}.anomaly_threshold', value=anomaly_threshold, timestamp=timestamp, step=self.current_step),
             ]
 
-            obs_labeled = await self.predict(obs, batch_size, anomaly_threshold)
+            obs_labeled = await self.predict(obs, batch_size, anomaly_threshold, tag)
             res = await self._process_response_data(obs_labeled)
+            anomaly_detected = obs_labeled[LABEL].sum()
             self.batches_success += 1
-            self.anomaly_detected += obs_labeled[LABEL].sum()
+            self.anomaly_detected += anomaly_detected
             self.metrics += [
                 Metric(key='anomaly_detected', value=int(self.anomaly_detected), timestamp=timestamp, step=self.current_step),
                 Metric(key='batches_success', value=self.batches_success, timestamp=timestamp, step=self.current_step),
+                Metric(key=f'{tag}.anomaly_detected', value=int(self.anomaly_detected), timestamp=timestamp, step=self.current_step),
             ]
 
             self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
@@ -111,7 +113,7 @@ class AnomalyProductionDeployment:
                 self._log_metrics()
             raise e
 
-    async def predict(self, df: DataFrame, batch_size: int, anomaly_threshold: float = 0.5) -> DataFrame:
+    async def predict(self, df: DataFrame, batch_size: int, anomaly_threshold: float = 0.5, tag: str = 'anonymous') -> DataFrame:
         df_norm = self.norm_model.predict(df)
         padding_features = set(self.features) - set(df_norm.columns)
         for f in padding_features:
@@ -126,8 +128,8 @@ class AnomalyProductionDeployment:
         seq_len = batch_size + batch_size_padding
         timestamp = int(time.time() * 1000)
         self.metrics += [
-            Metric(key='padding_len', value=len(padding_features), timestamp=timestamp, step=self.current_step),
-            Metric(key='seq_len', value=seq_len, timestamp=timestamp, step=self.current_step),
+            Metric(key=f'{tag}.padding_len', value=len(padding_features), timestamp=timestamp, step=self.current_step),
+            Metric(key=f'{tag}.seq_len', value=seq_len, timestamp=timestamp, step=self.current_step),
         ]
 
         x = np.concatenate((df_norm.to_numpy(), x_padding)).reshape((self.num_step, seq_len, features_num))
@@ -139,17 +141,18 @@ class AnomalyProductionDeployment:
         df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: 1 if i.item() > anomaly_threshold else 0, axis=1)
         return df
 
-    async def _process_request_data(self, request: Request) -> (DataFrame, int, float):
+    async def _process_request_data(self, request: Request) -> (DataFrame, int, float, str):
         body = await request.body()
         self.client.log_text(run_id=self.run.info.run_id, text=body.decode("utf-8"), artifact_file="last_request.json")
 
         data = json.loads(body)
+        tag = float(data['tag']) if data['tag'] else 'anonymous'
         anomaly_threshold = float(data['anomaly_threshold']) if data['anomaly_threshold'] else 0.5
         df = DataFrame.from_dict(data['obs'])
         # batch_size = int(data['batch_size'])
         batch_size = df.index.size
         df = df[self.features]
-        return df, batch_size, anomaly_threshold
+        return df, batch_size, anomaly_threshold, tag
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
         return labeled_data[[LABEL]].to_dict(orient="list")

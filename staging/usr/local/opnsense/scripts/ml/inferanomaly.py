@@ -121,7 +121,7 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
     return pipe
 
 
-def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, anomaly_threshold: float) -> DataFrame:
+def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, anomaly_threshold: float, tag: str) -> DataFrame:
     # global batches_processed, anomaly_detected, total_processed
     # batches_processed += num_step
     # client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
@@ -133,6 +133,7 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, ano
         'num_step': num_step,
         'batch_size': batch_size,
         'anomaly_threshold': anomaly_threshold,
+        'tag': tag,
     })
 
     if not resp.ok:
@@ -150,7 +151,7 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, ano
     return batch
 
 
-def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomaly_threshold: float, num_gpus: float, num_cpus: float) -> bool:
+def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomaly_threshold: float, num_gpus: float, num_cpus: float, tag: str) -> bool:
     log.info('infer_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
     global run, client, sources_processed, sources_success, sources_fail, anomaly_detected, total_processed
@@ -160,7 +161,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
         client.log_metric(run_id=run.info.run_id, key='sources_processed', value=sources_processed)
 
         df['pipe'] = create_predict_pipe(df['input_path'], num_step * batch_size, num_gpus, num_cpus)
-        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size, anomaly_threshold),
+        df['pipe'] = df['pipe'].map_batches(lambda i: predict(endpoint, i, num_step, batch_size, anomaly_threshold, tag),
                                             batch_format="pandas", compute="actors",
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         # df['pipe'].write_csv(path=df['output_path'], try_create_dir=True, block_path_provider=SingleFileBlockWritePathProvider(df['output_name']))
@@ -240,7 +241,7 @@ def main(args, course: str, unit: str, lesson):
 
     try:
         log.info('start infer_data: pipe=%s', batch_df.count())
-        batch_df.apply(lambda i: infer_data(i, endpoint, num_step, batch_size, anomaly_threshold, num_gpus, num_cpus), axis=1)
+        batch_df.apply(lambda i: infer_data(i, endpoint, num_step, batch_size, anomaly_threshold, num_gpus, num_cpus, lesson), axis=1)
         log.info('finish infer_data.')
 
         data_destination_files = glob.glob(destination_dir + '*')
