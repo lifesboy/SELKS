@@ -24,6 +24,7 @@ from aideployments.anomaly.anomaly_production_deployment import AnomalyProductio
 
 parallelism = common.TOTAL_CPUS_INFERRING_DATASET_OPERATION
 anomaly_detected: int = 0
+total_processed: int = 0
 batches_processed: int = 0
 batches_success: int = 0
 sources_fail: [] = []
@@ -120,7 +121,7 @@ def create_predict_pipe(data_files: [], batch_size: int, num_gpus: float, num_cp
 
 
 def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, anomaly_threshold: float) -> DataFrame:
-    global batches_processed, anomaly_detected
+    global batches_processed, anomaly_detected, total_processed
     batches_processed += num_step
     client.log_metric(run_id=run.info.run_id, key='batches_processed', value=batches_processed)
 
@@ -141,7 +142,9 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, ano
     action_label = DataFrame.from_dict(data['action'])[LABEL]
     batch[LABEL] = action_label.map({0: LABEL_VALUE_BENIGN, 1: LABEL_VALUE_ANOMALY}).fillna(LABEL_VALUE_BENIGN)
     anomaly_detected += action_label.sum()
-    client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=anomaly_detected)
+    total_processed += action_label.size
+    client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
+    client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
 
     return batch
 
