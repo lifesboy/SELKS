@@ -152,6 +152,9 @@ class AnomalyProductionDeployment:
         # batch_size = int(data['batch_size'])
         batch_size = df.index.size
         df = df[self.features]
+
+        self.client.set_tag(run_id=self.run.info.run_id, key='infer', value=tag)
+
         return df, batch_size, anomaly_threshold, tag
 
     async def _process_response_data(self, labeled_data: DataFrame) -> dict:
