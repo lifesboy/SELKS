@@ -153,7 +153,7 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, ano
 def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomaly_threshold: float, num_gpus: float, num_cpus: float) -> bool:
     log.info('infer_data start %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
 
-    global run, client, sources_processed, batches_success, sources_success, sources_fail, anomaly_detected, total_processed
+    global run, client, sources_processed, sources_success, sources_fail, anomaly_detected, total_processed
 
     try:
         sources_processed += 1
@@ -170,14 +170,14 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
         utils.marked_done(df['marked_done_path'])
 
         log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
-        batches_success += num_step
+        # batches_success += num_step
         sources_success += len(df['input_path'])
         labels = df_pipe[LABEL].apply(lambda x: 0 if x in ['', LABEL_VALUE_BENIGN] else 1)
         anomaly_detected += labels.sum()
         total_processed += labels.size
         client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
         client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
-        client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
+        # client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
         client.log_metric(run_id=run.info.run_id, key='sources_success', value=sources_success)
         client.log_text(run_id=run.info.run_id, text=f"{df['input_path']}", artifact_file='sources_success.txt')
     except Exception as e:
