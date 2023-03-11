@@ -265,7 +265,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     inferring_course = f"{common.get_course()}-infer"
     inferring_unit = f"{common.get_course_unit()}"
-    inferring_lesson = '%s-%s' % (args.tag, common.get_second())  # inferring 1 sample per week
+    inferring_lesson = common.get_second()  # inferring 1 sample per week
 
     kill_exists_processing()
     run, client = common.init_experiment(name=inferring_course, run_name=inferring_lesson)

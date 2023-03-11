@@ -85,8 +85,8 @@ class AnomalyProductionDeployment:
         try:
             obs, batch_size, anomaly_threshold, tag = await self._process_request_data(request)
             self.metrics += [
-                Metric(key=f'{tag}.batch_size', value=batch_size, timestamp=timestamp, step=self.current_step),
-                Metric(key=f'{tag}.anomaly_threshold', value=anomaly_threshold, timestamp=timestamp, step=self.current_step),
+                Metric(key=f'batch_size_{tag}', value=batch_size, timestamp=timestamp, step=self.current_step),
+                Metric(key=f'anomaly_threshold_{tag}', value=anomaly_threshold, timestamp=timestamp, step=self.current_step),
             ]
 
             obs_labeled = await self.predict(obs, batch_size, anomaly_threshold, tag)
@@ -97,7 +97,7 @@ class AnomalyProductionDeployment:
             self.metrics += [
                 Metric(key='anomaly_detected', value=int(self.anomaly_detected), timestamp=timestamp, step=self.current_step),
                 Metric(key='batches_success', value=self.batches_success, timestamp=timestamp, step=self.current_step),
-                Metric(key=f'{tag}.anomaly_detected', value=int(self.anomaly_detected), timestamp=timestamp, step=self.current_step),
+                Metric(key=f'anomaly_detected_{tag}', value=int(self.anomaly_detected), timestamp=timestamp, step=self.current_step),
             ]
 
             self.client.log_dict(run_id=self.run.info.run_id, dictionary={"action": res}, artifact_file="last_action.json")
@@ -128,8 +128,8 @@ class AnomalyProductionDeployment:
         seq_len = batch_size + batch_size_padding
         timestamp = int(time.time() * 1000)
         self.metrics += [
-            Metric(key=f'{tag}.padding_len', value=len(padding_features), timestamp=timestamp, step=self.current_step),
-            Metric(key=f'{tag}.seq_len', value=seq_len, timestamp=timestamp, step=self.current_step),
+            Metric(key=f'padding_len_{tag}', value=len(padding_features), timestamp=timestamp, step=self.current_step),
+            Metric(key=f'seq_len_{tag}', value=seq_len, timestamp=timestamp, step=self.current_step),
         ]
 
         x = np.concatenate((df_norm.to_numpy(), x_padding)).reshape((self.num_step, seq_len, features_num))
