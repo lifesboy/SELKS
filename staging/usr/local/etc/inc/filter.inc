@@ -209,6 +209,37 @@ function is_interface_group($if)
     return false;
 }
 
+function filter_configure_anomaly_rule($run_name, $anomalies)
+{
+    echo "Configuring anomaly rule for $run_name ...";
+    $a_filter = &config_read_array('filter', 'rule');
+
+    $rev = make_config_revision_entry();
+    foreach ($anomalies as $i) {
+        $a_filter[] = array(
+            'type' => 'block',
+            'direction' => 'forward',
+            'interface' => 'wan',
+            'ointerface' => 'lan',
+            'ipprotocol' => 'inet',
+            'protocol' => 'tcp',
+            'source' => array(
+                'address' => $i['src_ip'],
+            ),
+            'destination' => array(
+                'address' => $i['dst_ip'],
+                'port' => $i['dst_port'],
+            ),
+            'quick' => 0,
+            'descr' => $run_name.': AI anomaly auto generated',
+            'created' => $rev,
+            'updated' => $rev,
+        );
+    }
+
+    write_config();
+}
+
 function filter_configure_sync($verbose = false, $flush_states = false, $load_aliases = true)
 {
     global $config;

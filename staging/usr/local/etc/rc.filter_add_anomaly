@@ -1,0 +1,18 @@
+#!/usr/bin/php
+<?php
+
+require_once("config.inc");
+require_once("util.inc");
+require_once("filter.inc");
+require_once("system.inc");
+require_once("interfaces.inc");
+
+$event_arg = count($argv) >= 1 ? $argv[1] : "";
+$data = json_decode(base64_decode($event_arg), true);
+
+if (!$data || !$data['anomalies']) {
+    exit(0);
+}
+
+filter_configure_anomaly_rule($data['run_name'], $data['anomalies']);
+//filter_configure_sync(true, true, false);
