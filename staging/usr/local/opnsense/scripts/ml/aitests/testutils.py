@@ -142,6 +142,27 @@ def show_train_metric(history, title="title"):
     plt.legend()
 
 
+def evaluate_checkpoint_metric(checkpoint: str, actual: np.array, expected: np.array):
+    anomaly_detected = anomaly_incorrect = benign_detected = benign_incorrect = 0
+    for i in range(0, len(actual)):
+        anomaly_detected += actual[i] == expected[i] == 1
+        anomaly_incorrect += (actual[i] == 0) & (expected[i] == 1)
+        benign_detected += actual[i] == expected[i] == 0
+        benign_incorrect += (actual[i] == 1) & (expected[i] == 0)
+
+    return {
+        'checkpoint': checkpoint,
+        'anomaly_detected': anomaly_detected,
+        'anomaly_incorrect': anomaly_incorrect,
+        'benign_detected': benign_detected,
+        'benign_incorrect': benign_incorrect,
+        'detected': anomaly_detected + benign_detected,
+        'incorrect': anomaly_incorrect + benign_incorrect,
+        'detected_rate': (anomaly_detected + benign_detected) / len(actual),
+        'incorrect_rate': (anomaly_incorrect + benign_incorrect) / len(actual),
+    }
+
+
 FEATURES_SCHEMA = CicFlowmeterNormModel.get_input_schema()
 
 ALL_FEATURES_SCHEMA = {
