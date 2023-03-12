@@ -134,9 +134,13 @@ class AnomalyProductionDeployment:
 
         x = np.concatenate((df_norm.to_numpy(), x_padding)).reshape((self.num_step, seq_len, features_num))
 
-        # BLAST gpu errors, or invalid access element at [index] errors might occur for invalid seq_len shape
-        s = np.full(self.num_step, fill_value=seq_len, dtype=np.int32)
-        self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
+        layer_names = list(map(lambda i: i.name, self.model.layers))
+        if 'seq_in' in layer_names:
+            # BLAST gpu errors, or invalid access element at [index] errors might occur for invalid seq_len shape
+            s = np.full(self.num_step, fill_value=seq_len, dtype=np.int32)
+            self.l, y, self.h, self.c = self.model.predict(x=[x, s, self.h, self.c])
+        else:
+            y = self.model.predict(x=x)
 
         df[LABEL] = pd.DataFrame(y[0:batch_size].flatten('C')).apply(lambda i: 1 if i.item() > anomaly_threshold else 0, axis=1)
         return df
