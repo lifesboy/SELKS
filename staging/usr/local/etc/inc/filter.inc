@@ -228,7 +228,7 @@ function filter_configure_anomaly_rule($run_name, $anomalies)
             ),
             'destination' => array(
                 'address' => $i['dst_ip'],
-                'port' => $i['dst_port'],
+                'port' => intval($i['dst_port']),
             ),
             'quick' => 0,
             'descr' => $run_name.': AI anomaly auto generated',
