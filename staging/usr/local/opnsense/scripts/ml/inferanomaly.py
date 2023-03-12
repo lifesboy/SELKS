@@ -178,7 +178,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
         log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
         # batches_success += num_step
         sources_success += len(df['input_path'])
-        anomaly_detected += df_anomaly.size
+        anomaly_detected += df_anomaly.index.size
         total_processed += df_pipe.size
         client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
         client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
@@ -208,7 +208,7 @@ def add_anomaly_filter(run_name: str, df: DataFrame):
     data = base64.b64encode(anomaly_filters.encode('utf-8')).decode("utf-8")
     os.system(f"configctl filter add_anomaly {data}")
 
-    client.log_text(run_id=run.info.run_id, text=f"{anomaly_filters}", artifact_file='run_filter.txt')
+    client.log_text(run_id=run.info.run_id, text=f"{data}\n{anomaly_filters}", artifact_file='run_filter.txt')
     return data
 
 
