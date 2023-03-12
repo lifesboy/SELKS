@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 import argparse
+import base64
 import glob
+import json
 import os
 import signal
 import traceback
@@ -17,7 +19,7 @@ from ray.data.datasource import FastFileMetadataProvider
 import common
 import lib.utils as utils
 from aimodels.preprocessing.cicflowmeter_norm_model import CicFlowmeterNormModel
-from anomaly_normalization import LABEL, LABEL_VALUE_BENIGN, LABEL_VALUE_ANOMALY
+from anomaly_normalization import SRC_IP, DST_IP, DST_PORT, LABEL, LABEL_VALUE_BENIGN, LABEL_VALUE_ANOMALY
 from lib.ciccsvdatasource import CicCSVDatasource
 from lib.logger import log
 from aideployments.anomaly.anomaly_production_deployment import AnomalyProductionDeployment
@@ -166,6 +168,9 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
                                             batch_size=batch_size, num_gpus=num_gpus, num_cpus=num_cpus)
         # df['pipe'].write_csv(path=df['output_path'], try_create_dir=True, block_path_provider=SingleFileBlockWritePathProvider(df['output_name']))
         df_pipe: DataFrame = df['pipe'].to_pandas(limit=1000000000)
+        df_anomaly: DataFrame = df_pipe[df_pipe[LABEL] == LABEL_VALUE_ANOMALY]
+
+        add_anomaly_filter(tag, df_anomaly)
         os.system(f"mkdir -p \"{df['output_path']}\"")
         df_pipe.to_csv(f"{df['output_path']}{df['output_name']}.csv", index=False)
         utils.marked_done(df['marked_done_path'])
@@ -173,9 +178,8 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
         log.info('inferring done %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
         # batches_success += num_step
         sources_success += len(df['input_path'])
-        labels = df_pipe[LABEL].apply(lambda x: 0 if x in ['', LABEL_VALUE_BENIGN] else 1)
-        anomaly_detected += labels.sum()
-        total_processed += labels.size
+        anomaly_detected += df_anomaly.size
+        total_processed += df_pipe.size
         client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
         client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
         # client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
@@ -193,6 +197,19 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
 
     log.info('infer_data end %s to %s, marked at %s', df['input_path'], df['output_path'], df['marked_done_path'])
     return True
+
+
+def add_anomaly_filter(run_name: str, df: DataFrame):
+    anomalies: DataFrame = df[[SRC_IP, DST_IP, DST_PORT]].groupby(by=[SRC_IP, DST_IP, DST_PORT]).first().reset_index()
+    anomaly_filters = json.dumps({
+        'run_name': run_name,
+        'anomalies': anomalies.to_json(orient='records')
+    })
+    data = base64.b64encode(anomaly_filters.encode('utf-8')).decode("utf-8")
+    os.system(f"configctl filter add_anomaly {data}")
+
+    client.log_text(run_id=run.info.run_id, text=f"{anomaly_filters}", artifact_file='run_filter.txt')
+    return data
 
 
 def main(args, course: str, unit: str, lesson):
@@ -244,6 +261,8 @@ def main(args, course: str, unit: str, lesson):
         batch_df.apply(lambda i: infer_data(i, endpoint, num_step, batch_size, anomaly_threshold, num_gpus, num_cpus, lesson), axis=1)
         log.info('finish infer_data.')
 
+        os.system(f"configctl filter reload gateway")  # apply generated rules
+
         data_destination_files = glob.glob(destination_dir + '*')
         client.log_text(run_id=run.info.run_id, text=f'{data_destination_files}', artifact_file='data_destination_files.json')
 
@@ -260,6 +279,17 @@ def main(args, course: str, unit: str, lesson):
 # command:locust
 # parameters: --web-host * --web-port 8089 -f /usr/local/opnsense/scripts/ml/deployment_test.py --serving-url=%s --data-source=%s
 # /usr/bin/python3 /usr/local/opnsense/scripts/ml/inferanomaly.py --data-destination=nsm_anomaly --batch-size=500 --data-source=nsm/*.csv --num-cpus=2 --num-gpus=0 --tag=manual-infer
+
+# a = json.dumps({
+#     'run_name': 'INFER123',
+#     'anomalies': [
+#         {'src_ip': '123.123.123.1', 'dst_ip': '10.10.10.1', 'dst_port': 22},
+#         {'src_ip': '123.123.123.2', 'dst_ip': '10.10.10.1', 'dst_port': 22},
+#     ]
+# })
+# param = base64.b64encode(a.encode('utf-8')).decode("utf-8") # eyJydW5fbmFtZSI6ICJJTkZFUjEyMyIsICJhbm9tYWxpZXMiOiBbeyJzcmNfaXAiOiAiMTIzLjEyMy4xMjMuMSIsICJkc3RfaXAiOiAiMTAuMTAuMTAuMSIsICJkc3RfcG9ydCI6IDIyfSwgeyJzcmNfaXAiOiAiMTIzLjEyMy4xMjMuMiIsICJkc3RfaXAiOiAiMTAuMTAuMTAuMSIsICJkc3RfcG9ydCI6IDIyfV19
+# os.system(f"configctl filter add_anomaly eyJydW5fbmFtZSI6ICJJTkZFUjEyMyIsICJhbm9tYWxpZXMiOiBbeyJzcmNfaXAiOiAiMTIzLjEyMy4xMjMuMSIsICJkc3RfaXAiOiAiMTAuMTAuMTAuMSIsICJkc3RfcG9ydCI6IDIyfSwgeyJzcmNfaXAiOiAiMTIzLjEyMy4xMjMuMiIsICJkc3RfaXAiOiAiMTAuMTAuMTAuMSIsICJkc3RfcG9ydCI6IDIyfV19")
+
 
 if __name__ == "__main__":
     args = parser.parse_args()
