@@ -203,7 +203,7 @@ def add_anomaly_filter(run_name: str, df: DataFrame):
     anomalies: DataFrame = df[[SRC_IP, DST_IP, DST_PORT]].groupby(by=[SRC_IP, DST_IP, DST_PORT]).first().reset_index()
     anomaly_filters = json.dumps({
         'run_name': run_name,
-        'anomalies': anomalies.to_json(orient='records')
+        'anomalies': json.loads(anomalies.to_json(orient='records'))
     })
     data = base64.b64encode(anomaly_filters.encode('utf-8')).decode("utf-8")
     os.system(f"configctl filter add_anomaly {data}")
