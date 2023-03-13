@@ -214,8 +214,15 @@ function filter_configure_anomaly_rule($run_name, $anomalies)
     echo "Configuring anomaly rule for $run_name ...";
     $AI_ANOMALY_AUTO = '[AI anomaly auto] ';
 
-    $anomaly_ips = array_reduce($anomalies, function ($a, $i) {
-        $a[$i['src_ip']] = true;
+    $a_interfaces = &config_read_array('interfaces');
+    $wan_ip = isset($a_interfaces['wan']['ipaddr']) ? $a_interfaces['wan']['ipaddr'] : '';
+    $lan_ip = isset($a_interfaces['lan']['ipaddr']) ? $a_interfaces['lan']['ipaddr'] : '';
+    $lan_subnet_ip = implode(".", array_slice(explode('.', $lan_ip), 0, 3)).'.';
+
+    $anomaly_ips = array_reduce($anomalies, function ($a, $i) use ($wan_ip, $lan_subnet_ip) {
+        if ($i['src_ip'] !== $wan_ip && strpos($i['src_ip'], $lan_subnet_ip) === false) {
+            $a[$i['src_ip']] = true;
+        }
         return $a;
     }, array());
 
@@ -224,9 +231,8 @@ function filter_configure_anomaly_rule($run_name, $anomalies)
     foreach ($a_filter as $i) {
         if (
             (strpos($i['descr'], $AI_ANOMALY_AUTO) === 0)
-            && array_key_exists('source', $i)
-            && array_key_exists('address', $i['source'])
-            && array_key_exists($i['source']['address'], $anomaly_ips)
+            && isset($i['source']['address'])
+            && isset($anomaly_ips[$i['source']['address']])
         ) {
             $i['descr'] = $AI_ANOMALY_AUTO.$run_name;
             $i['updated'] = $rev;
