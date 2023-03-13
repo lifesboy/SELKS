@@ -212,26 +212,40 @@ function is_interface_group($if)
 function filter_configure_anomaly_rule($run_name, $anomalies)
 {
     echo "Configuring anomaly rule for $run_name ...";
-    $a_filter = &config_read_array('filter', 'rule');
+    $AI_ANOMALY_AUTO = '[AI anomaly auto] ';
 
+    $anomaly_ips = array_reduce($anomalies, function ($a, $i) {
+        $a[$i['src_ip']] = true;
+        return $a;
+    }, array());
+
+    $a_filter = &config_read_array('filter', 'rule');
     $rev = make_config_revision_entry();
-    foreach ($anomalies as $i) {
+    foreach ($a_filter as $i) {
+        if (
+            (strpos($i['descr'], $AI_ANOMALY_AUTO) === 0)
+            && array_key_exists('source', $i)
+            && array_key_exists('address', $i['source'])
+            && array_key_exists($i['source']['address'], $anomaly_ips)
+        ) {
+            $i['descr'] = $AI_ANOMALY_AUTO.$run_name;
+            $i['updated'] = $rev;
+            unset($anomaly_ips[$i['source']['address']]);
+        }
+    }
+
+    foreach ($anomaly_ips as $ip => $_) {
         $a_filter[] = array(
+            'disabled' => true,
             'type' => 'block',
             'direction' => 'forward',
             'interface' => 'wan',
             'ointerface' => 'lan',
             'ipprotocol' => 'inet',
             'protocol' => 'tcp',
-            'source' => array(
-                'address' => $i['src_ip'],
-            ),
-            'destination' => array(
-                'address' => $i['dst_ip'],
-                'port' => intval($i['dst_port']),
-            ),
+            'source' => array('address' => $ip),
             'quick' => 0,
-            'descr' => $run_name.': AI anomaly auto generated',
+            'descr' => $AI_ANOMALY_AUTO.$run_name,
             'created' => $rev,
             'updated' => $rev,
         );

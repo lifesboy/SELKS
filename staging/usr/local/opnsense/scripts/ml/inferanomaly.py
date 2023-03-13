@@ -200,7 +200,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
 
 
 def add_anomaly_filter(run_name: str, df: DataFrame):
-    anomalies: DataFrame = df[[SRC_IP, DST_IP, DST_PORT]].groupby(by=[SRC_IP, DST_IP, DST_PORT]).first().reset_index()
+    anomalies: DataFrame = df[[SRC_IP]].groupby(by=[SRC_IP]).first().reset_index()
     anomaly_filters = json.dumps({
         'run_name': run_name,
         'anomalies': json.loads(anomalies.to_json(orient='records'))
