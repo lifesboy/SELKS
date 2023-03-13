@@ -179,7 +179,7 @@ def infer_data(df: Series, endpoint: str, num_step: int, batch_size: int, anomal
         # batches_success += num_step
         sources_success += len(df['input_path'])
         anomaly_detected += df_anomaly.index.size
-        total_processed += df_pipe.size
+        total_processed += df_pipe.index.size
         client.log_metric(run_id=run.info.run_id, key='anomaly_detected', value=int(anomaly_detected))
         client.log_metric(run_id=run.info.run_id, key='total_processed', value=int(total_processed))
         # client.log_metric(run_id=run.info.run_id, key='batches_success', value=batches_success)
