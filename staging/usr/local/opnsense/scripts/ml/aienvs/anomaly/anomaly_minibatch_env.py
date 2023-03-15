@@ -109,7 +109,8 @@ class AnomalyMinibatchEnv(gym.Env):
 
             self.current_batch_i = 0
 
-        if not (0 <= self.current_batch_i < len(self.current_batch)):
+        if not (0 <= self.current_batch_i < len(self.current_batch)) or (self.current_step > self.episode_len):
+            self.current_batch = np.array([])
             self.current_obs = None
             return None
 
