@@ -150,7 +150,7 @@ def evaluate_checkpoint_metric(checkpoint: str, actual: np.array, expected: np.a
         benign_detected += actual[i] == expected[i] == 0
         benign_incorrect += (actual[i] == 1) & (expected[i] == 0)
 
-    return {
+    return pd.DataFrame.from_records([{
         'checkpoint': checkpoint,
         'anomaly_detected': anomaly_detected,
         'anomaly_incorrect': anomaly_incorrect,
@@ -160,7 +160,7 @@ def evaluate_checkpoint_metric(checkpoint: str, actual: np.array, expected: np.a
         'incorrect': anomaly_incorrect + benign_incorrect,
         'detected_rate': (anomaly_detected + benign_detected) / len(actual),
         'incorrect_rate': (anomaly_incorrect + benign_incorrect) / len(actual),
-    }
+    }])
 
 
 FEATURES_SCHEMA = CicFlowmeterNormModel.get_input_schema()
