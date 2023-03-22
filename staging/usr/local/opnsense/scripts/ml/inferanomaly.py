@@ -11,6 +11,7 @@ import traceback
 
 import ray
 import requests
+import numpy as np
 from pandas import DataFrame, Series
 from pyarrow import csv
 from ray import serve
@@ -132,7 +133,7 @@ def predict(endpoint: str, batch: DataFrame, num_step: int, batch_size: int, ano
     url = f'http://{common.MODEL_SERVE_ADDRESS}:{common.MODEL_SERVE_PORT}{endpoint}'
     log.info(f'-> Sending {endpoint} observation {batch}')
     resp = requests.post(url, json={
-        'obs': batch.fillna(0).to_dict(orient="list"),
+        'obs': batch.fillna(0).replace([np.inf, -np.inf], 0).to_dict(orient="list"),
         'num_step': num_step,
         'batch_size': batch_size,
         'anomaly_threshold': anomaly_threshold,
