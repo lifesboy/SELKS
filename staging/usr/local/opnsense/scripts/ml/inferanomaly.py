@@ -6,6 +6,7 @@ import glob
 import json
 import os
 import signal
+import time
 import traceback
 
 import ray
@@ -208,7 +209,7 @@ def add_anomaly_filter(run_name: str, df: DataFrame):
     data = base64.b64encode(anomaly_filters.encode('utf-8')).decode("utf-8")
     os.system(f"configctl filter add_anomaly {data}")
 
-    client.log_text(run_id=run.info.run_id, text=f"{data}\n{anomaly_filters}", artifact_file='run_filter.txt')
+    client.log_text(run_id=run.info.run_id, text=f"{data}\n{anomaly_filters}", artifact_file=f"run_filter_{int(time.time() * 1000)}.txt")
     return data
 
 
