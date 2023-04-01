@@ -26,4 +26,4 @@
 
 # define paths used by suricata
 rule_source_directory = '/etc/suricata/rules/'
-suricata_alert_log = '/var/log/suricata/eve.json'
+suricata_alert_log = '/var/log/suricata/eve' #eve.json, eve-*.json
