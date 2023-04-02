@@ -19,7 +19,7 @@ filebeat.inputs:
 - type: log
   enabled: true
   paths:
-    - /var/log/suricata/eve*.json
+    - /var/log/suricata/eve.json
 
   fields:
     event.type: suricata

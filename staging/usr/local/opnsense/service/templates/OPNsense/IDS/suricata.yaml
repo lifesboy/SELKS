@@ -98,10 +98,7 @@ outputs:
   - eve-log:
       enabled: yes
       filetype: regular #regular|syslog|unix_dgram|unix_stream|redis
-      filemode: 755
-      #filename: eve.json
-      filename: eve-%Y%m%d%H%M%S.json
-      rotate-interval: 1h
+      filename: eve.json
       #prefix: "@cee: " # prefix to prepend to each log entry
       # the following are valid when type: syslog above
       #identity: "suricata"
