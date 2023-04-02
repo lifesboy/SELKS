@@ -1,10 +1,10 @@
 /var/log/suricata/*.json /var/log/suricata/*.log {
 	hourly
-	rotate 60
+	rotate 2000
 	copytruncate
 	olddir /cic/dataset/log/suricata/
 	compress
-	maxsize 1G
+	maxsize 100M
 	missingok
 	notifempty
 	dateext
