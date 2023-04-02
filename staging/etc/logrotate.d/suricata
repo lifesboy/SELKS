@@ -4,6 +4,7 @@
 	copytruncate
 	olddir /cic/dataset/log/suricata/
 	compress
+	maxsize 1G
 	missingok
 	notifempty
 	dateext
